@@ -13,4 +13,15 @@ function template($template) {
 	global $origin;
 	return $origin->template->load($template);
 }
+
+/**
+ * Build Title
+ * Makes the page title
+ */
+function buildtitle($titles = array()) {
+	if(!is_array($title)) {
+		$title[] = $titles;
+	}
+	return implode(" | ",$title);
+}
 ?>
