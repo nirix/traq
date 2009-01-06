@@ -12,7 +12,7 @@ include(TRAQPATH."include/version.php");
 require(TRAQPATH."include/config.php");
 
 // Fetch Origin
-require(TRAQPATH."origin/origin.php");
+require(TRAQPATH."include/origin/origin.php");
 $origin = new Origin;
 $origin->load("database",'db');
 $origin->db->prefix = "t_";
@@ -23,6 +23,8 @@ $origin->load("template");
 $origin->template->templatedir = TRAQPATH.'/templates/';
 $origin->load("user");
 $origin->load("uri");
+$db =& $origin->db;
+$user =& $origin->user;
 $uri =& $origin->uri;
 
 // Fetch common functions file

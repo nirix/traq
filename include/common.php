@@ -26,6 +26,16 @@ function buildtitle($title = array()) {
 		$title[] = $oldtitle;
 	}
 	$title[] = $settings->title;
+	$title[] = "Traq";
 	return implode(" | ",$title);
+}
+
+/**
+ * Is Project
+ * blarg
+ */
+function is_project($string) {
+	global $db;
+	return $db->numrows($db->query("SELECT slug FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($string)."' LIMIT 1"));
 }
 ?>
