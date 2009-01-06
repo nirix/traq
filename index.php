@@ -11,6 +11,10 @@ define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__))
 // Get the core file
 require(TRAQPATH."include/global.php");
 
-// Load the index file
-include(template("index"));
+// Lets load the right file for this page
+if(!isset($uri->seg[1])) {
+	include("handlers/projectlisting.php");
+} elseif(is_project($uri->seg[1])) {
+	include("handlers/project.php");
+}
 ?>

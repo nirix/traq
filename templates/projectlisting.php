@@ -6,7 +6,7 @@
 </head>
 <body>
 <? include(template('header')); ?>
-
+<h2>Project Listing</h2>
 <? include(template('footer')); ?>
 </body>
 </html>

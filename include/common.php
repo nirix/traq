@@ -18,10 +18,14 @@ function template($template) {
  * Build Title
  * Makes the page title
  */
-function buildtitle($titles = array()) {
+function buildtitle($title = array()) {
+	global $settings;
 	if(!is_array($title)) {
-		$title[] = $titles;
+		$oldtitle = $title;
+		$title = array();
+		$title[] = $oldtitle;
 	}
+	$title[] = $settings->title;
 	return implode(" | ",$title);
 }
 ?>
