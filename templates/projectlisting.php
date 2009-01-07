@@ -3,10 +3,37 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=buildtitle("Project Listing")?></title>
+<? include(template('style')); ?> 
 </head>
 <body>
 <? include(template('header')); ?>
-<h2>Project Listing</h2>
+	<div id="mainnav" class="nav">
+		<ul>
+			<li class="first<?=(!$uri->seg[1] ? ' active' : '')?>"><a href="<?=$uri->anchor()?>">Projects</a></li>
+			<li class="last"><a href="http://rainbirdstudios.com/projects/traq/">Traq</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<h1>Projects</h1>
+		<ul class="projects">
+<? foreach($projects as $project) { ?>
+			<li class="project">
+				<div class="info">
+					<h2><a href="<?=$uri->anchor($project['slug'])?>"><?=$project['name']?></a></h2>
+					<dl>
+						<dt>Closed tickets:</dt>
+						<dd><?=$project['tickets']['closed']?></dd>
+						<dt>Active tickets:</dt>
+						<dd><?=$project['tickets']['open']?></dd>
+					</dl>
+					<div class="description">
+						<?=$project['desc']?> 
+					</div>
+				</div>
+			</li>
+<? } ?> 
+		</ul>
+	</div>
 <? include(template('footer')); ?>
 </body>
 </html>

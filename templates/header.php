@@ -1,5 +1,15 @@
 <div id="wrapper">
 	<div id="header">
-		<h1><?=$settings->title?></h1>
+		<span id="head"><?=$settings->title?></span>
+		<div id="metanav" class="nav">
+			<ul>
+				<? if($user->loggedin) { ?>
+					<li class="first"><a href="<?=$uri->anchor(array('user','settings'))?>">UserCP</a></li>
+					<li class="last"><a href="<?=$uri->anchor(array('user','logout'))?>">Logout</a></li>
+				<? } else { ?>
+					<li class="first"><a href="<?=$uri->anchor(array('user','login'))?>">Login</a></li>
+					<li class="last"><a href="<?=$uri->anchor(array('user','register'))?>">Register</a></li>
+				<? } ?>
+			</ul>
+		</div>
 	</div>
-	<div id="content">

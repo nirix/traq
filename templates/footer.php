@@ -1,7 +1,6 @@
 
-	</div>
 	<div id="footer">
-		Traq <?=TRAQVER?>,<br />
-		Copyright (c)2009 Rainbird Studios
+		Powered by Traq <?=TRAQVER?>,<br />
+		Copyright &copy;2009 Rainbird Studios
 	</div>
 </div>
