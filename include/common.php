@@ -82,4 +82,18 @@ function tickettype($typeid) {
 				   );
 	return $types[$typeid];
 }
+
+/**
+ * Calcuate Percent
+ * Used to calculate the percent of two numbers,
+ * if both numbers are the same, 100(%) is returned.
+ */
+function calculatepercent($min,$max) {
+	if($min == $max) {
+		return 100;
+	}
+	$calculate = ($min/$max*100);
+	$split = explode('.',$calculate);
+	return $split[0];
+}
 ?>

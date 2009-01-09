@@ -18,8 +18,8 @@ if(!isset($uri->seg[1])) {
 		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'"));
 		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status='0' AND milestoneid='".$info['id']."'"));
 		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'"));
-		$info['tickets']['percent']['closed'] = ($info['tickets']['closed']/$info['tickets']['total']*100);
-		$info['tickets']['percent']['open'] = ($info['tickets']['open']/$info['tickets']['total']*100);
+		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']);
+		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']);
 		$milestones[] = $info;
 	}
 	unset($fetchmilestones,$info);
@@ -32,7 +32,7 @@ if(!isset($uri->seg[1])) {
 	} elseif($uri->seg[3] == "closed") {
 		$status = "status='0'";
 	}
-	$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' ORDER BY priority DESC");
+	$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
 	while($info = $db->fetcharray($fetchtickets)) {
 		$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1"));
 		$info['owner'] = $user->getinfo($info['ownerid']);
