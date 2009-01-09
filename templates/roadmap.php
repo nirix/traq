@@ -15,6 +15,18 @@
 			<li class="milestone">
 				<div class="info">
 					<h2><a href="<?=$uri->anchor($project['slug'],'milestone',$milestone['milestone'])?>">Milestone: <em><?=$milestone['milestone']?><?=(!empty($milestone['codename']) ? ' <small>"'.$milestone['codename'].'"</small>' : '')?></em></a></h2>
+					<p class="date">
+						<? if(!$milestone['date']) { ?>
+						No Date Set
+						<? } ?>
+					</p>
+					<table class="progress">
+						<tr>
+							<td class="closed" style="width: <?=$milestone['tickets']['percent']['closed']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets',$milestone['milestone'],'closed')?>" title="<?=$milestone['tickets']['closed']?> of <?=$milestone['tickets']['total']?> tickets closed"></a></td>
+							<td class="open" style="width: <?=$milestone['tickets']['percent']['open']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets',$milestone['milestone'],'open')?>" title="<?=$milestone['tickets']['open']?> of <?=$milestone['tickets']['total']?> tickets active"></a></td>
+						</tr>
+					</table>
+					<p class="percent"><?=$milestone['tickets']['percent']['closed']?>%</p>
 					<dl>
 						<dt>Closed tickets:</dt>
 						<dd><a href="<?=$uri->anchor($project['slug'],'tickets',$milestone['milestone'],'closed')?>"><?=$milestone['tickets']['closed']?></a></dd>

@@ -17,6 +17,9 @@ if(!isset($uri->seg[1])) {
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'"));
 		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status='0' AND milestoneid='".$info['id']."'"));
+		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'"));
+		$info['tickets']['percent']['closed'] = ($info['tickets']['closed']/$info['tickets']['total']*100);
+		$info['tickets']['percent']['open'] = ($info['tickets']['open']/$info['tickets']['total']*100);
 		$milestones[] = $info;
 	}
 	unset($fetchmilestones,$info);

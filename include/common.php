@@ -32,13 +32,17 @@ function buildtitle($title = array()) {
 
 /**
  * Is Project
- * blarg
+ * Check if the supplied string is a project.
  */
 function is_project($string) {
 	global $db;
 	return $db->numrows($db->query("SELECT slug FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($string)."' LIMIT 1"));
 }
 
+/**
+ * Ticket Status
+ * Gets the Ticket Status text.
+ */
 function ticketstatus($statusid) {
 	$statusses = array(
 					   0 => 'Closed',
@@ -49,6 +53,10 @@ function ticketstatus($statusid) {
 	return $statusses[$statusid];
 }
 
+/**
+ * Ticket Priority
+ * Gets the Ticket Priorty text.
+ */
 function ticketpriority($priorityid) {
 	$priorities = array(
 					   0 => 'Closed',
@@ -61,6 +69,10 @@ function ticketpriority($priorityid) {
 	return $priorities[$priorityid];
 }
 
+/**
+ * Ticket Type
+ * Gets the Ticket Type text.
+ */
 function tickettype($typeid) {
 	$types = array(
 				   1 => 'Defect',

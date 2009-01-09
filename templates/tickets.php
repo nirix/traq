@@ -31,7 +31,7 @@
 		$bgclass = "even";
 	}
 ?>
-				<tr class="<?=$bgclass?> prio<?=$ticket['priority']?>">
+				<tr class="<?=$bgclass?> priority<?=$ticket['priority']?>">
 					<td class="id"><a href="<?=$uri->anchor('ticket',$ticket['id'])?>"><?=$ticket['id']?></a></td>
 					<td class="summary"><a href="<?=$uri->anchor('ticket',$ticket['id'])?>"><?=$ticket['subject']?></a></td>
 					<td class="status"><?=ticketstatus($ticket['status'])?></td>
