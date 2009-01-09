@@ -20,12 +20,6 @@
 			<li class="project">
 				<div class="info">
 					<h2><a href="<?=$uri->anchor($project['slug'])?>"><?=$project['name']?></a></h2>
-					<dl>
-						<dt>Closed tickets:</dt>
-						<dd><?=$project['tickets']['closed']?></dd>
-						<dt>Active tickets:</dt>
-						<dd><?=$project['tickets']['open']?></dd>
-					</dl>
 					<div class="description">
 						<?=$project['desc']?> 
 					</div>

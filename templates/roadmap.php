@@ -17,9 +17,9 @@
 					<h2><a href="<?=$uri->anchor($project['slug'],'milestone',$milestone['milestone'])?>">Milestone: <em><?=$milestone['milestone']?><?=(!empty($milestone['codename']) ? ' <small>"'.$milestone['codename'].'"</small>' : '')?></em></a></h2>
 					<dl>
 						<dt>Closed tickets:</dt>
-						<dd><?=$milestone['tickets']['closed']?></dd>
+						<dd><a href="<?=$uri->anchor($project['slug'],'tickets',$milestone['milestone'],'closed')?>"><?=$milestone['tickets']['closed']?></a></dd>
 						<dt>Active tickets:</dt>
-						<dd><?=$milestone['tickets']['open']?></dd>
+						<dd><a href="<?=$uri->anchor($project['slug'],'tickets',$milestone['milestone'],'open')?>"><?=$milestone['tickets']['open']?></a></dd>
 					</dl>
 					<div class="description">
 						<?=$milestone['desc']?> 
