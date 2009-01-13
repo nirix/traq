@@ -79,6 +79,20 @@ function projectversions($projectid) {
 }
 
 /**
+ * Get Project Managers
+ */
+function projectmanagers($projectid) {
+	global $db,$user;
+	$managers = array();
+	$project = $db->fetcharray($db->query("SELECT id,managers FROM ".DBPREFIX."projects WHERE id='".$projectid."' LIMIT 1"));
+	$projectmanagers = explode(',',$project['managers']);
+	foreach($projectmanagers as $manager) {
+		$managers[] = $user->getinfo($manager);
+	}
+	return $managers;
+}
+
+/**
  * Ticket Status
  * Gets the Ticket Status text.
  */

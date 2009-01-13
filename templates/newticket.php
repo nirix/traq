@@ -10,7 +10,7 @@
 	<? include(template('project_nav')); ?>
 	<div id="content">
 		<h1><?=$project['name']?>: New Ticket</h1>
-		<form id="newticket" method="post" action="/newticket">
+		<form id="newticket" method="post" action="<?=$uri->anchor($project['slug'],'newticket')?>">
 			<input type="hidden" name="action" value="newticket" />
 			<fieldset id="summary">
 				<legend>Summary</legend>
@@ -36,7 +36,10 @@
 						<th class="col2">Assign to</th>
 						<td>
 							<select name="assignto" id="assignto">
-								<option value="1">Jack</option>
+								<option selected="selected" value=""> </option>
+								<? foreach(projectmanagers($project['id']) as $staff) { ?>
+								<option value="<?=$staff['id']?>"><?=$staff['username']?></option>
+								<? } ?>
 							</select>
 						</td>
 					</tr>
