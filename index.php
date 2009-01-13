@@ -14,6 +14,8 @@ require(TRAQPATH."include/global.php");
 // Lets load the right file for this page
 if(empty($uri->seg[0])) {
 	include("handlers/projectlisting.php");
+} elseif($uri->seg[0] == "user") {
+	include("handlers/user.php");
 } elseif(is_project($uri->seg[0])) {
 	include("handlers/project.php");
 }

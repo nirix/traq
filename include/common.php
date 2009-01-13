@@ -40,6 +40,45 @@ function is_project($string) {
 }
 
 /**
+ * Get Project Milestones
+ */
+function projectmilestones($projectid) {
+	global $db;
+	$milestones = array();
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$projectid." ORDER BY id DESC");
+	while($info = $db->fetcharray($fetchmilestones)) {
+		$milestones[] = $info;
+	}
+	return $milestones;
+}
+
+/**
+ * Get Project Components
+ */
+function projectcomponents($projectid) {
+	global $db;
+	$components = array();
+	$fetchcomponents = $db->query("SELECT * FROM ".DBPREFIX."components WHERE project=".$projectid." ORDER BY name ASC");
+	while($info = $db->fetcharray($fetchcomponents)) {
+		$components[] = $info;
+	}
+	return $components;
+}
+
+/**
+ * Get Project Versions
+ */
+function projectversions($projectid) {
+	global $db;
+	$versions = array();
+	$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions WHERE projectid=".$projectid." ORDER BY version DESC");
+	while($info = $db->fetcharray($fetchversions)) {
+		$versions[] = $info;
+	}
+	return $versions;
+}
+
+/**
  * Ticket Status
  * Gets the Ticket Status text.
  */

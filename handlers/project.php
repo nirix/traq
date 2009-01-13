@@ -45,5 +45,7 @@ if(!isset($uri->seg[1])) {
 	}
 	unset($fetchtickets,$info);
 	include(template('tickets'));
+} else if($uri->seg[1] == "newticket") {
+	include(template('newticket'));
 }
 ?>
