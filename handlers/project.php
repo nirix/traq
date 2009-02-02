@@ -47,5 +47,13 @@ if(!isset($uri->seg[1])) {
 	include(template('tickets'));
 } else if($uri->seg[1] == "newticket") {
 	include(template('newticket'));
+} else if($uri->seg[1] == "ticket") {
+	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1"));
+	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1"));
+	$version = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$ticket['versionid']."' LIMIT 1"));
+	$component = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticket['componentid']."' LIMIT 1"));
+	$owner = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['ownerid']."' LIMIT 1"));
+	$assignee = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['assigneeid']."' LIMIT 1"));
+	include(template('ticket'));
 }
 ?>
