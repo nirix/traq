@@ -8,8 +8,16 @@
 // User Handler
 if($uri->seg[1] == "login") {
 	// Login
-	if(!isset($_POST['login'])) {
+	if(!isset($_POST['action'])) {
 		include(template('login'));
+	} else if($_POST['action'] == "login") {
+		$login = $origin->user->login($_POST['username'],$_POST['password']);
+		if($login) {
+			
+		} else {
+			$error = 1;
+			include("templates/login.php");
+		}
 	}
 } elseif($uri->seg[1] == "register") {
 	// Register

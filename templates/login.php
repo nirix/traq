@@ -15,7 +15,8 @@
 	</div>
 	<div id="content">
 		<h1>Login</h1>
-		<form action="<?=$uri->anchor('user','login')?>">
+		<form action="<?=$uri->anchor('user','login')?>" method="post">
+			<input type="hidden" name="action" value="login" />
 			<div class="form login">
 				<fieldset>
 					<label>Username</label>
