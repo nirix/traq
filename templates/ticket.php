@@ -54,7 +54,7 @@
 			<table class="properties">
 			<? foreach($history as $info) { ?>
 				<tr>
-					<th><?=date("g:ia d/m/Y",$info['timestamp'])?>:</th>
+					<th><?=date("g:ia d/m/Y OT",$info['timestamp'])?>:</th>
 					<td>
 					<? if($info['type'] == 1) { ?>
 					Ticket created by <?=$info['user']['username']?>
