@@ -50,7 +50,7 @@
 				</p>
 			</div>
 		</div>
-
+		<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
 		<div id="ticket_options">
 			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['id'])?>" method="post">
 				<input type="hidden" name="action" value="update" />
@@ -141,7 +141,7 @@
 				</fieldset>
 			</form>
 		</div>
-		
+		<? } ?>
 		<div id="history">
 			<h3>History</h3>
 			<table class="properties">
@@ -151,9 +151,15 @@
 					<td valign="top">
 					<? foreach($info['changes'] as $change) { ?>
 						<? if($change['type'] == "CREATE") { ?>
-						Ticket opened by <?=$info['user']['username']?><br />
+						Ticket created by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "COMPONENT") { ?>
-						Component changed to <?=$change['val3']?> from <?=$change['val4']?> by <?=$info['user']['username']?><br />
+						Component changed to <?=$change['to']['name']?> from <?=$change['from']['name']?> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "SEVERITY") { ?>
+						Severity changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "TYPE") { ?>
+						Type changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "ASIGNEE") { ?>
+						Reassign to <?=$change['to']['username']?> by <?=$info['user']['username']?><br />
 						<? } ?>
 					<? } ?>
 					</td>

@@ -7,6 +7,7 @@
 
 // Get the project info
 $project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($uri->seg[0])."' LIMIT 1"));
+$project['managerids'] = explode(',',$project['managers']);
 
 // Check what page to display
 if(!isset($uri->seg[1])) {
@@ -75,19 +76,20 @@ if(!isset($uri->seg[1])) {
 		if($_POST['close']) {
 			$changes[] = "CLOSE";
 		}
-		$changes = implode('|',$changes);
-		$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
-				   								   assigneeid='".$db->escapestring($_POST['assignto'])."',
-												   priority='".$db->escapestring($_POST['priority'])."',
-												   severity='".$db->escapestring($_POST['severity'])."',
-												   milestoneid='".$db->escapestring($_POST['milestone'])."',
-												   versionid='".$db->escapestring($_POST['version'])."',
-												   componentid='".$db->escapestring($_POST['component'])."',
-												   updated='".time()."'
-												   WHERE id='".$ticket['id']."' LIMIT 1");
-		$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."')");
-		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['id'],'?updated'));
-		print_r($changes);
+		if(count($changes) > 0) {
+			$changes = implode('|',$changes);
+			$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
+													   assigneeid='".$db->escapestring($_POST['assignto'])."',
+													   priority='".$db->escapestring($_POST['priority'])."',
+													   severity='".$db->escapestring($_POST['severity'])."',
+													   milestoneid='".$db->escapestring($_POST['milestone'])."',
+													   versionid='".$db->escapestring($_POST['version'])."',
+													   componentid='".$db->escapestring($_POST['component'])."',
+													   updated='".time()."'
+													   WHERE id='".$ticket['id']."' LIMIT 1");
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."')");
+		}
+		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['id']).'?updated');
 	} else {
 		// View Ticket
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
@@ -108,10 +110,21 @@ if(!isset($uri->seg[1])) {
 				$values = explode(',',$parts[1]);
 				$change = array();
 				$change['type'] = $type;
-				$change['val1'] = $values[0];
-				$change['val2'] = $values[1];
-				$change['val3'] = $values[2];
-				$change['val4'] = $values[3];
+				$change['toid'] = $values[0];
+				$change['fromid'] = $values[1];
+				if($type == "COMPONENT") {
+					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$change['fromid']."' LIMIT 1"));
+					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$change['toid']."' LIMIT 1"));
+				} elseif($type == "SEVERITY") {
+					$change['from'] = ticketseverity($change['fromid']);
+					$change['to'] = ticketseverity($change['toid']);
+				} else if($type == "TYPE") {
+					$change['from'] = tickettype($change['fromid']);
+					$change['to'] = tickettype($change['toid']);
+				} else if($type == "ASIGNEE") {
+					$change['from'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$change['fromid']."' LIMIT 1"));
+					$change['to'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$change['toid']."' LIMIT 1"));
+				}
 				$info['changes'][] = $change;
 			}
 			$history[] = $info;
