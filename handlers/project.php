@@ -48,20 +48,75 @@ if(!isset($uri->seg[1])) {
 } else if($uri->seg[1] == "newticket") {
 	include(template('newticket'));
 } else if($uri->seg[1] == "ticket") {
-	// View Ticket
 	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
-	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
-	$version = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$ticket['versionid']."' LIMIT 1")); // Get ticket Version info
-	$component = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticket['componentid']."' LIMIT 1")); // Get ticket Component info
-	$owner = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['ownerid']."' LIMIT 1")); // Get ticket Owner info
-	$assignee = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
-	// Ticket History
-	$history = array();
-	$gethistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
-	while($info = $db->fetcharray($gethistory)) {
-		$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['userid']."' LIMIT 1"));
-		$history[] = $info;
+	if($_POST['action'] == "update") {
+		$changes = array();
+		if($_POST['type'] != $ticket['type']) {
+			$changes[] = "TYPE:".$_POST['type'].",".$ticket['type'];
+		}
+		if($_POST['assignto'] != $ticket['assigneeid']) {
+			$changes[] = "ASIGNEE:".$_POST['assignto'].",".$ticket['assigneeid'];
+		}
+		if($_POST['priority'] != $ticket['priority']) {
+			$changes[] = "PRIORITY:".$_POST['priority'].",".$ticket['priority'];
+		}
+		if($_POST['severity'] != $ticket['severity']) {
+			$changes[] = "SEVERITY:".$_POST['severity'].",".$ticket['severity'];
+		}
+		if($_POST['milestone'] != $ticket['milestoneid']) {
+			$changes[] = "MILESTONE:".$_POST['milestone'].",".$ticket['milestoneid'];
+		}
+		if($_POST['version'] != $ticket['versionid']) {
+			$changes[] = "VERSION:".$_POST['version'].",".$ticket['versionid'];
+		}
+		if($_POST['component'] != $ticket['componentid']) {
+			$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
+		}
+		if($_POST['close']) {
+			$changes[] = "CLOSE";
+		}
+		$changes = implode('|',$changes);
+		$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
+				   								   assigneeid='".$db->escapestring($_POST['assignto'])."',
+												   priority='".$db->escapestring($_POST['priority'])."',
+												   severity='".$db->escapestring($_POST['severity'])."',
+												   milestoneid='".$db->escapestring($_POST['milestone'])."',
+												   versionid='".$db->escapestring($_POST['version'])."',
+												   componentid='".$db->escapestring($_POST['component'])."',
+												   updated='".time()."'
+												   WHERE id='".$ticket['id']."' LIMIT 1");
+		$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."')");
+		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['id'],'?updated'));
+		print_r($changes);
+	} else {
+		// View Ticket
+		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
+		$version = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$ticket['versionid']."' LIMIT 1")); // Get ticket Version info
+		$component = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticket['componentid']."' LIMIT 1")); // Get ticket Component info
+		$owner = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['ownerid']."' LIMIT 1")); // Get ticket Owner info
+		$assignee = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
+		// Ticket History
+		$history = array();
+		$gethistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");
+		while($info = $db->fetcharray($gethistory)) {
+			$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['userid']."' LIMIT 1"));
+			$changes = explode('|',$info['changes']);
+			$info['changes'] = array();
+			foreach($changes as $change) {
+				$parts = explode(':',$change);
+				$type = $parts[0];
+				$values = explode(',',$parts[1]);
+				$change = array();
+				$change['type'] = $type;
+				$change['val1'] = $values[0];
+				$change['val2'] = $values[1];
+				$change['val3'] = $values[2];
+				$change['val4'] = $values[3];
+				$info['changes'][] = $change;
+			}
+			$history[] = $info;
+		}
+		include(template('ticket'));
 	}
-	include(template('ticket'));
 }
 ?>

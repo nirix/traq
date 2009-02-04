@@ -112,7 +112,6 @@ function ticketstatus($statusid) {
  */
 function ticketpriority($priorityid) {
 	$priorities = array(
-					   0 => 'Closed',
 					   1 => 'Lowest',
 					   2 => 'Low',
 					   3 => 'Normal',

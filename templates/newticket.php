@@ -47,11 +47,11 @@
 						<th class="col1">Priority</th>
 						<td>
 							<select name="priority" id="priority">
-								<option value="1">Highest</option>
-								<option value="2">High</option>
+								<option value="5">Highest</option>
+								<option value="4">High</option>
 								<option value="3" selected="selected">Normal</option>
-								<option value="4">Low</option>
-								<option value="5">Lowest</option>
+								<option value="2">Low</option>
+								<option value="1">Lowest</option>
 							</select>
 						</td>
 						<th class="col2">Severity</th>
