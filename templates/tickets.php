@@ -22,6 +22,9 @@
 					<th class="priority">Priority</th>
 					<th class="component">Component</th>
 					<th class="status">Status</th>
+					<? if(!$uri->seg[2]) { ?>
+					<th class="milestone">Milestone</th>
+					<? } ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -41,6 +44,9 @@
 					<td class="priority"><?=ticketpriority($ticket['priority'])?></td>
 					<td class="component"><?=$ticket['component']['name']?></td>
 					<td class="status"><?=ticketstatus($ticket['status'])?></td>
+					<? if(!$uri->seg[2]) { ?>
+					<td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td>
+					<? } ?>
 				</tr>
 <? } ?>
 			</tbody>

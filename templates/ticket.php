@@ -135,16 +135,17 @@
 									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
 									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
 									<option value="-1"<?=($ticket['status'] == -1 ? ' selected="selected"' : '')?>>Completed</option>
+									<option value="-3"<?=($ticket['status'] == -3 ? ' selected="selected"' : '')?>>Fixed</option>
 									<option value="-2"<?=($ticket['status'] == -2 ? ' selected="selected"' : '')?>>Rejected</option>
-									<option value="4"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Reopened</option>
+									<option value="3"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Reopened</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<th class="col1"></th>
-							<td><button type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['id']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['id'],'delete')?>' }">Delete</button></td>
+							<td></td>
 							<th class="col2"></th>
-							<td><button type="submit">Update</button></td>
+							<td><button type="submit">Update</button> <button type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['id']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['id'],'delete')?>' }">Delete</button></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -174,7 +175,9 @@
 						<? } else if($change['type'] == "CLOSE") { ?>
 						Ticket closed by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "STATUS") { ?>
-						Status changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br /
+						Status changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "PRIORITY") { ?>
+						Priority changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
 						<? } ?>
 					<? } ?>
 					</td>

@@ -16,8 +16,12 @@
 				<div class="info">
 					<h2><a href="<?=$uri->anchor($project['slug'],'milestone',$milestone['milestone'])?>">Milestone: <em><?=$milestone['milestone']?><?=(!empty($milestone['codename']) ? ' <small>"'.$milestone['codename'].'"</small>' : '')?></em></a></h2>
 					<p class="date">
-						<? if(!$milestone['date']) { ?>
-						No Date Set
+						<? if($milestone['due'] == 0) { ?>
+						No Due Date Set
+						<? } elseif($milestone['due'] <= time()) { ?>
+						Due <?=timesince($milestone['due'])?> ago
+						<? } elseif($milestone['due'] > time()) { ?>
+						Due <?=timefrom($milestone['due'])?> from now
 						<? } ?>
 					</p>
 					<table class="progress">

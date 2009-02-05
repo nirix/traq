@@ -16,7 +16,7 @@ if(!isset($uri->seg[1])) {
 } elseif($uri->seg[1] == "roadmap") {
 	// Roadmap Page
 	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." ORDER BY due ASC");
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." ORDER BY milestone ASC");
 	while($info = $db->fetcharray($fetchmilestones)) {
 		// Get Ticket Info
 		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'"));
@@ -54,6 +54,7 @@ if(!isset($uri->seg[1])) {
 		while($info = $db->fetcharray($fetchtickets)) {
 			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
+			$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1"));
 			$tickets[] = $info;
 		}
 		unset($fetchtickets,$info);
@@ -194,6 +195,9 @@ if(!isset($uri->seg[1])) {
 				} else if($type == "STATUS") {
 					$change['from'] = ticketstatus($change['fromid']);
 					$change['to'] = ticketstatus($change['toid']);
+				} else if($type == "PRIORITY") {
+					$change['from'] = ticketpriority($change['fromid']);
+					$change['to'] = ticketpriority($change['toid']);
 				}
 				$info['changes'][] = $change;
 			}
