@@ -47,10 +47,56 @@ if(!isset($uri->seg[1])) {
 	unset($fetchtickets,$info);
 	include(template('tickets'));
 } else if($uri->seg[1] == "newticket") {
-	include(template('newticket'));
+	// Check if user is logged in.
+	if(!$user->loggedin) {
+		include(template('login'));
+		exit;
+	}
+	if($_POST['action'] == "create") {
+		$errors = array();
+		if($_POST['summary'] == "") {
+			$errors['summary'] = "Summary cannot be blank";
+		}
+		if($_POST['body'] == "") {
+			$errors['body'] = "You must enter a description.";
+		}
+		
+		if(!count($errors)) {
+			$db->query("INSERT INTO ".DBPREFIX."tickets VALUES(
+															   0,
+															   '".$db->escapestring($_POST['summary'])."',
+															   '".$db->escapestring($_POST['body'])."',
+															   ".$project['id'].",
+															   ".$db->escapestring($_POST['milestone']).",
+															   ".$db->escapestring($_POST['version']).",
+															   ".$db->escapestring($_POST['component']).",
+															   ".$db->escapestring($_POST['type']).",
+															   1,
+															   ".$db->escapestring($_POST['priority']).",
+															   ".$db->escapestring($_POST['severity']).",
+															   ".$user->info->uid.",
+															   ".$db->escapestring($_POST['assignto']).",
+															   ".time().",
+															   0
+															   )");
+			$ticketid = $db->insertid();
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticketid.",'CREATE')");
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
+		} else {
+			include(template('newticket'));
+		}
+	} else {
+		include(template('newticket'));
+	}
 } else if($uri->seg[1] == "ticket") {
 	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
-	if($_POST['action'] == "update") {
+	if($uri->seg[3] == "delete") {
+		if($user->loggedin) {
+			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE id='".$ticket['id']."' LIMIT 1");
+			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
+			header("Location: ".$uri->anchor($project['slug'],'tickets'));
+		}
+	} elseif($_POST['action'] == "update") {
 		$changes = array();
 		if($_POST['type'] != $ticket['type']) {
 			$changes[] = "TYPE:".$_POST['type'].",".$ticket['type'];
@@ -75,6 +121,7 @@ if(!isset($uri->seg[1])) {
 		}
 		if($_POST['close']) {
 			$changes[] = "CLOSE";
+			$db->query("UPDATE ".DBPREFIX."tickets SET status='0' WHERE id='".$ticket['id']."' LIMIT 1");
 		}
 		if(count($changes) > 0) {
 			$changes = implode('|',$changes);
@@ -124,6 +171,9 @@ if(!isset($uri->seg[1])) {
 				} else if($type == "ASIGNEE") {
 					$change['from'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$change['fromid']."' LIMIT 1"));
 					$change['to'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$change['toid']."' LIMIT 1"));
+				} else if($type == "MILESTONE") {
+					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['fromid']."' LIMIT 1"));
+					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['toid']."' LIMIT 1"));
 				}
 				$info['changes'][] = $change;
 			}

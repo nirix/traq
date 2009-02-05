@@ -11,10 +11,17 @@
 	<div id="content">
 		<h1><?=$project['name']?>: New Ticket</h1>
 		<form id="newticket" method="post" action="<?=$uri->anchor($project['slug'],'newticket')?>">
-			<input type="hidden" name="action" value="newticket" />
+			<? if(count($errors)) { ?>
+			<div class="errormessage">
+				<? foreach($errors as $error) { ?>
+				<?=$error?><br />
+				<? } ?>
+			</div>
+			<? } ?>
+			<input type="hidden" name="action" value="create" />
 			<fieldset id="summary">
 				<legend>Summary</legend>
-				<input type="text" name="subject" id="subject" size="80" value="" />
+				<input type="text" name="summary" id="summary" size="80" value="" />
 			</fieldset>
 			<fieldset id="description">
 				<legend>Description</legend>
@@ -36,9 +43,9 @@
 						<th class="col2">Assign to</th>
 						<td>
 							<select name="assignto" id="assignto">
-								<option selected="selected" value=""> </option>
+								<option selected="selected" value="0"> </option>
 								<? foreach(projectmanagers($project['id']) as $staff) { ?>
-								<option value="<?=$staff['id']?>"><?=$staff['username']?></option>
+								<option value="<?=$staff['uid']?>"><?=$staff['username']?></option>
 								<? } ?>
 							</select>
 						</td>
@@ -78,7 +85,7 @@
 						<th class="col2">Version</th>
 						<td>
 							<select name="version" id="version">
-								<option selected="selected" value=""> </option>
+								<option selected="selected" value="0"> </option>
 								<? foreach(projectversions($project['id']) as $version) { ?>
 								<option value="<?=$version['id']?>"><?=$version['version']?></option>
 								<? } ?>

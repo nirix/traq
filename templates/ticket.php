@@ -70,7 +70,7 @@
 							<th class="col2">Assign to</th>
 							<td>
 								<select name="assignto" id="assignto">
-									<option value=""<?=($ticket['assigneeid'] == 0 ? ' selected="selected"' : '')?>> </option>
+									<option value="0"<?=($ticket['assigneeid'] == 0 ? ' selected="selected"' : '')?>> </option>
 									<? foreach(projectmanagers($project['id']) as $staff) { ?> 
 									<option value="<?=$staff['uid']?>"<?=($staff['uid'] == $ticket['assigneeid'] ? ' selected="selected"' : '')?>><?=$staff['username']?></option>
 									<? } ?> 
@@ -112,7 +112,7 @@
 							<th class="col2">Version</th>
 							<td>
 								<select name="version" id="version">
-									<option<?=($ticket['version'] == '' ? ' selected="selected"' : '')?> value=""> </option>
+									<option<?=($ticket['version'] == '' ? ' selected="selected"' : '')?> value="0"> </option>
 									<? foreach(projectversions($project['id']) as $version) { ?>
 									<option value="<?=$version['id']?>"<?=($ticket['version'] == $versionn['id'] ? ' selected="selected"' : '')?>><?=$version['version']?></option>
 									<? } ?>
@@ -133,7 +133,7 @@
 						</tr>
 						<tr>
 							<th class="col1"></th>
-							<td></td>
+							<td><button type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['id']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['id'],'delete')?>' }">Delete</button></td>
 							<th class="col2"></th>
 							<td><button type="submit">Update</button></td>
 						</tr>
@@ -160,6 +160,10 @@
 						Type changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "ASIGNEE") { ?>
 						Reassign to <?=$change['to']['username']?> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "MILESTONE") { ?>
+						Milestone changed to <?=$change['to']['milestone']?> from <?=$change['from']['milestone']?> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "CLOSE") { ?>
+						Ticket closed by <?=$info['user']['username']?><br />
 						<? } ?>
 					<? } ?>
 					</td>

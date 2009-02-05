@@ -13,7 +13,7 @@ if($uri->seg[1] == "login") {
 	} else if($_POST['action'] == "login") {
 		$login = $origin->user->login($_POST['username'],$_POST['password']);
 		if($login) {
-			
+			header("Location: ".$uri->anchor());
 		} else {
 			$error = 1;
 			include("templates/login.php");
@@ -51,5 +51,8 @@ if($uri->seg[1] == "login") {
 			include(template('register'));
 		}
 	}
+} elseif($uri->seg[1] == "logout") {
+	$user->logout();
+	header("Location: ".$uri->anchor());
 }
 ?>
