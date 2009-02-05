@@ -98,10 +98,13 @@ function projectmanagers($projectid) {
  */
 function ticketstatus($statusid) {
 	$statusses = array(
+					   -2 => 'Rejected',
+					   -1 => 'Completed',
 					   0 => 'Closed',
 					   1 => 'New',
-					   2 => 'Assigned',
-					   3 => 'Reopened'
+					   2 => 'Accepted',
+					   3 => 'Completed',
+					   4 => 'Reopened'
 					   );
 	return $statusses[$statusid];
 }

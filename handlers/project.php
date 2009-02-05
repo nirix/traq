@@ -20,7 +20,7 @@ if(!isset($uri->seg[1])) {
 	while($info = $db->fetcharray($fetchmilestones)) {
 		// Get Ticket Info
 		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'"));
-		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status='0' AND milestoneid='".$info['id']."'"));
+		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$info['id']."'"));
 		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'"));
 		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']);
 		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']);
@@ -30,22 +30,35 @@ if(!isset($uri->seg[1])) {
 	include(template('roadmap'));
 } elseif($uri->seg[1] == "tickets") {
 	// Tickets Page
-	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
-	$tickets = array();
-	if($uri->seg[3] == "open") {
-		$status = "status >= 1";
-	} elseif($uri->seg[3] == "closed") {
-		$status = "status='0'";
+	if($uri->seg[2]) { // Open or Closed tickets.
+		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
+		if($uri->seg[3] == "open") {
+			$status = "status >= 1";
+		} elseif($uri->seg[3] == "closed") {
+			$status = "status <= 0";
+		}
+		// Get Tickets
+		$tickets = array();
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
+		while($info = $db->fetcharray($fetchtickets)) {
+			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
+			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
+			$tickets[] = $info;
+		}
+		unset($fetchtickets,$info);
+		include(template('tickets'));
+	} else { // All Tickets
+		// Get Tickets
+		$tickets = array();
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' ORDER BY priority DESC");
+		while($info = $db->fetcharray($fetchtickets)) {
+			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
+			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
+			$tickets[] = $info;
+		}
+		unset($fetchtickets,$info);
+		include(template('tickets'));
 	}
-	// Get Tickets
-	$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
-	while($info = $db->fetcharray($fetchtickets)) {
-		$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
-		$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
-		$tickets[] = $info;
-	}
-	unset($fetchtickets,$info);
-	include(template('tickets'));
 } else if($uri->seg[1] == "newticket") {
 	// Check if user is logged in.
 	if(!$user->loggedin) {
@@ -123,6 +136,9 @@ if(!isset($uri->seg[1])) {
 			$changes[] = "CLOSE";
 			$db->query("UPDATE ".DBPREFIX."tickets SET status='0' WHERE id='".$ticket['id']."' LIMIT 1");
 		}
+		if($_POST['status'] != $ticket['status']) {
+			$changes[] = "STATUS:".$_POST['status'].",".$ticket['status'];
+		}
 		if(count($changes) > 0) {
 			$changes = implode('|',$changes);
 			$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
@@ -132,6 +148,7 @@ if(!isset($uri->seg[1])) {
 													   milestoneid='".$db->escapestring($_POST['milestone'])."',
 													   versionid='".$db->escapestring($_POST['version'])."',
 													   componentid='".$db->escapestring($_POST['component'])."',
+													   status='".$db->escapestring($_POST['status'])."',
 													   updated='".time()."'
 													   WHERE id='".$ticket['id']."' LIMIT 1");
 			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."')");
@@ -174,6 +191,9 @@ if(!isset($uri->seg[1])) {
 				} else if($type == "MILESTONE") {
 					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['fromid']."' LIMIT 1"));
 					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['toid']."' LIMIT 1"));
+				} else if($type == "STATUS") {
+					$change['from'] = ticketstatus($change['fromid']);
+					$change['to'] = ticketstatus($change['toid']);
 				}
 				$info['changes'][] = $change;
 			}

@@ -128,8 +128,17 @@
 									<? } ?>
 								</select>
 							</td>
-							<th class="col2">Close Ticket</th>
-							<td><input type="checkbox" name="close" value="1" /></td>
+							<th class="col2">Status</th>
+							<td>
+								<select name="status" id="status">
+									<option value="0"<?=($ticket['status'] == 0 ? ' selected="selected"' : '')?>>Closed</option>
+									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
+									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
+									<option value="-1"<?=($ticket['status'] == -1 ? ' selected="selected"' : '')?>>Completed</option>
+									<option value="-2"<?=($ticket['status'] == -2 ? ' selected="selected"' : '')?>>Rejected</option>
+									<option value="4"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Reopened</option>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<th class="col1"></th>
@@ -159,11 +168,13 @@
 						<? } else if($change['type'] == "TYPE") { ?>
 						Type changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "ASIGNEE") { ?>
-						Reassign to <?=$change['to']['username']?> by <?=$info['user']['username']?><br />
+						Reassigned to <?=$change['to']['username']?> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "MILESTONE") { ?>
 						Milestone changed to <?=$change['to']['milestone']?> from <?=$change['from']['milestone']?> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "CLOSE") { ?>
 						Ticket closed by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "STATUS") { ?>
+						Status changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br /
 						<? } ?>
 					<? } ?>
 					</td>
