@@ -25,20 +25,24 @@
 					<td headers="h_assignee"><?=$assignee['username']?></td>
 				</tr>
 				<tr>
+					<th id="h_type">Type:</th>
+					<td headers="h_type"><?=tickettype($ticket['type'])?></td>
 					<th id="h_priority">Priority:</th>
 					<td headers="h_priority"><?=ticketpriority($ticket['priority'])?></td>
-					<th id="h_milestone">Milestone:</th>
-					<td headers="h_milestone"><?=$milestone['milestone']?></td>
-				</tr>
-				<tr>
-					<th id="h_component">Component:</th>
-					<td headers="h_component"><?=$component['name']?></td>
-					<th id="h_version">Version:</th>
-					<td headers="h_version"><?=$version['version']?></td>
 				</tr>
 				<tr>
 					<th id="h_severity">Severity:</th>
 					<td headers="h_severity"><?=ticketseverity($ticket['severity'])?></td>
+					<th id="h_component">Component:</th>
+					<td headers="h_component"><?=$component['name']?></td>
+				</tr>
+				<tr>
+					<th id="h_milestone">Milestone:</th>
+					<td headers="h_milestone"><?=$milestone['milestone']?></td>
+					<th id="h_version">Version:</th>
+					<td headers="h_version"><?=$version['version']?></td>
+				</tr>
+				<tr>
 					<th id="h_status">Status:</th>
 					<td headers="h_status"><?=ticketstatus($ticket['status'])?></td>
 				</tr>
