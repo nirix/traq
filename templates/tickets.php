@@ -10,7 +10,7 @@
 	<? include(template('project_nav')); ?>
 	<div id="content">
 		<? include(template("breadcrumbs")); ?>
-		<h1><?=($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All'))?> Tickets for <?=$project['name']?> <?=$milestone['milestone']?></h1>
+		<h1><?=($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All'))?> Tickets for Milestone <?=$milestone['milestone']?></h1>
 
 		<table class="listing tickets">
 			<thead>

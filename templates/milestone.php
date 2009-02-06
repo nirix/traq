@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?=buildtitle(array('Roadmap',$project['name']))?></title>
+<title><?=buildtitle(array('Milestone '.$milestone['milestone'],$project['name']))?></title>
 <? include(template('style')); ?> 
 </head>
 <body>
@@ -10,7 +10,7 @@
 	<? include(template('project_nav')); ?>
 	<div id="content">
 		<? include(template("breadcrumbs")); ?>
-		<h1><?=$project['name']?> <?=$milestone['milestone']?></h1>
+		<h1><?=$project['name']?> Milestone <?=$milestone['milestone']?></h1>
 		<div class="milestone">
 			<div class="info">
 				<p class="date">

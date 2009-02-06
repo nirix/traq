@@ -28,7 +28,7 @@ $user =& $origin->user;
 $uri =& $origin->uri;
 
 // Fetch common functions file
-require("common.php");
+require(TRAQPATH."include/common.php");
 
 // Get settings
 $settings = (object) array();

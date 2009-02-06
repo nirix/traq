@@ -27,7 +27,7 @@ function buildtitle($title = array()) {
 	}
 	$title[] = $settings->title;
 	$title[] = "Traq";
-	return implode(" | ",$title);
+	return implode(" - ",$title);
 }
 
 /**
