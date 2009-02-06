@@ -239,7 +239,7 @@ li.milestone, li.project {
 	color: #b00;
 	font-style: normal;
 }
-.milestone .info .date {
+.milestone .info .date, .msdate {
 	color: #888;
 	font-size: 11px;
 	font-style: italic;

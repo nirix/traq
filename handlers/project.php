@@ -231,5 +231,15 @@ if(!isset($uri->seg[1])) {
 		}
 		include(template('ticket'));
 	}
+} elseif($uri->seg[1] == "milestone") {
+	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1")); // Get ticket Milestone info
+	$milestone['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$milestone['id']."'"));
+	$milestone['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$milestone['id']."'"));
+	$milestone['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."'"));
+	$milestone['tickets']['percent']['closed'] = calculatepercent($milestone['tickets']['closed'],$milestone['tickets']['total']);
+	$milestone['tickets']['percent']['open'] = calculatepercent($milestone['tickets']['open'],$milestone['tickets']['total']);
+	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Milestones";
+	$breadcrumbs[$uri->anchor($project['slug'],'milestone',$milestone['milestone'])] = $milestone['milestone'];
+	include(template('milestone'));
 }
 ?>
