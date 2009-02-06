@@ -207,4 +207,385 @@ fieldset.error input[type=text], fieldset.error input[type=password] {
 	color: #fff;
 	font-weight: bold;
 }
+
+/* Styles for the milestone and project view */
+ul.milestones, ul.projects {
+	margin: 2em 0 0;
+	padding: 0
+}
+li.milestone, li.project {
+	list-style: none;
+	margin-bottom: 2em;
+}
+.milestone .info, .project .info {
+	white-space: nowrap;
+}
+.milestone .info h2, .project .info h2 {
+	background: #f7f7f7;
+	border-bottom: 1px solid #d7d7d7;
+	margin: 0;
+}
+.milestone .info h2 a, .project .info h2 a {
+	color: #000;
+	display: block;
+	border-bottom: none;
+}
+.milestone .info h2 a:hover,
+.project .info h2 a:hover {
+	color: #000;
+	background-color: #eee;
+}
+.milestone .info h2 em, .project .info h2 em {
+	color: #b00;
+	font-style: normal;
+}
+.milestone .info .date {
+	color: #888;
+	font-size: 11px;
+	font-style: italic;
+	margin: 0;
+}
+.milestone .info .progress {
+	margin: 1em 1em 0;
+	width: 40em;
+	max-width: 70%;
+}
+.milestone .info dl, .project .info dl {
+	font-size: 10px;
+	font-style: italic;
+	margin: 0 1em 2em;
+	white-space: nowrap;
+}
+.milestone .info dt, .project .info dt {
+	display: inline;
+	margin-left: .5em;
+}
+.milestone .info dd, .project .info dd {
+	display: inline;
+	margin: 0 1em 0 .5em;
+}
+.milestone .description, .project .description {
+	margin-left: 1em;
+}
+.milestone .date {
+	color: #888;
+	font-style: italic;
+	margin: 0;
+}
+.milestone .description, .project .description {
+	margin: 1em 0 2em;
+}
+
+/* General styles for the progress bars */
+table.progress {
+	border: 1px solid #d7d7d7;
+	border-collapse: collapse;
+	border-spacing: 0;
+	float: left;
+	margin: 0;
+	padding: 0;
+	empty-cells: show;
+}
+table.progress a, table.progress a:hover {
+	border: none;
+	display: block;
+	width: 100%;
+	height: 1.2em;
+	padding: 0;
+	margin: 0;
+	text-decoration: none
+}
+table.progress td {
+	background: #dd847e;
+	padding: 0px;
+}
+table.progress td.closed {
+	background: #bae0ba;
+}
+table.progress td :hover {
+	background: none;
+}
+p.percent {
+	font-size: 10px;
+	line-height: 2.4em;
+	margin: 0.9em 0 0;
+}
+
+
+/* Styles for tabe listings. */
+table.listing {
+	clear: both;
+	border-bottom: 1px solid #d7d7d7;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-top: 1em;
+	width: 100%;
+}
+table.listing th {
+	text-align: left;
+	padding: 0 1em .1em 0;
+	font-size: 12px;
+}
+table.listing thead {
+	background: #f7f7f0;
+}
+table.listing thead th {
+	border: 1px solid #d7d7d7;
+	border-bottom-color: #999;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 2px .5em;
+	vertical-align: bottom;
+}
+table.listing thead th a, table.listing thead th a:hover {
+ 	background-color: transparent;
+}
+table.listing thead th a {
+	border: none;
+	padding-right: 12px;
+}
+table.listing th.asc a, table.listing th.desc a {
+	font-weight: bold;
+}
+table.listing th.asc a, table.listing th.desc a {
+	background-position: 100% 50%;
+	background-repeat: no-repeat;
+}
+table.listing tbody td, table.listing tbody th {
+	border: 1px dotted #ddd;
+	padding: .33em .5em;
+	vertical-align: top;
+}
+table.listing tbody td a:hover, table.listing tbody th a:hover {
+	background-color: transparent;
+}
+table.listing tbody tr {
+	border-top: 1px solid #ddd;
+}
+table.listing tbody tr.even {
+	background-color: #fcfcfc;
+}
+table.listing tbody tr.odd {
+	background-color: #f7f7f7;
+}
+table.listing tbody tr:hover {
+	background: #eed !important;
+}
+
+/* Styles for the ticket list. */
+.tickets thead th.id {
+	width: 50px;
+}
+.reports tbody td a, .tickets tbody td a {
+	display: block;
+}
+.tickets {
+	border-bottom: none;
+}
+.tickets thead th {
+	text-transform: capitalize;
+	white-space: nowrap;
+}
+.tickets tbody td, .reports tbody td {
+	padding: .1em .5em !important;
+}
+.tickets tbody td a, .reports tbody td a {
+	border-bottom: none;
+}
+.tickets tbody td.id a {
+	font-weight: bold;
+}
+.tickets tbody tr:hover {
+	background: #eed;
+	color: #000;
+}
+
+table.tickets tbody tr.priority6 {
+	background: #f0f0f0;
+	border-color: #ddd;
+}
+table.tickets tbody tr.even.priority6 {
+	background: #f7f7f7;
+}
+table.tickets tbody tr.priority5 {
+	background: #fdc;
+	border-color: #e88;
+}
+table.tickets tbody tr.even.priority5 {
+	background: #fed;
+	border-color: #e99;
+}
+table.tickets tbody tr.priority4 {
+	background: #ffb;
+	border-color: #eea;
+}
+table.tickets tbody tr.even.priority4 {
+	background: #ffd;
+	border-color: #dd8;
+}
+table.tickets tbody tr.priority3 {
+	background: #e7ffff;
+	border-color: #cee;
+}
+table.tickets tbody tr.even.priority3 {
+	background: #dff;
+	border-color: #bee;
+}
+table.tickets tbody tr.priority2 {
+	background: #e7eeff;
+	border-color: #cde;
+}
+table.tickets tbody tr.even.priority2 {
+	background: #dde7ff;
+}
+table.tickets tbody tr.priority1 {
+	background: #fbfbfb;
+	border-color: #ddd;
+}
+table.tickets tbody tr.even.priority1 {
+	background: #f6f6f6;
+	border-color: #ccc;
+}
+
+form#newticket {
+	width: 700px;
+	margin: 0 auto;
+}
+form#newticket #body {
+	
+	width: 100%;
+}
+#newticket fieldset {
+	width: 100%;
+}
+
+#ticket {
+	background: #ffd;
+	border: 1px outset #996;
+
+	padding: .5em 1em;
+	position: relative;
+}
+
+#ticket_sidebar {
+	width: 200px;
+	margin-left: 5px;
+}
+
+#history {
+	border: 1px outset #996;
+	margin-top: 1em;
+	padding: .5em 1em;
+	position: relative;
+}
+#history h3 {
+	border-bottom: 1px solid #000;
+	color: #000;
+	font-size: 100%;
+	font-weight: normal;
+	margin: 0px;
+}
+
+h1 .status {
+	color: #444;
+	text-transform: lowercase;
+}
+#ticket h1.summary {
+	margin: 0 0 8px 0;
+}
+#ticket h2.summary {
+	margin: 0 0 .8em 0;
+}
+#ticket .date {
+	color: #996;
+	float: right;
+	font-size: 85%;
+	position: relative;
+}
+#ticket .date p {
+	margin: 0;
+}
+
+#ticket table.properties {
+	border-top: 1px solid #dd9;
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100%;
+}
+#ticket table.properties tr {
+	border-bottom: 1px dotted #eed;
+}
+#ticket table.properties td, #ticket table.properties th {
+	font-size: 80%;
+	padding: .5em 1em;
+	vertical-align: top;
+}
+#ticket table.properties th {
+	color: #663;
+	font-weight: normal;
+	text-align: left;
+	width: 20%;
+}
+#ticket table.properties td {
+	width: 30%;
+}
+#ticket table.properties .description {
+	border-top: 1px solid #dd9;
+}
+
+
+#ticket .description h3 {
+	border-bottom: 1px solid #dd9;
+	color: #663;
+	font-size: 100%;
+	font-weight: normal;
+}
+#ticket .inlinebuttons { 
+	float: right;
+	position: relative;
+	bottom: 0.3em;
+}
+
+#properties {
+	white-space: nowrap;
+	line-height: 160%;
+	padding: .5em;
+}
+#properties table {
+	border-spacing: 0;
+	width: 100%;
+}
+#properties table th {
+	padding: .4em;
+	text-align: right;
+	width: 20%;
+	vertical-align: top;
+}
+#properties table th.col2 {
+	border-left: 1px dotted #d7d7d7;
+}
+#properties table td {
+	vertical-align: middle;
+	width: 30%;
+}
+#properties table td.fullrow {
+	vertical-align: middle;
+	width: 80%;
+}
+
+fieldset.radio {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+fieldset.radio legend {
+	color: #000;
+	float: left;
+	font-size: 100%;
+	font-weight: normal;
+	padding: 0 1em 0 0;
+}
+fieldset.radio label {
+	padding-right: 1em;
+}
 </style>
