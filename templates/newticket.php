@@ -9,7 +9,8 @@
 <? include(template('header')); ?>
 	<? include(template('project_nav')); ?>
 	<div id="content">
-		<h1><?=$project['name']?>: New Ticket</h1>
+		<? include(template("breadcrumbs")); ?>
+		<h1>New Ticket</h1>
 		<form id="newticket" method="post" action="<?=$uri->anchor($project['slug'],'newticket')?>">
 			<? if(count($errors)) { ?>
 			<div class="errormessage">

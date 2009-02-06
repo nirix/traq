@@ -9,14 +9,13 @@
 <? include(template('header')); ?>
 	<? include(template('project_nav')); ?>
 	<div id="content">
-		<h1><?=$project['name']?>: <?=$ticket['summary']?> <small>(ticket #<?=$ticket['id']?>)</small></h1>
-		<br />
+		<? include(template("breadcrumbs")); ?>
 		<div id="ticket">
 			<div class="date">
 				<p title="12/14/08 08:37:54">Opened <?=timesince($ticket['timestamp'])?> ago</p>
 				<p title="01/19/09 14:13:28">Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
-			<h2 class="summary"><?=$ticket['summary']?> <small>(#<?=$ticket['id']?>)</small></h2>
+			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['id']?>)</small></h1>
 			<table class="properties">
 				<tr>
 					<th id="h_owner">Reported by:</th>

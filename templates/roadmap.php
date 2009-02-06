@@ -9,6 +9,7 @@
 <? include(template('header')); ?>
 	<? include(template('project_nav')); ?>
 	<div id="content">
+		<? include(template("breadcrumbs")); ?>
 		<h1><?=$project['name']?> Roadmap</h1>
 		<ul class="milestones">
 <? foreach($milestones as $milestone) { ?>

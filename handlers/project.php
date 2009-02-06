@@ -8,6 +8,7 @@
 // Get the project info
 $project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($uri->seg[0])."' LIMIT 1"));
 $project['managerids'] = explode(',',$project['managers']);
+$breadcrumbs[$uri->anchor($project['slug'])] = $project['name'];
 
 // Check what page to display
 if(!isset($uri->seg[1])) {
@@ -15,6 +16,7 @@ if(!isset($uri->seg[1])) {
 	include(template('project'));
 } elseif($uri->seg[1] == "roadmap") {
 	// Roadmap Page
+	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Roadmap";
 	$milestones = array();
 	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." ORDER BY milestone ASC");
 	while($info = $db->fetcharray($fetchmilestones)) {
@@ -30,12 +32,16 @@ if(!isset($uri->seg[1])) {
 	include(template('roadmap'));
 } elseif($uri->seg[1] == "tickets") {
 	// Tickets Page
-	if($uri->seg[2]) { // Open or Closed tickets.
+	$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
+	if($uri->seg[2] && $uri->seg[3]) { // Open or Closed Tickets.
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
+		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
 		if($uri->seg[3] == "open") {
 			$status = "status >= 1";
+			$listtype = "open";
 		} elseif($uri->seg[3] == "closed") {
 			$status = "status <= 0";
+			$listtype = "closed";
 		}
 		// Get Tickets
 		$tickets = array();
@@ -47,7 +53,22 @@ if(!isset($uri->seg[1])) {
 		}
 		unset($fetchtickets,$info);
 		include(template('tickets'));
+	} elseif($uri->seg[2] && !$uri->seg[3]) { // Milestone Tickets
+		$listtype = "all";
+		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
+		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
+		// Get Tickets
+		$tickets = array();
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
+		while($info = $db->fetcharray($fetchtickets)) {
+			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
+			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
+			$tickets[] = $info;
+		}
+		unset($fetchtickets,$info);
+		include(template('tickets'));
 	} else { // All Tickets
+		$listtype = "all";
 		// Get Tickets
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' ORDER BY priority DESC");
@@ -66,6 +87,7 @@ if(!isset($uri->seg[1])) {
 		include(template('login'));
 		exit;
 	}
+	$breadcrumbs[$uri->anchor($project['slug'],'newticket')] = "New Ticket";
 	if($_POST['action'] == "create") {
 		$errors = array();
 		if($_POST['summary'] == "") {
@@ -162,6 +184,10 @@ if(!isset($uri->seg[1])) {
 		$component = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticket['componentid']."' LIMIT 1")); // Get ticket Component info
 		$owner = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['ownerid']."' LIMIT 1")); // Get ticket Owner info
 		$assignee = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
+		
+		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
+		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
+		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['id'])] = '#'.$ticket['id'];
 		// Ticket History
 		$history = array();
 		$gethistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");

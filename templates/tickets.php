@@ -2,14 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?=buildtitle(array(($uri->seg[3] == "open" ? 'Open' : ($uri->seg[2] ? 'Closed' : 'All')).' Tickets for '.$project['name'].' '.$milestone['milestone']))?></title>
+<title><?=buildtitle(array(($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All')).' Tickets for '.$project['name'].' '.$milestone['milestone']))?></title>
 <? include(template('style')); ?> 
 </head>
 <body>
 <? include(template('header')); ?>
 	<? include(template('project_nav')); ?>
 	<div id="content">
-		<h1><?=($uri->seg[3] == "open" ? 'Open' : ($uri->seg[2] ? 'Closed' : 'All'))?> Tickets for <?=$project['name']?> <?=$milestone['milestone']?></h1>
+		<? include(template("breadcrumbs")); ?>
+		<h1><?=($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All'))?> Tickets for <?=$project['name']?> <?=$milestone['milestone']?></h1>
 
 		<table class="listing tickets">
 			<thead>
@@ -21,7 +22,6 @@
 					<th class="type">Type</th>
 					<th class="priority">Priority</th>
 					<th class="component">Component</th>
-					<th class="status">Status</th>
 					<? if(!$uri->seg[2]) { ?>
 					<th class="milestone">Milestone</th>
 					<? } ?>
@@ -43,7 +43,6 @@
 					<td class="type"><?=tickettype($ticket['type'])?></td>
 					<td class="priority"><?=ticketpriority($ticket['priority'])?></td>
 					<td class="component"><?=$ticket['component']['name']?></td>
-					<td class="status"><?=ticketstatus($ticket['status'])?></td>
 					<? if(!$uri->seg[2]) { ?>
 					<td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td>
 					<? } ?>
