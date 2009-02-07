@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?=buildtitle(array($ticket['summary']. ' (ticket #'.$ticket['id'].')','Tickets',$project['name']))?></title>
+<title><?=buildtitle(array($ticket['summary']. ' (ticket #'.$ticket['tid'].')','Tickets',$project['name']))?></title>
 <? include(template('style')); ?> 
 </head>
 <body>
@@ -15,7 +15,7 @@
 				<p title="12/14/08 08:37:54">Opened <?=timesince($ticket['timestamp'])?> ago</p>
 				<p title="01/19/09 14:13:28">Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
-			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['id']?>)</small></h1>
+			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small></h1>
 			<table class="properties">
 				<tr>
 					<th id="h_owner">Reported by:</th>
@@ -55,7 +55,7 @@
 		</div>
 		<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
 		<div id="ticket_options">
-			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['id'])?>" method="post">
+			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
 				<input type="hidden" name="action" value="update" />
 				<fieldset id="properties">
 					<legend>Update Ticket</legend>
@@ -115,9 +115,9 @@
 							<th class="col2">Version</th>
 							<td>
 								<select name="version" id="version">
-									<option<?=($ticket['version'] == '' ? ' selected="selected"' : '')?> value="0"> </option>
+									<option<?=($ticket['version'] == 0 ? ' selected="selected"' : '')?> value="0"> </option>
 									<? foreach(projectversions($project['id']) as $version) { ?>
-									<option value="<?=$version['id']?>"<?=($ticket['version'] == $version['id'] ? ' selected="selected"' : '')?>><?=$version['version']?></option>
+									<option value="<?=$version['id']?>"<?=($ticket['versionid'] == $version['id'] ? ' selected="selected"' : '')?>><?=$version['version']?></option>
 									<? } ?>
 								</select>
 							</td>
@@ -156,7 +156,7 @@
 								<? } ?>
 							</td>
 							<th class="col2"></th>
-							<td><button type="submit">Update</button> <button type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['id']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['id'],'delete')?>' }">Delete</button></td>
+							<td><button type="submit">Update</button> <button type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }">Delete</button></td>
 						</tr>
 					</table>
 				</fieldset>

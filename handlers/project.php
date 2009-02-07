@@ -98,8 +98,10 @@ if(!isset($uri->seg[1])) {
 		}
 		
 		if(!count($errors)) {
+			$ticketid = $project['currenttid']+1;
 			$db->query("INSERT INTO ".DBPREFIX."tickets VALUES(
 															   0,
+															   ".$ticketid.",
 															   '".$db->escapestring($_POST['summary'])."',
 															   '".$db->escapestring($_POST['body'])."',
 															   ".$project['id'].",
@@ -115,9 +117,10 @@ if(!isset($uri->seg[1])) {
 															   ".time().",
 															   0
 															   )");
-			$ticketid = $db->insertid();
-			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticketid.",'CREATE')");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$ticketid."',".time().",NOW(),".$project['id'].")");
+			$internalid = $db->insertid();
+			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1");
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$internalid.",'CREATE')");
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$project['id'].")");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
 		} else {
 			include(template('newticket'));
@@ -126,10 +129,10 @@ if(!isset($uri->seg[1])) {
 		include(template('newticket'));
 	}
 } else if($uri->seg[1] == "ticket") {
-	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
+	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE tid='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
 	if($uri->seg[3] == "delete") {
 		if($user->loggedin) {
-			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE id='".$ticket['id']."' LIMIT 1");
+			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1");
 			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'tickets'));
 		}
@@ -188,7 +191,7 @@ if(!isset($uri->seg[1])) {
 													   WHERE id='".$ticket['id']."' LIMIT 1");
 			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."')");
 		}
-		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['id']).'?updated');
+		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
 	} else {
 		// View Ticket
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
@@ -199,7 +202,7 @@ if(!isset($uri->seg[1])) {
 		
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
-		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['id'])] = '#'.$ticket['id'];
+		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
 		// Ticket History
 		$history = array();
 		$gethistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");

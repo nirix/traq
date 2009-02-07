@@ -36,8 +36,8 @@
 	}
 ?>
 				<tr class="<?=$bgclass?> priority<?=$ticket['priority']?>">
-					<td class="id"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['id'])?>"><?=$ticket['id']?></a></td>
-					<td class="summary"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['id'])?>"><?=$ticket['summary']?></a></td>
+					<td class="id"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>"><?=$ticket['tid']?></a></td>
+					<td class="summary"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>"><?=$ticket['summary']?></a></td>
 					<td class="status"><?=ticketstatus($ticket['status'])?></td>
 					<td class="owner"><?=$ticket['owner']['username']?></td>
 					<td class="type"><?=tickettype($ticket['type'])?></td>
