@@ -93,6 +93,17 @@ a:hover {
 	width: 150px;
 }
 
+.componentlist th, .componentlist td {
+	text-align: left;
+}
+.componentlist .actions {
+	width: 100px;
+	text-align: right;
+}
+.componentlist .project {
+	width: 100px;
+}
+
 thead {
 	background: #CCC;
 }

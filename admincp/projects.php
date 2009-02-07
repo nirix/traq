@@ -181,7 +181,7 @@ if($_REQUEST['action'] == "manage") {
 					</tr>
 					<tr valign="top">
 						<th></th>
-						<td><button type="submit">Create Project</button></td>
+						<td><button type="submit">Update Project</button></td>
 					</tr>
 				</table>
 			</div>
