@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?=buildtitle(array(($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All')).' Tickets for '.$project['name'].' '.$milestone['milestone']))?></title>
+<title><?=buildtitle(array(($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All')).' Tickets '.($uri->seg[2] ? 'for Milestone '.$milestone['milestone'] : ''),$project['name']))?></title>
 <? include(template('style')); ?> 
 </head>
 <body>
@@ -10,7 +10,7 @@
 	<? include(template('project_nav')); ?>
 	<div id="content">
 		<? include(template("breadcrumbs")); ?>
-		<h1><?=($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All'))?> Tickets for Milestone <?=$milestone['milestone']?></h1>
+		<h1><?=($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All'))?> Tickets<? if($uri->seg[2]) {?> for Milestone <?=$milestone['milestone']?><? } ?></h1>
 
 		<table class="listing tickets">
 			<thead>

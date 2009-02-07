@@ -117,7 +117,7 @@
 								<select name="version" id="version">
 									<option<?=($ticket['version'] == '' ? ' selected="selected"' : '')?> value="0"> </option>
 									<? foreach(projectversions($project['id']) as $version) { ?>
-									<option value="<?=$version['id']?>"<?=($ticket['version'] == $versionn['id'] ? ' selected="selected"' : '')?>><?=$version['version']?></option>
+									<option value="<?=$version['id']?>"<?=($ticket['version'] == $version['id'] ? ' selected="selected"' : '')?>><?=$version['version']?></option>
 									<? } ?>
 								</select>
 							</td>
@@ -131,22 +131,30 @@
 									<? } ?>
 								</select>
 							</td>
-							<th class="col2">Status</th>
+							<th class="col2"></th>
+							<td></td>
+						</tr>
+						<tr>
+							<th class="col1">Action</th>
 							<td>
-								<select name="status" id="status">
-									<option value="0"<?=($ticket['status'] == 0 ? ' selected="selected"' : '')?>>Closed</option>
+								<? if($ticket['status'] >= 1) { ?>
+								<input type="radio" name="ticketaction" value="markas" /> Mark as <select name="markas" id="markas">
 									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
 									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
+								</select><br />
+								<input type="radio" name="ticketaction" value="close" /> Close as <select name="closeas" id="closeas">
+									<option value="0"<?=($ticket['status'] == 0 ? ' selected="selected"' : '')?>>Closed</option>
 									<option value="-1"<?=($ticket['status'] == -1 ? ' selected="selected"' : '')?>>Completed</option>
 									<option value="-3"<?=($ticket['status'] == -3 ? ' selected="selected"' : '')?>>Fixed</option>
 									<option value="-2"<?=($ticket['status'] == -2 ? ' selected="selected"' : '')?>>Rejected</option>
-									<option value="3"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Reopened</option>
 								</select>
+								<? } elseif($ticket['status'] <= 0) { ?>
+								<input type="radio" name="ticketaction" value="reopen" /> Reopen as <select name="reopenas" id="reopenas">
+									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
+									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
+								</select>
+								<? } ?>
 							</td>
-						</tr>
-						<tr>
-							<th class="col1"></th>
-							<td></td>
 							<th class="col2"></th>
 							<td><button type="submit">Update</button> <button type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['id']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['id'],'delete')?>' }">Delete</button></td>
 						</tr>
@@ -176,11 +184,15 @@
 						<? } else if($change['type'] == "MILESTONE") { ?>
 						Milestone changed from <em><?=$change['from']['milestone']?></em> to <em><?=$change['to']['milestone']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "CLOSE") { ?>
-						Ticket closed by <?=$info['user']['username']?><br />
+						Ticket closed as <?=$change['to']?> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "STATUS") { ?>
 						Status changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "PRIORITY") { ?>
 						Priority changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "VERSION") { ?>
+						Version changed from <em><?=($change['from']['version'] != '' ? $change['from']['version'] : 'None')?></em> to <em><?=($change['to']['version'] != '' ? $change['to']['version'] : 'None')?></em> by <?=$info['user']['username']?><br />
+						<? } else if($change['type'] == "REOPEN") { ?>
+						Ticket reopened as <?=$change['to']?> by <?=$info['user']['username']?><br />
 						<? } ?>
 					<? } ?>
 					</td>

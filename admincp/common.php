@@ -47,6 +47,7 @@ function adminheader($title='') {
 				<div class="sidebar-title">Traq</div>
 				<ul class="sidebar-options">
 					<li><a href="index.php">Summary</a></li>
+					<li><a href="../">Traq</a></li>
 					<li><a href="settings.php">Settings</a></li>
 				</ul>
 			</div>
