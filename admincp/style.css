@@ -79,6 +79,9 @@ a:hover {
 	padding: 5px;
 }
 
+table th {
+	text-align: left;
+}
 .projectlist th, .projectlist td {
 	text-align: left;
 }
