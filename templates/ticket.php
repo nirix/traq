@@ -166,21 +166,21 @@
 						<? if($change['type'] == "CREATE") { ?>
 						Ticket created by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "COMPONENT") { ?>
-						Component changed to <?=$change['to']['name']?> from <?=$change['from']['name']?> by <?=$info['user']['username']?><br />
+						Component changed from <em><?=$change['from']['name']?></em> to <em><?=$change['to']['name']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "SEVERITY") { ?>
-						Severity changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
+						Severity changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "TYPE") { ?>
-						Type changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
+						Type changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "ASIGNEE") { ?>
-						Reassigned to <?=$change['to']['username']?> by <?=$info['user']['username']?><br />
+						Reassigned to <em><?=$change['to']['username']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "MILESTONE") { ?>
-						Milestone changed to <?=$change['to']['milestone']?> from <?=$change['from']['milestone']?> by <?=$info['user']['username']?><br />
+						Milestone changed from <em><?=$change['from']['milestone']?></em> to <em><?=$change['to']['milestone']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "CLOSE") { ?>
 						Ticket closed by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "STATUS") { ?>
-						Status changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
+						Status changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
 						<? } else if($change['type'] == "PRIORITY") { ?>
-						Priority changed to <?=$change['to']?> from <?=$change['from']?> by <?=$info['user']['username']?><br />
+						Priority changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
 						<? } ?>
 					<? } ?>
 					</td>

@@ -473,7 +473,7 @@ form#newticket #body {
 }
 
 #history {
-	border: 1px outset #996;
+	border: 1px outset #9e9e9e;
 	margin-top: 1em;
 	padding: .5em 1em;
 	position: relative;
