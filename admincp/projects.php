@@ -19,7 +19,7 @@ if($_REQUEST['action'] == "manage") {
 		$projects[] = $info;
 	}
 	unset($fetchprojects,$info);
-	adminheader('New Project');
+	adminheader('Projects');
 	?>
 	<div id="content">
 		<div class="content-group">

@@ -34,7 +34,7 @@ function adminheader($title='') {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
-<title>Traq AdminCP</title>
+<title><?=($title != '' ? $title.' - ' : '')?>Traq AdminCP</title>
 </head>
 <body>
 <div id="wrapper">
