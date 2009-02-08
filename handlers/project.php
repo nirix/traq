@@ -192,6 +192,16 @@ if(!isset($uri->seg[1])) {
 			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."')");
 		}
 		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
+	} elseif($_POST['action'] == "comment") {
+		if($user->loggedin) {
+			$db->query("INSERT INTO ".DBPREFIX."ticketcomments VALUES(0,".$user->info->uid.",'".$db->escapestring($_POST['comment'])."',".$ticket['id'].",".time().")");
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
+		}
+	} elseif($_POST['action'] == "deletecomment") {
+		if($user->loggedin) {
+			$db->query("DELETE FROM ".DBPREFIX."ticketcomments WHERE id='".$db->escapestring($_POST['commentid'])."' LIMIT 1");
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
+		}
 	} else {
 		// View Ticket
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
@@ -205,8 +215,8 @@ if(!isset($uri->seg[1])) {
 		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
 		// Ticket History
 		$history = array();
-		$gethistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");
-		while($info = $db->fetcharray($gethistory)) {
+		$fetchhistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");
+		while($info = $db->fetcharray($fetchhistory)) {
 			$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['userid']."' LIMIT 1"));
 			$changes = explode('|',$info['changes']);
 			$info['changes'] = array();
@@ -252,6 +262,14 @@ if(!isset($uri->seg[1])) {
 				$info['changes'][] = $change;
 			}
 			$history[] = $info;
+		}
+		unset($fetchhistory,$info);
+		// Ticket Comments
+		$comments = array();
+		$fetchcomments = $db->query("SELECT * FROM ".DBPREFIX."ticketcomments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp DESC");
+		while($info = $db->fetcharray($fetchcomments)) {
+			$info['author'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['authorid']."' LIMIT 1"));
+			$comments[] = $info;
 		}
 		include(template('ticket'));
 	}

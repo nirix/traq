@@ -75,13 +75,13 @@ input, textarea, select {
 input, select {
 	vertical-align: middle;
 }
-input[type=button], input[type=submit], input[type=reset] {
+input[type=button], input[type=submit], input[type=reset], button {
 	background: #eee;
 	color: #222;
 	border: 1px outset #ccc;
 	padding: .1em .5em;
 }
-input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover, button:hover {
 	background: #fff;
 }
 input[type=button][disabled], input[type=submit][disabled],
@@ -472,18 +472,33 @@ form#newticket #body {
 	margin-left: 5px;
 }
 
-#history {
+#history, #comments {
 	border: 1px outset #9e9e9e;
 	margin-top: 1em;
 	padding: .5em 1em;
 	position: relative;
 }
-#history h3 {
+#history h3, #comments h3 {
 	border-bottom: 1px solid #000;
 	color: #000;
 	font-size: 100%;
 	font-weight: normal;
 	margin: 0px;
+}
+
+#comments textarea {
+	width: 500px;
+	height: 100px;
+}
+
+table.comments th {
+	text-align: left;
+	vertical-align: top;
+	padding-right: 2px;
+}
+table.comments td {
+	vertical-align: top;
+	padding-left: 2px;
 }
 
 h1 .status {

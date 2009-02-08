@@ -196,6 +196,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."'");
 	while($ticket = $db->fetcharray($fetchtickets)) {
 		$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
+		$db->query("DELETE FROM ".DBPREFIX."ticketcomments WHERE ticketid='".$ticket['id']."' LIMIT 1");
 	}
 	$db->query("DELETE FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' LIMIT 1");
 	$db->query("DELETE FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' LIMIT 1");

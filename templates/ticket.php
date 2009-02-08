@@ -156,7 +156,7 @@
 								<? } ?>
 							</td>
 							<th class="col2"></th>
-							<td><button type="submit">Update</button> <button type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }">Delete</button></td>
+							<td><input type="submit" value="Update" /><input type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }" value="Delete" /></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -165,7 +165,7 @@
 		<? } ?>
 		<div id="history">
 			<h3>History</h3>
-			<table class="properties">
+			<table>
 			<? foreach($history as $info) { ?>
 				<tr>
 					<th valign="top"><?=date("g:ia d/m/Y OT",$info['timestamp'])?>:</th>
@@ -199,6 +199,34 @@
 				</tr>
 			<? } ?>
 			</table>
+		</div>
+		
+		<div id="comments">
+			<h3>Comments</h3>
+			<table class="comments">
+			<? foreach($comments as $comment) { ?>
+				<tr>
+					<? if($user->group->isadmin) { ?>
+					<td>
+						<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><input type="hidden" name="action" value="deletecomment" /><input type="hidden" name="commentid" value="<?=$comment['id']?>" /><input type="submit" value="Delete" /></form>
+					</td>
+					<? } ?>
+					<td valign="top">
+						<?=$comment['author']['username']?><br />
+						<?=timesince($comment['timestamp'])?> ago
+					</td>
+					<td valign="top">
+						<?=nl2br(stripslashes($comment['body']))?>
+					</td>
+				</tr>
+			<? } ?>
+			</table>
+			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
+				<input type="hidden" name="action" value="comment" />
+				<h3>Post Comment</h3>
+				<textarea name="comment"></textarea><br />
+				<input type="submit" value="Post Comment" />
+			</form>
 		</div>
 	</div>
 <? include(template('footer')); ?>
