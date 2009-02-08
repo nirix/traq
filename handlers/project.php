@@ -198,7 +198,7 @@ if(!isset($uri->seg[1])) {
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
 	} elseif($_POST['action'] == "deletecomment") {
-		if($user->loggedin) {
+		if($user->group->isadmin) {
 			$db->query("DELETE FROM ".DBPREFIX."ticketcomments WHERE id='".$db->escapestring($_POST['commentid'])."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}

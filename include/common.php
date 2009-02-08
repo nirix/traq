@@ -104,7 +104,8 @@ function ticketstatus($statusid) {
 					   0 => 'Closed',
 					   1 => 'New',
 					   2 => 'Accepted',
-					   3 => 'Reopened'
+					   3 => 'Reopened',
+					   4 => 'Started'
 					   );
 	return $statusses[$statusid];
 }

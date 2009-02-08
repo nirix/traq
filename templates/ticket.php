@@ -141,6 +141,7 @@
 								<input type="radio" name="ticketaction" value="markas" /> Mark as <select name="markas" id="markas">
 									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
 									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
+									<option value="4"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Started</option>
 								</select><br />
 								<input type="radio" name="ticketaction" value="close" /> Close as <select name="closeas" id="closeas">
 									<option value="0"<?=($ticket['status'] == 0 ? ' selected="selected"' : '')?>>Closed</option>
@@ -152,6 +153,7 @@
 								<input type="radio" name="ticketaction" value="reopen" /> Reopen as <select name="reopenas" id="reopenas">
 									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
 									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
+									<option value="4"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Started</option>
 								</select>
 								<? } ?>
 							</td>
@@ -221,6 +223,10 @@
 				</tr>
 			<? } ?>
 			</table>
+			<? if(!count($comments)) { ?>
+			No Comments<br />
+			<? } ?>
+			<br />
 			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
 				<input type="hidden" name="action" value="comment" />
 				<h3>Post Comment</h3>
