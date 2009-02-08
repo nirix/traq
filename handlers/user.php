@@ -54,5 +54,28 @@ if($uri->seg[1] == "login") {
 } elseif($uri->seg[1] == "logout") {
 	$user->logout();
 	header("Location: ".$uri->anchor());
+} else if($uri->seg[1] == "settings") {
+	if($_POST['action'] == "update") {
+		if(sha1($_POST['currentpass']) != $user->info->password) {
+			$errors['currentpass'] = "Invalid current password.";
+		}
+		if($_POST['password'] != $_POST['password2']) {
+			$errors['password2'] = "Passwords do not match";
+		}
+		if(empty($_POST['email'])) {
+			$errors['email'] = "You must enter an Email";
+		}
+		if(!count($errors)) {
+			if(!empty($_POST['password'])) {
+				$password = "password='".sha1($_POST['password'])."',";
+			}
+			$db->query("UPDATE ".DBPREFIX."users SET $password email='".$db->escapestring($_POST['email'])."' WHERE uid='".$user->info->uid."' LIMIT 1");
+			header("Location: ".$uri->anchor('user','settings'));
+		} else {
+			include(template('usercp'));
+		}
+	} else {
+		include(template('usercp'));
+	}
 }
 ?>
