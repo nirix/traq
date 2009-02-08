@@ -35,7 +35,7 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
 	if($uri->seg[2] && $uri->seg[3]) { // Open or Closed Tickets.
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
-		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
+		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
 		if($uri->seg[3] == "open") {
 			$status = "status >= 1";
 			$listtype = "open";
@@ -201,7 +201,7 @@ if(!isset($uri->seg[1])) {
 		$assignee = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
 		
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
-		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
+		//$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
 		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
 		// Ticket History
 		$history = array();

@@ -389,7 +389,7 @@ table.listing tbody tr:hover {
 .tickets tbody td, .reports tbody td {
 	padding: .1em .5em !important;
 }
-.tickets tbody td a, .reports tbody td a {
+.tickets tbody td a {
 	border-bottom: none;
 }
 .tickets tbody td.id a {
