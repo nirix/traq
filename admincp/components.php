@@ -11,7 +11,7 @@ if(!$user->group->isadmin) {
 	exit;
 }
 
-if($_REQUEST['action'] == "manage") {
+if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$fetchcomponents = $db->query("SELECT * FROM ".DBPREFIX."components ORDER BY project ASC");
 	$components = array();
 	while($info = $db->fetcharray($fetchcomponents)) {
@@ -34,7 +34,7 @@ if($_REQUEST['action'] == "manage") {
 				<tr>
 					<td class="component"><a href="components.php?action=modify&component=<?=$component['id']?>"><?=$component['name']?></a></td>
 					<td class="project"><?=$component['projectinfo']['name']?></td>
-					<td class="actions">Delete</td>
+					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete component <?=$component['name']?> for project: <?=$component['projectinfo']['name']?>')) { window.location='components.php?action=delete&component=<?=$component['id']?>' }">Delete</a></td>
 				</tr>
 				<? } ?>
 			</table>
@@ -164,5 +164,8 @@ if($_REQUEST['action'] == "manage") {
 		<?
 		adminfooter();
 	}
+} elseif($_REQUEST['action'] == "delete") {
+	$db->query("DELETE FROM ".DBPREFIX."components WHERE id='".$db->escapestring($_REQUEST['component'])."' LIMIT 1");
+	header("Location: components.php");
 }
 ?>

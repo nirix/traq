@@ -27,6 +27,7 @@
 					<input type="password" name="password" />
 				</fieldset>
 				<fieldset>
+					<label for="remember">Remember</label> <input type="checkbox" name="remember" value="1" id="remember" />
 					<input type="submit" value="Login" /> <input type="button" onclick="javascript:history.back()" value="Cancel" />
 				</fieldset>
 			</div>

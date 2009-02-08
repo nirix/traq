@@ -11,7 +11,7 @@ if($uri->seg[1] == "login") {
 	if(!isset($_POST['action'])) {
 		include(template('login'));
 	} else if($_POST['action'] == "login") {
-		$login = $origin->user->login($_POST['username'],$_POST['password']);
+		$login = $origin->user->login($_POST['username'],$_POST['password'],$_POST['remember']);
 		if($login) {
 			header("Location: ".$uri->anchor());
 		} else {

@@ -55,13 +55,13 @@ function adminheader($title='') {
 				<div class="sidebar-title">Projects</div>
 				<ul class="sidebar-options">
 					<li><a href="projects.php?action=new">New Project</a></li>
-					<li><a href="projects.php?action=manage">Manage Projects</a></li>
+					<li><a href="projects.php">Manage Projects</a></li>
 					<li><a href="milestones.php?action=new">New Milestone</a></li>
-					<li><a href="milestones.php?action=manage">Manage Milestones</a></li>
+					<li><a href="milestones.php">Manage Milestones</a></li>
 					<li><a href="versions.php?action=new">New Version</a></li>
-					<li><a href="versions.php?action=manage">Manage Versions</a></li>
+					<li><a href="versions.php">Manage Versions</a></li>
 					<li><a href="components.php?action=new">New Component</a></li>
-					<li><a href="components.php?action=manage">Manage Components</a></li>
+					<li><a href="components.php">Manage Components</a></li>
 				</ul>
 			</div>
 		</div>

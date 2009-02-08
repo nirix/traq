@@ -11,7 +11,7 @@ if(!$user->group->isadmin) {
 	exit;
 }
 
-if($_REQUEST['action'] == "manage") {
+if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones ORDER BY project ASC");
 	$milestones = array();
 	while($info = $db->fetcharray($fetchmilestones)) {
@@ -34,7 +34,7 @@ if($_REQUEST['action'] == "manage") {
 				<tr>
 					<td class="component"><a href="milestones.php?action=modify&milestone=<?=$milestone['id']?>"><?=$milestone['milestone']?> <?=(!empty($milestone['codename']) ? '('.$milestone['codename'].')' : '')?></a></td>
 					<td class="project"><?=$milestone['projectinfo']['name']?></td>
-					<td class="actions">Delete</td>
+					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete milestone <?=$milestone['milestone']?> for project: <?=$milestone['projectinfo']['name']?>')) { window.location='milestones.php?action=delete&milestone=<?=$milestone['id']?>' }">Delete</a></td>
 				</tr>
 				<? } ?>
 			</table>
@@ -197,5 +197,8 @@ if($_REQUEST['action'] == "manage") {
 		<?
 		adminfooter();
 	}
+} elseif($_REQUEST['action'] == "delete") {
+	$db->query("DELETE FROM ".DBPREFIX."milestones WHERE id='".$db->escapestring($_REQUEST['milestone'])."' LIMIT 1");
+	header("Location: milestones.php");
 }
 ?>

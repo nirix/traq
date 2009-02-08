@@ -11,7 +11,7 @@ if(!$user->group->isadmin) {
 	exit;
 }
 
-if($_REQUEST['action'] == "manage") {
+if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions ORDER BY projectid ASC");
 	$versions = array();
 	while($info = $db->fetcharray($fetchversions)) {
@@ -34,7 +34,7 @@ if($_REQUEST['action'] == "manage") {
 				<tr>
 					<td class="component"><a href="versions.php?action=modify&version=<?=$version['id']?>"><?=$version['version']?></a></td>
 					<td class="project"><?=$version['projectinfo']['name']?></td>
-					<td class="actions">Delete</td>
+					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete version <?=$version['version']?> for project: <?=$version['projectinfo']['name']?>')) { window.location='versions.php?action=delete&version=<?=$version['id']?>' }">Delete</a></td>
 				</tr>
 				<? } ?>
 			</table>
@@ -155,5 +155,8 @@ if($_REQUEST['action'] == "manage") {
 		<?
 		adminfooter();
 	}
+} elseif($_REQUEST['action'] == "delete") {
+	$db->query("DELETE FROM ".DBPREFIX."versions WHERE id='".$db->escapestring($_REQUEST['version'])."' LIMIT 1");
+	header("Location: versions.php");
 }
 ?>

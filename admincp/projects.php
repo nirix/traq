@@ -11,7 +11,7 @@ if(!$user->group->isadmin) {
 	exit;
 }
 
-if($_REQUEST['action'] == "manage") {
+if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
 	$projects = array();
 	while($info = $db->fetcharray($fetchprojects)) {
@@ -36,7 +36,7 @@ if($_REQUEST['action'] == "manage") {
 					<td class="project"><a href="projects.php?action=modify&project=<?=$project['slug']?>"><?=$project['name']?></a></td>
 					<td class="slug"><?=$project['slug']?></td>
 					<td class="managers"><?=count(explode(',',$project['managers']))?></td>
-					<td class="actions">Delete</td>
+					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete project: <?=$project['name']?>')) { window.location='projects.php?action=delete&project=<?=$project['slug']?>' }">Delete</a></td>
 				</tr>
 				<? } ?>
 			</table>
@@ -190,5 +190,18 @@ if($_REQUEST['action'] == "manage") {
 		<?
 		adminfooter();
 	}
+} elseif($_REQUEST['action'] == "delete") {
+	$project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_REQUEST['project'])."' LIMIT 1"));
+	$db->query("DELETE FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_REQUEST['project'])."' LIMIT 1");
+	$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."'");
+	while($ticket = $db->fetcharray($fetchtickets)) {
+		$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
+	}
+	$db->query("DELETE FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPREFIX."versions WHERE projectid='".$project['id']."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPREFIX."components WHERE project='".$project['id']."' LIMIT 1");
+	header("Location: projects.php");
 }
 ?>

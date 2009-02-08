@@ -49,7 +49,7 @@
 			<div class="description">
 				<h3 id="description">Description</h3>
 				<p>
-					<?=nl2br($ticket['body'])?> 
+					<?=nl2br(stripslashes($ticket['body']))?> 
 				</p>
 			</div>
 		</div>
