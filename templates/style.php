@@ -129,6 +129,9 @@ fieldset.error {
 	border: 1px solid #C00;
 	color: #C00;
 }
+fieldset.error legend {
+	color: #C00;
+}
 fieldset.error input[type=text], fieldset.error input[type=password] {
 	border: 1px solid #C00;
 }

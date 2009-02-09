@@ -20,11 +20,11 @@
 			</div>
 			<? } ?>
 			<input type="hidden" name="action" value="create" />
-			<fieldset id="summary">
+			<fieldset id="summary"<?=(isset($errors['summary']) ? ' class="error"' : '')?>>
 				<legend>Summary</legend>
 				<input type="text" name="summary" id="summary" size="80" value="" />
 			</fieldset>
-			<fieldset id="description">
+			<fieldset id="description"<?=(isset($errors['body']) ? ' class="error"' : '')?>>
 				<legend>Description</legend>
 				<textarea name="body" id="body" rows="10" cols="80"></textarea>
 			</fieldset>

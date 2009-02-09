@@ -18,7 +18,7 @@ if(!isset($uri->seg[1])) {
 	// Roadmap Page
 	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Roadmap";
 	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." ORDER BY milestone ASC");
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." AND completed='0' ORDER BY milestone ASC");
 	while($info = $db->fetcharray($fetchmilestones)) {
 		// Get Ticket Info
 		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'"));

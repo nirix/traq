@@ -136,7 +136,12 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		} else {
 			$due = 0;
 		}
-		$db->query("UPDATE ".DBPREFIX."milestones SET milestone='".$db->escapestring($_POST['milestone'])."', codename='".$db->escapestring($_POST['codename'])."', ".DBPREFIX."milestones.desc='".$db->escapestring($_POST['description'])."', project='".$db->escapestring($_POST['project'])."', due='".$due."' WHERE id='".$db->escapestring($_POST['milestoneid'])."' LIMIT 1");
+		if(!empty($_POST['completedday']) && !empty($_POST['completedmonth']) && !empty($_POST['completedyear'])) {
+			$completed = mktime(0,0,0,$_POST['completedmonth'],$_POST['completedday'],$_POST['completedyear']);
+		} else {
+			$completed = 0;
+		}
+		$db->query("UPDATE ".DBPREFIX."milestones SET milestone='".$db->escapestring($_POST['milestone'])."', codename='".$db->escapestring($_POST['codename'])."', ".DBPREFIX."milestones.desc='".$db->escapestring($_POST['description'])."', project='".$db->escapestring($_POST['project'])."', due='".$due."', completed='".$completed."' WHERE id='".$db->escapestring($_POST['milestoneid'])."' LIMIT 1");
 		header("Location: milestones.php?action=manage");
 	} else {
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$db->escapestring($_REQUEST['milestone'])."' LIMIT 1"));
@@ -174,6 +179,12 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 						<th>Due Date <small>(DD/MM/YYYY)</small><br /><small>Leave blank for no date.</small></th>
 						<td>
 							<input type="text" name="dueday" value="<?=($milestone['due'] > 0 ? date("d",$milestone['due']) : '')?>" maxlength="2" style="width:25px;" />/<input type="text" name="duemonth" value="<?=($milestone['due'] > 0 ? date("m",$milestone['due']) : '')?>" maxlength="2" style="width:25px;" />/<input type="text" name="dueyear" value="<?=($milestone['due'] > 0 ? date("Y",$milestone['due']) : '')?>" maxlength="4" style="width:45px;" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<th>Completed on <small>(DD/MM/YYYY)</small><br /><small>Leave blank for no date.</small></th>
+						<td>
+							<input type="text" name="completedday" value="<?=($milestone['completed'] > 0 ? date("d",$milestone['completed']) : '')?>" maxlength="2" style="width:25px;" />/<input type="text" name="completedmonth" value="<?=($milestone['completed'] > 0 ? date("m",$milestone['completed']) : '')?>" maxlength="2" style="width:25px;" />/<input type="text" name="completedyear" value="<?=($milestone['completed'] > 0 ? date("Y",$milestone['completed']) : '')?>" maxlength="4" style="width:45px;" />
 						</td>
 					</tr>
 					<tr valign="top">

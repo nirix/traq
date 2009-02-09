@@ -45,7 +45,7 @@ function is_project($string) {
 function projectmilestones($projectid) {
 	global $db;
 	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$projectid." ORDER BY id ASC");
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$projectid." AND completed='0' ORDER BY milestone ASC");
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$milestones[] = $info;
 	}
@@ -71,7 +71,7 @@ function projectcomponents($projectid) {
 function projectversions($projectid) {
 	global $db;
 	$versions = array();
-	$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions WHERE projectid=".$projectid." ORDER BY version DESC");
+	$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions WHERE projectid=".$projectid." ORDER BY version ASC");
 	while($info = $db->fetcharray($fetchversions)) {
 		$versions[] = $info;
 	}
