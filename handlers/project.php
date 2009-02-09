@@ -36,6 +36,7 @@ if(!isset($uri->seg[1])) {
 	if($uri->seg[2] && $uri->seg[3]) { // Open or Closed Tickets.
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
+		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'],$uri->seg[3])] = ($uri->seg[3] == "open" ? 'Open' : 'Closed');
 		if($uri->seg[3] == "open") {
 			$status = "status >= 1";
 			$listtype = "open";
@@ -56,7 +57,7 @@ if(!isset($uri->seg[1])) {
 	} elseif($uri->seg[2] && !$uri->seg[3]) { // Milestone Tickets
 		$listtype = "all";
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
-		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
+		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
 		// Get Tickets
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
