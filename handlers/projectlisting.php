@@ -6,6 +6,7 @@
  */
 
 // Get the projects to list
+$projects = array();
 $fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
 while($info = $db->fetcharray($fetchprojects)) {
 	// Get Tickets

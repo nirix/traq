@@ -13,6 +13,7 @@ $config->db = (object) array(
 							 'host' => 'localhost',	// DB Server
 							 'user' => 'root',	// DB Username
 							 'pass' => 'root',	// DB Password
-							 'name' => 'traq'	// DB Name
+							 'name' => 'traq',	// DB Name
+							 'prefix' => 't_'	// DB Table Prefix
 							 );
 ?>

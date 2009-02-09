@@ -15,7 +15,7 @@ require(TRAQPATH."include/config.php");
 require(TRAQPATH."include/origin/origin.php");
 $origin = new Origin;
 $origin->load("database",'db');
-$origin->db->prefix = "t_";
+$origin->db->prefix = $config->db->prefix;
 define("DBPREFIX",$origin->db->prefix);
 $origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
 $origin->db->selectdb($config->db->name);
