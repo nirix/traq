@@ -194,7 +194,9 @@ if(!isset($uri->seg[1])) {
 		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
 	} elseif($_POST['action'] == "comment") {
 		if($user->loggedin) {
-			$db->query("INSERT INTO ".DBPREFIX."ticketcomments VALUES(0,".$user->info->uid.",'".$db->escapestring($_POST['comment'])."',".$ticket['id'].",".time().")");
+			if(!empty($_POST['comment'])) {
+				$db->query("INSERT INTO ".DBPREFIX."ticketcomments VALUES(0,".$user->info->uid.",'".$db->escapestring($_POST['comment'])."',".$ticket['id'].",".time().")");
+			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
 	} elseif($_POST['action'] == "deletecomment") {
