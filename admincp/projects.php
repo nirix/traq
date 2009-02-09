@@ -15,7 +15,6 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
 	$projects = array();
 	while($info = $db->fetcharray($fetchprojects)) {
-		
 		$projects[] = $info;
 	}
 	unset($fetchprojects,$info);
@@ -63,7 +62,8 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 															'".$db->escapestring($_POST['name'])."',
 															'".$db->escapestring($_POST['slug'])."',
 															'".$db->escapestring($_POST['description'])."',
-															'".$db->escapestring(implode(',',$_POST['managers']))."'
+															'".$db->escapestring(implode(',',$_POST['managers']))."',
+															0
 															)");
 		header("Location: projects.php?action=manage");
 	} else {
