@@ -285,5 +285,25 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Milestones";
 	$breadcrumbs[$uri->anchor($project['slug'],'milestone',$milestone['milestone'])] = $milestone['milestone'];
 	include(template('milestone'));
+} elseif($uri->seg[1] == "timeline") {
+	$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC");
+	while($dateinfo = $db->fetcharray($fetchdays)) {
+		$row = array();
+		$row['date'] = $dateinfo['date'];
+		$row['timestamp'] = $dateinfo['timestamp'];
+		$row['rows'] = array();
+		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' AND date='".$dateinfo['date']."' ORDER BY timestamp DESC");
+		while($rowinfo = $db->fetcharray($fetchrows)) {
+			$parts = explode(':',$rowinfo['data']);
+			$rowinfo['type'] = $parts[0];
+			if($parts[0] == "TICKETCREATE") {
+				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
+			}
+			$row['rows'][] = $rowinfo;
+		}
+		$dates[] = $row;
+	}
+	$breadcrumbs[$uri->anchor($projet['slug'],'timeline')] = "Timeline";
+	include(template('timeline'));
 }
 ?>

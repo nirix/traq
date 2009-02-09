@@ -233,8 +233,7 @@ li.milestone, li.project {
 	display: block;
 	border-bottom: none;
 }
-.milestone .info h2 a:hover,
-.project .info h2 a:hover {
+.milestone .info h2 a:hover, .project .info h2 a:hover {
 	color: #000;
 	background-color: #eee;
 }
@@ -605,5 +604,18 @@ fieldset.radio legend {
 }
 fieldset.radio label {
 	padding-right: 1em;
+}
+
+ul.timeline {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+ul.timeline li h2 {
+	background: #f7f7f7;
+	border-bottom: 1px solid #d7d7d7;
+}
+ul.timeline ul.rows {
+	list-style-type: none;
 }
 </style>

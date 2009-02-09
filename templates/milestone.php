@@ -16,6 +16,8 @@
 				<p class="date">
 					<? if($milestone['due'] == 0) { ?>
 					No Due Date Set
+					<? } elseif($milestone['completed'] > 0) { ?>
+					Completed on <?=date("d/m/Y")?>
 					<? } elseif($milestone['due'] <= time()) { ?>
 					Due <?=timesince($milestone['due'])?> ago
 					<? } elseif($milestone['due'] > time()) { ?>
