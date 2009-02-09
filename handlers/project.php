@@ -298,6 +298,8 @@ if(!isset($uri->seg[1])) {
 			$rowinfo['type'] = $parts[0];
 			if($parts[0] == "TICKETCREATE") {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
+			} else if($parts[0] == "TICKETCLOSE") {
+				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
 			}
 			$row['rows'][] = $rowinfo;
 		}

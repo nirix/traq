@@ -18,6 +18,8 @@
 				<? foreach($date['rows'] as $row) { ?>
 					<? if($row['type'] == "TICKETCREATE") { ?>
 					<li><?=date("g:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?></a> (<?=tickettype($row['ticket']['type'])?>) created</li>
+					<? } elseif($row['type'] == "TICKETCLOSE") { ?>
+					<li><?=date("g:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?></a> (<?=tickettype($row['ticket']['type'])?>) closed</li>
 					<? } ?>
 				<? } ?>
 				<ul>
