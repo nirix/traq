@@ -16,7 +16,8 @@
 	<div id="content">
 		<h1>Register</h1>
 		Thank you for registering, you may now login to your account.
-		<form action="<?=$uri->anchor('user','login')?>">
+		<form action="<?=$uri->anchor('user','login')?>" method="post">
+			<input type="hidden" name="action" value="login" />
 			<div class="form login">
 				<fieldset>
 					<label>Username</label>
@@ -27,7 +28,8 @@
 					<input type="password" name="password" />
 				</fieldset>
 				<fieldset>
-					<input type="submit" value="Login" />
+					<label for="remember">Remember</label> <input type="checkbox" name="remember" value="1" id="remember" />
+					<input type="submit" value="Login" /> <input type="button" onclick="javascript:history.back()" value="Cancel" />
 				</fieldset>
 			</div>
 		</form>

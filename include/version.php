@@ -6,5 +6,5 @@
  */
 
 // Traq Version
-define("TRAQVER","0.1");
+define("TRAQVER","0.1.1");
 ?>
