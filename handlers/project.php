@@ -120,7 +120,7 @@ if(!isset($uri->seg[1])) {
 			$internalid = $db->insertid();
 			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1");
 			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$internalid.",'CREATE')");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$project['id'].")");
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
 		} else {
 			include(template('newticket'));
@@ -172,11 +172,11 @@ if(!isset($uri->seg[1])) {
 		} elseif($_POST['ticketaction'] == "close") {
 			$changes[] = "CLOSE:".$_POST['closeas'].",".$ticket['status'];
 			$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['closeas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$project['id'].")");
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
 		} elseif($_POST['ticketaction'] == "reopen") {
 			$changes[] = "REOPEN:".$_POST['reopenas'].",".$ticket['status'];
 			$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['reopenas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$project['id'].")");
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
 		}
 		if(count($changes) > 0) {
 			$changes = implode('|',$changes);
@@ -286,6 +286,7 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($project['slug'],'milestone',$milestone['milestone'])] = $milestone['milestone'];
 	include(template('milestone'));
 } elseif($uri->seg[1] == "timeline") {
+	$dates = array();
 	$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC");
 	while($dateinfo = $db->fetcharray($fetchdays)) {
 		$row = array();
@@ -296,9 +297,12 @@ if(!isset($uri->seg[1])) {
 		while($rowinfo = $db->fetcharray($fetchrows)) {
 			$parts = explode(':',$rowinfo['data']);
 			$rowinfo['type'] = $parts[0];
+			$rowinfo['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$rowinfo['userid']."' LIMIT 1"));
 			if($parts[0] == "TICKETCREATE") {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
 			} else if($parts[0] == "TICKETCLOSE") {
+				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
+			} else if($parts[0] == "TICKETREOPEN") {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
 			}
 			$row['rows'][] = $rowinfo;
