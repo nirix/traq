@@ -12,7 +12,11 @@
 		<? include(template("breadcrumbs")); ?>
 		<h1><?=$project['name']?> Changelog</h1>
 		<div id="changelog">
-		<? foreach($milestones as $milestone) { ?>
+		<? foreach($milestones as $milestone) {
+			if(!count($milestone['tickets'])) {
+				continue;	
+			}
+		?>
 			<h2>Milestone <?=$milestone['milestone']?></h2>
 			<? foreach($milestone['tickets'] as $ticket) { ?>
 			<div class="ticket">- Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>">#<?=$ticket['tid']?> (<?=$ticket['summary']?>)</a> closed (<?=ticketstatus($ticket['status'])?>)</div>

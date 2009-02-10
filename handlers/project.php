@@ -339,6 +339,7 @@ if(!isset($uri->seg[1])) {
 		}
 		$milestones[] = $info;
 	}
+	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = "Changelog";
 	include(template('changelog'));
 }
 ?>
