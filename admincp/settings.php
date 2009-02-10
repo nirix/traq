@@ -15,6 +15,7 @@ if($_POST['do'] == "update") {
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['title'])."' WHERE setting='title' LIMIT 1");
 	header("Location: settings.php?updated");
 } else {
+	$hiddenfiles = array('.','..','.svn');
 	adminheader('Settings');
 	?>
 	<div id="content">
@@ -26,6 +27,22 @@ if($_POST['do'] == "update") {
 				<tr valign="top">
 					<th>Site title</th>
 					<td><input type="text" name="title" value="<?=$settings->title?>" /></td>
+				</tr>
+				<tr valign="top">
+					<th>Theme</th>
+					<td>
+						<select name="theme">
+							<?
+							foreach(scandir('../templates') as $theme) {
+								if(is_dir('../templates/'.$theme) && !in_array($theme,$hiddenfiles)) {
+							?>
+							<option value="<?=$theme?>"<?=($settings->theme == $theme ? ' selected="selected"' : '')?>><?=$theme?></option>
+							<?
+								}
+							}
+							?>
+						</select>
+					</td>
 				</tr>
 			</table>
 		</div>
