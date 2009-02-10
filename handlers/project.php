@@ -333,7 +333,7 @@ if(!isset($uri->seg[1])) {
 	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' ORDER BY milestone DESC");
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$info['tickets'] = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY tid ASC");
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY updated ASC");
 		while($ticketinfo = $db->fetcharray($fetchtickets)) {
 			$info['tickets'][] = $ticketinfo;
 		}

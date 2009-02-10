@@ -82,7 +82,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</div>
 				</div>
 				<? } ?>
-				<table width="400">
+				<table width="700">
 					<tr valign="top">
 						<th>Milestone/Name</th>
 						<td><input type="text" name="milestone" /></td>
@@ -93,7 +93,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
-						<td><textarea name="description"></textarea></td>
+						<td><textarea name="description" rows="10" cols="50"></textarea></td>
 					</tr>
 					<tr valign="top">
 						<th>Due Date <small>(DD/MM/YYYY)</small><br /><small>Leave blank for no date.</small></th>
@@ -162,7 +162,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</div>
 				</div>
 				<? } ?>
-				<table width="400">
+				<table width="700">
 					<tr valign="top">
 						<th>Milestone/Name</th>
 						<td><input type="text" name="milestone" value="<?=$milestone['milestone']?>" /></td>
@@ -173,7 +173,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
-						<td><textarea name="description"><?=$milestone['desc']?></textarea></td>
+						<td><textarea name="description" rows="10" cols="50"><?=$milestone['desc']?></textarea></td>
 					</tr>
 					<tr valign="top">
 						<th>Due Date <small>(DD/MM/YYYY)</small><br /><small>Leave blank for no date.</small></th>
