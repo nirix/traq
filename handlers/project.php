@@ -160,13 +160,6 @@ if(!isset($uri->seg[1])) {
 		if($_POST['component'] != $ticket['componentid']) {
 			$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
 		}
-		/*if($_POST['close']) {
-			$changes[] = "CLOSE";
-			$db->query("UPDATE ".DBPREFIX."tickets SET status='0' WHERE id='".$ticket['id']."' LIMIT 1");
-		}
-		if($_POST['status'] != $ticket['status']) {
-			$changes[] = "STATUS:".$_POST['status'].",".$ticket['status'];
-		}*/
 		if($_POST['ticketaction'] == "markas") {
 			$changes[] = "STATUS:".$_POST['markas'].",".$ticket['status'];
 			$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['markas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
@@ -224,7 +217,6 @@ if(!isset($uri->seg[1])) {
 		$assignee = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
 		
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
-		//$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = $milestone['milestone'];
 		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
 		// Ticket History
 		$history = array();
@@ -296,6 +288,7 @@ if(!isset($uri->seg[1])) {
 			if($user->loggedin) {
 				$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->uid.",".$ticket['id'].",".$project['id'].")");
 			}
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
 		include(template('ticket'));
 	}
