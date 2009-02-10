@@ -206,7 +206,7 @@ if(!isset($uri->seg[1])) {
 	} elseif($uri->seg[3] == "attachment") {
 		$attachment = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($uri->seg[4])."' AND ticketid='".$ticket['id']."' LIMIT 1"));
 		header("Content-type: ".$attachment['type']);
-		header("Content-Disposition: filename=\"".$attachment['name']."\"");
+		header("Content-Disposition: attachment; filename=\"".$attachment['name']."\"");
 		print(base64_decode($attachment['contents']));
 	} else {
 		// View Ticket
@@ -293,6 +293,7 @@ if(!isset($uri->seg[1])) {
 		include(template('ticket'));
 	}
 } elseif($uri->seg[1] == "milestone") {
+	// Milestone Page
 	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1")); // Get ticket Milestone info
 	$milestone['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$milestone['id']."'"));
 	$milestone['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$milestone['id']."'"));
@@ -329,17 +330,19 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($projet['slug'],'timeline')] = "Timeline";
 	include(template('timeline'));
 } elseif($uri->seg[1] == "changelog") {
+	// Change Log Page
 	$milestones = array();
 	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' ORDER BY milestone DESC");
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$info['tickets'] = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY updated ASC");
 		while($ticketinfo = $db->fetcharray($fetchtickets)) {
+			$ticketinfo['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticketinfo['componentid']."' LIMIT 1"));
 			$info['tickets'][] = $ticketinfo;
 		}
 		$milestones[] = $info;
 	}
-	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = "Changelog";
+	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = "Change Log";
 	include(template('changelog'));
 }
 ?>
