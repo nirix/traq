@@ -25,7 +25,7 @@
 					<li><?=date("g:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>)</a> (<?=tickettype($row['ticket']['type'])?>) reopened by <?=$row['user']['username']?></li>
 					<? } ?>
 				<? } ?>
-				<ul>
+				</ul>
 			</li>
 		<? } ?>
 		</ul>
