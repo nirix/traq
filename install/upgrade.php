@@ -5,6 +5,7 @@
  * $Id$
  */
 
+require("../include/version.php");
 require("../include/config.php");
 require("../include/origin/origin.php");
 $origin = new Origin;
@@ -23,7 +24,6 @@ while($info = $origin->db->fetcharray($fetchsettings)) {
 }
 unset($fetchsettings,$info);
 
-$dbversion = 3;
 if(!isset($settings->dbversion)) {
 	$upgradeavailable = 1;
 } else if($settings->dbversion < $dbversion) {
