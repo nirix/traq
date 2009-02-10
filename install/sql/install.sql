@@ -1,3 +1,15 @@
+CREATE TABLE `traq_attachments` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `contents` longtext NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `timestamp` bigint(20) NOT NULL,
+  `ownerid` bigint(20) NOT NULL,
+  `ticketid` bigint(20) NOT NULL,
+  `projectid` bigint(20) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
 CREATE TABLE `traq_components` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -73,14 +85,14 @@ CREATE TABLE `traq_tickets` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_timeline` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL,
   `type` bigint(20) NOT NULL,
   `data` longtext NOT NULL,
   `timestamp` bigint(20) NOT NULL,
   `date` date NOT NULL,
-  `projectid` bigint(20) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+  `userid` bigint(20) NOT NULL,
+  `projectid` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_usergroups` (
   `id` bigint(20) NOT NULL auto_increment,
@@ -105,6 +117,10 @@ CREATE TABLE `traq_versions` (
   `projectid` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+INSERT INTO `traq_settings` (`setting`, `value`) VALUES 
+('dbversion', '3'),
+('theme', 'default');
 
 INSERT INTO `traq_usergroups` (`id`, `name`, `isadmin`) VALUES 
 (1, 'Admins', 1),
