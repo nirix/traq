@@ -13,7 +13,8 @@
 		<h1><?=$project['name']?> Timeline</h1>
 		<ul class="timeline">
 		<? foreach($dates as $date) { ?>
-			<li class="date"><h2><?=date("d/m/Y",$date['timestamp'])?></h2>
+			<li class="date">
+				<h2><?=date("d/m/Y",$date['timestamp'])?></h2>
 				<ul class="rows">
 				<? foreach($date['rows'] as $row) { ?>
 					<? if($row['type'] == "TICKETCREATE") { ?>
@@ -26,8 +27,8 @@
 				<? } ?>
 				<ul>
 			</li>
-		</ul>
 		<? } ?>
+		</ul>
 	</div>
 <? include(template('footer')); ?>
 </body>
