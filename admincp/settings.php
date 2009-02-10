@@ -13,6 +13,7 @@ if(!$user->group->isadmin) {
 
 if($_POST['do'] == "update") {
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['title'])."' WHERE setting='title' LIMIT 1");
+	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['theme'])."' WHERE setting='theme' LIMIT 1");
 	header("Location: settings.php?updated");
 } else {
 	$hiddenfiles = array('.','..','.svn');

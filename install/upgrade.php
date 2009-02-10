@@ -23,7 +23,7 @@ while($info = $origin->db->fetcharray($fetchsettings)) {
 }
 unset($fetchsettings,$info);
 
-$dbversion = 2;
+$dbversion = 3;
 if(!isset($settings->dbversion)) {
 	$upgradeavailable = 1;
 } else if($settings->dbversion < $dbversion) {
@@ -73,10 +73,8 @@ if(!isset($_POST['step'])) {
 				$db->query($query);
 			}
 		}
-		?>
-		Database upgrade complete.
-		<?
-	} elseif($settings->dbversion < 2) {
+	}
+	if($settings->dbversion < 2) {
 		$sql = "
 			INSERT INTO `traq_settings` ( `setting` , `value` )
 			VALUES (
@@ -89,10 +87,31 @@ if(!isset($_POST['step'])) {
 				$db->query($query);
 			}
 		}
-		?>
-		Database upgrade complete.
-		<?
 	}
+	if($settings->dbversion < 3) {
+		$sql = "
+		CREATE TABLE `t_attachments` (
+		  `id` bigint(20) NOT NULL auto_increment,
+		  `name` varchar(255) NOT NULL,
+		  `contents` longtext NOT NULL,
+		  `type` varchar(255) NOT NULL,
+		  `timestamp` bigint(20) NOT NULL,
+		  `ownerid` bigint(20) NOT NULL,
+		  `ticketid` bigint(20) NOT NULL,
+		  `projectid` bigint(20) NOT NULL,
+		  PRIMARY KEY  (`id`)
+		) ENGINE=InnoDB  DEFAULT CHARSET=latin1;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query) && $query != ' ') {
+				$db->query($query);
+			}
+		}
+	}
+	?>
+	Database upgrade complete.
+	<?
 	foot();
 	$db->query("UPDATE ".$db->prefix."settings SET value=".$dbversion." WHERE setting='dbversion' LIMIT 1");
 }

@@ -51,6 +51,25 @@
 				<p>
 					<?=nl2br(stripslashes($ticket['body']))?> 
 				</p>
+				<h3 id="attachments">Attachments</h3>
+				<p>
+					<ul>
+					<? foreach($attachments as $attachment) { ?>
+						<li>
+							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong><br />
+							Uploaded by <?=$attachment['user']['username']?><br />
+							<?=date("g:iA d/m/Y",$attachment['timestamp'])?>
+							<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="Delete" /></form><? } ?>
+						</li>
+					<? } ?>
+					</ul>
+				</p>
+				<p>
+					<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="action" value="attachfile" />
+						<label>Attach File: <input type="file" name="file" /> <input type="submit" value="Attach" /></label>
+					</form>
+				</p>
 			</div>
 		</div>
 		<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>

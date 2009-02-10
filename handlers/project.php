@@ -205,6 +205,16 @@ if(!isset($uri->seg[1])) {
 			$db->query("DELETE FROM ".DBPREFIX."ticketcomments WHERE id='".$db->escapestring($_POST['commentid'])."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
+	} elseif($_POST['action'] == "deleteattachment") {
+		if($user->group->isadmin) {
+			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($_POST['attachmentid'])."' LIMIT 1");
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
+		}
+	} elseif($uri->seg[3] == "attachment") {
+		$attachment = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($uri->seg[4])."' AND ticketid='".$ticket['id']."' LIMIT 1"));
+		header("Content-type: ".$attachment['type']);
+		header("Content-Disposition: filename=\"".$attachment['name']."\"");
+		print(base64_decode($attachment['contents']));
 	} else {
 		// View Ticket
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
@@ -273,6 +283,19 @@ if(!isset($uri->seg[1])) {
 		while($info = $db->fetcharray($fetchcomments)) {
 			$info['author'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['authorid']."' LIMIT 1"));
 			$comments[] = $info;
+		}
+		// Ticket Attachments
+		$attachments = array();
+		$fetchattachments = $db->query("SELECT * FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp ASC");
+		while($info = $db->fetcharray($fetchattachments)) {
+			$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['ownerid']."' LIMIT 1"));
+			$attachments[] = $info;
+		}
+		// Attach File
+		if($_POST['action'] == "attachfile") {
+			if($user->loggedin) {
+				$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->uid.",".$ticket['id'].",".$project['id'].")");
+			}
 		}
 		include(template('ticket'));
 	}
