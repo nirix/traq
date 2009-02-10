@@ -328,5 +328,17 @@ if(!isset($uri->seg[1])) {
 	}
 	$breadcrumbs[$uri->anchor($projet['slug'],'timeline')] = "Timeline";
 	include(template('timeline'));
+} elseif($uri->seg[1] == "changelog") {
+	$milestones = array();
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' ORDER BY milestone DESC");
+	while($info = $db->fetcharray($fetchmilestones)) {
+		$info['tickets'] = array();
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY tid ASC");
+		while($ticketinfo = $db->fetcharray($fetchtickets)) {
+			$info['tickets'][] = $ticketinfo;
+		}
+		$milestones[] = $info;
+	}
+	include(template('changelog'));
 }
 ?>
