@@ -23,7 +23,10 @@ while($info = $origin->db->fetcharray($fetchsettings)) {
 }
 unset($fetchsettings,$info);
 
+$dbversion = 2;
 if(!isset($settings->dbversion)) {
+	$upgradeavailable = 1;
+} else if($settings->dbversion < $dbversion) {
 	$upgradeavailable = 1;
 }
 
@@ -48,11 +51,41 @@ if(!isset($_POST['step'])) {
 } elseif($_POST['step'] = 1) {
 	head('Upgrade');
 	if(!isset($settings->dbversion)) {
-		$upgradesql = file_get_contents('sql/upgrade1.sql');
-		$upgradesql = str_replace('traq_',$config->db->prefix,$upgradesql);
-		$queries = explode(';',$upgradesql);
+		$sql = "
+			INSERT INTO `traq_settings` ( `setting` , `value` )
+			VALUES (
+			'dbversion', '1'
+			);
+			DROP TABLE IF EXISTS `traq_timeline`;
+			CREATE TABLE `traq_timeline` (
+			`id` BIGINT NOT NULL ,
+			`type` BIGINT NOT NULL ,
+			`data` LONGTEXT NOT NULL ,
+			`timestamp` BIGINT NOT NULL ,
+			`date` DATE NOT NULL ,
+			`userid` BIGINT NOT NULL ,
+			`projectid` BIGINT NOT NULL
+			) ENGINE = innodb;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
 		foreach($queries as $query) {
-			if(!empty($query)) {
+			if(!empty($query) && $query != ' ') {
+				$db->query($query);
+			}
+		}
+		?>
+		Database upgrade complete.
+		<?
+	} elseif($settings->dbversion < 2) {
+		$sql = "
+			INSERT INTO `traq_settings` ( `setting` , `value` )
+			VALUES (
+			'theme', 'default'
+			);";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query) && $query != ' ') {
 				$db->query($query);
 			}
 		}
@@ -61,5 +94,6 @@ if(!isset($_POST['step'])) {
 		<?
 	}
 	foot();
+	$db->query("UPDATE ".$db->prefix."settings SET value=".$dbversion." WHERE setting='dbversion' LIMIT 1");
 }
 ?>

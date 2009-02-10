@@ -20,7 +20,6 @@ define("DBPREFIX",$origin->db->prefix);
 $origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
 $origin->db->selectdb($config->db->name);
 $origin->load("template");
-$origin->template->templatedir = TRAQPATH.'/templates/';
 $origin->load("user");
 $origin->load("uri");
 $db =& $origin->db;
@@ -37,4 +36,5 @@ while($info = $origin->db->fetcharray($fetchsettings)) {
 	$settings->$info['setting'] = $info['value'];
 }
 unset($fetchsettings,$info);
+$origin->template->templatedir = TRAQPATH.'/templates/'.$settings->theme.'/';
 ?>
