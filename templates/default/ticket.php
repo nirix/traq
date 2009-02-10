@@ -64,12 +64,14 @@
 					<? } ?>
 					</ul>
 				</p>
+				<? if($user->loggedin) { ?>
 				<p>
 					<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="action" value="attachfile" />
 						<label>Attach File: <input type="file" name="file" /> <input type="submit" value="Attach" /></label>
 					</form>
 				</p>
+				<? } ?>
 			</div>
 		</div>
 		<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>

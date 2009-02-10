@@ -199,7 +199,7 @@ if(!isset($uri->seg[1])) {
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
 	} elseif($_POST['action'] == "deleteattachment") {
-		if($user->group->isadmin) {
+		if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) {
 			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($_POST['attachmentid'])."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
