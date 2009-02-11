@@ -80,12 +80,14 @@
 			<? foreach($history as $info) { ?>
 				<div class="change">
 					<h3><a name="comment:<?=++$historyid?>"></a><?=timesince($info['timestamp'])?> ago by <?=$info['user']['username']?></h3>
+					<? if($user->loggedin) { ?>
 					<span class="inlinebuttons">
 						<input type="button" value="Reply" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />
 						<? if($user->group->isadmin) { ?>
 						<input type="button" value="Delete" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'" />
 						<? } ?>
 					</span>
+					<? } ?>
 					<? if($info['changes'][0]['type'] != '') { ?>
 					<ul class="changes">
 					<? foreach($info['changes'] as $change) { ?>
