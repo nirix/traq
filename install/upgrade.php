@@ -113,7 +113,7 @@ if(!isset($_POST['step'])) {
 		$sql = "
 		DROP TABLE IF EXISTS `traq_ticketcomments`;
 		ALTER TABLE `traq_usergroups` ADD `updatetickets` SMALLINT NOT NULL AFTER `isadmin` ;
-		";
+		UPDATE `traq_usergroups` SET `updatetickets` = '1' WHERE `traq_usergroups`.`id` =1 LIMIT 1 ;";
 		$sql = str_replace('traq_',$config->db->prefix,$sql);
 		$queries = explode(';',$sql);
 		foreach($queries as $query) {
