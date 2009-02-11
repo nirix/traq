@@ -16,7 +16,7 @@ if($uri->seg[1] == "login") {
 			header("Location: ".$uri->anchor());
 		} else {
 			$error = 1;
-			include("templates/login.php");
+			include(template('login'));
 		}
 	}
 } elseif($uri->seg[1] == "register") {

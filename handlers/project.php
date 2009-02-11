@@ -164,6 +164,7 @@ if(!isset($uri->seg[1])) {
 		header("Content-Disposition: attachment; filename=\"".$attachment['name']."\"");
 		print(base64_decode($attachment['contents']));
 	} else {
+		// Update Ticket
 		if($_POST['action'] == "update" && $user->loggedin) {
 			$changes = array();
 			if($user->group->updatetickets) {
@@ -211,14 +212,14 @@ if(!isset($uri->seg[1])) {
 															   updated='".time()."'
 															   WHERE id='".$ticket['id']."' LIMIT 1");
 				}
-				if(!empty($_POST['comment']) or count($changes) > 0) {
-					$changes = implode('|',$changes);
-					$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
-				}
+			}
+			if(!empty($_POST['comment']) or count($changes) > 0) {
+				$changes = implode('|',$changes);
+				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
 		}
-		// View Ticket
+		// Display Ticket
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
 		$version = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$ticket['versionid']."' LIMIT 1")); // Get ticket Version info
 		$component = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticket['componentid']."' LIMIT 1")); // Get ticket Component info
