@@ -109,6 +109,19 @@ if(!isset($_POST['step'])) {
 			}
 		}
 	}
+	if($settings->dbversion < 4) {
+		$sql = "
+		DROP TABLE IF EXISTS `traq_ticketcomments`;
+		ALTER TABLE `traq_usergroups` ADD `updatetickets` SMALLINT NOT NULL AFTER `isadmin` ;
+		";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query) && $query != ' ') {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

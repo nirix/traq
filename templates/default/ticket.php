@@ -15,7 +15,9 @@
 				<p title="12/14/08 08:37:54">Opened <?=timesince($ticket['timestamp'])?> ago</p>
 				<p title="01/19/09 14:13:28">Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
-			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small></h1>
+			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small> <? if($user->group->isadmin) { ?>
+				<input type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }" value="Delete" />
+				<? } ?></h1>
 			<table class="properties">
 				<tr>
 					<th id="h_owner">Reported by:</th>
@@ -73,12 +75,62 @@
 				<? } ?>
 			</div>
 		</div>
-		<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
-		<div id="ticket_options">
+		<h2>Change History</h2>
+		<div id="history">
+			<? foreach($history as $info) { ?>
+				<div class="change">
+					<h3><?=timesince($info['timestamp'])?> ago by <?=$info['user']['username']?></h3>
+					<? if($user->group->isadmin) { ?>
+					<span class="inlinebuttons">
+						<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><input type="hidden" name="action" value="deletecomment" /><input type="hidden" name="commentid" value="<?=$info['id']?>" /><input type="submit" value="Delete" /></form>
+					</span>
+					<? } ?>
+					<? if($info['changes'][0]['type'] != '') { ?>
+					<ul class="changes">
+					<? foreach($info['changes'] as $change) { ?>
+						<? if($change['type'] == "CREATE") { ?>
+						<li>Ticket created by <?=$info['user']['username']?></li>
+						<? } else if($change['type'] == "COMPONENT") { ?>
+						<li>Component changed from <em><?=$change['from']['name']?></em> to <em><?=$change['to']['name']?></em></li>
+						<? } else if($change['type'] == "SEVERITY") { ?>
+						<li>Severity changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em></li>
+						<? } else if($change['type'] == "TYPE") { ?>
+						<li>Type changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em></li>
+						<? } else if($change['type'] == "ASIGNEE") { ?>
+						<li>Reassigned to <em><?=$change['to']['username']?></em></li>
+						<? } else if($change['type'] == "MILESTONE") { ?>
+						<li>Milestone changed from <em><?=$change['from']['milestone']?></em> to <em><?=$change['to']['milestone']?></em></li>
+						<? } else if($change['type'] == "CLOSE") { ?>
+						<li>Ticket closed as <?=$change['to']?> by <?=$info['user']['username']?></li>
+						<? } else if($change['type'] == "STATUS") { ?>
+						<li>Status changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em></li>
+						<? } else if($change['type'] == "PRIORITY") { ?>
+						<li>Priority changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em></li>
+						<? } else if($change['type'] == "VERSION") { ?>
+						<li>Version changed from <em><?=($change['from']['version'] != '' ? $change['from']['version'] : 'None')?></em> to <em><?=($change['to']['version'] != '' ? $change['to']['version'] : 'None')?></em></li>
+						<? } else if($change['type'] == "REOPEN") { ?>
+						<li>Ticket reopened as <?=$change['to']?> by <?=$info['user']['username']?></li>
+						<? } ?>
+					<? } ?>
+					</ul>
+					<? } ?>
+					<? if($info['comment'] != "") { ?>
+					<div class="comment">
+						<?=$info['comment']?> 
+					</div>
+					<? } ?>
+				</div>
+			<? } ?>
+		</div>
+		<? if($user->loggedin) { ?>
+		<h2>Update Ticket</h2>
+		<div id="update_ticket">
 			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
 				<input type="hidden" name="action" value="update" />
+				<textarea name="comment"></textarea>
+				<? if($user->group->updatetickets) { ?>
 				<fieldset id="properties">
-					<legend>Update Ticket</legend>
+					<legend>Change Properties</legend>
 					<table>
 						<tr>
 							<th class="col1">Type</th>
@@ -178,83 +230,14 @@
 								<? } ?>
 							</td>
 							<th class="col2"></th>
-							<td><input type="submit" value="Update" /><input type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }" value="Delete" /></td>
 						</tr>
 					</table>
 				</fieldset>
+				<? } ?>
+				<input type="submit" value="Update" />
 			</form>
 		</div>
 		<? } ?>
-		<div id="history">
-			<h3>History</h3>
-			<table>
-			<? foreach($history as $info) { ?>
-				<tr>
-					<td valign="top"><?=date("h:ia d/m/Y OT",$info['timestamp'])?>:</td>
-					<td valign="top">
-					<? foreach($info['changes'] as $change) { ?>
-						<? if($change['type'] == "CREATE") { ?>
-						Ticket created by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "COMPONENT") { ?>
-						Component changed from <em><?=$change['from']['name']?></em> to <em><?=$change['to']['name']?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "SEVERITY") { ?>
-						Severity changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "TYPE") { ?>
-						Type changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "ASIGNEE") { ?>
-						Reassigned to <em><?=$change['to']['username']?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "MILESTONE") { ?>
-						Milestone changed from <em><?=$change['from']['milestone']?></em> to <em><?=$change['to']['milestone']?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "CLOSE") { ?>
-						Ticket closed as <?=$change['to']?> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "STATUS") { ?>
-						Status changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "PRIORITY") { ?>
-						Priority changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "VERSION") { ?>
-						Version changed from <em><?=($change['from']['version'] != '' ? $change['from']['version'] : 'None')?></em> to <em><?=($change['to']['version'] != '' ? $change['to']['version'] : 'None')?></em> by <?=$info['user']['username']?><br />
-						<? } else if($change['type'] == "REOPEN") { ?>
-						Ticket reopened as <?=$change['to']?> by <?=$info['user']['username']?><br />
-						<? } ?>
-					<? } ?>
-					</td>
-				</tr>
-			<? } ?>
-			</table>
-		</div>
-		
-		<div id="comments">
-			<h3>Comments</h3>
-			<table class="comments">
-			<? foreach($comments as $comment) { ?>
-				<tr>
-					<? if($user->group->isadmin) { ?>
-					<td>
-						<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><input type="hidden" name="action" value="deletecomment" /><input type="hidden" name="commentid" value="<?=$comment['id']?>" /><input type="submit" value="Delete" /></form>
-					</td>
-					<? } ?>
-					<td valign="top">
-						<?=$comment['author']['username']?><br />
-						<?=timesince($comment['timestamp'])?> ago
-					</td>
-					<td valign="top">
-						<?=stripslashes($comment['body'])?>
-					</td>
-				</tr>
-			<? } ?>
-			</table>
-			<? if(!count($comments)) { ?>
-			No Comments<br />
-			<? } ?>
-			<br />
-			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
-				<input type="hidden" name="action" value="comment" />
-				<h3>Post Comment</h3>
-				<textarea name="comment"></textarea><br />
-				<input type="submit" value="Post Comment" />
-			</form>
-		</div>
-	</div>
 <? include(template('footer')); ?>
 </body>
 </html>

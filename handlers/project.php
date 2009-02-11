@@ -122,7 +122,7 @@ if(!isset($uri->seg[1])) {
 															   )");
 			$internalid = $db->insertid();
 			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$internalid.",'CREATE')");
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$internalid.",'CREATE','')");
 			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
 		} else {
@@ -141,55 +141,6 @@ if(!isset($uri->seg[1])) {
 			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'tickets'));
 		}
-	} elseif($_POST['action'] == "update") {
-		$changes = array();
-		if($_POST['type'] != $ticket['type']) {
-			$changes[] = "TYPE:".$_POST['type'].",".$ticket['type'];
-		}
-		if($_POST['assignto'] != $ticket['assigneeid']) {
-			$changes[] = "ASIGNEE:".$_POST['assignto'].",".$ticket['assigneeid'];
-		}
-		if($_POST['priority'] != $ticket['priority']) {
-			$changes[] = "PRIORITY:".$_POST['priority'].",".$ticket['priority'];
-		}
-		if($_POST['severity'] != $ticket['severity']) {
-			$changes[] = "SEVERITY:".$_POST['severity'].",".$ticket['severity'];
-		}
-		if($_POST['milestone'] != $ticket['milestoneid']) {
-			$changes[] = "MILESTONE:".$_POST['milestone'].",".$ticket['milestoneid'];
-		}
-		if($_POST['version'] != $ticket['versionid']) {
-			$changes[] = "VERSION:".$_POST['version'].",".$ticket['versionid'];
-		}
-		if($_POST['component'] != $ticket['componentid']) {
-			$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
-		}
-		if($_POST['ticketaction'] == "markas") {
-			$changes[] = "STATUS:".$_POST['markas'].",".$ticket['status'];
-			$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['markas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-		} elseif($_POST['ticketaction'] == "close") {
-			$changes[] = "CLOSE:".$_POST['closeas'].",".$ticket['status'];
-			$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['closeas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
-		} elseif($_POST['ticketaction'] == "reopen") {
-			$changes[] = "REOPEN:".$_POST['reopenas'].",".$ticket['status'];
-			$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['reopenas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
-		}
-		if(count($changes) > 0) {
-			$changes = implode('|',$changes);
-			$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
-													   assigneeid='".$db->escapestring($_POST['assignto'])."',
-													   priority='".$db->escapestring($_POST['priority'])."',
-													   severity='".$db->escapestring($_POST['severity'])."',
-													   milestoneid='".$db->escapestring($_POST['milestone'])."',
-													   versionid='".$db->escapestring($_POST['version'])."',
-													   componentid='".$db->escapestring($_POST['component'])."',
-													   updated='".time()."'
-													   WHERE id='".$ticket['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."')");
-		}
-		header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
 	} elseif($_POST['action'] == "comment") {
 		if($user->loggedin) {
 			if(!empty($_POST['comment'])) {
@@ -199,7 +150,7 @@ if(!isset($uri->seg[1])) {
 		}
 	} elseif($_POST['action'] == "deletecomment") {
 		if($user->group->isadmin) {
-			$db->query("DELETE FROM ".DBPREFIX."ticketcomments WHERE id='".$db->escapestring($_POST['commentid'])."' LIMIT 1");
+			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE id='".$db->escapestring($_POST['commentid'])."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
 	} elseif($_POST['action'] == "deleteattachment") {
@@ -213,6 +164,60 @@ if(!isset($uri->seg[1])) {
 		header("Content-Disposition: attachment; filename=\"".$attachment['name']."\"");
 		print(base64_decode($attachment['contents']));
 	} else {
+		if($_POST['action'] == "update" && $user->loggedin) {
+			$changes = array();
+			if($user->group->updatetickets) {
+				if($_POST['type'] != $ticket['type']) {
+					$changes[] = "TYPE:".$_POST['type'].",".$ticket['type'];
+				}
+				if($_POST['assignto'] != $ticket['assigneeid']) {
+					$changes[] = "ASIGNEE:".$_POST['assignto'].",".$ticket['assigneeid'];
+				}
+				if($_POST['priority'] != $ticket['priority']) {
+					$changes[] = "PRIORITY:".$_POST['priority'].",".$ticket['priority'];
+				}
+				if($_POST['severity'] != $ticket['severity']) {
+					$changes[] = "SEVERITY:".$_POST['severity'].",".$ticket['severity'];
+				}
+				if($_POST['milestone'] != $ticket['milestoneid']) {
+					$changes[] = "MILESTONE:".$_POST['milestone'].",".$ticket['milestoneid'];
+				}
+				if($_POST['version'] != $ticket['versionid']) {
+					$changes[] = "VERSION:".$_POST['version'].",".$ticket['versionid'];
+				}
+				if($_POST['component'] != $ticket['componentid']) {
+					$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
+				}
+				if($_POST['ticketaction'] == "markas") {
+					$changes[] = "STATUS:".$_POST['markas'].",".$ticket['status'];
+					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['markas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
+				} elseif($_POST['ticketaction'] == "close") {
+					$changes[] = "CLOSE:".$_POST['closeas'].",".$ticket['status'];
+					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['closeas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
+				} elseif($_POST['ticketaction'] == "reopen") {
+					$changes[] = "REOPEN:".$_POST['reopenas'].",".$ticket['status'];
+					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['reopenas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
+				}
+				if(count($changes) > 0) {
+					$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
+															   assigneeid='".$db->escapestring($_POST['assignto'])."',
+															   priority='".$db->escapestring($_POST['priority'])."',
+															   severity='".$db->escapestring($_POST['severity'])."',
+															   milestoneid='".$db->escapestring($_POST['milestone'])."',
+															   versionid='".$db->escapestring($_POST['version'])."',
+															   componentid='".$db->escapestring($_POST['component'])."',
+															   updated='".time()."'
+															   WHERE id='".$ticket['id']."' LIMIT 1");
+				}
+				if(!empty($_POST['comment']) or count($changes) > 0) {
+					$changes = implode('|',$changes);
+					$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
+				}
+			}
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
+		}
 		// View Ticket
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
 		$version = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$ticket['versionid']."' LIMIT 1")); // Get ticket Version info
@@ -222,12 +227,14 @@ if(!isset($uri->seg[1])) {
 		
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
 		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
+		
 		// Ticket History
 		$history = array();
 		$fetchhistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");
 		while($info = $db->fetcharray($fetchhistory)) {
 			$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['userid']."' LIMIT 1"));
 			$changes = explode('|',$info['changes']);
+			$info['comment'] = $wikiformat->format($info['comment']);
 			$info['changes'] = array();
 			foreach($changes as $change) {
 				$parts = explode(':',$change);

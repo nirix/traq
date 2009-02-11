@@ -46,21 +46,13 @@ CREATE TABLE `traq_settings` (
   PRIMARY KEY  (`setting`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `traq_ticketcomments` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `authorid` bigint(20) NOT NULL,
-  `body` longtext NOT NULL,
-  `ticketid` bigint(20) NOT NULL,
-  `timestamp` bigint(20) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
 CREATE TABLE `traq_tickethistory` (
   `id` bigint(20) NOT NULL auto_increment,
   `timestamp` bigint(20) NOT NULL,
   `userid` bigint(20) NOT NULL,
   `ticketid` bigint(20) NOT NULL,
   `changes` longtext NOT NULL,
+  `comment` longtext NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
@@ -119,7 +111,7 @@ CREATE TABLE `traq_versions` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 INSERT INTO `traq_settings` (`setting`, `value`) VALUES 
-('dbversion', '3'),
+('dbversion', '4'),
 ('theme', 'default');
 
 INSERT INTO `traq_usergroups` (`id`, `name`, `isadmin`) VALUES 

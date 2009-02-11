@@ -46,6 +46,10 @@ pre {
 	padding: 4px;
 }
 
+.float.right {
+	float: right;
+}
+
 /* Link styles */
 a {
 	text-decoration: none;
@@ -96,13 +100,13 @@ input[type=reset][disabled] {
 	border-style: solid;
 	color: #999;
 }
-input[type=text], input[type=password], input.textwidget, textarea {
+input[type=text], input[type=password], textarea {
 	border: 1px solid #d7d7d7;
 }
-input[type=text], input[type=password], input.textwidget {
+input[type=text], input[type=password] {
 	padding: .25em .5em;
 }
-input[type=text]:focus, input[type=password]:focus, input.textwidget:focus, textarea:focus {
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	border: 1px solid #886;
 }
 fieldset {
@@ -475,38 +479,34 @@ form#newticket #body {
 	position: relative;
 }
 
-#ticket_sidebar {
-	width: 200px;
-	margin-left: 5px;
-}
-
-#history, #comments {
+#history {
 	border: 1px outset #9e9e9e;
 	margin-top: 1em;
 	padding: .5em 1em;
 	position: relative;
 }
-#history h3, #comments h3 {
+#history h3 {
 	border-bottom: 1px solid #000;
 	color: #000;
 	font-size: 100%;
 	font-weight: normal;
 	margin: 0px;
+	margin-top: 5px;
+}
+#history .change {
+	margin-bottom: 5px;
+}
+#history .change .comment {
+	padding: 10px;
+}
+#history .change input[type=submit] {
+	padding: 4px;
+	font-size: 10px;
 }
 
-#comments textarea {
-	width: 500px;
-	height: 100px;
-}
-
-table.comments th {
-	text-align: left;
-	vertical-align: top;
-	padding-right: 2px;
-}
-table.comments td {
-	vertical-align: top;
-	padding-left: 2px;
+#update_ticket textarea {
+	width: 100%;
+	height: 200px;
 }
 
 h1 .status {
@@ -563,10 +563,16 @@ h1 .status {
 	font-size: 100%;
 	font-weight: normal;
 }
-#ticket .inlinebuttons { 
+#ticket .inlinebuttons, #history .inlinebuttons { 
 	float: right;
-	position: relative;
-	bottom: 0.3em;
+}
+
+#ticket .inlinebuttons input, #history .inlinebuttons input {
+	font-size: 70% !important;
+	border-width: 1px;
+	border-style: dotted;
+	margin: 5px 0;
+	padding: 1px !important;
 }
 
 #properties {
