@@ -141,7 +141,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
-						<td><textarea name="description"><?=$component['desc']?></textarea></td>
+						<td><textarea name="description"><?=stripslashes($component['desc'])?></textarea></td>
 					</tr>
 					<tr valign="top">
 						<th>Project</th>

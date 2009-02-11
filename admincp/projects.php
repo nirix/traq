@@ -94,7 +94,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
-						<td><textarea name="description"></textarea></td>
+						<td><textarea name="description" rows="10" cols="50"></textarea></td>
 					</tr>
 					<tr valign="top">
 						<th>Managers</th>
@@ -167,7 +167,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
-						<td><textarea name="description"><?=$project['desc']?></textarea></td>
+						<td><textarea name="description" rows="10" cols="50"><?=stripslashes($project['desc'])?></textarea></td>
 					</tr>
 					<tr valign="top">
 						<th>Managers</th>

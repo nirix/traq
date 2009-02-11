@@ -71,7 +71,7 @@ function projectcomponents($projectid) {
 function projectversions($projectid) {
 	global $db;
 	$versions = array();
-	$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions WHERE projectid=".$projectid." ORDER BY version ASC");
+	$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions WHERE projectid=".$projectid." ORDER BY version DESC");
 	while($info = $db->fetcharray($fetchversions)) {
 		$versions[] = $info;
 	}

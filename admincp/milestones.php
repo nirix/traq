@@ -173,7 +173,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
-						<td><textarea name="description" rows="10" cols="50"><?=$milestone['desc']?></textarea></td>
+						<td><textarea name="description" rows="10" cols="50"><?=stripslashes($milestone['desc'])?></textarea></td>
 					</tr>
 					<tr valign="top">
 						<th>Due Date <small>(DD/MM/YYYY)</small><br /><small>Leave blank for no date.</small></th>
