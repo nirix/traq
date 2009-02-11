@@ -8,7 +8,7 @@
 // Get the project info
 $project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($uri->seg[0])."' LIMIT 1"));
 $project['managerids'] = explode(',',$project['managers']);
-$project['desc'] = $wikiformat->format($project['desc']);
+$project['desc'] = formattext($project['desc']);
 $breadcrumbs[$uri->anchor($project['slug'])] = $project['name'];
 
 // Check what page to display
@@ -27,7 +27,7 @@ if(!isset($uri->seg[1])) {
 		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'"));
 		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']);
 		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']);
-		$info['desc'] = $wikiformat->format($info['desc']);
+		$info['desc'] = formattext($info['desc']);
 		$milestones[] = $info;
 	}
 	unset($fetchmilestones,$info);
@@ -134,7 +134,7 @@ if(!isset($uri->seg[1])) {
 } else if($uri->seg[1] == "ticket") {
 	// Ticket Page
 	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE tid='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
-	$ticket['body'] = $wikiformat->format($ticket['body']);
+	$ticket['body'] = formattext($ticket['body']);
 	if($uri->seg[3] == "delete") {
 		if($user->loggedin) {
 			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1");
@@ -146,11 +146,6 @@ if(!isset($uri->seg[1])) {
 			if(!empty($_POST['comment'])) {
 				$db->query("INSERT INTO ".DBPREFIX."ticketcomments VALUES(0,".$user->info->uid.",'".$db->escapestring($_POST['comment'])."',".$ticket['id'].",".time().")");
 			}
-			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
-		}
-	} elseif($_POST['action'] == "deletecomment") {
-		if($user->group->isadmin) {
-			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE id='".$db->escapestring($_POST['commentid'])."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
 	} elseif($_POST['action'] == "deleteattachment") {
@@ -218,6 +213,11 @@ if(!isset($uri->seg[1])) {
 				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
+		} elseif($uri->seg[3] == "deletecomment") {
+			if($user->group->isadmin) {
+				$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE id='".$db->escapestring($uri->seg[4])."' LIMIT 1");
+				header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
+			}
 		}
 		// Display Ticket
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
@@ -235,7 +235,8 @@ if(!isset($uri->seg[1])) {
 		while($info = $db->fetcharray($fetchhistory)) {
 			$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['userid']."' LIMIT 1"));
 			$changes = explode('|',$info['changes']);
-			$info['comment'] = $wikiformat->format($info['comment']);
+			$info['comment_orig'] = $info['comment'];
+			$info['comment'] = formattext($info['comment']);
 			$info['changes'] = array();
 			foreach($changes as $change) {
 				$parts = explode(':',$change);
@@ -281,14 +282,6 @@ if(!isset($uri->seg[1])) {
 			$history[] = $info;
 		}
 		unset($fetchhistory,$info);
-		// Ticket Comments
-		$comments = array();
-		$fetchcomments = $db->query("SELECT * FROM ".DBPREFIX."ticketcomments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp DESC");
-		while($info = $db->fetcharray($fetchcomments)) {
-			$info['body'] = $wikiformat->format($info['body']);
-			$info['author'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['authorid']."' LIMIT 1"));
-			$comments[] = $info;
-		}
 		// Ticket Attachments
 		$attachments = array();
 		$fetchattachments = $db->query("SELECT * FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp ASC");
@@ -308,7 +301,7 @@ if(!isset($uri->seg[1])) {
 } elseif($uri->seg[1] == "milestone") {
 	// Milestone Page
 	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1")); // Get ticket Milestone info
-	$milestone['desc'] = $wikiformat->format($milestone['desc']);
+	$milestone['desc'] = formattext($milestone['desc']);
 	$milestone['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$milestone['id']."'"));
 	$milestone['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$milestone['id']."'"));
 	$milestone['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."'"));

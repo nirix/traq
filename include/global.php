@@ -26,7 +26,7 @@ $origin->load("wikiformat");
 $db =& $origin->db;
 $user =& $origin->user;
 $uri =& $origin->uri;
-$wikiformat =& $origin->wikiformat;
+$wikimarkup =& $origin->wikiformat;
 
 // Fetch common functions file
 require(TRAQPATH."include/common.php");

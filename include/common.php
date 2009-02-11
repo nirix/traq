@@ -139,6 +139,9 @@ function tickettype($typeid) {
 	return $types[$typeid];
 }
 
+/**
+ * Ticket Severity
+ */
 function ticketseverity($severityid) {
 	$severity = array(
 				   1 => 'Blocker',
@@ -149,6 +152,97 @@ function ticketseverity($severityid) {
 				   6 => 'Trivial'
 				   );
 	return $severity[$severityid];
+}
+
+/**
+ * Text Formatting
+ */
+function formattext($text) {
+	global $wikimarkup;
+	$text = $wikimarkup->format($text);
+	$text = formatQuote($text);
+	$text = commentTag($text);
+	return $text;
+}
+function formatQuoteOld($text) {
+	$lines = explode("\n",$text);
+	$lines[] = '';
+	$output = '';
+	$quoteOpen = false;
+	foreach($lines as $line) {
+		if(substr($line,0,1) == ">" && !$quoteOpen) {
+			$line = "<div class=\"quote\">".substr($line,1);
+			$quoteOpen = true;
+		} elseif(substr($line,0,1) == ">" && $quoteOpen) {
+			$line = substr($line,1);
+			$quoteOpen = true;
+		} elseif(substr($line,0,1) != ">" && $quoteOpen) {
+			$line = "</div>".$line;
+			$quoteOpen = false;
+		}
+		$output .= $line.($quoteOpen ? '' : "\n");
+	}
+	
+	return $output;
+}
+/**
+ * Comment Tag
+ * Used to format the [comment:X User] tag to the proper code.
+ */
+function commentTag($text) {
+	$bits = preg_split('/\[(\b(comment:)'.'[^][<>"\\x00-\\x20\\x7F]+) *([^\]\\x0a\\x0d]*?)\]/S', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$i = 0;
+	while($i<count($bits)) {
+		$i++;
+		if($bits[$i] != "") {
+			$url = $bits[$i++];
+			$protocol = $bits[$i++];
+			$label = $bits[$i++];
+			$type = ($label == '') ? 'free' : 'text';
+			$text = str_replace("[".$url." ".$label."]","<a href=\"#".$url."\">".$label."</a>",$text);
+			//echo "url: $url <br> protocol: $protocol <br> label: $label <br> type: $type<hr>";
+		}
+	}
+	return $text;
+}
+// Similair to the lists function in the Origin WikiFormat/Markup class
+// Maybe someday I will find a way to make this more simple.
+function formatQuote($text) {
+	global $wikimarkup;
+	$lines = explode("\n",$text);
+	$output = '';
+	foreach($lines as $line) {
+		++$linecount;
+		$lastPrefixLength = strlen($lastPrefix);
+		$line = str_replace("> ",">",$line);
+		$prefixLength = strspn($line,'>');
+		$pref = substr($line,0,$prefixLength);
+		$line = substr($line,$prefixLength);
+		$pref2 = str_replace('>','>',$pref);
+		if($prefixLength && strcmp($lastPrefix, $pref2) == 0) {
+			$output .= '';
+			$paragraphStack = false;
+		} elseif($prefixLength || $lastPrefixLength) {
+			$commonPrefixLength = $wikimarkup->getCommon($pref,$lastPrefix);
+			while($commonPrefixLength < $lastPrefixLength) {
+				$output .= '</div>';
+				$divopen[$linecount] = false;
+				--$lastPrefixLength;
+			}
+			if($prefixLength <= $commonPrefixLength && $commonPrefixLength > 0) {
+				$output .= '';
+			}
+			while ($prefixLength > $commonPrefixLength) {
+				$char = substr($pref,$commonPrefixLength,1);
+				$output .= '<div class="quote">';
+				$divopen[$linecount] = true;
+				++$commonPrefixLength;
+			}
+			$lastPrefix = $pref2;
+		}
+		$output .= $line.(!empty($line) ? "\n" : '');
+	}
+	return $output;
 }
 
 /**

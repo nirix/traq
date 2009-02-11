@@ -50,6 +50,13 @@ pre {
 	float: right;
 }
 
+.quote {
+	margin: 0;
+	border: 1px solid #000; 
+	border-width: 0 0 0 2px;
+	padding-left: 6px;
+}
+
 /* Link styles */
 a {
 	text-decoration: none;

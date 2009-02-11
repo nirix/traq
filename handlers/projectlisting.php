@@ -12,7 +12,7 @@ while($info = $db->fetcharray($fetchprojects)) {
 	// Get Tickets
 	$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND projectid='".$info['id']."'"));
 	$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status='0' AND projectid='".$info['id']."'"));
-	$info['desc'] = $wikiformat->format($info['desc']);
+	$info['desc'] = formattext($info['desc']);
 	$projects[] = $info;
 }
 unset($fetchprojects,$info);

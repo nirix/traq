@@ -79,12 +79,13 @@
 		<div id="history">
 			<? foreach($history as $info) { ?>
 				<div class="change">
-					<h3><?=timesince($info['timestamp'])?> ago by <?=$info['user']['username']?></h3>
-					<? if($user->group->isadmin) { ?>
+					<h3><a name="comment:<?=++$historyid?>"></a><?=timesince($info['timestamp'])?> ago by <?=$info['user']['username']?></h3>
 					<span class="inlinebuttons">
-						<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><input type="hidden" name="action" value="deletecomment" /><input type="hidden" name="commentid" value="<?=$info['id']?>" /><input type="submit" value="Delete" /></form>
+						<input type="button" value="Reply" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />
+						<? if($user->group->isadmin) { ?>
+						<input type="button" value="Delete" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'" />
+						<? } ?>
 					</span>
-					<? } ?>
 					<? if($info['changes'][0]['type'] != '') { ?>
 					<ul class="changes">
 					<? foreach($info['changes'] as $change) { ?>
@@ -127,7 +128,13 @@
 		<div id="update_ticket">
 			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
 				<input type="hidden" name="action" value="update" />
-				<textarea name="comment"></textarea>
+				<textarea name="comment">
+<? if(isset($_REQUEST['replyto'])) { ?>
+Replying to [comment:<?=$_REQUEST['replyto']?> <?=$history[$_REQUEST['replyto']-1]['user']['username']?>]:
+<? if(!empty($history[$_REQUEST['replyto']-1]['comment'])) { ?>
+> <?=implode('> ',explode("\n",$history[$_REQUEST['replyto']-1]['comment_orig']))?>
+<? } ?>
+<? } ?></textarea>
 				<? if($user->group->updatetickets) { ?>
 				<fieldset id="properties">
 					<legend>Change Properties</legend>
