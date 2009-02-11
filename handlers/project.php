@@ -132,7 +132,9 @@ if(!isset($uri->seg[1])) {
 		include(template('newticket'));
 	}
 } else if($uri->seg[1] == "ticket") {
+	// Ticket Page
 	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE tid='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
+	$ticket['body'] = $wikiformat->format($ticket['body']);
 	if($uri->seg[3] == "delete") {
 		if($user->loggedin) {
 			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1");

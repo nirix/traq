@@ -49,17 +49,16 @@
 			<div class="description">
 				<h3 id="description">Description</h3>
 				<p>
-					<?=nl2br(stripslashes($ticket['body']))?> 
+					<?=stripslashes($ticket['body'])?> 
 				</p>
 				<h3 id="attachments">Attachments</h3>
-				<p>
+				<p id="attachments">
 					<ul>
 					<? foreach($attachments as $attachment) { ?>
 						<li>
-							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong><br />
-							Uploaded by <?=$attachment['user']['username']?><br />
-							<?=date("g:iA d/m/Y",$attachment['timestamp'])?>
-							<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="Delete" /></form><? } ?>
+							<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><? } ?>
+							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['user']['username']?> <?=timesince($attachment['timestamp'])?> ago.
+							<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="Delete" /></form><? } ?>
 						</li>
 					<? } ?>
 					</ul>
@@ -191,7 +190,7 @@
 			<table>
 			<? foreach($history as $info) { ?>
 				<tr>
-					<th valign="top"><?=date("g:ia d/m/Y OT",$info['timestamp'])?>:</th>
+					<td valign="top"><?=date("h:ia d/m/Y OT",$info['timestamp'])?>:</td>
 					<td valign="top">
 					<? foreach($info['changes'] as $change) { ?>
 						<? if($change['type'] == "CREATE") { ?>
@@ -239,7 +238,7 @@
 						<?=timesince($comment['timestamp'])?> ago
 					</td>
 					<td valign="top">
-						<?=nl2br(stripslashes($comment['body']))?>
+						<?=stripslashes($comment['body'])?>
 					</td>
 				</tr>
 			<? } ?>

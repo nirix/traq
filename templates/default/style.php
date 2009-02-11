@@ -40,6 +40,12 @@ img {
 	margin: 0 auto;
 }
 
+pre {
+	border: 1px dashed #999;
+	background: #FBFBFB;
+	padding: 4px;
+}
+
 /* Link styles */
 a {
 	text-decoration: none;
