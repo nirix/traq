@@ -106,7 +106,7 @@ if(!isset($uri->seg[1])) {
 															   0,
 															   ".$ticketid.",
 															   '".$db->escapestring($_POST['summary'])."',
-															   '".$db->escapestring(str_replace('<','&lt;',$_POST['body']))."',
+															   '".$db->escapestring($_POST['body'])."',
 															   ".$project['id'].",
 															   ".$db->escapestring($_POST['milestone']).",
 															   ".$db->escapestring($_POST['version']).",
@@ -191,7 +191,7 @@ if(!isset($uri->seg[1])) {
 	} elseif($_POST['action'] == "comment") {
 		if($user->loggedin) {
 			if(!empty($_POST['comment'])) {
-				$db->query("INSERT INTO ".DBPREFIX."ticketcomments VALUES(0,".$user->info->uid.",'".$db->escapestring(str_replace('<','&lt;',$_POST['comment']))."',".$ticket['id'].",".time().")");
+				$db->query("INSERT INTO ".DBPREFIX."ticketcomments VALUES(0,".$user->info->uid.",'".$db->escapestring($_POST['comment'])."',".$ticket['id'].",".time().")");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}
