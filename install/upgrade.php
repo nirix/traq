@@ -111,16 +111,21 @@ if(!isset($_POST['step'])) {
 	}
 	if($settings->dbversion < 4) {
 		$sql = "
-		DROP TABLE IF EXISTS `traq_ticketcomments`;
+		ALTER TABLE `traq_tickethistory` ADD `comment` LONGTEXT NOT NULL AFTER `changes` ;
 		ALTER TABLE `traq_usergroups` ADD `updatetickets` SMALLINT NOT NULL AFTER `isadmin` ;
 		UPDATE `traq_usergroups` SET `updatetickets` = '1' WHERE `traq_usergroups`.`id` =1 LIMIT 1 ;";
 		$sql = str_replace('traq_',$config->db->prefix,$sql);
 		$queries = explode(';',$sql);
 		foreach($queries as $query) {
-			if(!empty($query) && $query != ' ') {
+			if(!empty($query)) {
 				$db->query($query);
 			}
 		}
+		$fetchcomments = $db->query("SELECT * FROM ".$config->db->prefix."ticketcomments");
+		while($info = $db->fetcharray($fetchcomments)) {
+			$db->query("INSERT INTO ".$config->db->prefix."tickethistory VALUES(0,".$info['timestamp'].",".$info['authorid'].",".$info['ticketid'].",'','".$db->escapestring(stripslashes($info['body']))."')");
+		}
+		$db->query("DROP TABLE IF EXISTS `traq_ticketcomments`;");
 	}
 	?>
 	Database upgrade complete.
