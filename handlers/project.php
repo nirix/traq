@@ -8,6 +8,7 @@
 // Get the project info
 $project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($uri->seg[0])."' LIMIT 1"));
 $project['managerids'] = explode(',',$project['managers']);
+$project['desc'] = $wikiformat->format($project['desc']);
 $breadcrumbs[$uri->anchor($project['slug'])] = $project['name'];
 
 // Check what page to display
@@ -26,6 +27,7 @@ if(!isset($uri->seg[1])) {
 		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'"));
 		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']);
 		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']);
+		$info['desc'] = $wikiformat->format($info['desc']);
 		$milestones[] = $info;
 	}
 	unset($fetchmilestones,$info);
@@ -273,6 +275,7 @@ if(!isset($uri->seg[1])) {
 		$comments = array();
 		$fetchcomments = $db->query("SELECT * FROM ".DBPREFIX."ticketcomments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp DESC");
 		while($info = $db->fetcharray($fetchcomments)) {
+			$info['body'] = $wikiformat->format($info['body']);
 			$info['author'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['authorid']."' LIMIT 1"));
 			$comments[] = $info;
 		}
@@ -295,6 +298,7 @@ if(!isset($uri->seg[1])) {
 } elseif($uri->seg[1] == "milestone") {
 	// Milestone Page
 	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1")); // Get ticket Milestone info
+	$milestone['desc'] = $wikiformat->format($milestone['desc']);
 	$milestone['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$milestone['id']."'"));
 	$milestone['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$milestone['id']."'"));
 	$milestone['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."'"));
