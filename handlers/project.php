@@ -136,9 +136,11 @@ if(!isset($uri->seg[1])) {
 	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE tid='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
 	$ticket['body'] = formattext($ticket['body']);
 	if($uri->seg[3] == "delete") {
-		if($user->loggedin) {
+		if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) {
 			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1");
 			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
+			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' LIMIT 1");
+			$db->query("DELETE FROM ".DBPREFIX."timeline WHERE data LIKE 'TICKET%:".$ticket['id']."' LIMIT 1");
 			header("Location: ".$uri->anchor($project['slug'],'tickets'));
 		}
 	} elseif($_POST['action'] == "comment") {

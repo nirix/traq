@@ -15,7 +15,7 @@
 				<p title="12/14/08 08:37:54">Opened <?=timesince($ticket['timestamp'])?> ago</p>
 				<p title="01/19/09 14:13:28">Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
-			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small> <? if($user->group->isadmin) { ?>
+			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small> <? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
 				<input type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }" value="Delete" />
 				<? } ?></h1>
 			<table class="properties">
@@ -83,7 +83,7 @@
 					<? if($user->loggedin) { ?>
 					<span class="inlinebuttons">
 						<input type="button" value="Reply" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />
-						<? if($user->group->isadmin) { ?>
+						<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
 						<input type="button" value="Delete" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'" />
 						<? } ?>
 					</span>
