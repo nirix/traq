@@ -98,7 +98,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					<tr valign="top">
 						<th>Due Date <small>(DD/MM/YYYY)</small><br /><small>Leave blank for no date.</small></th>
 						<td>
-							<input type="text" name="dueday" value="<?=date("d")?>" maxlength="2" style="width:25px;" />/<input type="text" name="duemonth" value="<?=date("m")?>" maxlength="2" style="width:25px;" />/<input type="text" name="dueyear" value="<?=date("Y")?>" maxlength="4" style="width:45px;" />
+							<input type="text" name="dueday" value="<?=date("d")?>" maxlength="2" style="width:25px;" />/<input type="text" name="duemonth" value="<?=(date("m") == 12 ? 1 : date("m")+1)?>" maxlength="2" style="width:25px;" />/<input type="text" name="dueyear" value="<?=date("Y")?>" maxlength="4" style="width:45px;" />
 						</td>
 					</tr>
 					<tr valign="top">
@@ -131,13 +131,16 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	}
 	
 	if(!count($errors) && isset($_POST['do'])) {
+		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$db->escapestring($_POST['milestoneid'])."' LIMIT 1"));
 		if(!empty($_POST['dueday']) && !empty($_POST['duemonth']) && !empty($_POST['dueyear'])) {
 			$due = mktime(0,0,0,$_POST['duemonth'],$_POST['dueday'],$_POST['dueyear']);
 		} else {
 			$due = 0;
 		}
-		if(!empty($_POST['completedday']) && !empty($_POST['completedmonth']) && !empty($_POST['completedyear'])) {
-			$completed = mktime(0,0,0,$_POST['completedmonth'],$_POST['completedday'],$_POST['completedyear']);
+		if($milestone['completed'] > 0 && $_POST['completed'] == 1) {
+			$completed = $milestone['completed'];
+		} elseif($milestone['completed'] == 0 && $_POST['completed'] == 1) {
+			$completed = mktime(0,0,0,date("m"),date("d"),date("Y"));
 		} else {
 			$completed = 0;
 		}
@@ -182,9 +185,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 						</td>
 					</tr>
 					<tr valign="top">
-						<th>Completed on <small>(DD/MM/YYYY)</small><br /><small>Leave blank for no date.</small></th>
+						<th>Mark Completed</th>
 						<td>
-							<input type="text" name="completedday" value="<?=($milestone['completed'] > 0 ? date("d",$milestone['completed']) : '')?>" maxlength="2" style="width:25px;" />/<input type="text" name="completedmonth" value="<?=($milestone['completed'] > 0 ? date("m",$milestone['completed']) : '')?>" maxlength="2" style="width:25px;" />/<input type="text" name="completedyear" value="<?=($milestone['completed'] > 0 ? date("Y",$milestone['completed']) : '')?>" maxlength="4" style="width:45px;" />
+							<input type="checkbox" name="completed" value="1"<?=($milestone['completed'] > 0 ? ' checked="checked"' : '')?> />
 						</td>
 					</tr>
 					<tr valign="top">

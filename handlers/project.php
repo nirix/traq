@@ -294,7 +294,9 @@ if(!isset($uri->seg[1])) {
 		// Attach File
 		if($_POST['action'] == "attachfile") {
 			if($user->loggedin) {
-				$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->uid.",".$ticket['id'].",".$project['id'].")");
+				if(!empty($_FILES['file']['name'])) {
+					$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->uid.",".$ticket['id'].",".$project['id'].")");
+				}
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
 		}

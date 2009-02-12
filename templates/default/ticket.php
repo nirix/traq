@@ -84,7 +84,7 @@
 					<span class="inlinebuttons">
 						<input type="button" value="Reply" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />
 						<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
-						<input type="button" value="Delete" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'" />
+						<input type="button" value="Delete" onclick="if(confirm('Are you sure you want to delete this comment?')) { document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'; }" />
 						<? } ?>
 					</span>
 					<? } ?>
