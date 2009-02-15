@@ -16,6 +16,14 @@ $origin->db->prefix = $config->db->prefix;
 $db =& $origin->db;
 require("common.php");
 
+$tables = $db->query("SHOW TABLES");
+while($info = $db->fetcharray($tables)) {
+	$dbtables[] = $info[0];
+}
+if(in_array($config->db->prefix.'settings',$dbtables)) {
+	echo "Traq already installed.";
+	exit;
+}
 if(!isset($_POST['step'])) {
 	head('Installer');
 	?>
