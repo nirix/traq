@@ -127,6 +127,19 @@ if(!isset($_POST['step'])) {
 		}
 		$db->query("DROP TABLE IF EXISTS `traq_ticketcomments`;");
 	}
+	if($settings->dbversion < 5) {
+		$sql = "INSERT INTO `traq_usergroups` ( `id` , `name` , `isadmin` , `updatetickets` )
+VALUES (
+NULL , 'Guests', '0', '0'
+);";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

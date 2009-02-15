@@ -61,6 +61,11 @@ a:hover {
 	text-decoration: none;
 	color: #fff;
 }
+.sidebar-options li hr {
+	margin: 0px;
+	border: 0px;
+	border: 1px solid #e3e3e3;
+}
 
 #content {	
 	margin-left: 205px;

@@ -51,7 +51,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	}
 	
 	if(!count($errors) && isset($_POST['do'])) {
-		$db->query("UPDATE ".DBPREFIX."users SET username='".$db->escapestring($_POST['username'])."', email='".$db->escapestring($_POST['email'])."' WHERE uid='".$db->escapestring($_POST['userid'])."' LIMIT 1");
+		$db->query("UPDATE ".DBPREFIX."users SET username='".$db->escapestring($_POST['username'])."', email='".$db->escapestring($_POST['email'])."', groupid='".$db->escapestring($_POST['group'])."' WHERE uid='".$db->escapestring($_POST['userid'])."' LIMIT 1");
 		header("Location: users.php");
 	} else {
 		$user = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE uid='".$db->escapestring($_REQUEST['uid'])."' LIMIT 1"));
@@ -80,6 +80,16 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					<tr valign="top">
 						<th>Email</th>
 						<td><input type="text" name="email" value="<?=$user['email']?>" /></td>
+					</tr>
+					<tr valign="top">
+						<th>Group</th>
+						<td>
+							<select name="group" id="group">
+							<? foreach(getgroups() as $group) { ?>
+								<option value="<?=$group['id']?>"<?=($group['id'] == $user['groupid'] ? ' selected="selected"' : '')?>><?=$group['name']?></option> 
+							<? } ?>
+							</select>
+						</td>
 					</tr>
 					<tr valign="top">
 						<th></th>

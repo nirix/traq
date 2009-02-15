@@ -27,6 +27,16 @@ function getprojects() {
 	return $projects;
 }
 
+function getgroups() {
+	global $db;
+	$groups = array();
+	$fetchgroups = $db->query("SELECT * FROM ".DBPREFIX."usergroups ORDER BY name ASC");
+	while($info = $db->fetcharray($fetchgroups)) {
+		$groups[] = $info;
+	}
+	return $groups;
+}
+
 function adminheader($title='') {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -47,7 +57,7 @@ function adminheader($title='') {
 				<div class="sidebar-title">Traq</div>
 				<ul class="sidebar-options">
 					<li><a href="index.php">Summary</a></li>
-					<li><a href="../">Traq</a></li>
+					<li><a href="../">View Site</a></li>
 					<li><a href="settings.php">Settings</a></li>
 				</ul>
 			</div>
@@ -56,10 +66,13 @@ function adminheader($title='') {
 				<ul class="sidebar-options">
 					<li><a href="projects.php?action=new">New Project</a></li>
 					<li><a href="projects.php">Manage Projects</a></li>
+					<li><hr /></li>
 					<li><a href="milestones.php?action=new">New Milestone</a></li>
 					<li><a href="milestones.php">Manage Milestones</a></li>
+					<li><hr /></li>
 					<li><a href="versions.php?action=new">New Version</a></li>
 					<li><a href="versions.php">Manage Versions</a></li>
+					<li><hr /></li>
 					<li><a href="components.php?action=new">New Component</a></li>
 					<li><a href="components.php">Manage Components</a></li>
 				</ul>
@@ -68,6 +81,9 @@ function adminheader($title='') {
 				<div class="sidebar-title">Users</div>
 				<ul class="sidebar-options">
 					<li><a href="users.php">Manage Users</a></li>
+					<li><hr /></li>
+					<li><a href="groups.php?action=new">New Usergroup</a></li>
+					<li><a href="groups.php">Manage Groups</a></li>
 				</ul>
 			</div>
 		</div>
