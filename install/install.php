@@ -6,6 +6,7 @@
  */
 
 require("../include/config.php");
+require("../include/version.php");
 require("../include/origin/origin.php");
 $origin = new Origin;
 $origin->load("database",'db');
@@ -95,6 +96,7 @@ if(!isset($_POST['step'])) {
 			}
 		}
 		$db->query("INSERT INTO ".$db->prefix."settings VALUES('title','".$db->escapestring($_POST['title'])."')");
+		$db->query("INSERT INTO ".$db->prefix."settings VALUES('dbversion','".$db->escapestring($dbversion)."')");
 		$db->query("INSERT INTO ".$db->prefix."users VALUES(0,'".$db->escapestring($_POST['username'])."','".sha1($_POST['password'])."','".$db->escapestring($_POST['email'])."',1,'')");
 		head('Installer');
 		?>

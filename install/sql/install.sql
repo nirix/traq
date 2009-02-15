@@ -111,9 +111,9 @@ CREATE TABLE `traq_versions` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 INSERT INTO `traq_settings` (`setting`, `value`) VALUES 
-('dbversion', '4'),
 ('theme', 'default');
 
-INSERT INTO `traq_usergroups` (`id`, `name`, `isadmin`) VALUES 
-(1, 'Admins', 1),
-(2, 'Members', 0);
+INSERT INTO `traq_usergroups` (`id`, `name`, `isadmin`, `updatetickets`) VALUES 
+(1, 'Admins', 1, 1),
+(2, 'Members', 0, 0),
+(3, 'Guests', 0, 0);
