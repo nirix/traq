@@ -25,7 +25,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 				<? foreach(getgroups() as $group) { ?>
 				<tr>
 					<td class="component"><a href="groups.php?action=modify&id=<?=$group['id']?>"><?=$group['name']?></a></td>
-					<td class="actions"><? /*<a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete user: <?=$user['username']?>')) { window.location='users.php?action=delete&uid=<?=$user['uid']?>' }">Delete</a><? */ ?></td>
+					<td class="actions"><? if(!in_array($group['id'],array(1,2,3))) { ?><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete user: <?=$group['name']?>')) { window.location='groups.php?action=delete&id=<?=$group['id']?>' }">Delete</a><? } else {?><s>Delete</s><? } ?></td>
 				</tr>
 				<? } ?>
 			</table>
@@ -157,6 +157,11 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		</div>
 		<?
 		adminfooter();
+	}
+} elseif($_REQUEST['action'] == "delete") {
+	if(!in_array($_REQUEST['id'],array(1,2,3))) {
+		$db->query("DELETE FROM ".DBPREFIX."usergroups WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1");
+		header("Location: groups.php");
 	}
 }
 ?>
