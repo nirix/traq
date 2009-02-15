@@ -171,13 +171,13 @@ function formatQuoteOld($text) {
 	$quoteOpen = false;
 	foreach($lines as $line) {
 		if(substr($line,0,1) == ">" && !$quoteOpen) {
-			$line = "<div class=\"quote\">".substr($line,1);
+			$line = "<div class=\"quote\">\n".substr($line,1);
 			$quoteOpen = true;
 		} elseif(substr($line,0,1) == ">" && $quoteOpen) {
 			$line = substr($line,1);
 			$quoteOpen = true;
 		} elseif(substr($line,0,1) != ">" && $quoteOpen) {
-			$line = "</div>".$line;
+			$line = "\n</div>".$line;
 			$quoteOpen = false;
 		}
 		$output .= $line.($quoteOpen ? '' : "\n");
@@ -200,7 +200,6 @@ function commentTag($text) {
 			$label = $bits[$i++];
 			$type = ($label == '') ? 'free' : 'text';
 			$text = str_replace("[".$url." ".$label."]","<a href=\"#".$url."\">".$label."</a>",$text);
-			//echo "url: $url <br> protocol: $protocol <br> label: $label <br> type: $type<hr>";
 		}
 	}
 	return $text;

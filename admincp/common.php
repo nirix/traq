@@ -64,6 +64,12 @@ function adminheader($title='') {
 					<li><a href="components.php">Manage Components</a></li>
 				</ul>
 			</div>
+			<div class="sidebar-group">
+				<div class="sidebar-title">Users</div>
+				<ul class="sidebar-options">
+					<li><a href="users.php">Manage Users</a></li>
+				</ul>
+			</div>
 		</div>
 <?
 }

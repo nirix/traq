@@ -315,6 +315,7 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($project['slug'],'milestone',$milestone['milestone'])] = $milestone['milestone'];
 	include(template('milestone'));
 } elseif($uri->seg[1] == "timeline") {
+	// Timeline Page
 	$dates = array();
 	$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC");
 	while($dateinfo = $db->fetcharray($fetchdays)) {
