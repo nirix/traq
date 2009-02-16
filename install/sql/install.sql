@@ -111,6 +111,11 @@ CREATE TABLE `traq_versions` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
+CREATE TABLE `traq_plugins` (
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY  (`file`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 INSERT INTO `traq_settings` (`setting`, `value`) VALUES 
 ('theme', 'default');
 

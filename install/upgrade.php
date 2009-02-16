@@ -157,6 +157,19 @@ ALTER TABLE `traq_timeline` CHANGE `id` `id` BIGINT( 20 ) NOT NULL AUTO_INCREMEN
 			}
 		}
 	}
+	if($settings->dbversion < 7) {
+		$sql = "CREATE TABLE `traq_plugins` (
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY  (`file`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

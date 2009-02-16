@@ -9,5 +9,5 @@
 define("TRAQVER","0.4-svn");
 
 // DB Version
-$dbversion = 6;
+$dbversion = 7;
 ?>
