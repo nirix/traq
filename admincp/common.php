@@ -5,6 +5,10 @@
  * $Id$
  */
 
+/**
+ * Get Users
+ * Used to get all the users from the DB.
+ */
 function getusers() {
 	global $db;
 	$users = array();
@@ -16,6 +20,10 @@ function getusers() {
 	return $users;
 }
 
+/**
+ * Get Projects
+ * Used to get all the projects from the DB.
+ */
 function getprojects() {
 	global $db;
 	$projects = array();
@@ -27,6 +35,10 @@ function getprojects() {
 	return $projects;
 }
 
+/**
+ * Get Groups
+ * Used to get all the usergroups from the DB.
+ */
 function getgroups() {
 	global $db;
 	$groups = array();
@@ -37,6 +49,10 @@ function getgroups() {
 	return $groups;
 }
 
+/**
+ * Admin Header
+ * Used to display the admincp header.
+ */
 function adminheader($title='') {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -90,12 +106,16 @@ function adminheader($title='') {
 <?
 }
 
+/**
+ * Admin Footer
+ * Used to display the admincp footer.
+ */
 function adminfooter() {
 ?>
 	<div class="clear"></div>
 	</div>
 	<div id="footer">
-		Traq <?=TRAQVER?>,<br />
+		Powered by Traq <?=TRAQVER?>,<br />
 		Copyright &copy;<?=date("Y")?> Rainbird Studios
 	</div>
 </div>

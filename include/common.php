@@ -41,6 +41,7 @@ function is_project($string) {
 
 /**
  * Get Project Milestones
+ * Used to get the milestones of the specified project.
  */
 function projectmilestones($projectid) {
 	global $db;
@@ -54,6 +55,7 @@ function projectmilestones($projectid) {
 
 /**
  * Get Project Components
+ * Used to get the components of the specified project.
  */
 function projectcomponents($projectid) {
 	global $db;
@@ -67,6 +69,7 @@ function projectcomponents($projectid) {
 
 /**
  * Get Project Versions
+ * Used to get the versions of the specified project.
  */
 function projectversions($projectid) {
 	global $db;
@@ -80,6 +83,7 @@ function projectversions($projectid) {
 
 /**
  * Get Project Managers
+ * Used to get the managers of the specified project.
  */
 function projectmanagers($projectid) {
 	global $db,$user;
@@ -141,6 +145,7 @@ function tickettype($typeid) {
 
 /**
  * Ticket Severity
+ * Gets the Ticket Severity text.
  */
 function ticketseverity($severityid) {
 	$severity = array(
@@ -163,27 +168,6 @@ function formattext($text) {
 	$text = formatQuote($text);
 	$text = commentTag($text);
 	return $text;
-}
-function formatQuoteOld($text) {
-	$lines = explode("\n",$text);
-	$lines[] = '';
-	$output = '';
-	$quoteOpen = false;
-	foreach($lines as $line) {
-		if(substr($line,0,1) == ">" && !$quoteOpen) {
-			$line = "<div class=\"quote\">\n".substr($line,1);
-			$quoteOpen = true;
-		} elseif(substr($line,0,1) == ">" && $quoteOpen) {
-			$line = substr($line,1);
-			$quoteOpen = true;
-		} elseif(substr($line,0,1) != ">" && $quoteOpen) {
-			$line = "\n</div>".$line;
-			$quoteOpen = false;
-		}
-		$output .= $line.($quoteOpen ? '' : "\n");
-	}
-	
-	return $output;
 }
 /**
  * Comment Tag
