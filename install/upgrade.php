@@ -140,6 +140,23 @@ NULL , 'Guests', '0', '0'
 			}
 		}
 	}
+	if($settings->dbversion < 6) {
+		$count = 0;
+		$fetchrows = $db->query("SELECT * FROM ".$config->db->prefix."timeline");
+		while($info = $db->fetcharray($fetchrows)) {
+			$count++;
+			$db->query("UPDATE ".$config->db->prefix."timeline SET id=$count WHERE type='".$info['type']."' AND data='".$info['data']."' AND timestamp='".$info['timestamp']."' AND date='".$info['date']."' AND userid='".$info['userid']."' AND projectid='".$info['projectid']."' LIMIT 1");
+		}
+		$sql = "ALTER TABLE `traq_timeline` ADD PRIMARY KEY ( `id` );
+ALTER TABLE `traq_timeline` CHANGE `id` `id` BIGINT( 20 ) NOT NULL AUTO_INCREMENT;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

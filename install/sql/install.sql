@@ -77,14 +77,15 @@ CREATE TABLE `traq_tickets` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_timeline` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL auto_increment,
   `type` bigint(20) NOT NULL,
   `data` longtext NOT NULL,
   `timestamp` bigint(20) NOT NULL,
   `date` date NOT NULL,
   `userid` bigint(20) NOT NULL,
-  `projectid` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `projectid` bigint(20) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_usergroups` (
   `id` bigint(20) NOT NULL auto_increment,
