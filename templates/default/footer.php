@@ -4,3 +4,4 @@
 		Copyright &copy;2009 Rainbird Studios
 	</div>
 </div>
+<? FishHook::hook('template_footer'); ?>

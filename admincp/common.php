@@ -75,6 +75,7 @@ function adminheader($title='') {
 					<li><a href="index.php">Summary</a></li>
 					<li><a href="../">View Site</a></li>
 					<li><a href="settings.php">Settings</a></li>
+					<li><a href="plugins.php">Plugins</a></li>
 				</ul>
 			</div>
 			<div class="sidebar-group">
