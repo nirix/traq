@@ -12,11 +12,16 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
-	$fetchcomponents = $db->query("SELECT * FROM ".DBPREFIX."components ORDER BY project ASC");
-	$components = array();
-	while($info = $db->fetcharray($fetchcomponents)) {
-		$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['project']."' LIMIT 1"));
-		$components[] = $info;
+	$projects = array();
+	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
+	while($project = $db->fetcharray($fetchprojects)) {
+		$project['components'] = array();
+		$fetchcomponents = $db->query("SELECT * FROM ".DBPREFIX."components WHERE project='".$project['id']."' ORDER BY project ASC");
+		while($info = $db->fetcharray($fetchcomponents)) {
+			$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['project']."' LIMIT 1"));
+			$project['components'][] = $info;
+		}
+		$projects[] = $project;
 	}
 	
 	adminheader('Components');
@@ -30,12 +35,17 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					<th class="project">Project</th>
 					<th class="actions">Actions</th>
 				</thead>
-				<? foreach($components as $component) { ?>
+				<? foreach($projects as $project) { ?>
+				<tr class="thead">
+					<td colspan="3"><?=$project['name']?></td>
+				</tr>
+				<? foreach($project['components'] as $component) { ?>
 				<tr>
 					<td class="component"><a href="components.php?action=modify&component=<?=$component['id']?>"><?=$component['name']?></a></td>
 					<td class="project"><?=$component['projectinfo']['name']?></td>
 					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete component <?=$component['name']?> for project: <?=$component['projectinfo']['name']?>')) { window.location='components.php?action=delete&component=<?=$component['id']?>' }">Delete</a></td>
 				</tr>
+				<? } ?>
 				<? } ?>
 			</table>
 		</div>

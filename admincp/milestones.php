@@ -12,12 +12,19 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones ORDER BY project ASC");
-	$milestones = array();
-	while($info = $db->fetcharray($fetchmilestones)) {
-		$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['project']."' LIMIT 1"));
-		$milestones[] = $info;
+	$projects = array();
+	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
+	while($project = $db->fetcharray($fetchprojects)) {
+		$project['milestones'] = array();
+		$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' ORDER BY project ASC");
+		while($info = $db->fetcharray($fetchmilestones)) {
+			$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['project']."' LIMIT 1"));
+			$project['milestones'][] = $info;
+		}
+		$projects[] = $project;
 	}
+	
+
 	
 	adminheader('Milestones');
 	?>
@@ -30,12 +37,17 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					<th class="project">Project</th>
 					<th class="actions">Actions</th>
 				</thead>
-				<? foreach($milestones as $milestone) { ?>
+				<? foreach($projects as $project) { ?>
+				<tr class="thead">
+					<td colspan="3"><?=$project['name']?></td>
+				</tr>
+				<? foreach($project['milestones'] as $milestone) { ?>
 				<tr>
 					<td class="component"><a href="milestones.php?action=modify&milestone=<?=$milestone['id']?>"><?=$milestone['milestone']?> <?=(!empty($milestone['codename']) ? '('.$milestone['codename'].')' : '')?></a></td>
 					<td class="project"><?=$milestone['projectinfo']['name']?></td>
 					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete milestone <?=$milestone['milestone']?> for project: <?=$milestone['projectinfo']['name']?>')) { window.location='milestones.php?action=delete&milestone=<?=$milestone['id']?>' }">Delete</a></td>
 				</tr>
+				<? } ?>
 				<? } ?>
 			</table>
 		</div>

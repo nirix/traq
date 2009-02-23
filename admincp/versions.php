@@ -12,6 +12,18 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	$projects = array();
+	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
+	while($project = $db->fetcharray($fetchprojects)) {
+		$project['versions'] = array();
+		$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions WHERE projectid='".$project['id']."' ORDER BY projectid ASC");
+		while($info = $db->fetcharray($fetchversions)) {
+			$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['projectid']."' LIMIT 1"));
+			$project['versions'][] = $info;
+		}
+		$projects[] = $project;
+	}
+	
 	$fetchversions = $db->query("SELECT * FROM ".DBPREFIX."versions ORDER BY projectid ASC");
 	$versions = array();
 	while($info = $db->fetcharray($fetchversions)) {
@@ -30,12 +42,17 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					<th class="project">Project</th>
 					<th class="actions">Actions</th>
 				</thead>
-				<? foreach($versions as $version) { ?>
+				<? foreach($projects as $project) { ?>
+				<tr class="thead">
+					<td colspan="3"><?=$project['name']?></td>
+				</tr>
+				<? foreach($project['versions'] as $version) { ?>
 				<tr>
 					<td class="component"><a href="versions.php?action=modify&version=<?=$version['id']?>"><?=$version['version']?></a></td>
 					<td class="project"><?=$version['projectinfo']['name']?></td>
 					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete version <?=$version['version']?> for project: <?=$version['projectinfo']['name']?>')) { window.location='versions.php?action=delete&version=<?=$version['id']?>' }">Delete</a></td>
 				</tr>
+				<? } ?>
 				<? } ?>
 			</table>
 		</div>
