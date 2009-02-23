@@ -170,6 +170,16 @@ ALTER TABLE `traq_timeline` CHANGE `id` `id` BIGINT( 20 ) NOT NULL AUTO_INCREMEN
 			}
 		}
 	}
+	if($settings->dbversion < 8) {
+		$sql = "ALTER TABLE `traq_users` CHANGE `uid` `id` BIGINT( 255 ) NOT NULL AUTO_INCREMENT;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

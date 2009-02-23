@@ -15,7 +15,7 @@
 				<p title="12/14/08 08:37:54">Opened <?=timesince($ticket['timestamp'])?> ago</p>
 				<p title="01/19/09 14:13:28">Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
-			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small> <? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
+			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small> <? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?>
 				<input type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }" value="Delete" />
 				<? } ?></h1>
 			<table class="properties">
@@ -58,9 +58,9 @@
 					<ul>
 					<? foreach($attachments as $attachment) { ?>
 						<li>
-							<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><? } ?>
+							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><? } ?>
 							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['user']['username']?> <?=timesince($attachment['timestamp'])?> ago.
-							<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="Delete" /></form><? } ?>
+							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="Delete" /></form><? } ?>
 						</li>
 					<? } ?>
 					</ul>
@@ -83,7 +83,7 @@
 					<? if($user->loggedin) { ?>
 					<span class="inlinebuttons">
 						<input type="button" value="Reply" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />
-						<? if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) { ?>
+						<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?>
 						<input type="button" value="Delete" onclick="if(confirm('Are you sure you want to delete this comment?')) { document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'; }" />
 						<? } ?>
 					</span>
@@ -156,7 +156,7 @@ Replying to [comment:<?=$_REQUEST['replyto']?> <?=$history[$_REQUEST['replyto']-
 								<select name="assignto" id="assignto">
 									<option value="0"<?=($ticket['assigneeid'] == 0 ? ' selected="selected"' : '')?>> </option>
 									<? foreach(projectmanagers($project['id']) as $staff) { ?> 
-									<option value="<?=$staff['uid']?>"<?=($staff['uid'] == $ticket['assigneeid'] ? ' selected="selected"' : '')?>><?=$staff['username']?></option>
+									<option value="<?=$staff['id']?>"<?=($staff['id'] == $ticket['assigneeid'] ? ' selected="selected"' : '')?>><?=$staff['username']?></option>
 									<? } ?> 
 								</select>
 							</td>

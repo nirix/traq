@@ -46,7 +46,7 @@
 							<select name="assignto" id="assignto">
 								<option selected="selected" value="0"> </option>
 								<? foreach(projectmanagers($project['id']) as $staff) { ?>
-								<option value="<?=$staff['uid']?>"><?=$staff['username']?></option>
+								<option value="<?=$staff['id']?>"><?=$staff['username']?></option>
 								<? } ?>
 							</select>
 						</td>

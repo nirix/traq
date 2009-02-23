@@ -95,13 +95,13 @@ CREATE TABLE `traq_usergroups` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_users` (
-  `uid` bigint(255) NOT NULL auto_increment,
+  `id` bigint(255) NOT NULL auto_increment,
   `username` varchar(255) NOT NULL default 'Guest',
   `password` varchar(255) NOT NULL default '',
   `email` varchar(255) NOT NULL default '',
   `groupid` bigint(20) NOT NULL default '3',
   `hash` varchar(255) NOT NULL default '',
-  UNIQUE KEY `uid` (`uid`)
+  UNIQUE KEY `uid` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_versions` (

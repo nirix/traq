@@ -12,7 +12,7 @@
 function getusers() {
 	global $db;
 	$users = array();
-	$fetchusers = $db->query("SELECT uid,username,email FROM ".DBPREFIX."users ORDER BY uid ASC");
+	$fetchusers = $db->query("SELECT id,username,email FROM ".DBPREFIX."users ORDER BY id ASC");
 	while($info = $db->fetcharray($fetchusers)) {
 		$users[] = $info;
 	}

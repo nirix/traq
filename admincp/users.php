@@ -30,8 +30,8 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 				</thead>
 				<? foreach($users as $user) { ?>
 				<tr>
-					<td class="component"><a href="users.php?action=modify&uid=<?=$user['uid']?>"><?=$user['username']?></a></td>
-					<td class="actions"><? /*<a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete user: <?=$user['username']?>')) { window.location='users.php?action=delete&uid=<?=$user['uid']?>' }">Delete</a><? */ ?></td>
+					<td class="component"><a href="users.php?action=modify&id=<?=$user['id']?>"><?=$user['username']?></a></td>
+					<td class="actions"><? /*<a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete user: <?=$user['username']?>')) { window.location='users.php?action=delete&id=<?=$user['id']?>' }">Delete</a><? */ ?></td>
 				</tr>
 				<? } ?>
 			</table>
@@ -45,22 +45,22 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		if($_POST['username'] == "") {
 			$errors['username'] = "You must enter a Username";
 		}
-		if($db->numrows($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE username='".$db->escapestring($_POST['username'])."' AND uid != '".$db->escapestring($_POST['userid'])."' LIMIT 1"))) {
+		if($db->numrows($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE username='".$db->escapestring($_POST['username'])."' AND id != '".$db->escapestring($_POST['userid'])."' LIMIT 1"))) {
 			$errors['username'] = "Username is already in use";
 		}
 	}
 	
 	if(!count($errors) && isset($_POST['do'])) {
-		$db->query("UPDATE ".DBPREFIX."users SET username='".$db->escapestring($_POST['username'])."', email='".$db->escapestring($_POST['email'])."', groupid='".$db->escapestring($_POST['group'])."' WHERE uid='".$db->escapestring($_POST['userid'])."' LIMIT 1");
+		$db->query("UPDATE ".DBPREFIX."users SET username='".$db->escapestring($_POST['username'])."', email='".$db->escapestring($_POST['email'])."', groupid='".$db->escapestring($_POST['group'])."' WHERE id='".$db->escapestring($_POST['userid'])."' LIMIT 1");
 		header("Location: users.php");
 	} else {
-		$user = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE uid='".$db->escapestring($_REQUEST['uid'])."' LIMIT 1"));
+		$user = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1"));
 		adminheader('Modify User');
 		?>
 		<div id="content">
 			<form action="users.php?action=modify" method="post">
 			<input type="hidden" name="do" value="modify" />
-			<input type="hidden" name="userid" value="<?=$user['uid']?>" />
+			<input type="hidden" name="userid" value="<?=$user['id']?>" />
 			<div class="content-group">
 				<div class="content-title">Modify User</div>
 				<? if(count($errors)) { ?>

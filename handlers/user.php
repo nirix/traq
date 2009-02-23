@@ -69,7 +69,7 @@ if($uri->seg[1] == "login") {
 			if(!empty($_POST['password'])) {
 				$password = "password='".sha1($_POST['password'])."',";
 			}
-			$db->query("UPDATE ".DBPREFIX."users SET $password email='".$db->escapestring($_POST['email'])."' WHERE uid='".$user->info->uid."' LIMIT 1");
+			$db->query("UPDATE ".DBPREFIX."users SET $password email='".$db->escapestring($_POST['email'])."' WHERE id='".$user->info->id."' LIMIT 1");
 			header("Location: ".$uri->anchor('user','settings'));
 		} else {
 			include(template('usercp'));

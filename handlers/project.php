@@ -137,15 +137,15 @@ if(!isset($uri->seg[1])) {
 															   1,
 															   ".$db->escapestring($_POST['priority']).",
 															   ".$db->escapestring($_POST['severity']).",
-															   ".$user->info->uid.",
+															   ".$user->info->id.",
 															   ".$db->escapestring($_POST['assignto']).",
 															   ".time().",
 															   0
 															   )");
 			$internalid = $db->insertid();
 			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$internalid.",'CREATE','')");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",".$internalid.",'CREATE','')");
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->id.",".$project['id'].")");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
 		} else {
 			FishHook::hook('projecthandler_newticket_pretemplate');
@@ -163,7 +163,7 @@ if(!isset($uri->seg[1])) {
 	$ticket['body'] = formattext($ticket['body']);
 	FishHook::hook('projecthandler_ticketpage_start');
 	if($uri->seg[3] == "delete") {
-		if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) {
+		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) {
 			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1");
 			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
 			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' LIMIT 1");
@@ -172,7 +172,7 @@ if(!isset($uri->seg[1])) {
 			header("Location: ".$uri->anchor($project['slug'],'tickets'));
 		}
 	} elseif($_POST['action'] == "deleteattachment") {
-		if($user->group->isadmin or in_array($user->info->uid,$project['managerids'])) {
+		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) {
 			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($_POST['attachmentid'])."' LIMIT 1");
 			FishHook::hook('projecthandler_deleteattachment');
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
@@ -215,11 +215,11 @@ if(!isset($uri->seg[1])) {
 				} elseif($_POST['ticketaction'] == "close") {
 					$changes[] = "CLOSE:".$_POST['closeas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['closeas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->id.",".$project['id'].")");
 				} elseif($_POST['ticketaction'] == "reopen") {
 					$changes[] = "REOPEN:".$_POST['reopenas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['reopenas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->uid.",".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->id.",".$project['id'].")");
 				}
 				if(count($changes) > 0) {
 					FishHook::hook('projecthandler_updateticket');
@@ -237,7 +237,7 @@ if(!isset($uri->seg[1])) {
 			if(!empty($_POST['comment']) or count($changes) > 0) {
 				$changes = implode('|',$changes);
 				FishHook::hook('projecthandler_updateticket_postcomment');
-				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->uid.",".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
+				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
 		} elseif($uri->seg[3] == "deletecomment") {
@@ -250,8 +250,8 @@ if(!isset($uri->seg[1])) {
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$ticket['milestoneid']."' LIMIT 1")); // Get ticket Milestone info
 		$version = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$ticket['versionid']."' LIMIT 1")); // Get ticket Version info
 		$component = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticket['componentid']."' LIMIT 1")); // Get ticket Component info
-		$owner = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['ownerid']."' LIMIT 1")); // Get ticket Owner info
-		$assignee = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
+		$owner = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$ticket['ownerid']."' LIMIT 1")); // Get ticket Owner info
+		$assignee = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
 		
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
 		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
@@ -260,7 +260,7 @@ if(!isset($uri->seg[1])) {
 		$history = array();
 		$fetchhistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");
 		while($info = $db->fetcharray($fetchhistory)) {
-			$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['userid']."' LIMIT 1"));
+			$info['user'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$info['userid']."' LIMIT 1"));
 			$changes = explode('|',$info['changes']);
 			$info['comment_orig'] = $info['comment'];
 			$info['comment'] = formattext($info['comment']);
@@ -284,8 +284,8 @@ if(!isset($uri->seg[1])) {
 					$change['from'] = tickettype($change['fromid']);
 					$change['to'] = tickettype($change['toid']);
 				} else if($type == "ASIGNEE") {
-					$change['from'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$change['fromid']."' LIMIT 1"));
-					$change['to'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$change['toid']."' LIMIT 1"));
+					$change['from'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$change['fromid']."' LIMIT 1"));
+					$change['to'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$change['toid']."' LIMIT 1"));
 				} else if($type == "MILESTONE") {
 					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['fromid']."' LIMIT 1"));
 					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['toid']."' LIMIT 1"));
@@ -314,7 +314,7 @@ if(!isset($uri->seg[1])) {
 		$attachments = array();
 		$fetchattachments = $db->query("SELECT * FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp ASC");
 		while($info = $db->fetcharray($fetchattachments)) {
-			$info['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$info['ownerid']."' LIMIT 1"));
+			$info['user'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$info['ownerid']."' LIMIT 1"));
 			FishHook::hook('projecthandler_viewticket_fetchattachments');
 			$attachments[] = $info;
 		}
@@ -323,7 +323,7 @@ if(!isset($uri->seg[1])) {
 			if($user->loggedin) {
 				if(!empty($_FILES['file']['name'])) {
 					FishHook::hook('projecthandler_ticket_attachfile');
-					$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->uid.",".$ticket['id'].",".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->id.",".$ticket['id'].",".$project['id'].")");
 				}
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
@@ -357,7 +357,7 @@ if(!isset($uri->seg[1])) {
 		while($rowinfo = $db->fetcharray($fetchrows)) {
 			$parts = explode(':',$rowinfo['data']);
 			$rowinfo['type'] = $parts[0];
-			$rowinfo['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$rowinfo['userid']."' LIMIT 1"));
+			$rowinfo['user'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$rowinfo['userid']."' LIMIT 1"));
 			if($parts[0] == "TICKETCREATE") {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
 				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);

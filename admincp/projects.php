@@ -101,7 +101,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 						<td>
 							<select name="managers[]" multiple>
 								<? foreach(getusers() as $user) { ?>
-								<option value="<?=$user['uid']?>"><?=$user['username']?></option>
+								<option value="<?=$user['id']?>"><?=$user['username']?></option>
 								<? } ?>
 							</select>
 						</td>
@@ -174,7 +174,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 						<td>
 							<select name="managers[]" multiple>
 								<? foreach(getusers() as $user) { ?>
-								<option value="<?=$user['uid']?>"<?=(in_array($user['uid'],$project['managers']) ? ' selected="selected"' : '')?>><?=$user['username']?></option>
+								<option value="<?=$user['id']?>"<?=(in_array($user['id'],$project['managers']) ? ' selected="selected"' : '')?>><?=$user['username']?></option>
 								<? } ?>
 							</select>
 						</td>
