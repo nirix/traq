@@ -51,7 +51,7 @@
 			<div class="description">
 				<h3 id="description">Description</h3>
 				<p>
-					<?=stripslashes($ticket['body'])?> 
+					<?=($ticket['body'])?> 
 				</p>
 				<h3 id="attachments">Attachments</h3>
 				<p id="attachments">

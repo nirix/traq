@@ -57,6 +57,8 @@ if(!isset($uri->seg[1])) {
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
 		while($info = $db->fetcharray($fetchtickets)) {
+			$info['summary'] = stripslashes($info['summary']);
+			$info['body'] = stripslashes($info['body']);
 			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 			FishHook::hook('projecthandler_tickets_openorclosed_fetchtickets');
@@ -74,6 +76,8 @@ if(!isset($uri->seg[1])) {
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
 		while($info = $db->fetcharray($fetchtickets)) {
+			$info['summary'] = stripslashes($info['summary']);
+			$info['body'] = stripslashes($info['body']);
 			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 			FishHook::hook('projecthandler_tickets_allmilestone_fetchtickets');
@@ -89,6 +93,8 @@ if(!isset($uri->seg[1])) {
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' ORDER BY priority DESC");
 		while($info = $db->fetcharray($fetchtickets)) {
+			$info['summary'] = stripslashes($info['summary']);
+			$info['body'] = stripslashes($info['body']);
 			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 			$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1"));
@@ -152,6 +158,8 @@ if(!isset($uri->seg[1])) {
 } else if($uri->seg[1] == "ticket") {
 	// Ticket Page
 	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE tid='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
+	$ticket['summary'] = stripslashes($ticket['summary']);
+	$ticket['body'] = stripslashes($ticket['body']);
 	$ticket['body'] = formattext($ticket['body']);
 	FishHook::hook('projecthandler_ticketpage_start');
 	if($uri->seg[3] == "delete") {
@@ -352,10 +360,13 @@ if(!isset($uri->seg[1])) {
 			$rowinfo['user'] = $db->fetcharray($db->query("SELECT uid,username FROM ".DBPREFIX."users WHERE uid='".$rowinfo['userid']."' LIMIT 1"));
 			if($parts[0] == "TICKETCREATE") {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
+				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
 			} else if($parts[0] == "TICKETCLOSE") {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
+				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
 			} else if($parts[0] == "TICKETREOPEN") {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
+				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
 			}
 			FishHook::hook('projecthandler_timeline_fetchrows');
 			$row['rows'][] = $rowinfo;
@@ -373,6 +384,8 @@ if(!isset($uri->seg[1])) {
 		$info['tickets'] = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY updated ASC");
 		while($ticketinfo = $db->fetcharray($fetchtickets)) {
+			$ticketinfo['summary'] = stripslashes($ticketinfo['summary']);
+			$ticketinfo['body'] = stripslashes($ticketinfo['body']);
 			$ticketinfo['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticketinfo['componentid']."' LIMIT 1"));
 			FishHook::hook('projecthandler_changelog_fetchmilestones_fetchchanges');
 			$info['tickets'][] = $ticketinfo;
