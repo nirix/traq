@@ -100,7 +100,7 @@
 						<? } else if($change['type'] == "TYPE") { ?>
 						<li>Type changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em></li>
 						<? } else if($change['type'] == "ASIGNEE") { ?>
-						<li>Reassigned to <em><?=$change['to']['username']?></em></li>
+						<li>Reassigned to <em><?=(empty($change['to']['username']) ? 'No one' : $change['to']['username'])?></em></li>
 						<? } else if($change['type'] == "MILESTONE") { ?>
 						<li>Milestone changed from <em><?=$change['from']['milestone']?></em> to <em><?=$change['to']['milestone']?></em></li>
 						<? } else if($change['type'] == "CLOSE") { ?>
