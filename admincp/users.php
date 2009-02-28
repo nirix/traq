@@ -31,7 +31,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 				<? foreach($users as $user) { ?>
 				<tr>
 					<td class="component"><a href="users.php?action=modify&id=<?=$user['id']?>"><?=$user['username']?></a></td>
-					<td class="actions"><? /*<a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete user: <?=$user['username']?>')) { window.location='users.php?action=delete&id=<?=$user['id']?>' }">Delete</a><? */ ?></td>
+					<td class="actions"><a href="javascript:void(0);" onclick="if(confirm('Are you sure you want to delete user: <?=$user['username']?>')) { window.location='users.php?action=delete&id=<?=$user['id']?>' }">Delete</a></td>
 				</tr>
 				<? } ?>
 			</table>
@@ -102,5 +102,8 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+} elseif($_REQUEST['action'] == "delete") {
+	$db->query("DELETE FROM ".DBPREFIX."users WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1");
+	header("Location: users.php");
 }
 ?>

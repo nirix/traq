@@ -13,6 +13,7 @@ $origin->load("database",'db');
 $origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
 $origin->db->selectdb($config->db->name);
 $origin->db->prefix = $config->db->prefix;
+define("DBPREFIX",$origin->db->prefix);
 $db =& $origin->db;
 require("common.php");
 
@@ -178,6 +179,42 @@ ALTER TABLE `traq_timeline` CHANGE `id` `id` BIGINT( 20 ) NOT NULL AUTO_INCREMEN
 			if(!empty($query)) {
 				$db->query($query);
 			}
+		}
+	}
+	if($settings->dbversion < 9) {
+		$sql = "ALTER TABLE `traq_attachments` ADD `ownername` VARCHAR( 255 ) NOT NULL AFTER `ownerid`;
+ALTER TABLE `traq_tickethistory` ADD `username` VARCHAR( 255 ) NOT NULL AFTER `userid`;
+ALTER TABLE `traq_tickets` ADD `ownername` VARCHAR( 255 ) NOT NULL AFTER `ownerid`;
+ALTER TABLE `traq_timeline` ADD `username` VARCHAR( 255 ) NOT NULL AFTER `userid`;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."timeline");
+		while($info = $db->fetcharray($fetchrows)) {
+			$owner = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE id='".$info['userid']."' LIMIT 1"));
+			$db->query("UPDATE ".DBPREFIX."timeline SET username='".$owner['username']."' WHERE id='".$info['id']."' LIMIT 1");
+		}
+		
+		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."tickets");
+		while($info = $db->fetcharray($fetchrows)) {
+			$owner = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE id='".$info['ownerid']."' LIMIT 1"));
+			$db->query("UPDATE ".DBPREFIX."tickets SET ownername='".$owner['username']."' WHERE id='".$info['id']."' LIMIT 1");
+		}
+		
+		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."tickethistory");
+		while($info = $db->fetcharray($fetchrows)) {
+			$owner = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE id='".$info['userid']."' LIMIT 1"));
+			$db->query("UPDATE ".DBPREFIX."tickethistory SET username='".$owner['username']."' WHERE id='".$info['id']."' LIMIT 1");
+		}
+		
+		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."attachments");
+		while($info = $db->fetcharray($fetchrows)) {
+			$owner = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE id='".$info['ownerid']."' LIMIT 1"));
+			$db->query("UPDATE ".DBPREFIX."attachments SET ownername='".$owner['username']."' WHERE id='".$info['id']."' LIMIT 1");
 		}
 	}
 	?>

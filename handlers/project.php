@@ -138,14 +138,15 @@ if(!isset($uri->seg[1])) {
 															   ".$db->escapestring($_POST['priority']).",
 															   ".$db->escapestring($_POST['severity']).",
 															   ".$user->info->id.",
+															   '".$user->info->username."',
 															   ".$db->escapestring($_POST['assignto']).",
 															   ".time().",
 															   0
 															   )");
 			$internalid = $db->insertid();
 			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",".$internalid.",'CREATE','')");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->id.",".$project['id'].")");
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$internalid.",'CREATE','')");
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
 		} else {
 			FishHook::hook('projecthandler_newticket_pretemplate');
@@ -215,11 +216,11 @@ if(!isset($uri->seg[1])) {
 				} elseif($_POST['ticketaction'] == "close") {
 					$changes[] = "CLOSE:".$_POST['closeas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['closeas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->id.",".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
 				} elseif($_POST['ticketaction'] == "reopen") {
 					$changes[] = "REOPEN:".$_POST['reopenas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['reopenas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->id.",".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
 				}
 				if(count($changes) > 0) {
 					FishHook::hook('projecthandler_updateticket');
@@ -237,7 +238,7 @@ if(!isset($uri->seg[1])) {
 			if(!empty($_POST['comment']) or count($changes) > 0) {
 				$changes = implode('|',$changes);
 				FishHook::hook('projecthandler_updateticket_postcomment');
-				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
+				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
 		} elseif($uri->seg[3] == "deletecomment") {
@@ -314,7 +315,6 @@ if(!isset($uri->seg[1])) {
 		$attachments = array();
 		$fetchattachments = $db->query("SELECT * FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp ASC");
 		while($info = $db->fetcharray($fetchattachments)) {
-			$info['user'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$info['ownerid']."' LIMIT 1"));
 			FishHook::hook('projecthandler_viewticket_fetchattachments');
 			$attachments[] = $info;
 		}
@@ -323,7 +323,7 @@ if(!isset($uri->seg[1])) {
 			if($user->loggedin) {
 				if(!empty($_FILES['file']['name'])) {
 					FishHook::hook('projecthandler_ticket_attachfile');
-					$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->id.",".$ticket['id'].",".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",".$project['id'].")");
 				}
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));

@@ -21,7 +21,7 @@
 			<table class="properties">
 				<tr>
 					<th id="h_owner">Reported by:</th>
-					<td headers="h_owner"><?=$owner['username']?></td>
+					<td headers="h_owner"><?=$ticket['ownername']?></td>
 					<th id="h_assignee">Assigned to:</th>
 					<td headers="h_assignee"><?=$assignee['username']?></td>
 				</tr>
@@ -59,7 +59,7 @@
 					<? foreach($attachments as $attachment) { ?>
 						<li>
 							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><? } ?>
-							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['user']['username']?> <?=timesince($attachment['timestamp'])?> ago.
+							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['ownername']?> <?=timesince($attachment['timestamp'])?> ago.
 							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="Delete" /></form><? } ?>
 						</li>
 					<? } ?>
@@ -79,7 +79,7 @@
 		<div id="history">
 			<? foreach($history as $info) { ?>
 				<div class="change">
-					<h3><a name="comment:<?=++$historyid?>"></a><?=timesince($info['timestamp'])?> ago by <?=$info['user']['username']?></h3>
+					<h3><a name="comment:<?=++$historyid?>"></a><?=timesince($info['timestamp'])?> ago by <?=$info['username']?></h3>
 					<? if($user->loggedin) { ?>
 					<span class="inlinebuttons">
 						<input type="button" value="Reply" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />

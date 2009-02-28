@@ -195,14 +195,15 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$db->query("DELETE FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_REQUEST['project'])."' LIMIT 1");
 	$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."'");
 	while($ticket = $db->fetcharray($fetchtickets)) {
-		$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
-		$db->query("DELETE FROM ".DBPREFIX."ticketcomments WHERE ticketid='".$ticket['id']."' LIMIT 1");
+		$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."'");
+		$db->query("DELETE FROM ".DBPREFIX."ticketcomments WHERE ticketid='".$ticket['id']."'");
 	}
-	$db->query("DELETE FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' LIMIT 1");
-	$db->query("DELETE FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' LIMIT 1");
-	$db->query("DELETE FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' LIMIT 1");
-	$db->query("DELETE FROM ".DBPREFIX."versions WHERE projectid='".$project['id']."' LIMIT 1");
-	$db->query("DELETE FROM ".DBPREFIX."components WHERE project='".$project['id']."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."'");
+	$db->query("DELETE FROM ".DBPREFIX."milestones WHERE project='".$project['id']."'");
+	$db->query("DELETE FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."'");
+	$db->query("DELETE FROM ".DBPREFIX."versions WHERE projectid='".$project['id']."'");
+	$db->query("DELETE FROM ".DBPREFIX."components WHERE project='".$project['id']."'");
+	$db->query("DELETE FROM ".DBPREFIX."attachments WHERE projectid='".$project['id']."'");
 	header("Location: projects.php");
 }
 ?>
