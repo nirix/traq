@@ -20,9 +20,11 @@ $tables = $db->query("SHOW TABLES");
 while($info = $db->fetcharray($tables)) {
 	$dbtables[] = $info[0];
 }
-if(in_array($config->db->prefix.'settings',$dbtables)) {
-	echo "Traq already installed.";
-	exit;
+if(is_array($dbtables)) {
+	if(in_array($config->db->prefix.'settings',$dbtables)) {
+		echo "Traq already installed.";
+		exit;
+	}
 }
 if(!isset($_POST['step'])) {
 	head('Installer');

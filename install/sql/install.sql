@@ -5,6 +5,7 @@ CREATE TABLE `traq_attachments` (
   `type` varchar(255) NOT NULL,
   `timestamp` bigint(20) NOT NULL,
   `ownerid` bigint(20) NOT NULL,
+  `ownername` varchar(255) NOT NULL,
   `ticketid` bigint(20) NOT NULL,
   `projectid` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
@@ -50,6 +51,7 @@ CREATE TABLE `traq_tickethistory` (
   `id` bigint(20) NOT NULL auto_increment,
   `timestamp` bigint(20) NOT NULL,
   `userid` bigint(20) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `ticketid` bigint(20) NOT NULL,
   `changes` longtext NOT NULL,
   `comment` longtext NOT NULL,
@@ -70,6 +72,7 @@ CREATE TABLE `traq_tickets` (
   `priority` bigint(20) NOT NULL,
   `severity` bigint(20) NOT NULL,
   `ownerid` bigint(20) NOT NULL,
+  `ownername` varchar(255) NOT NULL,
   `assigneeid` bigint(20) NOT NULL,
   `timestamp` bigint(20) NOT NULL,
   `updated` bigint(20) NOT NULL,
@@ -83,6 +86,7 @@ CREATE TABLE `traq_timeline` (
   `timestamp` bigint(20) NOT NULL,
   `date` date NOT NULL,
   `userid` bigint(20) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `projectid` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
@@ -91,6 +95,7 @@ CREATE TABLE `traq_usergroups` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   `isadmin` smallint(6) NOT NULL default '0',
+  `updatetickets` smallint(6) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
@@ -121,5 +126,5 @@ INSERT INTO `traq_settings` (`setting`, `value`) VALUES
 
 INSERT INTO `traq_usergroups` (`id`, `name`, `isadmin`, `updatetickets`) VALUES 
 (1, 'Admins', 1, 1),
-(2, 'Members', 0, 0),
+(2, 'Members', 0, 1),
 (3, 'Guests', 0, 0);

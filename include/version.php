@@ -6,7 +6,7 @@
  */
 
 // Traq Version
-define("TRAQVER","0.4-svn");
+define("TRAQVER","0.4");
 
 // DB Version
 $dbversion = 9;
