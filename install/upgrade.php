@@ -91,7 +91,7 @@ if(!isset($_POST['step'])) {
 	}
 	if($settings->dbversion < 3) {
 		$sql = "
-		CREATE TABLE `t_attachments` (
+		CREATE TABLE `traq_attachments` (
 		  `id` bigint(20) NOT NULL auto_increment,
 		  `name` varchar(255) NOT NULL,
 		  `contents` longtext NOT NULL,
