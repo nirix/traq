@@ -48,6 +48,18 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		if($db->numrows($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE username='".$db->escapestring($_POST['username'])."' AND id != '".$db->escapestring($_POST['userid'])."' LIMIT 1"))) {
 			$errors['username'] = "Username is already in use";
 		}
+		if($db->numrows($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE username != '".$db->escapestring($_POST['username'])."' AND id='".$db->escapestring($_POST['userid'])."' LIMIT 1"))) {
+			// Update Username in tables that store the username...
+			
+			// Attachments
+			$db->query("UPDATE ".DBPREFIX."attachments SET ownername='".$db->escapestring($_POST['username'])."' WHERE ownerid='".$db->escapestring($_POST['userid'])."'");
+			// Ticket Histroy
+			$db->query("UPDATE ".DBPREFIX."tickethistory SET username='".$db->escapestring($_POST['username'])."' WHERE userid='".$db->escapestring($_POST['userid'])."'");
+			// Tickets
+			$db->query("UPDATE ".DBPREFIX."tickets SET ownername='".$db->escapestring($_POST['username'])."' WHERE ownerid='".$db->escapestring($_POST['userid'])."'");
+			// Timeline
+			$db->query("UPDATE ".DBPREFIX."timeline SET username='".$db->escapestring($_POST['username'])."' WHERE userid='".$db->escapestring($_POST['userid'])."'");
+		}
 	}
 	
 	if(!count($errors) && isset($_POST['do'])) {
