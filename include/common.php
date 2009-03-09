@@ -164,16 +164,17 @@ function ticketseverity($severityid) {
  */
 function formattext($text) {
 	global $origin;
-	
+	// Strip Slashes
+	$text = stripslashes($text);
+	// Make HTML safe
 	$text = htmlspecialchars($text);
-	
+	// [comment:X User] format
 	$text = commentTag($text);
-	
 	// BBCode
 	$text = $origin->bbcode->format($text);
-	
+	// Plugin Hook
 	FishHook::hook('common_formattext');
-	
+	// Return  for display
 	return $text;
 }
 

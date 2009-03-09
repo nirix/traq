@@ -121,6 +121,12 @@ if(!isset($uri->seg[1])) {
 		if($_POST['body'] == "") {
 			$errors['body'] = "You must enter a description.";
 		}
+		if(empty($_POST['milestone'])) {
+			$errors['milestone'] = "You must select a Milestone.";
+		}
+		if(empty($_POST['component'])) {
+			$errors['component'] = "You must select a Component.";
+		}
 		if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
 			$errors['key'] = "Human Check failed";
 		}
