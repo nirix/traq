@@ -224,6 +224,10 @@ if(!isset($uri->seg[1])) {
 				if($_POST['component'] != $ticket['componentid']) {
 					$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
 				}
+				if($_POST['summary'] != $ticket['summary']) {
+					$changes[] = "SUMMARY:".$_POST['summary'].",".$ticket['summary'];
+					$db->query("UPDATE ".DBPREFIX."tickets SET summary='".$db->escapestring($_POST['summary'])."' WHERE id='".$ticket['id']."' LIMIT 1");
+				}
 				if($_POST['ticketaction'] == "markas") {
 					$changes[] = "STATUS:".$_POST['markas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['markas'])."' WHERE id='".$ticket['id']."' LIMIT 1");

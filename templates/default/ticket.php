@@ -92,7 +92,7 @@
 					<ul class="changes">
 					<? foreach($info['changes'] as $change) { ?>
 						<? if($change['type'] == "CREATE") { ?>
-						<li>Ticket created</li>
+						<li>Ticket created by <?=$info['username']?></li>
 						<? } else if($change['type'] == "COMPONENT") { ?>
 						<li>Component changed from <em><?=$change['from']['name']?></em> to <em><?=$change['to']['name']?></em></li>
 						<? } else if($change['type'] == "SEVERITY") { ?>
@@ -104,7 +104,7 @@
 						<? } else if($change['type'] == "MILESTONE") { ?>
 						<li>Milestone changed from <em><?=$change['from']['milestone']?></em> to <em><?=$change['to']['milestone']?></em></li>
 						<? } else if($change['type'] == "CLOSE") { ?>
-						<li>Ticket closed as <?=$change['to']?> by <?=$info['user']['username']?></li>
+						<li>Ticket closed as <?=$change['to']?> by <?=$info['username']?></li>
 						<? } else if($change['type'] == "STATUS") { ?>
 						<li>Status changed from <em><?=$change['from']?></em> to <em><?=$change['to']?></em></li>
 						<? } else if($change['type'] == "PRIORITY") { ?>
@@ -112,7 +112,9 @@
 						<? } else if($change['type'] == "VERSION") { ?>
 						<li>Version changed from <em><?=($change['from']['version'] != '' ? $change['from']['version'] : 'None')?></em> to <em><?=($change['to']['version'] != '' ? $change['to']['version'] : 'None')?></em></li>
 						<? } else if($change['type'] == "REOPEN") { ?>
-						<li>Ticket reopened as <?=$change['to']?> by <?=$info['user']['username']?></li>
+						<li>Ticket reopened as <?=$change['to']?> by <?=$info['username']?></li>
+						<? } else if($change['type'] == "SUMMARY") { ?>
+						<li>Summary changed by <?=$info['username']?></li>
 						<? } ?>
 					<? } ?>
 					</ul>
@@ -212,8 +214,8 @@
 									<? } ?>
 								</select>
 							</td>
-							<th class="col2"></th>
-							<td></td>
+							<th class="col2">Summary</th>
+							<td><input type="text" name="summary" value="<?=$ticket['summary']?>" /></td>
 						</tr>
 						<tr>
 							<th class="col1">Action</th>
