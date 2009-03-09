@@ -65,7 +65,8 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 															'".$db->escapestring($_POST['slug'])."',
 															'".$db->escapestring($_POST['description'])."',
 															'".$db->escapestring(implode(',',$_POST['managers']))."',
-															0
+															0,
+															'".$db->escapestring($_POST['sourcelocation'])."'
 															)");
 		header("Location: projects.php?action=manage");
 	} else {
@@ -109,6 +110,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 						</td>
 					</tr>
 					<tr valign="top">
+						<th>SVN Location</th>
+						<td><input type="text" name="sourcelocation" /></td>
+					</tr>
+					<tr valign="top">
 						<th></th>
 						<td><button type="submit">Create Project</button></td>
 					</tr>
@@ -136,7 +141,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	}
 	
 	if(!count($errors) && isset($_POST['do'])) {
-		$db->query("UPDATE ".DBPREFIX."projects SET name='".$db->escapestring($_POST['name'])."', slug='".$db->escapestring($_POST['slug'])."', ".DBPREFIX."projects.desc='".$db->escapestring($_POST['description'])."', managers='".$db->escapestring(implode(',',$_POST['managers']))."' WHERE slug='".$db->escapestring($_POST['project'])."' LIMIT 1");
+		$db->query("UPDATE ".DBPREFIX."projects SET name='".$db->escapestring($_POST['name'])."', slug='".$db->escapestring($_POST['slug'])."', ".DBPREFIX."projects.desc='".$db->escapestring($_POST['description'])."', managers='".$db->escapestring(implode(',',$_POST['managers']))."', sourcelocation='".$db->escapestring($_POST['sourcelocation'])."' WHERE slug='".$db->escapestring($_POST['project'])."' LIMIT 1");
 		header("Location: projects.php?action=manage");
 	} else {
 		$project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_REQUEST['project'])."' LIMIT 1"));
@@ -180,6 +185,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 								<? } ?>
 							</select>
 						</td>
+					</tr>
+					<tr valign="top">
+						<th>SVN Location</th>
+						<td><input type="text" name="sourcelocation" value="<?=$project['sourcelocation']?>" /></td>
 					</tr>
 					<tr valign="top">
 						<th></th>

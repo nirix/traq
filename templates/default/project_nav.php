@@ -5,7 +5,8 @@
 			?><li class="<?=($uri->seg[1] == "tickets" || $uri->seg[1] == "ticket" ? ' active' : '')?>"><a href="<?=$uri->anchor($project['slug'],'tickets')?>">Tickets</a></li><?
 			?><li<?=($uri->seg[1] == "timeline" ? ' class="active"' : '')?>><a href="<?=$uri->anchor($project['slug'],'timeline')?>">Timeline</a></li><?
 			?><li<?=($uri->seg[1] == "changelog" ? ' class="active"' : '')?>><a href="<?=$uri->anchor($project['slug'],'changelog')?>">Change Log</a></li><?
-			?><? if($user->group->createtickets) {
+			?><? if($project['sourcelocation'] != '') {
+			?><li class="<?=($uri->seg[1] == "source" ? ' active' : '')?>"><a href="<?=$uri->anchor($project['slug'],'source')?>">Browse Source</a></li><? } ?><? if($user->group->createtickets) {
 			?><li class="<?=($uri->seg[1] == "newticket" ? ' active' : '')?>"><a href="<?=$uri->anchor($project['slug'],'newticket')?>">New Ticket</a></li>
 			<? } ?>
 		</ul>

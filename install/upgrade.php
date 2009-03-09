@@ -292,6 +292,16 @@ INSERT INTO `traq_types` (`id`, `name`) VALUES
 		}
 		$db->query("UPDATE ".$config->db->prefix."usergroups SET createtickets=1 WHERE id != 3");
 	}
+	if($settings->dbversion < 12) {
+		$sql = "ALTER TABLE `traq_projects` ADD `sourcelocation` LONGTEXT NOT NULL AFTER `currenttid`;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

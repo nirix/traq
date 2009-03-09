@@ -48,6 +48,7 @@ CREATE TABLE `traq_projects` (
   `desc` longtext NOT NULL,
   `managers` longtext NOT NULL,
   `currenttid` bigint(20) NOT NULL,
+  `sourcelocation` longtext NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;

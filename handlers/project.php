@@ -414,5 +414,7 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = "Change Log";
 	FishHook::hook('projecthandler_changelog');
 	include(template('changelog'));
+} elseif($uri->seg[1] == "source") {
+	include(TRAQPATH.'handlers/browsesvn.php');
 }
 ?>
