@@ -1,4 +1,15 @@
 <?php
+/**
+ * Traq
+ * Copyright (c) 2009 Rainbird Studios
+ * $Id$
+ */
+
+/**
+ * Key Image
+ * Used as an attempt to stop spammers.
+ * Copyright (c) 2009 Jack Polgar
+ */
 session_start();
 $_SESSION['key'] = rand(00000,99999);
 header("Content-type: image/png");

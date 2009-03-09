@@ -163,17 +163,26 @@ function ticketseverity($severityid) {
  * Text Formatting
  */
 function formattext($text) {
-	global $wikimarkup;
-	$text = $wikimarkup->format($text);
-	$text = formatQuote($text);
-	$text = commentTag($text);
+	global $origin;
+	
+	$text = htmlspecialchars($text);
+	
+	// For backwards compatability
+	$text = formatQuote_old($text);
+	$text = commentTag_old($text);
+	
+	// BBCode
+	$text = $origin->bbcode->format($text);
+	
+	FishHook::hook('common_formattext');
+	
 	return $text;
 }
 /**
  * Comment Tag
  * Used to format the [comment:X User] tag to the proper code.
  */
-function commentTag($text) {
+function commentTag_old($text) {
 	$bits = preg_split('/\[(\b(comment:)'.'[^][<>"\\x00-\\x20\\x7F]+) *([^\]\\x0a\\x0d]*?)\]/S', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$i = 0;
 	while($i<count($bits)) {
@@ -189,8 +198,8 @@ function commentTag($text) {
 	return $text;
 }
 // Similair to the lists function in the Origin WikiFormat/Markup class
-// Maybe someday I will find a way to make this more simple.
-function formatQuote($text) {
+// Deprecated
+function formatQuote_old($text) {
 	global $wikimarkup;
 	$lines = explode("\n",$text);
 	$output = '';

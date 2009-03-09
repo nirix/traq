@@ -16,19 +16,15 @@ require(TRAQPATH."include/config.php");
 // Fetch Origin
 require(TRAQPATH."include/origin/origin.php");
 $origin = new Origin;
-$origin->load("database",'db');
+$db =& $origin->load("database",'db');
 $origin->db->prefix = $config->db->prefix;
 define("DBPREFIX",$origin->db->prefix);
 $origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
 $origin->db->selectdb($config->db->name);
 $origin->load("template");
-$origin->load("user");
-$origin->load("uri");
-$origin->load("wikiformat");
-$db =& $origin->db;
-$user =& $origin->user;
-$uri =& $origin->uri;
-$wikimarkup =& $origin->wikiformat;
+$user =& $origin->load("user");
+$uri =& $origin->load("uri");
+$origin->load("bbcode");
 
 // Load FishHook and Plugins
 require(TRAQPATH."include/fishhook.php");
