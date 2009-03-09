@@ -114,10 +114,13 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		if(!isset($_POST['isadmin'])) {
 			$_POST['isadmin'] = 0;
 		}
+		if(!isset($_POST['createtickets'])) {
+			$_POST['createtickets'] = 0;
+		}
 		if(!isset($_POST['updatetickets'])) {
 			$_POST['updatetickets'] = 0;
 		}
-		$db->query("UPDATE ".DBPREFIX."usergroups SET name='".$db->escapestring($_POST['name'])."'".($_POST['groupid'] != 3 ? ", isadmin='".$db->escapestring($_POST['isadmin'])."', updatetickets='".$db->escapestring($_POST['updatetickets'])."'" : '')." WHERE id='".$db->escapestring($_POST['groupid'])."' LIMIT 1");
+		$db->query("UPDATE ".DBPREFIX."usergroups SET name='".$db->escapestring($_POST['name'])."', isadmin='".$db->escapestring($_POST['isadmin'])."', createtickets='".$db->escapestring($_POST['createtickets'])."', updatetickets='".$db->escapestring($_POST['updatetickets'])."' WHERE id='".$db->escapestring($_POST['groupid'])."' LIMIT 1");
 		header("Location: groups.php");
 	} else {
 		$group = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."usergroups WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1"));
