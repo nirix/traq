@@ -5,6 +5,10 @@
  * $Id$
  */
 
+if(empty($project['sourcelocation'])) {
+	exit;
+}
+
 $breadcrumbs[$uri->anchor($project['slug'],'source')] = "Browse Source";
 include(TRAQPATH.'include/svn.class.php');
 $svn = new Traq_Subversion;
