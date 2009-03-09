@@ -224,8 +224,8 @@ if(!isset($uri->seg[1])) {
 				if($_POST['component'] != $ticket['componentid']) {
 					$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
 				}
-				if($_POST['summary'] != $ticket['summary']) {
-					$changes[] = "SUMMARY:".$_POST['summary'].",".$ticket['summary'];
+				if($_POST['summary'] != stripslashes($ticket['summary'])) {
+					$changes[] = "SUMMARY:".$_POST['summary'].",".stripslashes($ticket['summary']);
 					$db->query("UPDATE ".DBPREFIX."tickets SET summary='".$db->escapestring($_POST['summary'])."' WHERE id='".$ticket['id']."' LIMIT 1");
 				}
 				if($_POST['ticketaction'] == "markas") {
@@ -256,7 +256,7 @@ if(!isset($uri->seg[1])) {
 			if((!empty($_POST['comment']) or count($changes) > 0) && !count($errors)) {
 				$changes = implode('|',$changes);
 				FishHook::hook('projecthandler_updateticket_postcomment');
-				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");
+				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",'".$db->escapestring($changes)."','".$db->escapestring($_POST['comment'])."')");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
 		} elseif($uri->seg[3] == "deletecomment") {
