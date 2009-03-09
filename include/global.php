@@ -5,6 +5,8 @@
  * $Id$
  */
 
+session_start();
+
 // Fetch Version file
 include(TRAQPATH."include/version.php");
 

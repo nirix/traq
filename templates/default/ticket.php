@@ -92,7 +92,7 @@
 					<ul class="changes">
 					<? foreach($info['changes'] as $change) { ?>
 						<? if($change['type'] == "CREATE") { ?>
-						<li>Ticket created by <?=$info['user']['username']?></li>
+						<li>Ticket created</li>
 						<? } else if($change['type'] == "COMPONENT") { ?>
 						<li>Component changed from <em><?=$change['from']['name']?></em> to <em><?=$change['to']['name']?></em></li>
 						<? } else if($change['type'] == "SEVERITY") { ?>
@@ -125,7 +125,7 @@
 				</div>
 			<? } ?>
 		</div>
-		<? if($user->loggedin) { ?>
+		<? if($user->group->updatetickets) { ?>
 		<h2>Update Ticket</h2>
 		<div id="update_ticket">
 			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
@@ -242,6 +242,17 @@ Replying to [comment:<?=$_REQUEST['replyto']?> <?=$history[$_REQUEST['replyto']-
 						</tr>
 					</table>
 				</fieldset>
+			<? if(!$user->loggedin) { ?>
+			<fieldset>
+				<legend>Human Check</legend>
+				<table>
+					<tr>
+						<td><img src="<?=$uri->anchor()?>keyimg.php" /></td>
+						<td><input type="text" name="key" /></td>
+					</tr>
+				</table>
+			</fieldset>
+			<? } ?>
 				<? } ?>
 				<input type="submit" value="Update" />
 			</form>

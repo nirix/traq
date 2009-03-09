@@ -6,8 +6,8 @@
  */
 
 // Traq Version
-define("TRAQVER","0.4");
+define("TRAQVER","0.5-svn");
 
 // DB Version
-$dbversion = 9;
+$dbversion = 10;
 ?>

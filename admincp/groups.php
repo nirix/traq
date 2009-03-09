@@ -51,7 +51,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		if(!isset($_POST['updatetickets'])) {
 			$_POST['updatetickets'] = 0;
 		}
-		$db->query("INSERT INTO ".DBPREFIX."usergroups VALUES(0,'".$db->escapestring($_POST['name'])."',".$db->escapestring($_POST['isadmin']).",".$db->escapestring($_POST['updatetickets']).")");
+		$db->query("INSERT INTO ".DBPREFIX."usergroups VALUES(0,'".$db->escapestring($_POST['name'])."',".$db->escapestring($_POST['isadmin']).",".$db->escapestring($_POST['createtickets']).",".$db->escapestring($_POST['updatetickets']).")");
 		header("Location: groups.php");
 	} else {
 		adminheader('New Usergroup');
@@ -78,6 +78,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					<tr valign="top">
 						<th>Access AdminCP</th>
 						<td><input type="checkbox" name="isadmin" value="1" /></td>
+					</tr>
+					<tr valign="top">
+						<th>Create Tickets</th>
+						<td><input type="checkbox" name="createtickets" value="1" /></td>
 					</tr>
 					<tr valign="top">
 						<th>Update Tickets</th>
@@ -141,11 +145,15 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Access AdminCP</th>
-						<td><input type="checkbox" name="isadmin" value="1"<?=($group['isadmin'] ? ' checked="checked"' : '')?><?=($group['id'] == 3 ? ' disabled="disabled"' : '')?> /></td>
+						<td><input type="checkbox" name="isadmin" value="1"<?=($group['isadmin'] ? ' checked="checked"' : '')?> /></td>
+					</tr>
+					<tr valign="top">
+						<th>Create Tickets</th>
+						<td><input type="checkbox" name="createtickets" value="1"<?=($group['createtickets'] ? ' checked="checked"' : '')?> /></td>
 					</tr>
 					<tr valign="top">
 						<th>Update Tickets</th>
-						<td><input type="checkbox" name="updatetickets" value="1"<?=($group['updatetickets'] ? ' checked="checked"' : '')?><?=($group['id'] == 3 ? ' disabled="disabled"' : '')?> /></td>
+						<td><input type="checkbox" name="updatetickets" value="1"<?=($group['updatetickets'] ? ' checked="checked"' : '')?> /></td>
 					</tr>
 					<tr valign="top">
 						<th></th>

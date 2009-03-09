@@ -217,6 +217,16 @@ ALTER TABLE `traq_timeline` ADD `username` VARCHAR( 255 ) NOT NULL AFTER `userid
 			$db->query("UPDATE ".DBPREFIX."attachments SET ownername='".$owner['username']."' WHERE id='".$info['id']."' LIMIT 1");
 		}
 	}
+	if($settings->dbversion < 10) {
+		$sql = "ALTER TABLE `traq_usergroups` ADD `createtickets` SMALLINT( 6 ) NOT NULL AFTER `isadmin`;";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

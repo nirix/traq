@@ -106,9 +106,9 @@ if(!isset($uri->seg[1])) {
 		include(template('tickets'));
 	}
 } else if($uri->seg[1] == "newticket") {
-	// Check if user is logged in.
-	if(!$user->loggedin) {
-		include(template('login'));
+	// Check if user can create tickets
+	if(!$user->group->createtickets) {
+		include(template('nopermission'));
 		exit;
 	}
 	$breadcrumbs[$uri->anchor($project['slug'],'newticket')] = "New Ticket";
@@ -120,6 +120,9 @@ if(!isset($uri->seg[1])) {
 		}
 		if($_POST['body'] == "") {
 			$errors['body'] = "You must enter a description.";
+		}
+		if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
+			$errors['key'] = "Human Check failed";
 		}
 		
 		if(!count($errors)) {
@@ -186,9 +189,14 @@ if(!isset($uri->seg[1])) {
 		print(base64_decode($attachment['contents']));
 	} else {
 		// Update Ticket
-		if($_POST['action'] == "update" && $user->loggedin) {
+		if($_POST['action'] == "update") {
 			$changes = array();
-			if($user->group->updatetickets) {
+			$doupdate = true;
+			if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
+				$doupdate = false;
+				$errors[] = "Human Check failed";
+			}
+			if($user->group->updatetickets && !count($errors)) {
 				if($_POST['type'] != $ticket['type']) {
 					$changes[] = "TYPE:".$_POST['type'].",".$ticket['type'];
 				}
@@ -235,7 +243,7 @@ if(!isset($uri->seg[1])) {
 															   WHERE id='".$ticket['id']."' LIMIT 1");
 				}
 			}
-			if(!empty($_POST['comment']) or count($changes) > 0) {
+			if((!empty($_POST['comment']) or count($changes) > 0) && !count($errors)) {
 				$changes = implode('|',$changes);
 				FishHook::hook('projecthandler_updateticket_postcomment');
 				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",'".$changes."','".$db->escapestring($_POST['comment'])."')");

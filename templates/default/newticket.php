@@ -107,6 +107,17 @@
 					</tr>
 				</table>
 			</fieldset>
+			<? if(!$user->loggedin) { ?>
+			<fieldset<?=(isset($errors['key']) ? ' class="error"' : '')?>>
+				<legend>Human Check</legend>
+				<table>
+					<tr>
+						<td><img src="<?=$uri->anchor()?>keyimg.php" /></td>
+						<td><input type="text" name="key" /></td>
+					</tr>
+				</table>
+			</fieldset>
+			<? } ?>
 			<p></p>
 			<div class="buttons">
 				<input type="submit" value="Submit Ticket" /> <input type="button" value="Cancel" onclick="javascript:history.back()" />
