@@ -132,10 +132,7 @@
 				<input type="hidden" name="action" value="update" />
 				<textarea name="comment">
 <? if(isset($_REQUEST['replyto'])) { ?>
-Replying to [comment:<?=$_REQUEST['replyto']?> <?=$history[$_REQUEST['replyto']-1]['user']['username']?>]:
-<? if(!empty($history[$_REQUEST['replyto']-1]['comment'])) { ?>
-> <?=implode('> ',explode("\n",$history[$_REQUEST['replyto']-1]['comment_orig']))?>
-<? } ?>
+[quote=<?=$history[$_REQUEST['replyto']-1]['username']?>]<?=$history[$_REQUEST['replyto']-1]['comment_orig']?>[/quote]
 <? } ?></textarea>
 				<? if($user->group->updatetickets) { ?>
 				<fieldset id="properties">

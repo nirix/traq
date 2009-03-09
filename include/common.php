@@ -167,9 +167,7 @@ function formattext($text) {
 	
 	$text = htmlspecialchars($text);
 	
-	// For backwards compatability
-	$text = formatQuote_old($text);
-	$text = commentTag_old($text);
+	$text = commentTag($text);
 	
 	// BBCode
 	$text = $origin->bbcode->format($text);
@@ -178,11 +176,12 @@ function formattext($text) {
 	
 	return $text;
 }
+
 /**
  * Comment Tag
  * Used to format the [comment:X User] tag to the proper code.
  */
-function commentTag_old($text) {
+function commentTag($text) {
 	$bits = preg_split('/\[(\b(comment:)'.'[^][<>"\\x00-\\x20\\x7F]+) *([^\]\\x0a\\x0d]*?)\]/S', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$i = 0;
 	while($i<count($bits)) {
@@ -196,45 +195,6 @@ function commentTag_old($text) {
 		}
 	}
 	return $text;
-}
-// Similair to the lists function in the Origin WikiFormat/Markup class
-// Deprecated
-function formatQuote_old($text) {
-	global $wikimarkup;
-	$lines = explode("\n",$text);
-	$output = '';
-	foreach($lines as $line) {
-		++$linecount;
-		$lastPrefixLength = strlen($lastPrefix);
-		$line = str_replace("> ",">",$line);
-		$prefixLength = strspn($line,'>');
-		$pref = substr($line,0,$prefixLength);
-		$line = substr($line,$prefixLength);
-		$pref2 = str_replace('>','>',$pref);
-		if($prefixLength && strcmp($lastPrefix, $pref2) == 0) {
-			$output .= '';
-			$paragraphStack = false;
-		} elseif($prefixLength || $lastPrefixLength) {
-			$commonPrefixLength = $wikimarkup->getCommon($pref,$lastPrefix);
-			while($commonPrefixLength < $lastPrefixLength) {
-				$output .= '</div>';
-				$divopen[$linecount] = false;
-				--$lastPrefixLength;
-			}
-			if($prefixLength <= $commonPrefixLength && $commonPrefixLength > 0) {
-				$output .= '';
-			}
-			while ($prefixLength > $commonPrefixLength) {
-				$char = substr($pref,$commonPrefixLength,1);
-				$output .= '<div class="quote">';
-				$divopen[$linecount] = true;
-				++$commonPrefixLength;
-			}
-			$lastPrefix = $pref2;
-		}
-		$output .= $line.(!empty($line) ? "\n" : '');
-	}
-	return $output;
 }
 
 /**
