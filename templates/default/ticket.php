@@ -185,6 +185,9 @@
 							<th class="col1">Milestone</th>
 							<td>
 								<select name="milestone" id="milestone">
+									<? if($milestone['completed']>0) { ?>
+									<option value="<?=$milestone['id']?>"selected="selected"><?=$milestone['milestone']?></option>
+									<? } ?>
 									<? foreach(projectmilestones($project['id']) as $milestone) { ?>
 									<option value="<?=$milestone['id']?>"<?=($ticket['milestoneid'] == $milestone['id'] ? ' selected="selected"' : '')?>><?=$milestone['milestone']?></option>
 									<? } ?>
