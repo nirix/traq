@@ -113,10 +113,10 @@ function ticketstatus($statusid) {
 /**
  * Get Status Types
  */
-function getstatustypes() {
+function getstatustypes($sort='id',$order='ASC') {
 	global $db;
 	$status = array();
-	$fetchstatus = $db->query("SELECT * FROM ".DBPREFIX."statustypes ORDER BY id ASC");
+	$fetchstatus = $db->query("SELECT * FROM ".DBPREFIX."statustypes ORDER BY ".$db->escapestring($sort)." ".$db->escapestring($order)."");
 	while($info = $db->fetcharray($fetchstatus)) {
 		$status[$info['id']] = $info;
 	}

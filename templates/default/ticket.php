@@ -216,21 +216,39 @@
 							<td>
 								<? if($ticket['status'] >= 1) { ?>
 								<input type="radio" name="ticketaction" value="markas" /> Mark as <select name="markas" id="markas">
-									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
-									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
-									<option value="4"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Started</option>
+									<?
+									foreach(getstatustypes() as $type) {
+										if($type['id']>0 && $type['id'] != 3) {
+									?>
+									<option value="<?=$type['id']?>"<?=($ticket['status'] == $type['id'] ? ' selected="selected"' : '')?>><?=$type['name']?></option>
+									<?
+										}
+									}
+									?>
 								</select><br />
 								<input type="radio" name="ticketaction" value="close" /> Close as <select name="closeas" id="closeas">
-									<option value="0"<?=($ticket['status'] == 0 ? ' selected="selected"' : '')?>>Closed</option>
-									<option value="-1"<?=($ticket['status'] == -1 ? ' selected="selected"' : '')?>>Completed</option>
-									<option value="-3"<?=($ticket['status'] == -3 ? ' selected="selected"' : '')?>>Fixed</option>
-									<option value="-2"<?=($ticket['status'] == -2 ? ' selected="selected"' : '')?>>Rejected</option>
+									<?
+									foreach(getstatustypes('name','asc') as $type) {
+										if($type['id']<=0) {
+									?>
+									<option value="<?=$type['id']?>"<?=($ticket['status'] == $type['id'] ? ' selected="selected"' : '')?>><?=$type['name']?></option>
+									<?
+										}
+									}
+									?>
 								</select>
 								<? } elseif($ticket['status'] <= 0) { ?>
 								<input type="radio" name="ticketaction" value="reopen" /> Reopen as <select name="reopenas" id="reopenas">
-									<option value="1"<?=($ticket['status'] == 1 ? ' selected="selected"' : '')?>>New</option>
-									<option value="2"<?=($ticket['status'] == 2 ? ' selected="selected"' : '')?>>Accepted</option>
-									<option value="4"<?=($ticket['status'] == 4 ? ' selected="selected"' : '')?>>Started</option>
+									<?
+									foreach(getstatustypes() as $type) {
+										if($type['id']>0) {
+									?>
+									<option value="<?=$type['id']?>"<?=($ticket['status'] == $type['id'] ? ' selected="selected"' : '')?>><?=$type['name']?></option>
+									<?
+										}
+									}
+									?>
+								</selec
 								</select>
 								<? } ?>
 							</td>
