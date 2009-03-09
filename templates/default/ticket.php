@@ -218,7 +218,7 @@
 								<input type="radio" name="ticketaction" value="markas" /> Mark as <select name="markas" id="markas">
 									<?
 									foreach(getstatustypes() as $type) {
-										if($type['id']>0 && $type['id'] != 3) {
+										if($type['id']>0) {
 									?>
 									<option value="<?=$type['id']?>"<?=($ticket['status'] == $type['id'] ? ' selected="selected"' : '')?>><?=$type['name']?></option>
 									<?
