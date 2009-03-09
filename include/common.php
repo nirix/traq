@@ -101,17 +101,26 @@ function projectmanagers($projectid) {
  * Gets the Ticket Status text.
  */
 function ticketstatus($statusid) {
-	$statusses = array(
-					   -3 => 'Fixed',
-					   -2 => 'Rejected',
-					   -1 => 'Completed',
-					   0 => 'Closed',
-					   1 => 'New',
-					   2 => 'Accepted',
-					   3 => 'Reopened',
-					   4 => 'Started'
-					   );
-	return $statusses[$statusid];
+	global $db;
+	$status = array();
+	$fetchstatustypes = $db->query("SELECT * FROM ".DBPREFIX."statustypes ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchstatustypes)) {
+		$status[$info['id']] = $info['name'];
+	}
+	return $status[$statusid];
+}
+
+/**
+ * Get Status Types
+ */
+function getstatustypes() {
+	global $db;
+	$status = array();
+	$fetchstatus = $db->query("SELECT * FROM ".DBPREFIX."statustypes ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchstatus)) {
+		$status[$info['id']] = $info;
+	}
+	return $status;
 }
 
 /**
@@ -119,14 +128,26 @@ function ticketstatus($statusid) {
  * Gets the Ticket Priorty text.
  */
 function ticketpriority($priorityid) {
-	$priorities = array(
-					   1 => 'Lowest',
-					   2 => 'Low',
-					   3 => 'Normal',
-					   4 => 'High',
-					   5 => 'Highest'
-					   );
+	global $db;
+	$priorities = array();
+	$fetchpriorities = $db->query("SELECT * FROM ".DBPREFIX."priorities ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchpriorities)) {
+		$priorities[$info['id']] = $info['name'];
+	}
 	return $priorities[$priorityid];
+}
+
+/**
+ * Get Priorities
+ */
+function getpriorities() {
+	global $db;
+	$priorities = array();
+	$fetchtypes = $db->query("SELECT * FROM ".DBPREFIX."priorities ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchtypes)) {
+		$priorities[$info['id']] = $info;
+	}
+	return $priorities;
 }
 
 /**
@@ -134,13 +155,26 @@ function ticketpriority($priorityid) {
  * Gets the Ticket Type text.
  */
 function tickettype($typeid) {
-	$types = array(
-				   1 => 'Defect',
-				   2 => 'Enhancement',
-				   3 => 'Feature Request',
-				   4 => 'Task'
-				   );
+	global $db;
+	$types = array();
+	$fetchtypes = $db->query("SELECT * FROM ".DBPREFIX."types ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchtypes)) {
+		$types[$info['id']] = $info['name'];
+	}
 	return $types[$typeid];
+}
+
+/**
+ * Get Types
+ */
+function gettypes() {
+	global $db;
+	$types = array();
+	$fetchtypes = $db->query("SELECT * FROM ".DBPREFIX."types ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchtypes)) {
+		$types[$info['id']] = $info;
+	}
+	return $types;
 }
 
 /**
@@ -148,15 +182,26 @@ function tickettype($typeid) {
  * Gets the Ticket Severity text.
  */
 function ticketseverity($severityid) {
-	$severity = array(
-				   1 => 'Blocker',
-				   2 => 'Critical',
-				   3 => 'Major',
-				   4 => 'Normal',
-				   5 => 'Minor',
-				   6 => 'Trivial'
-				   );
-	return $severity[$severityid];
+	global $db;
+	$severities = array();
+	$fetchseverities = $db->query("SELECT * FROM ".DBPREFIX."severities ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchseverities)) {
+		$severities[$info['id']] = $info['name'];
+	}
+	return $severities[$severityid];
+}
+
+/**
+ * Get Severities
+ */
+function getseverities() {
+	global $db;
+	$severities = array();
+	$fetchseverities = $db->query("SELECT * FROM ".DBPREFIX."severities ORDER BY id ASC");
+	while($info = $db->fetcharray($fetchseverities)) {
+		$severities[$info['id']] = $info;
+	}
+	return $severities;
 }
 
 /**

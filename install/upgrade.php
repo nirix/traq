@@ -37,7 +37,8 @@ if(!isset($_POST['step'])) {
 	?>
 	<form action="upgrade.php" method="post">
 	<input type="hidden" name="step" value="1" />
-	There is a database upgrade available, click next to continue.
+	There is a database upgrade available, click next to continue.<br />
+	<strong>It is highly recommended that you backup your database before each upgrade.</strong>
 	<div id="buttons">
 		<input type="submit" value="Next" />
 	</div>
@@ -226,6 +227,70 @@ ALTER TABLE `traq_timeline` ADD `username` VARCHAR( 255 ) NOT NULL AFTER `userid
 				$db->query($query);
 			}
 		}
+	}
+	if($settings->dbversion < 11) {
+		$sql = "CREATE TABLE `traq_severities` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `traq_severities` (`id`, `name`) VALUES 
+(1, 'Blocker'),
+(2, 'Critical'),
+(3, 'Major'),
+(4, 'Normal'),
+(5, 'Minor'),
+(6, 'Trivial');
+
+CREATE TABLE `traq_priorities` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
+(1, 'Lowest'),
+(2, 'Low'),
+(3, 'Normal'),
+(4, 'High'),
+(5, 'Highest');
+
+CREATE TABLE `traq_statustypes` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `traq_statustypes` (`id`, `name`) VALUES 
+(-3, 'Fixed'),
+(-2, 'Invalid'),
+(-1, 'Completed'),
+(0, 'Closed'),
+(1, 'New'),
+(2, 'Accepted'),
+(3, 'Reopened'),
+(4, 'Started');
+
+CREATE TABLE `traq_types` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+INSERT INTO `traq_types` (`id`, `name`) VALUES 
+(1, 'Defect'),
+(2, 'Enhancement'),
+(3, 'Feature Request'),
+(4, 'Task');";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+		$db->query("UPDATE ".$config->db->prefix."usergroups SET createtickets=1 WHERE id != 3");
 	}
 	?>
 	Database upgrade complete.

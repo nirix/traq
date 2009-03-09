@@ -144,10 +144,9 @@
 							<th class="col1">Type</th>
 							<td class="col2">
 								<select name="type" id="type">
-									<option value="1"<?=($ticket['type'] == 1 ? ' selected="selected"' : '')?>>Defect</option>
-									<option value="2"<?=($ticket['type'] == 2 ? ' selected="selected"' : '')?>>Enhancement</option>
-									<option value="3"<?=($ticket['type'] == 3 ? ' selected="selected"' : '')?>>Feature Request</option>
-									<option value="4"<?=($ticket['type'] == 4 ? ' selected="selected"' : '')?>>Task</option>
+									<? foreach(gettypes() as $type) { ?>
+									<option value="<?=$type['id']?>"<?=($type['id']==$ticket['type'] ? ' selected="selected"' : '')?>><?=$type['name']?></option>
+									<? } ?>
 								</select>
 							</td>
 							<th class="col2">Assign to</th>
@@ -164,22 +163,17 @@
 							<th class="col1">Priority</th>
 							<td>
 								<select name="priority" id="priority">
-									<option value="5"<?=($ticket['priority'] == 5 ? ' selected="selected"' : '')?>>Highest</option>
-									<option value="4"<?=($ticket['priority'] == 4 ? ' selected="selected"' : '')?>>High</option>
-									<option value="3"<?=($ticket['priority'] == 3 ? ' selected="selected"' : '')?>>Normal</option>
-									<option value="2"<?=($ticket['priority'] == 2 ? ' selected="selected"' : '')?>>Low</option>
-									<option value="1"<?=($ticket['priority'] == 1 ? ' selected="selected"' : '')?>>Lowest</option>
+									<? foreach(getpriorities() as $priority) { ?>
+									<option value="<?=$priority['id']?>"<?=($priority['id']==$ticket['priority'] ? ' selected="selected"' : '')?>><?=$priority['name']?></option>
+									<? } ?>
 								</select>
 							</td>
 							<th class="col2">Severity</th>
 							<td>
 								<select name="severity" id="severity">
-									<option value="1"<?=($ticket['severity'] == 1 ? ' selected="selected"' : '')?>>Blocker</option>
-									<option value="2"<?=($ticket['severity'] == 2 ? ' selected="selected"' : '')?>>Critical</option>
-									<option value="3"<?=($ticket['severity'] == 3 ? ' selected="selected"' : '')?>>Major</option>
-									<option value="4"<?=($ticket['severity'] == 4 ? ' selected="selected"' : '')?>>Normal</option>
-									<option value="5"<?=($ticket['severity'] == 5 ? ' selected="selected"' : '')?>>Minor</option>
-									<option value="6"<?=($ticket['severity'] == 6 ? ' selected="selected"' : '')?>>Trivial</option>
+									<? foreach(getseverities() as $severity) { ?>
+									<option value="<?=$severity['id']?>"<?=($severity['id']==$ticket['severity'] ? ' selected="selected"' : '')?>><?=$severity['name']?></option>
+									<? } ?>
 								</select>
 							</td>
 						</tr>

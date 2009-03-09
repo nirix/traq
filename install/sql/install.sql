@@ -9,7 +9,7 @@ CREATE TABLE `traq_attachments` (
   `ticketid` bigint(20) NOT NULL,
   `projectid` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_components` (
   `id` bigint(20) NOT NULL auto_increment,
@@ -30,6 +30,17 @@ CREATE TABLE `traq_milestones` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
+CREATE TABLE `traq_plugins` (
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY  (`file`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `traq_priorities` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `traq_projects` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -45,6 +56,18 @@ CREATE TABLE `traq_settings` (
   `setting` varchar(255) NOT NULL,
   `value` longtext NOT NULL,
   PRIMARY KEY  (`setting`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `traq_severities` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `traq_statustypes` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_tickethistory` (
@@ -91,10 +114,17 @@ CREATE TABLE `traq_timeline` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
+CREATE TABLE `traq_types` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
 CREATE TABLE `traq_usergroups` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   `isadmin` smallint(6) NOT NULL default '0',
+  `createtickets` smallint(1) NOT NULL,
   `updatetickets` smallint(6) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
@@ -114,17 +144,43 @@ CREATE TABLE `traq_versions` (
   `version` varchar(255) NOT NULL,
   `projectid` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
-CREATE TABLE `traq_plugins` (
-  `file` varchar(255) NOT NULL,
-  PRIMARY KEY  (`file`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
+(1, 'Lowest'),
+(2, 'Low'),
+(3, 'Normal'),
+(4, 'High'),
+(5, 'Highest');
 
 INSERT INTO `traq_settings` (`setting`, `value`) VALUES 
 ('theme', 'default');
 
-INSERT INTO `traq_usergroups` (`id`, `name`, `isadmin`, `updatetickets`) VALUES 
-(1, 'Admins', 1, 1),
-(2, 'Members', 0, 1),
-(3, 'Guests', 0, 0);
+INSERT INTO `traq_severities` (`id`, `name`) VALUES 
+(1, 'Blocker'),
+(2, 'Critical'),
+(3, 'Major'),
+(4, 'Normal'),
+(5, 'Minor'),
+(6, 'Trivial');
+
+INSERT INTO `traq_statustypes` (`id`, `name`) VALUES 
+(-3, 'Fixed'),
+(-2, 'Invalid'),
+(-1, 'Completed'),
+(0, 'Closed'),
+(1, 'New'),
+(2, 'Accepted'),
+(3, 'Reopened'),
+(4, 'Started');
+
+INSERT INTO `traq_types` (`id`, `name`) VALUES 
+(1, 'Defect'),
+(2, 'Enhancement'),
+(3, 'Feature Request'),
+(4, 'Task');
+
+INSERT INTO `traq_usergroups` (`id`, `name`, `isadmin`, `createtickets`, `updatetickets`) VALUES 
+(1, 'Admins', 1, 1, 1),
+(2, 'Members', 0, 1, 1),
+(3, 'Guests', 0, 0, 0);

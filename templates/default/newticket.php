@@ -35,10 +35,9 @@
 						<th class="col1">Type</th>
 						<td class="col2">
 							<select name="type" id="type">
-								<option value="1">Defect</option>
-								<option value="2">Enhancement</option>
-								<option value="3">Feature Request</option>
-								<option value="4">Task</option>
+								<? foreach(gettypes() as $type) { ?>
+								<option value="<?=$type['id']?>"><?=$type['name']?></option>
+								<? } ?>
 							</select>
 						</td>
 						<th class="col2">Assign to</th>
@@ -55,22 +54,17 @@
 						<th class="col1">Priority</th>
 						<td>
 							<select name="priority" id="priority">
-								<option value="5">Highest</option>
-								<option value="4">High</option>
-								<option value="3" selected="selected">Normal</option>
-								<option value="2">Low</option>
-								<option value="1">Lowest</option>
+								<? foreach(getpriorities() as $priority) { ?>
+								<option value="<?=$priority['id']?>"<?=($priority['id']==3 ? ' selected="selected"' : '')?>><?=$priority['name']?></option>
+								<? } ?>
 							</select>
 						</td>
 						<th class="col2">Severity</th>
 						<td>
 							<select name="severity" id="severity">
-								<option value="1">Blocker</option>
-								<option value="2">Critical</option>
-								<option value="3">Major</option>
-								<option value="4" selected="selected">Normal</option>
-								<option value="5">Minor</option>
-								<option value="6">Trivial</option>
+								<? foreach(getseverities() as $severity) { ?>
+								<option value="<?=$severity['id']?>"<?=($severity['id']==4 ? ' selected="selected"' : '')?>><?=$severity['name']?></option>
+								<? } ?>
 							</select>
 						</td>
 					</tr>
