@@ -19,8 +19,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 			<div class="content-title">Usergroups</div>
 			<table width="100%" class="componentlist" cellspacing="0" cellpadding="4">
 				<thead>
-					<th class="component">Name</th>
-					<th class="actions">Actions</th>
+					<tr>
+						<th class="component">Name</th>
+						<th class="actions">Actions</th>
+					</tr>
 				</thead>
 				<? foreach(getgroups() as $group) { ?>
 				<tr>

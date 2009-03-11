@@ -38,9 +38,11 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 			<div class="content-title">Versions</div>
 			<table width="100%" class="componentlist" cellspacing="0" cellpadding="4">
 				<thead>
-					<th class="component">Version</th>
-					<th class="project">Project</th>
-					<th class="actions">Actions</th>
+					<tr>
+						<th class="component">Version</th>
+						<th class="project">Project</th>
+						<th class="actions">Actions</th>
+					</tr>
 				</thead>
 				<? foreach($projects as $project) { ?>
 				<tr class="thead">

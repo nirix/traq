@@ -54,10 +54,12 @@ if(!isset($_REQUEST['action'])) {
 			<div class="content-title">Enabled Plugins</div>
 			<table width="100%" class="pluginlist" cellspacing="0" cellpadding="4">
 				<thead>
-					<th class="name">Name</th>
-					<th class="author" width="150">Author</th>
-					<th class="version" width="150">Version</th>
-					<th class="actions" width="100">Actions</th>
+					<tr>
+						<th class="name">Name</th>
+						<th class="author" width="150">Author</th>
+						<th class="version" width="150">Version</th>
+						<th class="actions" width="100">Actions</th>
+					</tr>
 				</thead>
 				<? foreach($plugins['enabled'] as $plugin) { ?>
 				<tr>
@@ -81,10 +83,12 @@ if(!isset($_REQUEST['action'])) {
 			<div class="content-title">Disabled Plugins</div>
 			<table width="100%" class="pluginlist" cellspacing="0" cellpadding="4">
 				<thead>
-					<th class="name">Name</th>
-					<th class="author" width="150">Author</th>
-					<th class="version" width="150">Version</th>
-					<th class="actions" width="100">Actions</th>
+					<tr>
+						<th class="name">Name</th>
+						<th class="author" width="150">Author</th>
+						<th class="version" width="150">Version</th>
+						<th class="actions" width="100">Actions</th>
+					</tr>
 				</thead>
 				<? foreach($plugins['disabled'] as $plugin) { ?>
 				<tr>
