@@ -209,18 +209,17 @@ function getseverities() {
  */
 function formattext($text) {
 	global $origin;
+	$text_orig = $text;
 	// Strip Slashes
 	$text = stripslashes($text);
-	// Make HTML safe
-	$text = htmlspecialchars($text);
 	// [comment:X User] format
 	$text = commentTag($text);
-	// BBCode
-	$text = $origin->bbcode->format($text);
 	// Plugin Hook
 	FishHook::hook('common_formattext');
+	// BBCode
+	$text = $origin->bbcode->format($text);
 	// Return  for display
-	return $text;
+	return str_replace("\n\r","<br /><br />",$text);
 }
 
 /**
