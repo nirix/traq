@@ -5,10 +5,18 @@
  * $Id$
  */
 
+/**
+ * Traq Subversion Class
+ * Copyright (c)2009 Jack Polgar
+ */
 class Traq_Subversion {
-	private $repo = NULL;
-	public $prefix = NULL;
+	private $repo = NULL; // Repository location
+	public $prefix = NULL; // File prefix
 	
+	/**
+	 * Set Repository
+	 * Used to set the repository location.
+	 */
 	public function setrepo($repo) {
 		if(substr($repo,-1) == '/') {
 			$this->repo = $repo;
@@ -17,15 +25,23 @@ class Traq_Subversion {
 		}
 	}
 	
+	/**
+	 * Get Repository
+	 * Used to get the repository location.
+	 */
 	public function getrepo() {
 		return $this->repo;
 	}
 	
+	/**
+	 * List Directory
+	 * Used to list the specified subversion repository directory.
+	 */
 	public function listdir($dir='') {
 		$dir = $this->cleandirname($dir);
 		$this->path = $dir;
 		$descriptorspec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w'));
-		$process = proc_open("svn list --xml ".$this->repo.$this->cleandirname($dir), $descriptorspec, $pipes);
+		$process = proc_open("svn list --xml ".$this->repo.$this->cleandirname($dir), $descriptorspec, $pipes); // Run the command
 		if(is_resource($process)) {
 			fclose($pipes[0]);
 			$contents = stream_get_contents($pipes[1]);
@@ -33,9 +49,11 @@ class Traq_Subversion {
 			$return_value = proc_close($process);
 			$xml = new SimpleXMLElement($contents);
 			$files = array();
+			// Loop through the entries
 			foreach($xml->list->entry as $entry) {
 				$attribs = $entry->attributes();
 				$commitattribs = $entry->commit->attributes();
+				// Set the file/dir info array.
 				$info = array();
 				$info['name'] = (string)$entry->name;
 				$info['size'] = (int)$entry->size;
@@ -44,6 +62,7 @@ class Traq_Subversion {
 				$info['commit'] = array('author'=>(string)$entry->commit->author,'date'=>(string)$entry->commit->date,'rev'=>(int)$commitattribs->revision);
 				$files[] = $info;
 			}
+			// Cache the directory if it doesnt exist already.
 			if(!file_exists(TRAQPATH.'svncache/'.$this->prefix.'-'.$this->info['rev'].str_replace('/','-',(empty($dir) ? 'root' : $dir)).'.txt')) {
 				$fp = fopen(TRAQPATH.'svncache/'.$this->prefix.'-'.$this->info['rev'].str_replace('/','-',(empty($dir) ? 'root' : $dir)).'.txt', 'w');
 				fwrite($fp, serialize($files));
@@ -53,10 +72,14 @@ class Traq_Subversion {
 		}
 	}
 	
+	/**
+	 * Get Info
+	 * Used to get the information of the specified subversion repository directory.
+	 */
 	public function info($dir='') {
 		$this->path = $dir;
 		$descriptorspec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w'));
-		$process = proc_open("svn info --xml ".$this->repo.$this->cleandirname($dir), $descriptorspec, $pipes);
+		$process = proc_open("svn info --xml ".$this->repo.$this->cleandirname($dir), $descriptorspec, $pipes); // Run the command
 		if(is_resource($process)) {
 			fclose($pipes[0]);
 			$contents = stream_get_contents($pipes[1]);
@@ -70,6 +93,7 @@ class Traq_Subversion {
 		}
 	}
 	
+	// Used to clean the directory name.
 	private function cleandirname($dir) {
 		if(substr($dir,0,1) == '/') {
 			$dir = substr($dir,1);

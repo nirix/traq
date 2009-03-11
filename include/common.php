@@ -259,9 +259,10 @@ function calculatepercent($min,$max) {
 /**
  * Time Since
  */
-function timesince($original, $detailed = 0) {
-	$now = time();
+function timesince($original, $detailed = false) {
+	$now = time(); // Get the time right now...
 	
+	// Time chuncks...
 	$chunks = array(
 		array(60 * 60 * 24 * 365, 'year', 'years'),
 		array(60 * 60 * 24 * 30, 'month', 'months'),
@@ -272,8 +273,10 @@ function timesince($original, $detailed = 0) {
 		array(1, 'second', 'seconds'),
 	);
 	
+	// Get the difference
 	$difference = ($now - $original);
-
+	
+	// Loop around, get the time since
 	for($i = 0, $c = count($chunks); $i < $c; $i++) {
 		$seconds = $chunks[$i][0];
 		$name = $chunks[$i][1];
@@ -283,8 +286,10 @@ function timesince($original, $detailed = 0) {
 		}
 	}
 	
+	// Format the time since
 	$since = $count." ".((1 == $count) ? $name : $names);
 	
+	// Get the detailed time since if the detaile variable is true
 	if($detailed && $i + 1 < $c) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
@@ -294,15 +299,16 @@ function timesince($original, $detailed = 0) {
 		}
 	}
 	
-	return $since;
+	return $since; // Return the time since
 }
 
 /**
  * Time From
  */
-function timefrom($original, $detailed = 0) {
-	$now = time();
+function timefrom($original, $detailed = false) {
+	$now = time(); // Get the time right now...
 	
+	// Time chuncks...
 	$chunks = array(
 		array(60 * 60 * 24 * 365, 'year', 'years'),
 		array(60 * 60 * 24 * 30, 'month', 'months'),
@@ -313,8 +319,10 @@ function timefrom($original, $detailed = 0) {
 		array(1, 'second', 'seconds'),
 	);
 	
+	// Get the difference
 	$difference = ($original - $now);
-
+	
+	// Loop around, get the time from
 	for($i = 0, $c = count($chunks); $i < $c; $i++) {
 		$seconds = $chunks[$i][0];
 		$name = $chunks[$i][1];
@@ -324,8 +332,10 @@ function timefrom($original, $detailed = 0) {
 		}
 	}
 	
+	// Format the time from
 	$from = $count." ".((1 == $count) ? $name : $names);
 	
+	// Get the detailed time from if the detaile variable is true
 	if($detailed && $i + 1 < $c) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
@@ -335,6 +345,6 @@ function timefrom($original, $detailed = 0) {
 		}
 	}
 	
-	return $from;
+	return $from; // Return the time from
 }
 ?>

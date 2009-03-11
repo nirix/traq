@@ -13,10 +13,13 @@ require(TRAQPATH."include/global.php");
 FishHook::hook('index_start');
 // Lets load the right file for this page
 if(empty($uri->seg[0])) {
+	// Project Listing Page
 	include("handlers/projectlisting.php");
 } elseif($uri->seg[0] == "user") {
+	// User Pages
 	include("handlers/user.php");
 } elseif(is_project($uri->seg[0])) {
+	// Project pages
 	include("handlers/project.php");
 }
 FishHook::hook('index_end');

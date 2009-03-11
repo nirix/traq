@@ -19,82 +19,102 @@ if(!isset($uri->seg[1])) {
 	include(template('project'));
 } elseif($uri->seg[1] == "roadmap") {
 	// Roadmap Page
-	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Roadmap";
+	
 	FishHook::hook('projecthandler_roadmap_start');
+	
 	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." AND completed='0' ORDER BY milestone ASC");
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." AND completed='0' ORDER BY milestone ASC"); // Fetch the milestones
 	while($info = $db->fetcharray($fetchmilestones)) {
 		// Get Ticket Info
-		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'"));
-		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$info['id']."'"));
-		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'"));
-		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']);
-		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']);
+		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'")); // Count open tickets
+		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$info['id']."'")); // Count closed tickets
+		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'")); // Count total tickets
+		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']); // Calculate closed tickets percent
+		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']); // Calculate open tickets percent
 		$info['desc'] = formattext($info['desc']);
 		FishHook::hook('projecthandler_roadmap_fetchtickets');
 		$milestones[] = $info;
 	}
 	unset($fetchmilestones,$info);
+		
+	// Breadcrumbs
+	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Roadmap";
+	
 	FishHook::hook('projecthandler_roadmap_pretemplate');
-	include(template('roadmap'));
+	
+	include(template('roadmap')); // Fetch the roadmap template
 } elseif($uri->seg[1] == "tickets") {
 	// Tickets Page
 	$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
 	FishHook::hook('projecthandler_tickets_start');
 	if($uri->seg[2] && $uri->seg[3]) { // Open or Closed Tickets.
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
+		
+		// Breadcrumbs
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'],$uri->seg[3])] = ($uri->seg[3] == "open" ? 'Open' : 'Closed');
+		
 		FishHook::hook('projecthandler_tickets_openorclosed');
+		
+		// Get list type
 		if($uri->seg[3] == "open") {
+			// Open tickets
 			$status = "status >= 1";
 			$listtype = "open";
 		} elseif($uri->seg[3] == "closed") {
+			// Closed tickets
 			$status = "status <= 0";
 			$listtype = "closed";
 		}
+		
 		// Get Tickets
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
 		while($info = $db->fetcharray($fetchtickets)) {
-			$info['summary'] = stripslashes($info['summary']);
-			$info['body'] = stripslashes($info['body']);
+			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
+			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
 			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 			FishHook::hook('projecthandler_tickets_openorclosed_fetchtickets');
 			$tickets[] = $info;
 		}
 		unset($fetchtickets,$info);
+		
 		FishHook::hook('projecthandler_tickets_openorclosed_pretemplate');
-		include(template('tickets'));
+		
+		include(template('tickets')); // Fetch the tickets list template
 	} elseif($uri->seg[2] && !$uri->seg[3]) { // Milestone Tickets
 		$listtype = "all";
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
 		FishHook::hook('projecthandler_tickets_allmilestone');
+		
 		// Get Tickets
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
 		while($info = $db->fetcharray($fetchtickets)) {
-			$info['summary'] = stripslashes($info['summary']);
-			$info['body'] = stripslashes($info['body']);
+			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
+			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
 			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 			FishHook::hook('projecthandler_tickets_allmilestone_fetchtickets');
 			$tickets[] = $info;
 		}
 		unset($fetchtickets,$info);
+		
 		FishHook::hook('projecthandler_tickets_allmilestone_pretemplate');
-		include(template('tickets'));
+		
+		include(template('tickets')); // Fetch the tickets list template
 	} else { // All Tickets
 		$listtype = "all";
 		FishHook::hook('projecthandler_tickets_all');
+		
 		// Get Tickets
 		$tickets = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' ORDER BY priority DESC");
 		while($info = $db->fetcharray($fetchtickets)) {
-			$info['summary'] = stripslashes($info['summary']);
-			$info['body'] = stripslashes($info['body']);
+			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
+			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
 			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 			$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1"));
@@ -102,7 +122,9 @@ if(!isset($uri->seg[1])) {
 			$tickets[] = $info;
 		}
 		unset($fetchtickets,$info);
+		
 		FishHook::hook('projecthandler_tickets_all_pretemplate');
+		
 		include(template('tickets'));
 	}
 } else if($uri->seg[1] == "newticket") {
@@ -114,24 +136,31 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($project['slug'],'newticket')] = "New Ticket";
 	FishHook::hook('projecthandler_newticket');
 	if($_POST['action'] == "create") {
+		// Check for errors
 		$errors = array();
+		// Check if Summary is blank
 		if($_POST['summary'] == "") {
 			$errors['summary'] = "Summary cannot be blank";
 		}
+		// Check if the ticket body is blank
 		if($_POST['body'] == "") {
 			$errors['body'] = "You must enter a description.";
 		}
+		// Check if the anti-spam key is valid
+		if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
+			$errors['key'] = "Human Check failed";
+		}
+		
+		// Fix the milestone and component values, fixes ticket #19
 		if(empty($_POST['milestone'])) {
 			$_POST['milestone'] = 0;
 		}
 		if(empty($_POST['component'])) {
 			$_POST['component'] = 0;
 		}
-		if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
-			$errors['key'] = "Human Check failed";
-		}
 		
 		if(!count($errors)) {
+			// Insert the ticket into the database
 			$ticketid = $project['currenttid']+1;
 			$db->query("INSERT INTO ".DBPREFIX."tickets VALUES(
 															   0,
@@ -153,96 +182,117 @@ if(!isset($uri->seg[1])) {
 															   0
 															   )");
 			$internalid = $db->insertid();
-			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1");
-			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$internalid.",'CREATE','')");
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
-			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
+			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1"); // Update the project currentid field.
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$internalid.",'CREATE','')"); // Add the CREATE to the ticket history
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")"); // Add the ticket creation to the timeline
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid)); // Redirect to the ticket page...
 		} else {
+			// oops, there were errors...
 			FishHook::hook('projecthandler_newticket_pretemplate');
 			include(template('newticket'));
 		}
 	} else {
+		// Display New Ticket page.
 		FishHook::hook('projecthandler_newticket_pretemplate');
 		include(template('newticket'));
 	}
 } else if($uri->seg[1] == "ticket") {
 	// Ticket Page
 	$ticket = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE tid='".$db->escapestring($uri->seg[2])."' AND projectid='".$project['id']."' LIMIT 1")); // Get Ticket info
-	$ticket['summary'] = stripslashes($ticket['summary']);
-	$ticket['body'] = stripslashes($ticket['body']);
-	$ticket['body'] = formattext($ticket['body']);
+	$ticket['summary'] = stripslashes($ticket['summary']); // Strip the slashes from the summary field
+	$ticket['body'] = stripslashes($ticket['body']); // Strip the slashes from the body field
+	$ticket['body'] = formattext($ticket['body']); // Format the body field.
 	FishHook::hook('projecthandler_ticketpage_start');
 	if($uri->seg[3] == "delete") {
-		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) {
-			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1");
-			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1");
-			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' LIMIT 1");
-			$db->query("DELETE FROM ".DBPREFIX."timeline WHERE data LIKE 'TICKET%:".$ticket['id']."' LIMIT 1");
+		// Delete the ticket...
+		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { // Check if the user is an admin or project manager
+			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1"); // Delete from tickets table
+			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1"); // Delete the ticket history
+			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' LIMIT 1"); // Delet ethe attachments
+			$db->query("DELETE FROM ".DBPREFIX."timeline WHERE data LIKE 'TICKET%:".$ticket['id']."' LIMIT 1"); // Delete timeline rows regarding this ticket
 			FishHook::hook('projecthandler_deleteticket');
-			header("Location: ".$uri->anchor($project['slug'],'tickets'));
+			header("Location: ".$uri->anchor($project['slug'],'tickets')); // Redirect to the tickets list page
 		}
 	} elseif($_POST['action'] == "deleteattachment") {
-		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) {
-			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($_POST['attachmentid'])."' LIMIT 1");
+		// Delete attachment
+		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { // Check if the user is an admin or project manager
+			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($_POST['attachmentid'])."' LIMIT 1"); // Delete from the attachment table
 			FishHook::hook('projecthandler_deleteattachment');
-			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid'])); // Redirect to the ticket view page
 		}
 	} elseif($uri->seg[3] == "attachment") {
-		$attachment = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($uri->seg[4])."' AND ticketid='".$ticket['id']."' LIMIT 1"));
-		header("Content-type: ".$attachment['type']);
-		header("Content-Disposition: attachment; filename=\"".$attachment['name']."\"");
+		// View attachment
+		$attachment = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($uri->seg[4])."' AND ticketid='".$ticket['id']."' LIMIT 1")); // Get the attachment
+		header("Content-type: ".$attachment['type']); // Set the page content-type
+		header("Content-Disposition: attachment; filename=\"".$attachment['name']."\""); // Set the content disposition and filename
 		FishHook::hook('projecthandler_viewattachment');
-		print(base64_decode($attachment['contents']));
+		print(base64_decode($attachment['contents'])); // Print the attachment contents
 	} else {
 		// Update Ticket
 		if($_POST['action'] == "update") {
 			$changes = array();
+			// Check if the anti-spam key is valid
 			$doupdate = true;
 			if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
 				$doupdate = false;
 				$errors[] = "Human Check failed";
 			}
+			// If there are no errors, update the tickets
 			if($user->group->updatetickets && !count($errors)) {
+				// Ticket Type
 				if($_POST['type'] != $ticket['type']) {
 					$changes[] = "TYPE:".$_POST['type'].",".$ticket['type'];
 				}
+				// Assignee
 				if($_POST['assignto'] != $ticket['assigneeid']) {
 					$changes[] = "ASIGNEE:".$_POST['assignto'].",".$ticket['assigneeid'];
 				}
+				// Ticket Priority
 				if($_POST['priority'] != $ticket['priority']) {
 					$changes[] = "PRIORITY:".$_POST['priority'].",".$ticket['priority'];
 				}
+				// Ticket Severity
 				if($_POST['severity'] != $ticket['severity']) {
 					$changes[] = "SEVERITY:".$_POST['severity'].",".$ticket['severity'];
 				}
+				// Milestone
 				if($_POST['milestone'] != $ticket['milestoneid']) {
 					$changes[] = "MILESTONE:".$_POST['milestone'].",".$ticket['milestoneid'];
 				}
+				// Version
 				if($_POST['version'] != $ticket['versionid']) {
 					$changes[] = "VERSION:".$_POST['version'].",".$ticket['versionid'];
 				}
+				// Component
 				if($_POST['component'] != $ticket['componentid']) {
 					$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
 				}
+				// Summary
 				if($_POST['summary'] != stripslashes($ticket['summary'])) {
-					$changes[] = "SUMMARY:".$_POST['summary'].",".stripslashes($ticket['summary']);
-					$db->query("UPDATE ".DBPREFIX."tickets SET summary='".$db->escapestring($_POST['summary'])."' WHERE id='".$ticket['id']."' LIMIT 1");
+					$changes[] = "SUMMARY";
+					//$db->query("UPDATE ".DBPREFIX."tickets SET summary='".$db->escapestring($_POST['summary'])."' WHERE id='".$ticket['id']."' LIMIT 1");
 				}
+				// Ticket Status
 				if($_POST['ticketaction'] == "markas") {
+					// Mark as something else
 					$changes[] = "STATUS:".$_POST['markas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['markas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
 				} elseif($_POST['ticketaction'] == "close") {
+					// Close the ticket
 					$changes[] = "CLOSE:".$_POST['closeas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['closeas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
 					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
 				} elseif($_POST['ticketaction'] == "reopen") {
+					// Reopen the ticket
 					$changes[] = "REOPEN:".$_POST['reopenas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['reopenas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
 					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
 				}
+				// Check if there are changes, if so then update the ticket fields...
 				if(count($changes) > 0) {
 					FishHook::hook('projecthandler_updateticket');
 					$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
+															   summary='".$db->escapestring($_POST['summary'])."',
 															   assigneeid='".$db->escapestring($_POST['assignto'])."',
 															   priority='".$db->escapestring($_POST['priority'])."',
 															   severity='".$db->escapestring($_POST['severity'])."',
@@ -253,16 +303,18 @@ if(!isset($uri->seg[1])) {
 															   WHERE id='".$ticket['id']."' LIMIT 1");
 				}
 			}
+			// Add the change to the ticket history, or the comment...
 			if((!empty($_POST['comment']) or count($changes) > 0) && !count($errors)) {
 				$changes = implode('|',$changes);
 				FishHook::hook('projecthandler_updateticket_postcomment');
 				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",'".$db->escapestring($changes)."','".$db->escapestring($_POST['comment'])."')");
 			}
-			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated');
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated'); // Redirect to the ticket view page
 		} elseif($uri->seg[3] == "deletecomment") {
-			if($user->group->isadmin) {
-				$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE id='".$db->escapestring($uri->seg[4])."' LIMIT 1");
-				header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
+			// Delete comment/ticket history..
+			if($user->group->isadmin) { // Check is user is an admin
+				$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE id='".$db->escapestring($uri->seg[4])."' LIMIT 1"); // Delete from the ticket history table
+				header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid'])); // Redirect to the ticket view page
 			}
 		}
 		// Display Ticket
@@ -272,9 +324,12 @@ if(!isset($uri->seg[1])) {
 		$owner = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$ticket['ownerid']."' LIMIT 1")); // Get ticket Owner info
 		$assignee = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$ticket['assigneeid']."' LIMIT 1")); // Get ticket Assignee info
 		
+		// Make breadcrumbs
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
 		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
+		
 		FishHook::hook('projecthandler_viewticket_start');
+		
 		// Ticket History
 		$history = array();
 		$fetchhistory = $db->query("SELECT * FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' ORDER BY id ASC");
@@ -293,36 +348,47 @@ if(!isset($uri->seg[1])) {
 				$change['type'] = $type;
 				$change['toid'] = $values[0];
 				$change['fromid'] = $values[1];
+				// Check the change type
 				if($type == "COMPONENT") {
-					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$change['fromid']."' LIMIT 1"));
-					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$change['toid']."' LIMIT 1"));
+					// Component Change
+					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$change['fromid']."' LIMIT 1")); // From value
+					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$change['toid']."' LIMIT 1")); // To value
 				} elseif($type == "SEVERITY") {
-					$change['from'] = ticketseverity($change['fromid']);
-					$change['to'] = ticketseverity($change['toid']);
+					// Severity Change
+					$change['from'] = ticketseverity($change['fromid']); // From value
+					$change['to'] = ticketseverity($change['toid']); // To value
 				} else if($type == "TYPE") {
-					$change['from'] = tickettype($change['fromid']);
-					$change['to'] = tickettype($change['toid']);
+					// Type Change
+					$change['from'] = tickettype($change['fromid']); // From value
+					$change['to'] = tickettype($change['toid']); // To value
 				} else if($type == "ASIGNEE") {
-					$change['from'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$change['fromid']."' LIMIT 1"));
-					$change['to'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$change['toid']."' LIMIT 1"));
+					// Asignee Change
+					$change['from'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$change['fromid']."' LIMIT 1")); // From value
+					$change['to'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$change['toid']."' LIMIT 1")); // To value
 				} else if($type == "MILESTONE") {
-					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['fromid']."' LIMIT 1"));
-					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['toid']."' LIMIT 1"));
+					// Milestone Change
+					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['fromid']."' LIMIT 1")); // From value
+					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$change['toid']."' LIMIT 1")); // To value
 				} else if($type == "STATUS") {
-					$change['from'] = ticketstatus($change['fromid']);
-					$change['to'] = ticketstatus($change['toid']);
+					// Status Change
+					$change['from'] = ticketstatus($change['fromid']); // From value
+					$change['to'] = ticketstatus($change['toid']); // To value
 				} else if($type == "PRIORITY") {
-					$change['from'] = ticketpriority($change['fromid']);
-					$change['to'] = ticketpriority($change['toid']);
+					// Priority Change
+					$change['from'] = ticketpriority($change['fromid']); // From value
+					$change['to'] = ticketpriority($change['toid']); // To value
 				} else if($type == "VERSION") {
-					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$change['fromid']."' LIMIT 1"));
-					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$change['toid']."' LIMIT 1"));
+					// Version Change
+					$change['from'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$change['fromid']."' LIMIT 1")); // From value
+					$change['to'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$change['toid']."' LIMIT 1")); // To value
 				} else if($type == "REOPEN") {
-					$change['from'] = ticketstatus($change['fromid']);
-					$change['to'] = ticketstatus($change['toid']);
+					// Ticket Reopen
+					$change['from'] = ticketstatus($change['fromid']); // From value
+					$change['to'] = ticketstatus($change['toid']); // To value
 				} else if($type == "CLOSE") {
-					$change['from'] = ticketstatus($change['fromid']);
-					$change['to'] = ticketstatus($change['toid']);
+					// Ticket Close
+					$change['from'] = ticketstatus($change['fromid']); // From value
+					$change['to'] = ticketstatus($change['toid']); // To value
 				}
 				$info['changes'][] = $change;
 			}
@@ -338,51 +404,50 @@ if(!isset($uri->seg[1])) {
 		}
 		// Attach File
 		if($_POST['action'] == "attachfile") {
-			if($user->loggedin) {
+			if($user->loggedin) { // Check if user is logged in
 				if(!empty($_FILES['file']['name'])) {
 					FishHook::hook('projecthandler_ticket_attachfile');
 					$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",".$project['id'].")");
 				}
 			}
-			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']));
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid'])); // Redirect to ticket view page
 		}
 		FishHook::hook('projecthandler_viewticket_pretemplate');
-		include(template('ticket'));
+		include(template('ticket')); // Fetch view ticket template
 	}
 } elseif($uri->seg[1] == "milestone") {
 	// Milestone Page
 	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1")); // Get ticket Milestone info
-	$milestone['desc'] = formattext($milestone['desc']);
-	$milestone['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$milestone['id']."'"));
-	$milestone['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$milestone['id']."'"));
-	$milestone['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."'"));
-	$milestone['tickets']['percent']['closed'] = calculatepercent($milestone['tickets']['closed'],$milestone['tickets']['total']);
-	$milestone['tickets']['percent']['open'] = calculatepercent($milestone['tickets']['open'],$milestone['tickets']['total']);
+	$milestone['desc'] = formattext($milestone['desc']); // Format the milestone description field
+	$milestone['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$milestone['id']."'")); // Count open tickets
+	$milestone['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$milestone['id']."'")); // Count closed tickets
+	$milestone['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."'")); // Count total tickets
+	$milestone['tickets']['percent']['closed'] = calculatepercent($milestone['tickets']['closed'],$milestone['tickets']['total']); // Calculate closed tickets percent
+	$milestone['tickets']['percent']['open'] = calculatepercent($milestone['tickets']['open'],$milestone['tickets']['total']); // Calculate open tickets percent
+	// Breadcrumbs
 	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Milestones";
 	$breadcrumbs[$uri->anchor($project['slug'],'milestone',$milestone['milestone'])] = $milestone['milestone'];
+	
 	FishHook::hook('projecthandler_milestone');
-	include(template('milestone'));
+	
+	include(template('milestone')); // Fetch view milestone page
 } elseif($uri->seg[1] == "timeline") {
 	// Timeline Page
 	$dates = array();
-	$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC");
+	$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC"); // Fetch the days...
 	while($dateinfo = $db->fetcharray($fetchdays)) {
 		$row = array();
 		$row['date'] = $dateinfo['date'];
 		$row['timestamp'] = $dateinfo['timestamp'];
 		$row['rows'] = array();
-		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' AND date='".$dateinfo['date']."' ORDER BY timestamp DESC");
+		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' AND date='".$dateinfo['date']."' ORDER BY timestamp DESC"); // Fetch timeline rows
 		while($rowinfo = $db->fetcharray($fetchrows)) {
-			$parts = explode(':',$rowinfo['data']);
-			$rowinfo['type'] = $parts[0];
-			$rowinfo['user'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$rowinfo['userid']."' LIMIT 1"));
-			if($parts[0] == "TICKETCREATE") {
-				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
-				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
-			} else if($parts[0] == "TICKETCLOSE") {
-				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
-				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
-			} else if($parts[0] == "TICKETREOPEN") {
+			$parts = explode(':',$rowinfo['data']); // Explode the timeline data field
+			$rowinfo['type'] = $parts[0]; // Set the row type
+			$rowinfo['user'] = $db->fetcharray($db->query("SELECT id,username FROM ".DBPREFIX."users WHERE id='".$rowinfo['userid']."' LIMIT 1")); // Get the user info
+			// Check the type, and set the info for that specified type
+			if($parts[0] == "TICKETCREATE" or $parts[0] == "TICKETCLOSE" or $parts[0] == "TICKETREOPEN") {
+				// Ticket Open, Close and Reopen
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
 				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
 			}
@@ -391,30 +456,39 @@ if(!isset($uri->seg[1])) {
 		}
 		$dates[] = $row;
 	}
+	
+	// Breadcrumbs
 	$breadcrumbs[$uri->anchor($projet['slug'],'timeline')] = "Timeline";
+	
 	FishHook::hook('projecthandler_timeline_pretemplate');
-	include(template('timeline'));
+	
+	include(template('timeline')); // Fetch the timeline template
 } elseif($uri->seg[1] == "changelog") {
 	// Change Log Page
 	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' ORDER BY milestone DESC");
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' ORDER BY milestone DESC"); // Fetch the milestones
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$info['tickets'] = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY updated ASC");
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY updated ASC"); // Fetch the tickets
 		while($ticketinfo = $db->fetcharray($fetchtickets)) {
-			$ticketinfo['summary'] = stripslashes($ticketinfo['summary']);
-			$ticketinfo['body'] = stripslashes($ticketinfo['body']);
-			$ticketinfo['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticketinfo['componentid']."' LIMIT 1"));
+			$ticketinfo['summary'] = stripslashes($ticketinfo['summary']); // Strip the slashes from the summary field
+			$ticketinfo['body'] = stripslashes($ticketinfo['body']); // Strip the slashes from the body field
+			$ticketinfo['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$ticketinfo['componentid']."' LIMIT 1")); // Get the component info
 			FishHook::hook('projecthandler_changelog_fetchmilestones_fetchchanges');
 			$info['tickets'][] = $ticketinfo;
 		}
 		FishHook::hook('projecthandler_changelog_fetchmilestones');
 		$milestones[] = $info;
 	}
+	
+	// Breadcrumbs
 	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = "Change Log";
+	
 	FishHook::hook('projecthandler_changelog');
-	include(template('changelog'));
+	
+	include(template('changelog')); // Fetch the changelog template
 } elseif($uri->seg[1] == "source") {
+	// Browse Source
 	include(TRAQPATH.'handlers/browsesvn.php');
 }
 ?>

@@ -10,12 +10,14 @@
  * All Rights Reserved.
  */
 
+// Load Time Start function
 function loadtime_start() {
 	global $loadtime;
 	$loadtime['start'] = microtime();
 }
-FishHook::add('loadtime_start','global_end');
+FishHook::add('loadtime_start','global_end'); // Add to FishHook
 
+// Load Time End
 function loadtime_end() {
 	global $loadtime;
 	$loadtime['finish'] = microtime();
@@ -23,5 +25,5 @@ function loadtime_end() {
 	list($em, $es) = explode(' ', $loadtime['finish']);
 	echo "<center>Page loaded in ".number_format(($em + $es) - ($sm + $ss), 3)." seconds.</center>";
 }
-FishHook::add('loadtime_end','template_footer');
+FishHook::add('loadtime_end','template_footer'); // Add to FishHook
 ?>
