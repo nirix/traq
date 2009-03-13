@@ -95,6 +95,15 @@ function adminheader($title='') {
 				</ul>
 			</div>
 			<div class="sidebar-group">
+				<div class="sidebar-title">Tickets</div>
+				<ul class="sidebar-options">
+					<li><a href="types.php">Manage Types</a></li>
+					<li><a href="priorities.php">Manage Priorities</a></li>
+					<li><a href="severities.php">Manage Severities</a></li>
+					<li><a href="statustypes.php">Manage Status Types</a></li>
+				</ul>
+			</div>
+			<div class="sidebar-group">
 				<div class="sidebar-title">Users</div>
 				<ul class="sidebar-options">
 					<li><a href="users.php">Manage Users</a></li>
