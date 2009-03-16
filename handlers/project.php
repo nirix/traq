@@ -67,9 +67,23 @@ if(!isset($uri->seg[1])) {
 			$listtype = "closed";
 		}
 		
+		// Ticket Sorting
+		// Field to sort by
+		if(isset($_REQUEST['sort'])) {
+			$sort = $_REQUEST['sort']; // User requested
+		} else {
+			$sort = 'priority'; // Default
+		}
+		// Directory to sort by
+		if(isset($_REQUEST['order'])) {
+			$order = $_REQUEST['order']; // User requested
+		} else {
+			$order = 'desc'; // Default
+		}
+		
 		// Get Tickets
 		$tickets = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY $sort $order");
 		while($info = $db->fetcharray($fetchtickets)) {
 			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
 			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
@@ -89,9 +103,23 @@ if(!isset($uri->seg[1])) {
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
 		FishHook::hook('projecthandler_tickets_allmilestone');
 		
+		// Ticket Sorting
+		// Field to sort by
+		if(isset($_REQUEST['sort'])) {
+			$sort = $_REQUEST['sort']; // User requested
+		} else {
+			$sort = 'priority'; // Default
+		}
+		// Directory to sort by
+		if(isset($_REQUEST['order'])) {
+			$order = $_REQUEST['order']; // User requested
+		} else {
+			$order = 'desc'; // Default
+		}
+		
 		// Get Tickets
 		$tickets = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY priority DESC");
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY $sort $order");
 		while($info = $db->fetcharray($fetchtickets)) {
 			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
 			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
@@ -109,9 +137,23 @@ if(!isset($uri->seg[1])) {
 		$listtype = "all";
 		FishHook::hook('projecthandler_tickets_all');
 		
+		// Ticket Sorting
+		// Field to sort by
+		if(isset($_REQUEST['sort'])) {
+			$sort = $_REQUEST['sort']; // User requested
+		} else {
+			$sort = 'priority'; // Default
+		}
+		// Directory to sort by
+		if(isset($_REQUEST['order'])) {
+			$order = $_REQUEST['order']; // User requested
+		} else {
+			$order = 'desc'; // Default
+		}
+		
 		// Get Tickets
 		$tickets = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' ORDER BY priority DESC");
+		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' ORDER BY $sort $order");
 		while($info = $db->fetcharray($fetchtickets)) {
 			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
 			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field

@@ -15,15 +15,15 @@
 		<table class="listing tickets">
 			<thead>
 				<tr>
-					<th class="id">Ticket</th>
-					<th class="summary">Summary</th>
-					<th class="status">Status</th>
-					<th class="owner">Owner</th>
-					<th class="type">Type</th>
-					<th class="priority">Priority</th>
-					<th class="component">Component</th>
+					<th class="id"><a href="?sort=tid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Ticket</a></th>
+					<th class="summary"><a href="?sort=summary&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Summary</a></th>
+					<th class="status"><a href="?sort=status&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Status</a></th>
+					<th class="owner"><a href="?sort=ownername&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Owner</a></th>
+					<th class="type"><a href="?sort=type&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Type</a></th>
+					<th class="priority"><a href="?sort=priority&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Priority</a></th>
+					<th class="component"><a href="?sort=componentid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Component</a></th>
 					<? if(!$uri->seg[2]) { ?>
-					<th class="milestone">Milestone</th>
+					<th class="milestone"><a href="?sort=milestoneid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>">Milestone</a></th>
 					<? } ?>
 				</tr>
 			</thead>
