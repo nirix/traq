@@ -28,7 +28,7 @@ if(!isset($uri->seg[1])) {
 		// Get Ticket Info
 		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'")); // Count open tickets
 		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$info['id']."'")); // Count closed tickets
-		$info['tickets']['total'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE milestoneid='".$info['id']."'")); // Count total tickets
+		$info['tickets']['total'] = ($info['tickets']['open']+$info['tickets']['closed']); // Count total tickets
 		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']); // Calculate closed tickets percent
 		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']); // Calculate open tickets percent
 		$info['desc'] = formattext($info['desc']);
@@ -508,7 +508,7 @@ if(!isset($uri->seg[1])) {
 } elseif($uri->seg[1] == "changelog") {
 	// Change Log Page
 	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' ORDER BY milestone DESC"); // Fetch the milestones
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' AND completed != 0 ORDER BY milestone DESC"); // Fetch the milestones
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$info['tickets'] = array();
 		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' AND milestoneid='".$info['id']."' AND status <= 0 AND status != -2 ORDER BY updated ASC"); // Fetch the tickets
@@ -532,5 +532,8 @@ if(!isset($uri->seg[1])) {
 } elseif($uri->seg[1] == "source") {
 	// Browse Source
 	include(TRAQPATH.'handlers/browsesvn.php');
+} elseif($uri->seg[1] == "feeds") {
+	// Feed (RSS/Atom/etc)
+	include(TRAQPATH.'handlers/feeds.php');
 }
 ?>
