@@ -165,7 +165,7 @@ if(!isset($uri->seg[1])) {
 			$db->query("INSERT INTO ".DBPREFIX."tickets VALUES(
 															   0,
 															   ".$ticketid.",
-															   '".$db->escapestring($_POST['summary'])."',
+															   '".$db->escapestring(htmlspecialchars($_POST['summary']))."',
 															   '".$db->escapestring($_POST['body'])."',
 															   ".$project['id'].",
 															   ".$db->escapestring($_POST['milestone']).",
@@ -268,7 +268,7 @@ if(!isset($uri->seg[1])) {
 					$changes[] = "COMPONENT:".$_POST['component'].",".$ticket['componentid'];
 				}
 				// Summary
-				if($_POST['summary'] != stripslashes($ticket['summary'])) {
+				if(htmlspecialchars(stripslashes($_POST['summary'])) != stripslashes($ticket['summary'])) {
 					$changes[] = "SUMMARY";
 					//$db->query("UPDATE ".DBPREFIX."tickets SET summary='".$db->escapestring($_POST['summary'])."' WHERE id='".$ticket['id']."' LIMIT 1");
 				}
@@ -292,7 +292,7 @@ if(!isset($uri->seg[1])) {
 				if(count($changes) > 0) {
 					FishHook::hook('projecthandler_updateticket');
 					$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
-															   summary='".$db->escapestring($_POST['summary'])."',
+															   summary='".$db->escapestring(htmlspecialchars($_POST['summary']))."',
 															   assigneeid='".$db->escapestring($_POST['assignto'])."',
 															   priority='".$db->escapestring($_POST['priority'])."',
 															   severity='".$db->escapestring($_POST['severity'])."',
