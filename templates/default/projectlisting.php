@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=buildtitle("Project Listing")?></title>
-<? include(template('style')); ?> 
+<? include(template('headerinc')); ?> 
 </head>
 <body>
 <? include(template('header')); ?>

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=buildtitle(array('Milestone '.$milestone['milestone'],$project['name']))?></title>
-<? include(template('style')); ?> 
+<? include(template('headerinc')); ?> 
 </head>
 <body>
 <? include(template('header')); ?>

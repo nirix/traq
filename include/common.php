@@ -210,14 +210,15 @@ function getseverities() {
 function formattext($text) {
 	global $origin;
 	$text_orig = $text;
+	$text = htmlspecialchars($text);
 	// Strip Slashes
 	$text = stripslashes($text);
 	// [comment:X User] format
 	$text = commentTag($text);
 	// Plugin Hook
-	FishHook::hook('common_formattext');
+	$text = FishHook::filter('common_formattext_text',$text);
 	// BBCode
-	$text = $origin->bbcode->format($text);
+	$text = $origin->bbcode->format($text,false);
 	// Return  for display
 	return str_replace("\n\r","<br /><br />",$text);
 }

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=buildtitle(array(($uri->seg[3] == "open" ? 'Open' : ($uri->seg[3] ? 'Closed' : 'All')).' Tickets '.($uri->seg[2] ? 'for Milestone '.$milestone['milestone'] : ''),$project['name']))?></title>
-<? include(template('style')); ?> 
+<? include(template('headerinc')); ?> 
 </head>
 <body>
 <? include(template('header')); ?>

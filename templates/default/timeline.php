@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=buildtitle(array('Timeline',$project['name']))?></title>
-<? include(template('style')); ?> 
+<? include(template('headerinc')); ?> 
+<link rel="alternate" type="application/rss+xml" title="<?=$project['name']?> Timeline RSS Feed" href="http://<?=$_SERVER['HTTP_HOST']?><?=$uri->anchor($project['slug'],'feeds','timeline','rss2')?>" />
 </head>
 <body>
 <? include(template('header')); ?>

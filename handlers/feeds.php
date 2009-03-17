@@ -66,8 +66,8 @@ if(!isset($uri->seg[2])) {
 			
 			<guid isPermaLink="true">http://<?=$_SERVER['HTTP_HOST']?><?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?></guid>
 			
-			<description><![CDATA[<?=substr($row['ticket']['body'],0,255)?><?=(strlen($post['body'])>255 ? '...' : '')?>]]></description>
-			<content:encoded><![CDATA[<?=$row['ticket']['body']?>]]></content:encoded>
+			<description><![CDATA[<?=substr(stripslashes($row['ticket']['body']),0,255)?><?=(strlen(stripslashes($row['ticket']['body']))>255 ? '...' : '')?>]]></description>
+			<content:encoded><![CDATA[<?=stripslashes($row['ticket']['body'])?>]]></content:encoded>
 		</item>
 		<? } ?> 
 	</channel>
