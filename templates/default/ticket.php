@@ -53,7 +53,7 @@
 				<p>
 					<?=($ticket['body'])?> 
 				</p>
-				<h3 id="attachments">Attachments</h3>
+				<h3>Attachments</h3>
 				<p id="attachments">
 					<ul>
 					<? foreach($attachments as $attachment) { ?>
@@ -258,6 +258,10 @@
 					</table>
 				</fieldset>
 			<? if(!$user->loggedin) { ?>
+			<fieldset>
+				<legend>Your Name</legend>
+				<input type="text" name="name" value="<?=$_COOKIE['guestname']?>" />
+			</fieldset>
 			<fieldset>
 				<legend>Human Check</legend>
 				<table>

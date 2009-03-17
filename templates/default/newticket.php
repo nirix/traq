@@ -102,6 +102,10 @@
 				</table>
 			</fieldset>
 			<? if(!$user->loggedin) { ?>
+			<fieldset<?=(isset($errors['name']) ? ' class="error"' : '')?>>
+				<legend>Your Name</legend>
+				<input type="text" name="name" value="<?=$_COOKIE['guestname']?>" />
+			</fieldset>
 			<fieldset<?=(isset($errors['key']) ? ' class="error"' : '')?>>
 				<legend>Human Check</legend>
 				<table>

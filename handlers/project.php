@@ -192,6 +192,10 @@ if(!isset($uri->seg[1])) {
 		if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
 			$errors['key'] = "Human Check failed";
 		}
+		// Check if the guests name is blank or not
+		if(empty($_POST['name']) && !$user->loggedin) {
+			$errors['name'] = "You must enter a name";
+		}
 		
 		// Fix the milestone and component values, fixes ticket #19
 		if(empty($_POST['milestone'])) {
@@ -218,16 +222,25 @@ if(!isset($uri->seg[1])) {
 															   ".$db->escapestring($_POST['priority']).",
 															   ".$db->escapestring($_POST['severity']).",
 															   ".$user->info->id.",
-															   '".$user->info->username."',
+															   '".($user->loggedin ? $user->info->username : $db->escapestring($_POST['name']))."',
 															   ".$db->escapestring($_POST['assignto']).",
 															   ".time().",
 															   0
 															   )");
+			// Set the guest name if the user is not logged in...
+			if(!$user->loggedin) {
+				setcookie('guestname',$_POST['name'],time()+9999999,$user->cookie['path'],$user->cookie['domain']);
+			}
+			// Ticket internal ID
 			$internalid = $db->insertid();
-			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1"); // Update the project currentid field.
-			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$internalid.",'CREATE','')"); // Add the CREATE to the ticket history
-			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")"); // Add the ticket creation to the timeline
-			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid)); // Redirect to the ticket page...
+			// Update the project currentid field.
+			$db->query("UPDATE ".DBPREFIX."projects SET currenttid='".$ticketid."' WHERE id='".$project['id']."' LIMIT 1");
+			// Add the CREATE to the ticket history
+			$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".($user->loggedin ? $user->info->username : $db->escapestring($_POST['name']))."',".$internalid.",'CREATE','')");
+			// Add the ticket creation to the timeline
+			$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,1,'TICKETCREATE:".$internalid."',".time().",NOW(),".$user->info->id.",'".($user->loggedin ? $user->info->username : $db->escapestring($_POST['name']))."',".$project['id'].")");
+			// Redirect to the ticket page...
+			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
 		} else {
 			// oops, there were errors...
 			FishHook::hook('projecthandler_newticket_pretemplate');
@@ -273,10 +286,12 @@ if(!isset($uri->seg[1])) {
 		// Update Ticket
 		if($_POST['action'] == "update") {
 			$changes = array();
+			// Check if the guests name is blank or not
+			if(empty($_POST['name']) && !$user->loggedin) {
+				$errors[] = "You must enter a name";
+			}
 			// Check if the anti-spam key is valid
-			$doupdate = true;
 			if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
-				$doupdate = false;
 				$errors[] = "Human Check failed";
 			}
 			// If there are no errors, update the tickets
@@ -312,7 +327,6 @@ if(!isset($uri->seg[1])) {
 				// Summary
 				if(htmlspecialchars(stripslashes($_POST['summary'])) != stripslashes($ticket['summary'])) {
 					$changes[] = "SUMMARY";
-					//$db->query("UPDATE ".DBPREFIX."tickets SET summary='".$db->escapestring($_POST['summary'])."' WHERE id='".$ticket['id']."' LIMIT 1");
 				}
 				// Ticket Status
 				if($_POST['ticketaction'] == "markas") {
@@ -323,12 +337,16 @@ if(!isset($uri->seg[1])) {
 					// Close the ticket
 					$changes[] = "CLOSE:".$_POST['closeas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['closeas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,2,'TICKETCLOSE:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".($user->loggedin ? $user->info->username : $db->escapestring($_POST['name']))."',".$project['id'].")");
 				} elseif($_POST['ticketaction'] == "reopen") {
 					// Reopen the ticket
 					$changes[] = "REOPEN:".$_POST['reopenas'].",".$ticket['status'];
 					$db->query("UPDATE ".DBPREFIX."tickets SET status='".$db->escapestring($_POST['reopenas'])."' WHERE id='".$ticket['id']."' LIMIT 1");
-					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".$user->info->username."',".$project['id'].")");
+					$db->query("INSERT INTO ".DBPREFIX."timeline VALUES(0,3,'TICKETREOPEN:".$ticket['id']."',".time().",NOW(),".$user->info->id.",'".($user->loggedin ? $user->info->username : $db->escapestring($_POST['name']))."',".$project['id'].")");
+				}
+				// Set the guest name if the user is not logged in...
+				if(!$user->loggedin) {
+					setcookie('guestname',$_POST['name'],time()+9999999,$user->cookie['path'],$user->cookie['domain']);
 				}
 				// Check if there are changes, if so then update the ticket fields...
 				if(count($changes) > 0) {
@@ -349,7 +367,7 @@ if(!isset($uri->seg[1])) {
 			if((!empty($_POST['comment']) or count($changes) > 0) && !count($errors)) {
 				$changes = implode('|',$changes);
 				FishHook::hook('projecthandler_updateticket_postcomment');
-				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",'".$db->escapestring($changes)."','".$db->escapestring($_POST['comment'])."')");
+				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".($user->loggedin ? $user->info->username : $db->escapestring($_POST['name']))."',".$ticket['id'].",'".$db->escapestring($changes)."','".$db->escapestring($_POST['comment'])."')");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated'); // Redirect to the ticket view page
 		} elseif($uri->seg[3] == "deletecomment") {
