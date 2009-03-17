@@ -25,6 +25,7 @@ if(!isset($uri->seg[2])) {
 			$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
 			$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
 		}
+		// Set the updated var to the latest timestamp
 		if($updated < $rowinfo['timestamp']) {
 			$updated = $rowinfo['timestamp'];
 		}

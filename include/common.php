@@ -8,6 +8,8 @@
 /**
  * Template
  * Used to easily fetch templates.
+ * @param string $template Template Name
+ * @return string
  */
 function template($template) {
 	global $origin;
@@ -17,6 +19,8 @@ function template($template) {
 /**
  * Build Title
  * Makes the page title
+ * @param array $title Titles to combine
+ * @return string
  */
 function buildtitle($title = array()) {
 	global $settings;
@@ -33,6 +37,8 @@ function buildtitle($title = array()) {
 /**
  * Is Project
  * Check if the supplied string is a project.
+ * @param string $string String to check if a project exists with that slug.
+ * @return integer
  */
 function is_project($string) {
 	global $db;
@@ -42,6 +48,8 @@ function is_project($string) {
 /**
  * Get Project Milestones
  * Used to get the milestones of the specified project.
+ * @param integer $projectid Project ID
+ * @return array
  */
 function projectmilestones($projectid) {
 	global $db;
@@ -56,6 +64,8 @@ function projectmilestones($projectid) {
 /**
  * Get Project Components
  * Used to get the components of the specified project.
+ * @param integer $projectid Project ID
+ * @return array
  */
 function projectcomponents($projectid) {
 	global $db;
@@ -70,6 +80,8 @@ function projectcomponents($projectid) {
 /**
  * Get Project Versions
  * Used to get the versions of the specified project.
+ * @param integer $projectid Project ID
+ * @return array
  */
 function projectversions($projectid) {
 	global $db;
@@ -84,6 +96,8 @@ function projectversions($projectid) {
 /**
  * Get Project Managers
  * Used to get the managers of the specified project.
+ * @param integer $projectid Project ID
+ * @return array
  */
 function projectmanagers($projectid) {
 	global $db,$user;
@@ -99,6 +113,7 @@ function projectmanagers($projectid) {
 /**
  * Ticket Status
  * Gets the Ticket Status text.
+ * @return string
  */
 function ticketstatus($statusid) {
 	global $db;
@@ -112,6 +127,10 @@ function ticketstatus($statusid) {
 
 /**
  * Get Status Types
+ * Used to get an array of the Ticket Status types.
+ * @param string $sort Field to sort by
+ * @param string $order Direction to sort by, ASC or DESC
+ * @return array
  */
 function getstatustypes($sort='id',$order='ASC') {
 	global $db;
@@ -126,6 +145,7 @@ function getstatustypes($sort='id',$order='ASC') {
 /**
  * Ticket Priority
  * Gets the Ticket Priorty text.
+ * @return string
  */
 function ticketpriority($priorityid) {
 	global $db;
@@ -139,6 +159,8 @@ function ticketpriority($priorityid) {
 
 /**
  * Get Priorities
+ * Used to get an array of the Ticket Priorities.
+ * @return array
  */
 function getpriorities() {
 	global $db;
@@ -153,6 +175,7 @@ function getpriorities() {
 /**
  * Ticket Type
  * Gets the Ticket Type text.
+ * @return string
  */
 function tickettype($typeid) {
 	global $db;
@@ -166,6 +189,8 @@ function tickettype($typeid) {
 
 /**
  * Get Types
+ * Used to get an array of the Ticket Types.
+ * @return array
  */
 function gettypes() {
 	global $db;
@@ -180,6 +205,7 @@ function gettypes() {
 /**
  * Ticket Severity
  * Gets the Ticket Severity text.
+ * @return string
  */
 function ticketseverity($severityid) {
 	global $db;
@@ -193,6 +219,8 @@ function ticketseverity($severityid) {
 
 /**
  * Get Severities
+ * Used to get an array of the ticket severities.
+ * @return array
  */
 function getseverities() {
 	global $db;
@@ -206,6 +234,9 @@ function getseverities() {
 
 /**
  * Text Formatting
+ * Used to format tickets, comments, descriptions, etc.
+ * @param string $text Input text
+ * @return string
  */
 function formattext($text) {
 	global $origin;
@@ -215,7 +246,7 @@ function formattext($text) {
 	$text = stripslashes($text);
 	// [comment:X User] format
 	$text = commentTag($text);
-	// Plugin Hook
+	// Plugin Hook Filter
 	$text = FishHook::filter('common_formattext_text',$text);
 	// BBCode
 	$text = $origin->bbcode->format($text,false);
@@ -226,18 +257,20 @@ function formattext($text) {
 /**
  * Comment Tag
  * Used to format the [comment:X User] tag to the proper code.
+ * @param string $text Input Text
+ * @return string
  */
 function commentTag($text) {
 	$bits = preg_split('/\[(\b(comment:)'.'[^][<>"\\x00-\\x20\\x7F]+) *([^\]\\x0a\\x0d]*?)\]/S', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$i = 0;
+	// Loop through the bits and replace
 	while($i<count($bits)) {
 		$i++;
 		if($bits[$i] != "") {
-			$url = $bits[$i++];
-			$protocol = $bits[$i++];
-			$label = $bits[$i++];
-			$type = ($label == '') ? 'free' : 'text';
-			$text = str_replace("[".$url." ".$label."]","<a href=\"#".$url."\">".$label."</a>",$text);
+			$id = $bits[$i++]; // Comment ID
+			$i++;
+			$user = $bits[$i++]; // User
+			$text = str_replace("[".$id." ".$user."]","<a href=\"#".$id."\">".$user."</a>",$text);
 		}
 	}
 	return $text;
@@ -247,6 +280,9 @@ function commentTag($text) {
  * Calcuate Percent
  * Used to calculate the percent of two numbers,
  * if both numbers are the same, 100(%) is returned.
+ * @param integer $min Lowest number
+ * @param integer $max Highest number
+ * @return integer
  */
 function calculatepercent($min,$max) {
 	if($min == $max) {
@@ -259,11 +295,14 @@ function calculatepercent($min,$max) {
 
 /**
  * Time Since
+ * @param integer $original Original Timestamp
+ * @param integer $detailed Detailed format or not
+ * @return string
  */
 function timesince($original, $detailed = false) {
 	$now = time(); // Get the time right now...
 	
-	// Time chuncks...
+	// Time chunks...
 	$chunks = array(
 		array(60 * 60 * 24 * 365, 'year', 'years'),
 		array(60 * 60 * 24 * 30, 'month', 'months'),
@@ -300,16 +339,20 @@ function timesince($original, $detailed = false) {
 		}
 	}
 	
-	return $since; // Return the time since
+	// Return the time since
+	return $since;
 }
 
 /**
  * Time From
+ * @param integer $original Original Timestamp
+ * @param integer $detailed Detailed format or not
+ * @return string
  */
 function timefrom($original, $detailed = false) {
 	$now = time(); // Get the time right now...
 	
-	// Time chuncks...
+	// Time chunks...
 	$chunks = array(
 		array(60 * 60 * 24 * 365, 'year', 'years'),
 		array(60 * 60 * 24 * 30, 'month', 'months'),
@@ -346,6 +389,7 @@ function timefrom($original, $detailed = false) {
 		}
 	}
 	
-	return $from; // Return the time from
+	// Return the time from
+	return $from;
 }
 ?>

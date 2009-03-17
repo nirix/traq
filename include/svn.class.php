@@ -11,11 +11,18 @@
  */
 class Traq_Subversion {
 	private $repo = NULL; // Repository location
-	public $prefix = NULL; // File prefix
+	
+	/**
+	 * File Prefix
+	 * Placed at the start of the repository cache files.
+	 * @var public
+	 */
+	public $prefix = NULL;
 	
 	/**
 	 * Set Repository
 	 * Used to set the repository location.
+	 * @param string $repo Repository Path
 	 */
 	public function setrepo($repo) {
 		if(substr($repo,-1) == '/') {
@@ -28,6 +35,7 @@ class Traq_Subversion {
 	/**
 	 * Get Repository
 	 * Used to get the repository location.
+	 * @return string
 	 */
 	public function getrepo() {
 		return $this->repo;
@@ -36,6 +44,8 @@ class Traq_Subversion {
 	/**
 	 * List Directory
 	 * Used to list the specified subversion repository directory.
+	 * @param string $dir Directory location
+	 * @return array
 	 */
 	public function listdir($dir='') {
 		$dir = $this->cleandirname($dir);
@@ -75,6 +85,8 @@ class Traq_Subversion {
 	/**
 	 * Get Info
 	 * Used to get the information of the specified subversion repository directory.
+	 * @param string $dir Directory location
+	 * @return array
 	 */
 	public function info($dir='') {
 		$this->path = $dir;

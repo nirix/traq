@@ -17,22 +17,38 @@ require(TRAQPATH."include/config.php");
 // Fetch Origin
 require(TRAQPATH."include/origin/origin.php");
 $origin = new Origin;
-$db =& $origin->load("database",'db'); // Load DB Class
+
+// Load DB Class
+$db =& $origin->load("database",'db');
 $origin->db->prefix = $config->db->prefix;
 define("DBPREFIX",$origin->db->prefix);
-$origin->db->connect($config->db->host,$config->db->user,$config->db->pass); // Connect to the DB
+
+// Connect to the Database
+$origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
 $origin->db->selectdb($config->db->name);
-$origin->load("template"); // Load Template Class
-$user =& $origin->load("user"); // Load User Class
-$uri =& $origin->load("uri"); // Load URI Class
-$origin->load("bbcode"); // Load BBCode Class
+
+// Load Template Class
+$origin->load("template");
+
+// Load User Class
+$user =& $origin->load("user");
+
+// Load URI Class
+$uri =& $origin->load("uri");
+
+// Load BBCode Class
+$origin->load("bbcode");
 
 // Load FishHook and Plugins
 require(TRAQPATH."include/fishhook.php");
 $fetchplugins = $db->query("SELECT * FROM ".DBPREFIX."plugins");
-while($info = $db->fetcharray($fetchplugins)) {
-	include(TRAQPATH.'plugins/'.$info['file']);
-	FishHook::hook('plugins_load'); // Plugin hook
+while($info = $db->fetcharray($fetchplugins))
+{
+	// Check if the plugin file exists, if so include it
+	if(file_exists(TRAQPATH.'plugins/'.$info['file']))
+	{
+		include(TRAQPATH.'plugins/'.$info['file']); // Include the plugin file
+	}
 }
 unset($fetchplugins,$info);
 
@@ -42,7 +58,8 @@ require(TRAQPATH."include/common.php");
 // Get settings
 $settings = (object) array();
 $fetchsettings = $origin->db->query("SELECT setting,value FROM ".DBPREFIX."settings");
-while($info = $origin->db->fetcharray($fetchsettings)) {
+while($info = $origin->db->fetcharray($fetchsettings))
+{
 	$settings->$info['setting'] = $info['value'];
 	FishHook::Hook("settings_fetch"); // Plugin hook
 }
