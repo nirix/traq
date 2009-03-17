@@ -1,7 +1,13 @@
 <?php
 /**
  * Traq
- * Copyright (c) 2009 Rainbird Studios
+ * Copyright (C) 2009 Rainbird Studios
+ * Copyright (C) 2009 Jack Polgar
+ * All Rights Reserved
+ *
+ * This software is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution.
+ *
  * $Id$
  */
 
@@ -36,6 +42,10 @@ adminheader();
 			<tr>
 				<td>Components</td>
 				<td><?=$db->numrows($db->query("SELECT id FROM ".DBPREFIX."components"))?></td>
+			</tr>
+			<tr>
+				<td>Users</td>
+				<td><?=$db->numrows($db->query("SELECT id FROM ".DBPREFIX."users"))?></td>
 			</tr>
 		</table>
 	</div>

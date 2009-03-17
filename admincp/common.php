@@ -1,13 +1,20 @@
 <?php
 /**
  * Traq
- * Copyright (c) 2009 Rainbird Studios
+ * Copyright (C) 2009 Rainbird Studios
+ * Copyright (C) 2009 Jack Polgar
+ * All Rights Reserved
+ *
+ * This software is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution.
+ *
  * $Id$
  */
 
 /**
  * Get Users
  * Used to get all the users from the DB.
+ * @return array
  */
 function getusers() {
 	global $db;
@@ -23,6 +30,7 @@ function getusers() {
 /**
  * Get Projects
  * Used to get all the projects from the DB.
+ * @return array
  */
 function getprojects() {
 	global $db;
@@ -38,6 +46,7 @@ function getprojects() {
 /**
  * Get Groups
  * Used to get all the usergroups from the DB.
+ * @return array
  */
 function getgroups() {
 	global $db;

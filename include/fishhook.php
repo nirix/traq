@@ -5,6 +5,9 @@
  * @package FishHook
  * @copyright Jack Polgar
  * @version 1.1
+ *
+ * Copyright (c)2008-2009 Jack Polgar
+ * All Rights Reserved
  */
 
 class FishHook {
