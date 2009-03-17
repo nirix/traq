@@ -53,11 +53,11 @@ if(!isset($uri->seg[2])) {
 		<? foreach($rows as $row) { ?> 
 		<item>
 			<? if($row['type'] == "TICKETCREATE") { ?>
-			<title>Ticket #<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>) (<?=tickettype($row['ticket']['type'])?>) created</title>
+			<title>Ticket #<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>) created</title>
 			<? } elseif($row['type'] == "TICKETCLOSE") { ?>
-			<title>Ticket #<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>) (<?=tickettype($row['ticket']['type'])?>) closed</title>
+			<title>Ticket #<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>) closed</title>
 			<? } elseif($row['type'] == "TICKETREOPEN") { ?>
-			<title>Ticket #<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>) (<?=tickettype($row['ticket']['type'])?>) reopened</title>
+			<title>Ticket #<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>) reopened</title>
 			<? } ?>
 			<link>http://<?=$_SERVER['HTTP_HOST']?><?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?></link>
 			<comments>http://<?=$_SERVER['HTTP_HOST']?><?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>#history</comments>

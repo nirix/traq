@@ -19,11 +19,11 @@
 				<ul class="rows">
 				<? foreach($date['rows'] as $row) { ?>
 					<? if($row['type'] == "TICKETCREATE") { ?>
-					<li><?=date("h:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>)</a> (<?=tickettype($row['ticket']['type'])?>) created by <?=$row['username']?></li>
+					<li><?=date("h:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>)</a> created by <?=$row['username']?></li>
 					<? } elseif($row['type'] == "TICKETCLOSE") { ?>
-					<li><?=date("h:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>)</a> (<?=tickettype($row['ticket']['type'])?>) closed by <?=$row['username']?></li>
+					<li><?=date("h:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>)</a> closed by <?=$row['username']?></li>
 					<? } elseif($row['type'] == "TICKETREOPEN") { ?>
-					<li><?=date("h:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>)</a> (<?=tickettype($row['ticket']['type'])?>) reopened by <?=$row['username']?></li>
+					<li><?=date("h:iA",$row['timestamp'])?> Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>">#<?=$row['ticket']['tid']?> (<?=$row['ticket']['summary']?>)</a> reopened by <?=$row['username']?></li>
 					<? } ?>
 				<? } ?>
 				</ul>
