@@ -57,6 +57,9 @@ while($info = $db->fetcharray($fetchplugins))
 }
 unset($fetchplugins,$info);
 
+// Set Content type and charset
+header("Content-Type: text/html; charset=UTF-8");
+
 // Fetch common functions file
 require(TRAQPATH."include/common.php");
 
