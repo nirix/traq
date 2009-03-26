@@ -10,13 +10,13 @@
  * $Id$
  */
 
-// enUS English
+// English - enUS
 $lang = array();
 $lang['usercp'] = 'UserCP';
 $lang['admincp'] = 'AdminCP';
 $lang['logout_x'] = 'Logout ({1})';
 $lang['projects'] = 'Projects';
-$lang['copyright'] = 'Powered by Traq '.TRAQVER.',<br />Copyright &copy;2009 Rainbird Studios';
+$lang['copyright'] = 'Powered by Traq '.TRAQVER.',<br />Copyright &copy;2009 Jack Polgar';
 $lang['login'] = 'Login';
 $lang['register'] = 'Register';
 $lang['current_password'] = 'Current Password';
@@ -48,4 +48,6 @@ $lang['owner'] = 'Owner';
 $lang['type'] = 'Type';
 $lang['priority'] = 'Priority';
 $lang['component'] = 'Component';
+$lang['username'] = 'Username';
+$lang['remember'] = 'Remember';
 ?>
