@@ -40,6 +40,37 @@ function buildtitle($title = array()) {
 }
 
 /**
+ * Locale String
+ * Gets the specified locale string for the set language.
+ * @param string $string String name/key
+ * @param mixed $vars
+ * @return string
+ */
+function l($string,$vars=array())
+{
+	global $lang;
+	
+	// Get the locale string
+	$string = $lang[$string];
+	
+	// Check if the $vars is an array or use the function args.
+	if(!is_array($vars))
+	{
+		$vars = array_slice(func_get_args(),1);
+	}
+	
+	// Loop through the vars and replace the the {x} stuff
+	foreach($vars as $var)
+	{
+		++$v;
+		$string = str_replace('{'.$v.'}',$var,$string);
+	}
+	
+	// Now return it...
+	return $string;
+}
+
+/**
  * Is Project
  * Check if the supplied string is a project.
  * @param string $string String to check if a project exists with that slug.

@@ -57,6 +57,9 @@ while($info = $db->fetcharray($fetchplugins))
 }
 unset($fetchplugins,$info);
 
+// Load the language
+require(TRAQPATH."include/lang/enus.php");
+
 // Set Content type and charset
 header("Content-Type: text/html; charset=UTF-8");
 

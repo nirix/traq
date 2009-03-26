@@ -9,12 +9,12 @@
 <? include(template('header')); ?>
 	<div id="mainnav" class="nav">
 		<ul>
-			<li class="first<?=(!$uri->seg[1] ? ' active' : '')?>"><a href="<?=$uri->anchor()?>">Projects</a></li>
+			<li class="first<?=(!$uri->seg[1] ? ' active' : '')?>"><a href="<?=$uri->anchor()?>"><?=l('projects')?></a></li>
 			<li class="last"><a href="http://rainbirdstudios.com/projects/traq/">Traq</a></li>
 		</ul>
 	</div>
 	<div id="content">
-		<h1>Projects</h1>
+		<h1><?=l('projects')?></h1>
 		<ul class="projects">
 <? foreach($projects as $project) { ?>
 			<li class="project">

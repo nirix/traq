@@ -9,12 +9,12 @@
 <? include(template('header')); ?>
 	<div id="mainnav" class="nav">
 		<ul>
-			<li class="first"><a href="<?=$uri->anchor()?>">Projects</a></li>
+			<li class="first"><a href="<?=$uri->anchor()?>"><?=l('projects')?></a></li>
 			<li class="last"><a href="http://rainbirdstudios.com/projects/traq/">Traq</a></li>
 		</ul>
 	</div>
 	<div id="content">
-		<h1>UserCP</h1>
+		<h1><?=l('usercp')?></h1>
 		<form action="<?=$uri->anchor('user','settings')?>" method="post">
 			<input type="hidden" name="action" value="update" />
 			<div class="form">
@@ -26,25 +26,25 @@
 				</div><br />
 				<? } ?>
 				<fieldset<?=(isset($errors['currentpass']) ? ' class="error"' : '')?>>
-					<label>Current Password</label>
+					<label><?=l('current_password')?></label>
 					<input type="password" name="currentpass" /><br />
-					<small>Enter your current password to change your details.</small>
+					<small><?=l('enter_current_pass_to_change')?></small>
 				</fieldset>
 				<fieldset<?=(isset($errors['password']) || isset($errors['password2']) ? ' class="error"' : '')?>>
 					<label>Password</label>
 					<input type="password" name="password" /><br />
-					<small>Leave blank to leave as is.</small>
+					<small><?=l('leave_blank_to_leave_as_is')?></small>
 				</fieldset>
 				<fieldset<?=(isset($errors['password']) || isset($errors['password2']) ? ' class="error"' : '')?>>
 					<label>Password</label>
-					<input type="password" name="password2" /> <em>Confirm</em>
+					<input type="password" name="password2" /> <em><?=l('confirm')?></em>
 				</fieldset>
 				<fieldset<?=(isset($errors['email']) ? ' class="error"' : '')?>>
-					<label>Email</label>
+					<label><?=l('email')?></label>
 					<input type="text" name="email" value="<?=$user->info->email?>" />
 				</fieldset>
 				<fieldset>
-					<input type="submit" value="Update" /> <input type="button" onclick="javascript:history.back()" value="Cancel" />
+					<input type="submit" value="<?=l('update')?>" /> <input type="button" onclick="javascript:history.back()" value="<?=l('cancel')?>" />
 				</fieldset>
 			</div>
 		</form>

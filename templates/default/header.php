@@ -4,14 +4,14 @@
 		<div id="metanav" class="nav">
 			<ul>
 <? if($user->loggedin) { ?>
-					<li class="first"><a href="<?=$uri->anchor(array('user','settings'))?>">UserCP</a></li>
+					<li class="first"><a href="<?=$uri->anchor(array('user','settings'))?>"><?=l('usercp')?></a></li>
 					<? if($user->group->isadmin) { ?>
-					<li><a href="<?=$uri->anchor()?>admincp">AdminCP</a></li>
+					<li><a href="<?=$uri->anchor()?>admincp"><?=l('admincp')?></a></li>
 					<? } ?>
-					<li class="last"><a href="<?=$uri->anchor(array('user','logout'))?>">Logout (<?=$user->info->username?>)</a></li>
+					<li class="last"><a href="<?=$uri->anchor(array('user','logout'))?>"><?=l('logout_x',$user->info->username)?></a></li>
 <? } else { ?>
-					<li class="first"><a href="<?=$uri->anchor(array('user','login'))?>">Login</a></li>
-					<li class="last"><a href="<?=$uri->anchor(array('user','register'))?>">Register</a></li>
+					<li class="first"><a href="<?=$uri->anchor(array('user','login'))?>"><?=l('login')?></a></li>
+					<li class="last"><a href="<?=$uri->anchor(array('user','register'))?>"><?=l('register')?></a></li>
 <? } ?>
 			</ul>
 		</div>
