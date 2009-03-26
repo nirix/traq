@@ -10,16 +10,16 @@
 	<? include(template('project_nav')); ?>
 	<div id="content">
 		<? include(template("breadcrumbs")); ?>
-		<h1><?=$project['name']?> Change Log</h1>
+		<h1><?=l('x_change_log',$project['name'])?></h1>
 		<div id="changelog">
 		<? foreach($milestones as $milestone) {
 			if(!count($milestone['tickets'])) {
 				continue;	
 			}
 		?>
-			<h2>Milestone <?=$milestone['milestone']?></h2>
+			<h2><?=l('milestone_x',$milestone['milestone'])?></h2>
 			<? foreach($milestone['tickets'] as $ticket) { ?>
-			<div class="ticket">- Ticket <a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>">#<?=$ticket['tid']?>  (<?=$ticket['summary']?>)</a> closed (<?=ticketstatus($ticket['status'])?>)</div>
+			<div class="ticket">- <a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>"><?=l('ticket_x_closed_x',$ticket['tid'],$ticket['summary'],ticketstatus($ticket['status']))?></a></div>
 			<? } ?>
 		<? } ?>
 		</div>

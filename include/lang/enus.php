@@ -75,4 +75,13 @@ $lang['close_as'] = 'Close as';
 $lang['reopen_as'] = 'Reopen_as';
 $lang['your_name'] = 'Your Name';
 $lang['human_check'] = 'Human Check';
+$lang['x_change_log'] = '{1} Change Log';
+$lang['milestone_x'] = 'Milestone {1}';
+$lang['ticket_x_closed_x'] = 'Ticket #{1}  ({2}) closed ({3})';
+$lang['x_timeline'] = '{1} Timeline';
+$lang['ticket_x_created_by_x'] = 'Ticket #{1} ({2}) created by {3}';
+$lang['ticket_x_closed_by_x'] = 'Ticket #{1} ({2}) closed by {3}';
+$lang['ticket_x_reopened_by_x'] = 'Ticket #{1} ({2}) reopened by {3}';
+$lang['x_timeline_rss_feed'] = '{1} Timeline RSS Feed';
+$lang['x_milestone_x'] = '{1} Milestone {2}';
 ?>

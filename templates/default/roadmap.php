@@ -17,7 +17,7 @@
 				<div class="info">
 					<h2><a href="<?=$uri->anchor($project['slug'],'milestone',$milestone['milestone'])?>"><?=l('milestone')?>: <em><?=$milestone['milestone']?><?=(!empty($milestone['codename']) ? ' <small>"'.$milestone['codename'].'"</small>' : '')?></em></a></h2>
 					<p class="date">
-						<? if($milestone['due'] == 0) { ?>
+						<? if($milestone['due'] == 0 && $milestone['completed'] == 0) { ?>
 						<?=l('no_due_date_set')?>
 						<? } elseif($milestone['completed'] > 0) { ?>
 						<?=l('completed_on_x',date("d/m/Y"))?>
