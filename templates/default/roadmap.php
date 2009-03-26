@@ -20,7 +20,7 @@
 						<? if($milestone['due'] == 0) { ?>
 						<?=l('no_due_date_set')?>
 						<? } elseif($milestone['completed'] > 0) { ?>
-						<?=l('completed_on_x',date("d/m/Y")?>
+						<?=l('completed_on_x',date("d/m/Y"))?>
 						<? } elseif($milestone['due'] <= time()) { ?>
 						Due <?=timesince($milestone['due'])?> ago
 						<? } elseif($milestone['due'] > time()) { ?>
