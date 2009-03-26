@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?=buildtitle(array($ticket['summary']. ' (ticket #'.$ticket['tid'].')','Tickets',$project['name']))?></title>
+<title><?=buildtitle(array($ticket['summary']. ' ('.l('ticket_x',$ticket['tid']).')',l('tickets'),$project['name']))?></title>
 <? include(template('headerinc')); ?> 
 </head>
 <body>
@@ -15,52 +15,52 @@
 				<p title="12/14/08 08:37:54">Opened <?=timesince($ticket['timestamp'])?> ago</p>
 				<p title="01/19/09 14:13:28">Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
-			<h1 class="summary"><?=$ticket['summary']?> <small>(ticket #<?=$ticket['tid']?>)</small> <? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?>
-				<input type="button" onclick="if(confirm('Are you sure you want to delete ticket #'+<?=$ticket['tid']?>)) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }" value="Delete" />
+			<h1 class="summary"><?=$ticket['summary']?> <small>(<?=l('ticket_x',$ticket['tid'])?>)</small> <? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?>
+				<input type="button" onclick="if(confirm('<?=l('delete_ticket_confirm',$ticket['tid'])?>')) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'delete')?>' }" value="<?=l('delete')?>" />
 				<? } ?></h1>
 			<table class="properties">
 				<tr>
-					<th id="h_owner">Reported by:</th>
+					<th id="h_owner"><?=l('reported_by')?>:</th>
 					<td headers="h_owner"><?=$ticket['ownername']?></td>
-					<th id="h_assignee">Assigned to:</th>
+					<th id="h_assignee"><?=l('assigned_to')?>:</th>
 					<td headers="h_assignee"><?=$assignee['username']?></td>
 				</tr>
 				<tr>
-					<th id="h_type">Type:</th>
+					<th id="h_type"><?=l('type')?>:</th>
 					<td headers="h_type"><?=tickettype($ticket['type'])?></td>
-					<th id="h_priority">Priority:</th>
+					<th id="h_priority"><?=l('priority')?>:</th>
 					<td headers="h_priority"><?=ticketpriority($ticket['priority'])?></td>
 				</tr>
 				<tr>
-					<th id="h_severity">Severity:</th>
+					<th id="h_severity"><?=l('severity')?>:</th>
 					<td headers="h_severity"><?=ticketseverity($ticket['severity'])?></td>
-					<th id="h_component">Component:</th>
+					<th id="h_component"><?=l('component')?>:</th>
 					<td headers="h_component"><?=$component['name']?></td>
 				</tr>
 				<tr>
-					<th id="h_milestone">Milestone:</th>
+					<th id="h_milestone"><?=l('milestone')?>:</th>
 					<td headers="h_milestone"><?=$milestone['milestone']?></td>
-					<th id="h_version">Version:</th>
+					<th id="h_version"><?=l('version')?>:</th>
 					<td headers="h_version"><?=$version['version']?></td>
 				</tr>
 				<tr>
-					<th id="h_status">Status:</th>
+					<th id="h_status"><?=l('status')?>:</th>
 					<td headers="h_status"><?=ticketstatus($ticket['status'])?></td>
 				</tr>
 			</table>
 			<div class="description">
-				<h3 id="description">Description</h3>
+				<h3 id="description"><?=l('description')?></h3>
 				<p>
 					<?=($ticket['body'])?> 
 				</p>
-				<h3>Attachments</h3>
+				<h3><?=l('attachments')?></h3>
 				<p id="attachments">
 					<ul>
 					<? foreach($attachments as $attachment) { ?>
 						<li>
 							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><? } ?>
 							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['ownername']?> <?=timesince($attachment['timestamp'])?> ago.
-							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="Delete" /></form><? } ?>
+							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="<?=l('delete')?>" /></form><? } ?>
 						</li>
 					<? } ?>
 					</ul>
@@ -69,13 +69,13 @@
 				<p>
 					<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="action" value="attachfile" />
-						<label>Attach File: <input type="file" name="file" /> <input type="submit" value="Attach" /></label>
+						<label>Attach File: <input type="file" name="file" /> <input type="submit" value="<?=l('attach')?>" /></label>
 					</form>
 				</p>
 				<? } ?>
 			</div>
 		</div>
-		<h2>Change History</h2>
+		<h2><?=l('change_history')?></h2>
 		<div id="history">
 			<? foreach($history as $info) { ?>
 				<div class="change">
@@ -83,10 +83,10 @@
 					
 					<span class="inlinebuttons">
 						<? if($user->group->updatetickets) { ?>
-						<input type="button" value="Reply" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />
+						<input type="button" value="<?=l('reply')?>" onclick="document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>?replyto=<?=$historyid?>'" />
 						<? } ?>
 						<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?>
-						<input type="button" value="Delete" onclick="if(confirm('Are you sure you want to delete this comment?')) { document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'; }" />
+						<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('delete_comment_confirm')?>')) { document.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'deletecomment',$info['id'])?>'; }" />
 						<? } ?>
 					</span>
 					
@@ -130,7 +130,7 @@
 			<? } ?>
 		</div>
 		<? if($user->group->updatetickets) { ?>
-		<h2>Update Ticket</h2>
+		<h2><?=l('update_ticket')?></h2>
 		<div id="update_ticket">
 			<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post">
 				<input type="hidden" name="action" value="update" />
@@ -140,10 +140,10 @@
 <? } ?></textarea>
 				<? if($user->group->updatetickets) { ?>
 				<fieldset id="properties">
-					<legend>Change Properties</legend>
+					<legend><?=l('change_properties')?></legend>
 					<table>
 						<tr>
-							<th class="col1">Type</th>
+							<th class="col1"><?=l('type')?></th>
 							<td class="col2">
 								<select name="type" id="type">
 									<? foreach(gettypes() as $type) { ?>
@@ -151,7 +151,7 @@
 									<? } ?>
 								</select>
 							</td>
-							<th class="col2">Assign to</th>
+							<th class="col2"><?=l('assign_to')?></th>
 							<td>
 								<select name="assignto" id="assignto">
 									<option value="0"<?=($ticket['assigneeid'] == 0 ? ' selected="selected"' : '')?>> </option>
@@ -162,7 +162,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th class="col1">Priority</th>
+							<th class="col1"><?=l('priority')?></th>
 							<td>
 								<select name="priority" id="priority">
 									<? foreach(getpriorities() as $priority) { ?>
@@ -170,7 +170,7 @@
 									<? } ?>
 								</select>
 							</td>
-							<th class="col2">Severity</th>
+							<th class="col2"><?=l('severity')?></th>
 							<td>
 								<select name="severity" id="severity">
 									<? foreach(getseverities() as $severity) { ?>
@@ -180,7 +180,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th class="col1">Milestone</th>
+							<th class="col1"><?=l('milestone')?></th>
 							<td>
 								<select name="milestone" id="milestone">
 									<? if($milestone['completed']>0) { ?>
@@ -191,7 +191,7 @@
 									<? } ?>
 								</select>
 							</td>
-							<th class="col2">Version</th>
+							<th class="col2"><?=l('version')?></th>
 							<td>
 								<select name="version" id="version">
 									<option<?=($ticket['version'] == 0 ? ' selected="selected"' : '')?> value="0"> </option>
@@ -202,7 +202,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th class="col1">Component</th>
+							<th class="col1"><?=l('component')?></th>
 							<td>
 								<select name="component" id="component">
 									<? foreach(projectcomponents($project['id']) as $component) { ?>
@@ -210,14 +210,14 @@
 									<? } ?>
 								</select>
 							</td>
-							<th class="col2">Summary</th>
+							<th class="col2"><?=l('summary')?></th>
 							<td><input type="text" name="summary" value="<?=$ticket['summary']?>" /></td>
 						</tr>
 						<tr>
-							<th class="col1">Action</th>
+							<th class="col1"><?=l('action')?></th>
 							<td>
 								<? if($ticket['status'] >= 1) { ?>
-								<input type="radio" name="ticketaction" value="markas" /> Mark as <select name="markas" id="markas">
+								<input type="radio" name="ticketaction" value="markas" /> <?=l('mark_as')?> <select name="markas" id="markas">
 									<?
 									foreach(getstatustypes() as $type) {
 										if($type['id']>0) {
@@ -228,7 +228,7 @@
 									}
 									?>
 								</select><br />
-								<input type="radio" name="ticketaction" value="close" /> Close as <select name="closeas" id="closeas">
+								<input type="radio" name="ticketaction" value="close" /> <?=l('close_as')?> <select name="closeas" id="closeas">
 									<?
 									foreach(getstatustypes('name','asc') as $type) {
 										if($type['id']<=0) {
@@ -240,7 +240,7 @@
 									?>
 								</select>
 								<? } elseif($ticket['status'] <= 0) { ?>
-								<input type="radio" name="ticketaction" value="reopen" /> Reopen as <select name="reopenas" id="reopenas">
+								<input type="radio" name="ticketaction" value="reopen" /> <?=l('reopen_as')?> <select name="reopenas" id="reopenas">
 									<?
 									foreach(getstatustypes() as $type) {
 										if($type['id']>0) {
@@ -259,11 +259,11 @@
 				</fieldset>
 			<? if(!$user->loggedin) { ?>
 			<fieldset>
-				<legend>Your Name</legend>
+				<legend><?=l('your_name')?></legend>
 				<input type="text" name="name" value="<?=$_COOKIE['guestname']?>" />
 			</fieldset>
 			<fieldset>
-				<legend>Human Check</legend>
+				<legend><?=l('human_check')?></legend>
 				<table>
 					<tr>
 						<td><img src="<?=$uri->anchor()?>keyimg.php" /></td>
@@ -273,7 +273,7 @@
 			</fieldset>
 			<? } ?>
 				<? } ?>
-				<input type="submit" value="Update" />
+				<input type="submit" value="<?=l('update')?>" />
 			</form>
 		</div>
 		<? } ?>
