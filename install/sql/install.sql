@@ -9,7 +9,7 @@ CREATE TABLE `traq_attachments` (
   `ticketid` bigint(20) NOT NULL,
   `projectid` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_components` (
   `id` bigint(20) NOT NULL auto_increment,
