@@ -11,6 +11,12 @@
 	<div id="content">
 		<? include(template("breadcrumbs")); ?>
 		<h1><?=l('x_roadmap',$project['name'])?></h1>
+		<div id="sidebar">
+			<h3>Milestones</h3>
+			<a href="<?=$uri->geturi()?>?all">View All</a><br />
+			<a href="<?=$uri->geturi()?>?completed">Completed</a><br />
+			<a href="<?=$uri->geturi()?>">Uncompleted</a>
+		</div>
 		<ul class="milestones">
 <? foreach($milestones as $milestone) { ?>
 			<li class="milestone">

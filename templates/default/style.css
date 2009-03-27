@@ -637,3 +637,19 @@ ul.timeline li h2 {
 ul.timeline ul.rows {
 	list-style-type: none;
 }
+
+/* Sidebar stuff */
+#sidebar {
+	border: 1px outset #000;
+	float: right;
+	padding: 5px;
+	min-width: 150px;
+	background: #fff;
+}
+#sidebar h3 {
+	margin: 0px;
+}
+
+.clear {
+	clear: both;
+}

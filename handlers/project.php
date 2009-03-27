@@ -22,33 +22,12 @@ FishHook::hook('projecthandler_start');
 if(!isset($uri->seg[1])) {
 	// Project Info page
 	FishHook::hook('projecthandler_projectinfo');
+	$project['tickets']['active'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1")); // Count open tickets
+	$project['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0")); // Count closed tickets
+	$project['tickets']['total'] = ($project['tickets']['active']+$project['tickets']['closed']); // Count total tickets
 	include(template('project'));
 } elseif($uri->seg[1] == "roadmap") {
-	// Roadmap Page
-	
-	FishHook::hook('projecthandler_roadmap_start');
-	
-	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." AND completed='0' ORDER BY milestone ASC"); // Fetch the milestones
-	while($info = $db->fetcharray($fetchmilestones)) {
-		// Get Ticket Info
-		$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'")); // Count open tickets
-		$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$info['id']."'")); // Count closed tickets
-		$info['tickets']['total'] = ($info['tickets']['open']+$info['tickets']['closed']); // Count total tickets
-		$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']); // Calculate closed tickets percent
-		$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']); // Calculate open tickets percent
-		$info['desc'] = formattext($info['desc']);
-		FishHook::hook('projecthandler_roadmap_fetchtickets');
-		$milestones[] = $info;
-	}
-	unset($fetchmilestones,$info);
-		
-	// Breadcrumbs
-	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Roadmap";
-	
-	FishHook::hook('projecthandler_roadmap_pretemplate');
-	
-	include(template('roadmap')); // Fetch the roadmap template
+	include(TRAQPATH."handlers/roadmap.php");
 } elseif($uri->seg[1] == "tickets") {
 	// Tickets Page
 	$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
