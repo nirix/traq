@@ -308,6 +308,16 @@ INSERT INTO `traq_types` (`id`, `name`) VALUES
 			}
 		}
 	}
+	if($settings->dbversion < 13) {
+		$sql = "INSERT INTO `traq_settings` (`setting`,`value`) VALUES ('uritype', '1');";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

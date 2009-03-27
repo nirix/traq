@@ -20,6 +20,7 @@ if(!$user->group->isadmin) {
 if($_POST['do'] == "update") {
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['title'])."' WHERE setting='title' LIMIT 1");
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['theme'])."' WHERE setting='theme' LIMIT 1");
+	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['cleanuris'])."' WHERE setting='uritype' LIMIT 1");
 	header("Location: settings.php?updated");
 } else {
 	$hiddenfiles = array('.','..','.svn');
@@ -30,9 +31,9 @@ if($_POST['do'] == "update") {
 		<input type="hidden" name="do" value="update" />
 		<div class="content-group">
 			<div class="content-title">Settings</div>
-			<table width="400">
+			<table width="100%">
 				<tr valign="top">
-					<th>Site title</th>
+					<th width="150">Site title</th>
 					<td><input type="text" name="title" value="<?=$settings->title?>" /></td>
 				</tr>
 				<tr valign="top">
@@ -49,6 +50,13 @@ if($_POST['do'] == "update") {
 							}
 							?>
 						</select>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th>Clean URI's</th>
+					<td>
+						<label><input type="radio" name="cleanuris" value="1"<?=($settings->uritype == 1 ? ' checked="checked"' : '')?> />mod_rewrite: mysite.com/project/ticket/4/</label><br />
+						<label><input type="radio" name="cleanuris" value="2"<?=($settings->uritype == 2 ? ' checked="checked"' : '')?> />no mod_rewrite: mysite.com/index.php/project/ticket/4/</label>
 					</td>
 				</tr>
 			</table>

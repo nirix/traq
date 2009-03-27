@@ -57,9 +57,6 @@ while($info = $db->fetcharray($fetchplugins))
 }
 unset($fetchplugins,$info);
 
-// Load the language
-require(TRAQPATH."include/lang/enus.php");
-
 // Set Content type and charset
 header("Content-Type: text/html; charset=UTF-8");
 
@@ -75,6 +72,15 @@ while($info = $origin->db->fetcharray($fetchsettings))
 	FishHook::Hook("settings_fetch"); // Plugin hook
 }
 unset($fetchsettings,$info);
-$origin->template->templatedir = TRAQPATH.'/templates/'.$settings->theme.'/'; // Set template directory
+
+// Set template directory
+$origin->template->templatedir = TRAQPATH.'/templates/'.$settings->theme.'/';
+
+// Set the URI type
+$uri->type = $settings->uritype;
+
+// Load the language
+require(TRAQPATH."include/lang/enus.php");
+
 FishHook::hook("global_end"); // Plugin hook
 ?>

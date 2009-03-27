@@ -6,7 +6,7 @@
 <? if($user->loggedin) { ?>
 					<li class="first"><a href="<?=$uri->anchor(array('user','settings'))?>"><?=l('usercp')?></a></li>
 					<? if($user->group->isadmin) { ?>
-					<li><a href="<?=$uri->anchor()?>admincp"><?=l('admincp')?></a></li>
+					<li><a href="<?=$uri->rootpath()?>admincp"><?=l('admincp')?></a></li>
 					<? } ?>
 					<li class="last"><a href="<?=$uri->anchor(array('user','logout'))?>"><?=l('logout_x',$user->info->username)?></a></li>
 <? } else { ?>
