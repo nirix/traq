@@ -12,10 +12,10 @@
 		<? include(template("breadcrumbs")); ?>
 		<h1><?=l('x_roadmap',$project['name'])?></h1>
 		<div id="sidebar">
-			<h3>Milestones</h3>
-			<a href="<?=$uri->geturi()?>?all">View All</a><br />
-			<a href="<?=$uri->geturi()?>?completed">Completed</a><br />
-			<a href="<?=$uri->geturi()?>">Uncompleted</a>
+			<h3><?=l('milestones')?></h3>
+			<a href="<?=$uri->geturi()?>?all"><?=l('view_all')?></a><br />
+			<a href="<?=$uri->geturi()?>?completed"><?=l('completed')?></a><br />
+			<a href="<?=$uri->geturi()?>"><?=l('uncompleted')?></a>
 		</div>
 		<ul class="milestones">
 <? foreach($milestones as $milestone) { ?>

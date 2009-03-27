@@ -31,7 +31,7 @@ while($info = $db->fetcharray($fetchmilestones)) {
 unset($fetchmilestones,$info);
 	
 // Breadcrumbs
-$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Roadmap";
+$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = l('roadmap');
 
 FishHook::hook('projecthandler_roadmap_pretemplate');
 

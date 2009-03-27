@@ -84,4 +84,8 @@ $lang['ticket_x_closed_by_x'] = 'Ticket #{1} ({2}) closed by {3}';
 $lang['ticket_x_reopened_by_x'] = 'Ticket #{1} ({2}) reopened by {3}';
 $lang['x_timeline_rss_feed'] = '{1} Timeline RSS Feed';
 $lang['x_milestone_x'] = '{1} Milestone {2}';
+$lang['milestones'] = 'Milestones';
+$lang['view_all'] = 'View All';
+$lang['completed'] = 'Completed';
+$lang['uncompleted'] = 'Uncompleted';
 ?>
