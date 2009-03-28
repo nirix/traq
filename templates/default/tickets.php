@@ -44,11 +44,9 @@
 						<tr class="status">
 							<th scope="row"><label><?=l('status')?></label></th>
 							<td class="filter" colspan="2">
-								<label><input type="radio" name="filters[status][value]" value="open"<?=($filter['value'] == 'open' ? ' checked="checked"' : '')?> /> Open</label>
-								<label><input type="radio" name="filters[status][value]" value="closed"<?=($filter['value'] == 'closed' ? ' checked="checked"' : '')?> /> Closed</label>
-								<? /*foreach(getstatustypes() as $type) { ?>
-								<label><input type="checkbox" name="filters[status][values][<?=$type['id']?>]" value="<?=$type['id']?>"<?=(in_array($type['id'],$filter['values']) ? ' checked="checked"' : '')?> /> <?=$type['name']?></label>
-								<? } */?>
+								<? foreach(getstatustypes() as $type) { ?>
+								<label><input type="checkbox" name="filters[status][values][<?=$type['id']?>]" value="<?=$type['id']?>"<?=((in_array($type['id'],$filter['values'])  or ($type['id'] <= 0 and $filter['value'] == 'closed') or ($type['id'] >= 1 and $filter['value'] == 'open')) ? ' checked="checked"' : '')?> /> <?=$type['name']?></label>
+								<? } ?>
 							</td>
 							<td class="actions"><input type="submit" name="rm_filter_status" value="-" /></td>
 						</tr>

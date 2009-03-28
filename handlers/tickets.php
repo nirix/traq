@@ -47,9 +47,12 @@ if(isset($_POST['add_filter']))
 	header("Location: ".$uri->geturi().'?'.$filters);
 	exit;
 }
+$filters = array();
+$filtersbits = array();
 $validfilters = array('component','description','milestone','owner','priority','reporter','severity','status','summary','type','version');
 $filtermodes = array('!');
 $filterbits = explode('&',$_SERVER['QUERY_STRING']);
+$query = '';
 foreach($filterbits as $filterbit)
 {
 	$bit = explode('=',$filterbit);
