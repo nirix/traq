@@ -87,10 +87,10 @@ function is_project($string) {
  * @param integer $projectid Project ID
  * @return array
  */
-function projectmilestones($projectid) {
+function projectmilestones($projectid,$all=false) {
 	global $db;
 	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$projectid." AND completed='0' ORDER BY milestone ASC");
+	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$projectid.($all ? '' : " AND completed='0'")." ORDER BY milestone ASC");
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$milestones[] = $info;
 	}

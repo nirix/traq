@@ -35,8 +35,8 @@
 					</p>
 					<table class="progress">
 						<tr>
-							<td class="closed" style="width: <?=$milestone['tickets']['percent']['closed']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets',$milestone['milestone'],'closed')?>" title="<?=l('x_of_x_tickets_closed',$milestone['tickets']['closed'],$milestone['tickets']['total'])?>"></a></td>
-							<td class="open" style="width: <?=$milestone['tickets']['percent']['open']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets',$milestone['milestone'],'open')?>" title="<?=l('x_of_x_tickets_active',$milestone['tickets']['open'],$milestone['tickets']['total'])?>"></a></td>
+							<td class="closed" style="width: <?=$milestone['tickets']['percent']['closed']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=$milestone['milestone']?>&status=closed" title="<?=l('x_of_x_tickets_closed',$milestone['tickets']['closed'],$milestone['tickets']['total'])?>"></a></td>
+							<td class="open" style="width: <?=$milestone['tickets']['percent']['open']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=$milestone['milestone']?>&status=open" title="<?=l('x_of_x_tickets_active',$milestone['tickets']['open'],$milestone['tickets']['total'])?>"></a></td>
 						</tr>
 					</table>
 					<p class="percent"><?=$milestone['tickets']['percent']['closed']?>%</p>

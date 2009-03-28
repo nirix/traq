@@ -22,138 +22,14 @@ FishHook::hook('projecthandler_start');
 if(!isset($uri->seg[1])) {
 	// Project Info page
 	FishHook::hook('projecthandler_projectinfo');
-	$project['tickets']['active'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1")); // Count open tickets
-	$project['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0")); // Count closed tickets
+	$project['tickets']['active'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND projectid='".$project['id']."'")); // Count open tickets
+	$project['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND projectid='".$project['id']."'")); // Count closed tickets
 	$project['tickets']['total'] = ($project['tickets']['active']+$project['tickets']['closed']); // Count total tickets
 	include(template('project'));
 } elseif($uri->seg[1] == "roadmap") {
 	include(TRAQPATH."handlers/roadmap.php");
 } elseif($uri->seg[1] == "tickets") {
-	// Tickets Page
-	$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
-	FishHook::hook('projecthandler_tickets_start');
-	if($uri->seg[2] && $uri->seg[3]) { // Open or Closed Tickets.
-		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
-		
-		// Breadcrumbs
-		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
-		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'],$uri->seg[3])] = ($uri->seg[3] == "open" ? 'Open' : 'Closed');
-		
-		FishHook::hook('projecthandler_tickets_openorclosed');
-		
-		// Get list type
-		if($uri->seg[3] == "open") {
-			// Open tickets
-			$status = "status >= 1";
-			$listtype = "open";
-		} elseif($uri->seg[3] == "closed") {
-			// Closed tickets
-			$status = "status <= 0";
-			$listtype = "closed";
-		}
-		
-		// Ticket Sorting
-		// Field to sort by
-		if(isset($_REQUEST['sort'])) {
-			$sort = $_REQUEST['sort']; // User requested
-		} else {
-			$sort = 'priority'; // Default
-		}
-		// Directory to sort by
-		if(isset($_REQUEST['order'])) {
-			$order = $_REQUEST['order']; // User requested
-		} else {
-			$order = 'desc'; // Default
-		}
-		
-		// Get Tickets
-		$tickets = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE $status AND milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY $sort $order");
-		while($info = $db->fetcharray($fetchtickets)) {
-			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
-			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
-			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
-			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
-			FishHook::hook('projecthandler_tickets_openorclosed_fetchtickets');
-			$tickets[] = $info;
-		}
-		unset($fetchtickets,$info);
-		
-		FishHook::hook('projecthandler_tickets_openorclosed_pretemplate');
-		
-		include(template('tickets')); // Fetch the tickets list template
-	} elseif($uri->seg[2] && !$uri->seg[3]) { // Milestone Tickets
-		$listtype = "all";
-		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1"));
-		$breadcrumbs[$uri->anchor($project['slug'],'tickets',$milestone['milestone'])] = 'Milestone '.$milestone['milestone'];
-		FishHook::hook('projecthandler_tickets_allmilestone');
-		
-		// Ticket Sorting
-		// Field to sort by
-		if(isset($_REQUEST['sort'])) {
-			$sort = $_REQUEST['sort']; // User requested
-		} else {
-			$sort = 'priority'; // Default
-		}
-		// Directory to sort by
-		if(isset($_REQUEST['order'])) {
-			$order = $_REQUEST['order']; // User requested
-		} else {
-			$order = 'desc'; // Default
-		}
-		
-		// Get Tickets
-		$tickets = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE milestoneid='".$milestone['id']."' AND projectid='".$project['id']."' ORDER BY $sort $order");
-		while($info = $db->fetcharray($fetchtickets)) {
-			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
-			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
-			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
-			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
-			FishHook::hook('projecthandler_tickets_allmilestone_fetchtickets');
-			$tickets[] = $info;
-		}
-		unset($fetchtickets,$info);
-		
-		FishHook::hook('projecthandler_tickets_allmilestone_pretemplate');
-		
-		include(template('tickets')); // Fetch the tickets list template
-	} else { // All Tickets
-		$listtype = "all";
-		FishHook::hook('projecthandler_tickets_all');
-		
-		// Ticket Sorting
-		// Field to sort by
-		if(isset($_REQUEST['sort'])) {
-			$sort = $_REQUEST['sort']; // User requested
-		} else {
-			$sort = 'priority'; // Default
-		}
-		// Directory to sort by
-		if(isset($_REQUEST['order'])) {
-			$order = $_REQUEST['order']; // User requested
-		} else {
-			$order = 'desc'; // Default
-		}
-		
-		// Get Tickets
-		$tickets = array();
-		$fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' ORDER BY $sort $order");
-		while($info = $db->fetcharray($fetchtickets)) {
-			$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
-			$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
-			$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
-			$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
-			$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1"));
-			FishHook::hook('projecthandler_tickets_all_fetchtickets');
-			$tickets[] = $info;
-		}
-		unset($fetchtickets,$info);
-		
-		FishHook::hook('projecthandler_tickets_all_pretemplate');
-		
-		include(template('tickets'));
-	}
+	include(TRAQPATH."handlers/tickets.php");
 } else if($uri->seg[1] == "newticket") {
 	// Check if user can create tickets
 	if(!$user->group->createtickets) {
