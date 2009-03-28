@@ -14,21 +14,27 @@
 // Tickets Page
 $breadcrumbs[$uri->anchor($project['slug'],'tickets')] = l('tickets');
 
-FishHook::hook('projecthandler_tickets');
+FishHook::hook('tickets_start');
 
 // Ticket Sorting
 $sort = (isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'priority'); // Field to sort by
 $order = (isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc'); // Direction to sort by
 
-// Do filters
+// Add a filter
 if(isset($_POST['add_filter']))
 {
+	// Check if there are any filters already and
+	// include them in the query string
 	if(!is_array($_POST['filters'])) $_POST['filters'] = array();
 	foreach($_POST['filters'] as $type => $filter) {
 		if(isset($_POST['rm_filter_'.$type]))
 		{
+			// If this filter is set to be removed
 			continue;
 		}
+		
+		// Check if the filter has multiple values
+		// if so then implode then with a comma.
 		if(is_array($filter['values']))
 		{
 			$bits[] = $type.'='.$filter['mode'].implode(',',$filter['values']);
@@ -38,50 +44,81 @@ if(isset($_POST['add_filter']))
 			$bits[] = $type.'='.$filter['mode'].$filter['value'];
 		}
 	}
+	
+	// Make sure this filter doesn't already exist
+	// any filters that can have multiple values
+	// seperate them with a comma and not multiple
+	// query string variables.
 	if($_POST['add_filter'] != '' && !isset($_POST['filters'][$_POST['add_filter']]))
 	{
 		$bits[] = $_POST['add_filter'].'=';
 	}
+	
+	// Add the sort and order vars
 	$bits[] = 'sort='.$_POST['sort'].'&order='.$_POST['order'];
+	
+	// Build the filters query string and return
+	// to the filter page.
 	$filters = implode('&',$bits);
 	header("Location: ".$uri->geturi().'?'.$filters);
 	exit;
 }
+
+// Create arrays now so if they are blank
+// we dont get any errors later.
 $filters = array();
 $filtersbits = array();
-$validfilters = array('component','description','milestone','owner','priority','reporter','severity','status','summary','type','version');
+
+// Valid filters and filter modes
+$validfilters = array('component','description','milestone','owner',
+					  'priority','reporter','severity','status',
+					  'summary','type','version'
+					  );
 $filtermodes = array('!');
-$filterbits = explode('&',$_SERVER['QUERY_STRING']);
+
+// Decode the filters from the query string.
 $query = '';
+$filterbits = explode('&',$_SERVER['QUERY_STRING']);
 foreach($filterbits as $filterbit)
 {
 	$bit = explode('=',$filterbit);
+	
+	// Make sure its a valid filter and not
+	// some other query string var.
 	if(in_array($bit[0],$validfilters))
 	{
+		// Check if the filter has a mode.
 		if(in_array(substr($bit[1],0,1),$filtermodes))
 		{
 			$filter['mode'] = substr($bit[1],0,1);
 			$bit[1] = substr($bit[1],1);
 		}
+		
+		// Make the filter array.
 		$filter['type'] = $bit[0];
 		$filter['value'] = $bit[1];
 		$filter['values'] = explode(',',$bit[1]);
 		$filters[] = $filter;
 		$filtersbits[] = $bit[0].'='.$bit[1];
 		
+		// Check if the filter value is not blank
 		if($bit[1] != '')
+			// Do the milestone filter
 			if($filter['type'] == 'milestone')
 			{
 				$milestone = $db->fetcharray($db->query("SELECT id,project,milestone FROM ".DBPREFIX."milestones WHERE project='".$db->escapestring($project['id'])."' AND milestone='".$db->escapestring($bit[1])."' LIMIT 1"));
 				$query .= " AND milestoneid".$filter['mode']."='".$milestone['id']."'";
 			}
+			// Do the status filter
 			elseif($filter['type'] == 'status')
 			{
+				// All open or closed
 				if($filter['value'] == 'open'
 				or $filter['value'] == 'closed')
 				{
 					$query .= " AND status ".($filter['value'] == 'open' ? '>=1' : '<=0');
 				}
+				// Different status values
 				else
 				{
 					$query .= " AND (status=".implode(' OR status=',$filter['values']).")";
@@ -101,13 +138,12 @@ while($info = $db->fetcharray($fetchtickets))
 	$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 	$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 	$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1")); // Get Milestone info
-	FishHook::hook('projecthandler_tickets_all_fetchtickets');
+	FishHook::hook('tickets_fetchtickets');
 	$tickets[] = $info;
 }
 unset($fetchtickets,$info);
 
-FishHook::hook('projecthandler_tickets_all_pretemplate');
+FishHook::hook('tickets_end');
 
 include(template('tickets'));
-
 ?>

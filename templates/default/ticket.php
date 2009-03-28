@@ -136,7 +136,7 @@
 				<input type="hidden" name="action" value="update" />
 				<textarea name="comment">
 <? if(isset($_REQUEST['replyto'])) { ?>
-[quote=<?=$history[$_REQUEST['replyto']-1]['username']?>]<?=$history[$_REQUEST['replyto']-1]['comment_orig']?>[/quote]
+[quote=<?=$history[$_REQUEST['replyto']-1]['username']?>]<?=stripslashes($history[$_REQUEST['replyto']-1]['comment_orig'])?>[/quote]
 <? } ?></textarea>
 				<? if($user->group->updatetickets) { ?>
 				<fieldset id="properties">
