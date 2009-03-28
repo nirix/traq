@@ -361,6 +361,8 @@ if(!isset($uri->seg[1])) {
 		$row['date'] = $dateinfo['date'];
 		$row['timestamp'] = $dateinfo['timestamp'];
 		$row['rows'] = array();
+		$date = explode('-',$row['date']);
+		$row['timestamp'] = mktime(0,0,0,$date[1],$date[2],$date[0]);
 		$fetchrows = $db->query("SELECT * FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' AND date='".$dateinfo['date']."' ORDER BY timestamp DESC"); // Fetch timeline rows
 		while($rowinfo = $db->fetcharray($fetchrows)) {
 			$parts = explode(':',$rowinfo['data']); // Explode the timeline data field
