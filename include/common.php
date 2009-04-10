@@ -36,6 +36,7 @@ function buildtitle($title = array()) {
 	}
 	$title[] = $settings->title;
 	$title[] = "Traq";
+	($hook = FishHook::hook('common_buildtitle')) ? eval($hook) : false;
 	return implode(" - ",$title);
 }
 
@@ -66,6 +67,8 @@ function l($string,$vars=array())
 		$string = str_replace('{'.$v.'}',$var,$string);
 	}
 	
+	($hook = FishHook::hook('common_localefunction')) ? eval($hook) : false;
+	
 	// Now return it...
 	return $string;
 }
@@ -94,6 +97,7 @@ function projectmilestones($projectid,$all=false) {
 	while($info = $db->fetcharray($fetchmilestones)) {
 		$milestones[] = $info;
 	}
+	($hook = FishHook::hook('common_projectmilestones')) ? eval($hook) : false;
 	return $milestones;
 }
 
@@ -110,6 +114,7 @@ function projectcomponents($projectid) {
 	while($info = $db->fetcharray($fetchcomponents)) {
 		$components[] = $info;
 	}
+	($hook = FishHook::hook('common_projectcomponents')) ? eval($hook) : false;
 	return $components;
 }
 
@@ -126,6 +131,7 @@ function projectversions($projectid) {
 	while($info = $db->fetcharray($fetchversions)) {
 		$versions[] = $info;
 	}
+	($hook = FishHook::hook('common_projectversions')) ? eval($hook) : false;
 	return $versions;
 }
 
@@ -143,6 +149,7 @@ function projectmanagers($projectid) {
 	foreach($projectmanagers as $manager) {
 		$managers[] = $user->getinfo($manager);
 	}
+	($hook = FishHook::hook('common_projectmanagers')) ? eval($hook) : false;
 	return $managers;
 }
 
@@ -158,6 +165,7 @@ function ticketstatus($statusid) {
 	while($info = $db->fetcharray($fetchstatustypes)) {
 		$status[$info['id']] = $info['name'];
 	}
+	($hook = FishHook::hook('common_ticketstatus')) ? eval($hook) : false;
 	return $status[$statusid];
 }
 
@@ -175,6 +183,7 @@ function getstatustypes($sort='id',$order='ASC') {
 	while($info = $db->fetcharray($fetchstatus)) {
 		$status[$info['id']] = $info;
 	}
+	($hook = FishHook::hook('common_getstatustypes')) ? eval($hook) : false;
 	return $status;
 }
 
@@ -190,6 +199,7 @@ function ticketpriority($priorityid) {
 	while($info = $db->fetcharray($fetchpriorities)) {
 		$priorities[$info['id']] = $info['name'];
 	}
+	($hook = FishHook::hook('common_ticketpriority')) ? eval($hook) : false;
 	return $priorities[$priorityid];
 }
 
@@ -205,6 +215,7 @@ function getpriorities() {
 	while($info = $db->fetcharray($fetchtypes)) {
 		$priorities[$info['id']] = $info;
 	}
+	($hook = FishHook::hook('common_getpriorities')) ? eval($hook) : false;
 	return $priorities;
 }
 
@@ -220,6 +231,7 @@ function tickettype($typeid) {
 	while($info = $db->fetcharray($fetchtypes)) {
 		$types[$info['id']] = $info['name'];
 	}
+	($hook = FishHook::hook('common_tickettype')) ? eval($hook) : false;
 	return $types[$typeid];
 }
 
@@ -235,6 +247,7 @@ function gettypes() {
 	while($info = $db->fetcharray($fetchtypes)) {
 		$types[$info['id']] = $info;
 	}
+	($hook = FishHook::hook('common_gettypes')) ? eval($hook) : false;
 	return $types;
 }
 
@@ -250,6 +263,7 @@ function ticketseverity($severityid) {
 	while($info = $db->fetcharray($fetchseverities)) {
 		$severities[$info['id']] = $info['name'];
 	}
+	($hook = FishHook::hook('common_ticketseverity')) ? eval($hook) : false;
 	return $severities[$severityid];
 }
 
@@ -265,6 +279,7 @@ function getseverities() {
 	while($info = $db->fetcharray($fetchseverities)) {
 		$severities[$info['id']] = $info;
 	}
+	($hook = FishHook::hook('common_getseverities')) ? eval($hook) : false;
 	return $severities;
 }
 
@@ -282,10 +297,10 @@ function formattext($text) {
 	$text = stripslashes($text);
 	// [comment:X User] format
 	$text = commentTag($text);
-	// Plugin Hook Filter
-	$text = FishHook::filter('common_formattext_text',$text);
 	// BBCode
 	$text = $origin->bbcode->format($text,false);
+	// Plugin Hook
+	($hook = FishHook::hook('common_formattext')) ? eval($hook) : false;
 	// Return  for display
 	return str_replace("\n\r","<br /><br />",$text);
 }

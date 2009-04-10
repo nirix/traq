@@ -14,7 +14,7 @@
 // Tickets Page
 $breadcrumbs[$uri->anchor($project['slug'],'tickets')] = l('tickets');
 
-FishHook::hook('tickets_start');
+($hook = FishHook::hook('tickets_start')) ? eval($hook) : false;
 
 // Ticket Sorting
 $sort = (isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'priority'); // Field to sort by
@@ -138,12 +138,12 @@ while($info = $db->fetcharray($fetchtickets))
 	$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 	$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 	$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1")); // Get Milestone info
-	FishHook::hook('tickets_fetchtickets');
+	($hook = FishHook::hook('tickets_fetchtickets')) ? eval($hook) : false;
 	$tickets[] = $info;
 }
 unset($fetchtickets,$info);
 
-FishHook::hook('tickets_end');
+($hook = FishHook::hook('tickets_end')) ? eval($hook) : false;
 
 include(template('tickets'));
 ?>

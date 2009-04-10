@@ -1,73 +1,48 @@
 <?php
 /**
- * FishHook
- * @author Jack Polgar
- * @package FishHook
- * @copyright Jack Polgar
- * @version 1.1
+ * FishHook 2.0
+ * Easy add plugin support to your scripts.
  *
- * Copyright (c)2008-2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (c) 2009 Jack Polgar
+ * All Rights Reserved.
  */
-
-class FishHook {
-	// Used to store the functions and hooks.
+class FishHook
+{
+	// Hooks Array
 	private static $hooks = array();
-	private static $filters = array();
 	
 	/**
-	 * Hook Function
-	 * Used to execute the functions for the specified hook.
-	 * @param $hook Hook
+	 * Fetch Hook
+	 * Used to fetch the hook and return the plugin code.
+	 *
+	 * @param string $hook Hook name.
+	 * @return string Plugin Code.
 	 */
 	public function hook($hook)
 	{
-		if(count(self::$hooks[$hook]) > 0)
+		$code = array();
+		foreach(self::$hooks[$hook] as $id => $function)
 		{
-			foreach(self::$hooks[$hook] as $id => $function)
-			{
-				$function = self::$hooks[$hook][$id];
-				$function();
-			}
+			$code[] = $function();
 		}
+		return implode(' /* */ ',$code);
 	}
 	
 	/**
 	 * Add Function
-	 * Used to add functions and hooks.
-	 * @param $function Function to run
-	 * @param $hook Hook
+	 * Adds a function to the specified hook.
+	 *
+	 * @param string $hook Hook name.
+	 * @param string $function Function name.
 	 */
-	public function add($function,$hook,$filter=false)
+	public function add($hook,$function)
 	{
 		self::$hooks[$hook][] = $function;
 	}
 	
-	/**
-	 * Filter
-	 * Used to add filters to agruments
-	 * @param $hook Hook
-	 * @param $arg String to pass to function
-	 */
-	public function filter($hook,$arg) 
-	{
-		if(count(self::$hooks[$hook]) > 0)
-		{
-			foreach(self::$hooks[$hook] as $id => $function)
-			{
-				$function = self::$hooks[$hook][$id];
-				$arg = $function($arg);
-			}
-		}
-		return $arg;
-	}
-		
-	// Used to get the FishHook version.
 	public function version()
 	{
-		return '1.0 r'.str_replace(' $','',substr('$Rev$',6));
+		return '2.0';
 	}
 }
-
-/* $Id$ */
 ?>

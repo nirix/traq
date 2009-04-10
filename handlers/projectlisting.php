@@ -11,6 +11,8 @@
  * $Id$
  */
 
+($hook = FishHook::hook('projectlisting_start')) ? eval($hook) : false;
+
 // Get the projects to list
 $projects = array();
 $fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
@@ -20,9 +22,12 @@ while($info = $db->fetcharray($fetchprojects)) {
 	$info['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status='0' AND projectid='".$info['id']."'")); // Count closed tickets
 	$info['desc'] = formattext($info['desc']);
 	$projects[] = $info;
+	($hook = FishHook::hook('projectlisting_fetchprojects')) ? eval($hook) : false;
 }
 unset($fetchprojects,$info);
 
+($hook = FishHook::hook('projectlisting_end')) ? eval($hook) : false;
+
 // Load the Project Listing template
-include(template('projectlisting')); // Fetch the projectlisting template
+include(template('projectlisting'));
 ?>

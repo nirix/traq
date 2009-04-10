@@ -13,7 +13,7 @@
 
 // Roadmap Page
 
-FishHook::hook('projecthandler_roadmap_start');
+($hook = FishHook::hook('roadmap_start')) ? eval($hook) : false;
 
 $milestones = array();
 $fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." ".(isset($_REQUEST['all']) ? '' : (isset($_REQUEST['completed']) ? "AND completed > 0" : "AND completed='0'"))." ORDER BY milestone ASC"); // Fetch the milestones
@@ -25,7 +25,7 @@ while($info = $db->fetcharray($fetchmilestones)) {
 	$info['tickets']['percent']['closed'] = calculatepercent($info['tickets']['closed'],$info['tickets']['total']); // Calculate closed tickets percent
 	$info['tickets']['percent']['open'] = calculatepercent($info['tickets']['open'],$info['tickets']['total']); // Calculate open tickets percent
 	$info['desc'] = formattext($info['desc']);
-	FishHook::hook('projecthandler_roadmap_fetchtickets');
+	($hook = FishHook::hook('roadmap_fetchtickes')) ? eval($hook) : false;
 	$milestones[] = $info;
 }
 unset($fetchmilestones,$info);
@@ -33,7 +33,7 @@ unset($fetchmilestones,$info);
 // Breadcrumbs
 $breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = l('roadmap');
 
-FishHook::hook('projecthandler_roadmap_pretemplate');
+($hook = FishHook::hook('roadmap_end')) ? eval($hook) : false;
 
 include(template('roadmap')); // Fetch the roadmap template
 ?>

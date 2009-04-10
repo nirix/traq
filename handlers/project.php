@@ -16,12 +16,13 @@ $project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE 
 $project['managerids'] = explode(',',$project['managers']);
 $project['desc'] = formattext($project['desc']);
 $breadcrumbs[$uri->anchor($project['slug'])] = $project['name'];
-FishHook::hook('projecthandler_start');
+
+($hook = FishHook::hook('project_start')) ? eval($hook) : false;
 
 // Check what page to display
 if(!isset($uri->seg[1])) {
 	// Project Info page
-	FishHook::hook('projecthandler_projectinfo');
+	($hook = FishHook::hook('project_info')) ? eval($hook) : false;
 	$project['tickets']['active'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND projectid='".$project['id']."'")); // Count open tickets
 	$project['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND projectid='".$project['id']."'")); // Count closed tickets
 	$project['tickets']['total'] = ($project['tickets']['active']+$project['tickets']['closed']); // Count total tickets
@@ -37,7 +38,9 @@ if(!isset($uri->seg[1])) {
 		exit;
 	}
 	$breadcrumbs[$uri->anchor($project['slug'],'newticket')] = "New Ticket";
-	FishHook::hook('projecthandler_newticket');
+	
+	($hook = FishHook::hook('project_newticket')) ? eval($hook) : false;
+	
 	if($_POST['action'] == "create") {
 		// Check for errors
 		$errors = array();
@@ -104,12 +107,10 @@ if(!isset($uri->seg[1])) {
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticketid));
 		} else {
 			// oops, there were errors...
-			FishHook::hook('projecthandler_newticket_pretemplate');
 			include(template('newticket'));
 		}
 	} else {
 		// Display New Ticket page.
-		FishHook::hook('projecthandler_newticket_pretemplate');
 		include(template('newticket'));
 	}
 } else if($uri->seg[1] == "ticket") {
@@ -126,14 +127,14 @@ if(!isset($uri->seg[1])) {
 			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1"); // Delete the ticket history
 			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' LIMIT 1"); // Delet ethe attachments
 			$db->query("DELETE FROM ".DBPREFIX."timeline WHERE data LIKE 'TICKET%:".$ticket['id']."' LIMIT 1"); // Delete timeline rows regarding this ticket
-			FishHook::hook('projecthandler_deleteticket');
+			($hook = FishHook::hook('prject_deleteticket')) ? eval($hook) : false;
 			header("Location: ".$uri->anchor($project['slug'],'tickets')); // Redirect to the tickets list page
 		}
 	} elseif($_POST['action'] == "deleteattachment") {
 		// Delete attachment
 		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { // Check if the user is an admin or project manager
 			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($_POST['attachmentid'])."' LIMIT 1"); // Delete from the attachment table
-			FishHook::hook('projecthandler_deleteattachment');
+			($hook = FishHook::hook('project_deleteattachment')) ? eval($hook) : false;
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid'])); // Redirect to the ticket view page
 		}
 	} elseif($uri->seg[3] == "attachment") {
@@ -141,7 +142,7 @@ if(!isset($uri->seg[1])) {
 		$attachment = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."attachments WHERE id='".$db->escapestring($uri->seg[4])."' AND ticketid='".$ticket['id']."' LIMIT 1")); // Get the attachment
 		header("Content-type: ".$attachment['type']); // Set the page content-type
 		header("Content-Disposition: attachment; filename=\"".$attachment['name']."\""); // Set the content disposition and filename
-		FishHook::hook('projecthandler_viewattachment');
+		($hook = FishHook::hook('project_viewattachment')) ? eval($hook) : false;
 		print(base64_decode($attachment['contents'])); // Print the attachment contents
 	} else {
 		// Update Ticket
@@ -211,7 +212,7 @@ if(!isset($uri->seg[1])) {
 				}
 				// Check if there are changes, if so then update the ticket fields...
 				if(count($changes) > 0) {
-					FishHook::hook('projecthandler_updateticket');
+					($hook = FishHook::hook('project_updateticket')) ? eval($hook) : false;
 					$db->query("UPDATE ".DBPREFIX."tickets SET type='".$db->escapestring($_POST['type'])."',
 															   summary='".$db->escapestring(htmlspecialchars($_POST['summary']))."',
 															   assigneeid='".$db->escapestring($_POST['assignto'])."',
@@ -227,7 +228,6 @@ if(!isset($uri->seg[1])) {
 			// Add the change to the ticket history, or the comment...
 			if((!empty($_POST['comment']) or count($changes) > 0) && !count($errors)) {
 				$changes = implode('|',$changes);
-				FishHook::hook('projecthandler_updateticket_postcomment');
 				$db->query("INSERT INTO ".DBPREFIX."tickethistory VALUES(0,".time().",".$user->info->id.",'".($user->loggedin ? $user->info->username : $db->escapestring($_POST['name']))."',".$ticket['id'].",'".$db->escapestring($changes)."','".$db->escapestring($_POST['comment'])."')");
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid']).'?updated'); // Redirect to the ticket view page
@@ -249,7 +249,7 @@ if(!isset($uri->seg[1])) {
 		$breadcrumbs[$uri->anchor($project['slug'],'tickets')] = "Tickets";
 		$breadcrumbs[$uri->anchor($project['slug'],'ticket',$ticket['tid'])] = '#'.$ticket['tid'];
 		
-		FishHook::hook('projecthandler_viewticket_start');
+		($hook = FishHook::hook('project_viewticket')) ? eval($hook) : false;
 		
 		// Ticket History
 		$history = array();
@@ -260,7 +260,7 @@ if(!isset($uri->seg[1])) {
 			$info['comment_orig'] = $info['comment'];
 			$info['comment'] = formattext($info['comment']);
 			$info['changes'] = array();
-			FishHook::hook('projecthandler_viewticket_fetchhistory');
+			($hook = FishHook::hook('project_viewticket_fetchhistory')) ? eval($hook) : false;
 			foreach($changes as $change) {
 				$parts = explode(':',$change);
 				$type = $parts[0];
@@ -320,20 +320,20 @@ if(!isset($uri->seg[1])) {
 		$attachments = array();
 		$fetchattachments = $db->query("SELECT * FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp ASC");
 		while($info = $db->fetcharray($fetchattachments)) {
-			FishHook::hook('projecthandler_viewticket_fetchattachments');
+			($hook = FishHook::hook('project_viewticket_fetchattachments')) ? eval($hook) : false;
 			$attachments[] = $info;
 		}
 		// Attach File
 		if($_POST['action'] == "attachfile") {
 			if($user->loggedin) { // Check if user is logged in
 				if(!empty($_FILES['file']['name'])) {
-					FishHook::hook('projecthandler_ticket_attachfile');
+					($hook = FishHook::hook('project_attachfile')) ? eval($hook) : false;
 					$db->query("INSERT INTO ".DBPREFIX."attachments VALUES(0,'".$db->escapestring($_FILES['file']['name'])."','".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."','".$_FILES['file']['type']."',".time().",".$user->info->id.",'".$user->info->username."',".$ticket['id'].",".$project['id'].")");
 				}
 			}
 			header("Location: ".$uri->anchor($project['slug'],'ticket',$ticket['tid'])); // Redirect to ticket view page
 		}
-		FishHook::hook('projecthandler_viewticket_pretemplate');
+		($hook = FishHook::hook('project_viewticket_end')) ? eval($hook) : false;
 		include(template('ticket')); // Fetch view ticket template
 	}
 } elseif($uri->seg[1] == "milestone") {
@@ -349,10 +349,11 @@ if(!isset($uri->seg[1])) {
 	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Milestones";
 	$breadcrumbs[$uri->anchor($project['slug'],'milestone',$milestone['milestone'])] = $milestone['milestone'];
 	
-	FishHook::hook('projecthandler_milestone');
+	($hook = FishHook::hook('project_milestoneinfo')) ? eval($hook) : false;
 	
 	include(template('milestone')); // Fetch view milestone page
 } elseif($uri->seg[1] == "timeline") {
+	($hook = FishHook::hook('project_timeline_start')) ? eval($hook) : false;
 	// Timeline Page
 	$dates = array();
 	$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPREFIX."timeline WHERE projectid='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC"); // Fetch the days...
@@ -374,7 +375,7 @@ if(!isset($uri->seg[1])) {
 				$rowinfo['ticket'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."tickets WHERE id='".$parts[1]."' LIMIT 1"));
 				$rowinfo['ticket']['summary'] = stripslashes($rowinfo['ticket']['summary']);
 			}
-			FishHook::hook('projecthandler_timeline_fetchrows');
+			($hook = FishHook::hook('project_timeline_fetchrows')) ? eval($hook) : false;
 			$row['rows'][] = $rowinfo;
 		}
 		$dates[] = $row;
@@ -383,10 +384,11 @@ if(!isset($uri->seg[1])) {
 	// Breadcrumbs
 	$breadcrumbs[$uri->anchor($projet['slug'],'timeline')] = "Timeline";
 	
-	FishHook::hook('projecthandler_timeline_pretemplate');
+	($hook = FishHook::hook('project_timeline_end')) ? eval($hook) : false;
 	
 	include(template('timeline')); // Fetch the timeline template
 } elseif($uri->seg[1] == "changelog") {
+	($hook = FishHook::hook('project_changelog_start')) ? eval($hook) : false;
 	// Change Log Page
 	$milestones = array();
 	$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project='".$project['id']."' AND completed != 0 ORDER BY milestone DESC"); // Fetch the milestones
@@ -400,14 +402,14 @@ if(!isset($uri->seg[1])) {
 			FishHook::hook('projecthandler_changelog_fetchmilestones_fetchchanges');
 			$info['tickets'][] = $ticketinfo;
 		}
-		FishHook::hook('projecthandler_changelog_fetchmilestones');
+		($hook = FishHook::hook('project_changelog_fetchrows')) ? eval($hook) : false;
 		$milestones[] = $info;
 	}
 	
 	// Breadcrumbs
 	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = "Change Log";
 	
-	FishHook::hook('projecthandler_changelog');
+	($hook = FishHook::hook('project_changelog_end')) ? eval($hook) : false;
 	
 	include(template('changelog')); // Fetch the changelog template
 } elseif($uri->seg[1] == "source") {

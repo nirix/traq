@@ -69,7 +69,7 @@ $fetchsettings = $origin->db->query("SELECT setting,value FROM ".DBPREFIX."setti
 while($info = $origin->db->fetcharray($fetchsettings))
 {
 	$settings->$info['setting'] = $info['value'];
-	FishHook::Hook("settings_fetch"); // Plugin hook
+	($hook = FishHook::hook('settings_fetch')) ? eval($hook) : false;
 }
 unset($fetchsettings,$info);
 
@@ -82,5 +82,5 @@ $uri->type = $settings->uritype;
 // Load the language
 require(TRAQPATH."include/lang/enus.php");
 
-FishHook::hook("global_end"); // Plugin hook
+($hook = FishHook::hook('global_end')) ? eval($hook) : false;
 ?>

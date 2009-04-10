@@ -35,7 +35,7 @@ if(!isset($uri->seg[2])) {
 		if($updated < $rowinfo['timestamp']) {
 			$updated = $rowinfo['timestamp'];
 		}
-		FishHook::hook('projecthandler_timeline_fetchrows_feed');
+		($hook = FishHook::hook('feeds_timeline_fetchrows')) ? eval($hook) : false;
 		$rows[] = $rowinfo;
 	}	
 	

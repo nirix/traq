@@ -16,7 +16,9 @@ define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__))
 
 // Get the core file
 require(TRAQPATH."include/global.php");
-FishHook::hook('index_start');
+
+($hook = FishHook::hook('index_start')) ? eval($hook) : false;
+
 // Lets load the right file for this page
 if(empty($uri->seg[0])) {
 	// Project Listing Page
@@ -28,5 +30,6 @@ if(empty($uri->seg[0])) {
 	// Project pages
 	include("handlers/project.php");
 }
-FishHook::hook('index_end');
+
+($hook = FishHook::hook('index_end')) ? eval($hook) : false;
 ?>
