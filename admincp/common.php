@@ -126,7 +126,7 @@ function adminheader($title='') {
 			</div>
 		</div>
 <?
-	($hook = FishHook::hook('admin_common_adminheader')) ? eval($hook) : false;
+	($hook = FishHook::hook('admin_header')) ? eval($hook) : false;
 }
 
 /**
@@ -138,7 +138,7 @@ function adminfooter() {
 	<div class="clear"></div>
 	</div>
 	<div id="footer">
-		<? ($hook = FishHook::hook('admin_common_adminfooter')) ? eval($hook) : false; ?>
+		<? ($hook = FishHook::hook('admin_footer')) ? eval($hook) : false; ?>
 		Powered by Traq <?=TRAQVER?>,<br />
 		Copyright &copy;<?=date("Y")?> Rainbird Studios
 	</div>

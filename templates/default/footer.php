@@ -3,4 +3,4 @@
 		<?=l('copyright')?>
 	</div>
 </div>
-<? FishHook::hook('template_footer'); ?>
+<? ($hook = FishHook::hook('template_footer')) ? eval($hook) : false; ?>

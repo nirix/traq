@@ -39,7 +39,7 @@ class FishHook
 	 * @param string $hook Hook name.
 	 * @param string $function Function name.
 	 */
-	public function add($hook,$function)
+	public function add($function,$hook)
 	{
 		self::$hooks[$hook][] = $function;
 	}

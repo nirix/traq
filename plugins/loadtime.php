@@ -26,4 +26,5 @@ function loadtime_end() {
 	echo "<center>Page loaded in ".number_format(($em + $es) - ($sm + $ss), 3)." seconds.</center>";
 }
 FishHook::add('loadtime_end','template_footer'); // Add to FishHook
+FishHook::add('loadtime_end','admin_footer');
 ?>
