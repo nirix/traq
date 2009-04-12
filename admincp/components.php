@@ -18,6 +18,7 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	($hook = FishHook::hook('admin_components_manage_start')) ? eval($hook) : false;
 	$projects = array();
 	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
 	while($project = $db->fetcharray($fetchprojects)) {
@@ -26,6 +27,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		while($info = $db->fetcharray($fetchcomponents)) {
 			$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['project']."' LIMIT 1"));
 			$project['components'][] = $info;
+			($hook = FishHook::hook('admin_components_fetchrows')) ? eval($hook) : false;
 		}
 		$projects[] = $project;
 	}
@@ -60,7 +62,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	</div>
 	<?
 	adminfooter();
+	
+	($hook = FishHook::hook('admin_components_manage_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "new") {
+	($hook = FishHook::hook('admin_components_new_start')) ? eval($hook) : false;
 	if($_POST['do'] == "create") {
 		$errors = array();
 		if($_POST['name'] == "") {
@@ -74,6 +79,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 															'".$db->escapestring($_POST['description'])."',
 															'".$db->escapestring($_POST['project'])."'
 															)");
+		($hook = FishHook::hook('admin_components_new_insert')) ? eval($hook) : false;
 		header("Location: components.php?action=manage");
 	} else {
 		adminheader('New Component');
@@ -122,7 +128,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_components_new_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "modify") {
+	($hook = FishHook::hook('admin_components_modify_start')) ? eval($hook) : false;
 	if($_POST['do'] == "modify") {
 		$errors = array();
 		if($_POST['name'] == "") {
@@ -132,6 +140,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	
 	if(!count($errors) && isset($_POST['do'])) {
 		$db->query("UPDATE ".DBPREFIX."components SET name='".$db->escapestring($_POST['name'])."', ".DBPREFIX."components.desc='".$db->escapestring($_POST['description'])."', project='".$db->escapestring($_POST['project'])."' WHERE id='".$db->escapestring($_POST['component'])."' LIMIT 1");
+		($hook = FishHook::hook('admin_components_modify_update')) ? eval($hook) : false;
 		header("Location: components.php?action=manage");
 	} else {
 		$component = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$db->escapestring($_REQUEST['component'])."' LIMIT 1"));
@@ -182,8 +191,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_components_modify_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "delete") {
 	$db->query("DELETE FROM ".DBPREFIX."components WHERE id='".$db->escapestring($_REQUEST['component'])."' LIMIT 1");
+	($hook = FishHook::hook('admin_components_delete')) ? eval($hook) : false;
 	header("Location: components.php");
 }
 ?>

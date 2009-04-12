@@ -18,6 +18,7 @@ if(!$user->group->isadmin) {
 }
 
 adminheader();
+($hook = FishHook::hook('admin_index_start')) ? eval($hook) : false;
 ?>
 <div id="content">
 	<div class="content-group">
@@ -51,5 +52,6 @@ adminheader();
 	</div>
 </div>
 <?
+($hook = FishHook::hook('admin_index_end')) ? eval($hook) : false;
 adminfooter();
 ?>

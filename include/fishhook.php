@@ -21,6 +21,10 @@ class FishHook
 	public function hook($hook)
 	{
 		$code = array();
+		if(!isset(self::$hooks[$hook]))
+		{
+			return false;
+		}
 		foreach(self::$hooks[$hook] as $id => $function)
 		{
 			$code[] = $function();

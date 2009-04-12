@@ -18,4 +18,6 @@ define('TRAQPATH',str_replace(pathinfo('../index.php',PATHINFO_BASENAME),'','../
 require(TRAQPATH."include/global.php");
 
 require(TRAQPATH."admincp/common.php");
+
+($hook = FishHook::hook('admin_global')) ? eval($hook) : false;
 ?>

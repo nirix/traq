@@ -24,6 +24,7 @@ function getusers() {
 		$users[] = $info;
 	}
 	unset($fetchusers,$info);
+	($hook = FishHook::hook('admin_common_getusers')) ? eval($hook) : false;
 	return $users;
 }
 
@@ -40,6 +41,7 @@ function getprojects() {
 		$projects[] = $info;
 	}
 	unset($fetchprojects,$info);
+	($hook = FishHook::hook('admin_common_getprojects')) ? eval($hook) : false;
 	return $projects;
 }
 
@@ -55,6 +57,7 @@ function getgroups() {
 	while($info = $db->fetcharray($fetchgroups)) {
 		$groups[] = $info;
 	}
+	($hook = FishHook::hook('admin_common_getgroups')) ? eval($hook) : false;
 	return $groups;
 }
 
@@ -123,6 +126,7 @@ function adminheader($title='') {
 			</div>
 		</div>
 <?
+	($hook = FishHook::hook('admin_common_adminheader')) ? eval($hook) : false;
 }
 
 /**
@@ -134,6 +138,7 @@ function adminfooter() {
 	<div class="clear"></div>
 	</div>
 	<div id="footer">
+		<? ($hook = FishHook::hook('admin_common_adminfooter')) ? eval($hook) : false; ?>
 		Powered by Traq <?=TRAQVER?>,<br />
 		Copyright &copy;<?=date("Y")?> Rainbird Studios
 	</div>
