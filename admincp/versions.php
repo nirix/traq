@@ -18,6 +18,7 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	($hook = FishHook::hook('admin_versions_manage_start')) ? eval($hook) : false;
 	$projects = array();
 	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
 	while($project = $db->fetcharray($fetchprojects)) {
@@ -26,6 +27,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		while($info = $db->fetcharray($fetchversions)) {
 			$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['projectid']."' LIMIT 1"));
 			$project['versions'][] = $info;
+			($hook = FishHook::hook('admin_versions_manage_fetchrows')) ? eval($hook) : false;
 		}
 		$projects[] = $project;
 	}
@@ -34,6 +36,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$versions = array();
 	while($info = $db->fetcharray($fetchversions)) {
 		$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['projectid']."' LIMIT 1"));
+		($hook = FishHook::hook('admin_versions_manage_update')) ? eval($hook) : false;
 		$versions[] = $info;
 	}
 	
@@ -67,7 +70,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	</div>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_versions_manage_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "new") {
+	($hook = FishHook::hook('admin_versions_new_start')) ? eval($hook) : false;
 	if($_POST['do'] == "create") {
 		$errors = array();
 		if($_POST['version'] == "") {
@@ -80,6 +85,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 															'".$db->escapestring($_POST['version'])."',
 															'".$db->escapestring($_POST['project'])."'
 															)");
+		($hook = FishHook::hook('admin_versions_new_insert')) ? eval($hook) : false;
 		header("Location: versions.php?action=manage");
 	} else {
 		adminheader('New Version');
@@ -124,7 +130,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_versions_new_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "modify") {
+	($hook = FishHook::hook('admin_versions_modify_start')) ? eval($hook) : false;
 	if($_POST['do'] == "modify") {
 		$errors = array();
 		if($_POST['version'] == "") {
@@ -134,6 +142,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	
 	if(!count($errors) && isset($_POST['do'])) {
 		$db->query("UPDATE ".DBPREFIX."versions SET version='".$db->escapestring($_POST['version'])."', projectid='".$db->escapestring($_POST['project'])."' WHERE id='".$db->escapestring($_POST['versionid'])."' LIMIT 1");
+		($hook = FishHook::hook('admin_versions_modify_update')) ? eval($hook) : false;
 		header("Location: versions.php?action=manage");
 	} else {
 		$version = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$db->escapestring($_REQUEST['version'])."' LIMIT 1"));
@@ -180,8 +189,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_versions_modify_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "delete") {
 	$db->query("DELETE FROM ".DBPREFIX."versions WHERE id='".$db->escapestring($_REQUEST['version'])."' LIMIT 1");
+	($hook = FishHook::hook('admin_versions_delete')) ? eval($hook) : false;
 	header("Location: versions.php");
 }
 ?>

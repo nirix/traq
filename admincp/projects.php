@@ -18,10 +18,12 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	($hook = FishHook::hook('admin_project_manage_start')) ? eval($hook) : false;
 	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
 	$projects = array();
 	while($info = $db->fetcharray($fetchprojects)) {
 		$projects[] = $info;
+		($hook = FishHook::hook('admin_project_manage_fetchrows')) ? eval($hook) : false;
 	}
 	unset($fetchprojects,$info);
 	adminheader('Projects');
@@ -51,7 +53,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	</div>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_project_manage_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "new") {
+	($hook = FishHook::hook('admin_project_new_start')) ? eval($hook) : false;
 	if($_POST['do'] == "create") {
 		$errors = array();
 		if($_POST['name'] == "") {
@@ -74,6 +78,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 															0,
 															'".$db->escapestring($_POST['sourcelocation'])."'
 															)");
+		($hook = FishHook::hook('admin_project_new_insert')) ? eval($hook) : false;
 		header("Location: projects.php?action=manage");
 	} else {
 		adminheader('New Project');
@@ -130,7 +135,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_project_new_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "modify") {
+	($hook = FishHook::hook('admin_project_modify_start')) ? eval($hook) : false;
 	if($_POST['do'] == "modify") {
 		$errors = array();
 		if($_POST['name'] == "") {
@@ -148,6 +155,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	
 	if(!count($errors) && isset($_POST['do'])) {
 		$db->query("UPDATE ".DBPREFIX."projects SET name='".$db->escapestring($_POST['name'])."', slug='".$db->escapestring($_POST['slug'])."', ".DBPREFIX."projects.desc='".$db->escapestring($_POST['description'])."', managers='".$db->escapestring(implode(',',$_POST['managers']))."', sourcelocation='".$db->escapestring($_POST['sourcelocation'])."' WHERE slug='".$db->escapestring($_POST['project'])."' LIMIT 1");
+		($hook = FishHook::hook('admin_project_modify_update')) ? eval($hook) : false;
 		header("Location: projects.php?action=manage");
 	} else {
 		$project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_REQUEST['project'])."' LIMIT 1"));
@@ -207,6 +215,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_project_modify_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "delete") {
 	$project = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_REQUEST['project'])."' LIMIT 1"));
 	$db->query("DELETE FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_REQUEST['project'])."' LIMIT 1");
@@ -221,6 +230,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	$db->query("DELETE FROM ".DBPREFIX."versions WHERE projectid='".$project['id']."'");
 	$db->query("DELETE FROM ".DBPREFIX."components WHERE project='".$project['id']."'");
 	$db->query("DELETE FROM ".DBPREFIX."attachments WHERE projectid='".$project['id']."'");
+	($hook = FishHook::hook('admin_project_delete')) ? eval($hook) : false;
 	header("Location: projects.php");
 }
 ?>

@@ -18,10 +18,12 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	($hook = FishHook::hook('admin_users_manage_start')) ? eval($hook) : false;
 	$fetchusers = $db->query("SELECT * FROM ".DBPREFIX."users ORDER BY username ASC");
 	$users = array();
 	while($info = $db->fetcharray($fetchusers)) {
 		$users[] = $info;
+		($hook = FishHook::hook('admin_users_manage_fetchrows')) ? eval($hook) : false;
 	}
 	
 	adminheader('Users');
@@ -47,7 +49,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	</div>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_users_manage_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "modify") {
+	($hook = FishHook::hook('admin_users_modify_start')) ? eval($hook) : false;
 	if($_POST['do'] == "modify") {
 		$errors = array();
 		if($_POST['username'] == "") {
@@ -72,6 +76,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	
 	if(!count($errors) && isset($_POST['do'])) {
 		$db->query("UPDATE ".DBPREFIX."users SET username='".$db->escapestring($_POST['username'])."', email='".$db->escapestring($_POST['email'])."', groupid='".$db->escapestring($_POST['group'])."' WHERE id='".$db->escapestring($_POST['userid'])."' LIMIT 1");
+		($hook = FishHook::hook('admin_users_modify_update')) ? eval($hook) : false;
 		header("Location: users.php");
 	} else {
 		$user = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."users WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1"));
@@ -122,8 +127,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_users_modify_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "delete") {
 	$db->query("DELETE FROM ".DBPREFIX."users WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1");
+	($hook = FishHook::hook('admin_users_delete')) ? eval($hook) : false;
 	header("Location: users.php");
 }
 ?>

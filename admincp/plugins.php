@@ -18,6 +18,7 @@ if(!$user->group->isadmin) {
 }
 
 if(!isset($_REQUEST['action'])) {
+	($hook = FishHook::hook('admin_plugins_manage_start')) ? eval($hook) : false;
 	$hiddenfiles = array('.','..','.svn');
 	
 	// Get Active Plugins
@@ -50,6 +51,7 @@ if(!isset($_REQUEST['action'])) {
 			} else {
 				$plugins['disabled'][] = $plugin;
 			}
+			($hook = FishHook::hook('admin_plugins_manage_fetch')) ? eval($hook) : false;
 		}
 	}
 	
@@ -116,11 +118,14 @@ if(!isset($_REQUEST['action'])) {
 	</div>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_plugins_manage_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "enable") {
 	$db->query("INSERT INTO ".DBPREFIX."plugins VALUES('".$db->escapestring($_REQUEST['file'])."')");
+	($hook = FishHook::hook('admin_plugins_enable')) ? eval($hook) : false;
 	header("Location: plugins.php");
 } elseif($_REQUEST['action'] == "disable") {
 	$db->query("DELETE FROM ".DBPREFIX."plugins WHERE file='".$db->escapestring($_REQUEST['file'])."'");
+	($hook = FishHook::hook('admin_plugins_disable')) ? eval($hook) : false;
 	header("Location: plugins.php");
 }
 ?>

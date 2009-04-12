@@ -18,6 +18,7 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	($hook = FishHook::hook('admin_statustypes_manage_start')) ? eval($hook) : false;
 	adminheader('Status Types');
 	?>
 	<form action="statustypes.php" method="post">
@@ -78,20 +79,24 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	</form>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_statustypes_manage_end')) ? eval($hook) : false;
 } elseif($_POST['action'] == "save") {
 	foreach($_POST['types'] as $id => $type) {
 		if(!$db->numrows($db->query("SELECT * FROM ".DBPREFIX."statustypes WHERE id='".$db->escapestring($type['id'])."' AND id != '".$db->escapestring($id)."' LIMIT 1"))) {
 			$db->query("UPDATE ".DBPREFIX."statustypes SET id='".$db->escapestring($type['id'])."', name='".$db->escapestring($type['name'])."' WHERE id='".$db->escapestring($id)."' LIMIT 1");
+			($hook = FishHook::hook('admin_statustypes_update')) ? eval($hook) : false;
 		}
 	}
 	header("Location: statustypes.php");
 } elseif($_POST['action'] == "create") {
 	if($db->numrows($db->query("SELECT * FROM ".DBPREFIX."statustypes WHERE id != '".$db->escapestring($_POST['id'])."' LIMIT 1"))) {
 		$db->query("INSERT INTO ".DBPREFIX."statustypes VALUES(".$db->escapestring($_POST['id']).",'".$db->escapestring($_POST['name'])."')");
+		($hook = FishHook::hook('admin_statustypes_insert')) ? eval($hook) : false;
 	}
 	header("Location: statustypes.php");
 } elseif($_REQUEST['action'] == "delete") {
 	$db->query("DELETE FROM ".DBPREFIX."statustypes WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1");
+	($hook = FishHook::hook('admin_statustypes_delete')) ? eval($hook) : false;
 	header("Location: statustypes.php");
 }
 ?>
