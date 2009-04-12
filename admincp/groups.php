@@ -18,6 +18,7 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	($hook = FishHook::hook('admin_groups_manage_start')) ? eval($hook) : false;
 	adminheader('Usergroups');
 	?>
 	<div id="content">
@@ -41,7 +42,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	</div>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_groups_manage_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "new") {
+	($hook = FishHook::hook('admin_groups_new_start')) ? eval($hook) : false;
 	if($_POST['do'] == "create") {
 		$errors = array();
 		if($_POST['name'] == "") {
@@ -60,6 +63,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 			$_POST['updatetickets'] = 0;
 		}
 		$db->query("INSERT INTO ".DBPREFIX."usergroups VALUES(0,'".$db->escapestring($_POST['name'])."',".$db->escapestring($_POST['isadmin']).",".$db->escapestring($_POST['createtickets']).",".$db->escapestring($_POST['updatetickets']).")");
+		($hook = FishHook::hook('admin_groups_new_insert')) ? eval($hook) : false;
 		header("Location: groups.php");
 	} else {
 		adminheader('New Usergroup');
@@ -106,7 +110,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_groups_new_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "modify") {
+	($hook = FishHook::hook('admin_groups_modify_start')) ? eval($hook) : false;
 	if($_POST['do'] == "modify") {
 		$errors = array();
 		if($_POST['name'] == "") {
@@ -129,6 +135,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 			$_POST['updatetickets'] = 0;
 		}
 		$db->query("UPDATE ".DBPREFIX."usergroups SET name='".$db->escapestring($_POST['name'])."', isadmin='".$db->escapestring($_POST['isadmin'])."', createtickets='".$db->escapestring($_POST['createtickets'])."', updatetickets='".$db->escapestring($_POST['updatetickets'])."' WHERE id='".$db->escapestring($_POST['groupid'])."' LIMIT 1");
+		($hook = FishHook::hook('admin_groups_modify_update')) ? eval($hook) : false;
 		header("Location: groups.php");
 	} else {
 		$group = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."usergroups WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1"));
@@ -177,9 +184,11 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_groups_modify_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "delete") {
 	if(!in_array($_REQUEST['id'],array(1,2,3))) {
 		$db->query("DELETE FROM ".DBPREFIX."usergroups WHERE id='".$db->escapestring($_REQUEST['id'])."' LIMIT 1");
+		($hook = FishHook::hook('admin_groups_delete')) ? eval($hook) : false;
 		header("Location: groups.php");
 	}
 }

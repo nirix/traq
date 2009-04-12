@@ -18,6 +18,7 @@ if(!$user->group->isadmin) {
 }
 
 if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
+	($hook = FishHook::hook('admin_milestones_manage_start')) ? eval($hook) : false;
 	$projects = array();
 	$fetchprojects = $db->query("SELECT * FROM ".DBPREFIX."projects ORDER BY name ASC");
 	while($project = $db->fetcharray($fetchprojects)) {
@@ -26,11 +27,10 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		while($info = $db->fetcharray($fetchmilestones)) {
 			$info['projectinfo'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."projects WHERE id='".$info['project']."' LIMIT 1"));
 			$project['milestones'][] = $info;
+			($hook = FishHook::hook('admin_milestones_manage_fetchrows')) ? eval($hook) : false;
 		}
 		$projects[] = $project;
 	}
-	
-
 	
 	adminheader('Milestones');
 	?>
@@ -62,7 +62,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 	</div>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_milestones_manage_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "new") {
+	($hook = FishHook::hook('admin_milestones_new_start')) ? eval($hook) : false;
 	if($_POST['do'] == "create") {
 		$errors = array();
 		if($_POST['milestone'] == "") {
@@ -84,6 +86,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 															".$due.",
 															0
 															)");
+		($hook = FishHook::hook('admin_milestones_new_insert')) ? eval($hook) : false;
 		header("Location: milestones.php?action=manage");
 	} else {
 		adminheader('New Milestone');
@@ -142,7 +145,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		<?
 		adminfooter();
 	}
+	($hook = FishHook::hook('admin_milestones_new_end')) ? eval($hook) : false;
 } elseif($_REQUEST['action'] == "modify") {
+	($hook = FishHook::hook('admin_milestones_modify_start')) ? eval($hook) : false;
 	if($_POST['do'] == "modify") {
 		$errors = array();
 		if($_POST['milestone'] == "") {
@@ -165,6 +170,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 			$completed = 0;
 		}
 		$db->query("UPDATE ".DBPREFIX."milestones SET milestone='".$db->escapestring($_POST['milestone'])."', codename='".$db->escapestring($_POST['codename'])."', ".DBPREFIX."milestones.desc='".$db->escapestring($_POST['description'])."', project='".$db->escapestring($_POST['project'])."', due='".$due."', completed='".$completed."' WHERE id='".$db->escapestring($_POST['milestoneid'])."' LIMIT 1");
+		($hook = FishHook::hook('admin_milestones_modify_update')) ? eval($hook) : false;
 		header("Location: milestones.php?action=manage");
 	} else {
 		$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$db->escapestring($_REQUEST['milestone'])."' LIMIT 1"));
@@ -230,9 +236,11 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		</div>
 		<?
 		adminfooter();
+		($hook = FishHook::hook('admin_milestones_modify_end')) ? eval($hook) : false;
 	}
 } elseif($_REQUEST['action'] == "delete") {
 	$db->query("DELETE FROM ".DBPREFIX."milestones WHERE id='".$db->escapestring($_REQUEST['milestone'])."' LIMIT 1");
+	($hook = FishHook::hook('admin_milestones_delete')) ? eval($hook) : false;
 	header("Location: milestones.php");
 }
 ?>

@@ -21,8 +21,10 @@ if($_POST['do'] == "update") {
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['title'])."' WHERE setting='title' LIMIT 1");
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['theme'])."' WHERE setting='theme' LIMIT 1");
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['cleanuris'])."' WHERE setting='uritype' LIMIT 1");
+	($hook = FishHook::hook('admin_settings_save')) ? eval($hook) : false;
 	header("Location: settings.php?updated");
 } else {
+	($hook = FishHook::hook('admin_settings_start')) ? eval($hook) : false;
 	$hiddenfiles = array('.','..','.svn');
 	adminheader('Settings');
 	?>
@@ -59,6 +61,7 @@ if($_POST['do'] == "update") {
 						<label><input type="radio" name="cleanuris" value="2"<?=($settings->uritype == 2 ? ' checked="checked"' : '')?> />no mod_rewrite: mysite.com/index.php/project/ticket/4/</label>
 					</td>
 				</tr>
+				<? ($hook = FishHook::hook('admin_settings_table')) ? eval($hook) : false; ?>
 			</table>
 		</div>
 		<br />
@@ -69,5 +72,6 @@ if($_POST['do'] == "update") {
 	</div>
 	<?
 	adminfooter();
+	($hook = FishHook::hook('admin_settings_end')) ? eval($hook) : false;
 }
 ?>
