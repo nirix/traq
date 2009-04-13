@@ -17,7 +17,7 @@ if(empty($project['sourcelocation'])) {
 }
 
 // Breadcrumbs
-$breadcrumbs[$uri->anchor($project['slug'],'source')] = "Browse Source";
+$breadcrumbs[$uri->anchor($project['slug'],'source')] = l("browse_source");
 
 // Fetch the Subversion class
 include(TRAQPATH.'include/svn.class.php');
