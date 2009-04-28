@@ -94,7 +94,7 @@ if(!isset($uri->seg[1])) {
 			}
 			else
 			{
-				exit('ok');
+				//exit('ok');
 			}
 		}
 		
@@ -184,6 +184,30 @@ if(!isset($uri->seg[1])) {
 			// Check if the anti-spam key is valid
 			if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
 				$errors[] = "Human Check failed";
+			}
+			// Check if the guest name is a registered user [Ticket #53]
+			if(!$user->loggedin && $db->numrows($db->query("SELECT username FROM ".DBPREFIX."users WHERE username='".$db->escapestring($_POST['name'])."' LIMIT 1")))
+			{
+				$errors['name'] = l('GUEST_NAME_REGISTERED');
+			}
+			// Check with Akismet if its spam or not...
+			if($settings->akismetkey != '')
+			{
+				if($user->loggedin)
+				{
+					$username = $user->info->username;
+				}
+				else
+				{
+					$username = $_POST['name'];
+				}
+				
+				$akismet->setCommentAuthor($username);
+				$akismet->setCommentContent($_POST['body']);
+				if($akismet->isCommentSpam())
+				{
+					$errors['akismet'] = 'Your ticket appears to be spam.';
+				}
 			}
 			// If there are no errors, update the tickets
 			if($user->group->updatetickets && !count($errors)) {

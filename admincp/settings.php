@@ -72,7 +72,7 @@ if($_POST['do'] == "update") {
 			<table width="100%">
 				<tr valign="top">
 					<th width="170">WordPress API Key</th>
-					<td><input type="text" name="akismetkey" value="<?=$settings->akismetkey?>" /></td>
+					<td><input type="text" name="akismetkey" value="<?=$settings->akismetkey?>" /><br />Leave blank to disable.</td>
 				</tr>
 			</table>
 		</div>
