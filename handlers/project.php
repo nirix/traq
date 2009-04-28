@@ -203,10 +203,10 @@ if(!isset($uri->seg[1])) {
 				}
 				
 				$akismet->setCommentAuthor($username);
-				$akismet->setCommentContent($_POST['body']);
+				$akismet->setCommentContent($_POST['comment']);
 				if($akismet->isCommentSpam())
 				{
-					$errors['akismet'] = 'Your ticket appears to be spam.';
+					$errors['akismet'] = 'Your comment appears to be spam.';
 				}
 			}
 			// If there are no errors, update the tickets
