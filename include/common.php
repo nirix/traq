@@ -22,6 +22,15 @@ function template($template) {
 }
 
 /**
+ * Human Check Image
+ * Used to get the location of the Human Check image.
+ */
+function humancheckimage()
+{
+	return str_replace('index.php','keyimg.php',$_SERVER['SCRIPT_NAME']);
+}
+
+/**
  * Build Title
  * Makes the page title
  * @param array $title Titles to combine

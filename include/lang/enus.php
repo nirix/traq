@@ -93,4 +93,5 @@ $lang['add_filter'] = 'Add Filter';
 $lang['reporter'] = 'Reporter';
 $lang['is'] = 'is';
 $lang['is_not'] = 'is not';
+$lang['GUEST_NAME_REGISTERED'] = 'The name you entered is that of a registered user.';
 ?>

@@ -266,7 +266,7 @@
 				<legend><?=l('human_check')?></legend>
 				<table>
 					<tr>
-						<td><img src="<?=$uri->anchor()?>keyimg.php" /></td>
+						<td><img src="<?=humancheckimage()?>" /></td>
 						<td><input type="text" name="key" /></td>
 					</tr>
 				</table>

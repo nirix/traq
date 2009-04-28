@@ -60,6 +60,11 @@ if(!isset($uri->seg[1])) {
 		if(empty($_POST['name']) && !$user->loggedin) {
 			$errors['name'] = "You must enter a name";
 		}
+		// Check if the guest name is a registered user [Ticket #53]
+		if(!$user->loggedin && $db->numrows($db->query("SELECT username FROM ".DBPREFIX."users WHERE username='".$db->escapestring($_POST['name'])."' LIMIT 1")))
+		{
+			$errors['name'] = l('GUEST_NAME_REGISTERED');
+		}
 		
 		// Fix the milestone and component values, fixes ticket #19
 		if(empty($_POST['milestone'])) {
