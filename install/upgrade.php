@@ -318,6 +318,16 @@ INSERT INTO `traq_types` (`id`, `name`) VALUES
 			}
 		}
 	}
+	if($settings->dbversion < 14) {
+		$sql = "INSERT INTO `traq_settings` VALUES ('akismetkey', '');";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

@@ -21,6 +21,7 @@ if($_POST['do'] == "update") {
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['title'])."' WHERE setting='title' LIMIT 1");
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['theme'])."' WHERE setting='theme' LIMIT 1");
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['cleanuris'])."' WHERE setting='uritype' LIMIT 1");
+	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['akismetkey'])."' WHERE setting='akismetkey' LIMIT 1");
 	($hook = FishHook::hook('admin_settings_save')) ? eval($hook) : false;
 	header("Location: settings.php?updated");
 } else {
@@ -57,11 +58,22 @@ if($_POST['do'] == "update") {
 				<tr valign="top">
 					<th>Clean URI's</th>
 					<td>
-						<label><input type="radio" name="cleanuris" value="1"<?=($settings->uritype == 1 ? ' checked="checked"' : '')?> />mod_rewrite: mysite.com/project/ticket/4/</label><br />
-						<label><input type="radio" name="cleanuris" value="2"<?=($settings->uritype == 2 ? ' checked="checked"' : '')?> />no mod_rewrite: mysite.com/index.php/project/ticket/4/</label>
+						<label><input type="radio" name="cleanuris" value="1"<?=($settings->uritype == 1 ? ' checked="checked"' : '')?> />mod_rewrite: <?=$_SERVER['HTTP_HOST']?>/project/ticket/4/</label><br />
+						<label><input type="radio" name="cleanuris" value="2"<?=($settings->uritype == 2 ? ' checked="checked"' : '')?> />no mod_rewrite: <?=$_SERVER['HTTP_HOST']?>/index.php/project/ticket/4/</label>
 					</td>
 				</tr>
-				<? ($hook = FishHook::hook('admin_settings_table')) ? eval($hook) : false; ?>
+			</table>
+		</div>
+		
+		<? ($hook = FishHook::hook('admin_settings_table')) ? eval($hook) : false; ?>
+		<br />
+		<div class="content-group">
+			<div class="content-title">Akismet Settings</div>
+			<table width="100%">
+				<tr valign="top">
+					<th width="170">WordPress API Key</th>
+					<td><input type="text" name="akismetkey" value="<?=$settings->akismetkey?>" /></td>
+				</tr>
 			</table>
 		</div>
 		<br />

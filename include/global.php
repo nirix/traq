@@ -82,5 +82,12 @@ $uri->type = $settings->uritype;
 // Load the language
 require(TRAQPATH."include/lang/enus.php");
 
+// Load Akismet class
+require(TRAQPATH."include/akismet.class.php");
+if($settings->akismetkey != '')
+{
+	$akismet = new Akismet($_SERVER['HTTP_HOST'], $settings->akismetkey);
+}
+
 ($hook = FishHook::hook('global_end')) ? eval($hook) : false;
 ?>

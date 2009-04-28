@@ -74,6 +74,30 @@ if(!isset($uri->seg[1])) {
 			$_POST['component'] = 0;
 		}
 		
+		// Check with Akismet if its spam or not...
+		if($settings->akismetkey != '')
+		{
+			if($user->loggedin)
+			{
+				$username = $user->info->username;
+			}
+			else
+			{
+				$username = $_POST['name'];
+			}
+			
+			$akismet->setCommentAuthor($username);
+			$akismet->setCommentContent($_POST['body']);
+			if($akismet->isCommentSpam())
+			{
+				$errors['akismet'] = 'Your ticket appears to be spam.';
+			}
+			else
+			{
+				exit('ok');
+			}
+		}
+		
 		if(!count($errors)) {
 			// Insert the ticket into the database
 			$ticketid = $project['currenttid']+1;
