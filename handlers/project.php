@@ -124,9 +124,9 @@ if(!isset($uri->seg[1])) {
 		// Delete the ticket...
 		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { // Check if the user is an admin or project manager
 			$db->query("DELETE FROM ".DBPREFIX."tickets WHERE tid='".$ticket['tid']."' AND projectid='".$project['id']."' LIMIT 1"); // Delete from tickets table
-			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."' LIMIT 1"); // Delete the ticket history
-			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' LIMIT 1"); // Delet ethe attachments
-			$db->query("DELETE FROM ".DBPREFIX."timeline WHERE data LIKE 'TICKET%:".$ticket['id']."' LIMIT 1"); // Delete timeline rows regarding this ticket
+			$db->query("DELETE FROM ".DBPREFIX."tickethistory WHERE ticketid='".$ticket['id']."'"); // Delete the ticket history
+			$db->query("DELETE FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."'"); // Delet ethe attachments
+			$db->query("DELETE FROM ".DBPREFIX."timeline WHERE data LIKE 'TICKET%:".$ticket['id']."'"); // Delete timeline rows regarding this ticket
 			($hook = FishHook::hook('prject_deleteticket')) ? eval($hook) : false;
 			header("Location: ".$uri->anchor($project['slug'],'tickets')); // Redirect to the tickets list page
 		}
