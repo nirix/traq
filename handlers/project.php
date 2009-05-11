@@ -148,7 +148,7 @@ if(!isset($uri->seg[1])) {
 	$ticket['summary'] = stripslashes($ticket['summary']); // Strip the slashes from the summary field
 	$ticket['body'] = stripslashes($ticket['body']); // Strip the slashes from the body field
 	$ticket['body'] = formattext($ticket['body']); // Format the body field.
-	FishHook::hook('projecthandler_ticketpage_start');
+	
 	if($uri->seg[3] == "delete") {
 		// Delete the ticket...
 		if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { // Check if the user is an admin or project manager
@@ -179,11 +179,11 @@ if(!isset($uri->seg[1])) {
 			$changes = array();
 			// Check if the guests name is blank or not
 			if(empty($_POST['name']) && !$user->loggedin) {
-				$errors[] = "You must enter a name";
+				$errors[] = l('ERROR_NAME_BLANK');
 			}
 			// Check if the anti-spam key is valid
 			if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
-				$errors[] = "Human Check failed";
+				$errors[] = l('ERROR_HUMANCHECK_FAILED');
 			}
 			// Check if the guest name is a registered user [Ticket #53]
 			if(!$user->loggedin && $db->numrows($db->query("SELECT username FROM ".DBPREFIX."users WHERE username='".$db->escapestring($_POST['name'])."' LIMIT 1")))
@@ -206,7 +206,7 @@ if(!isset($uri->seg[1])) {
 				$akismet->setCommentContent($_POST['comment']);
 				if($akismet->isCommentSpam())
 				{
-					$errors['akismet'] = 'Your comment appears to be spam.';
+					$errors['akismet'] = l('ERROR_COMMENT_IS_SPAM');
 				}
 			}
 			// If there are no errors, update the tickets
@@ -313,7 +313,9 @@ if(!isset($uri->seg[1])) {
 			$info['comment_orig'] = $info['comment'];
 			$info['comment'] = formattext($info['comment']);
 			$info['changes'] = array();
+			
 			($hook = FishHook::hook('project_viewticket_fetchhistory')) ? eval($hook) : false;
+			
 			foreach($changes as $change) {
 				$parts = explode(':',$change);
 				$type = $parts[0];
@@ -369,6 +371,7 @@ if(!isset($uri->seg[1])) {
 			$history[] = $info;
 		}
 		unset($fetchhistory,$info);
+		
 		// Ticket Attachments
 		$attachments = array();
 		$fetchattachments = $db->query("SELECT * FROM ".DBPREFIX."attachments WHERE ticketid='".$ticket['id']."' ORDER BY timestamp ASC");
@@ -376,6 +379,7 @@ if(!isset($uri->seg[1])) {
 			($hook = FishHook::hook('project_viewticket_fetchattachments')) ? eval($hook) : false;
 			$attachments[] = $info;
 		}
+		
 		// Attach File
 		if($_POST['action'] == "attachfile") {
 			if($user->loggedin) { // Check if user is logged in
@@ -435,7 +439,7 @@ if(!isset($uri->seg[1])) {
 	}
 	
 	// Breadcrumbs
-	$breadcrumbs[$uri->anchor($projet['slug'],'timeline')] = "Timeline";
+	$breadcrumbs[$uri->anchor($projet['slug'],'timeline')] = l('timeline');
 	
 	($hook = FishHook::hook('project_timeline_end')) ? eval($hook) : false;
 	
@@ -460,7 +464,7 @@ if(!isset($uri->seg[1])) {
 	}
 	
 	// Breadcrumbs
-	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = "Change Log";
+	$breadcrumbs[$uri->anchor($project['slug'],'changelog')] = l('change_log');
 	
 	($hook = FishHook::hook('project_changelog_end')) ? eval($hook) : false;
 	

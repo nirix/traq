@@ -101,4 +101,5 @@ $lang['ERROR_SUMMARY_BLANK'] = 'Summary cannot be blank.';
 $lang['ERROR_DESCRIPTION_BLANK'] = 'You must enter a description.';
 $lang['ERROR_HUMANCHECK_FAILED'] = 'Human Check failed.';
 $lang['ERROR_NAME_BLANK'] = 'You must enter a name.';
+$lang['ERROR_COMMENT_IS_SPAM'] = 'Your comment appears to be spam.';
 ?>
