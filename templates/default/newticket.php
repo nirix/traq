@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?=buildtitle(array('New Ticket',$project['name']))?></title>
+<title><?=buildtitle(array(l('new_ticket'),$project['name']))?></title>
 <? include(template('headerinc')); ?> 
 </head>
 <body>
@@ -10,7 +10,7 @@
 	<? include(template('project_nav')); ?>
 	<div id="content">
 		<? include(template("breadcrumbs")); ?>
-		<h1>New Ticket</h1>
+		<h1><?=l('new_ticket')?></h1>
 		<form id="newticket" method="post" action="<?=$uri->anchor($project['slug'],'newticket')?>">
 			<? if(count($errors)) { ?>
 			<div class="errormessage">
@@ -21,18 +21,18 @@
 			<? } ?>
 			<input type="hidden" name="action" value="create" />
 			<fieldset id="summary"<?=(isset($errors['summary']) ? ' class="error"' : '')?>>
-				<legend>Summary</legend>
+				<legend><?=l('summary')?></legend>
 				<input type="text" name="summary" id="summary" size="80" value="" />
 			</fieldset>
 			<fieldset id="description"<?=(isset($errors['body']) ? ' class="error"' : '')?>>
-				<legend>Description</legend>
+				<legend><?=l('description')?></legend>
 				<textarea name="body" id="body" rows="10" cols="80"></textarea>
 			</fieldset>
 			<fieldset id="properties">
-				<legend>Properties</legend>
+				<legend><?=l('properties')?></legend>
 				<table>
 					<tr>
-						<th class="col1">Type</th>
+						<th class="col1"><?=l('type')?></th>
 						<td class="col2">
 							<select name="type" id="type">
 								<? foreach(gettypes() as $type) { ?>
@@ -40,7 +40,7 @@
 								<? } ?>
 							</select>
 						</td>
-						<th class="col2">Assign to</th>
+						<th class="col2"><?=l('assign_to')?></th>
 						<td>
 							<select name="assignto" id="assignto">
 								<option selected="selected" value="0"> </option>
@@ -51,7 +51,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="col1">Priority</th>
+						<th class="col1"><?=l('priority')?></th>
 						<td>
 							<select name="priority" id="priority">
 								<? foreach(getpriorities() as $priority) { ?>
@@ -59,7 +59,7 @@
 								<? } ?>
 							</select>
 						</td>
-						<th class="col2">Severity</th>
+						<th class="col2"><?=l('severity')?></th>
 						<td>
 							<select name="severity" id="severity">
 								<? foreach(getseverities() as $severity) { ?>
@@ -69,7 +69,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="col1">Milestone</th>
+						<th class="col1"><?=l('milestone')?></th>
 						<td>
 							<select name="milestone" id="milestone">
 								<? foreach(projectmilestones($project['id']) as $milestone) { ?>
@@ -77,7 +77,7 @@
 								<? } ?>
 							</select>
 						</td>
-						<th class="col2">Version</th>
+						<th class="col2"><?=l('version')?></th>
 						<td>
 							<select name="version" id="version">
 								<option selected="selected" value="0"> </option>
@@ -88,7 +88,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="col1">Component</th>
+						<th class="col1"><?=l('component')?></th>
 						<td>
 							<select name="component" id="component">
 								<? foreach(projectcomponents($project['id']) as $component) { ?>
@@ -103,11 +103,11 @@
 			</fieldset>
 			<? if(!$user->loggedin) { ?>
 			<fieldset<?=(isset($errors['name']) ? ' class="error"' : '')?>>
-				<legend>Your Name</legend>
+				<legend><?=l('your_name')?></legend>
 				<input type="text" name="name" value="<?=$_COOKIE['guestname']?>" />
 			</fieldset>
 			<fieldset<?=(isset($errors['key']) ? ' class="error"' : '')?>>
-				<legend>Human Check</legend>
+				<legend><?=l('human_check')?></legend>
 				<table>
 					<tr>
 						<td><img src="<?=humancheckimage()?>" /></td>
@@ -118,7 +118,7 @@
 			<? } ?>
 			<p></p>
 			<div class="buttons">
-				<input type="submit" value="Submit Ticket" /> <input type="button" value="Cancel" onclick="javascript:history.back()" />
+				<input type="submit" value="<?=l('submit_ticket')?>" /> <input type="button" value="<?=l('cancel')?>" onclick="javascript:history.back()" />
 			</div>
 		</form>
 	</div>

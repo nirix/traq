@@ -155,7 +155,9 @@ INSERT INTO `traq_priorities` (`id`, `name`) VALUES
 (5, 'Highest');
 
 INSERT INTO `traq_settings` (`setting`, `value`) VALUES 
-('theme', 'default');
+('theme', 'default'),
+('uritype','2'),
+('akismetkey','');
 
 INSERT INTO `traq_severities` (`id`, `name`) VALUES 
 (1, 'Blocker'),

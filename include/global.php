@@ -86,7 +86,7 @@ require(TRAQPATH."include/lang/enus.php");
 require(TRAQPATH."include/akismet.class.php");
 if($settings->akismetkey != '')
 {
-	$akismet = new Akismet($_SERVER['HTTP_HOST'], $settings->akismetkey);
+	$akismet = new Akismet(($_SERVER['HTTPS'] != '' ? 'http://' : 'http://').$_SERVER['HTTP_HOST'], $settings->akismetkey);
 }
 
 ($hook = FishHook::hook('global_end')) ? eval($hook) : false;

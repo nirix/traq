@@ -37,7 +37,7 @@ if(!isset($uri->seg[1])) {
 		include(template('nopermission'));
 		exit;
 	}
-	$breadcrumbs[$uri->anchor($project['slug'],'newticket')] = "New Ticket";
+	$breadcrumbs[$uri->anchor($project['slug'],'newticket')] = l("new_ticket");
 	
 	($hook = FishHook::hook('project_newticket')) ? eval($hook) : false;
 	
@@ -46,19 +46,19 @@ if(!isset($uri->seg[1])) {
 		$errors = array();
 		// Check if Summary is blank
 		if($_POST['summary'] == "") {
-			$errors['summary'] = "Summary cannot be blank";
+			$errors['summary'] = l('ERROR_SUMMARY_BLANK');
 		}
 		// Check if the ticket body is blank
 		if($_POST['body'] == "") {
-			$errors['body'] = "You must enter a description.";
+			$errors['body'] = l('ERROR_DESCRIPTION_BLANK');
 		}
 		// Check if the anti-spam key is valid
 		if($_POST['key'] != $_SESSION['key'] && !$user->loggedin) {
-			$errors['key'] = "Human Check failed";
+			$errors['key'] = l('ERROR_HUMANCHECK_FAILED');
 		}
 		// Check if the guests name is blank or not
 		if(empty($_POST['name']) && !$user->loggedin) {
-			$errors['name'] = "You must enter a name";
+			$errors['name'] = l('ERROR_NAME_BLANK');
 		}
 		// Check if the guest name is a registered user [Ticket #53]
 		if(!$user->loggedin && $db->numrows($db->query("SELECT username FROM ".DBPREFIX."users WHERE username='".$db->escapestring($_POST['name'])."' LIMIT 1")))

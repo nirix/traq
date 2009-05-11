@@ -60,6 +60,12 @@ function l($string,$vars=array())
 {
 	global $lang;
 	
+	// Check if the string exists
+	if(!isset($lang[$string]))
+	{
+		return '<span style="color:red;font-weight:bold;">'.$string.'</span>';
+	}
+	
 	// Get the locale string
 	$string = $lang[$string];
 	
