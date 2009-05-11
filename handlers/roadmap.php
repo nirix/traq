@@ -16,7 +16,7 @@
 ($hook = FishHook::hook('roadmap_start')) ? eval($hook) : false;
 
 $milestones = array();
-$fetchmilestones = $db->query("SELECT * FROM ".DBPREFIX."milestones WHERE project=".$project['id']." ".(isset($_REQUEST['all']) ? '' : (isset($_REQUEST['completed']) ? "AND completed > 0" : "AND completed='0'"))." ORDER BY milestone ASC"); // Fetch the milestones
+$fetchmilestones = $db->query("SELECT milestone FROM ".DBPREFIX."milestones WHERE project=".$project['id']." ".(isset($_REQUEST['all']) ? '' : (isset($_REQUEST['completed']) ? "AND completed > 0" : "AND completed='0'"))." ORDER BY milestone ASC"); // Fetch the milestones
 while($info = $db->fetcharray($fetchmilestones)) {
 	// Get Ticket Info
 	$info['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$info['id']."'")); // Count open tickets

@@ -328,6 +328,16 @@ INSERT INTO `traq_types` (`id`, `name`) VALUES
 			}
 		}
 	}
+	if($settings->dbversion < 15) {
+		$sql = "ALTER TABLE  `traq_milestones` CHANGE  `milestone`  `milestone` VARBINARY( 255 ) NOT NULL";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?
