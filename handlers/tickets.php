@@ -128,6 +128,14 @@ foreach($filterbits as $filterbit)
 }
 $filterstring = implode('&',$filtersbits);
 
+// Do columns stuff...
+if(!isset($_REQUEST['columns']))
+{
+	$_REQUEST['columns'] = 'ticket,summary,status,owner,type,priority,component,milestone';
+}
+
+$columns = explode(',',$_REQUEST['columns']);
+
 // Get Tickets
 $tickets = array();
 $fetchtickets = $db->query("SELECT * FROM ".DBPREFIX."tickets WHERE projectid='".$project['id']."' $query ORDER BY $sort $order");

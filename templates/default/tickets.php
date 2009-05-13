@@ -82,16 +82,14 @@
 		<table class="listing tickets">
 			<thead>
 				<tr>
-					<th class="id"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=tid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('ticket')?></a></th>
-					<th class="summary"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=summary&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('summary')?></a></th>
-					<th class="status"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=status&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('status')?></a></th>
-					<th class="owner"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=ownername&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('owner')?></a></th>
-					<th class="type"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=type&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('type')?></a></th>
-					<th class="priority"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=priority&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('priority')?></a></th>
-					<th class="component"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=componentid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('component')?></a></th>
-					<? if(!$uri->seg[2]) { ?>
-					<th class="milestone"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=milestoneid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('milestone')?></a></th>
-					<? } ?>
+					<? if(in_array('ticket',$columns)) { ?><th class="id"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=tid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('ticket')?></a></th><? } ?>
+					<? if(in_array('summary',$columns)) { ?><th class="summary"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=summary&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('summary')?></a></th><? } ?>
+					<? if(in_array('status',$columns)) { ?><th class="status"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=status&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('status')?></a></th><? } ?>
+					<? if(in_array('owner',$columns)) { ?><th class="owner"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=ownername&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('owner')?></a></th><? } ?>
+					<? if(in_array('type',$columns)) { ?><th class="type"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=type&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('type')?></a></th><? } ?>
+					<? if(in_array('priority',$columns)) { ?><th class="priority"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=priority&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('priority')?></a></th><? } ?>
+					<? if(in_array('component',$columns)) { ?><th class="component"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=componentid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('component')?></a></th><? } ?>
+					<? if(in_array('milestone',$columns)) { ?><th class="milestone"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=milestoneid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('milestone')?></a></th><? } ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -103,16 +101,14 @@
 	}
 ?>
 				<tr class="<?=$bgclass?> priority<?=$ticket['priority']?>">
-					<td class="id"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>"><?=$ticket['tid']?></a></td>
-					<td class="summary"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>"><?=$ticket['summary']?></a></td>
-					<td class="status"><?=ticketstatus($ticket['status'])?></td>
-					<td class="owner"><?=$ticket['ownername']?></td>
-					<td class="type"><?=tickettype($ticket['type'])?></td>
-					<td class="priority"><?=ticketpriority($ticket['priority'])?></td>
-					<td class="component"><?=$ticket['component']['name']?></td>
-					<? if(!$uri->seg[2]) { ?>
-					<td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td>
-					<? } ?>
+					<? if(in_array('ticket',$columns)) { ?><td class="id"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>"><?=$ticket['tid']?></a></td><? } ?>
+					<? if(in_array('summary',$columns)) { ?><td class="summary"><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>"><?=$ticket['summary']?></a></td><? } ?>
+					<? if(in_array('status',$columns)) { ?><td class="status"><?=ticketstatus($ticket['status'])?></td><? } ?>
+					<? if(in_array('owner',$columns)) { ?><td class="owner"><?=$ticket['ownername']?></td><? } ?>
+					<? if(in_array('type',$columns)) { ?><td class="type"><?=tickettype($ticket['type'])?></td><? } ?>
+					<? if(in_array('priority',$columns)) { ?><td class="priority"><?=ticketpriority($ticket['priority'])?></td><? } ?>
+					<? if(in_array('component',$columns)) { ?><td class="component"><?=$ticket['component']['name']?></td><? } ?>
+					<? if(in_array('milestone',$columns)) { ?><td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td><? } ?>
 				</tr>
 <? } ?>
 			</tbody>
