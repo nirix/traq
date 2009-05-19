@@ -126,7 +126,7 @@
 					<? if(in_array('priority',$columns)) { ?><th class="priority"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=priority&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('priority')?></a></th><? } ?>
 					<? if(in_array('component',$columns)) { ?><th class="component"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=componentid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('component')?></a></th><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><th class="milestone"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=milestoneid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('milestone')?></a></th><? } ?>
-					<? if(in_array('assignedto',$columns)) { ?><th class="assignedto"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=assignedto&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('assigned_to')?></a></th><? } ?>
+					<? if(in_array('assignedto',$columns)) { ?><th class="assignedto"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=assigneeid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('assigned_to')?></a></th><? } ?>
 				</tr>
 			</thead>
 			<tbody>

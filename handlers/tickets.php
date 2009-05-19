@@ -140,7 +140,7 @@ foreach($filterbits as $filterbit)
 			}
 	}
 }
-$filterstring = implode('&',$filtersbits);
+$filterstring = $_SERVER['QUERY_STRING']; //implode('&',$filtersbits);
 
 // Do columns stuff...
 if(!isset($_REQUEST['columns']))
