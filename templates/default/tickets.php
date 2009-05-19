@@ -56,7 +56,13 @@
 					<tbody>
 						<tr class="priority">
 							<th scope="row"><label><?=l('priority')?></label></th>
-							<td class="filter" colspan="2">
+							<td class="mode">
+								<select name="filters[priority][mode]">
+								<option value=""<?=($filter['mode'] == '' ? ' selected="selected"' : '')?>><?=l('is')?></option>
+								<option value="!"<?=($filter['mode'] == '!' ? ' selected="selected"' : '')?>><?=l('is_not')?></option>
+								</select>
+							</td>
+							<td class="filter">
 								<select name="filters[priority][value]">
 									<option></option>
 									<? foreach(getpriorities() as $priority) { ?>

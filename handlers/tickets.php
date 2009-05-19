@@ -136,7 +136,7 @@ foreach($filterbits as $filterbit)
 			}
 			elseif($filter['type'] == 'priority')
 			{
-				$query .= " AND priority='".$db->escapestring($filter['value'])."'";	
+				$query .= " AND priority".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
 			}
 	}
 }
