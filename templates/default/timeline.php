@@ -23,7 +23,7 @@
 					<? } elseif($row['type'] == "TICKETCLOSE") { ?>
 					<li><?=date("h:iA",$row['timestamp'])?> <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>"><?=l('ticket_x_closed_by_x',$row['ticket']['tid'],$row['ticket']['summary'],$row['username'])?></a></li>
 					<? } elseif($row['type'] == "TICKETREOPEN") { ?>
-					<li><?=date("h:iA",$row['timestamp'])?> <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>"><?=l('ticket_x_reopend_by_x',$row['ticket']['tid'],$row['ticket']['summary'],$row['username'])?></a></li>
+					<li><?=date("h:iA",$row['timestamp'])?> <a href="<?=$uri->anchor($project['slug'],'ticket',$row['ticket']['tid'])?>"><?=l('ticket_x_reopened_by_x',$row['ticket']['tid'],$row['ticket']['summary'],$row['username'])?></a></li>
 					<? } ?>
 				<? } ?>
 				</ul>
