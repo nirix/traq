@@ -173,6 +173,7 @@
 				<input type="checkbox" name="column[priority]" value="1" id="col_priority"<?=(in_array('priority',$columns) ? ' checked="checked"' : '')?> /> <label for="col_priority"><?=l('priority')?></label>
 				<input type="checkbox" name="column[component]" value="1" id="col_component"<?=(in_array('component',$columns) ? ' checked="checked"' : '')?> /> <label for="col_component"><?=l('component')?></label>
 				<input type="checkbox" name="column[milestone]" value="1" id="col_milestone"<?=(in_array('milestone',$columns) ? ' checked="checked"' : '')?> /> <label for="col_milestone"><?=l('milestone')?></label>
+				<input type="checkbox" name="column[version]" value="1" id="col_version"<?=(in_array('version',$columns) ? ' checked="checked"' : '')?> /> <label for="col_version"><?=l('version')?></label>
 				<input type="checkbox" name="column[assignedto]" value="1" id="col_assignedto"<?=(in_array('assignedto',$columns) ? ' checked="checked"' : '')?> /> <label for="col_assignedto"><?=l('assigned_to')?></label>
 				<br />
 				<input type="submit" value="<?=l('update')?>" />
@@ -189,6 +190,7 @@
 					<? if(in_array('priority',$columns)) { ?><th class="priority"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=priority&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('priority')?></a></th><? } ?>
 					<? if(in_array('component',$columns)) { ?><th class="component"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=componentid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('component')?></a></th><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><th class="milestone"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=milestoneid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('milestone')?></a></th><? } ?>
+					<? if(in_array('version',$columns)) { ?><th class="version"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=versionid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('version')?></a></th><? } ?>
 					<? if(in_array('assignedto',$columns)) { ?><th class="assignedto"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=assigneeid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('assigned_to')?></a></th><? } ?>
 				</tr>
 			</thead>
@@ -209,6 +211,7 @@
 					<? if(in_array('priority',$columns)) { ?><td class="priority"><?=ticketpriority($ticket['priority'])?></td><? } ?>
 					<? if(in_array('component',$columns)) { ?><td class="component"><?=$ticket['component']['name']?></td><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td><? } ?>
+					<? if(in_array('version',$columns)) { ?><td class="vesrion"><?=$ticket['version']['version']?></td><? } ?>
 					<? if(in_array('assignedto',$columns)) { ?><td class="assignedto"><?=$ticket['assignee']['username']?></td><? } ?>
 				</tr>
 <? } ?>

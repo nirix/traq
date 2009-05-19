@@ -176,6 +176,7 @@ while($info = $db->fetcharray($fetchtickets))
 	$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 	$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 	$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1")); // Get Milestone info
+	$info['version'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."versions WHERE id='".$info['versionid']."' LIMIT 1")); // Get Version info
 	$info['assignee'] = $db->fetcharray($db->query("SELECT id, username FROM ".DBPREFIX."users WHERE id='".$info['assigneeid']."' LIMIT 1")); // Get assignee info
 	($hook = FishHook::hook('tickets_fetchtickets')) ? eval($hook) : false;
 	$tickets[] = $info;
