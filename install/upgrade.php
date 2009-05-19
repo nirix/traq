@@ -13,20 +13,18 @@
 
 require("../include/version.php");
 require("../include/config.php");
-require("../include/origin/origin.php");
-$origin = new Origin;
-$origin->load("database",'db');
-$origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
-$origin->db->selectdb($config->db->name);
-$origin->db->prefix = $config->db->prefix;
-define("DBPREFIX",$origin->db->prefix);
-$db =& $origin->db;
+require("../include/database.class.php");
+$db = new Database;
+$db->connect($config->db->host,$config->db->user,$config->db->pass);
+$db->selectdb($config->db->name);
+$db->prefix = $config->db->prefix;
+define("DBPREFIX",$db->prefix);
 require("common.php");
 
 // Get settings
 $settings = (object) array();
-$fetchsettings = $origin->db->query("SELECT setting,value FROM ".$db->prefix."settings");
-while($info = $origin->db->fetcharray($fetchsettings)) {
+$fetchsettings = $db->query("SELECT setting,value FROM ".$db->prefix."settings");
+while($info = $db->fetcharray($fetchsettings)) {
 	$settings->$info['setting'] = $info['value'];
 }
 unset($fetchsettings,$info);

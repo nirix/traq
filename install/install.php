@@ -13,13 +13,11 @@
 
 require("../include/config.php");
 require("../include/version.php");
-require("../include/origin/origin.php");
-$origin = new Origin;
-$origin->load("database",'db');
-$origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
-$origin->db->selectdb($config->db->name);
-$origin->db->prefix = $config->db->prefix;
-$db =& $origin->db;
+require("../include/database.class.php");
+$db = new Database;
+$db->connect($config->db->host,$config->db->user,$config->db->pass);
+$db->selectdb($config->db->name);
+$db->prefix = $config->db->prefix;
 require("common.php");
 
 $tables = $db->query("SHOW TABLES");
