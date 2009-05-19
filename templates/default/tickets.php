@@ -52,6 +52,21 @@
 							<td class="actions"><input type="submit" name="rm_filter_status" value="-" /></td>
 						</tr>
 					</tbody>
+					<? } elseif($filter['type'] == 'priority') { ?>
+					<tbody>
+						<tr class="priority">
+							<th scope="row"><label><?=l('priority')?></label></th>
+							<td class="filter" colspan="2">
+								<select name="filters[priority][value]">
+									<option></option>
+									<? foreach(getpriorities() as $priority) { ?>
+									<option value="<?=$priority['id']?>"<?=($filter['value'] == $priority['id'] ? ' selected="selected"' : '')?>><?=$priority['name']?></option>
+									<? } ?>
+								</select>
+							</td>
+							<td class="actions"><input type="submit" name="rm_filter_priority" value="-" /></td>
+						</tr>
+					</tbody>
 					<? } ?>
 					<? } ?>
 					<tbody>
@@ -64,9 +79,9 @@
 									<!--<option value="component"><?=l('component')?></option>
 									<option value="description"><?=l('description')?></option>-->
 									<option value="milestone"><?=l('milestone')?></option>
-									<!--<option value="owner"><?=l('owner')?></option>
+									<!--<option value="owner"><?=l('owner')?></option>-->
 									<option value="priority"><?=l('priority')?></option>
-									<option value="reporter"><?=l('reporter')?></option>
+									<!--<option value="reporter"><?=l('reporter')?></option>
 									<option value="severity"><?=l('severity')?></option>-->
 									<option value="status"><?=l('status')?></option>
 									<!--<option value="summary"><?=l('summary')?></option>

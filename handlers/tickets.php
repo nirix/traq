@@ -132,6 +132,10 @@ foreach($filterbits as $filterbit)
 					$query .= " AND (status=".implode(' OR status=',$filter['values']).")";
 				}
 			}
+			elseif($filter['type'] == 'priority')
+			{
+				$query .= " AND priority='".$db->escapestring($filter['value'])."'";	
+			}
 	}
 }
 $filterstring = implode('&',$filtersbits);
