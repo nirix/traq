@@ -61,6 +61,8 @@ if(isset($_POST['update']))
 	$filters = implode('&',$bits);
 	
 	// Do the columns
+	if(!is_array($_POST['column'])) $_POST['column'] = $columns = array();
+	
 	foreach($_POST['column'] as $col => $val)
 	{
 		$columns[] = $col;	
