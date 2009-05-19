@@ -14,6 +14,7 @@
 		<form method="post" action="<?=$uri->geturi()?>">
 			<input type="hidden" name="sort" value="<?=$sort?>" />
 			<input type="hidden" name="order" value="<?=$order?>" />
+			<input type="hidden" name="update" value="1" />
 			<fieldset id="filters">
 				<legend><?=l('filters')?></legend>
 				<table>
@@ -78,6 +79,20 @@
 					</tbody>
 				</table>
 			</fieldset>
+			<fieldset>
+				<legend>Columns</legend>
+				<input type="checkbox" name="column[ticket]" value="1" id="col_ticket"<?=(in_array('ticket',$columns) ? ' checked="checked"' : '')?> /> <label for="col_ticket"><?=l('ticket')?></label>
+				<input type="checkbox" name="column[summary]" value="1" id="col_summary"<?=(in_array('ticket',$columns) ? ' checked="checked"' : '')?> /> <label for="col_summary"><?=l('summary')?></label>
+				<input type="checkbox" name="column[status]" value="1" id="col_status"<?=(in_array('status',$columns) ? ' checked="checked"' : '')?> /> <label for="col_status"><?=l('status')?></label>
+				<input type="checkbox" name="column[owner]" value="1" id="col_owner"<?=(in_array('owner',$columns) ? ' checked="checked"' : '')?> /> <label for="col_owner"><?=l('owner')?></label>
+				<input type="checkbox" name="column[type]" value="1" id="col_type"<?=(in_array('type',$columns) ? ' checked="checked"' : '')?> /> <label for="col_type"><?=l('type')?></label>
+				<input type="checkbox" name="column[priority]" value="1" id="col_priority"<?=(in_array('priority',$columns) ? ' checked="checked"' : '')?> /> <label for="col_priority"><?=l('priority')?></label>
+				<input type="checkbox" name="column[component]" value="1" id="col_component"<?=(in_array('component',$columns) ? ' checked="checked"' : '')?> /> <label for="col_component"><?=l('component')?></label>
+				<input type="checkbox" name="column[milestone]" value="1" id="col_milestone"<?=(in_array('milestone',$columns) ? ' checked="checked"' : '')?> /> <label for="col_milestone"><?=l('milestone')?></label>
+				<input type="checkbox" name="column[assignedto]" value="1" id="col_assignedto"<?=(in_array('assignedto',$columns) ? ' checked="checked"' : '')?> /> <label for="col_assignedto"><?=l('assigned_to')?></label>
+				<br />
+				<input type="submit" value="<?=l('update')?>" />
+			</fieldset>
 		</form>
 		<table class="listing tickets">
 			<thead>
@@ -90,6 +105,7 @@
 					<? if(in_array('priority',$columns)) { ?><th class="priority"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=priority&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('priority')?></a></th><? } ?>
 					<? if(in_array('component',$columns)) { ?><th class="component"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=componentid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('component')?></a></th><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><th class="milestone"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=milestoneid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('milestone')?></a></th><? } ?>
+					<? if(in_array('assignedto',$columns)) { ?><th class="assignedto"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=assignedto&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('assigned_to')?></a></th><? } ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -109,6 +125,7 @@
 					<? if(in_array('priority',$columns)) { ?><td class="priority"><?=ticketpriority($ticket['priority'])?></td><? } ?>
 					<? if(in_array('component',$columns)) { ?><td class="component"><?=$ticket['component']['name']?></td><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td><? } ?>
+					<? if(in_array('assignedto',$columns)) { ?><td class="assignedto"><?=$ticket['assignee']['username']?></td><? } ?>
 				</tr>
 <? } ?>
 			</tbody>

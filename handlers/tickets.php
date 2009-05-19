@@ -21,7 +21,7 @@ $sort = (isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'priority'); // Field to
 $order = (isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc'); // Direction to sort by
 
 // Add a filter
-if(isset($_POST['add_filter']))
+if(isset($_POST['update']))
 {
 	// Check if there are any filters already and
 	// include them in the query string
@@ -57,10 +57,18 @@ if(isset($_POST['add_filter']))
 	// Add the sort and order vars
 	$bits[] = 'sort='.$_POST['sort'].'&order='.$_POST['order'];
 	
-	// Build the filters query string and return
-	// to the filter page.
+	// Build the filters query string
 	$filters = implode('&',$bits);
-	header("Location: ".$uri->geturi().'?'.$filters);
+	
+	// Do the columns
+	foreach($_POST['column'] as $col => $val)
+	{
+		$columns[] = $col;	
+	}
+	$cols = implode(',',$columns);
+	$cols = '&columns='.$cols;
+	
+	header("Location: ".$uri->geturi().'?'.$filters.$cols);
 	exit;
 }
 
@@ -146,6 +154,7 @@ while($info = $db->fetcharray($fetchtickets))
 	$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."components WHERE id='".$info['componentid']."' LIMIT 1")); // Get Component info
 	$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 	$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE id='".$info['milestoneid']."' LIMIT 1")); // Get Milestone info
+	$info['assignee'] = $db->fetcharray($db->query("SELECT id, username FROM ".DBPREFIX."users WHERE id='".$info['assigneeid']."' LIMIT 1")); // Get assignee info
 	($hook = FishHook::hook('tickets_fetchtickets')) ? eval($hook) : false;
 	$tickets[] = $info;
 }
