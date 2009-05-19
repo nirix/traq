@@ -17,8 +17,16 @@
  * @return string
  */
 function template($template) {
-	global $origin;
-	return $origin->template->load($template);
+	global $settings;
+	if(file_exists(TRAQPATH.'/templates/'.$settings->theme.'/'.$template.".php")) {
+		return TRAQPATH.'/templates/'.$settings->theme.'/'.$template.".php";
+	} else {
+		error("Template","Unable to load file: <code>$settings->theme/$template</code>");
+	}
+}
+
+function error($title='',$message) {
+	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial;\"><h1 style=\"margin:0px;color:darkred;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1>".$message."<div style=\"color:#999;border-top:1px solid #000;margin-top:10px;\"><em>Traq ".TRAQVER."</em></div></blockquote>");
 }
 
 /**
@@ -305,7 +313,7 @@ function getseverities() {
  * @return string
  */
 function formattext($text) {
-	global $origin;
+	global $bbcode;
 	$text_orig = $text;
 	$text = htmlspecialchars($text);
 	// Strip Slashes
@@ -313,7 +321,7 @@ function formattext($text) {
 	// [comment:X User] format
 	$text = commentTag($text);
 	// BBCode
-	$text = $origin->bbcode->format($text,false);
+	$text = $bbcode->format($text,false);
 	// Plugin Hook
 	($hook = FishHook::hook('common_formattext')) ? eval($hook) : false;
 	// Return  for display

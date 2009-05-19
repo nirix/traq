@@ -19,30 +19,29 @@ include(TRAQPATH."include/version.php");
 // Fetch Config
 require(TRAQPATH."include/config.php");
 
-// Fetch Origin
-require(TRAQPATH."include/origin/origin.php");
-$origin = new Origin;
+// Fetch required classes
+require(TRAQPATH."include/database.class.php");
+require(TRAQPATH."include/user.class.php");
+require(TRAQPATH."include/uri.class.php");
+require(TRAQPATH."include/bbcode.class.php");
 
 // Load DB Class
-$db =& $origin->load("database",'db');
-$origin->db->prefix = $config->db->prefix;
-define("DBPREFIX",$origin->db->prefix);
+$db = new Database;
+$db->prefix = $config->db->prefix;
+define("DBPREFIX",$db->prefix);
 
 // Connect to the Database
-$origin->db->connect($config->db->host,$config->db->user,$config->db->pass);
-$origin->db->selectdb($config->db->name);
-
-// Load Template Class
-$origin->load("template");
+$db->connect($config->db->host,$config->db->user,$config->db->pass);
+$db->selectdb($config->db->name);
 
 // Load User Class
-$user =& $origin->load("user");
+$user = new User;
 
 // Load URI Class
-$uri =& $origin->load("uri");
+$uri = new URI;
 
 // Load BBCode Class
-$origin->load("bbcode");
+$bbcode = new BBCode;
 
 // Load FishHook and Plugins
 require(TRAQPATH."include/fishhook.php");
@@ -65,16 +64,13 @@ require(TRAQPATH."include/common.php");
 
 // Get settings
 $settings = (object) array();
-$fetchsettings = $origin->db->query("SELECT setting,value FROM ".DBPREFIX."settings");
-while($info = $origin->db->fetcharray($fetchsettings))
+$fetchsettings = $db->query("SELECT setting,value FROM ".DBPREFIX."settings");
+while($info = $db->fetcharray($fetchsettings))
 {
 	$settings->$info['setting'] = $info['value'];
 	($hook = FishHook::hook('settings_fetch')) ? eval($hook) : false;
 }
 unset($fetchsettings,$info);
-
-// Set template directory
-$origin->template->templatedir = TRAQPATH.'/templates/'.$settings->theme.'/';
 
 // Set the URI type
 $uri->type = $settings->uritype;
