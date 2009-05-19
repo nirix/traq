@@ -94,6 +94,48 @@
 							<td class="actions"><input type="submit" name="rm_filter_component" value="-" /></td>
 						</tr>
 					</tbody>
+					<? } elseif($filter['type'] == 'version') { ?>
+					<tbody>
+						<tr class="component">
+							<th scope="row"><label><?=l('version')?></label></th>
+							<td class="mode">
+								<select name="filters[version][mode]">
+								<option value=""<?=($filter['mode'] == '' ? ' selected="selected"' : '')?>><?=l('is')?></option>
+								<option value="!"<?=($filter['mode'] == '!' ? ' selected="selected"' : '')?>><?=l('is_not')?></option>
+								</select>
+							</td>
+							<td class="filter">
+								<select name="filters[version][value]">
+									<option></option>
+									<? foreach(projectversions($project['id']) as $version) { ?>
+									<option value="<?=$version['id']?>"<?=($filter['value'] == $version['id'] ? ' selected="selected"' : '')?>><?=$version['version']?></option>
+									<? } ?>
+								</select>
+							</td>
+							<td class="actions"><input type="submit" name="rm_filter_version" value="-" /></td>
+						</tr>
+					</tbody>
+					<? } elseif($filter['type'] == 'type') { ?>
+					<tbody>
+						<tr class="component">
+							<th scope="row"><label><?=l('type')?></label></th>
+							<td class="mode">
+								<select name="filters[type][mode]">
+								<option value=""<?=($filter['mode'] == '' ? ' selected="selected"' : '')?>><?=l('is')?></option>
+								<option value="!"<?=($filter['mode'] == '!' ? ' selected="selected"' : '')?>><?=l('is_not')?></option>
+								</select>
+							</td>
+							<td class="filter">
+								<select name="filters[type][value]">
+									<option></option>
+									<? foreach(gettypes() as $type) { ?>
+									<option value="<?=$type['id']?>"<?=($filter['value'] == $version['id'] ? ' selected="selected"' : '')?>><?=$type['name']?></option>
+									<? } ?>
+								</select>
+							</td>
+							<td class="actions"><input type="submit" name="rm_filter_version" value="-" /></td>
+						</tr>
+					</tbody>
 					<? } ?>
 					<? } ?>
 					<tbody>
@@ -111,9 +153,9 @@
 									<!--<option value="reporter"><?=l('reporter')?></option>
 									<option value="severity"><?=l('severity')?></option>-->
 									<option value="status"><?=l('status')?></option>
-									<!--<option value="summary"><?=l('summary')?></option>
+									<!--<option value="summary"><?=l('summary')?></option>-->
 									<option value="type"><?=l('type')?></option>
-									<option value="version"><?=l('version')?></option>-->
+									<option value="version"><?=l('version')?></option>
 								</select>
 								<input type="submit" name="add" value="+" />
 							</td>

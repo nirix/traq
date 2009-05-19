@@ -144,6 +144,16 @@ foreach($filterbits as $filterbit)
 			{
 				$query .= " AND componentid".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
 			}
+			// Version filter
+			elseif($filter['type'] == 'version')
+			{
+				$query .= " AND versionid".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
+			}
+			// Type filter
+			elseif($filter['type'] == 'type')
+			{
+				$query .= " AND type".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
+			}
 	}
 }
 $filterstring = $_SERVER['QUERY_STRING']; //implode('&',$filtersbits);
