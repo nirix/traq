@@ -154,6 +154,11 @@ foreach($filterbits as $filterbit)
 			{
 				$query .= " AND type".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
 			}
+			// Seveirty filter
+			elseif($filter['type'] == 'severity')
+			{
+				$query .= " AND severity".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
+			}
 	}
 }
 $filterstring = $_SERVER['QUERY_STRING']; //implode('&',$filtersbits);

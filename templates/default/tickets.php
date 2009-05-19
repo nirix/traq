@@ -136,6 +136,27 @@
 							<td class="actions"><input type="submit" name="rm_filter_version" value="-" /></td>
 						</tr>
 					</tbody>
+					<? } elseif($filter['type'] == 'severity') { ?>
+					<tbody>
+						<tr class="severity">
+							<th scope="row"><label><?=l('severity')?></label></th>
+							<td class="mode">
+								<select name="filters[severity][mode]">
+								<option value=""<?=($filter['mode'] == '' ? ' selected="selected"' : '')?>><?=l('is')?></option>
+								<option value="!"<?=($filter['mode'] == '!' ? ' selected="selected"' : '')?>><?=l('is_not')?></option>
+								</select>
+							</td>
+							<td class="filter">
+								<select name="filters[severity][value]">
+									<option></option>
+									<? foreach(getseverities() as $severity) { ?>
+									<option value="<?=$severity['id']?>"<?=($filter['value'] == $severity['id'] ? ' selected="selected"' : '')?>><?=$severity['name']?></option>
+									<? } ?>
+								</select>
+							</td>
+							<td class="actions"><input type="submit" name="rm_filter_severity" value="-" /></td>
+						</tr>
+					</tbody>
 					<? } ?>
 					<? } ?>
 					<tbody>
@@ -150,8 +171,8 @@
 									<option value="milestone"><?=l('milestone')?></option>
 									<!--<option value="owner"><?=l('owner')?></option>-->
 									<option value="priority"><?=l('priority')?></option>
-									<!--<option value="reporter"><?=l('reporter')?></option>
-									<option value="severity"><?=l('severity')?></option>-->
+									<!--<option value="reporter"><?=l('reporter')?></option>-->
+									<option value="severity"><?=l('severity')?></option>
 									<option value="status"><?=l('status')?></option>
 									<!--<option value="summary"><?=l('summary')?></option>-->
 									<option value="type"><?=l('type')?></option>
@@ -171,6 +192,7 @@
 				<input type="checkbox" name="column[owner]" value="1" id="col_owner"<?=(in_array('owner',$columns) ? ' checked="checked"' : '')?> /> <label for="col_owner"><?=l('owner')?></label>
 				<input type="checkbox" name="column[type]" value="1" id="col_type"<?=(in_array('type',$columns) ? ' checked="checked"' : '')?> /> <label for="col_type"><?=l('type')?></label>
 				<input type="checkbox" name="column[priority]" value="1" id="col_priority"<?=(in_array('priority',$columns) ? ' checked="checked"' : '')?> /> <label for="col_priority"><?=l('priority')?></label>
+				<input type="checkbox" name="column[severity]" value="1" id="col_severity"<?=(in_array('severity',$columns) ? ' checked="checked"' : '')?> /> <label for="col_severity"><?=l('severity')?></label>
 				<input type="checkbox" name="column[component]" value="1" id="col_component"<?=(in_array('component',$columns) ? ' checked="checked"' : '')?> /> <label for="col_component"><?=l('component')?></label>
 				<input type="checkbox" name="column[milestone]" value="1" id="col_milestone"<?=(in_array('milestone',$columns) ? ' checked="checked"' : '')?> /> <label for="col_milestone"><?=l('milestone')?></label>
 				<input type="checkbox" name="column[version]" value="1" id="col_version"<?=(in_array('version',$columns) ? ' checked="checked"' : '')?> /> <label for="col_version"><?=l('version')?></label>
@@ -188,6 +210,7 @@
 					<? if(in_array('owner',$columns)) { ?><th class="owner"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=ownername&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('owner')?></a></th><? } ?>
 					<? if(in_array('type',$columns)) { ?><th class="type"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=type&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('type')?></a></th><? } ?>
 					<? if(in_array('priority',$columns)) { ?><th class="priority"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=priority&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('priority')?></a></th><? } ?>
+					<? if(in_array('severity',$columns)) { ?><th class="severity"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=severity&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('severity')?></a></th><? } ?>
 					<? if(in_array('component',$columns)) { ?><th class="component"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=componentid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('component')?></a></th><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><th class="milestone"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=milestoneid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('milestone')?></a></th><? } ?>
 					<? if(in_array('version',$columns)) { ?><th class="version"><a href="?<?=($filterstring != '' ? $filterstring.'&' : '')?>sort=versionid&order=<?=($_REQUEST['order'] == 'desc' ? 'asc' : 'desc')?>"><?=l('version')?></a></th><? } ?>
@@ -209,6 +232,7 @@
 					<? if(in_array('owner',$columns)) { ?><td class="owner"><?=$ticket['ownername']?></td><? } ?>
 					<? if(in_array('type',$columns)) { ?><td class="type"><?=tickettype($ticket['type'])?></td><? } ?>
 					<? if(in_array('priority',$columns)) { ?><td class="priority"><?=ticketpriority($ticket['priority'])?></td><? } ?>
+					<? if(in_array('severity',$columns)) { ?><td class="severity"><?=ticketseverity($ticket['severity'])?></td><? } ?>
 					<? if(in_array('component',$columns)) { ?><td class="component"><?=$ticket['component']['name']?></td><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td><? } ?>
 					<? if(in_array('version',$columns)) { ?><td class="vesrion"><?=$ticket['version']['version']?></td><? } ?>
