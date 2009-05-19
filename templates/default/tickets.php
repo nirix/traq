@@ -97,7 +97,7 @@
 			<fieldset>
 				<legend>Columns</legend>
 				<input type="checkbox" name="column[ticket]" value="1" id="col_ticket"<?=(in_array('ticket',$columns) ? ' checked="checked"' : '')?> /> <label for="col_ticket"><?=l('ticket')?></label>
-				<input type="checkbox" name="column[summary]" value="1" id="col_summary"<?=(in_array('ticket',$columns) ? ' checked="checked"' : '')?> /> <label for="col_summary"><?=l('summary')?></label>
+				<input type="checkbox" name="column[summary]" value="1" id="col_summary"<?=(in_array('summary',$columns) ? ' checked="checked"' : '')?> /> <label for="col_summary"><?=l('summary')?></label>
 				<input type="checkbox" name="column[status]" value="1" id="col_status"<?=(in_array('status',$columns) ? ' checked="checked"' : '')?> /> <label for="col_status"><?=l('status')?></label>
 				<input type="checkbox" name="column[owner]" value="1" id="col_owner"<?=(in_array('owner',$columns) ? ' checked="checked"' : '')?> /> <label for="col_owner"><?=l('owner')?></label>
 				<input type="checkbox" name="column[type]" value="1" id="col_type"<?=(in_array('type',$columns) ? ' checked="checked"' : '')?> /> <label for="col_type"><?=l('type')?></label>
