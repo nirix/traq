@@ -134,9 +134,15 @@ foreach($filterbits as $filterbit)
 					$query .= " AND (status=".implode(' OR status=',$filter['values']).")";
 				}
 			}
+			// Priority filter
 			elseif($filter['type'] == 'priority')
 			{
 				$query .= " AND priority".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
+			}
+			// Component filter
+			elseif($filter['type'] == 'component')
+			{
+				$query .= " AND componentid".$filter['mode']."='".$db->escapestring($filter['value'])."'";	
 			}
 	}
 }

@@ -73,6 +73,27 @@
 							<td class="actions"><input type="submit" name="rm_filter_priority" value="-" /></td>
 						</tr>
 					</tbody>
+					<? } elseif($filter['type'] == 'component') { ?>
+					<tbody>
+						<tr class="component">
+							<th scope="row"><label><?=l('component')?></label></th>
+							<td class="mode">
+								<select name="filters[component][mode]">
+								<option value=""<?=($filter['mode'] == '' ? ' selected="selected"' : '')?>><?=l('is')?></option>
+								<option value="!"<?=($filter['mode'] == '!' ? ' selected="selected"' : '')?>><?=l('is_not')?></option>
+								</select>
+							</td>
+							<td class="filter">
+								<select name="filters[component][value]">
+									<option></option>
+									<? foreach(projectcomponents($project['id']) as $component) { ?>
+									<option value="<?=$component['id']?>"<?=($filter['value'] == $component['id'] ? ' selected="selected"' : '')?>><?=$component['name']?></option>
+									<? } ?>
+								</select>
+							</td>
+							<td class="actions"><input type="submit" name="rm_filter_component" value="-" /></td>
+						</tr>
+					</tbody>
 					<? } ?>
 					<? } ?>
 					<tbody>
@@ -82,8 +103,8 @@
 								<label for="add_filter"><?=l('add_filter')?></label> 
 								<select name="add_filter" id="add_filter">
 									<option></option>
-									<!--<option value="component"><?=l('component')?></option>
-									<option value="description"><?=l('description')?></option>-->
+									<option value="component"><?=l('component')?></option>
+									<!--<option value="description"><?=l('description')?></option>-->
 									<option value="milestone"><?=l('milestone')?></option>
 									<!--<option value="owner"><?=l('owner')?></option>-->
 									<option value="priority"><?=l('priority')?></option>
