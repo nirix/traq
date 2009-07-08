@@ -76,7 +76,7 @@ unset($fetchsettings,$info);
 $uri->type = $settings->uritype;
 
 // Load the language
-require(TRAQPATH."include/lang/enus.php");
+require(TRAQPATH."include/lang/".$settings->langfile.".php");
 
 // Load Akismet class
 require(TRAQPATH."include/akismet.class.php");

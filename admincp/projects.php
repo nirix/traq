@@ -67,6 +67,9 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 		if($db->numrows($db->query("SELECT slug FROM ".DBPREFIX."projects WHERE slug='".$db->escapestring($_POST['slug'])."' LIMIT 1"))) {
 			$errors['slug'] = "Slug must be unique";
 		}
+		if(!count($_POST['managers'])) {
+			$errors['managers'] = "You must select at least one manager";
+		}
 	}
 	
 	if(!count($errors) && isset($_POST['do'])) {

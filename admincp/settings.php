@@ -22,6 +22,7 @@ if($_POST['do'] == "update") {
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['theme'])."' WHERE setting='theme' LIMIT 1");
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['cleanuris'])."' WHERE setting='uritype' LIMIT 1");
 	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['akismetkey'])."' WHERE setting='akismetkey' LIMIT 1");
+	$db->query("UPDATE ".DBPREFIX."settings SET value='".$db->escapestring($_POST['langfile'])."' WHERE setting='langfile' LIMIT 1");
 	($hook = FishHook::hook('admin_settings_save')) ? eval($hook) : false;
 	header("Location: settings.php?updated");
 } else {
@@ -48,6 +49,23 @@ if($_POST['do'] == "update") {
 								if(is_dir('../templates/'.$theme) && !in_array($theme,$hiddenfiles)) {
 							?>
 							<option value="<?=$theme?>"<?=($settings->theme == $theme ? ' selected="selected"' : '')?>><?=$theme?></option>
+							<?
+								}
+							}
+							?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th>Language</th>
+					<td>
+						<select name="langfile">
+							<?
+							foreach(scandir('../include/lang') as $lang) {
+								$lang = str_replace('.php','',$lang);
+								if(!in_array($lang,$hiddenfiles)) {
+							?>
+							<option value="<?=$lang?>"<?=($settings->langfile == $lang ? ' selected="selected"' : '')?>><?=$lang?></option>
 							<?
 								}
 							}
