@@ -325,7 +325,7 @@ function formattext($text) {
 	// Plugin Hook
 	($hook = FishHook::hook('common_formattext')) ? eval($hook) : false;
 	// Return  for display
-	return str_replace("\n\r","<br /><br />",$text);
+	return str_replace("\r","<br />",$text);
 }
 
 /**
