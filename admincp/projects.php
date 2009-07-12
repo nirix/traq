@@ -107,7 +107,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Slug</th>
-						<td><input type="text" name="slug" /></td>
+						<td><input type="text" name="slug" /><br /><small>This is used in the URI (yoursite.com/{slug}/ticket/5)</small></td>
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
@@ -125,7 +125,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>SVN Location</th>
-						<td><input type="text" name="sourcelocation" /></td>
+						<td><input type="text" name="sourcelocation" /><br /><small>Example: http://svn.yoursite.com/repos/your_repo</small></td>
 					</tr>
 					<tr valign="top">
 						<th></th>
@@ -187,7 +187,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>Slug</th>
-						<td><input type="text" name="slug" value="<?=$project['slug']?>" /></td>
+						<td><input type="text" name="slug" value="<?=$project['slug']?>" /><br /><small>This is used in the URI (yoursite.com/{slug}/ticket/5)</small></td>
 					</tr>
 					<tr valign="top">
 						<th>Description</th>
@@ -205,7 +205,7 @@ if($_REQUEST['action'] == "manage" || $_REQUEST['action'] == '') {
 					</tr>
 					<tr valign="top">
 						<th>SVN Location</th>
-						<td><input type="text" name="sourcelocation" value="<?=$project['sourcelocation']?>" /></td>
+						<td><input type="text" name="sourcelocation" value="<?=$project['sourcelocation']?>" /><br /><small>Example: http://svn.yoursite.com/repos/your_repo</small></td>
 					</tr>
 					<tr valign="top">
 						<th></th>
