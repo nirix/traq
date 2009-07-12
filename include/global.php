@@ -13,6 +13,12 @@
 // Start the session...
 session_start();
 
+// Set Content type and charset
+header("Content-Type: text/html; charset=UTF-8");
+
+// Fetch common functions file
+require(TRAQPATH."include/common.php");
+
 // Fetch Version file
 include(TRAQPATH."include/version.php");
 
@@ -55,12 +61,6 @@ while($info = $db->fetcharray($fetchplugins))
 	}
 }
 unset($fetchplugins,$info);
-
-// Set Content type and charset
-header("Content-Type: text/html; charset=UTF-8");
-
-// Fetch common functions file
-require(TRAQPATH."include/common.php");
 
 // Get settings
 $settings = (object) array();
