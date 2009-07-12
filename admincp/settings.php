@@ -89,7 +89,8 @@ if($_POST['do'] == "update") {
 			<div class="content-title">Akismet Settings</div>
 			<table width="100%">
 				<tr valign="top">
-					<th width="170">WordPress API Key</th>
+					<th width="170">WordPress API Key<br />
+					<small>Get an API key from <a href="http://wordpress.com">WordPress.com</a></small></th>
 					<td><input type="text" name="akismetkey" value="<?=$settings->akismetkey?>" /><br />Leave blank to disable.</td>
 				</tr>
 			</table>
