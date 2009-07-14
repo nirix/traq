@@ -143,9 +143,9 @@ function ticket_types()
 	
 	$types = array();
 	$fetch = $db->query("SELECT * FROM ".DBPF."ticket_types ORDER BY id ASC");
-	while($info = $db->fetcharray($fetch)) {
+	while($info = $db->fetcharray($fetch))
 		$types[] = $info;
-	}
+	
 	($hook = FishHook::hook('function_ticket_types')) ? eval($hook) : false;
 	return $types;
 }
@@ -160,9 +160,9 @@ function ticket_priorities()
 	
 	$priorities = array();
 	$fetch = $db->query("SELECT * FROM ".DBPF."priorities ORDER BY id DESC");
-	while($info = $db->fetcharray($fetch)) {
+	while($info = $db->fetcharray($fetch))
 		$priorities[] = $info;
-	}
+	
 	($hook = FishHook::hook('function_ticket_priorities')) ? eval($hook) : false;
 	return $priorities;
 }
@@ -177,9 +177,9 @@ function ticket_severities()
 	
 	$severities = array();
 	$fetch = $db->query("SELECT * FROM ".DBPF."severities ORDER BY id ASC");
-	while($info = $db->fetcharray($fetch)) {
+	while($info = $db->fetcharray($fetch))
 		$severities[] = $info;
-	}
+	
 	($hook = FishHook::hook('function_ticket_severities')) ? eval($hook) : false;
 	return $severities;
 }
@@ -196,9 +196,8 @@ function project_milestones($project_id=NULL)
 	$milestones = array();
 	$fetch = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$db->es($project_id)."' ORDER BY displayorder ASC");
 	while($info = $db->fetcharray($fetch))
-	{
 		$milestones[] = $info;
-	}
+	
 	($hook = FishHook::hook('function_project_milestones')) ? eval($hook) : false;
 	return $milestones;
 }
@@ -215,9 +214,8 @@ function project_versions($project_id=NULL)
 	$versions = array();
 	$fetch = $db->query("SELECT * FROM ".DBPF."versions WHERE project_id='".$db->es($project_id)."' ORDER BY version ASC");
 	while($info = $db->fetcharray($fetch))
-	{
 		$versions[] = $info;
-	}
+	
 	($hook = FishHook::hook('function_project_verions')) ? eval($hook) : false;
 	return $versions;
 }
@@ -234,9 +232,8 @@ function project_components($project_id=NULL)
 	$components = array();
 	$fetch = $db->query("SELECT * FROM ".DBPF."components WHERE project_id='".$db->es($project_id)."' ORDER BY name ASC");
 	while($info = $db->fetcharray($fetch))
-	{
 		$components[] = $info;
-	}
+	
 	($hook = FishHook::hook('function_project_components')) ? eval($hook) : false;
 	return $components;
 }
