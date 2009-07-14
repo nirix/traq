@@ -1,0 +1,255 @@
+/*
+	Traq 2
+	Copyright (c) 2009 Jack Polgar
+	All Rights Reserved
+	
+	http://traqproject.org
+*/
+
+/* Global stuff */
+body {
+	background: #e8f5fd;
+	color: #000;
+	font-family: arial;
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+}
+
+#page {
+	background: #fff;
+	padding: 10px;
+}
+
+a {
+	color: #0092e8;
+}
+
+#head {
+	padding-top: 5px;
+	background: url('images/headerbg.png');
+}
+#head span {
+	font-size: 25px;
+	font-weight: bold;
+	padding-left: 10px;
+}
+#head span a {
+	text-decoration: none;
+	color: #000;
+}
+
+#nav {
+	padding: 0;
+	height: 28px;
+	border-bottom: 1px solid #95d2f6;
+	font-size: 12px;
+}
+#nav ul {
+	float: left;
+	margin: 0px;
+	padding: 0px;
+	margin-right: 5px;
+	margin-top: 4px;
+	padding-left: 10px;
+}
+#nav ul li {
+	padding: 0px;
+	margin: 0px;
+	display: inline;
+}
+#nav ul li a {
+	height: 18px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	display: block;
+	float: left;
+	border: 1px solid #95d2f6;
+	border-left: 0;
+	border-bottom: 0px;
+	background: #fff;
+}
+#nav ul li.active a {
+	height: 19px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	display:block;
+	float: left;
+	border-bottom: 0px;
+	background: #fff;
+}
+#nav ul li.first a {
+	border-left: 1px solid #95d2f6;
+}
+#nav ul a, #nav ul li.active a:hover {
+	text-decoration: none;
+}
+#nav ul a:hover {
+	text-decoration: underline;
+}
+#nav #meta_nav {
+	float: right;
+	padding-top: 8px;
+	padding-right: 8px;
+}
+#nav ul li.standalone a {
+	margin-left: 10px;
+	border-left: 1px solid #95d2f6;
+}
+
+#foot {
+	border-top: 1px solid #95d2f6;
+	padding: 5px;
+	font-size: small;
+}
+#foot #copyright {
+	float: right;
+}
+
+h1 {
+	font-size: 20px;
+	margin: 0;
+}
+h2 {
+	font-size: 18px;
+}
+
+/* Project listing */
+ul.projects {
+	
+}
+ul.projects li {
+	margin: 10px 0;
+}
+ul.projects h2 {
+	margin: 0;
+}
+ul.projects .quick_nav {
+	margin: 2px 0;
+	display: block;
+	font-size: 12px;
+}
+
+/* Milestone stuff */
+.milestone {
+	margin: 12px 0;
+}
+.milestone h2 {
+	margin: 0;
+}
+.milestone .progress {
+	width: 250px;
+	border: 1px solid #000;
+}
+.milestone .progress td {
+	
+}
+.milestone .progress .closed {
+	background: #317b2c;
+}
+.milestone .progress a {
+	display: block;
+	padding: 6px 0;
+}
+.milestone .percent {
+	font-size: small;
+}
+.milestone .info dl {
+	font-size: 10px;
+	font-style: italic;
+	margin: 2px 0 7px;
+	white-space: nowrap;
+}
+.milestone .info dt {
+	display: inline;
+	margin: 0;
+}
+.milestone .info dd {
+	display: inline;
+	margin: 0 8px 0 2px;
+}
+.milestone .date {
+	color: #888;
+	font-style: italic;
+	margin: 0;
+}
+
+/* Form stuff */
+form.new_ticket {
+	margin: 0 auto;
+}
+form p#buttons {
+	margin: 5px 0 0 0;
+}
+fieldset#ticket_properties th {
+	text-align: right;
+	width: 25%;
+	padding-right: 2px;
+	font-weight: normal;
+}
+fieldset#ticket_properties td {
+	padding-left: 2px;
+	width: 25%;
+}
+fieldset#ticket_properties .col2 {
+	border-left: 1px solid #d7d7d7;
+}
+input[type=text], input[type=password], textarea {
+	border: 1px solid #d7d7d7;
+}
+input[type=text], input[type=password] {
+	padding: .25em .5em;
+}
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	border: 1px solid #886;
+}
+fieldset {
+	border: 1px solid #d7d7d7;
+	padding: .5em;
+	margin: 0 0 4px 0;
+}
+fieldset.iefix {
+	background: transparent;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+* html fieldset.iefix {
+	width: 98%;
+}
+fieldset.iefix p {
+	margin: 0;
+}
+legend {
+	color: #999;
+	padding: 0 .25em;
+	font-size: 90%;
+	font-weight: bold;
+}
+label.disabled {
+	color: #d7d7d7;
+}
+fieldset.error {
+	border: 1px solid #C00;
+	color: #C00;
+}
+fieldset.error legend {
+	color: #C00;
+}
+fieldset.error input[type=text], fieldset.error input[type=password] {
+	border: 1px solid #C00;
+}
+
+/* New/Edit ticket form */
+form.new_ticket {
+	width: 600px;
+}
+form.new_ticket input.summary {
+	width: 98%;
+}
+form.new_ticket textarea.body {
+	width: 98%;
+	height: 150px;
+}
