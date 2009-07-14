@@ -40,13 +40,21 @@ function template($template)
 {
 	($hook = FishHook::hook('template_function')) ? eval($hook) : false;
 	
+	// Check if the template exists
 	if(file_exists(TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php")) {
 		return TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php";
 	} else {
+	// Display an error it we couldn't load it
 		error("Template","Unable to load file: <code>".settings('theme')."/".$template."</code>");
 	}
 }
 
+/**
+ * Add Breadcrumb
+ * Used to easily add breadcrumbs.
+ * @param string $url The URL.
+ * @param string $label The Label.
+ */
 function addcrumb($url,$label)
 {
 	global $breadcrumbs;
@@ -110,7 +118,10 @@ function is_project($string)
 	return $db->numrows($db->query("SELECT slug FROM ".DBPF."projects WHERE slug='".$db->escapestring($string)."' LIMIT 1"));
 }
 
-//
+/**
+ * Simple if()
+ * Used to easy execute a condition.
+ */
 function iif($condition, $true, $false='')
 {
 	return ($condition ? $true : $false);

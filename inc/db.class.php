@@ -58,6 +58,11 @@ class Database
 		mysql_select_db($dbname,$this->link);
 	}
 	
+	/**
+	 * Query
+	 * Query the selected Database.
+	 * @param string $query The query to run.
+	 */
 	public function query($query)
 	{
 		$result = mysql_query($query,$this->link) or $this->halt($query);
@@ -66,6 +71,10 @@ class Database
 		return $result;
 	}
 	
+	/**
+	 * Fetch Array
+	 * Returns an array that corresponds to the fetched row.
+	 */
 	public function fetcharray($result)
 	{
 		$result = mysql_fetch_array($result); // or $this->halt();
@@ -82,26 +91,38 @@ class Database
 		return mysql_real_escape_string($string);
 	}
 	
+	/**
+	 * Num Rows
+	 * Get number of rows in result.
+	 */
 	public function numrows($result)
 	{
 		return mysql_num_rows($result);
 	}
 	
+	/**
+	 * Query First
+	 * Query and fetch the array of the first row returned.
+	 * @param string $query The query.
+	 */
 	public function queryfirst($query)
 	{
 		return $this->fetcharray($this->query($query));
 	}
 	
+	// MySQL Error number
 	private function errno()
 	{
 		return mysql_errno($this->link);
 	}
 	
+	// MySQL Error
 	private function error()
 	{
 		return mysql_error($this->link);
 	}
 	
+	// Used to display the error
 	private function halt($query=NULL)
 	{
 		error('Database','#'.$this->errno().': '.$this->error());

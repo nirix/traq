@@ -7,6 +7,7 @@
  * $Id$
  */
 
+// Set the full path to the Traq folder
 define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__));
 
 // Fetch core file.
