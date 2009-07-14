@@ -204,6 +204,67 @@ function project_milestones($project_id=NULL)
 }
 
 /**
+ * Project Versions
+ * Fetches the project verions.
+ */
+function project_versions($project_id=NULL)
+{
+	global $project, $db;
+	$project_id = ($project_id == NULL ? $project['id'] : $project_id);
+	
+	$versions = array();
+	$fetch = $db->query("SELECT * FROM ".DBPF."versions WHERE project_id='".$db->es($project_id)."' ORDER BY version ASC");
+	while($info = $db->fetcharray($fetch))
+	{
+		$versions[] = $info;
+	}
+	($hook = FishHook::hook('function_project_verions')) ? eval($hook) : false;
+	return $versions;
+}
+
+/**
+ * Project Components
+ * Fetches the project components.
+ */
+function project_components($project_id=NULL)
+{
+	global $project, $db;
+	$project_id = ($project_id == NULL ? $project['id'] : $project_id);
+	
+	$components = array();
+	$fetch = $db->query("SELECT * FROM ".DBPF."components WHERE project_id='".$db->es($project_id)."' ORDER BY name ASC");
+	while($info = $db->fetcharray($fetch))
+	{
+		$components[] = $info;
+	}
+	($hook = FishHook::hook('function_project_components')) ? eval($hook) : false;
+	return $components;
+}
+
+/**
+ * Project Managers
+ * Fetches the project managers.
+ */
+function project_managers()
+{
+	global $project, $db;
+	$project_id = ($project_id == NULL ? $project['id'] : $project_id);
+	
+	if(!isset($project))
+		$info = $db->queryfirst("SELECT managers FROM ".DBPF."projects WHERE id='".$db->es($project_id)."' LIMIT 1");
+	else
+		$info = $project['managers'];
+	
+	$managers = array();
+	$manager_ids = explode(',',$info);
+	
+	foreach($manager_ids as $id)
+		$managers[] = $db->queryfirst("SELECT id,login,name FROM ".DBPF."users WHERE id='".$db->es($id)."' LIMIT 1");
+		
+	return $managers;
+}
+
+/**
  * Calcuate Percent
  * Used to calculate the percent of two numbers,
  * if both numbers are the same, 100(%) is returned.

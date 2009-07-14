@@ -35,7 +35,14 @@
 							</select>
 						</td>
 						<th class="col2"><?=l('assign_to')?></th>
-						<td></td>
+						<td>
+							<select name="assignto">
+								<option value="" selected=""></option>
+								<? foreach(project_managers() as $manager) { ?>
+								<option value="<?=$manager['id']?>"><?=$manager['name']?></option>
+								<? } ?>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<th class="col1"><?=l('priority')?></th>
@@ -65,11 +72,24 @@
 							</select>
 						</td>
 						<th class="col2"><?=l('version')?></th>
-						<td></td>
+						<td>
+							<select name="version">
+								<option value="" selected=""></option>
+								<? foreach(project_versions() as $version) { ?>
+								<option value="<?=$version['id']?>"><?=$version['version']?></option>
+								<? } ?>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<th class="col1"><?=l('component')?></th>
-						<td></td>
+						<td>
+							<select name="component">
+								<? foreach(project_components() as $component) { ?>
+								<option value="<?=$component['id']?>"<?=iif($component['default'],' selected="selected"')?>><?=$component['name']?></option>
+								<? } ?>
+							</select>
+						</td>
 						<th class="col2"></th>
 						<td></td>
 					</tr>
