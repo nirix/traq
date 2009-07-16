@@ -7,6 +7,12 @@
  * $Id$
  */
 
+/**
+ * Traq English Localization
+ * Name: English
+ * Author: Jack Polgar
+ */
+
 // Global / Misc / In more than one place
 $lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; 2009 Jack Polgar';
 $lang['login'] = 'Login';
@@ -33,6 +39,7 @@ $lang['version'] = 'Version';
 $lang['component'] = 'Component';
 $lang['your_name'] = 'Your name';
 $lang['recaptcha'] = 'reCAPTCHA';
+$lang['private_ticket'] = 'Private Ticket';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';
