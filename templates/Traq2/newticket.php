@@ -36,7 +36,7 @@
 						</td>
 						<th class="col2"><?=l('assign_to')?></th>
 						<td>
-							<select name="assignto">
+							<select name="assign_to">
 								<option value="" selected=""></option>
 								<? foreach(project_managers() as $manager) { ?>
 								<option value="<?=$manager['id']?>"><?=$manager['name']?></option>

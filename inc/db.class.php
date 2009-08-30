@@ -101,6 +101,15 @@ class Database
 	}
 	
 	/**
+	 * Real Escape String
+	 * Escapes the string, making it safe for use in queries.
+	 */
+	public function res($string)
+	{
+		return mysql_real_escape_string($string);
+	}
+	
+	/**
 	 * Query First
 	 * Query and fetch the array of the first row returned.
 	 * @param string $query The query.

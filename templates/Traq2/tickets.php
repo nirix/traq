@@ -10,7 +10,18 @@
 		<? require(template('breadcrumbs')); ?>
 		
 		<h1><?=l('tickets')?></h1>
-		
+		<table>
+			<thead>
+				<th>ID</th>
+				<th>Summary</th>
+			</thead>
+			<tbody>
+				<? foreach($tickets as $ticket) { ?>
+				<td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td>
+				<td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?></a></td>
+				<? } ?>
+			</tbody>
+		</table>
 		
 		<? require(template('footer')); ?>
 	</body>

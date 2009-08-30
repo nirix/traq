@@ -37,13 +37,21 @@ class User
 		else
 		{
 			// Logged out...
-			
 		}
 		
 		// Get group info
 		$this->group = $db->queryfirst("SELECT * FROM ".DBPF."usergroups WHERE id='".$this->info['group_id']."' LIMIT 1");
 		
 		($hook = FishHook::hook('user_construct')) ? eval($hook) : false;
+	}
+	
+	/**
+	 * Get User Info
+	 */
+	public function getinfo($userid)
+	{
+		global $db;
+		return $db->queryfirst("SELECT * FROM ".DBPF."users WHERE id='".$db->res($userid)."' LIMIT 1");
 	}
 }
 ?>
