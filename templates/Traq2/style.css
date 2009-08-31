@@ -176,6 +176,18 @@ ul.projects .quick_nav {
 	margin: 0;
 }
 
+/* Messages */
+.message.error {
+	border: 1px solid #C00;
+	color: #C00;
+	padding: 4px;
+	margin-bottom: 4px;
+}
+.error {
+	border: 1px solid #C00;
+	color: #C00;
+}
+
 /* Form stuff */
 form.new_ticket {
 	margin: 0 auto;

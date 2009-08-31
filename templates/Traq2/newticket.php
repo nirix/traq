@@ -19,12 +19,12 @@
 			<? } ?>
 		</div>
 		<? } ?>
-			<fieldset>
+			<fieldset<?=(isset($errors['summary']) ? ' class="error"' : '')?>>
 				<legend><?=l('summary')?></legend>
 				<input type="text" name="summary" class="summary" value="<?=$_POST['summary']?>" />
 			</fieldset>
 			
-			<fieldset>
+			<fieldset<?=(isset($errors['body']) ? ' class="error"' : '')?>>
 				<legend><?=l('description')?></legend>
 				<textarea name="body" class="body"><?=$_POST['body']?></textarea>
 			</fieldset>
@@ -111,7 +111,7 @@
 			<? if(settings('use_recaptcha')) { ?>
 			<fieldset<?=(isset($errors['key']) ? ' class="error"' : '')?>>
 				<legend><?=l('recaptcha')?></legend>
-				<? echo recaptcha_get_html(settings('recaptcha_pubkey'), $error); ?>
+				<? echo recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error); ?>
 			</fieldset>
 			<? } ?>
 			<? } ?>

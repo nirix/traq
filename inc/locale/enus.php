@@ -40,6 +40,9 @@ $lang['component'] = 'Component';
 $lang['your_name'] = 'Your name';
 $lang['recaptcha'] = 'reCAPTCHA';
 $lang['private_ticket'] = 'Private Ticket';
+$lang['ticket'] = 'Ticket';
+$lang['status'] = 'Status';
+$lang['owner'] = 'Owner';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';
@@ -67,4 +70,10 @@ $lang['x_week'] = '{1} week';
 $lang['x_month'] = '{1} month';
 $lang['x_year'] = '{1} year';
 $lang['x_and_x'] = '{1} and {2}';
+
+// Errors
+$lang['error_summary_empty'] = 'Summary cannot be blank.';
+$lang['error_body_empty'] = 'Description cannot be blank.';
+$lang['error_name_empty'] = 'Please fill in your Name.';
+$lang['error_recaptcha'] = 'reCaptcha must be valid.';
 ?>

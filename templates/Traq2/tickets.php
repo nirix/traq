@@ -15,6 +15,14 @@
 				<tr>
 					<? if(in_array('ticket',$columns)) { ?><th><?=l('ticket')?></th><? } ?>
 					<? if(in_array('summary',$columns)) { ?><th><?=l('summary')?></th><? } ?>
+					<? if(in_array('status',$columns)) { ?><th><?=l('status')?></th><? } ?>
+					<? if(in_array('owner',$columns)) { ?><th><?=l('owner')?></th><? } ?>
+					<? if(in_array('type',$columns)) { ?><th><?=l('type')?></th><? } ?>
+					<? if(in_array('severity',$columns)) { ?><th><?=l('severity')?></th><? } ?>
+					<? if(in_array('component',$columns)) { ?><th><?=l('component')?></th><? } ?>
+					<? if(in_array('milestone',$columns)) { ?><th><?=l('milestone')?></th><? } ?>
+					<? if(in_array('version',$columns)) { ?><th><?=l('version')?></th><? } ?>
+					<? if(in_array('assigned_to',$columns)) { ?><th><?=l('assigned_to')?></th><? } ?>
 				</tr>
 			</thead>
 			<tbody>

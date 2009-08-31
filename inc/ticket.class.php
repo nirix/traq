@@ -15,13 +15,13 @@ class Ticket
 		
 		// Check fields for errors.
 		if(empty($data['summary']))
-			$errors[] = l('error_summary_empty');
+			$errors['summary'] = l('error_summary_empty');
 		
 		if(empty($data['body']))
-			$errors[] = l('error_body_empty');
+			$errors['body'] = l('error_body_empty');
 			
 		if(empty($data['name']) && !$user->loggedin)
-			$errors[] = l('error_name_empty');
+			$errors['name'] = l('error_name_empty');
 		
 		if(count($errors))
 		{

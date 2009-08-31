@@ -25,15 +25,23 @@ addcrumb($uri->geturi(),l('new_ticket'));
 include(TRAQPATH.'inc/ticket.class.php');
 $ticket = new Ticket;
 
+$resp = recaptcha_check_answer(settings('recaptcha_privkey'),$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
+
+if(!$resp->is_valid) {
+	$recaptcha_error = $resp->error;
+}
+
 if(isset($_POST['summary']))
 {
-	if($ticket->create($_POST))
+	if($ticket->create($_POST) && !count($errors))
 	{
 		header("Location: ".$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket->ticket_id));
 	}
 	else
 	{
 		$errors = $ticket->errors;
+		if(isset($recaptcha_error))
+			$errors['recaptcha'] = l('error_recaptcha');
 	}
 }
 
