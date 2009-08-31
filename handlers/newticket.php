@@ -29,12 +29,11 @@ if(isset($_POST['summary']))
 {
 	if($ticket->create($_POST))
 	{
-		die('done');
+		header("Location: ".$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket->ticket_id));
 	}
 	else
 	{
 		$errors = $ticket->errors;
-		print_r($errors);
 	}
 }
 

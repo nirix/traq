@@ -61,6 +61,8 @@ class Ticket
 			)
 		");
 		
+		$this->ticket_id = $project['next_tid'];
+		
 		// Update Project's 'next_tid' field.
 		$db->query("UPDATE ".DBPF."projects SET next_tid=next_tid+1 WHERE id='".$db->res($project['id'])."' LIMIT 1");
 		

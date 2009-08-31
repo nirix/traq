@@ -11,15 +11,22 @@
 		
 		<h1><?=l('new_ticket')?></h1>
 		
-		<form action="" method="post" class="new_ticket">
+		<form action="<?=$uri->geturi()?>" method="post" class="new_ticket">
+		<? if(isset($errors)) { ?>
+		<div class="message error">
+			<? foreach($errors as $error) { ?>
+			<?=$error?><br />
+			<? } ?>
+		</div>
+		<? } ?>
 			<fieldset>
 				<legend><?=l('summary')?></legend>
-				<input type="text" name="summary" class="summary" />
+				<input type="text" name="summary" class="summary" value="<?=$_POST['summary']?>" />
 			</fieldset>
 			
 			<fieldset>
 				<legend><?=l('description')?></legend>
-				<textarea name="body" class="body"></textarea>
+				<textarea name="body" class="body"><?=$_POST['body']?></textarea>
 			</fieldset>
 			
 			<fieldset id="ticket_properties">

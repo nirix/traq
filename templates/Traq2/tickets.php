@@ -10,15 +10,19 @@
 		<? require(template('breadcrumbs')); ?>
 		
 		<h1><?=l('tickets')?></h1>
-		<table>
+		<table class="listing tickets">
 			<thead>
-				<th>ID</th>
-				<th>Summary</th>
+				<tr>
+					<? if(in_array('ticket',$columns)) { ?><th><?=l('ticket')?></th><? } ?>
+					<? if(in_array('summary',$columns)) { ?><th><?=l('summary')?></th><? } ?>
+				</tr>
 			</thead>
 			<tbody>
 				<? foreach($tickets as $ticket) { ?>
-				<td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td>
-				<td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?></a></td>
+				<tr>
+					<? if(in_array('ticket',$columns)) { ?><td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td><? } ?>
+					<? if(in_array('summary',$columns)) { ?><td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?></a></td><? } ?>
+				</tr>
 				<? } ?>
 			</tbody>
 		</table>
