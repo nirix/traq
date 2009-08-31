@@ -98,7 +98,7 @@
 							</select>
 						</td>
 						<th class="col2"><?=l('private_ticket')?></th>
-						<td><input type="checkbox" name="private" /></td>
+						<td><input type="checkbox" name="private" value="1" /></td>
 					</tr>
 				</table>
 			</fieldset>
