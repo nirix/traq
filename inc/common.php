@@ -185,6 +185,28 @@ function ticket_severities()
 }
 
 /**
+ * Ticket Status
+ * Gets the ticket status.
+ */
+function ticket_status($status_id)
+{
+	global $db;
+	$status = $db->queryfirst("SELECT * FROM ".DBPF."ticket_status WHERE id='".$db->res($status_id)."' LIMIT 1");
+	return $status['name'];
+}
+
+/**
+ * Ticket Type
+ * Gets the ticket type.
+ */
+function ticket_type($type_id)
+{
+	global $db;
+	$status = $db->queryfirst("SELECT * FROM ".DBPF."ticket_types WHERE id='".$db->res($type_id)."' LIMIT 1");
+	return $status['name'];
+}
+
+/**
  * Project Milestones
  * Fetches the project milestones.
  */

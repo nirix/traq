@@ -30,6 +30,14 @@
 				<tr>
 					<? if(in_array('ticket',$columns)) { ?><td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td><? } ?>
 					<? if(in_array('summary',$columns)) { ?><td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?></a></td><? } ?>
+					<? if(in_array('status',$columns)) { ?><td><?=ticket_status($ticket['status'])?></td><? } ?>
+					<? if(in_array('owner',$columns)) { ?><td><?=$ticket['user_name']?></td><? } ?>
+					<? if(in_array('type',$columns)) { ?><td><?=ticket_type($ticket['type'])?></td><? } ?>
+					<? if(in_array('severity',$columns)) { ?><td><?=$ticket['severity']?></td><? } ?>
+					<? if(in_array('component',$columns)) { ?><td><?=$ticket['component']['name']?></td><? } ?>
+					<? if(in_array('milestone',$columns)) { ?><td><?=$ticket['milestone']['milestone']?></td><? } ?>
+					<? if(in_array('version',$columns)) { ?><td><?=$ticket['version']['version']?></td><? } ?>
+					<? if(in_array('assigned_to',$columns)) { ?><td><?=$ticket['assignee']['login']?></td><? } ?>
 				</tr>
 				<? } ?>
 			</tbody>

@@ -15,5 +15,5 @@ if($ticket['private'] && (!$user->group['is_admin'] or ($user->info['id'] != $ti
 	exit;
 }
 
-print_r($ticket);
+include(template('view_ticket'));
 ?>

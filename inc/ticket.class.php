@@ -50,7 +50,7 @@ class Ticket
 			'".$db->res($data['version'])."',
 			'".$db->res($data['component'])."',
 			'".$db->res($data['type'])."',
-			'".$db->res($data['status'])."',
+			'1',
 			'".$db->res($data['priority'])."',
 			'".$db->res($data['severity'])."',
 			'".$db->res($data['assign_to'])."',

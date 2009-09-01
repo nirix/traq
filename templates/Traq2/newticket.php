@@ -37,7 +37,7 @@
 						<td>
 							<select name="type">
 								<? foreach(ticket_types() as $type) { ?>
-								<option value="<?=$type['name']?>"><?=$type['name']?></option>
+								<option value="<?=$type['id']?>"><?=$type['name']?></option>
 								<? } ?>
 							</select>
 						</td>
@@ -56,7 +56,7 @@
 						<td>
 							<select name="priority">
 								<? foreach(ticket_priorities() as $priority) { ?>
-								<option value="<?=$priority['name']?>"<?=($priority['name']=='Normal' ? ' selected="selected"' : '')?>><?=$priority['name']?></option>
+								<option value="<?=$priority['id']?>"<?=($priority['name']=='Normal' ? ' selected="selected"' : '')?>><?=$priority['name']?></option>
 								<? } ?>
 							</select>
 						</td>
@@ -64,7 +64,7 @@
 						<td>
 							<select name="severity">
 								<? foreach(ticket_severities() as $severity) { ?>
-								<option value="<?=$severity['name']?>"<?=($severity['name']=='Normal' ? ' selected="selected"' : '')?>><?=$severity['name']?></option>
+								<option value="<?=$severity['id']?>"<?=($severity['name']=='Normal' ? ' selected="selected"' : '')?>><?=$severity['name']?></option>
 								<? } ?>
 							</select>
 						</td>
