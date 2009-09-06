@@ -207,6 +207,28 @@ function ticket_type($type_id)
 }
 
 /**
+ * Ticket Priority
+ * Gets the ticket priority.
+ */
+function ticket_priority($priority_id)
+{
+	global $db;
+	$priority = $db->queryfirst("SELECT * FROM ".DBPF."priorities WHERE id='".$db->res($priority_id)."' LIMIT 1");
+	return $priority['name'];
+}
+
+/**
+ * Ticket Severity
+ * Gets the ticket severity.
+ */
+function ticket_severity($severity_id)
+{
+	global $db;
+	$severity = $db->queryfirst("SELECT * FROM ".DBPF."severities WHERE id='".$db->res($severity_id)."' LIMIT 1");
+	return $severity['name'];
+}
+
+/**
  * Project Milestones
  * Fetches the project milestones.
  */

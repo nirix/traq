@@ -9,7 +9,7 @@
 					<li class="first<?=iif(empty($uri->seg[1]),' active')?>"><a href="<?=$uri->anchor($project['slug'])?>"><?=l('project_info')?></a></li>
 					<li<?=iif($uri->seg[1]=='roadmap' or preg_match('/milestone-(?<slug>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'roadmap')?>"><?=l('roadmap')?></a></li>
 					<li<?=iif($uri->seg[1]=='timeline',' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'timeline')?>"><?=l('timeline')?></a></li>
-					<li<?=iif($uri->seg[1]=='tickets',' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'tickets')?>"><?=l('tickets')?></a></li>
+					<li<?=iif($uri->seg[1]=='tickets' or preg_match('/ticket-(?<ticket_id>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'tickets')?>"><?=l('tickets')?></a></li>
 					<li<?=iif($uri->seg[1]=='changelog',' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'changelog')?>"><?=l('changelog')?></a></li>
 					
 					<? if($user->group['create_tickets']) { ?>

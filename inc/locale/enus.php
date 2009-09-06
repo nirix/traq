@@ -43,6 +43,12 @@ $lang['private_ticket'] = 'Private Ticket';
 $lang['ticket'] = 'Ticket';
 $lang['status'] = 'Status';
 $lang['owner'] = 'Owner';
+$lang['reported_by'] = 'Reported by';
+$lang['assigned_to'] = 'Assigned to';
+$lang['attachments'] = 'Attachments';
+
+// Tickets
+$lang['ticket_x'] = 'Ticket #{1}';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';

@@ -265,3 +265,72 @@ form.new_ticket textarea.body {
 	width: 98%;
 	height: 150px;
 }
+
+/* Ticket display */
+#ticket {
+	background: #ffd;
+	border: 1px outset #996;
+	padding: 5px;
+	position: relative;
+}
+#ticket h1.summary {
+	margin: 0 0 8px 0;
+}
+#ticket h2.summary {
+	margin: 0 0 .8em 0;
+}
+#ticket .date {
+	color: #996;
+	float: right;
+	font-size: 85%;
+	position: relative;
+}
+#ticket .date p {
+	margin: 0;
+}
+
+#ticket table.properties {
+	border-top: 1px solid #dd9;
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100%;
+}
+#ticket table.properties tr {
+	border-bottom: 1px dotted #eed;
+}
+#ticket table.properties td, #ticket table.properties th {
+	font-size: 80%;
+	padding: .5em 1em;
+	vertical-align: top;
+}
+#ticket table.properties th {
+	color: #663;
+	font-weight: normal;
+	text-align: left;
+	width: 20%;
+}
+#ticket table.properties td {
+	width: 30%;
+}
+#ticket table.properties .description {
+	border-top: 1px solid #dd9;
+}
+
+
+#ticket .description h3 {
+	border-bottom: 1px solid #dd9;
+	color: #663;
+	font-size: 100%;
+	font-weight: normal;
+}
+#ticket .inlinebuttons, #history .inlinebuttons { 
+	float: right;
+}
+
+#ticket .inlinebuttons input, #history .inlinebuttons input {
+	font-size: 70% !important;
+	border-width: 1px;
+	border-style: dotted;
+	margin: 5px 0;
+	padding: 1px !important;
+}
