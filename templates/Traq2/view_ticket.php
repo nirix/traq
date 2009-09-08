@@ -11,7 +11,7 @@
 		
 		<div id="ticket">
 			<div class="date">
-				<p>Opened <?=timesince($ticket['timestamp'])?> ago</p>
+				<p>Opened <?=timesince($ticket['created'])?> ago</p>
 				<p>Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
 			<h1 class="summary"><?=$ticket['summary']?> <small>(<?=l('ticket_x',$ticket['ticket_id'])?>)</small> <? if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?>
@@ -22,7 +22,7 @@
 					<th id="h_owner"><?=l('reported_by')?>:</th>
 					<td headers="h_owner"><?=$ticket['user_name']?></td>
 					<th id="h_assignee"><?=l('assigned_to')?>:</th>
-					<td headers="h_assignee"><?=$assignee['login']?></td>
+					<td headers="h_assignee"><?=$ticket['assignee']['login']?></td>
 				</tr>
 				<tr>
 					<th id="h_type"><?=l('type')?>:</th>
@@ -34,11 +34,11 @@
 					<th id="h_severity"><?=l('severity')?>:</th>
 					<td headers="h_severity"><?=ticket_severity($ticket['severity'])?></td>
 					<th id="h_component"><?=l('component')?>:</th>
-					<td headers="h_component"><?=$component['name']?></td>
+					<td headers="h_component"><?=$ticket['component']['name']?></td>
 				</tr>
 				<tr>
 					<th id="h_milestone"><?=l('milestone')?>:</th>
-					<td headers="h_milestone"><?=$milestone['milestone']?></td>
+					<td headers="h_milestone"><?=$ticket['milestone']['milestone']?></td>
 					<th id="h_version"><?=l('version')?>:</th>
 					<td headers="h_version"><?=$version['version']?></td>
 				</tr>
@@ -55,7 +55,7 @@
 				<h3><?=l('attachments')?></h3>
 				<p id="attachments">
 					<ul>
-					<? foreach($attachments as $attachment) { ?>
+					<? foreach($ticket['attachments'] as $attachment) { ?>
 						<li>
 							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><? } ?>
 							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['ownername']?> <?=timesince($attachment['timestamp'])?> ago.
@@ -75,6 +75,90 @@
 			</div>
 		</div>
 		
+		<? if($user->group['update_tickets']) { ?>
+		<div id="update_ticket">
+			<h2><?=l('update_ticket')?></h2>
+			<fieldset class="properties">
+				<legend><?=l('ticket_properties')?></legend>
+				<table>
+					<tr>
+						<th class="col1"><?=l('type')?></td>
+						<td>
+							<select name="type">
+								<? foreach(ticket_types() as $type) { ?>
+								<option value="<?=$type['id']?>"<?=iif($type['id']==$ticket['type'],' selected="selected"')?>><?=$type['name']?></option>
+								<? } ?>
+							</select>
+						</td>
+						<th class="col2"><?=l('assigned_to')?></td>
+						<td>
+							<select name="assign_to">
+								<option value="" selected=""></option>
+								<? foreach(project_managers() as $manager) { ?>
+								<option value="<?=$manager['id']?>"<?=iif($manager['id']==$ticket['assigned_to'],' selected="selected"')?>><?=$manager['name']?></option>
+								<? } ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th class="col1"><?=l('priority')?></td>
+						<td>
+							<select name="priority">
+								<? foreach(ticket_priorities() as $priority) { ?>
+								<option value="<?=$priority['id']?>"<?=iif($priority['id']==$ticket['priority'],' selected="selected"')?>><?=$priority['name']?></option>
+								<? } ?>
+							</select>
+						</td>
+						<th class="col2"><?=l('severity')?></td>
+						<td>
+							<select name="severity">
+								<? foreach(ticket_severities() as $severity) { ?>
+								<option value="<?=$severity['id']?>"<?=iif($severity['id']==$ticket['severity'],' selected="selected"')?>><?=$severity['name']?></option>
+								<? } ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th class="col1"><?=l('milestone')?></td>
+						<td>
+							<select name="milestone">
+								<? foreach(project_milestones() as $milestone) { ?>
+								<option value="<?=$milestone['id']?>"<?=iif($milestone['id']==$ticket['milestone_id'],' selected="selected"')?>><?=$milestone['milestone']?></option>
+								<? } ?>
+							</select>
+						</td>
+						<th class="col2"><?=l('version')?></td>
+						<td>
+							<select name="version">
+								<option value="" selected=""></option>
+								<? foreach(project_versions() as $version) { ?>
+								<option value="<?=$version['id']?>"<?=iif($version['id']==$ticket['version_id'],' selected="selected"')?>><?=$version['version']?></option>
+								<? } ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th class="col1"><?=l('component')?></td>
+						<td>
+							<select name="component">
+								<? foreach(project_components() as $component) { ?>
+								<option value="<?=$component['id']?>"<?=iif($component['id']==$ticket['component_id'],' selected="selected"')?>><?=$component['name']?></option>
+								<? } ?>
+							</select>
+						</td>
+						<th class="col2"><?=l('summary')?></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th class="col1"><?=l('action')?></th>
+						<td></td>
+						<th class="col2"><?=l('private_ticket')?></th>
+						<td><input type="checkbox" name="private" value="1" /></td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+		<? } ?>
 		<? require(template('footer')); ?>
 	</body>
 </html>

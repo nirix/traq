@@ -49,6 +49,8 @@ $lang['attachments'] = 'Attachments';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
+$lang['update_ticket'] = 'Update Ticket';
+$lang['ticket_properties'] = 'Ticket Properties';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';

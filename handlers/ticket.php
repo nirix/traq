@@ -7,14 +7,9 @@
  * $Id$
  */
 
-$ticket = $db->queryfirst("SELECT * FROM ".DBPF."tickets WHERE ticket_id='".$matches['id']."' LIMIT 1"); // Fetch the ticket info
-$milestone = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE id='".$db->res($ticket['milestone_id'])."' LIMIT 1"); // Fetch the milestone info
-$version = $db->queryfirst("SELECT * FROM ".DBPF."versions WHERE id='".$db->res($ticket['version_id'])."' LIMIT 1"); // Fetch the version info
-$component = $db->queryfirst("SELECT * FROM ".DBPF."components WHERE id='".$db->res($ticket['component_id'])."' LIMIT 1"); // Fetch the component info
-
-// For now, just make the attachments an empty array,
-// this hides the errors.
-$attachments = array();
+include(TRAQPATH.'inc/ticket.class.php'); // Fetch the ticket class
+$ticket = new Ticket;
+$ticket = $ticket->get(array('ticket_id'=>$matches['id'],'project_id'=>$project['id'])); // Fetch the ticket.
 
 // Check if this is a private ticket,
 // if it is, only let the admins, managers and registered owner see it.
