@@ -46,6 +46,36 @@ class User
 	}
 	
 	/**
+	 * User login function
+	 * @access public
+	 * @param string $username Username
+	 * @param string $password Password
+	 * @return integer
+	 */
+	public function login($username,$password,$remember=0) {
+		global $db;
+		
+		$login = $db->query("SELECT * FROM ".DBPF."users WHERE login='".$db->es($username)."' AND password='".sha1($db->es($password))."' LIMIT 1");
+		if($db->numrows($login)) {
+			$this->db->query("UPDATE ".DBPF."users SET hash='".$db->es(sha1($password.time().$username))."' WHERE username='".$db->es($username)."' LIMIT 1");
+			if($remember) {
+				setcookie('traq_u',$username,time()+9999999,'/');
+				setcookie('traq_h',sha1($password.time().$username),time()+9999999,'/');
+				setcookie('traq_remember',1,time()+9999999,'/');
+			} else {
+				setcookie('traq_u',$username,0,'/');
+				setcookie('traq_h',sha1($password.time().$username),0,'/');
+				setcookie('traq_remember',0,0,'/');
+			}
+			return true;
+		} else {
+			unset($this->errors);
+			$this->errors[] = l('invalid_username_or_password');
+			return false;
+		}
+	}
+	
+	/**
 	 * Get User Info
 	 */
 	public function getinfo($userid)

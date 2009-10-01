@@ -2,7 +2,11 @@
 			<span><a href="<?=$uri->anchor()?>"><?=settings('title')?></a> <? if(is_project(PROJECT_SLUG)) { ?>/ <?=$project['name']?><? } ?></span>
 			<div id="nav">
 				<div id="meta_nav">
-					<a href="#"><?=l('login')?></a> | <a href="#"><?=l('register')?></a>
+				<? if($user->loggedin) { ?>
+				
+				<? } else { ?>
+					<a href="<?=$uri->anchor('user','login')?>"><?=l('login')?></a> | <a href="<?=$uri->anchor('user','register')?>"><?=l('register')?></a>
+				<? } ?>
 				</div>
 				<? if(is_project(PROJECT_SLUG)) { ?>
 				<ul>

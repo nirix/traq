@@ -46,6 +46,13 @@ $lang['owner'] = 'Owner';
 $lang['reported_by'] = 'Reported by';
 $lang['assigned_to'] = 'Assigned to';
 $lang['attachments'] = 'Attachments';
+$lang['remember'] = 'Remember';
+$lang['cancel'] = 'Cancel';
+$lang['username'] = 'Username';
+$lang['password'] = 'Password';
+$lang['full_name'] = 'Full name';
+$lang['confirm'] = 'Confirm';
+$lang['email'] = 'Email';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
@@ -84,4 +91,5 @@ $lang['error_summary_empty'] = 'Summary cannot be blank.';
 $lang['error_body_empty'] = 'Description cannot be blank.';
 $lang['error_name_empty'] = 'Please fill in your Name.';
 $lang['error_recaptcha'] = 'reCaptcha must be valid.';
+$lang['invalid_username_or_password'] = 'Invalid Username or Password';
 ?>
