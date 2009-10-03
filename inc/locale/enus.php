@@ -91,5 +91,10 @@ $lang['error_summary_empty'] = 'Summary cannot be blank.';
 $lang['error_body_empty'] = 'Description cannot be blank.';
 $lang['error_name_empty'] = 'Please fill in your Name.';
 $lang['error_recaptcha'] = 'reCaptcha must be valid.';
-$lang['invalid_username_or_password'] = 'Invalid Username or Password';
+$lang['error_invalid_username_or_password'] = 'Invalid Username or Password.';
+$lang['error_username_taken'] = 'Username is unavailable.';
+$lang['error_username_empty'] = 'You must enter a Username.';
+$lang['error_password_empty'] = 'Cannot have a blank password.';
+$lang['error_password_nomatch'] = 'Passwords dont match';
+$lang['error_email_empty'] = 'You must enter your email.';
 ?>

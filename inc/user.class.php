@@ -17,6 +17,7 @@ class User
 		);
 	public $group = NULL;
 	public $loggedin = false;
+	public $errors = NULL;
 	
 	/**
 	 * Consturct
@@ -57,7 +58,7 @@ class User
 		
 		$login = $db->query("SELECT * FROM ".DBPF."users WHERE login='".$db->es($username)."' AND password='".sha1($db->es($password))."' LIMIT 1");
 		if($db->numrows($login)) {
-			$this->db->query("UPDATE ".DBPF."users SET hash='".$db->es(sha1($password.time().$username))."' WHERE username='".$db->es($username)."' LIMIT 1");
+			$db->query("UPDATE ".DBPF."users SET sesshash='".$db->es(sha1($password.time().$username))."' WHERE login='".$db->es($username)."' LIMIT 1");
 			if($remember) {
 				setcookie('traq_u',$username,time()+9999999,'/');
 				setcookie('traq_h',sha1($password.time().$username),time()+9999999,'/');
@@ -70,8 +71,71 @@ class User
 			return true;
 		} else {
 			unset($this->errors);
-			$this->errors[] = l('invalid_username_or_password');
+			$this->errors[] = l('error_invalid_username_or_password');
 			return false;
+		}
+	}
+	
+	/**
+	 * Logout
+	 */
+	public function logout()
+	{
+		setcookie('traq_u','',0,'/');
+		setcookie('traq_h','',0,'/');
+		setcookie('traq_remember',0,0,'/');
+	}
+	
+	/**
+	 * Register
+	 */
+	public function register($data)
+	{
+		global $db;
+		
+		$data['id'] = 0;
+		$data['group_id'] = 2;
+		
+		// Check for errors
+		$errors = array();
+		if($db->numrows($db->query("SELECT login FROM ".DBPF."users WHERE login='".$db->escapestring($data['login'])."' LIMIT 1"))) {
+			$errors['login'] = l('error_username_taken');
+		}
+		if(empty($data['login'])) {
+			$errors['login'] = l('error_username_empty');
+		}
+		if(empty($data['password'])) {
+			$errors['password'] = l('error_password_empty');
+		}
+		if($data['password'] != $data['password2']) {
+			$errors['password'] = l('error_password_nomatch');
+		}
+		if(empty($data['email'])) {
+			$errors['email'] = l('error_email_empty');
+		}
+		if(count($errors) > 0)
+		{
+			$this->errors = $errors;
+			return false;
+		}
+		
+		// If no errors, create the account.
+		if(!$this->errors)
+		{
+			$data['password'] = sha1($data['password']);
+			$userfields = $this->getfields();
+			foreach($userfields as $field => $value) {
+				if(isset($data[$field])) {
+					$userfields[$field] = "'".$db->res($data[$field])."'";
+				} else {
+					$userfields[$field] = "'".$db->res($value)."'";
+				}
+			}
+			$queryvalues = implode(',',$userfields);
+			
+			$db->query("INSERT INTO ".DBPF."users VALUES ($queryvalues)");
+			
+			return true;
 		}
 	}
 	
@@ -82,6 +146,17 @@ class User
 	{
 		global $db;
 		return $db->queryfirst("SELECT * FROM ".DBPF."users WHERE id='".$db->res($userid)."' LIMIT 1");
+	}
+	
+	// This gets the default user values from the database and stores them in an array
+	private function getfields() {
+		global $db;
+		$userfields = array();
+		$getfields = $db->query("SHOW COLUMNS FROM ".DBPF."users");
+		while($info = $db->fetcharray($getfields)) {
+			$userfields[$info['Field']] = $info['Default'];
+		}
+		return $userfields;
 	}
 }
 ?>

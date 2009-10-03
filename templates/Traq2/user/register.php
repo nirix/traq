@@ -21,7 +21,7 @@
 			<div class="form register">
 				<fieldset>
 					<label><?=l('username')?></label>
-					<input type="text" name="username" />
+					<input type="text" name="login" />
 				</fieldset>
 				<fieldset>
 					<label><?=l('full_name')?></label>

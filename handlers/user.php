@@ -5,7 +5,7 @@
  * All Rights Reserved
  */
 
-if($uri->seg[1] == 'login')
+if($uri->seg[1] == "login")
 {
 	if($_POST['action'] == 'login')
 	{
@@ -16,15 +16,27 @@ if($uri->seg[1] == 'login')
 	}
 	include(template('user/login'));
 }
-elseif($uri->seg[1] == 'register')
+elseif($uri->seg[1] == "register")
 {
 	if($_POST['action'] == 'register')
 	{
+		$data = array(
+			'login' => $_POST['login'],
+			'password' => $_POST['password'],
+			'password2' => $_POST['password2'],
+			'email' => $_POST['email'],
+			'name' => $_POST['name']
+		);
 		if($user->register($data))
 		{
 			header("Location: ".$uri->anchor('user','settings')."?welcome");
 		}
 	}
 	include(template('user/register'));
+}
+elseif($uri->seg[1] == "logout")
+{
+	$user->logout();
+	header("Location: ".$uri->anchor());
 }
 ?>
