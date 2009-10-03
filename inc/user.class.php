@@ -148,7 +148,7 @@ class User
 		return $db->queryfirst("SELECT * FROM ".DBPF."users WHERE id='".$db->res($userid)."' LIMIT 1");
 	}
 	
-	// This gets the default user values from the database and stores them in an array
+	// This gets the default user values from the database and returns them in an array
 	private function getfields() {
 		global $db;
 		$userfields = array();

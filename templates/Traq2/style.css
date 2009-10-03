@@ -374,3 +374,129 @@ form.new_ticket textarea.body {
 	margin: 5px 0;
 	padding: 1px !important;
 }
+
+/* Listings table */
+table.listing {
+	clear: both;
+	border-bottom: 1px solid #d7d7d7;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-top: 1em;
+	width: 100%;
+}
+table.listing th {
+	text-align: left;
+	padding: 0 1em .1em 0;
+	font-size: 12px;
+}
+table.listing thead {
+	background: #fff;
+}
+table.listing thead th {
+	border: 1px solid #d7d7d7;
+	border-bottom-color: #999;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 2px .5em;
+	vertical-align: bottom;
+}
+table.listing thead th a, table.listing thead th a:hover {
+ 	background-color: transparent;
+}
+table.listing thead th a {
+	border: none;
+	padding-right: 12px;
+}
+table.listing tbody td {
+	padding: .1em .5em !important;
+}
+table.listing th.asc a, table.listing th.desc a {
+	font-weight: bold;
+}
+table.listing th.asc a, table.listing th.desc a {
+	background-position: 100% 50%;
+	background-repeat: no-repeat;
+}
+table.listing tbody td, table.listing tbody th {
+	border: 1px dotted #ddd;
+	padding: .33em .5em;
+	vertical-align: top;
+}
+table.listing tbody td a:hover, table.listing tbody th a:hover {
+	background-color: transparent;
+}
+table.listing tbody tr {
+	border-top: 1px solid #ddd;
+}
+table.listing tbody tr.even {
+	background-color: #fcfcfc;
+}
+table.listing tbody tr.odd {
+	background-color: #f7f7f7;
+}
+table.listing tbody tr:hover {
+	background: #fff !important;
+}
+
+table.tickets tbody tr.priority6 {
+	background: #f0f0f0;
+	border-color: #ddd;
+}
+table.tickets tbody tr.even.priority6 {
+	background: #f7f7f7;
+}
+table.tickets tbody tr.priority5 {
+	background: #fdc;
+	border-color: #e88;
+}
+table.tickets tbody tr.even.priority5 {
+	background: #fed;
+	border-color: #e99;
+}
+table.tickets tbody tr.priority4 {
+	background: #ffb;
+	border-color: #eea;
+}
+table.tickets tbody tr.even.priority4 {
+	background: #ffd;
+	border-color: #dd8;
+}
+table.tickets tbody tr.priority3 {
+	background: #e7ffff;
+	border-color: #cee;
+}
+table.tickets tbody tr.even.priority3 {
+	background: #dff;
+	border-color: #bee;
+}
+table.tickets tbody tr.priority2 {
+	background: #e7eeff;
+	border-color: #cde;
+}
+table.tickets tbody tr.even.priority2 {
+	background: #dde7ff;
+}
+table.tickets tbody tr.priority1 {
+	background: #fbfbfb;
+	border-color: #ddd;
+}
+table.tickets tbody tr.even.priority1 {
+	background: #f6f6f6;
+	border-color: #ccc;
+}
+.tickets thead th.id {
+	width: 50px;
+}
+.tickets tbody td a, .tickets tbody td a {
+	display: block;
+}
+.tickets {
+	border-bottom: none;
+}
+.tickets thead th {
+	text-transform: capitalize;
+	white-space: nowrap;
+}
+.tickets tbody td.id a {
+	font-weight: bold;
+}

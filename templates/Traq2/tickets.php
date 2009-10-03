@@ -13,7 +13,7 @@
 		<table class="listing tickets">
 			<thead>
 				<tr>
-					<? if(in_array('ticket',$columns)) { ?><th><?=l('ticket')?></th><? } ?>
+					<? if(in_array('ticket',$columns)) { ?><th class="id"><?=l('ticket')?></th><? } ?>
 					<? if(in_array('summary',$columns)) { ?><th><?=l('summary')?></th><? } ?>
 					<? if(in_array('status',$columns)) { ?><th><?=l('status')?></th><? } ?>
 					<? if(in_array('owner',$columns)) { ?><th><?=l('owner')?></th><? } ?>
@@ -27,8 +27,8 @@
 			</thead>
 			<tbody>
 				<? foreach($tickets as $ticket) { ?>
-				<tr>
-					<? if(in_array('ticket',$columns)) { ?><td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td><? } ?>
+				<tr class="<?=altbg()?> priority<?=$ticket['priority']?>">
+					<? if(in_array('ticket',$columns)) { ?><td class="id"><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td><? } ?>
 					<? if(in_array('summary',$columns)) { ?><td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?></a></td><? } ?>
 					<? if(in_array('status',$columns)) { ?><td><?=ticket_status($ticket['status'])?></td><? } ?>
 					<? if(in_array('owner',$columns)) { ?><td><?=$ticket['user_name']?></td><? } ?>

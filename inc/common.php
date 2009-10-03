@@ -18,7 +18,7 @@ function settings($setting)
 	
 	// Check if the setting has already been fetched
 	// and return it if it has.
-	if(isset($CACHE['settings']['$setting'])) return $CACHE['settings'][$setting];
+	if(isset($CACHE['settings'][$setting])) return $CACHE['settings'][$setting];
 	
 	// Looks like the setting isn't in the cache,
 	// lets fetch it now...
@@ -47,6 +47,19 @@ function template($template)
 	// Display an error it we couldn't load it
 		error("Template","Unable to load file: <code>".settings('theme')."/".$template."</code>");
 	}
+}
+
+/**
+ * Alt. Background
+ */
+function altbg($even='even',$odd='odd')
+{
+	static $bg;
+	
+	if($bg == $even)
+		return $bg = $odd;
+	else
+		return $bg = $even;
 }
 
 /**
