@@ -45,7 +45,7 @@ a {
 	border-bottom: 1px solid #95d2f6;
 	font-size: 12px;
 }
-#nav ul {
+#nav ul.main_nav {
 	float: left;
 	margin: 0px;
 	padding: 0px;
@@ -53,12 +53,12 @@ a {
 	margin-top: 4px;
 	padding-left: 10px;
 }
-#nav ul li {
+#nav ul.main_nav li {
 	padding: 0px;
 	margin: 0px;
 	display: inline;
 }
-#nav ul li a {
+#nav ul.main_nav li a {
 	height: 18px;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -70,7 +70,7 @@ a {
 	border-bottom: 0px;
 	background: #fff;
 }
-#nav ul li.active a {
+#nav ul.main_nav li.active a {
 	height: 19px;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -80,24 +80,64 @@ a {
 	border-bottom: 0px;
 	background: #fff;
 }
-#nav ul li.first a {
+#nav ul.main_nav li.first a {
 	border-left: 1px solid #95d2f6;
 }
-#nav ul a, #nav ul li.active a:hover {
+#nav ul.main_nav a, #nav ul.main_nav li.active a:hover {
 	text-decoration: none;
 }
-#nav ul a:hover {
+#nav ul.main_nav a:hover {
 	text-decoration: underline;
 }
+#nav ul.main_nav li.standalone a {
+	margin-left: 10px;
+	border-left: 1px solid #95d2f6;
+}
+
+#nav #meta_nav ul {
+	float: left;
+	margin: 0px;
+	padding: 0px;
+	margin-right: 5px;
+	margin-top: 0px;
+	padding-left: 10px;
+}
+#nav #meta_nav ul li {
+	padding: 0px;
+	margin: 0px;
+	display: inline;
+}
+#nav #meta_nav ul li a {
+	height: 16px;
+	padding: 3px;
+	padding-bottom: 0;
+	display: block;
+	float: left;
+	border: 1px solid #95d2f6;
+	border-left: 0;
+	border-bottom: 0px;
+	background: #fff;
+	text-decoration: none;
+}
+#nav #meta_nav ul li.active a {
+	height: 17px;
+}
+#nav #meta_nav ul li.first a {
+	border-left: 1px solid #95d2f6;
+}
+#nav #meta_mav ul a, #nav #meta_nav ul li.active a:hover {
+	text-decoration: none;
+}
+#nav #meta_nav ul a:hover {
+	text-decoration: underline;
+}
+
 #nav #meta_nav {
 	float: right;
 	padding-top: 8px;
 	padding-right: 8px;
 }
-#nav ul li.standalone a {
-	margin-left: 10px;
-	border-left: 1px solid #95d2f6;
-}
+
 
 #foot {
 	border-top: 1px solid #95d2f6;

@@ -2,14 +2,17 @@
 			<span><a href="<?=$uri->anchor()?>"><?=settings('title')?></a> <? if(is_project(PROJECT_SLUG)) { ?>/ <?=$project['name']?><? } ?></span>
 			<div id="nav">
 				<div id="meta_nav">
-				<? if($user->loggedin) { ?>
-				
-				<? } else { ?>
-					<a href="<?=$uri->anchor('user','login')?>"><?=l('login')?></a> | <a href="<?=$uri->anchor('user','register')?>"><?=l('register')?></a>
-				<? } ?>
+					<ul>
+					<? if($user->loggedin) { ?>
+						<li class="first"><a href="<?=$uri->anchor('user','logout')?>"><?=l('logout')?></a></li>
+					<? } else { ?>
+						<li class="first<?=iif($uri->seg[1] == 'login',' active')?>"><a href="<?=$uri->anchor('user','login')?>"><?=l('login')?></a></li>
+						<li<?=iif($uri->seg[1] == 'register',' class="active"')?>><a href="<?=$uri->anchor('user','register')?>"><?=l('register')?></a></li>
+					<? } ?>
+					</ul>
 				</div>
 				<? if(is_project(PROJECT_SLUG)) { ?>
-				<ul>
+				<ul class="main_nav">
 					<li class="first<?=iif(empty($uri->seg[1]),' active')?>"><a href="<?=$uri->anchor($project['slug'])?>"><?=l('project_info')?></a></li>
 					<li<?=iif($uri->seg[1]=='roadmap' or preg_match('/milestone-(?<slug>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'roadmap')?>"><?=l('roadmap')?></a></li>
 					<li<?=iif($uri->seg[1]=='timeline',' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'timeline')?>"><?=l('timeline')?></a></li>
@@ -21,8 +24,8 @@
 					<? } ?>
 				</ul>
 				<? } else { ?>
-				<ul>
-					<li class="first<?=iif($uri->seg[0]=='',' active')?>"><a href="#"><?=l('projects')?></a></li>
+				<ul class="main_nav">
+					<li class="first<?=iif($uri->seg[0]=='',' active')?>"><a href="<?=$uri->anchor()?>"><?=l('projects')?></a></li>
 				</ul>
 				<? } ?>
 			</div>
