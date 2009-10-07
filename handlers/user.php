@@ -39,4 +39,8 @@ elseif($uri->seg[1] == "logout")
 	$user->logout();
 	header("Location: ".$uri->anchor());
 }
+elseif($uri->seg[1] == "settings")
+{
+	include(template('user/settings'));
+}
 ?>

@@ -53,6 +53,7 @@ $lang['password'] = 'Password';
 $lang['full_name'] = 'Full name';
 $lang['confirm'] = 'Confirm';
 $lang['email'] = 'Email';
+$lang['settings'] = 'Settings';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
