@@ -15,12 +15,12 @@ $breadcrumbs = array();
 require('version.php');
 
 // Fetch core files.
-require('db.class.php');
-require('user.class.php');
-require('fishhook.class.php');
-require('uri.class.php');
-require('common.php');
-require('config.php');
+require(TRAQPATH.'inc/db.class.php');
+require(TRAQPATH.'inc/user.class.php');
+require(TRAQPATH.'inc/fishhook.class.php');
+require(TRAQPATH.'inc/uri.class.php');
+require(TRAQPATH.'inc/common.php');
+require(TRAQPATH.'inc/config.php');
 
 // Start the DB class.
 $db = new Database($conf['db']['server'],$conf['db']['user'],$conf['db']['pass'],$conf['db']['dbname']);

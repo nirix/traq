@@ -1,0 +1,185 @@
+body {
+	color: #000;
+	font: 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #d2d4d6;
+}
+body, html, #wrapper {
+	height: 100%;
+}
+
+a {
+	color: #000;
+}
+
+h2 {
+	margin: 0 0 5px 0;
+}
+
+/* @group Header / Footer */
+#head {
+	height: 45px;
+	background: url('images/headerbg.png') #63788d;
+	border-bottom: 1px solid #000;
+	color: #fff;
+}
+#head h1 {
+	margin: 0;
+	text-indent: -5000px !important;
+}
+#head h1 a {
+	display: block;
+	width: 151px;
+	height: 45px;
+	background: url('images/header.png');
+}
+.pagetitle {
+	background: #e5e6e8 url('images/gradient1.png');
+	color: #000;
+	padding: 5px;
+	border: 1px outset #fff;
+	border-right: 0px;
+	border-left: 0px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+}
+#foot {
+	text-align: center;
+	padding: 4px;
+	height: 30px;
+}
+/* @end */
+
+/* @group Sidebar */
+#sidebar {
+	width: 200px;
+	padding: 4px;
+}
+#sidebar ul, #sidebar li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+#sidebar ul li.category div, #sidebar ul li.normal {
+	font-weight: bold;
+	color: #000;
+	background: #d9dbdc url('images/gradient1.png');
+	padding: 2px;
+	border: 2px ridge #f7f7f7;
+}
+#sidebar ul li.normal {
+	padding: 0;
+}
+#sidebar ul li.normal a {
+	padding:  2px;
+	display: block;
+}
+#sidebar ul li.category, #sidebar ul li.normal {
+	margin-bottom: 5px;
+}
+#sidebar ul.sblinks {
+	border: 2px ridge #f7f7f7;
+	border-top: 0px;
+	margin-bottom: 8px;
+}
+#sidebar ul.sblinks a {
+	border-top: solid 1px #888;
+	padding: 2px 4px 2px 4px;
+	background: #e9eaeb;
+	display: block;
+	text-decoration: none;
+}
+#sidebar ul.sblinks a:hover {
+	background: #f9f9f9;
+}
+/* @end */
+
+/* @group Content / Tables */
+#content {
+	padding: 5px;
+}
+
+.tborder {
+	border: ridge 4px;
+}
+.thead {
+	background: #DEE0E2 url('images/gradient1.png');
+	color: #000;
+	padding: 5px;
+	border: outset 2px;
+	text-align: center;
+	font-weight: bold;
+}
+.tfoot {
+	color: #000;
+	background: #DEE0E2;
+	border: outset 1px;
+}
+.optiontitle {
+	color: #000;
+	background: #f1f2f5 url('images/gradient1.png');
+	border: outset 1px;
+	font-weight: bold;
+}
+div.tborder td, .trow {
+	padding: 5px;
+}
+div.tfoot {
+	padding: 5px;
+}
+.tfoot {
+	color: #000;
+	border: outset 1px;
+	font-weight: bold;
+}
+.even {
+	background: #e9eaeb;
+}
+.odd {
+	background: #dfe1e3;
+}
+.even,.odd {
+	color: black;
+}
+/* @end */
+
+/* @group Forms */
+form {
+	margin: 0;
+	padding: 0;
+}
+input[type=text],input[type=password] {
+	width: 200px;
+	padding: 4px;
+}
+input[type=text],input[type=password], .select, textarea {
+	border: 1px solid #000;
+	background: #fff;
+	color: #000;
+}
+/* @end */
+
+/* @group Messages */
+.message.error {
+	padding: 4px;
+	background-color: #fedcdc;
+	border: 1px solid #c71b28;
+	color: #000;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.message.header.urgent {
+	padding: 4px;
+	background-color: #fedcdc;
+	border: 1px solid #c71b28;
+	color: #000;
+	font-weight: bold;
+	text-align: center;
+	width: 450px;
+	display: inline;
+	float: right;
+}
+/* @end */

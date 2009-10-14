@@ -14,6 +14,7 @@
  */
 
 // Global / Misc / In more than one place
+$lang['traq'] = 'Traq';
 $lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; 2009 Jack Polgar';
 $lang['login'] = 'Login';
 $lang['register'] = 'Register';
@@ -54,6 +55,10 @@ $lang['full_name'] = 'Full name';
 $lang['confirm'] = 'Confirm';
 $lang['email'] = 'Email';
 $lang['settings'] = 'Settings';
+$lang['new'] = 'New';
+$lang['manage'] = 'Manage';
+$lang['users'] = 'Users';
+$lang['usergroups'] = 'Usergroups';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
@@ -86,6 +91,13 @@ $lang['x_week'] = '{1} week';
 $lang['x_month'] = '{1} month';
 $lang['x_year'] = '{1} year';
 $lang['x_and_x'] = '{1} and {2}';
+
+// AdminCP
+$lang['view_site'] = 'View Site';
+$lang['manage_types'] = 'Mange Types';
+$lang['manage_priorities'] = 'Manage Priorities';
+$lang['manage_severities'] = 'Manage Severities';
+$lang['manage_status_types'] = 'Manage Status Types';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
