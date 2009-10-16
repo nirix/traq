@@ -299,21 +299,25 @@ function project_components($project_id=NULL)
  * Project Managers
  * Fetches the project managers.
  */
-function project_managers()
+function project_managers($project_id=NULL)
 {
 	global $project, $db;
 	$project_id = ($project_id == NULL ? $project['id'] : $project_id);
 	
 	if(!isset($project))
+	{
 		$info = $db->queryfirst("SELECT managers FROM ".DBPF."projects WHERE id='".$db->es($project_id)."' LIMIT 1");
+		$managers = array();
+		$manager_ids = explode(',',$info['managers']);
+	}
 	else
-		$info = $project['managers'];
+	{
+		$manager_ids = $project['managers'];
+	}
 	
-	$managers = array();
-	$manager_ids = explode(',',$info);
 	
 	foreach($manager_ids as $id)
-		$managers[] = $db->queryfirst("SELECT id,login,name FROM ".DBPF."users WHERE id='".$db->es($id)."' LIMIT 1");
+		$managers[] = $db->queryfirst("SELECT id,username,name FROM ".DBPF."users WHERE id='".$db->es($id)."' LIMIT 1");
 		
 	return $managers;
 }

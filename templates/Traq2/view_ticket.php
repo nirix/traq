@@ -93,7 +93,7 @@
 						<th class="col2"><?=l('assigned_to')?></td>
 						<td>
 							<select name="assign_to">
-								<option value="" selected=""></option>
+								<option value=""></option>
 								<? foreach(project_managers() as $manager) { ?>
 								<option value="<?=$manager['id']?>"<?=iif($manager['id']==$ticket['assigned_to'],' selected="selected"')?>><?=$manager['name']?></option>
 								<? } ?>
