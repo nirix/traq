@@ -98,7 +98,7 @@ class User
 		
 		// Check for errors
 		$errors = array();
-		if($db->numrows($db->query("SELECT login FROM ".DBPF."users WHERE username='".$db->escapestring($data['login'])."' LIMIT 1"))) {
+		if($db->numrows($db->query("SELECT username FROM ".DBPF."users WHERE username='".$db->escapestring($data['username'])."' LIMIT 1"))) {
 			$errors['username'] = l('error_username_taken');
 		}
 		if(empty($data['username'])) {

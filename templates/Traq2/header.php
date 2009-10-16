@@ -6,6 +6,9 @@
 					<? if($user->loggedin) { ?>
 						<li class="first<?=iif($uri->seg[1] == 'settings',' active')?>"><a href="<?=$uri->anchor('user','settings')?>"><?=l('settings')?></a></li>
 						<li><a href="<?=$uri->anchor('user','logout')?>"><?=l('logout')?></a></li>
+						<? if($user->group['is_admin']) { ?>
+						<li><a href="<?=$uri->anchor('admincp')?>"><?=l('admincp')?></a></li>
+						<? } ?>
 					<? } else { ?>
 						<li class="first<?=iif($uri->seg[1] == 'login',' active')?>"><a href="<?=$uri->anchor('user','login')?>"><?=l('login')?></a></li>
 						<li<?=iif($uri->seg[1] == 'register',' class="active"')?>><a href="<?=$uri->anchor('user','register')?>"><?=l('register')?></a></li>

@@ -59,6 +59,7 @@ $lang['new'] = 'New';
 $lang['manage'] = 'Manage';
 $lang['users'] = 'Users';
 $lang['usergroups'] = 'Usergroups';
+$lang['admincp'] = 'AdminCP';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';

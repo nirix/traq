@@ -3,6 +3,8 @@
  * Traq 2
  * Copyright (c) 2009 Jack Polgar
  * All Rights Reserved
+ *
+ * $Id$
  */
 
 if($uri->seg[1] == "login")

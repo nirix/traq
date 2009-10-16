@@ -3,6 +3,8 @@
  * Traq 2
  * Copyright (c) 2009 Jack Polgar
  * All Rights Reserved
+ *
+ * $Id$
  */
 
 $milestone = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE slug='".$db->es($matches['slug'])."' AND project_id='".$project['id']."' LIMIT 1");
