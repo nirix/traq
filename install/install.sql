@@ -128,7 +128,7 @@ CREATE TABLE `traq_usergroups` (
 
 CREATE TABLE `traq_users` (
   `id` bigint(20) NOT NULL auto_increment,
-  `login` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,

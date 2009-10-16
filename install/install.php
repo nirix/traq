@@ -197,14 +197,14 @@ elseif($_POST['step'] == '2')
 		// Create Admin User.
 		$user = new User;
 		$admindata = array(
-			'login' => $_POST['admin_name'],
+			'username' => $_POST['admin_name'],
 			'password' => $_POST['admin_pass'],
 			'password2' => $_POST['admin_pass'],
 			'email' => $_POST['admin_email'],
 			'name' => $_POST['admin_name']
 		);
 		$user->register($admindata);
-		$db->query("UPDATE ".$conf['db']['prefix']."users SET group_id='1' WHERE login='".$db->res($_POST['admin_name'])."' LIMIT 1");
+		$db->query("UPDATE ".$conf['db']['prefix']."users SET group_id='1' WHERE username='".$db->res($_POST['admin_name'])."' LIMIT 1");
 		
 		head('install');
 		?>
