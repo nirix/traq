@@ -42,7 +42,7 @@ class Ticket
 		if(!$user->loggedin)
 			$name = $data['name'];
 		else
-			$name = $user->info['login'];
+			$name = $user->info['username'];
 		
 		// Insert the ticket into the database.
 		$db->query("INSERT INTO ".DBPF."tickets VALUES(

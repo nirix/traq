@@ -98,6 +98,17 @@ $lang['manage_types'] = 'Mange Types';
 $lang['manage_priorities'] = 'Manage Priorities';
 $lang['manage_severities'] = 'Manage Severities';
 $lang['manage_status_types'] = 'Manage Status Types';
+$lang['new_project'] = 'New Project';
+$lang['project_name'] = 'Project Name';
+$lang['admin_project_name_description'] = 'The name of the project.';
+$lang['codename'] = 'Codename';
+$lang['admin_codename_description'] = 'The project codename.';
+$lang['slug'] = 'Slug';
+$lang['admin_project_slug_description'] = 'The name of the project to be used in the URI.<br /><small>traq.yoursite.com/<strong>project-slug</strong>/</small>';
+$lang['project_description'] = 'Project Description';
+$lang['create'] = 'Create';
+$lang['display_order'] = 'Display Order';
+$lang['admin_project_dispay_order_description'] = 'The position the project should show up on the project list.';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
@@ -110,4 +121,7 @@ $lang['error_username_empty'] = 'You must enter a Username.';
 $lang['error_password_empty'] = 'Cannot have a blank password.';
 $lang['error_password_nomatch'] = 'Passwords dont match';
 $lang['error_email_empty'] = 'You must enter your email.';
+$lang['error_project_name_blank'] = 'The Project Name cannot be blank.';
+$lang['error_project_slug_blank'] = 'The Project Slug cannot be blank.';
+$lang['error_project_slug_taken'] = 'The Project Slug is already in use.';
 ?>

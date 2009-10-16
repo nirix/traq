@@ -11,7 +11,7 @@ class User
 {
 	public $info = array(
 		'id'=>'0',
-		'login' => 'Guest',
+		'username' => 'Guest',
 		'name' => '',
 		'group_id' => '3'
 		);
@@ -28,7 +28,7 @@ class User
 		global $db;
 		
 		// Check if the user cookies are set and valid.
-		$query = $db->query("SELECT * FROM ".DBPF."users WHERE login='".$db->es($_COOKIE['traq_u'])."' AND sesshash='".$db->es($_COOKIE['traq_h'])."' LIMIT 1");
+		$query = $db->query("SELECT * FROM ".DBPF."users WHERE username='".$db->es($_COOKIE['traq_u'])."' AND sesshash='".$db->es($_COOKIE['traq_h'])."' LIMIT 1");
 		if($db->numrows($query))
 		{
 			// Logged in...
@@ -56,9 +56,9 @@ class User
 	public function login($username,$password,$remember=0) {
 		global $db;
 		
-		$login = $db->query("SELECT * FROM ".DBPF."users WHERE login='".$db->es($username)."' AND password='".sha1($db->es($password))."' LIMIT 1");
+		$login = $db->query("SELECT * FROM ".DBPF."users WHERE username='".$db->es($username)."' AND password='".sha1($db->es($password))."' LIMIT 1");
 		if($db->numrows($login)) {
-			$db->query("UPDATE ".DBPF."users SET sesshash='".$db->es(sha1($password.time().$username))."' WHERE login='".$db->es($username)."' LIMIT 1");
+			$db->query("UPDATE ".DBPF."users SET sesshash='".$db->es(sha1($password.time().$username))."' WHERE username='".$db->es($username)."' LIMIT 1");
 			if($remember) {
 				setcookie('traq_u',$username,time()+9999999,'/');
 				setcookie('traq_h',sha1($password.time().$username),time()+9999999,'/');
@@ -98,11 +98,11 @@ class User
 		
 		// Check for errors
 		$errors = array();
-		if($db->numrows($db->query("SELECT login FROM ".DBPF."users WHERE login='".$db->escapestring($data['login'])."' LIMIT 1"))) {
-			$errors['login'] = l('error_username_taken');
+		if($db->numrows($db->query("SELECT login FROM ".DBPF."users WHERE username='".$db->escapestring($data['login'])."' LIMIT 1"))) {
+			$errors['username'] = l('error_username_taken');
 		}
-		if(empty($data['login'])) {
-			$errors['login'] = l('error_username_empty');
+		if(empty($data['username'])) {
+			$errors['username'] = l('error_username_empty');
 		}
 		if(empty($data['password'])) {
 			$errors['password'] = l('error_password_empty');
@@ -157,6 +157,22 @@ class User
 			$userfields[$info['Field']] = $info['Default'];
 		}
 		return $userfields;
+	}
+	
+	/**
+	 * Get Users
+	 * Returns an array of the users in the database.
+	 */
+	public function getusers()
+	{
+		global $db;
+		$users = array();
+		$fetch = $db->query("SELECT id,username FROM ".DBPF."users ORDER BY id ASC");
+		while($info = $db->fetcharray($fetch))
+		{
+			$users[] = $info;
+		}
+		return $users;
 	}
 }
 ?>
