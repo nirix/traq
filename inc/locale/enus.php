@@ -71,6 +71,7 @@ $lang['action'] = 'Action';
 $lang['mark_as'] = 'Mark as';
 $lang['close_as'] = 'Close as';
 $lang['reopen_as'] = 'Reopen as';
+$lang['delete_ticket_confirm'] = 'Are you sure you want to delete this ticket?';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';

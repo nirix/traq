@@ -147,7 +147,10 @@ function a()
 }
 
 /**
- *
+ * Ticket Status List
+ * Fetches the requred type of ticket status options in an array.
+ * @param integer $getstatus Status type to fetch (1 for open, 0 for closed)
+ * @return array
  */
 function ticket_status_list($getstatus=1)
 {

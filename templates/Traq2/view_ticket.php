@@ -160,13 +160,13 @@
 							<? if(!$ticket['closed']) { ?>
 							<input type="radio" name="action" value="mark" checked="checked" /> <?=l('mark_as')?> <select name="mark_as">
 								<? foreach(ticket_status_list() as $status) { ?>
-									<option value="<?=$status['id']?>"<?=($status['id']==$ticket['status'] ? ' selected="selected"' :'')?>><?=$status['name']?></option>
+									<option value="<?=$status['id']?>"<?=iif($status['id']==$ticket['status'],' selected="selected"')?>><?=$status['name']?></option>
 								<? } ?>
 							</select>
 							<br />
 							<input type="radio" name="action" value="close" /> <?=l('close_as')?> <select name="close_as">
 								<? foreach(ticket_status_list(0) as $status) { ?>
-									<option value="<?=$status['id']?>"<?=($status['id']==$ticket['status'] ? ' selected="selected"' :'')?>><?=$status['name']?></option>
+									<option value="<?=$status['id']?>"<?=iif($status['id']==$ticket['status'],' selected="selected"')?>><?=$status['name']?></option>
 								<? } ?>
 							</select>
 							<? } else if($ticket['closed']) { ?>
