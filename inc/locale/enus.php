@@ -61,6 +61,7 @@ $lang['users'] = 'Users';
 $lang['usergroups'] = 'Usergroups';
 $lang['admincp'] = 'AdminCP';
 $lang['delete'] = 'Delete';
+$lang['update'] = 'Update';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';

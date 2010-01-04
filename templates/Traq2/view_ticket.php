@@ -158,13 +158,13 @@
 						<th class="col1"><?=l('action')?></th>
 						<td>
 							<? if(!$ticket['closed']) { ?>
-							<input type="radio" name="action" value="mark" checked="checked" /> <?=l('mark_as')?> <select name="mark_as">
+							<input type="radio" name="action" value="mark" checked="checked" id="mark" /> <label for="mark"><?=l('mark_as')?></label> <select name="mark_as">
 								<? foreach(ticket_status_list() as $status) { ?>
 									<option value="<?=$status['id']?>"<?=iif($status['id']==$ticket['status'],' selected="selected"')?>><?=$status['name']?></option>
 								<? } ?>
 							</select>
 							<br />
-							<input type="radio" name="action" value="close" /> <?=l('close_as')?> <select name="close_as">
+							<input type="radio" name="action" value="close" id="close" /> <label for="close"><?=l('close_as')?></label> <select name="close_as">
 								<? foreach(ticket_status_list(0) as $status) { ?>
 									<option value="<?=$status['id']?>"<?=iif($status['id']==$ticket['status'],' selected="selected"')?>><?=$status['name']?></option>
 								<? } ?>
@@ -173,8 +173,8 @@
 							<input type="radio" name="action" value="reopen" /> <?=l('reopen_as')?>
 							<? } ?>
 						</td>
-						<th class="col2"><?=l('private_ticket')?></th>
-						<td><input type="checkbox" name="private" value="1" /></td>
+						<th class="col2"><label for="private"><?=l('private_ticket')?></label></th>
+						<td><input type="checkbox" name="private" id="private" value="1" /></td>
 					</tr>
 					<tr>
 						<td></td>

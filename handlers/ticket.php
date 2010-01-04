@@ -11,6 +11,7 @@ include(TRAQPATH.'inc/ticket.class.php'); // Fetch the ticket class
 $ticket = new Ticket;
 $ticket = $ticket->get(array('ticket_id'=>$matches['id'],'project_id'=>$project['id'])); // Fetch the ticket.
 
+addcrumb($uri->anchor(PROJECT_SLUG,'tickets'),l('tickets'));
 addcrumb($uri->geturi(),l('ticket_x',$ticket['ticket_id']));
 
 // Check if this is a private ticket,
@@ -93,16 +94,24 @@ if(isset($_POST['update']))
 		$querybits[] = "closed='0'";
 		$changes[] = array('property'=>'status','from'=>$ticket['status'],'to'=>$_POST['reopen_as'],'action'=>'reopen');
 	}
-	exit("UPDATE ".DBPF."tickets SET ".implode(', ',$querybits)." WHERE id='".$ticket['id']."' LIMIT 1");
-	echo "INSERT INTO ".DBPF."ticket_history VALUES(
-		0,
-		'".$user->info['id']."',
-		'".$user->info['username']."',
-		'".time()."',
-		'".$ticket['id']."',
-		'".json_encode($changes)."',
-		'".$db->res($_POST['comment'])."'
-	)";
+	
+	if(count($changes) > 0 || $_POST['comment'] != '')
+	{
+		// Update the ticket
+		if(count($changes) > 0)
+			exit("UPDATE ".DBPF."tickets SET ".implode(', ',$querybits)." WHERE id='".$ticket['id']."' LIMIT 1");
+		
+		// Insert row into ticket history
+		echo "INSERT INTO ".DBPF."ticket_history VALUES(
+			0,
+			'".$user->info['id']."',
+			'".$user->info['username']."',
+			'".time()."',
+			'".$ticket['id']."',
+			'".json_encode($changes)."',
+			'".$db->res($_POST['comment'])."'
+		)";
+	}
 }
 
 // Assuming all goes well, display the view ticket page.
