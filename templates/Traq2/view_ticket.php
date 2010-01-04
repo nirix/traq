@@ -76,13 +76,18 @@
 		</div>
 		
 		<? if($user->group['update_tickets']) { ?>
+		<form action="<?=$uri->geturi()?>" method="post">
+		<input type="hidden" name="update" value="1" />
 		<div id="update_ticket">
 			<h2><?=l('update_ticket')?></h2>
 			<fieldset class="properties">
 				<legend><?=l('ticket_properties')?></legend>
-				<table>
+				<table class="properties">
 					<tr>
-						<th class="col1"><?=l('type')?></td>
+						<td colspan="4"><textarea name="comment"></textarea></td>
+					</tr>
+					<tr>
+						<th class="col1"><?=l('type')?></th>
 						<td>
 							<select name="type">
 								<? foreach(ticket_types() as $type) { ?>
@@ -90,10 +95,10 @@
 								<? } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('assigned_to')?></td>
+						<th class="col2"><?=l('assigned_to')?></thd>
 						<td>
 							<select name="assign_to">
-								<option value=""></option>
+								<option value="0"></option>
 								<? foreach(project_managers() as $manager) { ?>
 								<option value="<?=$manager['id']?>"<?=iif($manager['id']==$ticket['assigned_to'],' selected="selected"')?>><?=$manager['name']?></option>
 								<? } ?>
@@ -101,7 +106,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="col1"><?=l('priority')?></td>
+						<th class="col1"><?=l('priority')?></th>
 						<td>
 							<select name="priority">
 								<? foreach(ticket_priorities() as $priority) { ?>
@@ -109,7 +114,7 @@
 								<? } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('severity')?></td>
+						<th class="col2"><?=l('severity')?></th>
 						<td>
 							<select name="severity">
 								<? foreach(ticket_severities() as $severity) { ?>
@@ -119,7 +124,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="col1"><?=l('milestone')?></td>
+						<th class="col1"><?=l('milestone')?></th>
 						<td>
 							<select name="milestone">
 								<? foreach(project_milestones() as $milestone) { ?>
@@ -127,10 +132,10 @@
 								<? } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('version')?></td>
+						<th class="col2"><?=l('version')?></th>
 						<td>
 							<select name="version">
-								<option value="" selected=""></option>
+								<option value="0"></option>
 								<? foreach(project_versions() as $version) { ?>
 								<option value="<?=$version['id']?>"<?=iif($version['id']==$ticket['version_id'],' selected="selected"')?>><?=$version['version']?></option>
 								<? } ?>
@@ -138,7 +143,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="col1"><?=l('component')?></td>
+						<th class="col1"><?=l('component')?></th>
 						<td>
 							<select name="component">
 								<? foreach(project_components() as $component) { ?>
@@ -146,18 +151,39 @@
 								<? } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('summary')?></td>
-						<td></td>
+						<th class="col2"><?=l('summary')?></th>
+						<td><input type="text" name="summary" value="<?=$ticket['summary']?>" /></td>
 					</tr>
 					<tr>
 						<th class="col1"><?=l('action')?></th>
-						<td></td>
+						<td>
+							<? if(!$ticket['closed']) { ?>
+							<input type="radio" name="action" value="mark" checked="checked" /> <?=l('mark_as')?> <select name="mark_as">
+								<? foreach(ticket_status_list() as $status) { ?>
+									<option value="<?=$status['id']?>"<?=($status['id']==$ticket['status'] ? ' selected="selected"' :'')?>><?=$status['name']?></option>
+								<? } ?>
+							</select>
+							<br />
+							<input type="radio" name="action" value="close" /> <?=l('close_as')?> <select name="close_as">
+								<? foreach(ticket_status_list(0) as $status) { ?>
+									<option value="<?=$status['id']?>"<?=($status['id']==$ticket['status'] ? ' selected="selected"' :'')?>><?=$status['name']?></option>
+								<? } ?>
+							</select>
+							<? } else if($ticket['closed']) { ?>
+							<input type="radio" name="action" value="reopen" /> <?=l('reopen_as')?>
+							<? } ?>
+						</td>
 						<th class="col2"><?=l('private_ticket')?></th>
 						<td><input type="checkbox" name="private" value="1" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" value="<?=l('update')?>" /></td>
 					</tr>
 				</table>
 			</fieldset>
 		</div>
+		</form>
 		<? } ?>
 		<? require(template('footer')); ?>
 	</body>

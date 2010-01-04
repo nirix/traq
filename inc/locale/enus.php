@@ -60,11 +60,17 @@ $lang['manage'] = 'Manage';
 $lang['users'] = 'Users';
 $lang['usergroups'] = 'Usergroups';
 $lang['admincp'] = 'AdminCP';
+$lang['delete'] = 'Delete';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
 $lang['update_ticket'] = 'Update Ticket';
 $lang['ticket_properties'] = 'Ticket Properties';
+$lang['attach'] = 'Attach';
+$lang['action'] = 'Action';
+$lang['mark_as'] = 'Mark as';
+$lang['close_as'] = 'Close as';
+$lang['reopen_as'] = 'Reopen as';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';

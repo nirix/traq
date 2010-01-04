@@ -147,6 +147,22 @@ function a()
 }
 
 /**
+ *
+ */
+function ticket_status_list($getstatus=1)
+{
+	global $db;
+	
+	$status = array();
+	$fetch = $db->query("SELECT * FROM ".DBPF."ticket_status WHERE status='".$getstatus."' ORDER BY name ASC");
+	while($info = $db->fetcharray($fetch))
+		$status[] = $info;
+	
+	($hook = FishHook::hook('function_ticket_status')) ? eval($hook) : false;
+	return $status;
+}
+
+/**
  * Ticket Types
  * Fetches the Ticket Types specified in the AdminCP.
  */
