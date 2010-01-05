@@ -57,11 +57,11 @@ if(isset($_REQUEST['new']))
 	<? } ?>
 	<form action="projects.php?new" method="post">
 	<input type="hidden" name="action" value="create" />
+	<div class="thead"><?=l('new_project')?></div>
 	<div class="tborder">
-		<div class="thead"><?=l('project_info')?></div>
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('project_name')?></td>
+				<td class="optiontitle first" colspan="2"><?=l('project_name')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
 				<td><?=l('admin_project_name_description')?></td>

@@ -5,5 +5,3 @@
 				<?=l('poweredby')?>
 			</span>
 		</div>
-	</body>
-</html>

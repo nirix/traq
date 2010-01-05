@@ -19,21 +19,20 @@ unset($pagebits);
 // Sidebar links
 $sidebar_links = array(
 	array(
-		'title' => l('traq'),
-		'links' => array(
-			array(
-				'title' => l('settings'),
-				'url' => 'settings.php',
-				'active' => activepage('settings.php')
-			),
-			array(
-				'title' => l('view_site'),
-				'url' => '../'
-			)
-		)
+		'title' => l('overview'),
+		'url' => './',
+		'active' => activepage('index.php'),
+		'class' => 'first'
 	),
 	array(
+		'title' => l('settings'),
+		'url' => 'settings.php',
+		'active' => activepage('settings.php')
+	),
+	'projects' => array(
 		'title' => l('projects'),
+		'url' => 'projects.php',
+		'active' => activepage('projects.php'),
 		'links' => array(
 			array(
 				'title' => l('new'),
@@ -47,8 +46,10 @@ $sidebar_links = array(
 			)
 		)
 	),
-	array(
+	'tickets' => array(
 		'title' => l('tickets'),
+		'url' => 'tickets.php',
+		'active' => activepage('tickets.php'),
 		'links' => array(
 			array(
 				'title' => l('manage_types'),
@@ -72,13 +73,10 @@ $sidebar_links = array(
 			)
 		)
 	),
-	array(
+	'users' => array(
 		'title' => l('users'),
 		'url' => 'users.php',
-		'active' => activepage('users.php','','edit&user='.$_REQUEST['user'])
-	),
-	array(
-		'title' => l('usergroups'),
+		'active' => activepage('users.php','','edit&user='.$_REQUEST['user']),
 		'links' => array(
 			array(
 				'title' => l('new'),
@@ -90,6 +88,6 @@ $sidebar_links = array(
 				'active' => activepage('groups.php','','','edit&group='.$_REQUEST['group'])
 			)
 		)
-	)
+	),
 );
 ?>

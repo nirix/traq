@@ -85,7 +85,7 @@ $lang['ticket_history_assigned_to'] = 'Changed Assignee from {1} to {2}';
 $lang['ticket_history_status_open'] = 'Opened Ticket';
 $lang['ticket_history_status_mark'] = 'Changed Status from {1} to {2}';
 $lang['ticket_history_status_close'] = 'Closed ticket as {2}';
-$lang['ticket_history_status_reopen'] = 'Opened ticket as {2}';
+$lang['ticket_history_status_reopen'] = 'Reopened ticket as {2}';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';
@@ -115,6 +115,7 @@ $lang['x_year'] = '{1} year';
 $lang['x_and_x'] = '{1} and {2}';
 
 // AdminCP
+$lang['overview'] = 'Overview';
 $lang['view_site'] = 'View Site';
 $lang['manage_types'] = 'Mange Types';
 $lang['manage_priorities'] = 'Manage Priorities';

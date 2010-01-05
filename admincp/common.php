@@ -50,37 +50,26 @@ function head($title='')
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>Traq AdminCP</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="style.css" type="text/css" />
 	</head>
-	<body>
-		<div id="wrapper">
-			<div id="head">
-				<h1><a href="./">Traq AdminCP</a></h1>
+	<body id="project_info">
+		<div id="head">
+			<span><a href="./">Traq AdminCP</a></span>
+			<div id="nav">
+				<div id="meta_nav">
+					<ul>
+						<li class="first"><a href="/traq/user/settings">View Site</a></li>
+					</ul>
+				</div>
+				<ul class="main_nav">
+					<? foreach($sidebar_links as $link) { ?>
+					<li class="<?=$link['class'].iif($link['active'],' active')?>"><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
+					<? } ?>
+				</ul>
 			</div>
-			<div class="pagetitle"><?=$title?></div>
-			<table width="100%" cellspacing="0" cellpadding="0" border="0" id="page">
-				<tr>
-					<td id="sidebar" valign="top">
-						<ul id="sb">
-						<? foreach($sidebar_links as $item) { ?>
-							<? if(is_array($item['links'])) { ?>
-							<li class="category">
-								<div><?=$item['title']?></div>
-								<ul class="sblinks">
-									<? foreach($item['links'] as $link) { ?>
-									<li<?=($link['active'] ? ' class="active"' : '')?>><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
-									<? } ?>
-								</ul>
-							</li>
-							<? } else { ?>
-							<li class="normal<?=($item['active'] ? ' active' : '')?>">
-								<a href="<?=$item['url']?>"><?=$item['title']?></a>
-							</li>
-							<? } ?>
-						<? } ?>
-						</ul>
-					</td>
-					<td id="content" valign="top">
+		</div>
+		<div id="page">
 	<?
 }
 
@@ -90,12 +79,11 @@ function head($title='')
 function foot()
 {
 	?>
-					</td>
-				</tr>
-			</table>
-			<div id="foot">
+</div>
+		<div id="foot">
+			<span id="powered_by">
 				<?=l('poweredby')?>
-			</div>
+			</span>
 		</div>
 	</body>
 </html>

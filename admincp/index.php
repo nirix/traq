@@ -16,8 +16,8 @@ authenticate();
 
 head('Summary');
 ?>
+<div class="thead">Statistics</div>
 <div class="tborder">
-	<div class="thead">Statistics</div>
 	<table width="100%" cellspacing="0">
 		<tr class="<?=altbg()?>">
 			<td width="150">Projects</td>

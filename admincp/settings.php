@@ -16,11 +16,11 @@ authenticate();
 
 head('Settings');
 ?>
+<div class="thead">General</div>
 <div class="tborder">
-	<div class="thead">General</div>
 	<table width="100%" cellspacing="0">
 		<tr>
-			<td class="optiontitle" colspan="2">Traq Name</td>
+			<td class="optiontitle first" colspan="2">Traq Name</td>
 		</tr>
 		<tr class="<?=altbg()?>">
 			<td>The name of the Traq installation.</td>
@@ -45,11 +45,11 @@ head('Settings');
 	</table>
 </div>
 <br />
+<div class="thead">reCaptcha</div>
 <div class="tborder">
-	<div class="thead">reCaptcha</div>
 	<table width="100%" cellspacing="0">
 		<tr>
-			<td class="optiontitle" colspan="2">Public Key</td>
+			<td class="optiontitle first" colspan="2">Public Key</td>
 		</tr>
 		<tr class="<?=altbg()?>">
 			<td>Public API Key.</td>
