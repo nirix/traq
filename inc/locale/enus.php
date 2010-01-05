@@ -72,7 +72,16 @@ $lang['action'] = 'Action';
 $lang['mark_as'] = 'Mark as';
 $lang['close_as'] = 'Close as';
 $lang['reopen_as'] = 'Reopen as';
+$lang['ticket_history'] = 'Ticket History';
 $lang['delete_ticket_confirm'] = 'Are you sure you want to delete this ticket?';
+$lang['ticket_history_type'] = 'Changed Type from {1} to {2}';
+$lang['ticket_history_version'] = 'Changed Version from {1} to {2}';
+$lang['ticket_history_milestone'] = 'Changed Milestone from {1} to {2}';
+$lang['ticket_history_component'] = 'Changed Component from {1} to {2}';
+$lang['ticket_history_severity'] = 'Changed Severity from {1} to {2}';
+$lang['ticket_history_priority'] = 'Changed Priority from {1} to {2}';
+$lang['ticket_history_summary'] = 'Changed Summary from \'{1}\' to \'{2}\'';
+$lang['ticket_history_assigned_to'] = 'Changed Assignee from {1} to {2}';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';

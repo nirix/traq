@@ -28,7 +28,7 @@ class URI
 	 */
 	public function geturi()
 	{
-		return $this->anchor().implode('/',$this->seg);
+		return $this->anchor($this->seg);//.implode('/',$this->seg);
 	}
 	
 	/**
@@ -49,14 +49,16 @@ class URI
 	
 	public function singleproject()
 	{
-		$args = array();
-		$args[] = PROJECT_SLUG;
-		foreach($this->seg as $seg)
-		{
-			$args[] = $seg;
+		if($this->seg[0] != 'user') {
+			$args = array();
+			$args[] = PROJECT_SLUG;
+			foreach($this->seg as $seg)
+			{
+				$args[] = $seg;
+			}
+			$this->singleproject = true;
+			$this->seg = $args;
 		}
-		$this->singleproject = true;
-		$this->seg = $args;
 	}
 	
 	// Used to convert the array passed to it into a URI

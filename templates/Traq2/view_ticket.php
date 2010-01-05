@@ -22,7 +22,7 @@
 					<th id="h_owner"><?=l('reported_by')?>:</th>
 					<td headers="h_owner"><?=$ticket['user_name']?></td>
 					<th id="h_assignee"><?=l('assigned_to')?>:</th>
-					<td headers="h_assignee"><?=$ticket['assignee']['login']?></td>
+					<td headers="h_assignee"><?=$ticket['assignee']['username']?></td>
 				</tr>
 				<tr>
 					<th id="h_type"><?=l('type')?>:</th>
@@ -75,17 +75,36 @@
 			</div>
 		</div>
 		
+		<h2><?=l('ticket_history')?></h2>
+		<div id="ticket_history">
+			<? foreach($ticket['changes'] as $change) { ?>
+			<div class="ticket_prop_change">
+				<h3><?=timesince($change['timestamp'])?> ago by <?=$change['user_name']?></h3>
+				<? if(count($change['changes']) > 0) { ?>
+				<ul>
+					<? foreach($change['changes'] as $row) { ?>
+					<li><?=l('ticket_history_'.$row->property,$row->from,$row->to)?></li>
+					<? } ?>
+				</ul>
+				<? } ?>
+				<? if($change['comment'] != '') { ?>
+				<div class="change_comment">
+					<?=$change['comment']?>
+				</div>
+				<? } ?>
+			</div>
+			<? } ?>
+		</div>
+		
 		<? if($user->group['update_tickets']) { ?>
 		<form action="<?=$uri->geturi()?>" method="post">
 		<input type="hidden" name="update" value="1" />
+		<h2><?=l('update_ticket')?></h2>
 		<div id="update_ticket">
-			<h2><?=l('update_ticket')?></h2>
+			<textarea name="comment"></textarea>
 			<fieldset class="properties">
 				<legend><?=l('ticket_properties')?></legend>
 				<table class="properties">
-					<tr>
-						<td colspan="4"><textarea name="comment"></textarea></td>
-					</tr>
 					<tr>
 						<th class="col1"><?=l('type')?></th>
 						<td>

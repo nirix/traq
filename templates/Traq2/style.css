@@ -27,7 +27,7 @@ a {
 
 #head {
 	padding-top: 5px;
-	background: url('images/headerbg.png');
+	background: #e8f5fd url('images/headerbg.png') repeat-x;
 }
 #head span {
 	font-size: 25px;
@@ -215,6 +215,26 @@ ul.projects .quick_nav {
 	font-style: italic;
 	margin: 0;
 }
+#ticket_history, #update_ticket {
+	border: 1px solid #000;
+	border-top: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+	padding: 4px;
+}
+#ticket_history h3 {
+	margin: 0;
+	border-bottom: 1px solid #888;
+	font-size: 14px;
+}
+#ticket_history ul {
+	margin: 5px 0;
+	padding: 0 0 0 20px;
+}
+#ticket_history ul li {
+}
+#ticket_history .change_comment {
+	padding: 6px 4px;
+}
 
 /* Messages */
 .message.error {
@@ -236,7 +256,8 @@ form p#buttons {
 	margin: 5px 0 0 0;
 }
 #update_ticket textarea {
-	width: 100%;
+	width: 560px;
+	height: 100px;
 }
 fieldset.properties th {
 	text-align: right;
