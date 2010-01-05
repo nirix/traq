@@ -36,4 +36,8 @@ elseif($uri->seg[1] == 'newticket')
 {
 	require(TRAQPATH.'handlers/newticket.php');
 }
+elseif($uri->seg[1] == 'timeline')
+{
+	require(TRAQPATH.'handlers/timeline.php');
+}
 ?>

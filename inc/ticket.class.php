@@ -67,6 +67,7 @@ class Ticket
 			'".$db->res($data['private'])."'
 			)
 		");
+		$ticketid = $db->insertid();
 		
 		// Insert the ticket history row
 		$db->query("INSERT INTO ".DBPF."ticket_history VALUES(
@@ -74,7 +75,7 @@ class Ticket
 			'".$user->info['id']."',
 			'".$user->info['username']."',
 			'".time()."',
-			'".$db->insertid()."',
+			'".$ticketid."',
 			'".json_encode(array(array('property'=>'status','from'=>'','to'=>'1','action'=>'open')))."',
 			''
 		)");
@@ -83,7 +84,7 @@ class Ticket
 		$db->query("INSERT INTO ".DBPF."timeline VALUES(
 			0,
 			'".$db->res($project['id'])."',
-			'".$db->insertid()."',
+			'".$ticketid."',
 			'open_ticket',
 			'".$project['next_tid']."',
 			'".$user->info['id']."',

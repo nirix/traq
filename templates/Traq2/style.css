@@ -215,6 +215,8 @@ ul.projects .quick_nav {
 	font-style: italic;
 	margin: 0;
 }
+
+/* Ticket Stuff */
 #ticket_history, #update_ticket {
 	border: 1px solid #000;
 	border-top: 1px solid #aaa;
@@ -234,6 +236,11 @@ ul.projects .quick_nav {
 }
 #ticket_history .change_comment {
 	padding: 6px 4px;
+}
+
+/* Timeline Stuff */
+#timeline .day h3 {
+	margin: 0px;
 }
 
 /* Messages */

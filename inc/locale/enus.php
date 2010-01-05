@@ -97,6 +97,11 @@ $lang['total_tickets'] = 'Total tickets';
 $lang['milestone_x'] = 'Milestone {1}';
 $lang['milestones'] = 'Milestones';
 
+// Timeline
+$lang['timeline_open_ticket'] = '{1} opened Ticket #{2} ({3})';
+$lang['timeline_close_ticket'] = '{1} closed Ticket #{2} ({3})';
+$lang['timeline_reopen_ticket'] = '{1} reopened Ticket #{2} ({3})';
+
 // Time
 $lang['x_seconds'] = '{1} seconds';
 $lang['x_minutes'] = '{1} minutes';
