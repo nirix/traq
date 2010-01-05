@@ -50,7 +50,7 @@
 			<div class="description">
 				<h3 id="description"><?=l('description')?></h3>
 				<p>
-					<?=($ticket['body'])?> 
+					<?=formattext($ticket['body'])?> 
 				</p>
 				<h3><?=l('attachments')?></h3>
 				<p id="attachments">
@@ -79,7 +79,7 @@
 		<div id="ticket_history">
 			<? foreach($ticket['changes'] as $change) { ?>
 			<div class="ticket_prop_change">
-				<h3><?=timesince($change['timestamp'])?> ago by <?=$change['user_name']?></h3>
+				<h3><?=timesince($change['timestamp'],true)?> ago by <?=$change['user_name']?></h3>
 				<? if(count($change['changes']) > 0) { ?>
 				<ul>
 					<? foreach($change['changes'] as $row) { ?>
@@ -89,7 +89,7 @@
 				<? } ?>
 				<? if($change['comment'] != '') { ?>
 				<div class="change_comment">
-					<?=$change['comment']?>
+					<?=formattext($change['comment'])?>
 				</div>
 				<? } ?>
 			</div>

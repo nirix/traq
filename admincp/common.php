@@ -42,7 +42,7 @@ function activepage($page,$query=NULL)
 /**
  * AdminCP Header
  */
-function head($title='')
+function head($title='',$sidebar=false,$links=array())
 {
 	global $sidebar_links;
 	?>
@@ -70,6 +70,18 @@ function head($title='')
 			</div>
 		</div>
 		<div id="page">
+			<table width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<? if($sidebar) { ?>
+					<td valign="top" id="sidebar">
+						<ul>
+						<? foreach($links as $link) { ?>
+							<li><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
+						<? } ?>
+						</ul>
+					</td>
+					<? } ?>
+					<td valign="top">
 	<?
 }
 
@@ -79,7 +91,10 @@ function head($title='')
 function foot()
 {
 	?>
-</div>
+					</td>
+				</tr>
+			</table>
+		</div>
 		<div id="foot">
 			<span id="powered_by">
 				<?=l('poweredby')?>

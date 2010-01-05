@@ -87,6 +87,20 @@ function error($title,$message)
 }
 
 /**
+ * Format Text
+ */
+function formattext($text)
+{
+	// [ticket:x] to ticked URL
+	global $uri,$project;
+	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
+	
+	($hook = FishHook::hook('formattext')) ? eval($hook) : false;
+	
+	return $text;
+}
+
+/**
  * Locale String
  * Gets the specified locale string for the set language.
  * @param string $string String name/key

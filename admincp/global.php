@@ -89,5 +89,17 @@ $sidebar_links = array(
 			)
 		)
 	),
+	'plugins' => array(
+		'title' => l('plugins'),
+		'url' => 'plugins.php',
+		'active' => activepage('plugins.php'),
+		'links' => array(
+			array(
+				'title' => l('install'),
+				'url' => 'plugins.php?install',
+				'active' => activepage('plugins.php','','install')
+			)
+		)
+	)
 );
 ?>

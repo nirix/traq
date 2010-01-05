@@ -156,6 +156,25 @@ h2 {
 	font-size: 18px;
 }
 
+#sidebar {
+	width: 160px;
+	padding-right: 10px;
+}
+#sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid #95d2f6;
+}
+#sidebar ul li a {
+	padding: 4px;
+	text-decoration: none;
+	display: block;
+}
+#sidebar ul li a:hover {
+	text-decoration: underline;
+}
+
 .thead {
 	font-weight: bold;
 	padding: 4px;
@@ -174,7 +193,12 @@ h2 {
 	background: #f7fcfe url('images/headerbg.png');
 	font-size: 12px;
 }
-.optiontitle.first {
+.optiontitle th {
+	border-top: 1px solid #aaa;
+	border-bottom: 1px solid #aaa;
+	padding: 4px;
+}
+.optiontitle.first, .optiontitle.first th {
 	border-top: 0;
 }
 .tborder td {

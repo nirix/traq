@@ -24,9 +24,13 @@ CREATE TABLE `traq_milestones` (
 CREATE TABLE `traq_plugins` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
+  `author` varchar(255) NOT NULL,
+  `website` varchar(255) NOT NULL,
+  `version` varchar(20) NOT NULL,
+  `status` bigint(20) NOT NULL,
   `uninstall_sql` longtext NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_plugin_hooks` (
   `id` bigint(20) NOT NULL auto_increment,
