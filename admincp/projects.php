@@ -7,9 +7,6 @@
  * $Id$
  */
 
-// Set the full path to the Traq folder
-define('TRAQPATH',str_replace(pathinfo('../index.php',PATHINFO_BASENAME),'','../index.php'));
-
 include("global.php");
 
 authenticate();
@@ -46,7 +43,7 @@ if(isset($_REQUEST['new']))
 	}
 	
 	// Display the form.
-	head(l('new_project'));
+	head(l('new_project'),true,$sidebar_links['projects']['links']);
 	?>
 	<? if(count($errors)) { ?>
 	<div class="message error">
@@ -85,14 +82,7 @@ if(isset($_REQUEST['new']))
 				<td class="optiontitle" colspan="2"><?=l('project_managers')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td><?=l('admin_project_managers_description')?></td>
-				<td width="200"><input type="text" name="displayorder" value="<?=(isset($_POST['displayorder']) ? $_POST['displayorder'] : 0)?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?=l('display_order')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('admin_project_dispay_order_description')?></td>
+				<td valign="top"><?=l('admin_project_managers_description')?></td>
 				<td width="200">
 					<select name="managers[]" multiple="multiple" style="width:100%;height:50px;">
 						<? foreach($user->getusers() as $userinfo) { ?>
@@ -100,6 +90,13 @@ if(isset($_REQUEST['new']))
 						<? } ?>
 					</select>
 				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('display_order')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('admin_project_dispay_order_description')?></td>
+				<td width="200"><input type="text" name="displayorder" value="<?=(isset($_POST['displayorder']) ? $_POST['displayorder'] : 0)?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?=l('project_description')?></td>
@@ -114,6 +111,46 @@ if(isset($_REQUEST['new']))
 	</div>
 	</form>
 	<?
+	foot();
+}
+else
+{
+	// Get projects
+	$projects = array();
+	$fetchprojects = $db->query("SELECT * FROM ".DBPF."projects ORDER BY name ASC");
+	while($info = $db->fetcharray($fetchprojects))
+	{
+		$projects[] = $info;
+	}
+	
+	head(l('projects'),true,$sidebar_links['projects']['links']);
+	?>
+	<div class="thead"><?=l('projects')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr class="optiontitle first">
+				<th width="200" align="left"><?=l('project')?></th>
+				<th width="200"><?=l('codename')?></th>
+				<th></th>
+			</tr>
+			<? foreach($projects as $project) { ?>
+			<tr>
+				<td><?=$project['name']?></td>
+				<td align="center"><?=$project['name']?></td>
+				<td align="right">
+					
+				</td>
+			</tr>
+			<? } ?>
+			<? if(!count($projects)) { ?>
+			<tr>
+				<td align="center" colspan="3"><?=l('no_plugins')?></td>
+			</tr>
+			<? } ?>
+		</table>
+	</div>
+	<?
+	
 	foot();
 }
 ?>

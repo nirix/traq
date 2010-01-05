@@ -49,7 +49,7 @@ function head($title='',$sidebar=false,$links=array())
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Traq AdminCP</title>
+		<title>Traq AdminCP <?=iif($title != '',' / '.$title)?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="style.css" type="text/css" />
 	</head>
@@ -59,7 +59,7 @@ function head($title='',$sidebar=false,$links=array())
 			<div id="nav">
 				<div id="meta_nav">
 					<ul>
-						<li class="first"><a href="/traq/user/settings">View Site</a></li>
+						<li class="first"><a href="../">View Site</a></li>
 					</ul>
 				</div>
 				<ul class="main_nav">
@@ -76,7 +76,7 @@ function head($title='',$sidebar=false,$links=array())
 					<td valign="top" id="sidebar">
 						<ul>
 						<? foreach($links as $link) { ?>
-							<li><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
+							<li class="<?=$link['class'].iif($link['active'],' active')?>"><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
 						<? } ?>
 						</ul>
 					</td>

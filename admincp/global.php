@@ -7,6 +7,9 @@
  * $Id$
  */
 
+// Set the full path to the Traq folder
+define('TRAQPATH',str_replace(pathinfo('../index.php',PATHINFO_BASENAME),'','../index.php'));
+
 // Fetch required files
 include(TRAQPATH."inc/global.php");
 include("common.php");
@@ -39,11 +42,6 @@ $sidebar_links = array(
 				'url' => 'projects.php?new',
 				'active' => activepage('projects.php','new')
 			),
-			array(
-				'title' => l('manage'),
-				'url' => 'projects.php',
-				'active' => activepage('projects.php')
-			)
 		)
 	),
 	'tickets' => array(
@@ -76,16 +74,16 @@ $sidebar_links = array(
 	'users' => array(
 		'title' => l('users'),
 		'url' => 'users.php',
-		'active' => activepage('users.php','','edit&user='.$_REQUEST['user']),
+		'active' => activepage('users.php','edit&user='.$_REQUEST['user']),
 		'links' => array(
 			array(
 				'title' => l('new'),
 				'url' => '#',
-				'active' => activepage('groups.php','','new')
+				'active' => activepage('groups.php','new')
 			),
 			array(
 				'title' => l('manage'),
-				'active' => activepage('groups.php','','','edit&group='.$_REQUEST['group'])
+				'active' => activepage('groups.php','edit&group='.$_REQUEST['group'])
 			)
 		)
 	),
@@ -97,7 +95,17 @@ $sidebar_links = array(
 			array(
 				'title' => l('install'),
 				'url' => 'plugins.php?install',
-				'active' => activepage('plugins.php','','install')
+				'active' => activepage('plugins.php','install')
+			),
+			array(
+				'title' => l('create_plugin'),
+				'url' => 'plugins.php?create',
+				'active' => activepage('plugins.php','create')
+			),
+			array(
+				'title' => l('create_hook'),
+				'url' => 'plugins.php?createhook',
+				'active' => activepage('plugins.php','createhook')
 			)
 		)
 	)

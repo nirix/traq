@@ -171,6 +171,9 @@ h2 {
 	text-decoration: none;
 	display: block;
 }
+#sidebar ul li.active a {
+	text-decoration: underline;
+}
 #sidebar ul li a:hover {
 	text-decoration: underline;
 }

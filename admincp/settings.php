@@ -7,9 +7,6 @@
  * $Id$
  */
 
-// Set the full path to the Traq folder
-define('TRAQPATH',str_replace(pathinfo('../index.php',PATHINFO_BASENAME),'','../index.php'));
-
 include("global.php");
 
 authenticate();

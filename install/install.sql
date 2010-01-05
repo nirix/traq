@@ -27,7 +27,7 @@ CREATE TABLE `traq_plugins` (
   `author` varchar(255) NOT NULL,
   `website` varchar(255) NOT NULL,
   `version` varchar(20) NOT NULL,
-  `status` bigint(20) NOT NULL,
+  `enabled` bigint(20) NOT NULL,
   `uninstall_sql` longtext NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
