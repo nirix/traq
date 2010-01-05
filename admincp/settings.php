@@ -53,14 +53,14 @@ head('Settings');
 		</tr>
 		<tr class="<?=altbg()?>">
 			<td>Public API Key.</td>
-			<td width="200"><input type="text" name="" value="" /></td>
+			<td width="200"><input type="text" name="recaptcha_pub" value="<?=settings('recaptcha_pubkey')?>" /></td>
 		</tr>
 		<tr>
 			<td class="optiontitle" colspan="2">Private Key</td>
 		</tr>
 		<tr class="<?=altbg()?>">
 			<td>Private API Key.</td>
-			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="recaptcha_priv" value="<?=settings('recaptcha_privkey')?>" /></td>
 		</tr>
 	</table>
 </div>

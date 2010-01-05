@@ -95,19 +95,41 @@ if(isset($_POST['update']))
 	if($_POST['action'] == 'mark' && $ticket['status'] != $_POST['mark_as'])
 	{
 		$querybits[] = "status='".$db->res($_POST['mark_as'])."'";
-		$changes[] = array('property'=>'status','from'=>$ticket['status'],'to'=>$_POST['mark_as'],'action'=>'mark');
+		$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['mark_as']),'action'=>'mark');
 	}
 	elseif($_POST['action'] == 'close' && $ticket['status'] != $_POST['close_as'])
 	{
 		$querybits[] = "status='".$db->res($_POST['close_as'])."'";
 		$querybits[] = "closed='1'";
-		$changes[] = array('property'=>'status','from'=>$ticket['status'],'to'=>$_POST['close_as'],'action'=>'close');
+		$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['close_as']),'action'=>'close');
+		$db->query("INSERT INTO ".DBPF."timeline VALUES(
+			0,
+			'".$db->res($project['id'])."',
+			'".$db->res($ticket['id'])."',
+			'close_ticket',
+			'".$ticket['ticket_id']."',
+			'".$user->info['id']."',
+			'".$db->res($user->info['username'])."',
+			'".time()."',
+			NOW()
+		)");
 	}
 	elseif($_POST['action'] == 'reopen' && $ticket['status'] != $_POST['reopen_as'])
 	{
 		$querybits[] = "status='".$db->res($_POST['reopen_as'])."'";
 		$querybits[] = "closed='0'";
-		$changes[] = array('property'=>'status','from'=>$ticket['status'],'to'=>$_POST['reopen_as'],'action'=>'reopen');
+		$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['reopen_as']),'action'=>'reopen');
+		$db->query("INSERT INTO ".DBPF."timeline VALUES(
+			0,
+			'".$db->res($project['id'])."',
+			'".$db->res($ticket['id'])."',
+			'reopen_ticket',
+			'".$ticket['ticket_id']."',
+			'".$user->info['id']."',
+			'".$db->res($user->info['username'])."',
+			'".time()."',
+			NOW()
+		)");
 	}
 	
 	if(count($changes) > 0 || $_POST['comment'] != '')

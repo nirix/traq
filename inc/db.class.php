@@ -91,6 +91,11 @@ class Database
 		return mysql_real_escape_string($string);
 	}
 	
+	public function insertid()
+	{
+		return mysql_insert_id();
+	}
+	
 	/**
 	 * Num Rows
 	 * Get number of rows in result.

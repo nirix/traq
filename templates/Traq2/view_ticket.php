@@ -83,7 +83,7 @@
 				<? if(count($change['changes']) > 0) { ?>
 				<ul>
 					<? foreach($change['changes'] as $row) { ?>
-					<li><?=l('ticket_history_'.$row->property,$row->from,$row->to)?></li>
+					<li><?=l('ticket_history_'.$row->property.iif($row->action,'_'.$row->action),$row->from,$row->to)?></li>
 					<? } ?>
 				</ul>
 				<? } ?>
@@ -189,7 +189,11 @@
 								<? } ?>
 							</select>
 							<? } else if($ticket['closed']) { ?>
-							<input type="radio" name="action" value="reopen" /> <?=l('reopen_as')?>
+							<input type="radio" name="action" value="reopen" id="reopen" /> <label for="reopn"><?=l('reopen_as')?></label> <select name="reopen_as">
+								<? foreach(ticket_status_list() as $status) { ?>
+									<option value="<?=$status['id']?>"<?=iif($status['id']==$ticket['status'],' selected="selected"')?>><?=$status['name']?></option>
+								<? } ?>
+							</select>
 							<? } ?>
 						</td>
 						<th class="col2"><label for="private"><?=l('private_ticket')?></label></th>

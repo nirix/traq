@@ -44,7 +44,7 @@
 						<th class="col2"><?=l('assign_to')?></th>
 						<td>
 							<select name="assign_to">
-								<option value="" selected=""></option>
+								<option value="0" selected=""></option>
 								<? foreach(project_managers() as $manager) { ?>
 								<option value="<?=$manager['id']?>"><?=$manager['name']?></option>
 								<? } ?>
@@ -81,7 +81,7 @@
 						<th class="col2"><?=l('version')?></th>
 						<td>
 							<select name="version">
-								<option value="" selected=""></option>
+								<option value="0" selected=""></option>
 								<? foreach(project_versions() as $version) { ?>
 								<option value="<?=$version['id']?>"><?=$version['version']?></option>
 								<? } ?>

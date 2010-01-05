@@ -82,6 +82,10 @@ $lang['ticket_history_severity'] = 'Changed Severity from {1} to {2}';
 $lang['ticket_history_priority'] = 'Changed Priority from {1} to {2}';
 $lang['ticket_history_summary'] = 'Changed Summary from \'{1}\' to \'{2}\'';
 $lang['ticket_history_assigned_to'] = 'Changed Assignee from {1} to {2}';
+$lang['ticket_history_status_open'] = 'Opened Ticket';
+$lang['ticket_history_status_mark'] = 'Changed Status from {1} to {2}';
+$lang['ticket_history_status_close'] = 'Closed ticket as {2}';
+$lang['ticket_history_status_reopen'] = 'Opened ticket as {2}';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';

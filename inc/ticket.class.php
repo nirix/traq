@@ -68,6 +68,30 @@ class Ticket
 			)
 		");
 		
+		// Insert the ticket history row
+		$db->query("INSERT INTO ".DBPF."ticket_history VALUES(
+			0,
+			'".$user->info['id']."',
+			'".$user->info['username']."',
+			'".time()."',
+			'".$db->insertid()."',
+			'".json_encode(array(array('property'=>'status','from'=>'','to'=>'1','action'=>'open')))."',
+			''
+		)");
+		
+		// Insert the timeline row
+		$db->query("INSERT INTO ".DBPF."timeline VALUES(
+			0,
+			'".$db->res($project['id'])."',
+			'".$db->insertid()."',
+			'open_ticket',
+			'".$project['next_tid']."',
+			'".$user->info['id']."',
+			'".$db->res($user->info['username'])."',
+			'".time()."',
+			NOW()
+		)");
+		
 		// Set the ticket ID.
 		$this->ticket_id = $project['next_tid'];
 		

@@ -13,8 +13,8 @@ $fetch = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$db->e
 while($info = $db->fetcharray($fetch))
 {
 	$info['tickets'] = array();
-	$info['tickets']['open'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='0' LIMIT 1"));
-	$info['tickets']['closed'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='1' LIMIT 1"));
+	$info['tickets']['open'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='0'"));
+	$info['tickets']['closed'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='1'"));
 	$info['tickets']['total'] = ($info['tickets']['open']+$info['tickets']['closed']);
 	$info['tickets']['percent'] = array(
 		'open' => ($info['tickets']['open'] ? getpercent($info['tickets']['open'],$info['tickets']['total']) : 0),
