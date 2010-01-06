@@ -33,7 +33,7 @@
 								<select name="filters[milestone][value]">
 									<option></option>
 									<? foreach(projectmilestones($project['id'],true) as $milestone) { ?>
-									<option value="<?=$milestone['milestone']?>"<?=($filter['value'] == $milestone['milestone'] ? ' selected="selected"' : '')?>><?=$milestone['milestone']?></option>
+									<option value="<?=urlencode($milestone['milestone'])?>"<?=($filter['value'] == urlencode($milestone['milestone']) ? ' selected="selected"' : '')?>><?=$milestone['milestone']?></option>
 									<? } ?>
 								</select>
 							</td>
@@ -234,7 +234,7 @@
 					<? if(in_array('priority',$columns)) { ?><td class="priority"><?=ticketpriority($ticket['priority'])?></td><? } ?>
 					<? if(in_array('severity',$columns)) { ?><td class="severity"><?=ticketseverity($ticket['severity'])?></td><? } ?>
 					<? if(in_array('component',$columns)) { ?><td class="component"><?=$ticket['component']['name']?></td><? } ?>
-					<? if(in_array('milestone',$columns)) { ?><td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',$ticket['milestone']['milestone'])?>"><?=$ticket['milestone']['milestone']?></a></td><? } ?>
+					<? if(in_array('milestone',$columns)) { ?><td class="milestone"><a href="<?=$uri->anchor($project['slug'],'milestone',urlencode($ticket['milestone']['milestone']))?>"><?=$ticket['milestone']['milestone']?></a></td><? } ?>
 					<? if(in_array('version',$columns)) { ?><td class="vesrion"><?=$ticket['version']['version']?></td><? } ?>
 					<? if(in_array('assignedto',$columns)) { ?><td class="assignedto"><?=$ticket['assignee']['username']?></td><? } ?>
 				</tr>

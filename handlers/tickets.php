@@ -116,7 +116,7 @@ foreach($filterbits as $filterbit)
 			// Do the milestone filter
 			if($filter['type'] == 'milestone')
 			{
-				$milestone = $db->fetcharray($db->query("SELECT id,project,milestone FROM ".DBPREFIX."milestones WHERE project='".$db->escapestring($project['id'])."' AND milestone='".$db->escapestring($bit[1])."' LIMIT 1"));
+				$milestone = $db->fetcharray($db->query("SELECT id,project,milestone FROM ".DBPREFIX."milestones WHERE project='".$db->escapestring($project['id'])."' AND milestone='".$db->escapestring(urldecode($bit[1]))."' LIMIT 1"));
 				$query .= " AND milestoneid".$filter['mode']."='".$milestone['id']."'";
 			}
 			// Do the status filter

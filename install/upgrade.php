@@ -346,6 +346,16 @@ INSERT INTO `traq_types` (`id`, `name`) VALUES
 			}
 		}
 	}
+	if($settings->dbversion < 17) {
+		$sql = "ALTER TABLE `traq_milestones` CHANGE `milestone` `milestone` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL ";
+		$sql = str_replace('traq_',$config->db->prefix,$sql);
+		$queries = explode(';',$sql);
+		foreach($queries as $query) {
+			if(!empty($query)) {
+				$db->query($query);
+			}
+		}
+	}
 	?>
 	Database upgrade complete.
 	<?

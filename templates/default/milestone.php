@@ -26,18 +26,18 @@
 				</p>
 				<table class="progress">
 					<tr>
-						<td class="closed" style="width: <?=$milestone['tickets']['percent']['closed']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=$milestone['milestone']?>&status=closed" title="<?=$milestone['tickets']['closed']?> of <?=$milestone['tickets']['total']?> tickets closed"></a></td>
-						<td class="open" style="width: <?=$milestone['tickets']['percent']['open']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=$milestone['milestone']?>&status=open" title="<?=$milestone['tickets']['open']?> of <?=$milestone['tickets']['total']?> tickets active"></a></td>
+						<td class="closed" style="width: <?=$milestone['tickets']['percent']['closed']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=urlencode($milestone['milestone'])?>&status=closed" title="<?=$milestone['tickets']['closed']?> of <?=$milestone['tickets']['total']?> tickets closed"></a></td>
+						<td class="open" style="width: <?=$milestone['tickets']['percent']['open']?>%"><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=urlencode($milestone['milestone'])?>&status=open" title="<?=$milestone['tickets']['open']?> of <?=$milestone['tickets']['total']?> tickets active"></a></td>
 					</tr>
 				</table>
 				<p class="percent"><?=$milestone['tickets']['percent']['closed']?>%</p>
 				<dl>
 					<dt><?=l('closed_tickets')?>:</dt>
-					<dd><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=$milestone['milestone']?>&status=closed"><?=$milestone['tickets']['closed']?></a></dd>
+					<dd><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=urlencode($milestone['milestone'])?>&status=closed"><?=$milestone['tickets']['closed']?></a></dd>
 					<dt><?=l('active_tickets')?>:</dt>
-					<dd><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=$milestone['milestone']?>&status=open"><?=$milestone['tickets']['open']?></a></dd>
+					<dd><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=urlencode($milestone['milestone'])?>&status=open"><?=$milestone['tickets']['open']?></a></dd>
 					<dt><?=l('total_tickets')?>:</dt>
-					<dd><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=$milestone['milestone']?>"><?=$milestone['tickets']['total']?></a></dd>
+					<dd><a href="<?=$uri->anchor($project['slug'],'tickets')?>?milestone=<?=urlencode($milestone['milestone'])?>"><?=$milestone['tickets']['total']?></a></dd>
 				</dl>
 				<div class="description">
 					<?=$milestone['desc']?> 

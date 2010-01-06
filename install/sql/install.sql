@@ -21,7 +21,7 @@ CREATE TABLE `traq_components` (
 
 CREATE TABLE `traq_milestones` (
   `id` bigint(20) NOT NULL auto_increment,
-  `milestone` varchar(255) NOT NULL,
+  `milestone` varchar(255) character set utf8 collate utf8_bin NOT NULL,
   `codename` varchar(255) NOT NULL,
   `desc` longtext NOT NULL,
   `project` bigint(20) NOT NULL,

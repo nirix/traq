@@ -395,7 +395,7 @@ if(!isset($uri->seg[1])) {
 	}
 } elseif($uri->seg[1] == "milestone") {
 	// Milestone Page
-	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".$uri->seg[2]."' AND project='".$project['id']."' LIMIT 1")); // Get ticket Milestone info
+	$milestone = $db->fetcharray($db->query("SELECT * FROM ".DBPREFIX."milestones WHERE milestone='".urldecode($uri->seg[2])."' AND project='".$project['id']."' LIMIT 1")); // Get ticket Milestone info
 	$milestone['desc'] = formattext($milestone['desc']); // Format the milestone description field
 	$milestone['tickets']['open'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status >= 1 AND milestoneid='".$milestone['id']."'")); // Count open tickets
 	$milestone['tickets']['closed'] = $db->numrows($db->query("SELECT projectid,status FROM ".DBPREFIX."tickets WHERE status <= 0 AND milestoneid='".$milestone['id']."'")); // Count closed tickets
@@ -404,7 +404,7 @@ if(!isset($uri->seg[1])) {
 	$milestone['tickets']['percent']['open'] = calculatepercent($milestone['tickets']['open'],$milestone['tickets']['total']); // Calculate open tickets percent
 	// Breadcrumbs
 	$breadcrumbs[$uri->anchor($project['slug'],'roadmap')] = "Milestones";
-	$breadcrumbs[$uri->anchor($project['slug'],'milestone',$milestone['milestone'])] = $milestone['milestone'];
+	$breadcrumbs[$uri->anchor($project['slug'],'milestone',urlencode($milestone['milestone']))] = $milestone['milestone'];
 	
 	($hook = FishHook::hook('project_milestoneinfo')) ? eval($hook) : false;
 	
