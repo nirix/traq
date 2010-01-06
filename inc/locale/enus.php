@@ -194,6 +194,7 @@ $lang['hook_execution_order_description'] = 'The order the code should be execut
 $lang['select_hook'] = 'Select Hook';
 $lang['title'] = 'Title';
 $lang['hook_title_description'] = 'Title of the hook code';
+$lang['hook_plugin_description'] = 'The plugin the hook belongs to.';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';

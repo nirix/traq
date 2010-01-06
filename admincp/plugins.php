@@ -25,7 +25,7 @@ if(isset($_REQUEST['install']))
 			'".$db->res((string)$plugin->info->website)."',
 			'".$db->res((string)$plugin->info->version)."',
 			'1',
-			'".$db->res((string)$plugin->sql->install)."'
+			'".$db->res((string)$plugin->sql->install)."',
 			'".$db->res((string)$plugin->sql->uninstall)."'
 		)");
 		$pluginid = $db->insertid();
@@ -45,9 +45,10 @@ if(isset($_REQUEST['install']))
 			$db->query("INSERT INTO ".DBPF."plugin_code VALUES(
 				0,
 				'".$pluginid."',
-				'".$db->res((string)$hook['name'])."',
+				'".$db->res((string)$hook['title'])."',
+				'".$db->res((string)$hook['hook'])."',
 				'".$db->res((string)$hook->code)."',
-				'".$db->res((integer)$hook['loadorder'])."',
+				'".$db->res((integer)$hook['execorder'])."',
 				'1'
 			)");
 		}
@@ -288,7 +289,7 @@ elseif(isset($_REQUEST['hooks']))
 				<td align="right">
 					<select>
 						<option selected="selected">Actions</option>
-						<option onclick="window.location='plugins.php?edit&amp;hook=<?=$hook['id']?>';"><?=l('edit')?></option>
+						<option onclick="window.location='plugins.php?edithook&amp;hook=<?=$hook['id']?>';"><?=l('edit')?></option>
 						<option onclick="if(confirm('<?=l('delet_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; }"><?=l('delete')?></option>
 					</select>
 				</td>
@@ -301,13 +302,70 @@ elseif(isset($_REQUEST['hooks']))
 }
 elseif(isset($_REQUEST['newhook']))
 {
-	head(l('newhook'),true,'plugins');
+	// Create Hook
+	if(isset($_POST['title']))
+	{
+		// Check for errors...
+		$errors = array();
+		if(empty($_POST['plugin_id']))
+			$errors['plugin_id'] = l('error_hook_plugin_blank');
+		if(empty($_POST['title']))
+			$errors['title'] = l('error_hook_title_blank');
+		if(empty($_POST['hook']))
+			$errors['hook'] = l('error_hook_hook_blank');
+		
+		if(!count($errors))
+		{
+			$db->query("INSERT INTO ".DBPF."plugin_code (plugin_id,title,hook,code,execorder,enabled)
+			VALUES(
+			'".$db->res($_POST['plugin_id'])."',
+			'".$db->res($_POST['title'])."',
+			'".$db->res($_POST['hook'])."',
+			'".$db->res($_POST['code'])."',
+			'".$db->res($_POST['execorder'])."',
+			'1'
+			)");
+			
+			header("Location: plugins.php?created");
+		}
+	}
+	
+	// Fetch plugins
+	$plugins = array();
+	$fetchplugins = $db->query("SELECT id,name FROM ".DBPF."plugins ORDER BY name ASC");
+	while($info = $db->fetcharray($fetchplugins))
+	{
+		$plugins[] = $info;
+	}
+	
+	head(l('new_hook'),true,'plugins');
 	?>
+	<? if(count($errors)) { ?>
+	<div class="message error">
+		<? foreach($errors as $error) { ?>
+		<?=$error?><br />
+		<? } ?>
+	</div>
+	<? } ?>
+	<form action="plugins.php?newhook" method="post">
 	<div class="thead"><?=l('new_hook')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('title')?></td>
+				<td class="optiontitle first" colspan="2"><?=l('plugin')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_plugin_description')?></td>
+				<td align="right">
+					<select name="plugin_id">
+						<? foreach($plugins as $plugin) { ?>
+						<option value="<?=$plugin['id']?>"<?=iif($plugin['id']==$_POST['plugin_id'],' selected="selected"')?>><?=$plugin['name']?></option>
+						<? } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('title')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
 				<td><?=l('hook_title_description')?></td>
@@ -332,7 +390,7 @@ elseif(isset($_REQUEST['newhook']))
 			</tr>
 			<tr class="<?=altbg()?>">
 				<td><?=l('hook_execution_order_description')?></td>
-				<td align="right"><input type="text" name="execorder" value="<?=$_POST['execorder']?>" /></td>
+				<td align="right"><input type="text" name="execorder" value="<?=iif($_POST['execorder'],$_POST['execorder'],0)?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?=l('code')?></td>
@@ -343,24 +401,37 @@ elseif(isset($_REQUEST['newhook']))
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
 	</div>
+	</form>
 	<?
 	foot();
 }
-elseif(isset($_REQUEST['edit']) && isset($_REQUEST['hook']))
+elseif(isset($_REQUEST['edithook']))
 {
 	// Save Hook
 	if(isset($_POST['title']))
 	{	
 		// Check for errors...
 		$errors = array();
-		if(empty($_POST['plugin']))
-			$errors['plugin'] = l('error_hook_plugin_blank');
+		if(empty($_POST['plugin_id']))
+			$errors['plugin_id'] = l('error_hook_plugin_blank');
 		if(empty($_POST['title']))
 			$errors['title'] = l('error_hook_title_blank');
 		if(empty($_POST['hook']))
 			$errors['hook'] = l('error_hook_hook_blank');
 		
-		
+		if(!count($errors))
+		{
+			$db->query("UPDATE ".DBPF."plugin_code SET
+			plugin_id='".$db->res($_POST['plugin_id'])."',
+			title='".$db->res($_POST['title'])."',
+			hook='".$db->res($_POST['hook'])."',
+			execorder='".$db->res($_POST['execorder'])."',
+			code='".$db->res($_POST['code'])."'
+			WHERE id='".$db->res($_POST['hook_id'])."' LIMIT 1
+			");
+			
+			header("Location: plugins.php?edithook&hook=".$_POST['hook_id']);
+		}
 	}
 	
 	// Fetch Hook info
@@ -376,6 +447,15 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['hook']))
 	
 	head(l('edit_hook'),true,'plugins');
 	?>
+	<? if(count($errors)) { ?>
+	<div class="message error">
+		<? foreach($errors as $error) { ?>
+		<?=$error?><br />
+		<? } ?>
+	</div>
+	<? } ?>
+	<form action="plugins.php?edithook" method="post">
+	<input type="hidden" name="hook_id" value="<?=$hook['id']?>" />
 	<div class="thead"><?=l('edit_hook')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
@@ -385,9 +465,9 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['hook']))
 			<tr class="<?=altbg()?>">
 				<td><?=l('hook_plugin_description')?></td>
 				<td align="right">
-					<select name="plugin">
+					<select name="plugin_id">
 						<? foreach($plugins as $plugin) { ?>
-						<option value="<?=$plugin['id']?>"<?=iif($plugin['id']==$plugin['id'],' selected="selected"')?>><?=$plugin['name']?></option>
+						<option value="<?=$plugin['id']?>"<?=iif($plugin['id']==$hook['plugin_id'],' selected="selected"')?>><?=$plugin['name']?></option>
 						<? } ?>
 					</select>
 				</td>
@@ -427,10 +507,46 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['hook']))
 				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=$hook['code']?></textarea></td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
 	</div>
+	</form>
 	<?
 	foot();
+}
+elseif(isset($_REQUEST['export']))
+{
+	// Fetch Plugin info
+	$plugin = $db->queryfirst("SELECT * FROM ".DBPF."plugins WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
+	
+	// Fetch Hooks
+	$hooks = array();
+	$fetchhooks = $db->query("SELECT * FROM ".DBPF."plugin_code WHERE plugin_id='".$db->res($_REQUEST['plugin'])."' ORDER BY hook ASC");
+	while($info = $db->fetcharray($fetchhooks))
+	{
+		$hooks[] = $info;
+	}
+	
+	header('Content-type: application/xml');
+	echo '<'.'?'.'xml version="1.0" encoding="UTF-8"'.'?'.'>';
+	?><plugin>
+	<info>
+		<name><?=$plugin['name']?></name>
+		<author><?=$plugin['author']?></author>
+		<website><?=$plugin['website']?></website>
+		<version><?=$plugin['version']?></version>
+	</info>
+	<sql>
+		<install><?=$plugin['install_sql']?></install>
+		<uninstall><?=$plugin['uninstall_sql']?></uninstall>
+	</sql>
+	<hooks>
+		<? foreach($hooks as $hook) { ?>
+		<hook title="<?=$hook['title']?>" hook="<?=$hook['hook']?>" execorder="<?=$hook['execorder']?>">
+			<code><?=stripslashes($hook['code'])?></code>
+		</hook>
+		<? } ?>
+	</hooks>
+</plugin><?
 }
 elseif(isset($_REQUEST['disable']))
 {
