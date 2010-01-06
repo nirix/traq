@@ -28,19 +28,21 @@ CREATE TABLE `traq_plugins` (
   `website` varchar(255) NOT NULL,
   `version` varchar(20) NOT NULL,
   `enabled` bigint(20) NOT NULL,
+  `install_sql` longtext NOT NULL,
   `uninstall_sql` longtext NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
-CREATE TABLE `traq_plugin_hooks` (
+CREATE TABLE `traq_plugin_code` (
   `id` bigint(20) NOT NULL auto_increment,
   `plugin_id` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `hook` mediumtext NOT NULL,
   `code` longtext NOT NULL,
-  `loadorder` bigint(20) NOT NULL,
+  `execorder` bigint(20) NOT NULL,
   `enabled` smallint(6) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_priorities` (
   `id` bigint(20) NOT NULL,
