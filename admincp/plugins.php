@@ -106,6 +106,16 @@ elseif(isset($_REQUEST['create']))
 				'".$db->res($_POST['install_sql'])."',
 				'".$db->res($_POST['uninstall_sql'])."'
 			)");
+			
+			// Run the install SQL
+			if($_POST['install_sql'] != '')
+			{
+				$queries = explode(';',$_POST['install_sql']);
+				foreach($queries as $query)
+					if($query != '')
+						$db->query($query);
+			}
+			
 			header("Location: plugins.php?created");
 		}
 	}
@@ -290,7 +300,7 @@ elseif(isset($_REQUEST['hooks']))
 					<select>
 						<option selected="selected">Actions</option>
 						<option onclick="window.location='plugins.php?edithook&amp;hook=<?=$hook['id']?>';"><?=l('edit')?></option>
-						<option onclick="if(confirm('<?=l('delet_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; }"><?=l('delete')?></option>
+						<option onclick="if(confirm('<?=l('delete_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; }"><?=l('delete')?></option>
 					</select>
 				</td>
 			</tr>
@@ -547,6 +557,28 @@ elseif(isset($_REQUEST['export']))
 		<? } ?>
 	</hooks>
 </plugin><?
+}
+elseif(isset($_REQUEST['removehook']))
+{
+	$db->query("DELETE FROM ".DBPF."plugin_code WHERE id='".$db->res($_REQUEST['hook'])."' LIMIT 1");
+	header("Location: plugins.php");
+}
+elseif(isset($_REQUEST['remove']))
+{
+	// Fetch Plugin uninstall sql
+	$plugin = $db->queryfirst("SELECT uninstall_sql FROM ".DBPF."plugins WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
+	$queries = explode(';',$plugin['uninstall_sql']);
+	
+	// Run queries
+	foreach($queries as $query)
+		if($query != '')
+			$db->query($query);
+	
+	// Remove from the Database
+	$db->query("DELETE FROM ".DBPF."plugins WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPF."plugin_code WHERE plugin_id='".$db->res($_REQUEST['plugin'])."'");
+	
+	header("Location: plugins.php");
 }
 elseif(isset($_REQUEST['disable']))
 {

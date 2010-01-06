@@ -195,6 +195,8 @@ $lang['select_hook'] = 'Select Hook';
 $lang['title'] = 'Title';
 $lang['hook_title_description'] = 'Title of the hook code';
 $lang['hook_plugin_description'] = 'The plugin the hook belongs to.';
+$lang['uninstall_plugin_confirm'] = 'Are you sure you want to uninstall this plugin?';
+$lang['delete_plugin_hook_confirm'] = 'Are you sure you want to delete this hook?';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
