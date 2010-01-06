@@ -11,6 +11,7 @@ include("global.php");
 
 authenticate();
 
+// Install Plugin
 if(isset($_REQUEST['install']))
 {
 	if(isset($_POST['install']))
@@ -81,6 +82,7 @@ if(isset($_REQUEST['install']))
 		
 	foot();
 }
+// Create new Plugin
 elseif(isset($_REQUEST['create']))
 {
 	if(isset($_POST['name']))
@@ -180,6 +182,7 @@ elseif(isset($_REQUEST['create']))
 	<?
 	foot();
 }
+// Edit Plugin
 elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
 {
 	// Update Plugin
@@ -272,6 +275,7 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
 	<?
 	foot();
 }
+// Plugin Hook listing
 elseif(isset($_REQUEST['hooks']))
 {
 	// Fetch Plugin hooks
@@ -310,6 +314,7 @@ elseif(isset($_REQUEST['hooks']))
 	<?
 	foot();
 }
+// New Hook
 elseif(isset($_REQUEST['newhook']))
 {
 	// Create Hook
@@ -320,9 +325,9 @@ elseif(isset($_REQUEST['newhook']))
 		if(empty($_POST['plugin_id']))
 			$errors['plugin_id'] = l('error_hook_plugin_blank');
 		if(empty($_POST['title']))
-			$errors['title'] = l('error_hook_title_blank');
+			$errors['title'] = l('error_title_blank');
 		if(empty($_POST['hook']))
-			$errors['hook'] = l('error_hook_hook_blank');
+			$errors['hook'] = l('error_select_a_hook');
 		
 		if(!count($errors))
 		{
@@ -415,6 +420,7 @@ elseif(isset($_REQUEST['newhook']))
 	<?
 	foot();
 }
+// Edit Hook
 elseif(isset($_REQUEST['edithook']))
 {
 	// Save Hook
@@ -425,9 +431,9 @@ elseif(isset($_REQUEST['edithook']))
 		if(empty($_POST['plugin_id']))
 			$errors['plugin_id'] = l('error_hook_plugin_blank');
 		if(empty($_POST['title']))
-			$errors['title'] = l('error_hook_title_blank');
+			$errors['title'] = l('error_title_blank');
 		if(empty($_POST['hook']))
-			$errors['hook'] = l('error_hook_hook_blank');
+			$errors['hook'] = l('error_select_a_hook');
 		
 		if(!count($errors))
 		{
@@ -523,6 +529,7 @@ elseif(isset($_REQUEST['edithook']))
 	<?
 	foot();
 }
+// Export Plugin
 elseif(isset($_REQUEST['export']))
 {
 	// Fetch Plugin info
@@ -558,11 +565,13 @@ elseif(isset($_REQUEST['export']))
 	</hooks>
 </plugin><?
 }
+// Delete Hook
 elseif(isset($_REQUEST['removehook']))
 {
 	$db->query("DELETE FROM ".DBPF."plugin_code WHERE id='".$db->res($_REQUEST['hook'])."' LIMIT 1");
 	header("Location: plugins.php");
 }
+// Uninstall Plugin
 elseif(isset($_REQUEST['remove']))
 {
 	// Fetch Plugin uninstall sql
@@ -580,18 +589,21 @@ elseif(isset($_REQUEST['remove']))
 	
 	header("Location: plugins.php");
 }
+// Disable Plugin
 elseif(isset($_REQUEST['disable']))
 {
 	$db->query("UPDATE ".DBPF."plugins SET enabled='0' WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
 	$db->query("UPDATE ".DBPF."plugin_code SET enabled='0' WHERE plugin_id='".$db->res($_REQUEST['plugin'])."'");
 	header("Location: plugins.php");
 }
+// Enable Plugin
 elseif(isset($_REQUEST['enable']))
 {
 	$db->query("UPDATE ".DBPF."plugins SET enabled='1' WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
 	$db->query("UPDATE ".DBPF."plugin_code SET enabled='1' WHERE plugin_id='".$db->res($_REQUEST['plugin'])."'");
 	header("Location: plugins.php");
 }
+// Plugin listing
 else
 {
 	// Fetch plugins

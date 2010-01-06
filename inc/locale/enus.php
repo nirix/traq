@@ -215,4 +215,7 @@ $lang['error_project_slug_taken'] = 'The Project Slug is already in use.';
 $lang['error_plugin_name_blank'] = 'Plugin Name cannot be empty.';
 $lang['error_plugin_author_blank'] = 'Plugin Author cannot be empty.';
 $lang['error_plugin_version_blank'] = 'Plugin Version cannot be empty.';
+$lang['error_title_blank'] = 'Title cannot be empty.';
+$lang['error_select_a_hook'] = 'You must select a hook.';
+$lang['error_hook_plugin_blank'] = 'You must select a Plugin.';
 ?>
