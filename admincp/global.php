@@ -104,10 +104,15 @@ $sidebar_links = array(
 			),
 			array(
 				'title' => l('create_hook'),
-				'url' => 'plugins.php?createhook',
-				'active' => activepage('plugins.php','createhook')
+				'url' => 'plugins.php?newhook',
+				'active' => activepage('plugins.php','newhook')
 			)
 		)
 	)
+);
+
+$hook_locations = array(
+	'global',
+	'formattext'
 );
 ?>

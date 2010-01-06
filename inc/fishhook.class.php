@@ -21,7 +21,7 @@ class FishHook
 		
 		// Fetch the plugin code from the DB.
 		$code = array();
-		$fetch = $db->query("SELECT * FROM ".DBPF."plugin_hooks WHERE hook='".$db->es($hook)."' AND enabled='1' ORDER BY loadorder ASC");
+		$fetch = $db->query("SELECT * FROM ".DBPF."plugin_code WHERE hook='".$db->es($hook)."' AND enabled='1' ORDER BY execorder ASC");
 		while($info = $db->fetcharray($fetch))
 		{
 			$code[] = $info['code'];

@@ -1,0 +1,526 @@
+<?php
+/**
+ * Traq 2
+ * Copyright (c) 2009 Jack Polgar
+ * All Rights Reserved
+ *
+ * $Id$
+ */
+
+include("global.php");
+
+authenticate();
+
+if(isset($_REQUEST['install']))
+{
+	if(isset($_POST['install']))
+	{
+		$plugin = simplexml_load_file($_FILES['pluginfile']['tmp_name']);
+
+		// Insert plugin
+		$db->query("INSERT INTO ".DBPF."plugins VALUES(
+			0,
+			'".$db->res((string)$plugin->info->name)."',
+			'".$db->res((string)$plugin->info->author)."',
+			'".$db->res((string)$plugin->info->website)."',
+			'".$db->res((string)$plugin->info->version)."',
+			'1',
+			'".$db->res((string)$plugin->sql->install)."'
+			'".$db->res((string)$plugin->sql->uninstall)."'
+		)");
+		$pluginid = $db->insertid();
+		
+		// Run the install SQL
+		if($plugin->sql->install != '')
+		{
+			$queries = explode(';',$plugin->sql->install);
+			foreach($queries as $query)
+				if($query != '')
+					$db->query($query);
+		}
+		
+		// Add the hooks
+		foreach($plugin->hooks->hook as $hook)
+		{
+			$db->query("INSERT INTO ".DBPF."plugin_code VALUES(
+				0,
+				'".$pluginid."',
+				'".$db->res((string)$hook['name'])."',
+				'".$db->res((string)$hook->code)."',
+				'".$db->res((integer)$hook['loadorder'])."',
+				'1'
+			)");
+		}
+		
+		header("Location: plugins.php");
+	}
+	
+	head(l('install_plugin'),true,sidebar_links('plugins'));
+	
+	?>
+	<form action="plugins.php?install" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="install" value="1" />
+	<div class="thead">Install Plugin</div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr>
+				<td class="optiontitle first" colspan="2"><?=l('plugin_file')?></td>
+			</tr>
+			<tr>
+				<td><?=l('plugin_file_description')?></td>
+				<td align="right"><input type="file" name="pluginfile" />
+			</td>
+			<tr>
+				<td colspan="2" class="tfoot"><div align="center"><input type="submit" value="<?=l('install')?>" /></div></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+	<?
+		
+	foot();
+}
+elseif(isset($_REQUEST['create']))
+{
+	if(isset($_POST['name']))
+	{
+		// Check for errors...
+		$errors = array();
+		if(empty($_POST['name']))
+			$errors['name'] = l('error_plugin_name_blank');
+		if(empty($_POST['author']))
+			$errors['author'] = l('error_plugin_author_blank');
+		if(empty($_POST['version']))
+			$errors['version'] = l('error_plugin_version_blank');
+			
+		if(!count($errors))
+		{
+			$db->query("INSERT INTO ".DBPF."plugins (name,author,website,version,enabled,install_sql,uninstall_sql)
+			VALUES(
+				'".$db->res($_POST['name'])."',
+				'".$db->res($_POST['author'])."',
+				'".$db->res($_POST['website'])."',
+				'".$db->res($_POST['version'])."',
+				'1',
+				'".$db->res($_POST['install_sql'])."',
+				'".$db->res($_POST['uninstall_sql'])."'
+			)");
+			header("Location: plugins.php?created");
+		}
+	}
+	
+	head(l('create_plugin'),true,'plugins');
+	?>
+	<? if(count($errors)) { ?>
+	<div class="message error">
+		<? foreach($errors as $error) { ?>
+		<?=$error?><br />
+		<? } ?>
+	</div>
+	<? } ?>
+	<form action="plugins.php?create" method="post">
+	<div class="thead"><?=l('create_plugin')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr>
+				<td class="optiontitle first" colspan="2"><?=l('plugin_name')?></td>
+			</tr>
+			<tr>
+				<td><?=l('plugin_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?=$_POST['name']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_author')?></td>
+			</tr>
+			<tr>
+				<td><?=l('plugin_author_description')?></td>
+				<td align="right"><input type="text" name="author" value="<?=$_POST['author']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_website')?></td>
+			</tr>
+			<tr>
+				<td><?=l('plugin_website_description')?></td>
+				<td align="right"><input type="text" name="website" value="<?=$_POST['website']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_version')?></td>
+			</tr>
+			<tr>
+				<td><?=l('plugin_version_description')?></td>
+				<td align="right"><input type="text" name="version" value="<?=$_POST['version']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_install_sql')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?=$_POST['install_sql']?></textarea></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_uninstall_sql')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?=$_POST['uninstall_sql']?></textarea></td>
+			</tr>
+		</table>
+		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+	</div>
+	</form>
+	<?
+	foot();
+}
+elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
+{
+	// Update Plugin
+	if(isset($_POST['name']))
+	{
+		// Check for errors...
+		$errors = array();
+		if(empty($_POST['name']))
+			$errors['name'] = l('error_plugin_name_blank');
+		if(empty($_POST['author']))
+			$errors['author'] = l('error_plugin_author_blank');
+		if(empty($_POST['version']))
+			$errors['version'] = l('error_plugin_version_blank');
+		
+		if(!count($errors))
+		{
+			$db->query("UPDATE ".DBPF."plugins SET
+			name='".$db->res($_POST['name'])."',
+			author='".$db->res($_POST['author'])."',
+			website='".$db->res($_POST['website'])."',
+			version='".$db->res($_POST['version'])."',
+			install_sql='".$db->res($_POST['install_sql'])."',
+			uninstall_sql='".$db->res($_POST['uninstall_sql'])."'
+			WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
+			
+			header("Location: plugins.php?updated");
+		}
+	}
+	
+	// Fetch Plugin info
+	$plugin = $db->queryfirst("SELECT * FROM ".DBPF."plugins WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
+	
+	head(l('edit_plugin'),true,'plugins');
+	?>
+	<? if(count($errors)) { ?>
+	<div class="message error">
+		<? foreach($errors as $error) { ?>
+		<?=$error?><br />
+		<? } ?>
+	</div>
+	<? } ?>
+	<form action="plugins.php?edit&amp;plugin=<?=$_REQUEST['plugin']?>" method="post">
+	<div class="thead"><?=l('edit_plugin')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr>
+				<td class="optiontitle first" colspan="2"><?=l('plugin_name')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('plugin_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?=$plugin['name']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_author')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('plugin_author_description')?></td>
+				<td align="right"><input type="text" name="author" value="<?=$plugin['author']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_website')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('plugin_website_description')?></td>
+				<td align="right"><input type="text" name="website" value="<?=$plugin['website']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_version')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('plugin_version_description')?></td>
+				<td align="right"><input type="text" name="version" value="<?=$plugin['version']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_install_sql')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?=$plugin['install_sql']?></textarea></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('plugin_uninstall_sql')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?=$plugin['uninstall_sql']?></textarea></td>
+			</tr>
+		</table>
+		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+	</div>
+	</form>
+	<?
+	foot();
+}
+elseif(isset($_REQUEST['hooks']))
+{
+	// Fetch Plugin hooks
+	$hooks = array();
+	$fetchhooks = $db->query("SELECT id,title,hook,code FROM ".DBPF."plugin_code WHERE plugin_id='".$db->res($_REQUEST['plugin'])."' ORDER BY title ASC");
+	while($info = $db->fetcharray($fetchhooks))
+	{
+		$hooks[] = $info;
+	}
+	
+	head(l('plugin_hooks'),true,'plugins');
+	?>
+	<div class="thead"><?=l('plugin_hooks')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr class="optiontitle first">
+				<th width="200" align="left"><?=l('title')?></th>
+				<th width="200" align="left"><?=l('hook')?></th>
+				<th></td>
+			</tr>
+			<? foreach($hooks as $hook) { ?>
+			<tr class="<?=altbg()?>">
+				<td><?=$hook['title']?></td>
+				<td><?=$hook['hook']?></td>
+				<td align="right">
+					<select>
+						<option selected="selected">Actions</option>
+						<option onclick="window.location='plugins.php?edit&amp;hook=<?=$hook['id']?>';"><?=l('edit')?></option>
+						<option onclick="if(confirm('<?=l('delet_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; }"><?=l('delete')?></option>
+					</select>
+				</td>
+			</tr>
+			<? } ?>
+		</table>
+	</div>
+	<?
+	foot();
+}
+elseif(isset($_REQUEST['newhook']))
+{
+	head(l('newhook'),true,'plugins');
+	?>
+	<div class="thead"><?=l('new_hook')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr>
+				<td class="optiontitle first" colspan="2"><?=l('title')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_title_description')?></td>
+				<td align="right"><input type="text" name="title" value="<?=$_POST['title']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('hook')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_description')?></td>
+				<td align="right">
+					<select name="hook">
+						<option value=""><?=l('select_hook')?></option>
+						<? foreach($hook_locations as $hookname) { ?>
+						<option value="<?=$hookname?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$hookname?></option>
+						<? } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('execution_order')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_execution_order_description')?></td>
+				<td align="right"><input type="text" name="execorder" value="<?=$_POST['execorder']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('code')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=$_POST['code']?></textarea></td>
+			</tr>
+		</table>
+		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+	</div>
+	<?
+	foot();
+}
+elseif(isset($_REQUEST['edit']) && isset($_REQUEST['hook']))
+{
+	// Save Hook
+	if(isset($_POST['title']))
+	{	
+		// Check for errors...
+		$errors = array();
+		if(empty($_POST['plugin']))
+			$errors['plugin'] = l('error_hook_plugin_blank');
+		if(empty($_POST['title']))
+			$errors['title'] = l('error_hook_title_blank');
+		if(empty($_POST['hook']))
+			$errors['hook'] = l('error_hook_hook_blank');
+		
+		
+	}
+	
+	// Fetch Hook info
+	$hook = $db->queryfirst("SELECT * FROM ".DBPF."plugin_code WHERE id='".$db->res($_REQUEST['hook'])."' LIMIT 1");
+	
+	// Fetch plugins
+	$plugins = array();
+	$fetchplugins = $db->query("SELECT id,name FROM ".DBPF."plugins ORDER BY name ASC");
+	while($info = $db->fetcharray($fetchplugins))
+	{
+		$plugins[] = $info;
+	}
+	
+	head(l('edit_hook'),true,'plugins');
+	?>
+	<div class="thead"><?=l('edit_hook')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr>
+				<td class="optiontitle first" colspan="2"><?=l('plugin')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_plugin_description')?></td>
+				<td align="right">
+					<select name="plugin">
+						<? foreach($plugins as $plugin) { ?>
+						<option value="<?=$plugin['id']?>"<?=iif($plugin['id']==$plugin['id'],' selected="selected"')?>><?=$plugin['name']?></option>
+						<? } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('title')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_title_description')?></td>
+				<td align="right"><input type="text" name="title" value="<?=$hook['title']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('hook')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_description')?></td>
+				<td align="right">
+					<select name="hook">
+						<option value=""><?=l('select_hook')?></option>
+						<? foreach($hook_locations as $hookname) { ?>
+						<option value="<?=$hookname?>"<?=iif($hookname==$hook['hook'],' selected="selected"')?>><?=$hookname?></option>
+						<? } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('execution_order')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('hook_execution_order_description')?></td>
+				<td align="right"><input type="text" name="execorder" value="<?=$hook['execorder']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('code')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=$hook['code']?></textarea></td>
+			</tr>
+		</table>
+		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+	</div>
+	<?
+	foot();
+}
+elseif(isset($_REQUEST['disable']))
+{
+	$db->query("UPDATE ".DBPF."plugins SET enabled='0' WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
+	$db->query("UPDATE ".DBPF."plugin_code SET enabled='0' WHERE plugin_id='".$db->res($_REQUEST['plugin'])."'");
+	header("Location: plugins.php");
+}
+elseif(isset($_REQUEST['enable']))
+{
+	$db->query("UPDATE ".DBPF."plugins SET enabled='1' WHERE id='".$db->res($_REQUEST['plugin'])."' LIMIT 1");
+	$db->query("UPDATE ".DBPF."plugin_code SET enabled='1' WHERE plugin_id='".$db->res($_REQUEST['plugin'])."'");
+	header("Location: plugins.php");
+}
+else
+{
+	// Fetch plugins
+	$plugins = array('active'=>array(),'disabled'=>array());
+	$fetchplugins = $db->query("SELECT * FROM ".DBPF."plugins ORDER BY name ASC");
+	while($info = $db->fetcharray($fetchplugins))
+	{
+		if($info['enabled'])
+			$plugins['active'][] = $info;
+		else
+			$plugins['disabled'][] = $info;
+	}
+	
+	head(l('plugins'),true,sidebar_links('plugins'));
+	?>
+	<div class="thead"><?=l('active_plugins')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr class="optiontitle first">
+				<th width="200" align="left"><?=l('plugin')?></th>
+				<th width="200"><?=l('author')?></th>
+				<th width="50"><?=l('version')?></th>
+				<th></th>
+			</tr>
+			<? foreach($plugins['active'] as $plugin) { ?>
+			<tr class="<?=altbg()?>">
+				<td><?=$plugin['name']?></td>
+				<td align="center"><?=$plugin['author']?></td>
+				<td align="center"><?=$plugin['version']?></td>
+				<td align="right">
+					<select>
+						<option selected="selected">Actions</option>
+						<option onclick="window.location='plugins.php?disable&amp;plugin=<?=$plugin['id']?>';"><?=l('disable')?></option>
+						<option onclick="window.location='plugins.php?export&amp;plugin=<?=$plugin['id']?>';"><?=l('export')?></option>
+						<option onclick="window.location='plugins.php?hooks&amp;plugin=<?=$plugin['id']?>';"><?=l('hooks')?></option>
+						<option onclick="window.location='plugins.php?edit&amp;plugin=<?=$plugin['id']?>';"><?=l('edit')?></option>
+						<option onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; }"><?=l('uninstall')?></option>
+					</select>
+				</td>
+			</tr>
+			<? } ?>
+			<? if(!count($plugins['active'])) { ?>
+			<tr>
+				<td align="center" colspan="4"><?=l('no_plugins')?></td>
+			</tr>
+			<? } ?>
+		</table>
+	</div>
+	
+	<div class="thead"><?=l('disabled_plugins')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr class="optiontitle first">
+				<th width="200" align="left"><?=l('plugin')?></th>
+				<th width="200"><?=l('author')?></th>
+				<th width="50"><?=l('version')?></th>
+				<th></th>
+			</tr>
+			<? foreach($plugins['disabled'] as $plugin) { ?>
+			<tr class="<?=altbg()?>">
+				<td><?=$plugin['name']?></td>
+				<td align="center"><?=$plugin['author']?></td>
+				<td align="center"><?=$plugin['version']?></td>
+				<td align="right">
+					<button onclick="window.location='plugins.php?enable&amp;plugin=<?=$plugin['id']?>';"><?=l('enable')?></button>
+					<button><?=l('remove')?></button>
+				</td>
+			</tr>
+			<? } ?>
+			<? if(!count($plugins['disabled'])) { ?>
+			<tr>
+				<td align="center" colspan="4"><?=l('no_plugins')?></td>
+			</tr>
+			<? } ?>
+		</table>
+	</div>
+	<?
+	foot();
+}
+?>
