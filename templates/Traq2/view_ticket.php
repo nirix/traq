@@ -46,6 +46,7 @@
 					<th id="h_status"><?=l('status')?>:</th>
 					<td headers="h_status"><?=ticket_status($ticket['status'])?></td>
 				</tr>
+				<? ($hook = FishHook::hook('template_view_ticket_properties')) ? eval($hook) : false; ?>
 			</table>
 			<div class="description">
 				<h3 id="description"><?=l('description')?></h3>
@@ -173,6 +174,7 @@
 						<th class="col2"><?=l('summary')?></th>
 						<td><input type="text" name="summary" value="<?=$ticket['summary']?>" /></td>
 					</tr>
+					<? ($hook = FishHook::hook('template_update_ticket_properties')) ? eval($hook) : false; ?>
 					<tr>
 						<th class="col1"><?=l('action')?></th>
 						<td>

@@ -33,7 +33,19 @@ if(!$resp->is_valid) {
 
 if(isset($_POST['summary']))
 {
-	if($ticket->create($_POST) && !count($errors))
+	$data = array(
+		'summary' => $_POST['summary'],
+		'body' => $_POST['body'],
+		'type' => $_POST['type'],
+		'priority' => $_POST['priority'],
+		'severity' => $_POST['severity'],
+		'milestone_id' => $_POST['milestone'],
+		'version_id' => $_POST['version'],
+		'component_id' => $_POST['component'],
+		'assigned_to' => $_POST['assign_to'],
+		'private' => $_POST['private']
+	);
+	if($ticket->create($data) && !count($errors))
 	{
 		header("Location: ".$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket->ticket_id));
 	}

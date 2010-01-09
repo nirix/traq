@@ -100,6 +100,7 @@
 						<th class="col2"><?=l('private_ticket')?></th>
 						<td><input type="checkbox" name="private" value="1" /></td>
 					</tr>
+					<? ($hook = FishHook::hook('template_new_ticket_properties')) ? eval($hook) : false; ?>
 				</table>
 			</fieldset>
 			

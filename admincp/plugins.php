@@ -17,7 +17,6 @@ if(isset($_REQUEST['install']))
 	if(isset($_POST['install']))
 	{
 		$plugin = simplexml_load_file($_FILES['pluginfile']['tmp_name']);
-
 		// Insert plugin
 		$db->query("INSERT INTO ".DBPF."plugins VALUES(
 			0,
@@ -37,7 +36,7 @@ if(isset($_REQUEST['install']))
 			$queries = explode(';',$plugin->sql->install);
 			foreach($queries as $query)
 				if($query != '')
-					$db->query($query);
+					$db->query(str_replace('traq_',DBPF,$query));
 		}
 		
 		// Add the hooks
@@ -260,13 +259,13 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
 				<td class="optiontitle" colspan="2"><?=l('plugin_install_sql')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?=$plugin['install_sql']?></textarea></td>
+				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?=stripslashes($plugin['install_sql'])?></textarea></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?=l('plugin_uninstall_sql')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?=$plugin['uninstall_sql']?></textarea></td>
+				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?=stripslashes($plugin['uninstall_sql'])?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
@@ -520,7 +519,7 @@ elseif(isset($_REQUEST['edithook']))
 				<td class="optiontitle" colspan="2"><?=l('code')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=$hook['code']?></textarea></td>
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=stripslashes($hook['code'])?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
@@ -553,13 +552,15 @@ elseif(isset($_REQUEST['export']))
 		<version><?=$plugin['version']?></version>
 	</info>
 	<sql>
-		<install><?=$plugin['install_sql']?></install>
-		<uninstall><?=$plugin['uninstall_sql']?></uninstall>
+		<install><?=str_replace(DBPF,'traq_',$plugin['install_sql'])?></install>
+		<uninstall><?=str_replace(DBPF,'traq_',$plugin['uninstall_sql'])?></uninstall>
 	</sql>
 	<hooks>
 		<? foreach($hooks as $hook) { ?>
 		<hook title="<?=$hook['title']?>" hook="<?=$hook['hook']?>" execorder="<?=$hook['execorder']?>">
-			<code><?=stripslashes($hook['code'])?></code>
+			<code><![CDATA[
+<?=stripslashes($hook['code'])?>
+]]></code>
 		</hook>
 		<? } ?>
 	</hooks>

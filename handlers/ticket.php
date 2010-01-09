@@ -132,6 +132,8 @@ if(isset($_POST['update']))
 		)");
 	}
 	
+	($hook = FishHook::hook('ticket_update')) ? eval($hook) : false;
+	
 	if(count($changes) > 0 || $_POST['comment'] != '')
 	{
 		// Update the ticket

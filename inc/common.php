@@ -25,7 +25,7 @@ function settings($setting)
 	$result = $db->fetcharray($db->query("SELECT setting, value FROM ".DBPF."settings WHERE setting='".$db->es($setting)."' LIMIT 1"));
 	$CACHE['settings'][$setting] = $result['value'];
 	
-	($hook = FishHook::hook('settings_function')) ? eval($hook) : false;
+	($hook = FishHook::hook('getsetting')) ? eval($hook) : false;
 	
 	return $CACHE['settings'][$setting];
 }
@@ -38,7 +38,7 @@ function settings($setting)
  */
 function template($template)
 {
-	($hook = FishHook::hook('template_function')) ? eval($hook) : false;
+	($hook = FishHook::hook('gettemplate')) ? eval($hook) : false;
 	
 	// Check if the template exists
 	if(file_exists(TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php")) {

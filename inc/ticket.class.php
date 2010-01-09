@@ -36,36 +36,40 @@ class Ticket
 		}
 		
 		// Set some required fields.
+		$data['ticket_id'] = $project['next_tid'];
+		$data['project_id'] = $project['id'];
 		if(!isset($data['private']))
 			$data['private'] = 0;
+		if(!isset($data['created']))
+			$data['created'] = time();
 			
 		if(!$user->loggedin)
-			$name = $data['name'];
+		{
+			$data['user_name'] = $data['name'];
+			$data['user_id'] = $user->info['id'];
+		}
 		else
-			$name = $user->info['username'];
+		{
+			$data['user_name'] = $user->info['username'];
+			$data['user_id'] = 0;
+		}
+		
+		($hook = FishHook::hook('ticket_create')) ? eval($hook) : false;
+		
+		$fields = array();
+		$values = array();
+		foreach($data as $field => $value)
+		{
+			$fields[] = $db->res($field);
+			$values[] = "'".$db->res($value)."'";
+		}
+		$fields = implode(',',$fields);
+		$values = implode(',',$values);
 		
 		// Insert the ticket into the database.
-		$db->query("INSERT INTO ".DBPF."tickets VALUES(
-			0,
-			'".$db->res($project['next_tid'])."',
-			'".$db->res($data['summary'])."',
-			'".$db->res($data['body'])."',
-			'".$db->res($user->info['id'])."',
-			'".$db->res($name)."',
-			'".$db->res($project['id'])."',
-			'".$db->res($data['milestone'])."',
-			'".$db->res($data['version'])."',
-			'".$db->res($data['component'])."',
-			'".$db->res($data['type'])."',
-			'1',
-			'".$db->res($data['priority'])."',
-			'".$db->res($data['severity'])."',
-			'".$db->res($data['assign_to'])."',
-			'0',
-			'".time()."',
-			'0',
-			'".$db->res($data['private'])."'
-			)
+		$db->query("INSERT INTO ".DBPF."tickets
+			(".$fields.")
+			VALUES(".$values.")
 		");
 		$ticketid = $db->insertid();
 		

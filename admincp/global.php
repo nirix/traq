@@ -113,6 +113,13 @@ $sidebar_links = array(
 
 $hook_locations = array(
 	'global',
-	'formattext'
+	'formattext',
+	'getsettings',
+	'gettemplate',
+	'ticket_create',
+	'ticket_update',
+	'template_new_ticket_properties',
+	'template_view_ticket_properties',
+	'template_update_ticket_properties'
 );
 ?>
