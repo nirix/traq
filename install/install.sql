@@ -150,3 +150,7 @@ CREATE TABLE `traq_versions` (
   `project_id` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+INSERT INTO  `traq_usergroups` (`id`,`name`,`is_admin`,`create_tickets`,`update_tickets`,`delete_tickets`)
+VALUES (NULL,'Administrators','1','1','1','1'),
+(NULL,'Members','0','1','1','0');
