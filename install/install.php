@@ -186,13 +186,7 @@ elseif($_POST['step'] == '2')
 		}
 		
 		// Insert Settings.
-		$db->query("INSERT INTO ".$conf['db']['prefix']."settings VALUES('title','".$db->res($_POST['traq_name'])."')");
-		$db->query("INSERT INTO ".$conf['db']['prefix']."settings VALUES('theme','Traq2')");
-		$db->query("INSERT INTO ".$conf['db']['prefix']."settings VALUES('locale','enus')");
-		$db->query("INSERT INTO ".$conf['db']['prefix']."settings VALUES('single_project','0')");
-		$db->query("INSERT INTO ".$conf['db']['prefix']."settings VALUES('use_recaptcha','0')");
-		$db->query("INSERT INTO ".$conf['db']['prefix']."settings VALUES('recaptcha_pubkey','')");
-		$db->query("INSERT INTO ".$conf['db']['prefix']."settings VALUES('recaptcha_privkey','')");
+		$db->query("UPDATE ".$conf['db']['prefix']."settings SET value='".$db->res($_POST['traq_name'])."' WHERE setting='title'");
 		
 		// Create Admin User.
 		$user = new User;

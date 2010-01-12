@@ -151,6 +151,13 @@ CREATE TABLE `traq_versions` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
+INSERT INTO `traq_settings` VALUES ('title', 'Traq');
+INSERT INTO `traq_settings` VALUES ('theme', 'Traq2');
+INSERT INTO `traq_settings` VALUES ('locale', 'enus');
+INSERT INTO `traq_settings` VALUES ('single_project', '0');
+INSERT INTO `traq_settings` VALUES ('recaptcha_pubkey', '');
+INSERT INTO `traq_settings` VALUES ('recaptcha_privkey', '');
+
 INSERT INTO  `traq_usergroups` (`id`,`name`,`is_admin`,`create_tickets`,`update_tickets`,`delete_tickets`)
 VALUES (NULL,'Administrators','1','1','1','1'),
 (NULL,'Members','0','1','1','0');

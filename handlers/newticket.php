@@ -25,14 +25,16 @@ addcrumb($uri->geturi(),l('new_ticket'));
 include(TRAQPATH.'inc/ticket.class.php');
 $ticket = new Ticket;
 
-$resp = recaptcha_check_answer(settings('recaptcha_privkey'),$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
-
-if(!$resp->is_valid) {
-	$recaptcha_error = $resp->error;
-}
-
 if(isset($_POST['summary']))
 {
+	if(settings('recaptcha_privkey') != '')
+	{
+		$resp = recaptcha_check_answer(settings('recaptcha_privkey'),$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
+		
+		if(!$resp->is_valid) {
+			$recaptcha_error = $resp->error;
+		}
+	}
 	$data = array(
 		'summary' => $_POST['summary'],
 		'body' => $_POST['body'],
