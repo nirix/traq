@@ -35,10 +35,6 @@ class User
 			$this->info = $db->fetcharray($query);
 			$this->loggedin = true;
 		}
-		else
-		{
-			// Logged out...
-		}
 		
 		// Get group info
 		$this->group = $db->queryfirst("SELECT * FROM ".DBPF."usergroups WHERE id='".$this->info['group_id']."' LIMIT 1");
@@ -93,9 +89,6 @@ class User
 	{
 		global $db;
 		
-		$data['id'] = 0;
-		$data['group_id'] = 2;
-		
 		// Check for errors
 		$errors = array();
 		if($db->numrows($db->query("SELECT username FROM ".DBPF."users WHERE username='".$db->escapestring($data['username'])."' LIMIT 1"))) {
@@ -118,22 +111,29 @@ class User
 			$this->errors = $errors;
 			return false;
 		}
+		unset($data['password2']);
 		
 		// If no errors, create the account.
 		if(!$this->errors)
 		{
+			// sha1 the password
 			$data['password'] = sha1($data['password']);
-			$userfields = $this->getfields();
-			foreach($userfields as $field => $value) {
-				if(isset($data[$field])) {
-					$userfields[$field] = "'".$db->res($data[$field])."'";
-				} else {
-					$userfields[$field] = "'".$db->res($value)."'";
-				}
-			}
-			$queryvalues = implode(',',$userfields);
 			
-			$db->query("INSERT INTO ".DBPF."users VALUES ($queryvalues)");
+			// Little extras
+			if($data['name'] == '') $data['name'] = $data['username'];
+			
+			// Build the query
+			$fields = array();
+			$values = array();
+			($hook = FishHook::hook('user_register')) ? eval($hook) : false;
+			foreach($data as $field => $value) {
+				$fields[] = $field;
+				$values[] = "'".$value."'";
+			}
+			$fields = implode(',',$fields);
+			$values = implode(',',$values);
+			
+			$db->query("INSERT INTO ".DBPF."users ($fields) VALUES($values)");
 			
 			return true;
 		}
@@ -146,17 +146,6 @@ class User
 	{
 		global $db;
 		return $db->queryfirst("SELECT * FROM ".DBPF."users WHERE id='".$db->res($userid)."' LIMIT 1");
-	}
-	
-	// This gets the default user values from the database and returns them in an array
-	private function getfields() {
-		global $db;
-		$userfields = array();
-		$getfields = $db->query("SHOW COLUMNS FROM ".DBPF."users");
-		while($info = $db->fetcharray($getfields)) {
-			$userfields[$info['Field']] = $info['Default'];
-		}
-		return $userfields;
 	}
 	
 	/**

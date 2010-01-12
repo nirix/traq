@@ -139,8 +139,8 @@ CREATE TABLE `traq_users` (
   `password` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `group_id` varchar(255) NOT NULL,
-  `sesshash` varchar(255) NOT NULL,
+  `group_id` varchar(255) NOT NULL default '2',
+  `sesshash` varchar(255) NOT NULL default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 

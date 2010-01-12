@@ -7,7 +7,7 @@
 	<body>
 		<? require(template('header')); ?>
 		
-		<h1><?=l('login')?></h1>
+		<h1><?=l('register')?></h1>
 		
 		<? if($user->errors) { ?>
 		<div class="message error">
