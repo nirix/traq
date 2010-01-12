@@ -151,12 +151,45 @@ CREATE TABLE `traq_versions` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
+CREATE TABLE `traq_timeline` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `project_id` bigint(20) NOT NULL,
+  `owner_id` bigint(20) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `data` longtext NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `timestamp` bigint(20) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
 INSERT INTO `traq_settings` VALUES ('title', 'Traq');
 INSERT INTO `traq_settings` VALUES ('theme', 'Traq2');
 INSERT INTO `traq_settings` VALUES ('locale', 'enus');
 INSERT INTO `traq_settings` VALUES ('single_project', '0');
 INSERT INTO `traq_settings` VALUES ('recaptcha_pubkey', '');
 INSERT INTO `traq_settings` VALUES ('recaptcha_privkey', '');
+
+INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
+(1, 'Lowest'),
+(2, 'Low'),
+(3, 'Normal'),
+(4, 'High'),
+(5, 'Highest');
+
+INSERT INTO `traq_severities` (`id`, `name`) VALUES 
+(1, 'Blocker'),
+(2, 'Critical'),
+(3, 'Major'),
+(4, 'Normal'),
+(5, 'Minor'),
+(6, 'Trivial');
+
+INSERT INTO `traq_ticket_status` (`id`, `name`, `status`) VALUES 
+(1, 'New', 1),
+(2, 'Accepted', 1),
+(3, 'Closed', 0);
 
 INSERT INTO  `traq_usergroups` (`id`,`name`,`is_admin`,`create_tickets`,`update_tickets`,`delete_tickets`)
 VALUES (NULL,'Administrators','1','1','1','1'),
