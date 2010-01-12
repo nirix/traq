@@ -86,7 +86,11 @@ function head($title='',$sidebar=false,$links=array())
 					<td valign="top" id="sidebar">
 						<ul>
 						<? foreach($links as $link) { ?>
+							<? if($link['divider']) { ?>
+							<li class="divider"></li>
+							<? } else { ?>
 							<li class="<?=$link['class'].iif($link['active'],' active')?>"><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
+							<? } ?>
 						<? } ?>
 						</ul>
 					</td>

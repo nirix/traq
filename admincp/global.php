@@ -38,10 +38,43 @@ $sidebar_links = array(
 		'active' => activepage('projects.php'),
 		'links' => array(
 			array(
-				'title' => l('new'),
+				'title' => l('new_project'),
 				'url' => 'projects.php?new',
-				'active' => activepage('projects.php','new')
+				'active' => activepage('projects.php','new'),
 			),
+			array('divider'=>true),
+			array(
+				'title' => l('new_milestone'),
+				'url' => 'milestones.php?new',
+				'active' => activepage('milestones.php','new')
+			),
+			array(
+				'title' => l('manage_milestones'),
+				'url' => 'milestones.php',
+				'active' => activepage('milestones.php','edit')
+			),
+			array('divider'=>true),
+			array(
+				'title' => l('new_component'),
+				'url' => 'components.php?new',
+				'active' => activepage('components.php','new')
+			),
+			array(
+				'title' => l('manage_components'),
+				'url' => 'components.php',
+				'active' => activepage('components.php','edit')
+			),
+			array('divider'=>true),
+			array(
+				'title' => l('new_version'),
+				'url' => 'versions.php?new',
+				'active' => activepage('versions.php','new')
+			),
+			array(
+				'title' => l('manage_versions'),
+				'url' => 'versions.php',
+				'active' => activepage('versions.php','edit')
+			)
 		)
 	),
 	'tickets' => array(
@@ -93,7 +126,7 @@ $sidebar_links = array(
 		'active' => activepage('plugins.php'),
 		'links' => array(
 			array(
-				'title' => l('install'),
+				'title' => l('install_plugin'),
 				'url' => 'plugins.php?install',
 				'active' => activepage('plugins.php','install')
 			),
@@ -120,6 +153,7 @@ $hook_locations = array(
 	'ticket_update',
 	'template_new_ticket_properties',
 	'template_view_ticket_properties',
-	'template_update_ticket_properties'
+	'template_update_ticket_properties',
+	'admin_settings'
 );
 ?>

@@ -91,6 +91,11 @@ if(isset($_POST['update']))
 		$querybits[] = "summary='".$db->res($_POST['summary'])."'";
 		$changes[] = array('property'=>'summary','from'=>$ticket['summary'],'to'=>$_POST['summary']);
 	}
+	// Private ticket
+	elseif($_POST['private'] != $ticket['private'])
+	{
+		$querybits[] = "private='".$db->res($_POST['private'])."'";
+	}
 	// Action
 	if($_POST['action'] == 'mark' && $ticket['status'] != $_POST['mark_as'])
 	{

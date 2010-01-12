@@ -62,5 +62,7 @@ head('Settings');
 	</table>
 </div>
 <?
+($hook = FishHook::hook('admin_settings')) ? eval($hook) : false;
+
 foot();
 ?>

@@ -197,6 +197,12 @@ $lang['hook_title_description'] = 'Title of the hook code';
 $lang['hook_plugin_description'] = 'The plugin the hook belongs to.';
 $lang['uninstall_plugin_confirm'] = 'Are you sure you want to uninstall this plugin?';
 $lang['delete_plugin_hook_confirm'] = 'Are you sure you want to delete this hook?';
+$lang['new_milestone'] = 'New Milestone';
+$lang['manage_milestones'] = 'Manage Milestones';
+$lang['new_version'] = 'New Version';
+$lang['manage_versions'] = 'Manage Versions';
+$lang['new_component'] = 'New Component';
+$lang['manage_components'] = 'Manage Components';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';

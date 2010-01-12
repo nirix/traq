@@ -181,6 +181,9 @@ h2 {
 #sidebar ul li a:hover {
 	text-decoration: underline;
 }
+#sidebar ul li.divider {
+	border-top: 1px solid #95d2f6;
+}
 
 .thead {
 	font-weight: bold;
