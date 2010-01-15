@@ -20,32 +20,39 @@ function authenticate()
 }
 
 /**
- * Check Active
- * @param string $page The page filename
- * @param array $query An array of query strings the page can have, blank for any. (Opional)
+ *
  */
-function activepage($page,$query=NULL)
+function getprojects()
 {
-	// check if $query is empty and set it to _SERVER[QUERY_STRING]
-	if($query==NULL)
+	global $db;
+	
+	$projects = array();
+	$fetch = $db->query("SELECT id,name FROM ".DBPF."projects ORDER BY name ASC");
+	while($info = $db->fetcharray($fetch))
 	{
-		$query = $_SERVER['QUERY_STRING'];
+		$projects[] = $info;
 	}
-	// check if $query is an array or not, if not make it an array.
-	if(!is_array($query))
-	{
-		$query = array($query);
-	}
-	return iif(THISPAGE == $page && in_array($_SERVER['QUERY_STRING'],$query),1,0);
+	
+	return $projects;
 }
 
 /**
- * Sidebar Links
+ * Check Active
+ * @param string $page The page filename
+ * @param array $query An array of query strings the page can have. (Opional)
  */
-function sidebar_links($category)
+function activepage($pages,$query=NULL)
 {
-	global $sidebar_links;
-	return $sidebar_links[$category]['links'];
+	// check if $pages is an array or not.
+	if(!is_array($pages)) $pages = array($pages);
+	
+	// check if $query is an array or not, if not make it an array.
+	if(!is_array($query)) $query = array_slice(func_get_args(),1);
+
+	// check if $query is empty and set it to _SERVER[QUERY_STRING]
+	if(!count($query)) $query = array($_SERVER['QUERY_STRING']);
+	
+	return iif(in_array(THISPAGE,$pages) && in_array($_SERVER['QUERY_STRING'],$query),1,0);
 }
 
 /**

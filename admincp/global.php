@@ -35,7 +35,7 @@ $sidebar_links = array(
 	'projects' => array(
 		'title' => l('projects'),
 		'url' => 'projects.php',
-		'active' => activepage('projects.php'),
+		'active' => activepage(array('projects.php','milestones.php')),
 		'links' => array(
 			array(
 				'title' => l('new_project'),
@@ -51,7 +51,7 @@ $sidebar_links = array(
 			array(
 				'title' => l('manage_milestones'),
 				'url' => 'milestones.php',
-				'active' => activepage('milestones.php','edit')
+				'active' => activepage('milestones.php','','edit')
 			),
 			array('divider'=>true),
 			array(
@@ -62,7 +62,7 @@ $sidebar_links = array(
 			array(
 				'title' => l('manage_components'),
 				'url' => 'components.php',
-				'active' => activepage('components.php','edit')
+				'active' => activepage('components.php','','edit')
 			),
 			array('divider'=>true),
 			array(
@@ -73,7 +73,7 @@ $sidebar_links = array(
 			array(
 				'title' => l('manage_versions'),
 				'url' => 'versions.php',
-				'active' => activepage('versions.php','edit')
+				'active' => activepage('versions.php','','edit')
 			)
 		)
 	),

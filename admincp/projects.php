@@ -44,7 +44,7 @@ if(isset($_REQUEST['new']))
 	}
 	
 	// Display the form.
-	head(l('new_project'),true,sidebar_links('projects'));
+	head(l('new_project'),true,'projects');
 	?>
 	<? if(count($errors)) { ?>
 	<div class="message error">
@@ -66,18 +66,18 @@ if(isset($_REQUEST['new']))
 				<td width="200"><input type="text" name="name" value="<?=$_POST['name']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('codename')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('codename_description')?></td>
-				<td width="200"><input type="text" name="codename" value="<?=$_POST['codename']?>" /></td>
-			</tr>
-			<tr>
 				<td class="optiontitle" colspan="2"><?=l('slug')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
 				<td><?=l('project_slug_description')?></td>
 				<td width="200"><input type="text" name="slug" value="<?=$_POST['slug']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('codename')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('codename_description')?></td>
+				<td width="200"><input type="text" name="codename" value="<?=$_POST['codename']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?=l('project_managers')?></td>
@@ -103,7 +103,7 @@ if(isset($_REQUEST['new']))
 				<td class="optiontitle" colspan="2"><?=l('project_description')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="info" style="width:100%;height:250px"><?=$_POST['info']?></textarea></td>
+				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?=$_POST['info']?></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="tfoot"><div align="center"><input type="submit" value="<?=l('create')?>" /></div></td>
@@ -145,7 +145,7 @@ elseif(isset($_REQUEST['edit']))
 		}
 	}
 	
-	head(l('edit_project'),true,sidebar_links('projects'));
+	head(l('edit_project'),true,'projects');
 	?>
 	<? if(count($errors)) { ?>
 	<div class="message error">
@@ -224,7 +224,7 @@ else
 		$projects[] = $info;
 	}
 	
-	head(l('projects'),true,$sidebar_links['projects']['links']);
+	head(l('projects'),true,'projects');
 	?>
 	<div class="thead"><?=l('projects')?></div>
 	<div class="tborder">
@@ -245,7 +245,7 @@ else
 			<? } ?>
 			<? if(!count($projects)) { ?>
 			<tr>
-				<td align="center" colspan="3"><?=l('no_plugins')?></td>
+				<td align="center" colspan="3"><?=l('no_projects')?></td>
 			</tr>
 			<? } ?>
 		</table>

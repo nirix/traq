@@ -56,7 +56,7 @@ if(isset($_REQUEST['install']))
 		header("Location: plugins.php");
 	}
 	
-	head(l('install_plugin'),true,sidebar_links('plugins'));
+	head(l('install_plugin'),true,'plugins');
 	
 	?>
 	<form action="plugins.php?install" method="post" enctype="multipart/form-data">
@@ -618,7 +618,7 @@ else
 			$plugins['disabled'][] = $info;
 	}
 	
-	head(l('plugins'),true,sidebar_links('plugins'));
+	head(l('plugins'),true,'plugins');
 	?>
 	<div class="thead"><?=l('active_plugins')?></div>
 	<div class="tborder">
