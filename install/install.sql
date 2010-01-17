@@ -164,12 +164,12 @@ CREATE TABLE `traq_timeline` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
-INSERT INTO `traq_settings` VALUES ('title', 'Traq');
-INSERT INTO `traq_settings` VALUES ('theme', 'Traq2');
-INSERT INTO `traq_settings` VALUES ('locale', 'enus');
-INSERT INTO `traq_settings` VALUES ('single_project', '0');
-INSERT INTO `traq_settings` VALUES ('recaptcha_pubkey', '');
-INSERT INTO `traq_settings` VALUES ('recaptcha_privkey', '');
+INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
+('theme', 'Traq2'),
+('locale', 'enus'),
+('single_project', '0'),
+('recaptcha_pubkey', ''),
+('recaptcha_privkey', '');
 
 INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
 (1, 'Lowest'),
@@ -190,6 +190,10 @@ INSERT INTO `traq_ticket_status` (`id`, `name`, `status`) VALUES
 (1, 'New', 1),
 (2, 'Accepted', 1),
 (3, 'Closed', 0);
+
+INSERT INTO `traq_ticket_types` VALUES (1, 'Defect'),
+(2, 'Feature Request'),
+(3, 'Task');
 
 INSERT INTO  `traq_usergroups` (`id`,`name`,`is_admin`,`create_tickets`,`update_tickets`,`delete_tickets`)
 VALUES (NULL,'Administrators','1','1','1','1'),
