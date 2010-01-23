@@ -35,7 +35,7 @@ $sidebar_links = array(
 	'projects' => array(
 		'title' => l('projects'),
 		'url' => 'projects.php',
-		'active' => activepage(array('projects.php','milestones.php')),
+		'active' => activepage(array('projects.php','milestones.php','components.php','versions.php')),
 		'links' => array(
 			array(
 				'title' => l('new_project'),

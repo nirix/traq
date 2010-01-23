@@ -25,7 +25,7 @@ if(isset($_REQUEST['new']))
 		if($db->numrows($db->query("SELECT slug FROM ".DBPF."milestones WHERE slug='".$db->res($_POST['slug'])."' AND project_id != '".$db->res($_POST['project'])."' LIMIT 1")))
 			$errors['slug'] = l('error_milestone_slug_taken');
 		if(empty($_POST['project']))
-			$errors['project'] = l('error_milestone_project_blank');
+			$errors['project'] = l('error_project_blank');
 		
 		if(!count($errors))
 		{
@@ -145,17 +145,29 @@ elseif(isset($_REQUEST['edit']))
 }
 else
 {
-	// Get milestones
-	$milestones = array();
-	$fetchmilestones = $db->query("SELECT * FROM ".DBPF."milestones ORDER BY milestone ASC");
-	while($info = $db->fetcharray($fetchmilestones))
+	// Get Milestones
+	$projects = array();
+	$fetchprojects = $db->query("SELECT * FROM ".DBPF."projects ORDER BY name ASC");
+	while($info = $db->fetcharray($fetchprojects))
 	{
-		$milestones[] = $info;
+		$info['milestones'] = array();
+		$fetchmilestones = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$info['id']."' ORDER BY milestone ASC");
+		while($milestone = $db->fetcharray($fetchmilestones))
+		{
+			$info['milestones'][] = $milestone;
+		}
+		
+		$projects[] = $info;
 	}
 	
 	head(l('milestones'),true,'projects');
 	?>
-	<div class="thead"><?=l('milestones')?></div>
+	<h2><?=l('milestones')?></h2>
+	<?
+	
+	foreach($projects as $project) {
+	?>
+	<div class="thead"><?=$project['name']?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
@@ -163,7 +175,7 @@ else
 				<th width="200"><?=l('codename')?></th>
 				<th></th>
 			</tr>
-			<? foreach($milestones as $milestone) { ?>
+			<? foreach($project['milestones'] as $milestone) { ?>
 			<tr>
 				<td><a href="milestones.php?edit&milestone=<?=$milestone['id']?>"><?=$milestone['milestone']?></a></td>
 				<td align="center"><?=$milestone['codename']?></td>
@@ -172,7 +184,7 @@ else
 				</td>
 			</tr>
 			<? } ?>
-			<? if(!count($milestones)) { ?>
+			<? if(!count($project['milestones'])) { ?>
 			<tr>
 				<td align="center" colspan="3"><?=l('no_milestones')?></td>
 			</tr>
@@ -180,6 +192,8 @@ else
 		</table>
 	</div>
 	<?
+	}
+	
 	foot();
 }
 ?>

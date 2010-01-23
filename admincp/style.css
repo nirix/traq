@@ -29,6 +29,10 @@ table td {
 	vertical-align: top;
 }
 
+h2 {
+	margin-top: 0;
+}
+
 #head {
 	padding-top: 5px;
 	background: #e8f5fd url('images/headerbg.png') repeat-x;
