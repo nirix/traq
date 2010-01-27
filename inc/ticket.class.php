@@ -167,17 +167,22 @@ class Ticket
 		// Check which arguments are set and compile the query.
 		$query = array();
 		
+		// Check for the ID column
 		if(isset($args['id']))
 			$query[] = "id='".$args['id']."'";
-			
+		
+		// Check for the ticket_id column
 		if(isset($args['ticket_id']))
 			$query[] = "ticket_id='".$args['ticket_id']."'";
-			
+		
+		// Check for the project_id column
 		if(isset($args['project_id']))
 			$query[] = "project_id='".$args['project_id']."'";
-			
+		
+		// Compile the query
 		$query = implode(' AND ',$query);
 		
+		// Run the query
 		$db->query("DELETE * FROM ".DBPF."tickets WHERE $query LIMIT 1");
 	}
 }

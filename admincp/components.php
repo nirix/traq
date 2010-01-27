@@ -11,6 +11,7 @@ include("global.php");
 
 authenticate();
 
+// New Component
 if(isset($_REQUEST['new']))
 {
 	// Create the component
@@ -76,10 +77,12 @@ if(isset($_REQUEST['new']))
 	<?
 	foot();
 }
+// Edit Component
 elseif(isset($_REQUEST['edit']))
 {
 
 }
+// List Components
 else
 {
 	// Get Components

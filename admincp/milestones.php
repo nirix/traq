@@ -11,6 +11,7 @@ include("global.php");
 
 authenticate();
 
+// New Milestone
 if(isset($_REQUEST['new']))
 {
 	// Create the milestone
@@ -125,6 +126,7 @@ if(isset($_REQUEST['new']))
 	<?
 	foot();
 }
+// Edit Milestone
 elseif(isset($_REQUEST['edit']))
 {
 ?>
@@ -143,6 +145,7 @@ elseif(isset($_REQUEST['edit']))
 			</tr>
 <?
 }
+// List Milestones
 else
 {
 	// Get Milestones

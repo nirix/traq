@@ -95,6 +95,7 @@ if(!isset($_POST['step']))
 	<?
 	foot();
 }
+// Step One
 elseif($_POST['step'] == '1')
 {	
 	// Check that Traq is not already installed on the Database.
@@ -140,6 +141,7 @@ elseif($_POST['step'] == '1')
 	<?
 	foot();
 }
+// Step Two
 elseif($_POST['step'] == '2')
 {
 	// Check for errors in the fields.

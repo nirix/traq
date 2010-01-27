@@ -144,6 +144,7 @@ $sidebar_links = array(
 	)
 );
 
+// Plugin Hook Locations
 $hook_locations = array(
 	'global',
 	'formattext',

@@ -11,6 +11,7 @@ include("global.php");
 
 authenticate();
 
+// Get the statistics...
 $projects = $db->numrows($db->query("SELECT id FROM ".DBPF."projects"));
 $tickets = $db->numrows($db->query("SELECT id FROM ".DBPF."tickets"));
 $users = $db->numrows($db->query("SELECT id FROM ".DBPF."users"));

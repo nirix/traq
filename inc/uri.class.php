@@ -47,6 +47,10 @@ class URI
 		return $path.$this->array_to_uri($segments);
 	}
 	
+	/**
+	 * Single Project
+	 * Configure the URI class for a single project Traq setup.
+	 */
 	public function singleproject()
 	{
 		if($this->seg[0] != 'user') {

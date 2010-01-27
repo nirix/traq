@@ -20,7 +20,9 @@ function authenticate()
 }
 
 /**
- *
+ * Get Projects
+ * Used to get an array of the projects.
+ * @return array
  */
 function getprojects()
 {
@@ -57,6 +59,10 @@ function activepage($pages,$query=NULL)
 
 /**
  * AdminCP Header
+ * Used to print the AdminCP header.
+ * @param string $title Page title.
+ * @param bool $sidebar Show the sidebar or not.
+ * @param mixed $links The links for the sidebar.
  */
 function head($title='',$sidebar=false,$links=array())
 {
@@ -108,6 +114,7 @@ function head($title='',$sidebar=false,$links=array())
 
 /**
  * AdminCP Footer
+ * Used to print the AdminCP footer.
  */
 function foot()
 {

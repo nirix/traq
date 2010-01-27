@@ -11,6 +11,7 @@ include("global.php");
 
 authenticate();
 
+// New Project
 if(isset($_REQUEST['new']))
 {
 	// Check if the form has been submit.
@@ -114,6 +115,7 @@ if(isset($_REQUEST['new']))
 	<?
 	foot();
 }
+// Edit Project
 elseif(isset($_REQUEST['edit']))
 {
 	$project = $db->queryfirst("SELECT * FROM ".DBPF."projects WHERE id='".$db->res($_REQUEST['project'])."' LIMIT 1");
@@ -214,6 +216,7 @@ elseif(isset($_REQUEST['edit']))
 	<?
 	foot();
 }
+// List Projects
 else
 {
 	// Get projects

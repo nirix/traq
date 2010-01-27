@@ -51,6 +51,9 @@ function template($template)
 
 /**
  * Alt. Background
+ * Used to get an alternate background class.
+ * @param string $even Even class color.
+ * @param string $odd Odd class color.
  */
 function altbg($even='even',$odd='odd')
 {
@@ -88,6 +91,8 @@ function error($title,$message)
 
 /**
  * Format Text
+ * Used to format text.
+ * @param string $text The text to format.
  */
 function formattext($text)
 {
