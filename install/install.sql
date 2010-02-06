@@ -57,7 +57,6 @@ CREATE TABLE `traq_projects` (
   `codename` varchar(255) NOT NULL,
   `info` longtext NOT NULL,
   `managers` mediumtext NOT NULL,
-  `sourceurl` mediumtext NOT NULL,
   `private` smallint(6) NOT NULL,
   `next_tid` bigint(20) NOT NULL,
   `displayorder` bigint(20) NOT NULL,

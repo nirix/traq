@@ -218,6 +218,11 @@ $lang['name'] = 'Name';
 $lang['component_name_description'] = 'Component\'s name.';
 $lang['component_project_description'] = 'Project the component belongs to.';
 $lang['components'] = 'Components';
+$lang['edit_milestone'] = 'Edit Milestone';
+$lang['milestone_status_description'] = 'The status of the milestone.';
+$lang['active'] = 'Active';
+$lang['completed'] = 'Completed';
+$lang['cancelled'] = 'Cancelled';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
