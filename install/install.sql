@@ -168,7 +168,8 @@ INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('locale', 'enus'),
 ('single_project', '0'),
 ('recaptcha_pubkey', ''),
-('recaptcha_privkey', '');
+('recaptcha_privkey', ''),
+('allow_registration', '1');
 
 INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
 (1, 'Lowest'),
