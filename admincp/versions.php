@@ -11,33 +11,33 @@ include("global.php");
 
 authenticate();
 
-// New Component
+// New Version
 if(isset($_REQUEST['new']))
 {
-	// Create the component
+	// Create the version
 	if(isset($_POST['name']))
 	{
 		// Check for errors...
 		$errors = array();
 		if(empty($_POST['name']))
-			$errors['name'] = l('error_component_name_blank');
+			$errors['name'] = l('error_version_name_blank');
 		if(empty($_POST['project']))
 			$errors['project'] = l('error_project_blank');
 		
 		if(!count($errors))
 		{
-			$db->query("INSERT INTO ".DBPF."components
-			(name,project_id)
+			$db->query("INSERT INTO ".DBPF."versions
+			(version,project_id)
 			VALUES(
 			'".$db->res($_POST['name'])."',
 			'".$db->res($_POST['project'])."'
 			)");
 			
-			header("Location: components.php");
+			header("Location: versions.php");
 		}
 	}
 	
-	head(l('new_component'),true,'projects');
+	head(l('new_version'),true,'projects');
 	?>
 	<? if(count($errors)) { ?>
 	<div class="message error">
@@ -46,22 +46,22 @@ if(isset($_REQUEST['new']))
 		<? } ?>
 	</div>
 	<? } ?>
-	<form action="components.php?new" method="post">
-	<div class="thead"><?=l('new_component')?></div>
+	<form action="versions.php?new" method="post">
+	<div class="thead"><?=l('new_version')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
 				<td class="optiontitle first" colspan="2"><?=l('name')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td><?=l('component_name_description')?></td>
+				<td><?=l('version_name_description')?></td>
 				<td align="right"><input type="text" name="name" value="<?=$_POST['name']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?=l('project')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td><?=l('component_project_description')?></td>
+				<td><?=l('version_project_description')?></td>
 				<td align="right">
 					<select name="project">
 					<? foreach(getprojects() as $project) { ?>
@@ -77,33 +77,33 @@ if(isset($_REQUEST['new']))
 	<?
 	foot();
 }
-// Edit Component
+// Edit Version
 elseif(isset($_REQUEST['edit']))
 {
-	$component = $db->queryfirst("SELECT * FROM ".DBPF."components WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+	$version = $db->queryfirst("SELECT * FROM ".DBPF."versions WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 	
-	// Save the component
+	// Save the version
 	if(isset($_POST['name']))
 	{
 		// Check for errors...
 		$errors = array();
 		if(empty($_POST['name']))
-			$errors['name'] = l('error_component_name_blank');
+			$errors['name'] = l('error_version_name_blank');
 		if(empty($_POST['project']))
-			$errors['project'] = l('error_project_blank');
+			$errors['project'] = l('error_project_blank');	
 		
 		if(!count($errors))
 		{
-			$db->query("UPDATE ".DBPF."components SET
-				name='".$db->res($_POST['name'])."',
+			$db->query("UPDATE ".DBPF."versions SET
+				version='".$db->res($_POST['name'])."',
 				project_id='".$db->res($_POST['project'])."'
 				WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 			
-			header("Location: components.php");
+			header("Location: versions.php");
 		}
 	}
 	
-	head(l('edit_component'),true,'projects');
+	head(l('edit_version'),true,'projects');
 	?>
 	<? if(count($errors)) { ?>
 	<div class="message error">
@@ -112,26 +112,26 @@ elseif(isset($_REQUEST['edit']))
 		<? } ?>
 	</div>
 	<? } ?>
-	<form action="components.php?edit=<?=$_REQUEST['edit']?>" method="post">
-	<div class="thead"><?=l('edit_component')?></div>
+	<form action="versions.php?edit=<?=$_REQUEST['edit']?>" method="post">
+	<div class="thead"><?=l('edit_version')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
 				<td class="optiontitle first" colspan="2"><?=l('name')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td><?=l('component_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?=$component['name']?>" /></td>
+				<td><?=l('version_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?=$version['version']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?=l('project')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td><?=l('component_project_description')?></td>
+				<td><?=l('version_project_description')?></td>
 				<td align="right">
 					<select name="project">
 					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $component['project'],' selected="selected"')?>><?=$project['name']?></option>
+						<option value="<?=$project['id']?>"<?=iif($project['id'] == $version['project'],' selected="selected"')?>><?=$project['name']?></option>
 					<? } ?>
 					</select>
 				</td>
@@ -143,27 +143,28 @@ elseif(isset($_REQUEST['edit']))
 	<?
 	foot();
 }
-// List Components
+// List Versions
 else
 {
-	// Get Components
+	// Get Versions
+
 	$projects = array();
 	$fetchprojects = $db->query("SELECT * FROM ".DBPF."projects ORDER BY name ASC");
 	while($info = $db->fetcharray($fetchprojects))
 	{
-		$info['components'] = array();
-		$fetchcomponents = $db->query("SELECT * FROM ".DBPF."components WHERE project_id='".$info['id']."' ORDER BY name ASC");
-		while($component = $db->fetcharray($fetchcomponents))
+		$info['versions'] = array();
+		$fetchversions = $db->query("SELECT * FROM ".DBPF."versions WHERE project_id='".$info['id']."' ORDER BY version ASC");
+		while($version = $db->fetcharray($fetchversions))
 		{
-			$info['components'][] = $component;
+			$info['versions'][] = $version;
 		}
 		
 		$projects[] = $info;
 	}
 	
-	head(l('components'),true,'projects');
+	head(l('versions'),true,'projects');
 	?>
-	<h2><?=l('components')?></h2>
+	<h2><?=l('versions')?></h2>
 	<?
 	
 	foreach($projects as $project) { ?>
@@ -171,20 +172,20 @@ else
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
-				<th width="200" align="left"><?=l('component')?></th>
+				<th width="200" align="left"><?=l('version')?></th>
 				<th></th>
 			</tr>
-			<? foreach($project['components'] as $component) { ?>
+			<? foreach($project['versions'] as $version) { ?>
 			<tr>
-				<td><a href="components.php?edit=<?=$component['id']?>"><?=$component['name']?></a></td>
+				<td><a href="versions.php?edit=<?=$version['id']?>"><?=$version['version']?></a></td>
 				<td align="right">
 					
 				</td>
 			</tr>
 			<? } ?>
-			<? if(!count($project['components'])) { ?>
+			<? if(!count($project['versions'])) { ?>
 			<tr>
-				<td align="center" colspan="3"><?=l('no_components')?></td>
+				<td align="center" colspan="3"><?=l('no_versions')?></td>
 			</tr>
 			<? } ?>
 		</table>

@@ -223,6 +223,12 @@ $lang['milestone_status_description'] = 'The status of the milestone.';
 $lang['active'] = 'Active';
 $lang['completed'] = 'Completed';
 $lang['cancelled'] = 'Cancelled';
+$lang['edit_component'] = 'Edit Component';
+$lang['versions'] = 'Versions';
+$lang['no_versions'] = 'No Versions';
+$lang['version_name_description'] = 'The name/version.';
+$lang['version_project_description'] = 'The project the version belongs to.';
+$lang['edit_version'] = 'Edit Version';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
@@ -249,4 +255,5 @@ $lang['error_milestone_slug_blank'] = 'Slug cannot be empty.';
 $lang['error_milestone_slug_taken'] = 'Slug already in use.';
 $lang['error_project_blank'] = 'You must choose a project.';
 $lang['error_component_name_blank'] = 'You must enter a name.';
+$lang['error_version_name_blank'] = 'Name cannot be blank.';
 ?>
