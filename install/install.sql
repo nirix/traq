@@ -166,6 +166,7 @@ CREATE TABLE `traq_timeline` (
 INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('theme', 'Traq2'),
 ('locale', 'enus'),
+('seo_urls','0'),
 ('single_project', '0'),
 ('recaptcha_pubkey', ''),
 ('recaptcha_privkey', ''),

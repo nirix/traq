@@ -30,6 +30,13 @@ define("DBPF",$conf['db']['prefix']);
 $user = new User;
 $uri = new URI;
 
+
+// Define the THEMEDIR
+define("THEMEDIR",$uri->anchor('templates',settings('theme')));
+
+// Set the SEO URL option
+$uri->style = settings('seo_urls');
+
 // Check if Traq is setup to host one proejct.
 if(settings('single_project') != 0)
 {

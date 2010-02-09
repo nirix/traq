@@ -41,15 +41,16 @@ head('Settings');
 				<td><?=l('single_project_description')?></td>
 				<td><input type="text" name="single_project" value="<?=(!settings('single_project') ? '' : settings('single_project'))?>" /></td>
 			</tr>
-				<tr>
-					<td class="optiontitle" colspan="2"><?=l('seo_frieldly_urls')?></td>
-				</tr>
-				<tr class="<?=altbg()?>">
-					<td><?=l('seo_friendly_urls_description')?></td>
-					<td>
-						
-					</td>
-				</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('seo_friendly_urls')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('seo_friendly_urls_description')?></td>
+				<td>
+					<input type="radio" name="seo_urls" value="1" id="seo_urls_yes"<?=(settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_yes">Yes</label>
+					<input type="radio" name="seo_urls" value="0" id="seo_urls_no"<?=(!settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_no">No</label>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<br />
