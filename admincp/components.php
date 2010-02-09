@@ -24,6 +24,7 @@ if(isset($_REQUEST['new']))
 		if(empty($_POST['project']))
 			$errors['project'] = l('error_project_blank');
 		
+		// If not errors, insert component.
 		if(!count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."components
@@ -92,6 +93,7 @@ elseif(isset($_REQUEST['edit']))
 		if(empty($_POST['project']))
 			$errors['project'] = l('error_project_blank');
 		
+		// If no errors, update component.
 		if(!count($errors))
 		{
 			$db->query("UPDATE ".DBPF."components SET

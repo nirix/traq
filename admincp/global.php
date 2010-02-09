@@ -19,7 +19,9 @@ $pagebits = explode('/',$_SERVER['PHP_SELF']);
 define("THISPAGE",$pagebits[sizeof($pagebits)-1]);
 unset($pagebits);
 
-// Sidebar links
+// AdminCP links array.
+// Stores all the links for the nav
+// and sidebar.
 $sidebar_links = array(
 	array(
 		'title' => l('overview'),
@@ -32,6 +34,7 @@ $sidebar_links = array(
 		'url' => 'settings.php',
 		'active' => activepage('settings.php')
 	),
+	// Project pages links.
 	'projects' => array(
 		'title' => l('projects'),
 		'url' => 'projects.php',
@@ -77,6 +80,7 @@ $sidebar_links = array(
 			)
 		)
 	),
+	// Ticket pages links.
 	'tickets' => array(
 		'title' => l('tickets'),
 		'url' => 'tickets.php',
@@ -104,6 +108,7 @@ $sidebar_links = array(
 			)
 		)
 	),
+	// User pages links.
 	'users' => array(
 		'title' => l('users'),
 		'url' => 'users.php',
@@ -120,6 +125,7 @@ $sidebar_links = array(
 			)
 		)
 	),
+	// Plugin pages links.
 	'plugins' => array(
 		'title' => l('plugins'),
 		'url' => 'plugins.php',
@@ -144,7 +150,8 @@ $sidebar_links = array(
 	)
 );
 
-// Plugin Hook Locations
+// Plugin Hook Locations.
+// Holds all the hook locations in Traq.
 $hook_locations = array(
 	'global',
 	'formattext',

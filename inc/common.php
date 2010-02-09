@@ -93,6 +93,7 @@ function error($title,$message)
  * Format Text
  * Used to format text.
  * @param string $text The text to format.
+ * @return string
  */
 function formattext($text)
 {
@@ -153,6 +154,10 @@ function is_project($string)
 /**
  * Simple if()
  * Used to easy execute a condition.
+ * @param condition $condition The condition to check.
+ * @param mixed $true Returned if condition is true.
+ * @param mixed $false Returned if condition is false.
+ * @return mixed
  */
 function iif($condition, $true, $false='')
 {
@@ -187,6 +192,7 @@ function ticket_status_list($getstatus=1)
 /**
  * Ticket Types
  * Fetches the Ticket Types specified in the AdminCP.
+ * @return array
  */
 function ticket_types()
 {
@@ -204,6 +210,7 @@ function ticket_types()
 /**
  * Ticket Priorities
  * Fetches the Ticket Priorities specified in the AdminCP.
+ * @return array
  */
 function ticket_priorities()
 {
@@ -221,6 +228,7 @@ function ticket_priorities()
 /**
  * Ticket Severities
  * Fetches the Ticket Severities specified in the AdminCP.
+ * @return array
  */
 function ticket_severities()
 {
@@ -238,6 +246,7 @@ function ticket_severities()
 /**
  * Ticket Status
  * Gets the ticket status.
+ * @return array
  */
 function ticket_status($status_id)
 {
@@ -249,6 +258,7 @@ function ticket_status($status_id)
 /**
  * Ticket Type
  * Gets the ticket type.
+ * @return array
  */
 function ticket_type($type_id)
 {
@@ -260,6 +270,7 @@ function ticket_type($type_id)
 /**
  * Ticket Priority
  * Gets the ticket priority.
+ * @return array
  */
 function ticket_priority($priority_id)
 {
@@ -271,6 +282,7 @@ function ticket_priority($priority_id)
 /**
  * Ticket Severity
  * Gets the ticket severity.
+ * @return array
  */
 function ticket_severity($severity_id)
 {
@@ -282,6 +294,7 @@ function ticket_severity($severity_id)
 /**
  * Project Milestones
  * Fetches the project milestones.
+ * @return array
  */
 function project_milestones($project_id=NULL)
 {
@@ -300,6 +313,7 @@ function project_milestones($project_id=NULL)
 /**
  * Project Versions
  * Fetches the project verions.
+ * @return array
  */
 function project_versions($project_id=NULL)
 {
@@ -318,6 +332,7 @@ function project_versions($project_id=NULL)
 /**
  * Project Components
  * Fetches the project components.
+ * @return array
  */
 function project_components($project_id=NULL)
 {
@@ -336,6 +351,7 @@ function project_components($project_id=NULL)
 /**
  * Project Managers
  * Fetches the project managers.
+ * @return array
  */
 function project_managers($project_id=NULL)
 {

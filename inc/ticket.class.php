@@ -14,6 +14,8 @@ class Ticket
 	/**
 	 * Create ticket
 	 * Used to easily create new tickets.
+	 * @param array $data The ticket data array.
+	 * @return bool
 	 */
 	public function create($data)
 	{
@@ -42,7 +44,9 @@ class Ticket
 			$data['private'] = 0;
 		if(!isset($data['created']))
 			$data['created'] = time();
-			
+		
+		// Check if the user is logged in, if so use their info
+		// if not use info from data array.
 		if(!$user->loggedin)
 		{
 			$data['user_name'] = $data['name'];
@@ -56,6 +60,7 @@ class Ticket
 		
 		($hook = FishHook::hook('ticket_create')) ? eval($hook) : false;
 		
+		// Sort out the data fields and values for the query.
 		$fields = array();
 		$values = array();
 		foreach($data as $field => $value)
@@ -109,6 +114,7 @@ class Ticket
 	/**
 	 * Get Ticket
 	 * Used to easily fetch a tickets info.
+	 * @param array $args Arguments for the fetch ticket query.
 	 */
 	public function get($args)
 	{
@@ -130,9 +136,11 @@ class Ticket
 			
 		if(isset($args['project_id']))
 			$query[] = "project_id='".$args['project_id']."'";
-			
+		
+		// Build the arguments query block.
 		$query = implode(' AND ',$query);
 		
+		// Fetch the ticket, milestone, version, component and assignee info.
 		$ticket = $db->queryfirst("SELECT * FROM ".DBPF."tickets WHERE $query LIMIT 1"); // Fetch the ticket info
 		$ticket['milestone'] = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE id='".$db->res($ticket['milestone_id'])."' LIMIT 1"); // Fetch the milestone info
 		$ticket['version'] = $db->queryfirst("SELECT * FROM ".DBPF."versions WHERE id='".$db->res($ticket['version_id'])."' LIMIT 1"); // Fetch the version info
@@ -153,6 +161,7 @@ class Ticket
 	/**
 	 * Delete ticket
 	 * Used to delete a ticket.
+	 * @param array $args The arguments for the delete ticket query.
 	 */
 	public function delete($args)
 	{
