@@ -18,6 +18,7 @@
 		<? } ?>
 		<form action="<?=$uri->anchor('user','login')?>" method="post">
 			<input type="hidden" name="action" value="login" />
+			<input type="hidden" name="goto" value="<?=$_REQUEST['goto']?>" />
 			<div class="form login">
 				<fieldset>
 					<label><?=l('username')?></label>

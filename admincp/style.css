@@ -47,11 +47,14 @@ h2 {
 	color: #000;
 }
 
-#nav {
+#nav, #nav_small {
 	padding: 0;
 	height: 28px;
 	border-bottom: 1px solid #95d2f6;
 	font-size: 12px;
+}
+#nav_small {
+	height: 1px;
 }
 #nav ul.main_nav {
 	float: left;
@@ -285,4 +288,9 @@ fieldset.error legend {
 }
 fieldset.error input[type=text], fieldset.error input[type=password] {
 	border: 1px solid #C00;
+}
+
+#login {
+	width: 250px;
+	margin: 0 auto;
 }

@@ -79,7 +79,8 @@ function head($title='',$sidebar=false,$links=array())
 	<body id="project_info">
 		<div id="head">
 			<span><a href="./"><?=l('traq_admincp')?></a></span>
-			<div id="nav">
+			<div id="nav<?=(defined("HIDENAV") ? '_small' : '')?>">
+			<? if(!defined("HIDENAV")) { ?>
 				<div id="meta_nav">
 					<ul>
 						<li class="first"><a href="../"><?=l('view_site')?></a></li>
@@ -90,6 +91,7 @@ function head($title='',$sidebar=false,$links=array())
 					<li class="<?=$link['class'].iif($link['active'],' active')?>"><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
 					<? } ?>
 				</ul>
+				<? } ?>
 			</div>
 		</div>
 		<div id="page">

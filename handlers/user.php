@@ -13,7 +13,7 @@ if($uri->seg[1] == "login")
 	{
 		if($user->login($_POST['username'],$_POST['password'],$_POST['remember']))
 		{
-			header("Location: ".$uri->anchor());
+			header("Location: ".($_POST['goto'] != '' ? $_POST['goto'] : $uri->anchor()));
 		}
 	}
 	include(template('user/login'));
