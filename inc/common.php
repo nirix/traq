@@ -315,6 +315,22 @@ function ticket_columns()
 }
 
 /**
+ * Ticket Filters
+ * Returns an array of ticket filters
+ * @return array
+ */
+function ticket_filters()
+{
+	$filters = array(
+		'milestone',
+		'version',
+		'status'
+	);
+	($hook = FishHook::hook('ticket_filters')) ? eval($hook) : false;
+	return $filters;
+}
+
+/**
  * Project Milestones
  * Fetches the project milestones.
  * @return array

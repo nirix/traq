@@ -11,15 +11,7 @@
 		
 		<h1><?=l('tickets')?></h1>
 		
-		<form action="<?=$uri->geturi()?>" method="post">
-		<fieldset>
-			<legend><?=l('columns')?></legend>
-			<? foreach(ticket_columns() as $column) { ?>
-			<input type="checkbox" name="columns[]" value="<?=$column?>" id="col_<?=$column?>"<?=iif(in_array($column,$columns),' checked="checked"')?> /> <label for="col_<?=$column?>"><?=l($column)?></label>
-			<? } ?>
-			<input type="submit" value="<?=l('update')?>" />
-		</fieldset>
-		</form>
+		<? require(template('ticket_filters')) ?>
 		
 		<table class="listing tickets">
 			<thead>
