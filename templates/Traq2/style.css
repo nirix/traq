@@ -16,6 +16,10 @@ body {
 	padding: 0;
 }
 
+table td {
+	vertical-align: text-top;
+}
+
 #page {
 	background: #fff;
 	padding: 10px;

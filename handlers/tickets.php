@@ -14,7 +14,15 @@ addcrumb($uri->geturi(),l('tickets'));
 // Update Filters and Columns
 if(isset($_POST['columns']) or isset($_POST['filter']))
 {
+	if(!is_array($_POST['filters'])) $_POST['filters'] = array();
 	$url = array();
+	
+	// Check if we're adding a filter
+	$newfilters = array();
+	if(in_array($_POST['add_filter'],ticket_filters()) AND !isset($_POST['filters'][$_POST['add_filter']]))
+	{
+		$newfilters[] = $_POST['add_filter'].'=';
+	}
 	
 	// Filters
 	foreach($_POST['filters'] as $filter => $values)
@@ -24,16 +32,26 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 		{
 			$milestones = array();
 			foreach($values as $value)
-				$milestones[] = $value['value'];
+			{
+				if(!empty($value['value']))
+					$milestones[] = $value['value'];
+			}
+			
+			if($_POST['add_filter'] == 'milestone')
+				$milestones[] = '';
 			
 			$url[] = 'milestone='.$_POST['modes']['milestone'].implode(',',$milestones);
+		}
+		// Status
+		elseif($filter == 'status')
+		{
+			$url[] = 'status='.implode(',',$values);
 		}
 	}
 	
 	// Columns
 	$url[] = 'columns='.implode(',',$_POST['columns']);
-	
-	header("Location: ".$uri->geturi().'?'.implode('&',$url));
+	header("Location: ".$uri->geturi().'?'.implode('&',array_merge($url,$newfilters)));
 }
 
 // Ticket Sorting
@@ -65,6 +83,8 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			$filter['value'] = substr($bit[1],1);
 			$filter['values'] = explode(',',substr($bit[1],1));
 		}
+		
+		// Add filter to the filters array.
 		$filters[] = $filter;
 
 		// Check if the filter value is not blank
@@ -73,20 +93,22 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 		// Milestone filter
 		if($filter['type'] == 'milestone')
 		{
-			//$milestone = $db->fetcharray($db->query("SELECT id,project_id,milestone FROM ".DBPF."milestones WHERE project_id='".$db->res($project['id'])."' AND slug='".$db->res(urldecode($filter['value']))."' LIMIT 1"));
-			//$query .= " AND (milestone_id".$filter['mode']."='".$milestone['id']."')";
+			// Loop through the values
+			$empty = 0;
 			foreach($filter['values'] as $value)
-			{
+			{	
+				if(empty($value))
+				{
+					$empty++;
+					continue;
+				}
+				
+				// Fetch the milestone info and get the ID for the query.
 				$milestone = $db->fetcharray($db->query("SELECT id,project_id,milestone FROM ".DBPF."milestones WHERE project_id='".$db->res($project['id'])."' AND slug='".$db->res(urldecode($value))."' LIMIT 1"));
 				$values[] = $milestone['id'];
 			}
-			$query .= " AND (milestone_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' milestone_id'.$filter['mode'].'=',$values).")";
-			//die($query);
-		}
-		// Version filter
-		elseif($filter['type'] == 'version')
-		{
-			$query .= " AND version_id".$filter['mode']."='".$db->res($filter['value'])."'";	
+			if(count($values) != $empty)
+				$query .= " AND (milestone_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' milestone_id'.$filter['mode'].'=',$values).")";
 		}
 		// Status filter
 		elseif($filter['type'] == 'status')
@@ -94,13 +116,19 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			if($filter['value'] == 'open'
 			or $filter['value'] == 'closed')
 			{
-				$status = array('open'=>array(),'closd'=>array());
+				$status = array('open'=>array(),'closed'=>array());
 				foreach(ticket_status_list() as $row)
 					$status['open'][] = $row['id'];
 				foreach(ticket_status_list(0) as $row)
 					$status['closed'][] = $row['id'];
 				
+				$filter['values'] = ($filter['value'] == 'open' ? $status['open'] : $status['closed']);
+				
 				$query .= " AND (status=".implode(' OR status=',($filter['value']=='open' ? $status['open'] : $status['closed'])).")";
+			}
+			else
+			{
+				$query .= " AND (status=".implode(' OR status=',$filter['values']).")";
 			}
 		}
 	}
