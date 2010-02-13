@@ -11,6 +11,14 @@
 
 addcrumb($uri->geturi(),l('tickets'));
 
+// Update Filters and Columns
+if(isset($_POST['columns']))
+{
+	$url = '';
+	$url .= 'columns='.implode(',',$_POST['columns']);
+	header("Location: ".$uri->geturi().'?'.$url);
+}
+
 // Ticket Sorting
 $sort = (isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'priority'); // Field to sort by
 $order = (isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc'); // Direction to sort by
@@ -34,7 +42,7 @@ while($info = $db->fetcharray($fetchtickets))
 	$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 	$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."milestones WHERE id='".$info['milestone_id']."' LIMIT 1")); // Get Milestone info
 	$info['version'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."versions WHERE id='".$info['versionid']."' LIMIT 1")); // Get Version info
-	$info['assignee'] = $db->fetcharray($db->query("SELECT id, username FROM ".DBPF."users WHERE id='".$info['assigneeid']."' LIMIT 1")); // Get assignee info
+	$info['assignee'] = $db->fetcharray($db->query("SELECT id, username FROM ".DBPF."users WHERE id='".$info['assigned_to']."' LIMIT 1")); // Get assignee info
 	($hook = FishHook::hook('tickets_fetchtickets')) ? eval($hook) : false;
 	$tickets[] = $info;
 }

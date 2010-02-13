@@ -10,6 +10,17 @@
 		<? require(template('breadcrumbs')); ?>
 		
 		<h1><?=l('tickets')?></h1>
+		
+		<form action="<?=$uri->geturi()?>" method="post">
+		<fieldset>
+			<legend><?=l('columns')?></legend>
+			<? foreach(ticket_columns() as $column) { ?>
+			<input type="checkbox" name="columns[]" value="<?=$column?>" id="col_<?=$column?>"<?=iif(in_array($column,$columns),' checked="checked"')?> /> <label for="col_<?=$column?>"><?=l($column)?></label>
+			<? } ?>
+			<input type="submit" value="<?=l('update')?>" />
+		</fieldset>
+		</form>
+		
 		<table class="listing tickets">
 			<thead>
 				<tr>
@@ -37,7 +48,7 @@
 					<? if(in_array('component',$columns)) { ?><td><?=$ticket['component']['name']?></td><? } ?>
 					<? if(in_array('milestone',$columns)) { ?><td><?=$ticket['milestone']['milestone']?></td><? } ?>
 					<? if(in_array('version',$columns)) { ?><td><?=$ticket['version']['version']?></td><? } ?>
-					<? if(in_array('assigned_to',$columns)) { ?><td><?=$ticket['assignee']['login']?></td><? } ?>
+					<? if(in_array('assigned_to',$columns)) { ?><td><?=$ticket['assignee']['username']?></td><? } ?>
 				</tr>
 				<? } ?>
 			</tbody>

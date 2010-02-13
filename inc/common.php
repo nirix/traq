@@ -292,6 +292,29 @@ function ticket_severity($severity_id)
 }
 
 /**
+ * Ticket Columns
+ * Returns an array of the ticket columns that can be displayed on the view tickets page.
+ * @return array
+ */
+function ticket_columns()
+{
+	$columns = array(
+		'ticket',
+		'summary',
+		'status',
+		'owner',
+		'type',
+		'severity',
+		'component',
+		'milestone',
+		'version',
+		'assigned_to'
+	);
+	($hook = FishHook::hook('ticket_columns')) ? eval($hook) : false;
+	return $columns;
+}
+
+/**
  * Project Milestones
  * Fetches the project milestones.
  * @return array
