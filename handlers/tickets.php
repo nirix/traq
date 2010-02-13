@@ -14,14 +14,26 @@ addcrumb($uri->geturi(),l('tickets'));
 // Update Filters and Columns
 if(isset($_POST['columns']) or isset($_POST['filter']))
 {
-	$url = '';
+	$url = array();
 	
 	// Filters
+	foreach($_POST['filters'] as $filter => $values)
+	{
+		// Milestone
+		if($filter == 'milestone')
+		{
+			$milestones = array();
+			foreach($values as $value)
+				$milestones[] = $value['value'];
+			
+			$url[] = 'milestone='.$_POST['modes']['milestone'].implode(',',$milestones);
+		}
+	}
 	
 	// Columns
-	$url .= 'columns='.implode(',',$_POST['columns']);
+	$url[] = 'columns='.implode(',',$_POST['columns']);
 	
-	header("Location: ".$uri->geturi().'?'.$url);
+	header("Location: ".$uri->geturi().'?'.implode('&',$url));
 }
 
 // Ticket Sorting
@@ -29,6 +41,7 @@ $sort = (isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'priority'); // Field to
 $order = (isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc'); // Direction to sort by
 
 // Filters
+$filters = array();
 $query = '';
 foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 {
@@ -50,7 +63,9 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 		{
 			$filter['mode'] = substr($bit[1],0,1);
 			$filter['value'] = substr($bit[1],1);
+			$filter['values'] = explode(',',substr($bit[1],1));
 		}
+		$filters[] = $filter;
 
 		// Check if the filter value is not blank
 		if(empty($filter['value'])) { continue; }
@@ -58,8 +73,15 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 		// Milestone filter
 		if($filter['type'] == 'milestone')
 		{
-			$milestone = $db->fetcharray($db->query("SELECT id,project_id,milestone FROM ".DBPF."milestones WHERE project_id='".$db->res($project['id'])."' AND milestone='".$db->res(urldecode($filter['value']))."' LIMIT 1"));
-			$query .= " AND milestone_id".$filter['mode']."='".$milestone['id']."'";
+			//$milestone = $db->fetcharray($db->query("SELECT id,project_id,milestone FROM ".DBPF."milestones WHERE project_id='".$db->res($project['id'])."' AND slug='".$db->res(urldecode($filter['value']))."' LIMIT 1"));
+			//$query .= " AND (milestone_id".$filter['mode']."='".$milestone['id']."')";
+			foreach($filter['values'] as $value)
+			{
+				$milestone = $db->fetcharray($db->query("SELECT id,project_id,milestone FROM ".DBPF."milestones WHERE project_id='".$db->res($project['id'])."' AND slug='".$db->res(urldecode($value))."' LIMIT 1"));
+				$values[] = $milestone['id'];
+			}
+			$query .= " AND (milestone_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' milestone_id'.$filter['mode'].'=',$values).")";
+			//die($query);
 		}
 		// Version filter
 		elseif($filter['type'] == 'version')

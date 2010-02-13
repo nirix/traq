@@ -530,3 +530,17 @@ table.tickets tbody tr.even.priority1 {
 .tickets tbody td.id a {
 	font-weight: bold;
 }
+
+/* Ticket Filters */
+#ticket_filters .label {
+	width: 80px;
+}
+#ticket_filters .mode {
+	width: 50px;
+}
+#ticket_filters .value {
+	width: 100%;
+}
+#ticket_filters .remove {
+	width: 20px;
+}

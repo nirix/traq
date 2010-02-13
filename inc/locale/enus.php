@@ -63,6 +63,11 @@ $lang['admincp'] = 'AdminCP';
 $lang['delete'] = 'Delete';
 $lang['update'] = 'Update';
 $lang['columns'] = 'Columns';
+$lang['filters'] = 'Filters';
+$lang['add_filter'] = 'Add Filter';
+$lang['is'] = 'is';
+$lang['is_not'] = 'is not';
+$lang['or'] = 'or';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
