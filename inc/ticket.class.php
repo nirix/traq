@@ -50,12 +50,12 @@ class Ticket
 		if(!$user->loggedin)
 		{
 			$data['user_name'] = $data['name'];
-			$data['user_id'] = $user->info['id'];
+			$data['user_id'] = 0;
 		}
 		else
 		{
 			$data['user_name'] = $user->info['username'];
-			$data['user_id'] = 0;
+			$data['user_id'] = $user->info['id'];
 		}
 		
 		($hook = FishHook::hook('ticket_create')) ? eval($hook) : false;

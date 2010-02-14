@@ -4,7 +4,7 @@
 				<div id="meta_nav">
 					<ul>
 					<? if($user->loggedin) { ?>
-						<li class="first<?=iif($uri->seg[1] == 'settings',' active')?>"><a href="<?=$uri->anchor('user','settings')?>"><?=l('settings')?></a></li>
+						<li class="first<?=iif($uri->seg[1] == 'usercp',' active')?>"><a href="<?=$uri->anchor('user','usercp')?>"><?=l('usercp')?></a></li>
 						<li><a href="<?=$uri->anchor('user','logout')?>"><?=l('logout')?></a></li>
 						<? if($user->group['is_admin']) { ?>
 						<li><a href="<?=str_replace('index.php/','',$uri->anchor('admincp'))?>"><?=l('admincp')?></a></li>

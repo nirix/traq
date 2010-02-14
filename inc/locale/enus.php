@@ -68,6 +68,9 @@ $lang['add_filter'] = 'Add Filter';
 $lang['is'] = 'is';
 $lang['is_not'] = 'is not';
 $lang['or'] = 'or';
+$lang['created'] = 'Created';
+$lang['updates'] = 'Updates';
+$lang['new_password'] = 'New Password';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
@@ -265,4 +268,5 @@ $lang['error_milestone_slug_taken'] = 'Slug already in use.';
 $lang['error_project_blank'] = 'You must choose a project.';
 $lang['error_component_name_blank'] = 'You must enter a name.';
 $lang['error_version_name_blank'] = 'Name cannot be blank.';
+$lang['error_enter_password'] = 'You must enter your current password.';
 ?>

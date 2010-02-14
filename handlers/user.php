@@ -7,10 +7,13 @@
  * $Id$
  */
 
+// Login
 if($uri->seg[1] == "login")
 {
+	// Check if the form has been submitted.
 	if($_POST['action'] == 'login')
 	{
+		// Check if there were errors, if not go back to where we came from.
 		if($user->login($_POST['username'],$_POST['password'],$_POST['remember']))
 		{
 			header("Location: ".($_POST['goto'] != '' ? $_POST['goto'] : $uri->anchor()));
@@ -18,10 +21,13 @@ if($uri->seg[1] == "login")
 	}
 	include(template('user/login'));
 }
+// Register
 elseif($uri->seg[1] == "register")
 {
+	// Check if the form has been submitted.
 	if($_POST['action'] == 'register')
 	{
+		// User data array.
 		$data = array(
 			'username' => $_POST['username'],
 			'password' => $_POST['password'],
@@ -29,6 +35,8 @@ elseif($uri->seg[1] == "register")
 			'email' => $_POST['email'],
 			'name' => $_POST['name']
 		);
+		
+		// Check if there were errors, if not go to the UserCP.
 		if($user->register($data))
 		{
 			header("Location: ".$uri->anchor('user','settings')."?welcome");
@@ -36,13 +44,54 @@ elseif($uri->seg[1] == "register")
 	}
 	include(template('user/register'));
 }
+// Logout
 elseif($uri->seg[1] == "logout")
 {
 	$user->logout();
 	header("Location: ".$uri->anchor());
 }
-elseif($uri->seg[1] == "settings")
+elseif($uri->seg[1] == "usercp")
 {
-	include(template('user/settings'));
+	// Update user info
+	if($_POST['action'] == 'save')
+	{
+		// Check for errors
+		$errors = array();
+		// Check email
+		if(empty($_POST['email']))
+			$errors['email'] = l('error_email_empty');
+		// Check password
+		if(sha1($_POST['password']) != $user->info['password'])
+			$errors['password'] = l('error_enter_password');
+		// Check if new password is not blank
+		if(empty($_POST['new_password']))
+			//$errors['new_password'] = l('error_password_empty');
+		// Check new password
+		if($_POST['new_password'] != $_POST['new_password_confirm'])
+			$errors['new_password'] = l('error_password_nomatch');
+		
+		// If no errors, update the user info.
+		if(!count($errors))
+		{
+			// If the new_password field is filled out,
+			// update the users password.
+			if(!empty($_POST['new_password']))
+				$password = ", password='".$db->res(sha1($_POST['email']))."'";
+			
+			$db->query("UPDATE ".DBPF."users SET
+			email='".$db->res($_POST['email'])."'
+			$password
+			WHERE id='".$user->info['id']."' LIMIT 1");
+			
+			header("Location: ".$uri->geturi()."?updated");
+		}
+	}
+	
+	// Fetch user ticket statistics
+	$tickets['opened'] = $db->numrows($db->query("SELECT id FROM ".DBPF."tickets WHERE user_id='".$user->info['id']."'"));
+	$tickets['assigned'] = $db->numrows($db->query("SELECT id FROM ".DBPF."tickets WHERE assigned_to='".$user->info['id']."' AND closed=0"));
+	$tickets['updates'] = $db->numrows($db->query("SELECT id FROM ".DBPF."ticket_history WHERE user_id='".$user->info['id']."'"));
+	
+	include(template('user/usercp'));
 }
 ?>

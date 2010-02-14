@@ -327,6 +327,14 @@ fieldset.error legend {
 fieldset.error input[type=text], fieldset.error input[type=password] {
 	border: 1px solid #C00;
 }
+.form p {
+	margin: 0 0 5px 0;
+}
+.form span {
+	float: left;
+	width: 100px;
+	margin-right: 5px;
+}
 
 /* New/Edit ticket form */
 form.new_ticket {
