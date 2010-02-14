@@ -30,26 +30,11 @@ define("DBPF",$conf['db']['prefix']);
 $user = new User;
 $uri = new URI;
 
-
 // Define the THEMEDIR
 define("THEMEDIR",$uri->anchor('templates',settings('theme')));
 
 // Set the SEO URL option
 $uri->style = settings('seo_urls');
-
-// Check if Traq is setup to host one project.
-// !! This feature may be dropped !!
-if(settings('single_project') != 0)
-{
-	// Setup Traq as a single-project tracker.
-	$project = $db->queryfirst("SELECT * FROM ".DBPF."projects WHERE id='".settings('single_project')."' LIMIT 1");
-	define("PROJECT_SLUG",$project['slug']);
-	$uri->singleproject();
-}
-else
-{
-	if(is_project($uri->seg[0])) define("PROJECT_SLUG",$uri->seg[0]);
-}
 
 // Fetch locale file...
 require('locale/'.settings('locale').'.php');

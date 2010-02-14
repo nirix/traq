@@ -14,7 +14,7 @@ define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__))
 require('inc/global.php');
 
 // Project listing
-if($uri->seg[0] == '' && !settings('single_project'))
+if($uri->seg[0] == '')
 {
 	require('handlers/projectlist.php');
 }
@@ -24,7 +24,7 @@ elseif($uri->seg[0] == 'user')
 	require('handlers/user.php');
 }
 // Project pages
-elseif(is_project(PROJECT_SLUG))
+elseif(is_project($uri->seg[0]))
 {
 	require('handlers/project.php');
 }

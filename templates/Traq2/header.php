@@ -15,7 +15,7 @@
 					<? } ?>
 					</ul>
 				</div>
-				<? if(is_project(PROJECT_SLUG)) { ?>
+				<? if(is_project($uri->seg[0])) { ?>
 				<ul class="main_nav">
 					<li class="first<?=iif(empty($uri->seg[1]),' active')?>"><a href="<?=$uri->anchor($project['slug'])?>"><?=l('project_info')?></a></li>
 					<li<?=iif($uri->seg[1]=='roadmap' or preg_match('/milestone-(?<slug>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?=$uri->anchor($project['slug'],'roadmap')?>"><?=l('roadmap')?></a></li>

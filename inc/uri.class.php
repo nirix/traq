@@ -12,7 +12,6 @@ class URI
 	public $seg = array();
 	public $style = 1;
 	private $anchorfile = NULL;
-	private $singleproject = false;
 	
 	// Construct function.
 	public function __construct()
@@ -41,28 +40,8 @@ class URI
 			$segments = func_get_args();
 		}
 		
-		if($segments[0] == PROJECT_SLUG && $this->singleproject) unset($segments[0]);
-		
 		$path = ($this->style == 1 ? str_replace($this->anchorfile,'',$_SERVER['SCRIPT_NAME']) : $_SERVER['SCRIPT_NAME'].'/');
 		return $path.$this->array_to_uri($segments);
-	}
-	
-	/**
-	 * Single Project
-	 * Configure the URI class for a single project Traq setup.
-	 */
-	public function singleproject()
-	{
-		if($this->seg[0] != 'user') {
-			$args = array();
-			$args[] = PROJECT_SLUG;
-			foreach($this->seg as $seg)
-			{
-				$args[] = $seg;
-			}
-			$this->singleproject = true;
-			$this->seg = $args;
-		}
 	}
 	
 	// Used to convert the array passed to it into a URI

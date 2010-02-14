@@ -49,7 +49,7 @@ if(isset($_POST['summary']))
 	);
 	if($ticket->create($data) && !count($errors))
 	{
-		header("Location: ".$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket->ticket_id));
+		header("Location: ".$uri->anchor($project['slug'],'ticket-'.$ticket->ticket_id));
 	}
 	else
 	{

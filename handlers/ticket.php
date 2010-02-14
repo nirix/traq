@@ -22,7 +22,7 @@ while($changeinfo = $db->fetcharray($fetchchanges))
 unset($fetchchanges,$changeinfo);
 
 // Add crumbs
-addcrumb($uri->anchor(PROJECT_SLUG,'tickets'),l('tickets'));
+addcrumb($uri->anchor($project['slug'],'tickets'),l('tickets'));
 addcrumb($uri->geturi(),l('ticket_x',$ticket['ticket_id']));
 
 // Check if this is a private ticket,
