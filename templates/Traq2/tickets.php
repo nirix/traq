@@ -31,8 +31,8 @@
 			<tbody>
 				<? foreach($tickets as $ticket) { ?>
 				<tr class="<?=altbg()?> priority<?=$ticket['priority']?>">
-					<? if(in_array('ticket',$columns)) { ?><td class="id"><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td><? } ?>
-					<? if(in_array('summary',$columns)) { ?><td><a href="<?=$uri->anchor(PROJECT_SLUG,'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?></a></td><? } ?>
+					<? if(in_array('ticket',$columns)) { ?><td class="id"><a href="<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['ticket_id']?></a></td><? } ?>
+					<? if(in_array('summary',$columns)) { ?><td><a href="<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?></a></td><? } ?>
 					<? if(in_array('status',$columns)) { ?><td><?=ticket_status($ticket['status'])?></td><? } ?>
 					<? if(in_array('owner',$columns)) { ?><td><?=$ticket['user_name']?></td><? } ?>
 					<? if(in_array('type',$columns)) { ?><td><?=ticket_type($ticket['type'])?></td><? } ?>

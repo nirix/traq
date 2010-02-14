@@ -9,7 +9,7 @@
 				<tr>
 					<td class="label"><?=l($filter['type'])?></td>
 					<td class="value">
-						<? if($filter['type'] == 'milestone') { ?>
+						<? if($filter['type'] == 'milestone' or $filter['type'] == 'version') { ?>
 							<table>
 							<? foreach($filter['values'] as $value) {
 								$i++;
@@ -26,12 +26,21 @@
 										<? } ?>
 									</td>
 									<td>
+										<? if($filter['type'] == 'milestone') { ?>
 										<select name="filters[<?=$filter['type']?>][<?=$i?>][value]">
 											<option></option>
 											<? foreach(project_milestones() as $milestone) { ?>
 											<option value="<?=$milestone['slug']?>"<?=iif($value == $milestone['slug'],' selected="selected"')?>><?=$milestone['milestone']?></option>
 											<? } ?>
 										</select>
+										<? } elseif($filter['type'] == 'version') { ?>
+										<select name="filters[<?=$filter['type']?>][<?=$i?>][value]">
+											<option></option>
+											<? foreach(project_versions() as $version) { ?>
+											<option value="<?=$version['id']?>"<?=iif($value == $version['id'],' selected="selected"')?>><?=$version['version']?></option>
+											<? } ?>
+										</select>
+										<? } ?>
 									</td>
 								</tr>
 							<? } ?>

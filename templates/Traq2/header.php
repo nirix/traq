@@ -1,5 +1,5 @@
 <div id="head">
-			<span><a href="<?=$uri->anchor()?>"><?=settings('title')?></a> <? if(is_project(PROJECT_SLUG)) { ?>/ <?=$project['name']?><? } ?></span>
+			<span><a href="<?=$uri->anchor()?>"><?=settings('title')?></a> <? if(is_project($project['slug'])) { ?>/ <?=$project['name']?><? } ?></span>
 			<div id="nav">
 				<div id="meta_nav">
 					<ul>

@@ -42,6 +42,21 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 			
 			$url[] = 'milestone='.$_POST['modes']['milestone'].implode(',',$milestones);
 		}
+		// Version
+		if($filter == 'version')
+		{
+			$versions = array();
+			foreach($values as $value)
+			{
+				if(!empty($value['value']))
+					$versions[] = $value['value'];
+			}
+			
+			if($_POST['add_filter'] == 'version')
+				$versions[] = '';
+			
+			$url[] = 'version='.$_POST['modes']['version'].implode(',',$versions);
+		}
 		// Status
 		elseif($filter == 'status')
 		{
@@ -110,6 +125,24 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			if(count($values) != $empty)
 				$query .= " AND (milestone_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' milestone_id'.$filter['mode'].'=',$values).")";
 		}
+		// Version filter
+		if($filter['type'] == 'version')
+		{
+			// Loop through the values
+			$empty = 0;
+			foreach($filter['values'] as $value)
+			{	
+				if(empty($value))
+				{
+					$empty++;
+					continue;
+				}
+				
+				$values[] = $value;
+			}
+			if(count($values) != $empty)
+				$query .= " AND (version_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' version_id'.$filter['mode'].'=',$values).")";
+		}
 		// Status filter
 		elseif($filter['type'] == 'status')
 		{
@@ -152,7 +185,7 @@ while($info = $db->fetcharray($fetchtickets))
 	$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."components WHERE id='".$info['component_id']."' LIMIT 1")); // Get Component info
 	$info['owner'] = $user->getinfo($info['ownerid']); // Get owner info
 	$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."milestones WHERE id='".$info['milestone_id']."' LIMIT 1")); // Get Milestone info
-	$info['version'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."versions WHERE id='".$info['versionid']."' LIMIT 1")); // Get Version info
+	$info['version'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."versions WHERE id='".$info['version_id']."' LIMIT 1")); // Get Version info
 	$info['assignee'] = $db->fetcharray($db->query("SELECT id, username FROM ".DBPF."users WHERE id='".$info['assigned_to']."' LIMIT 1")); // Get assignee info
 	($hook = FishHook::hook('tickets_fetchtickets')) ? eval($hook) : false;
 	$tickets[] = $info;
