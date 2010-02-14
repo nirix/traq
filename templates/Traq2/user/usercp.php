@@ -19,13 +19,15 @@
 							<?=$tickets['opened']?>
 						</p>
 						<p>
-							<span><?=l('assigned_to')?></span>
-							<?=$tickets['assigned']?>
-						</p>
-						<p>
 							<span><?=l('updates')?></span>
 							<?=$tickets['updates']?>
 						</p>
+						<h4><?=l('assigned_tickets_x',count($tickets['assigned']))?></h4>
+						<? foreach($tickets['assigned'] as $ticket) { ?>
+						<div>
+							<a href="<?=$uri->anchor($ticket['project']['slug'],'ticket-'.$ticket['ticket_id'])?>"><?=$ticket['summary']?> <small>(<?=l('ticket_x',$ticket['ticket_id'])?>)</small></a>
+						</div>
+						<? } ?>
 					</fieldset>
 				</td>
 				<td>

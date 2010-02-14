@@ -24,81 +24,43 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 		$newfilters[] = $_POST['add_filter'].'=';
 	}
 	
-	// Check if we're removing a filter...
-	/*if(isset($_POST['rmfilter'])) {
-		foreach($_POST['rmfilter'] as $rm => $val)
-			//die($rm);
-			$rm = explode('_',$rm);
-			//print_r($_POST['filters'][$rm[0]][$rm[1]]);
-			unset($_POST['filters'][$rm[0]][$rm[1]]);
-	}*/
-	
-	//print_r($_POST['rmfilter']);
-	
 	// Filters
 	foreach($_POST['filters'] as $filter => $values)
 	{		
 		$val = -1;
-		// Milestone
-		if($filter == 'milestone')
+		// Milestone, Version, Type, Component
+		if(in_array($filter,array('milestone','version','type','component')))
 		{
-			$milestones = array();
+			// Loop through values
+			$bits = array();
 			foreach($values as $value)
 			{
 				$val++;
+				// Check if its not empty and set to be removed.
 				if(!empty($value['value']) && !isset($_POST['rmfilter'][$filter][$val]))
-					$milestones[] = $value['value'];
+					$bits[] = $value['value'];
 			}
 			
-			if($_POST['add_filter'] == 'milestone')
-				$milestones[] = '';
+			// Check if we're adding a filter.
+			if($_POST['add_filter'] == $filter)
+				$bits[] = '';
 			
-			if(count($milestones))
-				$url[] = 'milestone='.$_POST['modes']['milestone'].implode(',',$milestones);
-		}
-		// Version
-		if($filter == 'version')
-		{
-			$versions = array();
-			foreach($values as $value)
-			{
-				$val++;
-				if(!empty($value['value']) && !isset($_POST['rmfilter'][$filter][$val]))
-					$versions[] = $value['value'];
-			}
-			
-			if($_POST['add_filter'] == 'version')
-				$versions[] = '';
-			
-			if(count($versions))
-			$url[] = 'version='.$_POST['modes']['version'].implode(',',$versions);
-		}
-		// Type
-		if($filter == 'type')
-		{
-			$types = array();
-			foreach($values as $value)
-			{
-				$val++;
-				if(!empty($value['value']) && !isset($_POST['rmfilter'][$filter][$val]))
-					$types[] = $value['value'];
-			}
-			
-			if($_POST['add_filter'] == 'type')
-				$types[] = '';
-			
-			if(count($types))
-			$url[] = 'type='.$_POST['modes']['type'].implode(',',$types);
+			// If theres values, add it to the URL.
+			if(count($bits))
+				$url[] = $filter.'='.$_POST['modes'][$filter].implode(',',$bits);
 		}
 		// Status
 		elseif($filter == 'status' && !isset($_POST['rmfilter']['status']))
 		{
+			// Add it to the URL.
 			$url[] = 'status='.implode(',',$values);
 		}
 	}
 	
 	// Columns
 	$url[] = 'columns='.implode(',',$_POST['columns']);
+	
+	// Build the URL and redirect.
 	header("Location: ".$uri->geturi().'?'.implode('&',array_merge($url,$newfilters)));
 }
 
@@ -144,7 +106,8 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			// Loop through the values
 			$empty = 0;
 			foreach($filter['values'] as $value)
-			{	
+			{
+				// Make sure the value is not empty.
 				if(empty($value))
 				{
 					$empty++;
@@ -164,7 +127,8 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			// Loop through the values
 			$empty = 0;
 			foreach($filter['values'] as $value)
-			{	
+			{
+				// Make sure the value is not empty.
 				if(empty($value))
 				{
 					$empty++;
@@ -182,7 +146,8 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			// Loop through the values
 			$empty = 0;
 			foreach($filter['values'] as $value)
-			{	
+			{
+				// Make sure the value is not empty.
 				if(empty($value))
 				{
 					$empty++;
@@ -194,12 +159,33 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			if(count($values) != $empty)
 				$query .= " AND (type".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' type'.$filter['mode'].'=',$values).")";
 		}
+		// Component filter
+		if($filter['type'] == 'component')
+		{
+			// Loop through the values
+			$empty = 0;
+			foreach($filter['values'] as $value)
+			{
+				// Make sure the value is not empty.
+				if(empty($value))
+				{
+					$empty++;
+					continue;
+				}
+				
+				$values[] = $value;
+			}
+			if(count($values) != $empty)
+				$query .= " AND (component_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' component_id'.$filter['mode'].'=',$values).")";
+		}
 		// Status filter
 		elseif($filter['type'] == 'status')
 		{
+			// If the value is 'open' or 'closed' get the ID's from the DB.
 			if($filter['value'] == 'open'
 			or $filter['value'] == 'closed')
 			{
+				// Build the $status array for the query.
 				$status = array('open'=>array(),'closed'=>array());
 				foreach(ticket_status_list() as $row)
 					$status['open'][] = $row['id'];
@@ -208,8 +194,9 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				
 				$filter['values'] = ($filter['value'] == 'open' ? $status['open'] : $status['closed']);
 				
-				$query .= " AND (status=".implode(' OR status=',($filter['value']=='open' ? $status['open'] : $status['closed'])).")";
+				$query .= " AND (status=".implode(' OR status=',$filter['values']).")";
 			}
+			// ID's are in the URL.
 			else
 			{
 				$query .= " AND (status=".implode(' OR status=',$filter['values']).")";

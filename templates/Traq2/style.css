@@ -159,6 +159,9 @@ h1 {
 h2 {
 	font-size: 18px;
 }
+h3,h4 {
+	margin: 10px 0 5px 0;
+}
 
 /* Project listing */
 ul.projects {

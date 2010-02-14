@@ -322,6 +322,7 @@ function ticket_columns()
 function ticket_filters()
 {
 	$filters = array(
+		'component',
 		'milestone',
 		'version',
 		'status',

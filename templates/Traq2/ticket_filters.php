@@ -5,9 +5,7 @@
 			<? foreach($filters as $filter) {
 				$val = -1;
 			?>
-			<? if($filter['type'] == 'milestone'
-				or $filter['type'] == 'version'
-				or $filter['type'] == 'type') { ?>
+			<? if(in_array($filter['type'],array('milestone','version','type','component'))) { ?>
 			<? foreach($filter['values'] as $value) { $val++; ?>
 			<tr>
 				<td class="label"><?=iif($val == 0,l($filter['type']))?></td>
@@ -41,6 +39,13 @@
 						<option></option>
 						<? foreach(ticket_types() as $type) { ?>
 						<option value="<?=$type['id']?>"<?=iif($value == $type['id'],' selected="selected"')?>><?=$type['name']?></option>
+						<? } ?>
+					</select>
+					<? } elseif($filter['type'] == 'component') { ?>
+					<select name="filters[<?=$filter['type']?>][<?=$val?>][value]">
+						<option></option>
+						<? foreach(project_components() as $component) { ?>
+						<option value="<?=$component['id']?>"<?=iif($value == $component['id'],' selected="selected"')?>><?=$component['name']?></option>
 						<? } ?>
 					</select>
 					<? } ?>

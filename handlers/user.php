@@ -89,8 +89,16 @@ elseif($uri->seg[1] == "usercp")
 	
 	// Fetch user ticket statistics
 	$tickets['opened'] = $db->numrows($db->query("SELECT id FROM ".DBPF."tickets WHERE user_id='".$user->info['id']."'"));
-	$tickets['assigned'] = $db->numrows($db->query("SELECT id FROM ".DBPF."tickets WHERE assigned_to='".$user->info['id']."' AND closed=0"));
 	$tickets['updates'] = $db->numrows($db->query("SELECT id FROM ".DBPF."ticket_history WHERE user_id='".$user->info['id']."'"));
+	
+	// Fetch assigned tickets
+	$tickets['assigned'] = array();
+	$fetchassigned = $db->query("SELECT * FROM ".DBPF."tickets WHERE assigned_to='".$user->info['id']."' ORDER BY severity");
+	while($info = $db->fetcharray($fetchassigned))
+	{
+		$info['project'] = $db->queryfirst("SELECT slug FROM ".DBPF."projects WHERE id='".$info['project_id']."' LIMIT 1");
+		$tickets['assigned'][] = $info;
+	}
 	
 	include(template('user/usercp'));
 }
