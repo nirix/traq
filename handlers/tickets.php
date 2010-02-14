@@ -24,23 +24,37 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 		$newfilters[] = $_POST['add_filter'].'=';
 	}
 	
+	// Check if we're removing a filter...
+	/*if(isset($_POST['rmfilter'])) {
+		foreach($_POST['rmfilter'] as $rm => $val)
+			//die($rm);
+			$rm = explode('_',$rm);
+			//print_r($_POST['filters'][$rm[0]][$rm[1]]);
+			unset($_POST['filters'][$rm[0]][$rm[1]]);
+	}*/
+	
+	//print_r($_POST['rmfilter']);
+	
 	// Filters
 	foreach($_POST['filters'] as $filter => $values)
-	{
+	{		
+		$val = -1;
 		// Milestone
 		if($filter == 'milestone')
 		{
 			$milestones = array();
 			foreach($values as $value)
 			{
-				if(!empty($value['value']))
+				$val++;
+				if(!empty($value['value']) && !isset($_POST['rmfilter'][$filter][$val]))
 					$milestones[] = $value['value'];
 			}
 			
 			if($_POST['add_filter'] == 'milestone')
 				$milestones[] = '';
 			
-			$url[] = 'milestone='.$_POST['modes']['milestone'].implode(',',$milestones);
+			if(count($milestones))
+				$url[] = 'milestone='.$_POST['modes']['milestone'].implode(',',$milestones);
 		}
 		// Version
 		if($filter == 'version')
@@ -48,13 +62,15 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 			$versions = array();
 			foreach($values as $value)
 			{
-				if(!empty($value['value']))
+				$val++;
+				if(!empty($value['value']) && !isset($_POST['rmfilter'][$filter][$val]))
 					$versions[] = $value['value'];
 			}
 			
 			if($_POST['add_filter'] == 'version')
 				$versions[] = '';
 			
+			if(count($versions))
 			$url[] = 'version='.$_POST['modes']['version'].implode(',',$versions);
 		}
 		// Type
@@ -63,17 +79,19 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 			$types = array();
 			foreach($values as $value)
 			{
-				if(!empty($value['value']))
+				$val++;
+				if(!empty($value['value']) && !isset($_POST['rmfilter'][$filter][$val]))
 					$types[] = $value['value'];
 			}
 			
 			if($_POST['add_filter'] == 'type')
 				$types[] = '';
 			
+			if(count($types))
 			$url[] = 'type='.$_POST['modes']['type'].implode(',',$types);
 		}
 		// Status
-		elseif($filter == 'status')
+		elseif($filter == 'status' && !isset($_POST['rmfilter']['status']))
 		{
 			$url[] = 'status='.implode(',',$values);
 		}

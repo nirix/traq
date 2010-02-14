@@ -544,14 +544,11 @@ table.tickets tbody tr.even.priority1 {
 }
 
 /* Ticket Filters */
-#ticket_filters .label {
+#ticket_filters td.label {
 	width: 80px;
 }
-#ticket_filters .mode {
+#ticket_filters td.mode {
 	width: 50px;
-}
-#ticket_filters .value {
-	width: 100%;
 }
 #ticket_filters .remove {
 	width: 20px;
