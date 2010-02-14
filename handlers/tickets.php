@@ -57,6 +57,21 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 			
 			$url[] = 'version='.$_POST['modes']['version'].implode(',',$versions);
 		}
+		// Type
+		if($filter == 'type')
+		{
+			$types = array();
+			foreach($values as $value)
+			{
+				if(!empty($value['value']))
+					$types[] = $value['value'];
+			}
+			
+			if($_POST['add_filter'] == 'type')
+				$types[] = '';
+			
+			$url[] = 'type='.$_POST['modes']['type'].implode(',',$types);
+		}
 		// Status
 		elseif($filter == 'status')
 		{
@@ -142,6 +157,24 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			}
 			if(count($values) != $empty)
 				$query .= " AND (version_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' version_id'.$filter['mode'].'=',$values).")";
+		}
+		// Type filter
+		if($filter['type'] == 'type')
+		{
+			// Loop through the values
+			$empty = 0;
+			foreach($filter['values'] as $value)
+			{	
+				if(empty($value))
+				{
+					$empty++;
+					continue;
+				}
+				
+				$values[] = $value;
+			}
+			if(count($values) != $empty)
+				$query .= " AND (type".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' type'.$filter['mode'].'=',$values).")";
 		}
 		// Status filter
 		elseif($filter['type'] == 'status')

@@ -9,7 +9,9 @@
 				<tr>
 					<td class="label"><?=l($filter['type'])?></td>
 					<td class="value">
-						<? if($filter['type'] == 'milestone' or $filter['type'] == 'version') { ?>
+						<? if($filter['type'] == 'milestone'
+						   or $filter['type'] == 'version'
+						   or $filter['type'] == 'type') { ?>
 							<table>
 							<? foreach($filter['values'] as $value) {
 								$i++;
@@ -40,6 +42,13 @@
 											<option value="<?=$version['id']?>"<?=iif($value == $version['id'],' selected="selected"')?>><?=$version['version']?></option>
 											<? } ?>
 										</select>
+										<? } elseif($filter['type'] == 'type') { ?>
+										<select name="filters[<?=$filter['type']?>][<?=$i?>][value]">
+											<option></option>
+											<? foreach(ticket_types() as $type) { ?>
+											<option value="<?=$type['id']?>"<?=iif($value == $type['id'],' selected="selected"')?>><?=$type['name']?></option>
+											<? } ?>
+										</select>
 										<? } ?>
 									</td>
 								</tr>
@@ -51,14 +60,11 @@
 							<? } ?>
 						<? } ?>
 					</td>
-					<td class="remove">
-						<input type="submit" name="rmfilter[<?=$filter['type']?>][<?=$i?>]" value="-" />
-					</td>
 				</tr>
 			<? } ?>
 			<tr>
 				<td><input type="submit" value="<?=l('update')?>" /></td>
-				<td align="right" colspan="3">
+				<td align="right" colspan="2">
 					<label><small><?=l('add_filter')?></small></label>
 					<select name="add_filter">
 						<option></option>

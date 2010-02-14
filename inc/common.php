@@ -324,7 +324,8 @@ function ticket_filters()
 	$filters = array(
 		'milestone',
 		'version',
-		'status'
+		'status',
+		'type'
 	);
 	($hook = FishHook::hook('ticket_filters')) ? eval($hook) : false;
 	return $filters;
