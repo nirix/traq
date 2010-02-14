@@ -243,6 +243,10 @@ $lang['allow_registration'] = 'Allow Registration';
 $lang['allow_registration_description'] = 'Allow Users to registration?';
 $lang['save_settings'] = 'Save Settings';
 
+// Confirms
+$lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';
+$lang['confirm_delete_component_x'] = 'Are you sure you want to delete component {1}?';
+
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
 $lang['error_body_empty'] = 'Description cannot be blank.';

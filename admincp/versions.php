@@ -143,6 +143,13 @@ elseif(isset($_REQUEST['edit']))
 	<?
 	foot();
 }
+// Delete Version
+elseif(isset($_REQUEST['delete']))
+{
+	$db->query("DELETE FROM ".DBPF."versions WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");
+	$db->query("UPDATE ".DBPF."tickets SET version_id='0' WHERE version_id='".$db->res($_REQUEST['delete'])."'");
+	header("Location: versions.php?deleted");
+}
 // List Versions
 else
 {
@@ -179,7 +186,7 @@ else
 			<tr>
 				<td><a href="versions.php?edit=<?=$version['id']?>"><?=$version['version']?></a></td>
 				<td align="right">
-					
+					<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete_version_x',$version['version'])?>')) { window.location = 'versions.php?delete=<?=$version['id']?>'; }" />
 				</td>
 			</tr>
 			<? } ?>
@@ -192,7 +199,6 @@ else
 	</div>
 	<?
 	}
-	
 	foot();
 }
 ?>

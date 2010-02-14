@@ -145,6 +145,13 @@ elseif(isset($_REQUEST['edit']))
 	<?
 	foot();
 }
+// Delete Component
+elseif(isset($_REQUEST['delete']))
+{
+	$db->query("DELETE FROM ".DBPF."components WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");
+	$db->query("UPDATE ".DBPF."tickets SET component_id='0' WHERE component_id='".$db->res($_REQUEST['delete'])."'");
+	header("Location: components.php?deleted");
+}
 // List Components
 else
 {
@@ -180,7 +187,7 @@ else
 			<tr>
 				<td><a href="components.php?edit=<?=$component['id']?>"><?=$component['name']?></a></td>
 				<td align="right">
-					
+					<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete_component_x',$component['name'])?>')) { window.location = 'components.php?delete=<?=$component['id']?>'; }" />
 				</td>
 			</tr>
 			<? } ?>
