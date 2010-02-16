@@ -554,8 +554,17 @@ table.tickets tbody tr.even.priority1 {
 }
 
 /* Ticket Filters */
-#ticket_filters td.label {
-	width: 80px;
+#ticket_filters .label {
+	font-size: 12px;
+	text-align: right;
+	font-weight: bold;
+	padding-right: 2px;
+}
+#ticket_filters td.value {
+	width: 100%;
+}
+#ticket_filters td.value label {
+	font-size: 12px;
 }
 #ticket_filters td.mode {
 	width: 50px;

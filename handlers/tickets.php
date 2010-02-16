@@ -96,6 +96,10 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 		
 		// Add filter to the filters array.
 		$filters[] = $filter;
+		
+		// Create an empty array for the values
+		// used to make the query.
+		$values = array();
 
 		// Check if the filter value is not blank
 		if(empty($filter['value'])) { continue; }
@@ -104,79 +108,65 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 		if($filter['type'] == 'milestone')
 		{
 			// Loop through the values
-			$empty = 0;
 			foreach($filter['values'] as $value)
 			{
 				// Make sure the value is not empty.
 				if(empty($value))
-				{
-					$empty++;
 					continue;
-				}
 				
 				// Fetch the milestone info and get the ID for the query.
 				$milestone = $db->fetcharray($db->query("SELECT id,project_id,milestone FROM ".DBPF."milestones WHERE project_id='".$db->res($project['id'])."' AND slug='".$db->res(urldecode($value))."' LIMIT 1"));
 				$values[] = $milestone['id'];
 			}
-			if(count($values) != $empty)
+			if(count($values))
 				$query .= " AND (milestone_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' milestone_id'.$filter['mode'].'=',$values).")";
 		}
 		// Version filter
-		if($filter['type'] == 'version')
+		elseif($filter['type'] == 'version')
 		{
 			// Loop through the values
-			$empty = 0;
 			foreach($filter['values'] as $value)
 			{
 				// Make sure the value is not empty.
 				if(empty($value))
-				{
-					$empty++;
 					continue;
-				}
 				
 				$values[] = $value;
 			}
-			if(count($values) != $empty)
+			if(count($values))
 				$query .= " AND (version_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' version_id'.$filter['mode'].'=',$values).")";
 		}
 		// Type filter
-		if($filter['type'] == 'type')
+		elseif($filter['type'] == 'type')
 		{
 			// Loop through the values
-			$empty = 0;
 			foreach($filter['values'] as $value)
 			{
 				// Make sure the value is not empty.
 				if(empty($value))
-				{
-					$empty++;
 					continue;
-				}
 				
 				$values[] = $value;
 			}
-			if(count($values) != $empty)
+			
+			if(count($values))
 				$query .= " AND (type".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' type'.$filter['mode'].'=',$values).")";
 		}
 		// Component filter
-		if($filter['type'] == 'component')
+		elseif($filter['type'] == 'component')
 		{
 			// Loop through the values
-			$empty = 0;
 			foreach($filter['values'] as $value)
 			{
 				// Make sure the value is not empty.
 				if(empty($value))
-				{
-					$empty++;
 					continue;
-				}
 				
 				$values[] = $value;
 			}
-			if(count($values) != $empty)
+			if(count($values))
 				$query .= " AND (component_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' component_id'.$filter['mode'].'=',$values).")";
+				//die($query);
 		}
 		// Status filter
 		elseif($filter['type'] == 'status')
