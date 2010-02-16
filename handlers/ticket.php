@@ -184,6 +184,8 @@ if(isset($_POST['update']))
 	}
 }
 
+($hook = FishHook::hook('handler_ticket')) ? eval($hook) : false;
+
 // Assuming all goes well, display the view ticket page.
 include(template('view_ticket'));
 ?>

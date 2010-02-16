@@ -156,13 +156,47 @@ $hook_locations = array(
 	'global',
 	'formattext',
 	'getsettings',
+	
+	// Projects
+	'roadmap_fetch',
+	'projectlist_fetch',
+	
+	// Tickets
 	'ticket_create',
 	'ticket_update',
 	'ticket_get',
 	'ticket_delete',
+	
+	// Templates
 	'template_new_ticket_properties',
 	'template_view_ticket_properties',
 	'template_update_ticket_properties',
-	'admin_settings'
+	
+	// AdminCP
+	'admin_settings',
+	
+	// Functions
+	'function_locale',
+	'function_ticket_statuses',
+	'function_ticket_types',
+	'function_ticket_priorities',
+	'function_ticket_severities',
+	'function_ticket_columns',
+	'function_ticket_columns',
+	'function_ticket_filters',
+	'function_project_milestones',
+	'function_project_verions',
+	'function_project_components',
+	'function_project_managers',
+	
+	// Handlers
+	'handler_milestone',
+	'handler_newticket',
+	'handler_project',
+	'handler_projectlist',
+	'handler_roadmap',
+	'handler_ticket',
+	'handler_tickets',
+	'handler_timeline'
 );
 ?>

@@ -20,5 +20,7 @@ $milestone['tickets']['percent'] = array(
 addcrumb($uri->anchor($project['slug'],'roadmap'),l('roadmap'));
 addcrumb($uri->geturi(),l('milestone').': '.$milestone['milestone']);
 
+($hook = FishHook::hook('handler_milestone')) ? eval($hook) : false;
+
 require(template('milestone'));
 ?>

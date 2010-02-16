@@ -42,5 +42,7 @@ while($dayinfo = $db->fetcharray($fetchdays))
 	$days[] = $day;
 }
 
+($hook = FishHook::hook('handler_timeline')) ? eval($hook) : false;
+
 require(template('timeline'));
 ?>

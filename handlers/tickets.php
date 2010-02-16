@@ -219,5 +219,7 @@ while($info = $db->fetcharray($fetchtickets))
 	$tickets[] = $info;
 }
 
+($hook = FishHook::hook('handler_tickets')) ? eval($hook) : false;
+
 require(template('tickets'));
 ?>

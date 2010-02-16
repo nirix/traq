@@ -19,8 +19,6 @@ require(TRAQPATH.'inc/recaptchalib.php');
 
 addcrumb($uri->geturi(),l('new_ticket'));
 
-($hook = FishHook::hook('newticket')) ? eval($hook) : false;
-
 // Do the New Ticket stuff...
 include(TRAQPATH.'inc/ticket.class.php');
 $ticket = new Ticket;
@@ -58,6 +56,8 @@ if(isset($_POST['summary']))
 			$errors['recaptcha'] = l('error_recaptcha');
 	}
 }
+
+($hook = FishHook::hook('handler_newticket')) ? eval($hook) : false;
 
 require(template('newticket'));
 ?>

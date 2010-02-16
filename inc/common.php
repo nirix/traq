@@ -57,10 +57,10 @@ function altbg($even='even',$odd='odd')
 {
 	static $bg;
 	
-	if($bg == $even)
-		return $bg = $odd;
-	else
+	if($bg == $odd)
 		return $bg = $even;
+	else
+		return $bg = $odd;
 }
 
 /**
@@ -131,7 +131,7 @@ function l($string,$vars=array())
 		$string = str_replace('{'.$v.'}',$var,$string);
 	}
 	
-	($hook = FishHook::hook('locale_function')) ? eval($hook) : false;
+	($hook = FishHook::hook('function_locale')) ? eval($hook) : false;
 	
 	// Now return it...
 	return $string;
@@ -183,7 +183,7 @@ function ticket_status_list($getstatus=1)
 	while($info = $db->fetcharray($fetch))
 		$status[] = $info;
 	
-	($hook = FishHook::hook('function_ticket_status')) ? eval($hook) : false;
+	($hook = FishHook::hook('function_ticket_statuses')) ? eval($hook) : false;
 	return $status;
 }
 
@@ -308,7 +308,7 @@ function ticket_columns()
 		'version',
 		'assigned_to'
 	);
-	($hook = FishHook::hook('ticket_columns')) ? eval($hook) : false;
+	($hook = FishHook::hook('function_ticket_columns')) ? eval($hook) : false;
 	return $columns;
 }
 
@@ -326,7 +326,7 @@ function ticket_filters()
 		'status',
 		'type'
 	);
-	($hook = FishHook::hook('ticket_filters')) ? eval($hook) : false;
+	($hook = FishHook::hook('function_ticket_filters')) ? eval($hook) : false;
 	return $filters;
 }
 
@@ -411,7 +411,9 @@ function project_managers($project_id=NULL)
 	
 	foreach($manager_ids as $id)
 		$managers[] = $db->queryfirst("SELECT id,username,name FROM ".DBPF."users WHERE id='".$db->es($id)."' LIMIT 1");
-		
+	
+	($hook = FishHook::hook('function_project_managers')) ? eval($hook) : false;
+	
 	return $managers;
 }
 

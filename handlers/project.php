@@ -10,7 +10,7 @@
 $project = $db->queryfirst("SELECT * FROM ".DBPF."projects WHERE slug='".$db->res($uri->seg[0])."' LIMIT 1");
 $project['managers'] = explode(',',$project['managers']);
 
-($hook = FishHook::hook('project_handler')) ? eval($hook) : false;
+($hook = FishHook::hook('handler_project')) ? eval($hook) : false;
 
 if($uri->seg[1] == '')
 {	

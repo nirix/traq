@@ -20,11 +20,13 @@ while($info = $db->fetcharray($fetch))
 		'open' => ($info['tickets']['open'] ? getpercent($info['tickets']['open'],$info['tickets']['total']) : 0),
 		'closed' => getpercent($info['tickets']['closed'],$info['tickets']['total'])
 	);
-	($hook = FishHook::hook('roadmap_fetchmilestones')) ? eval($hook) : false;
+	($hook = FishHook::hook('roadmap_fetch')) ? eval($hook) : false;
 	$milestones[] = $info;
 }
 
 addcrumb($uri->geturi(),l('roadmap'));
+
+($hook = FishHook::hook('handler_roadmap')) ? eval($hook) : false;
 
 require(template('roadmap'));
 ?>
