@@ -244,6 +244,11 @@ $lang['edit_version'] = 'Edit Version';
 $lang['allow_registration'] = 'Allow Registration';
 $lang['allow_registration_description'] = 'Allow Users to register?';
 $lang['save_settings'] = 'Save Settings';
+$lang['fill_in_to_add_new_type'] = 'Fill in to add new Type.';
+$lang['fill_in_to_add_new_status'] = 'Fill in to add new Status.';
+$lang['fill_in_to_add_new_severity'] = 'Fill in to add new Severity.';
+$lang['open'] = 'Open';
+$lang['closed'] = 'Closed';
 
 // Confirms
 $lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';
