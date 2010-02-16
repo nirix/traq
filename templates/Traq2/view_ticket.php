@@ -81,6 +81,15 @@
 			<? foreach($ticket['changes'] as $change) { ?>
 			<div class="ticket_prop_change">
 				<h3><?=timesince($change['timestamp'],true)?> ago by <?=$change['user_name']?></h3>
+				<div class="ticket_change_actions">
+					<? if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?>
+					<form action="<?=$uri->geturi()?>" method="post">
+						<input type="hidden" name="action" value="delete_comment" />
+						<input type="hidden" name="comment" value="<?=$change['id']?>" />
+						<input type="submit" value="<?=l('delete')?>" />
+					</form>
+					<? } ?>
+				</div>
 				<? if(count($change['changes']) > 0) { ?>
 				<ul>
 					<? foreach($change['changes'] as $row) { ?>
@@ -199,7 +208,7 @@
 							<? } ?>
 						</td>
 						<th class="col2"><label for="private"><?=l('private_ticket')?></label></th>
-						<td><input type="checkbox" name="private" id="private" value="1" /></td>
+						<td><input type="checkbox" name="private" id="private" value="1"<?=iif($ticket['private'],' checked="checked"')?> /></td>
 					</tr>
 					<tr>
 						<td></td>

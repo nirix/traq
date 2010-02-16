@@ -29,7 +29,7 @@
 				<textarea name="body" class="body"><?=$_POST['body']?></textarea>
 			</fieldset>
 			
-			<fieldset id="ticket_properties">
+			<fieldset id="ticket_properties" class="properties">
 				<legend><?=l('properties')?></legend>
 				<table width="100%" cellpading="0" cellspacing="0">
 					<tr>

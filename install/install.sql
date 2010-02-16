@@ -104,10 +104,11 @@ CREATE TABLE `traq_ticket_history` (
   `user_name` varchar(255) NOT NULL,
   `timestamp` bigint(20) NOT NULL,
   `ticket_id` bigint(20) NOT NULL,
+  `project_id` bigint(20) NOT NULL,
   `changes` longtext NOT NULL,
   `comment` longtext NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_ticket_status` (
   `id` bigint(20) NOT NULL auto_increment,

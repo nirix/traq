@@ -17,7 +17,7 @@ body {
 }
 
 table td {
-	vertical-align: text-top;
+	vertical-align: top;
 }
 
 #page {
@@ -244,6 +244,10 @@ ul.projects .quick_nav {
 #ticket_history .change_comment {
 	padding: 6px 4px;
 }
+#ticket_history .ticket_change_actions {
+	float: right;
+	padding: 2px 0 2px 2px;
+}
 
 /* Timeline Stuff */
 #timeline .day h3 {
@@ -263,6 +267,9 @@ ul.projects .quick_nav {
 }
 
 /* Form stuff */
+form {
+	margin: 0;
+}
 form.new_ticket {
 	margin: 0 auto;
 }

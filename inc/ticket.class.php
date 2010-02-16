@@ -79,12 +79,12 @@ class Ticket
 		$ticketid = $db->insertid();
 		
 		// Insert the ticket history row
-		$db->query("INSERT INTO ".DBPF."ticket_history VALUES(
-			0,
+		$db->query("INSERT INTO ".DBPF."ticket_history (user_id,user_name,timestamp,ticket_id,project_id,changes,comment) VALUES(
 			'".$user->info['id']."',
 			'".$user->info['username']."',
 			'".time()."',
 			'".$ticketid."',
+			'".$project['id']."',
 			'".json_encode(array(array('property'=>'status','from'=>'','to'=>'1','action'=>'open')))."',
 			''
 		)");
@@ -166,12 +166,6 @@ class Ticket
 	public function delete($args)
 	{
 		global $db;
-		
-		if(!array($args))
-		{
-			$args = func_get_args();
-		}
-		
 		
 		// Check which arguments are set and compile the query.
 		$query = array();

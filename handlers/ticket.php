@@ -11,6 +11,16 @@ include(TRAQPATH.'inc/ticket.class.php'); // Fetch the ticket class
 $ticket = new Ticket;
 $ticket = $ticket->get(array('ticket_id'=>$matches['id'],'project_id'=>$project['id'])); // Fetch the ticket.
 
+// Delete Comment
+if($_POST['action'] == 'delete_comment')
+{
+	if($user->group['is_admin'] or in_array($user->info['id'],$project['managers']))
+	{
+		$db->query("DELETE FROM ".DBPF."ticket_history WHERE id='".$db->res($_POST['comment'])."' LIMIT 1");
+		header("Location: ".$uri->geturi());
+	}
+}
+
 // Fetch ticket histoy
 $ticket['changes'] = array();
 $fetchchanges = $db->query("SELECT * FROM ".DBPF."ticket_history WHERE ticket_id='".$ticket['id']."' ORDER BY id DESC");
@@ -95,6 +105,7 @@ if(isset($_POST['update']))
 	elseif($_POST['private'] != $ticket['private'])
 	{
 		$querybits[] = "private='".$db->res($_POST['private'])."'";
+		$changes[] = array('property'=>'private','from'=>$ticket['private'],'to'=>$_POST['private'],'action'=>($_POST['private'] ? 'private' : 'public'));
 	}
 	// Action
 	if($_POST['action'] == 'mark' && $ticket['status'] != $_POST['mark_as'])
@@ -107,8 +118,7 @@ if(isset($_POST['update']))
 		$querybits[] = "status='".$db->res($_POST['close_as'])."'";
 		$querybits[] = "closed='1'";
 		$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['close_as']),'action'=>'close');
-		$db->query("INSERT INTO ".DBPF."timeline VALUES(
-			0,
+		$db->query("INSERT INTO ".DBPF."timeline (project_id,owner_id,action,data,user_id,user_name,timestamp,date) VALUES(
 			'".$db->res($project['id'])."',
 			'".$db->res($ticket['id'])."',
 			'close_ticket',
@@ -124,8 +134,7 @@ if(isset($_POST['update']))
 		$querybits[] = "status='".$db->res($_POST['reopen_as'])."'";
 		$querybits[] = "closed='0'";
 		$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['reopen_as']),'action'=>'reopen');
-		$db->query("INSERT INTO ".DBPF."timeline VALUES(
-			0,
+		$db->query("INSERT INTO ".DBPF."timeline (project_id,owner_id,action,data,user_id,user_name,timestamp,date) VALUES(
 			'".$db->res($project['id'])."',
 			'".$db->res($ticket['id'])."',
 			'reopen_ticket',
@@ -146,12 +155,12 @@ if(isset($_POST['update']))
 			$db->query("UPDATE ".DBPF."tickets SET ".implode(', ',$querybits)." WHERE id='".$ticket['id']."' LIMIT 1");
 		
 		// Insert row into ticket history
-		$db->query("INSERT INTO ".DBPF."ticket_history VALUES(
-			0,
+		$db->query("INSERT INTO ".DBPF."ticket_history (user_id,user_name,timestamp,ticket_id,project_id,changes,comment) VALUES(
 			'".$user->info['id']."',
 			'".$user->info['username']."',
 			'".time()."',
 			'".$ticket['id']."',
+			'".$project['id']."',
 			'".json_encode($changes)."',
 			'".$db->res($_POST['comment'])."'
 		)");

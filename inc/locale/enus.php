@@ -96,6 +96,8 @@ $lang['ticket_history_status_open'] = 'Opened Ticket';
 $lang['ticket_history_status_mark'] = 'Changed Status from {1} to {2}';
 $lang['ticket_history_status_close'] = 'Closed ticket as {2}';
 $lang['ticket_history_status_reopen'] = 'Reopened ticket as {2}';
+$lang['ticket_history_private_public'] = 'Marked ticket as public';
+$lang['ticket_history_private_private'] = 'Marked ticket as private';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';
