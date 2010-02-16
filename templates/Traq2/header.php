@@ -11,7 +11,9 @@
 						<? } ?>
 					<? } else { ?>
 						<li class="first<?=iif($uri->seg[1] == 'login',' active')?>"><a href="<?=$uri->anchor('user','login')?>"><?=l('login')?></a></li>
+						<? if(settings('allow_registration')) { ?>
 						<li<?=iif($uri->seg[1] == 'register',' class="active"')?>><a href="<?=$uri->anchor('user','register')?>"><?=l('register')?></a></li>
+						<? } ?>
 					<? } ?>
 					</ul>
 				</div>

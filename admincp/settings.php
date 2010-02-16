@@ -90,9 +90,7 @@ head('Settings');
 		</table>
 	</div>
 	<br />
-	<div class="tborder">
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('save_settings')?>" /></div>
-	</div>
+	<div align="center"><input type="submit" value="<?=l('save_settings')?>" /></div>
 </form>
 <?
 ($hook = FishHook::hook('admin_settings')) ? eval($hook) : false;

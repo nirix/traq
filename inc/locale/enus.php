@@ -242,7 +242,7 @@ $lang['version_name_description'] = 'The name/version.';
 $lang['version_project_description'] = 'The project the version belongs to.';
 $lang['edit_version'] = 'Edit Version';
 $lang['allow_registration'] = 'Allow Registration';
-$lang['allow_registration_description'] = 'Allow Users to registration?';
+$lang['allow_registration_description'] = 'Allow Users to register?';
 $lang['save_settings'] = 'Save Settings';
 
 // Confirms

@@ -22,7 +22,7 @@ if($uri->seg[1] == "login")
 	include(template('user/login'));
 }
 // Register
-elseif($uri->seg[1] == "register")
+elseif($uri->seg[1] == "register" && settings('allow_registration'))
 {
 	// Check if the form has been submitted.
 	if($_POST['action'] == 'register')
