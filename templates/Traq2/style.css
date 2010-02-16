@@ -572,3 +572,22 @@ table.tickets tbody tr.even.priority1 {
 #ticket_filters .remove {
 	width: 20px;
 }
+
+/* Changelog */
+#changelog ul {
+	list-style: none;
+	padding: 0 0 0 15px;
+	margin: 0;
+}
+.type_bullet {
+	float: left;
+	width: 12px;
+	text-align: center;
+}
+.legend {
+	font-size: 12px;
+	float: right;
+}
+
+/* Misc. */
+.clear { clear: both; }

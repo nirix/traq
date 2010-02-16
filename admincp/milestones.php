@@ -184,6 +184,7 @@ elseif(isset($_REQUEST['edit']))
 				completed='".$db->res($completed)."',
 				cancelled='".$db->res($cancelled)."',
 				locked='".$db->res($locked)."',
+				project_id='".$db->res($_POST['project'])."',
 				displayorder='".$db->res($_POST['displayorder'])."'
 				WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 			
@@ -233,7 +234,7 @@ elseif(isset($_REQUEST['edit']))
 				<td align="right">
 					<select name="project">
 					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $milestone['project'],' selected="selected"')?>><?=$project['name']?></option>
+						<option value="<?=$project['id']?>"<?=iif($project['id'] == $milestone['project_id'],' selected="selected"')?>><?=$project['name']?></option>
 					<? } ?>
 					</select>
 				</td>

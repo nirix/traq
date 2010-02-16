@@ -249,10 +249,12 @@ $lang['fill_in_to_add_new_status'] = 'Fill in to add new Status.';
 $lang['fill_in_to_add_new_severity'] = 'Fill in to add new Severity.';
 $lang['open'] = 'Open';
 $lang['closed'] = 'Closed';
+$lang['bullet'] = 'Bullet';
 
 // Confirms
 $lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';
 $lang['confirm_delete_component_x'] = 'Are you sure you want to delete component {1}?';
+$lang['confirm_delete'] = 'Are you sure you want to delete that?';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';

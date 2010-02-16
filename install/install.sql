@@ -120,6 +120,7 @@ CREATE TABLE `traq_ticket_status` (
 CREATE TABLE `traq_ticket_types` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
+  `bullet` varchar(10) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 

@@ -18,16 +18,16 @@ if(isset($_REQUEST['update']))
 	if($_POST['action'] == 'type')
 	{
 		// Loop through the values.
-		foreach($_POST['type'] as $id => $value)
+		foreach($_POST['type'] as $id => $values)
 		{
 			// Make sure the value isnt empty.
-			if(!empty($value))
-				$db->query("UPDATE ".DBPF."ticket_types SET name='".$db->res($value)."' WHERE id='".$db->res($id)."' LIMIT 1");
+			if(!empty($values['name']))
+				$db->query("UPDATE ".DBPF."ticket_types SET name='".$db->res($values['name'])."', bullet='".$db->res($values['bullet'])."' WHERE id='".$db->res($id)."' LIMIT 1");
 		}
 		
 		// Check if we're adding one as well...
 		if(!empty($_POST['name']))
-			$db->query("INSERT INTO ".DBPF."ticket_types (name) VALUES('".$db->res($_POST['name'])."')");
+			$db->query("INSERT INTO ".DBPF."ticket_types (name,bullet) VALUES('".$db->res($_POST['name'])."','".$db->res($_POST['bullet'])."')");
 		
 		// Go back to the listing
 		header("Location: tickets.php?updated");
@@ -128,22 +128,25 @@ else
 		<div class="tborder">
 			<table width="100%" cellspacing="0">
 				<tr class="optiontitle first">
-					<th width="200" align="left"><?=l('name')?></th>
+					<th width="180" align="left"><?=l('name')?></th>
+					<th align="left"><?=l('bullet')?></th>
 					<th></th>
 				</tr>
 				<? foreach($types as $type) { ?>
 				<tr>
-					<td><input type="text" name="type[<?=$type['id']?>]" value="<?=$type['name']?>" /></td>
+					<td><input type="text" name="type[<?=$type['id']?>][name]" value="<?=$type['name']?>" /></td>
+					<td><input type="text" name="type[<?=$type['id']?>][bullet]" value="<?=$type['bullet']?>" /></td>
 					<td align="right">
 						<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'tickets.php?delete&type=<?=$type['id']?>'; }" />
 					</td>
 				</tr>
 				<? } ?>
 				<tr>
-					<td colspan="2">
+					<td>
 						<input type="text" name="name" value="" /><br />
 						<small><?=l('fill_in_to_add_new_type')?></small>
 					</td>
+					<td colspan="2"><input type="text" name="bullet" value="" /></td>
 				</tr>
 			</table>
 			<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>

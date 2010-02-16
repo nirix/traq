@@ -40,4 +40,8 @@ elseif($uri->seg[1] == 'timeline')
 {
 	require(TRAQPATH.'handlers/timeline.php');
 }
+elseif($uri->seg[1] == 'changelog')
+{
+	require(TRAQPATH.'handlers/changelog.php');
+}
 ?>
