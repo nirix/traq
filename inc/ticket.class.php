@@ -155,38 +155,30 @@ class Ticket
 		$this->info = $ticket;
 		unset($ticket);
 		
+		($hook = FishHook::hook('ticket_get')) ? eval($hook) : false;
+		
 		return $this->info;
 	}
 	
 	/**
 	 * Delete ticket
 	 * Used to delete a ticket.
-	 * @param array $args The arguments for the delete ticket query.
+	 * @param int $id The ID of the ticket (row ID, not ticket_id).
 	 */
-	public function delete($args)
+	public function delete($id)
 	{
 		global $db;
 		
-		// Check which arguments are set and compile the query.
-		$query = array();
+		// Delete ticket
+		$db->query("DELETE FROM ".DBPF."tickets WHERE id='".$id."' LIMIT 1");
 		
-		// Check for the ID column
-		if(isset($args['id']))
-			$query[] = "id='".$args['id']."'";
+		// Delete ticket history
+		$db->query("DELETE FROM ".DBPF."ticket_history WHERE ticket_id='".$id."'");
 		
-		// Check for the ticket_id column
-		if(isset($args['ticket_id']))
-			$query[] = "ticket_id='".$args['ticket_id']."'";
-		
-		// Check for the project_id column
-		if(isset($args['project_id']))
-			$query[] = "project_id='".$args['project_id']."'";
-		
-		// Compile the query
-		$query = implode(' AND ',$query);
-		
-		// Run the query
-		$db->query("DELETE * FROM ".DBPF."tickets WHERE $query LIMIT 1");
+		// Delete timeline references
+		$db->query("DELETE FROM ".DBPF."timeline WHERE owner_id='".$id."' AND (action='open_ticket' OR action='reopen_ticket' OR action='close_ticket')");
+	
+		($hook = FishHook::hook('ticket_delete')) ? eval($hook) : false;
 	}
 }
 ?>

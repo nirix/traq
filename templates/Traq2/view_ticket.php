@@ -15,7 +15,7 @@
 				<p>Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
 			</div>
 			<h1 class="summary"><?=$ticket['summary']?> <small>(<?=l('ticket_x',$ticket['ticket_id'])?>)</small> <? if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?>
-				<input type="button" onclick="if(confirm('<?=l('delete_ticket_confirm',$ticket['ticket_id'])?>')) { window.location='<?=$uri->anchor($project['slug'],'ticket',$ticket['ticket_id'],'delete')?>' }" value="<?=l('delete')?>" />
+				<input type="button" onclick="if(confirm('<?=l('delete_ticket_confirm',$ticket['ticket_id'])?>')) { window.location='<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'],'delete')?>' }" value="<?=l('delete')?>" />
 				<? } ?></h1>
 			<table class="properties">
 				<tr>

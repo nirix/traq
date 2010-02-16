@@ -38,8 +38,6 @@ function settings($setting)
  */
 function template($template)
 {
-	($hook = FishHook::hook('gettemplate')) ? eval($hook) : false;
-	
 	// Check if the template exists
 	if(file_exists(TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php")) {
 		return TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php";

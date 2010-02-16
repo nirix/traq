@@ -7,17 +7,33 @@
  * $Id$
  */
 
-include(TRAQPATH.'inc/ticket.class.php'); // Fetch the ticket class
-$ticket = new Ticket;
-$ticket = $ticket->get(array('ticket_id'=>$matches['id'],'project_id'=>$project['id'])); // Fetch the ticket.
+// Fetch the ticket class
+include(TRAQPATH.'inc/ticket.class.php');
+$ticketC = new Ticket;
+
+// Get the ticket info.
+$ticket = $ticketC->get(array('ticket_id'=>$matches['id'],'project_id'=>$project['id'])); // Fetch the ticket.
 
 // Delete Comment
 if($_POST['action'] == 'delete_comment')
 {
+	// Make sure the user is an Admin or Project Manager.
 	if($user->group['is_admin'] or in_array($user->info['id'],$project['managers']))
 	{
 		$db->query("DELETE FROM ".DBPF."ticket_history WHERE id='".$db->res($_POST['comment'])."' LIMIT 1");
 		header("Location: ".$uri->geturi());
+	}
+}
+
+// Delete ticket
+if($uri->seg[2] == 'delete')
+{
+	// Make sure the user is an Admin or Project Manager.
+	if($user->group['is_admin'] or in_array($user->info['id'],$project['managers']))
+	{
+		// Delete ticket
+		$ticketC->delete($ticket['id']);
+		header("Location: ".$uri->anchor($project['slug'],'tickets'));
 	}
 }
 
