@@ -157,7 +157,9 @@
 						<td>
 							<select name="milestone">
 								<? foreach(project_milestones() as $milestone) { ?>
+								<? if(!$milestone['locked'] or ($milestone['locked'] && $ticket['milestone_id'] == $milestone['id'])) { ?>
 								<option value="<?=$milestone['id']?>"<?=iif($milestone['id']==$ticket['milestone_id'],' selected="selected"')?>><?=$milestone['milestone']?></option>
+								<? } ?>
 								<? } ?>
 							</select>
 						</td>

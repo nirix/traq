@@ -74,7 +74,9 @@
 						<td>
 							<select name="milestone">
 								<? foreach(project_milestones() as $milestone) { ?>
+								<? if(!$milestone['locked']) { ?>
 								<option value="<?=$milestone['id']?>"><?=$milestone['milestone']?></option>
+								<? } ?>
 								<? } ?>
 							</select>
 						</td>
