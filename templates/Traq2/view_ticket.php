@@ -210,6 +210,18 @@
 						<th class="col2"><label for="private"><?=l('private_ticket')?></label></th>
 						<td><input type="checkbox" name="private" id="private" value="1"<?=iif($ticket['private'],' checked="checked"')?> /></td>
 					</tr>
+					<? if(!$user->loggedin) { ?>
+					<tr>
+						<th><?=l('your_name')?></th>
+						<td><input type="text" name="name" value="<?=$_COOKIE['guestname']?>" />	</td>
+					</tr>
+					<? if(settings('recaptcha_enabled')) { ?>
+					<tr>
+						<th><?=l('recaptcha')?></th>
+						<td colspan="2"><?=recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?></td>
+					</tr>
+					<? } ?>
+					<? } ?>
 					<tr>
 						<td></td>
 						<td><input type="submit" value="<?=l('update')?>" /></td>

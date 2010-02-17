@@ -74,14 +74,24 @@ head('Settings');
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('public_api_key')?></td>
+				<td class="optiontitle first" colspan="2"><?=l('enable_recaptcha')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('enable_recaptcha_description')?></td>
+				<td width="200">
+					<input type="radio" name="recaptcha_enabled" value="1" id="recaptcha_enable_yes"<?=(settings('recaptcha_enabled') ? ' checked="checked"' :'')?> /> <label for="recaptcha_enable_yes">Yes</label>
+					<input type="radio" name="recaptcha_enabled" value="0" id="recaptcha_enable_no"<?=(!settings('recaptcha_enabled') ? ' checked="checked"' :'')?> /> <label for="recaptcha_enable_no">No</label>
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('recaptcha_public_api_key')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
 				<td><?=l('recaptcha_public_api_key_description')?></td>
 				<td width="200"><input type="text" name="recaptcha_pub" value="<?=settings('recaptcha_pubkey')?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('private_api_key')?></td>
+				<td class="optiontitle" colspan="2"><?=l('recaptcha_private_api_key')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
 				<td><?=l('recaptcha_private_api_key_description')?></td>

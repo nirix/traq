@@ -10,6 +10,7 @@
 class Ticket
 {
 	public $info = NULL; // Used to store the ticket info.
+	public $errors = array();
 	
 	/**
 	 * Create ticket
@@ -17,7 +18,7 @@ class Ticket
 	 * @param array $data The ticket data array.
 	 * @return bool
 	 */
-	public function create($data)
+	public function create($data,$create=true)
 	{
 		global $db,$project,$user;
 		
@@ -28,7 +29,7 @@ class Ticket
 		if(empty($data['body']))
 			$errors['body'] = l('error_body_empty');
 			
-		if(empty($data['name']) && !$user->loggedin)
+		if(empty($data['user_name']) && !$user->loggedin)
 			$errors['name'] = l('error_name_empty');
 		
 		if(count($errors))
@@ -36,6 +37,9 @@ class Ticket
 			$this->errors = $errors;
 			return false;
 		}
+		
+		if(!$create)
+			return false;
 		
 		// Set some required fields.
 		$data['ticket_id'] = $project['next_tid'];
@@ -49,7 +53,6 @@ class Ticket
 		// if not use info from data array.
 		if(!$user->loggedin)
 		{
-			$data['user_name'] = $data['name'];
 			$data['user_id'] = 0;
 		}
 		else

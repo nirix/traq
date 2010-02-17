@@ -24,9 +24,23 @@ if($uri->seg[1] == "login")
 // Register
 elseif($uri->seg[1] == "register" && settings('allow_registration'))
 {
+	// Include reCaptcha
+	require(TRAQPATH.'inc/recaptchalib.php');
+	
 	// Check if the form has been submitted.
 	if($_POST['action'] == 'register')
 	{
+		// Check reCaptcha
+		if(settings('recaptcha_enabled'))
+		{
+			$resp = recaptcha_check_answer(settings('recaptcha_privkey'),$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
+
+			if(!$resp->is_valid) {
+				$recaptcha_error = $resp->error;
+				$errors['recaptcha'] = true;
+			}
+		}
+		
 		// User data array.
 		$data = array(
 			'username' => $_POST['username'],
@@ -37,9 +51,14 @@ elseif($uri->seg[1] == "register" && settings('allow_registration'))
 		);
 		
 		// Check if there were errors, if not go to the UserCP.
-		if($user->register($data))
+		if(!count($errors))
 		{
-			header("Location: ".$uri->anchor('user','settings')."?welcome");
+			if($user->register($data))
+				header("Location: ".$uri->anchor('user','settings')."?welcome");
+		}
+		else
+		{
+			$user->errors['recaptcha'] = l('error_recaptcha');
 		}
 	}
 	include(template('user/register'));

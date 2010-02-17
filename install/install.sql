@@ -169,6 +169,7 @@ INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('theme', 'Traq2'),
 ('locale', 'enus'),
 ('seo_urls','0'),
+('recaptcha_enabled','0'),
 ('recaptcha_pubkey', ''),
 ('recaptcha_privkey', ''),
 ('allow_registration', '1');

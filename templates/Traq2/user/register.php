@@ -39,6 +39,12 @@
 					<label><?=l('email')?></label>
 					<input type="text" name="email" />
 				</fieldset>
+				<? if(settings('recaptcha_enabled')) { ?>
+				<fieldset>
+					<legend><?=l('recaptcha')?></legend>
+					<?=recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?>
+				</fieldset>
+				<? } ?>
 				<fieldset>
 					<input type="submit" value="<?=l('register')?>" /> <input type="button" onclick="javascript:history.back()" value="<?=l('cancel')?>" />
 				</fieldset>

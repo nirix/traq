@@ -14,7 +14,7 @@ if(!$user->group['create_tickets'])
 	header("Location: ".$uri->anchor('user','login'));
 }
 
-// Fetch reCaptcha
+// Include reCaptcha
 require(TRAQPATH.'inc/recaptchalib.php');
 
 addcrumb($uri->geturi(),l('new_ticket'));
@@ -25,14 +25,21 @@ $ticket = new Ticket;
 
 if(isset($_POST['summary']))
 {
-	if(settings('recaptcha_privkey') != '')
+	// Check reCaptcha
+	if(settings('recaptcha_enabled'))
 	{
 		$resp = recaptcha_check_answer(settings('recaptcha_privkey'),$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
 		
 		if(!$resp->is_valid) {
 			$recaptcha_error = $resp->error;
+			$errors['recaptcha'] = true;
 		}
 	}
+	
+	// Set guest name cookie
+	if(!$user->loggedin)
+		setcookie('guestname',$_POST['name'],time()+50000,'/');
+	
 	$data = array(
 		'summary' => $_POST['summary'],
 		'body' => $_POST['body'],
@@ -43,10 +50,12 @@ if(isset($_POST['summary']))
 		'version_id' => $_POST['version'],
 		'component_id' => $_POST['component'],
 		'assigned_to' => $_POST['assign_to'],
-		'private' => $_POST['private']
+		'private' => $_POST['private'],
+		'user_name' => $_POST['name']
 	);
-	if($ticket->create($data) && !count($errors))
+	if($ticket->create($data,false) && !count($errors))
 	{
+		$ticket->create($data);
 		header("Location: ".$uri->anchor($project['slug'],'ticket-'.$ticket->ticket_id));
 	}
 	else

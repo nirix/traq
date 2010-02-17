@@ -109,10 +109,10 @@
 				<legend><?=l('your_name')?></legend>
 				<input type="text" name="name" value="<?=$_COOKIE['guestname']?>" />
 			</fieldset>
-			<? if(settings('use_recaptcha')) { ?>
+			<? if(settings('recaptcha_enabled')) { ?>
 			<fieldset<?=(isset($errors['key']) ? ' class="error"' : '')?>>
 				<legend><?=l('recaptcha')?></legend>
-				<? echo recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error); ?>
+				<?=recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?>
 			</fieldset>
 			<? } ?>
 			<? } ?>

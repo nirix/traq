@@ -16,7 +16,8 @@ body {
 	padding: 0;
 }
 
-table td {
+table td,
+table th {
 	vertical-align: top;
 }
 
