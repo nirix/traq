@@ -184,6 +184,7 @@ elseif(isset($_REQUEST['edit']))
 				completed='".$db->res($completed)."',
 				cancelled='".$db->res($cancelled)."',
 				locked='".$db->res($locked)."',
+				changelog='".$db->res($_POST['changelog'])."',
 				project_id='".$db->res($_POST['project'])."',
 				displayorder='".$db->res($_POST['displayorder'])."'
 				WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
@@ -270,7 +271,13 @@ elseif(isset($_REQUEST['edit']))
 				<td class="optiontitle" colspan="2"><?=l('milestone_description')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?=$milestone['info']?></textarea></td>
+				<td colspan="2"><textarea name="info" style="width:100%;height:150px"><?=$milestone['info']?></textarea></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?=l('milestone_changelog')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td colspan="2"><textarea name="changelog" style="width:100%;height:150px"><?=$milestone['changelog']?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>

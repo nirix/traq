@@ -12,6 +12,7 @@ CREATE TABLE `traq_milestones` (
   `slug` varchar(255) NOT NULL,
   `codename` varchar(255) NOT NULL,
   `info` longtext NOT NULL,
+  `changelog` longtext NOT NULL,
   `due` bigint(20) NOT NULL,
   `completed` bigint(20) NOT NULL,
   `cancelled` bigint(20) NOT NULL,
@@ -200,4 +201,5 @@ INSERT INTO `traq_ticket_types` VALUES (1, 'Defect'),
 
 INSERT INTO  `traq_usergroups` (`id`,`name`,`is_admin`,`create_tickets`,`update_tickets`,`delete_tickets`)
 VALUES (NULL,'Administrators','1','1','1','1'),
-(NULL,'Members','0','1','1','0');
+(NULL,'Members','0','1','1','0'),
+(NULL,'Guests','0','0','0','0');

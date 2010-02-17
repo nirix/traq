@@ -224,6 +224,7 @@ $lang['milestone_name_description'] = 'Name or version of the milestone.';
 $lang['milestone_slug_description'] = 'Used in the URI.<br /><small>traq.yoursite.com/project-slug/<strong>milestone-slug</strong></small>';
 $lang['milestone_codename_description'] = 'Codename for the milestone.';
 $lang['milestone_project_description'] = 'The project the milestone belongs to.';
+$lang['milestone_changelog'] = 'Milestone Changelog';
 $lang['due'] = 'Due';
 $lang['milestone_due_description'] = 'The date when the milestone is due. <small>(DD/MM/YYYY)</small><br /><small>Leave empty for no due date</small>';
 $lang['milestone_displayorder_description'] = 'The order the milestone will be displayed in.';

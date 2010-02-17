@@ -22,6 +22,7 @@
 			<? foreach($milestone['changes'] as $change) { ?>
 			<span class="type_bullet"><?=$types[$change['type']]['bullet']?></span> <?=$change['summary']?><br />
 			<? } ?>
+			<?=$milestone['changelog']?>
 		</div>
 		<br />
 		<? } ?>

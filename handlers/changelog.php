@@ -19,10 +19,13 @@ while($info = $db->fetcharray($fetchtickettypes))
 
 // Fetch Milestones
 $milestones = array();
-$fetchmilestones = $db->query("SELECT id,milestone,completed FROM ".DBPF."milestones WHERE project_id='".$project['id']."' AND completed > 0 ORDER BY completed DESC");
+$fetchmilestones = $db->query("SELECT id,milestone,completed,changelog FROM ".DBPF."milestones WHERE project_id='".$project['id']."' AND completed > 0 ORDER BY completed DESC");
 while($info = $db->fetcharray($fetchmilestones))
 {
 	$info['changes'] = array();
+	
+	// Format the changelog text.
+	$info['changelog'] = formattext($info['changelog']);
 	
 	// Fetch changes
 	$fetchchanges = $db->query("SELECT id,summary,status,type FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' ORDER BY summary ASC");
