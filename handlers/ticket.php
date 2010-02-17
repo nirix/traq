@@ -81,7 +81,7 @@ if(isset($_POST['update']))
 		}
 	}
 	// Check guest name
-	if(empty($_POST['name']))
+	if(empty($_POST['name']) && !$user->loggedin)
 		$errors['name'] = l('error_name_empty');
 	
 	// Set the private field if its not set...

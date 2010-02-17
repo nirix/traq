@@ -111,6 +111,13 @@
 		<input type="hidden" name="update" value="1" />
 		<h2><?=l('update_ticket')?></h2>
 		<div id="update_ticket">
+			<? if(count($errors)) { ?>
+			<div class="message error">
+				<? foreach($errors as $error) { ?>
+				<?=$error?><br />
+				<? } ?>
+			</div>
+			<? } ?>
 			<textarea name="comment"></textarea>
 			<fieldset class="properties">
 				<legend><?=l('ticket_properties')?></legend>

@@ -193,7 +193,8 @@ INSERT INTO `traq_severities` (`id`, `name`) VALUES
 INSERT INTO `traq_ticket_status` (`id`, `name`, `status`) VALUES 
 (1, 'New', 1),
 (2, 'Accepted', 1),
-(3, 'Closed', 0);
+(3, 'Closed', 0),
+(4, 'Completed', 0);
 
 INSERT INTO `traq_ticket_types` VALUES (1, 'Defect'),
 (2, 'Feature Request'),
