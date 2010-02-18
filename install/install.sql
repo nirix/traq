@@ -196,9 +196,10 @@ INSERT INTO `traq_ticket_status` (`id`, `name`, `status`) VALUES
 (3, 'Closed', 0),
 (4, 'Completed', 0);
 
-INSERT INTO `traq_ticket_types` VALUES (1, 'Defect'),
-(2, 'Feature Request'),
-(3, 'Task');
+INSERT INTO `traq_ticket_types` VALUES
+(1, 'Defect', '-'),
+(2, 'Feature Request', '+'),
+(3, 'Task', '*');
 
 INSERT INTO  `traq_usergroups` (`id`,`name`,`is_admin`,`create_tickets`,`update_tickets`,`delete_tickets`)
 VALUES (NULL,'Administrators','1','1','1','1'),
