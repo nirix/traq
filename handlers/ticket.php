@@ -159,6 +159,8 @@ if(isset($_POST['update']))
 			$querybits[] = "status='".$db->res($_POST['close_as'])."'";
 			$querybits[] = "closed='1'";
 			$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['close_as']),'action'=>'close');
+			
+			// Insert timeline row
 			$db->query("INSERT INTO ".DBPF."timeline (project_id,owner_id,action,data,user_id,user_name,timestamp,date) VALUES(
 				'".$db->res($project['id'])."',
 				'".$db->res($ticket['id'])."',
@@ -175,6 +177,8 @@ if(isset($_POST['update']))
 			$querybits[] = "status='".$db->res($_POST['reopen_as'])."'";
 			$querybits[] = "closed='0'";
 			$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['reopen_as']),'action'=>'reopen');
+			
+			// Insert timeline row
 			$db->query("INSERT INTO ".DBPF."timeline (project_id,owner_id,action,data,user_id,user_name,timestamp,date) VALUES(
 				'".$db->res($project['id'])."',
 				'".$db->res($ticket['id'])."',

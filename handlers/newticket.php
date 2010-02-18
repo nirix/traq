@@ -53,7 +53,7 @@ if(isset($_POST['summary']))
 		'private' => $_POST['private'],
 		'user_name' => $_POST['name']
 	);
-	if($ticket->create($data,false) && !count($errors))
+	if($ticket->check($data) && !count($errors))
 	{
 		$ticket->create($data);
 		header("Location: ".$uri->anchor($project['slug'],'ticket-'.$ticket->ticket_id));
@@ -68,5 +68,5 @@ if(isset($_POST['summary']))
 
 ($hook = FishHook::hook('handler_newticket')) ? eval($hook) : false;
 
-require(template('newticket'));
+require(template('new_ticket'));
 ?>

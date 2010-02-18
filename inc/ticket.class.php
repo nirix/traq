@@ -15,30 +15,16 @@ class Ticket
 	/**
 	 * Create ticket
 	 * Used to easily create new tickets.
+	 *
 	 * @param array $data The ticket data array.
 	 * @return bool
 	 */
-	public function create($data,$create=true)
+	public function create($data)
 	{
 		global $db,$project,$user;
 		
 		// Check fields for errors.
-		if(empty($data['summary']))
-			$errors['summary'] = l('error_summary_empty');
-		
-		if(empty($data['body']))
-			$errors['body'] = l('error_body_empty');
-			
-		if(empty($data['user_name']) && !$user->loggedin)
-			$errors['name'] = l('error_name_empty');
-		
-		if(count($errors))
-		{
-			$this->errors = $errors;
-			return false;
-		}
-		
-		if(!$create)
+		if(!$this->check($data))
 			return false;
 		
 		// Set some required fields.
@@ -115,8 +101,41 @@ class Ticket
 	}
 	
 	/**
+	 * Check Data
+	 * Checks the ticket data for errors.
+	 *
+	 * @param array $data Ticket data array.
+	 */
+	public function check($data)
+	{
+		// Check summary
+		if(empty($data['summary']))
+			$errors['summary'] = l('error_summary_empty');
+		
+		// Check body
+		if(empty($data['body']))
+			$errors['body'] = l('error_body_empty');
+		
+		// Check user name
+		if(empty($data['user_name']) && !$user->loggedin)
+			$errors['name'] = l('error_name_empty');
+		
+		// If theres errors, push them to the error
+		// array and return false.
+		if(count($errors))
+		{
+			$this->errors = $errors;
+			return false;
+		}
+		
+		// No errors, return true.
+		return true;
+	}
+	
+	/**
 	 * Get Ticket
 	 * Used to easily fetch a tickets info.
+	 *
 	 * @param array $args Arguments for the fetch ticket query.
 	 */
 	public function get($args)
@@ -166,6 +185,7 @@ class Ticket
 	/**
 	 * Delete ticket
 	 * Used to delete a ticket.
+	 *
 	 * @param int $id The ID of the ticket (row ID, not ticket_id).
 	 */
 	public function delete($id)
