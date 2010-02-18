@@ -86,7 +86,7 @@ class Ticket
 			'open_ticket',
 			'".$project['next_tid']."',
 			'".$user->info['id']."',
-			'".$db->res($user->info['username'])."',
+			'".$db->res($data['user_name'])."',
 			'".time()."',
 			NOW()
 		)");

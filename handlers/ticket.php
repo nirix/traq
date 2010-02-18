@@ -167,7 +167,7 @@ if(isset($_POST['update']))
 				'close_ticket',
 				'".$ticket['ticket_id']."',
 				'".$user->info['id']."',
-				'".$db->res($user->info['username'])."',
+				'".$db->res(($user->loggedin ? $user->info['username'] : $_POST['name']))."',
 				'".time()."',
 				NOW()
 			)");
@@ -185,7 +185,7 @@ if(isset($_POST['update']))
 				'reopen_ticket',
 				'".$ticket['ticket_id']."',
 				'".$user->info['id']."',
-				'".$db->res($user->info['username'])."',
+				'".$db->res(($user->loggedin ? $user->info['username'] : $_POST['name']))."',
 				'".time()."',
 				NOW()
 			)");
