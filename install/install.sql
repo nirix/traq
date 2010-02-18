@@ -1,25 +1,25 @@
 CREATE TABLE `traq_components` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `default` smallint(6) NOT NULL,
+  `default` smallint(6) NOT NULL DEFAULT '0',
   `project_id` bigint(20) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_milestones` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `milestone` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `codename` varchar(255) NOT NULL,
   `info` longtext NOT NULL,
   `changelog` longtext NOT NULL,
   `due` bigint(20) NOT NULL,
-  `completed` bigint(20) NOT NULL,
-  `cancelled` bigint(20) NOT NULL,
-  `locked` smallint(6) NOT NULL,
+  `completed` bigint(20) NOT NULL DEFAULT '0',
+  `cancelled` bigint(20) NOT NULL DEFAULT '0',
+  `locked` smallint(6) NOT NULL DEFAULT '0',
   `project_id` bigint(20) NOT NULL,
   `displayorder` bigint(20) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_plugins` (

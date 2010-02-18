@@ -38,12 +38,13 @@ if(isset($_REQUEST['new']))
 			}
 			
 			$db->query("INSERT INTO ".DBPF."milestones
-			(milestone,codename,slug,info,due,project_id,displayorder)
+			(milestone,codename,slug,info,changelog,due,project_id,displayorder)
 			VALUES(
 			'".$db->res($_POST['milestone'])."',
 			'".$db->res($_POST['codename'])."',
 			'".$db->res($_POST['slug'])."',
 			'".$db->res($_POST['info'])."',
+			'',
 			'".$due."',
 			'".$db->res($_POST['project'])."',
 			'".$db->res($_POST['displayorder'])."'
