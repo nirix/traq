@@ -52,7 +52,14 @@ if(!isset($_POST['step']))
 		'message' => 'Connected'
 	);
 	// Check connection
-	if(mysql_connect($conf['db']['server'],$conf['db']['user'],$conf['db']['pass']))
+	$connect = mysql_connect($conf['db']['server'],$conf['db']['user'],$conf['db']['pass']);
+	if(!$connect)
+	{
+		$error = true;
+		$checks['database']['class'] = 'bad';
+		$checks['database']['message'] = 'Cannot connect';
+	}
+	else
 	{
 		// Check database
 		if(!mysql_select_db($conf['db']['dbname']))
