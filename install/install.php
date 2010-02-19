@@ -33,16 +33,16 @@ if(!isset($_POST['step']))
 	}
 	
 	// cache dir check
-	$checks['dir_cache'] = array(
-		'name' => "<code>cache</code> directory",
+	$checks['cache_dir'] = array(
+		'name' => "<code>cache/</code> directory",
 		'class' => 'good',
 		'message' => 'Writable'
 	);
 	if(!is_writable('../cache'))
 	{
 		$error = true;
-		$checks['config.php']['class'] = 'bad';
-		$checks['config.php']['message'] = 'Not writable';
+		$checks['cache_dir']['class'] = 'bad';
+		$checks['cache_dir']['message'] = 'Not writable';
 	}
 	
 	// Database check
@@ -51,8 +51,10 @@ if(!isset($_POST['step']))
 		'class' => 'good',
 		'message' => 'Connected'
 	);
+	// Check connection
 	if(mysql_connect($conf['db']['server'],$conf['db']['user'],$conf['db']['pass']))
 	{
+		// Check database
 		if(!mysql_select_db($conf['db']['dbname']))
 		{
 			$error = true;
@@ -61,6 +63,7 @@ if(!isset($_POST['step']))
 		}
 		else
 		{
+			// Make sure Traq isn't already installed.
 			$tables = mysql_query("SHOW TABLES");
 			while($info = mysql_fetch_array($tables)) {
 				if($info['0'] == $conf['db']['prefix'].'settings')
