@@ -287,6 +287,19 @@ elseif(isset($_REQUEST['edit']))
 	<?
 	foot();
 }
+// Delete Milestone
+elseif(isset($_REQUEST['delete']))
+{
+	// Delete milstone
+	$milestone = $db->queryfirst("SELECT id,project_id FROM ".DBPF."milestones WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPF."milestones WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");
+	
+	// Update milestone tickets
+	$newmilestone = $db->queryfirst("SELECT id FROM ".DBPF."milestones WHERE locked='0' AND project_id='".$milestone['project_id']."' ORDER BY id ASC LIMIT 1");
+	$db->query("UPDATE ".DBPF."tickets SET milestone_id='".$newmilestone['id']."' WHERE milestone_id='".$milestone['id']."'");
+
+	header("Loaction: milestones.php?deleted");
+}
 // List Milestones
 else
 {
@@ -325,7 +338,10 @@ else
 				<td><a href="milestones.php?edit=<?=$milestone['id']?>"><?=$milestone['milestone']?></a></td>
 				<td align="center"><?=$milestone['codename']?></td>
 				<td align="right">
-					
+					<select>
+						<option selected="selected">Actions</option>
+						<option onclick="if(confirm('<?=l('confirm_delete_milestone_x',$milestone['milestone'])?>')) { window.location='milestones.php?delete=<?=$milestone['id']?>'; }"><?=l('delete')?></option>
+					</select>
 				</td>
 			</tr>
 			<? } ?>

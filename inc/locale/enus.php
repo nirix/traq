@@ -257,6 +257,7 @@ $lang['bullet'] = 'Bullet';
 // Confirms
 $lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';
 $lang['confirm_delete_component_x'] = 'Are you sure you want to delete component {1}?';
+$lang['confirm_delete_milestone_x'] = 'Are you sure you want to delete milestone {1}?';
 $lang['confirm_delete'] = 'Are you sure you want to delete that?';
 
 // Errors
