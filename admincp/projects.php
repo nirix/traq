@@ -216,6 +216,23 @@ elseif(isset($_REQUEST['edit']))
 	<?
 	foot();
 }
+// Delete Project
+elseif(isset($_REQUEST['delete']))
+{
+	// Delete the tickets
+	$db->query("DELETE FROM ".DBPF."tickets WHERE project_id='".$db->res($_REQUEST['delete'])."'");
+	
+	// Delete the ticket history/comments
+	$db->query("DELETE FROM ".DBPF."ticket_history WHERE project_id='".$db->res($_REQUEST['delete'])."'");
+	
+	// Delete the timeline
+	$db->query("DELETE FROM ".DBPF."timeline WHERE project_id='".$db->res($_REQUEST['delete'])."'");
+	
+	// Delete the project
+	$db->query("DELETE FROM ".DBPF."projects WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");
+	
+	header("Location: projects.php?deleted");
+}
 // List Projects
 else
 {
@@ -242,7 +259,7 @@ else
 				<td><a href="projects.php?edit&project=<?=$project['id']?>"><?=$project['name']?></a></td>
 				<td align="center"><?=$project['codename']?></td>
 				<td align="right">
-					
+					<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'projects.php?delete=<?=$project['id']?>'; }" />
 				</td>
 			</tr>
 			<? } ?>
