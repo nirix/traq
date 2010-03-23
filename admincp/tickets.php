@@ -83,6 +83,51 @@ if(isset($_REQUEST['update']))
 		header("Location: tickets.php?updated");
 	}
 }
+// Delete
+elseif(isset($_REQUEST['delete']))
+{
+	// Type
+	if(isset($_REQUEST['type']))
+	{
+		// Find a new type
+		$new = $db->queryfirst("SELECT id FROM ".DBPF."ticket_types WHERE id!='".$db->res($_REQUEST['type'])."' ORDER BY id ASC LIMIT 1");
+		// Update the tickets with the new type id
+		$db->query("UPDATE ".DBPF."tickets SET type='".$new['id']."' WHERE type='".$db->res($_REQUEST['type'])."'");
+		// Delete the type
+		$db->query("DELETE FROM ".DBPF."ticket_types WHERE id='".$db->res($_REQUEST['type'])."' LIMIT 1");
+	}
+	// Status
+	elseif(isset($_REQUEST['status']))
+	{
+		// Find a new status
+		$new = $db->queryfirst("SELECT id FROM ".DBPF."ticket_status WHERE id!='".$db->res($_REQUEST['status'])."' ORDER BY id ASC LIMIT 1");
+		// Update the tickets with a new status id
+		$db->query("UPDATE ".DBPF."tickets SET status='".$new['id']."' WHERE status='".$db->res($_REQUEST['status'])."'");
+		// Delete the status
+		$db->query("DELETE FROM ".DBPF."ticket_status WHERE id='".$db->res($_REQUEST['status'])."' LIMIT 1");
+	}
+	// Priority
+	elseif(isset($_REQUEST['priority']))
+	{
+		// Find a new priority
+		$new = $db->queryfirst("SELECT id FROM ".DBPF."priorities WHERE id!='".$db->res($_REQUEST['priority'])."' ORDER BY id ASC LIMIT 1");
+		// Update the tickets with a new priority id
+		$db->query("UPDATE ".DBPF."tickets SET priority='".$new['id']."' WHERE priority='".$db->res($_REQUEST['priority'])."'");
+		// Delete the priority
+		$db->query("DELETE FROM ".DBPF."priorities WHERE id='".$db->res($_REQUEST['priority'])."' LIMIT 1");
+	}
+	// Severity
+	elseif(isset($_REQUEST['severity']))
+	{
+		// Find a new severity
+		$new = $db->queryfirst("SELECT id FROM ".DBPF."severities WHERE id!='".$db->res($_REQUEST['severity'])."' ORDER BY id ASC LIMIT 1");
+		// Update the tickets with a new severity id
+		$db->query("UPDATE ".DBPF."tickets SET severity='".$new['id']."' WHERE severity='".$db->res($_REQUEST['severity'])."'");
+		// Delete the severity
+		$db->query("DELETE FROM ".DBPF."severities WHERE id='".$db->res($_REQUEST['severity'])."' LIMIT 1");
+	}
+	header("Location: tickets.php?deleted");
+}
 // List them all
 else
 {
