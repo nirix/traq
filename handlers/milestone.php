@@ -7,7 +7,19 @@
  * $Id$
  */
 
-$milestone = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE slug='".$db->es($matches['slug'])."' AND project_id='".$project['id']."' LIMIT 1");
+// Get the milestone
+$milestone = $db->query("SELECT * FROM ".DBPF."milestones WHERE slug='".$db->es($matches['slug'])."' AND project_id='".$project['id']."' LIMIT 1");
+
+// Check the milestone exists...
+if(!$db->numrows($milestone))
+{
+	die();
+}
+
+// Fetch milestone info
+$milestone = $db->fetcharray($milestone);
+
+// Get the milestone tickets
 $milestone['tickets'] = array();
 $milestone['tickets']['open'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$milestone['id']."' AND project_id='".$project['id']."' AND closed='0'"));
 $milestone['tickets']['closed'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$milestone['id']."' AND project_id='".$project['id']."' AND closed='1'"));

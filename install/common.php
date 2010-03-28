@@ -67,7 +67,7 @@ h2 {
 		<h1>Traq <?=$title?></h1>
 	</div>
 	<div id="page">
-<?
+<?php
 }
 
 // Install/Upgrade footer.
@@ -76,12 +76,12 @@ function foot() {
 	</div>
 	<div id="foot">
 		Traq <?=TRAQVER?>,<br />
-		Copyright &copy; 2009 Jack Polgar
+		Copyright &copy; <?php echo date("Y"); ?> Jack Polgar
 	</div>
 </div>
 </body>
 </html>
-<?
+<?php
 }
 
 // Display an error...

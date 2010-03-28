@@ -90,19 +90,19 @@ if(!isset($_POST['step']))
 		<input type="hidden" name="step" value="1" />
 		
 		<table width="400" align="center">
-		<? foreach($checks as $check) { ?>
+		<?php foreach($checks as $check) { ?>
 			<tr>
 				<td><?=$check['name']?></td>
 				<td class="<?=$check['class']?>" align="right"><?=$check['message']?></td>
 			</tr>
-		<? } ?>
+		<?php } ?>
 		</table>
 		
-		<? if(!$error) { ?>
+		<?php if(!$error) { ?>
 			<div align="center"><input type="submit" value="Next" /></div>
 		<? } ?>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Step One
@@ -144,11 +144,11 @@ elseif($_POST['step'] == '1')
 			</tr>
 		</table>
 		
-		<? if(!$error) { ?>
+		<?php if(!$error) { ?>
 			<div align="center"><input type="submit" value="Install" /></div>
 		<? } ?>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Step Two
@@ -173,7 +173,7 @@ elseif($_POST['step'] == '2')
 				<td align="center" class="bad"><h2>Error</h2>Please fill in all fields.</td>
 			</tr>
 		</table>
-		<?
+		<?php
 		foot();
 	}
 	else
@@ -219,7 +219,7 @@ elseif($_POST['step'] == '2')
 				<td align="center" class="good"><h2>Installation Complete</h2>You may now login to the <a href="../admincp/">AdminCP</a> with the username and password you provided.</td>
 			</tr>
 		</table>
-		<?
+		<?php
 		foot();
 	}
 }

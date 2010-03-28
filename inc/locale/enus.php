@@ -15,7 +15,7 @@
 
 // Global / Misc / In more than one place
 $lang['traq'] = 'Traq';
-$lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; 2009 Jack Polgar';
+$lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; '.date("Y").' Jack Polgar';
 $lang['login'] = 'Login';
 $lang['register'] = 'Register';
 $lang['logout'] = 'Logout';
