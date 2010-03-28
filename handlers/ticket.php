@@ -17,6 +17,10 @@ require(TRAQPATH.'inc/recaptchalib.php');
 // Get the ticket info.
 $ticket = $ticketC->get(array('ticket_id'=>$matches['id'],'project_id'=>$project['id'])); // Fetch the ticket.
 
+// Check if the ticket exists...
+if(!$ticket['id'])
+	die();
+
 // Delete Comment
 if($_POST['action'] == 'delete_comment')
 {

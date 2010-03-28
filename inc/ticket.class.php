@@ -108,6 +108,8 @@ class Ticket
 	 */
 	public function check($data)
 	{
+		global $user;
+		
 		// Check summary
 		if(empty($data['summary']))
 			$errors['summary'] = l('error_summary_empty');
