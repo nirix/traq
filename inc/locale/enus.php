@@ -133,6 +133,10 @@ $lang['x_week'] = '{1} week';
 $lang['x_month'] = '{1} month';
 $lang['x_year'] = '{1} year';
 $lang['x_and_x'] = '{1} and {2}';
+$lang['x_ago'] = '{1} ago';
+$lang['opened_x_ago'] = 'Opened {1} ago';
+$lang['last_updated_x_ago'] = 'Last updated {1} ago';
+$lang['last_updated_never'] = 'Last updated Never';
 
 // AdminCP
 $lang['traq_admincp'] = 'Traq AdminCP';

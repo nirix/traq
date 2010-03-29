@@ -11,8 +11,8 @@
 		
 		<div id="ticket">
 			<div class="date">
-				<p>Opened <?=timesince($ticket['created'])?> ago</p>
-				<p>Last modified <?=($ticket['updated'] ? timesince($ticket['updated']).' ago' : 'Never')?></p>
+				<p><?=l('opened_x_ago',timesince($ticket['created']))?></p>
+				<p><?=l('last_updated_'.($ticket['updated'] ? 'x_ago' : 'never'),timesince($ticket['updated']))?></p>
 			</div>
 			<h1 class="summary"><?=$ticket['summary']?> <small>(<?=l('ticket_x',$ticket['ticket_id'])?>)</small> <? if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?>
 				<input type="button" onclick="if(confirm('<?=l('delete_ticket_confirm',$ticket['ticket_id'])?>')) { window.location='<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'],'delete')?>' }" value="<?=l('delete')?>" />
