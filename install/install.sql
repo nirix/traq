@@ -1,3 +1,17 @@
+CREATE TABLE `traq_attachments` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `contents` longtext NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `size` bigint(20) NOT NULL,
+  `uploaded` int(11) NOT NULL,
+  `owner_id` bigint(20) NOT NULL,
+  `owner_name` varchar(255) NOT NULL,
+  `ticket_id` bigint(20) NOT NULL,
+  `project_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE `traq_components` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -173,7 +187,8 @@ INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('recaptcha_enabled','0'),
 ('recaptcha_pubkey', ''),
 ('recaptcha_privkey', ''),
-('allow_registration', '1');
+('allow_registration', '1'),
+('date_time.format', 'g:iA d/m/Y');
 
 INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
 (1, 'Lowest'),

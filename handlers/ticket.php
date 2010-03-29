@@ -44,6 +44,49 @@ if($uri->seg[2] == 'delete')
 	}
 }
 
+// Attach file
+if($_POST['action'] == 'attach_file')
+{
+	$db->query("INSERT INTO ".DBPF."attachments
+		(name,contents,type,size,uploaded,owner_id,owner_name,ticket_id,project_id)
+		VALUES(
+		'".$db->res($_FILES['file']['name'])."',
+		'".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."',
+		'".$db->res($_FILES['file']['type'])."',
+		'".$db->res($_FILES['file']['size'])."',
+		'".time()."',
+		'".$user->info['id']."',
+		'".($_COOKIE['guestname'] ? $_COOKIE['guestname'] : $user->info['username'])."',
+		'".$ticket['id']."',
+		'".$project['id']."'
+		)");
+	header("Location: ".$uri->geturi());
+}
+
+// View Attachment
+if(preg_match('/attachment-(?<id>\d+)/',$uri->seg[2],$matches))
+{
+	// Get attachment info
+	$attachment = $db->queryfirst("SELECT name,contents,type,size FROM ".DBPF."attachments WHERE id='".$db->res($matches['id'])."' LIMIT 1");
+	$type = explode('/',$attachment['type']);
+	
+	header("Content-type: ".$attachment['type']); // Set the page content-type
+	
+	if($type[0] == 'text' or $type[0] == 'image')
+	{
+		header("Content-Disposition: filename=\"".$attachment['name']."\""); // Set the content disposition and filename
+	}
+	else
+	{
+		header("Content-Disposition: attachment; filename=\"".$attachment['name']."\""); // Set the content disposition and filename
+	}
+	
+	($hook = FishHook::hook('attachment_view')) ? eval($hook) : false;
+	
+	print(base64_decode($attachment['contents'])); // Print the attachment contents
+	exit;
+}
+
 // Fetch ticket histoy
 $ticket['changes'] = array();
 $fetchchanges = $db->query("SELECT * FROM ".DBPF."ticket_history WHERE ticket_id='".$ticket['id']."' ORDER BY id DESC");

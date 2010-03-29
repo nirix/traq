@@ -74,6 +74,7 @@ $lang['new_password'] = 'New Password';
 $lang['assigned_tickets_x'] = 'Assigned Tickets ({1})';
 $lang['updated'] = 'Updated';
 $lang['none'] = 'None';
+$lang['attach_file'] = 'Attach file';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';

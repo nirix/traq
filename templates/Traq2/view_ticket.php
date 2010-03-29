@@ -58,18 +58,18 @@
 					<ul>
 					<? foreach($ticket['attachments'] as $attachment) { ?>
 						<li>
-							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post"><? } ?>
-							<strong><a href="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'],'attachment',$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['ownername']?> <?=timesince($attachment['timestamp'])?> ago.
-							<? if($user->group->isadmin or in_array($user->info->id,$project['managerids'])) { ?><input type="hidden" name="action" value="deleteattachment" /><input type="hidden" name="attachmentid" value="<?=$attachment['id']?>" /><input type="submit" value="<?=l('delete')?>" /></form><? } ?>
+							<? if($user->group['is_admin'] or in_array($user->info['id'],$project['managerids'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>" method="post"><? } ?>
+							<strong><a href="<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'],'attachment-'.$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['owner_name']?> <?=timesince($attachment['uploaded'])?> ago.
+							<? if($user->group['is_admin'] or in_array($user->info['id'],$project['managerids'])) { ?><input type="hidden" name="action" value="delete_attachment" /><input type="hidden" name="attach_id" value="<?=$attachment['id']?>" /><input type="submit" value="<?=l('delete')?>" /></form><? } ?>
 						</li>
 					<? } ?>
 					</ul>
 				</p>
-				<? if($user->loggedin) { ?>
+				<? if($user->group['add_attachments']) { ?>
 				<p>
-					<form action="<?=$uri->anchor($project['slug'],'ticket',$ticket['tid'])?>" method="post" enctype="multipart/form-data">
-						<input type="hidden" name="action" value="attachfile" />
-						<label>Attach File: <input type="file" name="file" /> <input type="submit" value="<?=l('attach')?>" /></label>
+					<form action="<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="action" value="attach_file" />
+						<label><?=l('attach_file')?>: <input type="file" name="file" /> <input type="submit" value="<?=l('attach')?>" /></label>
 					</form>
 				</p>
 				<? } ?>

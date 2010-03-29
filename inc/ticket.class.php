@@ -174,6 +174,11 @@ class Ticket
 		// For now, just make the attachments an empty array,
 		// this hides the errors.
 		$ticket['attachments'] = array();
+		$fetchattachments = $db->query("SELECT * FROM ".DBPF."attachments WHERE ticket_id='".$ticket['id']."' ORDER BY id ASC");
+		while($attachinfo = $db->fetcharray($fetchattachments))
+		{
+			$ticket['attachments'][] = $attachinfo;
+		}
 		
 		// Store the ticket info and clear the $ticket array.
 		$this->info = $ticket;
