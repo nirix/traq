@@ -47,7 +47,7 @@ if(isset($_REQUEST['install']))
 				'".$pluginid."',
 				'".$db->res((string)$hook['title'])."',
 				'".$db->res((string)$hook['hook'])."',
-				'".((string)$hook->code)."',
+				'".$db->res((string)$hook->code)."',
 				'".$db->res((integer)$hook['execorder'])."',
 				'1'
 			)");
@@ -338,7 +338,7 @@ elseif(isset($_REQUEST['newhook']))
 			'".$db->res($_POST['plugin_id'])."',
 			'".$db->res($_POST['title'])."',
 			'".$db->res($_POST['hook'])."',
-			'".($_POST['code'])."',
+			'".$db->res($_POST['code'])."',
 			'".$db->res($_POST['execorder'])."',
 			'1'
 			)");
@@ -444,7 +444,7 @@ elseif(isset($_REQUEST['edithook']))
 			title='".$db->res($_POST['title'])."',
 			hook='".$db->res($_POST['hook'])."',
 			execorder='".$db->res($_POST['execorder'])."',
-			code='".($_POST['code'])."'
+			code='".$db->res($_POST['code'])."'
 			WHERE id='".$db->res($_POST['hook_id'])."' LIMIT 1
 			");
 			
