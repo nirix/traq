@@ -277,6 +277,9 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
 // Plugin Hook listing
 elseif(isset($_REQUEST['hooks']))
 {
+	// Fetch Plugin info
+	$plugin = $db->queryfirst("SELECT name FROM ".DBPF."plugins WHERE id='".$_REQUEST['plugin']."' LIMIT 1");
+	
 	// Fetch Plugin hooks
 	$hooks = array();
 	$fetchhooks = $db->query("SELECT id,title,hook,code FROM ".DBPF."plugin_code WHERE plugin_id='".$db->res($_REQUEST['plugin'])."' ORDER BY title ASC");
@@ -285,9 +288,9 @@ elseif(isset($_REQUEST['hooks']))
 		$hooks[] = $info;
 	}
 	
-	head(l('plugin_hooks'),true,'plugins');
+	head(l('plugin_hooks_for_x',$plugin['name']),true,'plugins');
 	?>
-	<div class="thead"><?=l('plugin_hooks')?></div>
+	<div class="thead"><?=l('plugin_hooks_for_x',$plugin['name'])?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
@@ -653,7 +656,7 @@ else
 			<? } ?>
 		</table>
 	</div>
-	
+	<br />
 	<div class="thead"><?=l('disabled_plugins')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
