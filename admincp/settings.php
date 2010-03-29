@@ -11,19 +11,19 @@ include("global.php");
 
 authenticate();
 
-if(isset($_REQUEST['save']))
+if($_POST['action'] == 'save')
 {
 	foreach($_POST as $field => $value)
 	{
 		$db->query("UPDATE ".DBPF."settings SET value='".$db->res($value)."' WHERE setting='".$db->res($field)."' LIMIT 1");
 	}
-	
 	header("Location: settings.php?saved");
 }
 
 head('Settings');
 ?>
-<form action="settings.php?save" method="post">
+<form action="settings.php" method="post">
+	<input type="hidden" name="action" value="save" />
 	<div class="thead"><?=l('general')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
@@ -50,6 +50,19 @@ head('Settings');
 					<input type="radio" name="seo_urls" value="1" id="seo_urls_yes"<?=(settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_yes">Yes</label>
 					<input type="radio" name="seo_urls" value="0" id="seo_urls_no"<?=(!settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_no">No</label>
 				</td>
+			</tr>
+		</table>
+	</div>
+	<br />
+	<div class="thead"><?=l('date_and_time')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr>
+				<td class="optiontitle first" colspan="2"><?=l('date_time_format')?></td>
+			</tr>
+			<tr class="<?=altbg()?>">
+				<td><?=l('date_time_format_description')?></td>
+				<td width="200"><input type="text" name="date_time_format" value="<?=settings("date_time_format")?>" /></td>
 			</tr>
 		</table>
 	</div>

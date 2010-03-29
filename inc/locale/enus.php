@@ -256,6 +256,9 @@ $lang['fill_in_to_add_new_severity'] = 'Fill in to add new Severity.';
 $lang['open'] = 'Open';
 $lang['closed'] = 'Closed';
 $lang['bullet'] = 'Bullet';
+$lang['date_and_time'] = 'Date and Time';
+$lang['date_time_format'] = 'Date and Time format.';
+$lang['date_time_format_description'] = 'The format of the date and time, see <a href="http://php.net/date">http://php.net/date</a>.';
 
 // Confirms
 $lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';

@@ -42,7 +42,7 @@
 					<? if(in_array('milestone',$columns)) { ?><td><?=$ticket['milestone']['milestone']?></td><? } ?>
 					<? if(in_array('version',$columns)) { ?><td><?=$ticket['version']['version']?></td><? } ?>
 					<? if(in_array('assigned_to',$columns)) { ?><td><?=$ticket['assignee']['username']?></td><? } ?>
-					<? if(in_array('updated',$columns)) { ?><td><?=date(settings('date_time.format'),($ticket['updated'] ? $ticket['updated'] : $ticket['created']))?></td><? } ?>
+					<? if(in_array('updated',$columns)) { ?><td><?=date(settings('date_time_format'),($ticket['updated'] ? $ticket['updated'] : $ticket['created']))?></td><? } ?>
 				</tr>
 				<? } ?>
 			</tbody>
