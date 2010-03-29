@@ -94,6 +94,7 @@
 						<th class="col1"><?=l('component')?></th>
 						<td>
 							<select name="component">
+								<option value="0"><?=l('none')?></option>
 								<? foreach(project_components() as $component) { ?>
 								<option value="<?=$component['id']?>"<?=iif($component['default'],' selected="selected"')?>><?=$component['name']?></option>
 								<? } ?>
