@@ -24,7 +24,7 @@ class FishHook
 		$fetch = $db->query("SELECT * FROM ".DBPF."plugin_code WHERE hook='".$db->es($hook)."' AND enabled='1' ORDER BY execorder ASC");
 		while($info = $db->fetcharray($fetch))
 		{
-			$code[] = stripslashes($info['code']);
+			$code[] = ($info['code']);
 		}
 		
 		return implode(" /* */ ",$code);

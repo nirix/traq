@@ -47,7 +47,7 @@ if(isset($_REQUEST['install']))
 				'".$pluginid."',
 				'".$db->res((string)$hook['title'])."',
 				'".$db->res((string)$hook['hook'])."',
-				'".$db->res((string)$hook->code)."',
+				'".((string)$hook->code)."',
 				'".$db->res((integer)$hook['execorder'])."',
 				'1'
 			)");
@@ -335,7 +335,7 @@ elseif(isset($_REQUEST['newhook']))
 			'".$db->res($_POST['plugin_id'])."',
 			'".$db->res($_POST['title'])."',
 			'".$db->res($_POST['hook'])."',
-			'".$db->res($_POST['code'])."',
+			'".($_POST['code'])."',
 			'".$db->res($_POST['execorder'])."',
 			'1'
 			)");
@@ -441,7 +441,7 @@ elseif(isset($_REQUEST['edithook']))
 			title='".$db->res($_POST['title'])."',
 			hook='".$db->res($_POST['hook'])."',
 			execorder='".$db->res($_POST['execorder'])."',
-			code='".$db->res($_POST['code'])."'
+			code='".($_POST['code'])."'
 			WHERE id='".$db->res($_POST['hook_id'])."' LIMIT 1
 			");
 			
@@ -519,7 +519,7 @@ elseif(isset($_REQUEST['edithook']))
 				<td class="optiontitle" colspan="2"><?=l('code')?></td>
 			</tr>
 			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=stripslashes($hook['code'])?></textarea></td>
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=($hook['code'])?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
@@ -559,7 +559,7 @@ elseif(isset($_REQUEST['export']))
 		<? foreach($hooks as $hook) { ?>
 		<hook title="<?=$hook['title']?>" hook="<?=$hook['hook']?>" execorder="<?=$hook['execorder']?>">
 			<code><![CDATA[
-<?=stripslashes($hook['code'])?>
+<?=($hook['code'])?>
 ]]></code>
 		</hook>
 		<? } ?>
