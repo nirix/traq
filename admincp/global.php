@@ -171,6 +171,7 @@ $hook_locations = array(
 	'template_new_ticket_properties',
 	'template_view_ticket_properties',
 	'template_update_ticket_properties',
+	'template_headerinc',
 	
 	// AdminCP
 	'admin_settings',
