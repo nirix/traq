@@ -48,7 +48,7 @@ if(isset($_POST['summary']))
 		'severity' => $_POST['severity'],
 		'milestone_id' => $_POST['milestone'],
 		'version_id' => $_POST['version'],
-		'component_id' => $_POST['component'],
+		'component_id' => (int)$_POST['component'],
 		'assigned_to' => $_POST['assign_to'],
 		'private' => $_POST['private'],
 		'user_name' => $_POST['name']

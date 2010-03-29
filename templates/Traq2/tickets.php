@@ -26,6 +26,7 @@
 					<? if(in_array('milestone',$columns)) { ?><th><?=l('milestone')?></th><? } ?>
 					<? if(in_array('version',$columns)) { ?><th><?=l('version')?></th><? } ?>
 					<? if(in_array('assigned_to',$columns)) { ?><th><?=l('assigned_to')?></th><? } ?>
+					<? if(in_array('updated',$columns)) { ?><th><?=l('updated')?></th><? } ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -41,6 +42,7 @@
 					<? if(in_array('milestone',$columns)) { ?><td><?=$ticket['milestone']['milestone']?></td><? } ?>
 					<? if(in_array('version',$columns)) { ?><td><?=$ticket['version']['version']?></td><? } ?>
 					<? if(in_array('assigned_to',$columns)) { ?><td><?=$ticket['assignee']['username']?></td><? } ?>
+					<? if(in_array('updated',$columns)) { ?><td><?=date(settings('date.format'),($ticket['updated'] ? $ticket['updated'] : $ticket['created']))?></td><? } ?>
 				</tr>
 				<? } ?>
 			</tbody>

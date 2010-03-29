@@ -306,7 +306,8 @@ function ticket_columns()
 		'component',
 		'milestone',
 		'version',
-		'assigned_to'
+		'assigned_to',
+		'updated'
 	);
 	($hook = FishHook::hook('function_ticket_columns')) ? eval($hook) : false;
 	return $columns;

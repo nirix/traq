@@ -114,7 +114,7 @@ if(isset($_POST['update']))
 			$changes[] = array('property'=>'milestone','from'=>$ticket['milestone']['milestone'],'to'=>$newmilestone['milestone']);
 		}
 		// Component
-		if($_POST['component'] != $ticket['component_id'])
+		if((int)$_POST['component'] != $ticket['component_id'])
 		{
 			$querybits[] = "component_id='".$db->res($_POST['component'])."'";
 			$newcomponent = $db->fetcharray($db->query("SELECT name FROM ".DBPF."components WHERE id='".$db->res($_POST['component'])."' LIMIT 1"));
@@ -218,6 +218,9 @@ if(isset($_POST['update']))
 				'".$db->res($_POST['comment'])."'
 			)");
 			header("Location: ".$uri->geturi().'?updated');
+			
+			// Update ticket updated field
+			$db->query("UPDATE ".DBPF."tickets SET updated='".time()."' WHERE id='".$ticket['id']."' LIMIT 1");
 		}
 	}
 }

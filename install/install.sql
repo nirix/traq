@@ -77,7 +77,7 @@ CREATE TABLE `traq_severities` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_tickets` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ticket_id` bigint(20) NOT NULL,
   `summary` varchar(255) NOT NULL,
   `body` longtext NOT NULL,
@@ -88,15 +88,15 @@ CREATE TABLE `traq_tickets` (
   `version_id` bigint(20) NOT NULL,
   `component_id` bigint(20) NOT NULL,
   `type` bigint(20) NOT NULL,
-  `status` bigint(20) NOT NULL,
+  `status` bigint(20) NOT NULL DEFAULT '1',
   `priority` bigint(20) NOT NULL,
   `severity` bigint(20) NOT NULL,
   `assigned_to` bigint(20) NOT NULL,
-  `closed` bigint(20) NOT NULL,
+  `closed` bigint(20) NOT NULL DEFAULT '0',
   `created` bigint(20) NOT NULL,
-  `updated` bigint(20) NOT NULL,
-  `private` smallint(6) NOT NULL,
-  PRIMARY KEY  (`id`)
+  `updated` bigint(20) NOT NULL DEFAULT '0',
+  `private` smallint(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_ticket_history` (

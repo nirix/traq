@@ -72,6 +72,7 @@ $lang['created'] = 'Created';
 $lang['updates'] = 'Updates';
 $lang['new_password'] = 'New Password';
 $lang['assigned_tickets_x'] = 'Assigned Tickets ({1})';
+$lang['updated'] = 'Updated';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
