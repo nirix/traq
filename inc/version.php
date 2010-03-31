@@ -10,8 +10,9 @@
 // Traq Version
 $traq_version = '2.0 Alpha 1';
 
-// Database Revision
-$db_rev = '2.000';
+// Database Version
+// Example: 2.2.1 would be 202010
+$db_rev = '200000';
 
 // Define the TRAQVER constant...
 define("TRAQVER",$traq_version);
