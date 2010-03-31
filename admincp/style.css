@@ -25,6 +25,10 @@ a {
 	color: #0092e8;
 }
 
+img {
+	border: 0;
+}
+
 table td {
 	vertical-align: top;
 }

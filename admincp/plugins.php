@@ -303,11 +303,13 @@ elseif(isset($_REQUEST['hooks']))
 				<td><a href="plugins.php?edithook&amp;hook=<?=$hook['id']?>"><?=$hook['title']?></a></td>
 				<td><?=$hook['hook']?></td>
 				<td align="right">
-					<select>
+					<!--<select>
 						<option selected="selected">Actions</option>
 						<option onclick="window.location='plugins.php?edithook&amp;hook=<?=$hook['id']?>';"><?=l('edit')?></option>
 						<option onclick="if(confirm('<?=l('delete_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; }"><?=l('delete')?></option>
-					</select>
+					</select>-->
+					<a href="plugins.php?edithook&amp;hook=<?=$hook['id']?>"><img src="images/plugin_edit.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?=l('delete_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>
 			</tr>
 			<? } ?>
@@ -654,14 +656,11 @@ else
 				<td align="center"><?=$plugin['author']?></td>
 				<td align="center"><?=$plugin['version']?></td>
 				<td align="right">
-					<select>
-						<option selected="selected">Actions</option>
-						<option onclick="window.location='plugins.php?disable&amp;plugin=<?=$plugin['id']?>';"><?=l('disable')?></option>
-						<option onclick="window.location='plugins.php?export&amp;plugin=<?=$plugin['id']?>';"><?=l('export')?></option>
-						<option onclick="window.location='plugins.php?hooks&amp;plugin=<?=$plugin['id']?>';"><?=l('hooks')?></option>
-						<option onclick="window.location='plugins.php?edit&amp;plugin=<?=$plugin['id']?>';"><?=l('edit')?></option>
-						<option onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; }"><?=l('uninstall')?></option>
-					</select>
+					<a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_edit.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
+					<a href="plugins.php?disable&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_disabled.png" alt="<?=l('disable')?>" title="<?=l('disable')?>" /></a>
+					<a href="plugins.php?hooks&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_link.png" alt="<?=l('hooks')?>" title="<?=l('hooks')?>" /></a>
+					<a href="plugins.php?export&amp;plugin=<?=$plugin['id']?>"><img src="images/package_go.png" alt="<?=l('export')?>" title="<?=l('export')?>" /></a>
+					<a href="#" onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>
 			</tr>
 			<? } ?>
@@ -688,14 +687,11 @@ else
 				<td align="center"><?=$plugin['author']?></td>
 				<td align="center"><?=$plugin['version']?></td>
 				<td align="right">
-					<select>
-						<option selected="selected">Actions</option>
-						<option onclick="window.location='plugins.php?enable&amp;plugin=<?=$plugin['id']?>';"><?=l('enable')?></option>
-						<option onclick="window.location='plugins.php?export&amp;plugin=<?=$plugin['id']?>';"><?=l('export')?></option>
-						<option onclick="window.location='plugins.php?hooks&amp;plugin=<?=$plugin['id']?>';"><?=l('hooks')?></option>
-						<option onclick="window.location='plugins.php?edit&amp;plugin=<?=$plugin['id']?>';"><?=l('edit')?></option>
-						<option onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; }"><?=l('uninstall')?></option>
-					</select>
+					<a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_edit.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
+					<a href="plugins.php?enable&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin.png" alt="<?=l('enable')?>" title="<?=l('enable')?>" /></a>
+					<a href="plugins.php?hooks&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_link.png" alt="<?=l('hooks')?>" title="<?=l('hooks')?>" /></a>
+					<a href="plugins.php?export&amp;plugin=<?=$plugin['id']?>"><img src="images/package_go.png" alt="<?=l('export')?>" title="<?=l('export')?>" /></a>
+					<a href="#" onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>
 			</tr>
 			<? } ?>
