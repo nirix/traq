@@ -168,7 +168,8 @@ $hook_locations = array(
 		'ticket_create',
 		'ticket_update',
 		'ticket_get',
-		'ticket_delete'
+		'ticket_delete',
+		'tickets_columns'
 	),
 	
 	// Users

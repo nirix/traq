@@ -7,7 +7,7 @@
  * $Id$
  */
 
-($hook = FishHook::hook('tickets_handler')) ? eval($hook) : false;
+($hook = FishHook::hook('handler_tickets')) ? eval($hook) : false;
 
 addcrumb($uri->geturi(),l('tickets'));
 
