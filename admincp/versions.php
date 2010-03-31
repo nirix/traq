@@ -186,7 +186,8 @@ else
 			<tr>
 				<td><a href="versions.php?edit=<?=$version['id']?>"><?=$version['version']?></a></td>
 				<td align="right">
-					<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete_version_x',$version['version'])?>')) { window.location = 'versions.php?delete=<?=$version['id']?>'; }" />
+					<a href="versions.php?edit=<?=$version['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?=l('confirm_delete_version_x',$version['version'])?>')) { window.location = 'versions.php?delete=<?=$version['id']?>'; } return false;"><img src="images/delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>
 			</tr>
 			<? } ?>

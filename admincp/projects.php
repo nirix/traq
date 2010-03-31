@@ -259,7 +259,8 @@ else
 				<td><a href="projects.php?edit&project=<?=$project['id']?>"><?=$project['name']?></a></td>
 				<td align="center"><?=$project['codename']?></td>
 				<td align="right">
-					<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'projects.php?delete=<?=$project['id']?>'; }" />
+					<a href="projects.php?edit&project=<?=$project['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'projects.php?delete=<?=$project['id']?>'; } return false;"><img src="images/delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>
 			</tr>
 			<? } ?>

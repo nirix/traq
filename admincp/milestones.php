@@ -338,10 +338,8 @@ else
 				<td><a href="milestones.php?edit=<?=$milestone['id']?>"><?=$milestone['milestone']?></a></td>
 				<td align="center"><?=$milestone['codename']?></td>
 				<td align="right">
-					<select>
-						<option selected="selected">Actions</option>
-						<option onclick="if(confirm('<?=l('confirm_delete_milestone_x',$milestone['milestone'])?>')) { window.location='milestones.php?delete=<?=$milestone['id']?>'; }"><?=l('delete')?></option>
-					</select>
+					<a href="milestones.php?edit=<?=$milestone['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?=l('confirm_delete_milestone_x',$milestone['milestone'])?>')) { window.location='milestones.php?delete=<?=$milestone['id']?>'; } return false;"><img src="images/delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>
 			</tr>
 			<? } ?>

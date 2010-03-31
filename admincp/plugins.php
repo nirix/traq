@@ -303,11 +303,6 @@ elseif(isset($_REQUEST['hooks']))
 				<td><a href="plugins.php?edithook&amp;hook=<?=$hook['id']?>"><?=$hook['title']?></a></td>
 				<td><?=$hook['hook']?></td>
 				<td align="right">
-					<!--<select>
-						<option selected="selected">Actions</option>
-						<option onclick="window.location='plugins.php?edithook&amp;hook=<?=$hook['id']?>';"><?=l('edit')?></option>
-						<option onclick="if(confirm('<?=l('delete_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; }"><?=l('delete')?></option>
-					</select>-->
 					<a href="plugins.php?edithook&amp;hook=<?=$hook['id']?>"><img src="images/plugin_edit.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
 					<a href="#" onclick="if(confirm('<?=l('delete_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>

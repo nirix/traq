@@ -154,8 +154,6 @@ $sidebar_links = array(
 // Holds all the hook locations in Traq.
 $hook_locations = array(
 	'global',
-	'formattext',
-	'getsettings',
 	
 	// Projects
 	'projects' => array(
@@ -174,8 +172,8 @@ $hook_locations = array(
 	
 	// Users
 	'users' => array(
-		'user_construct')
-	,
+		'user_construct'
+	),
 	
 	// Templates
 	'templates' => array(
@@ -192,6 +190,8 @@ $hook_locations = array(
 	
 	// Functions
 	'functions' => array(
+		'formattext',
+		'getsettings',
 		'function_locale',
 		'function_ticket_statuses',
 		'function_ticket_types',

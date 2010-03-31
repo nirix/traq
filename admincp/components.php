@@ -187,7 +187,8 @@ else
 			<tr>
 				<td><a href="components.php?edit=<?=$component['id']?>"><?=$component['name']?></a></td>
 				<td align="right">
-					<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete_component_x',$component['name'])?>')) { window.location = 'components.php?delete=<?=$component['id']?>'; }" />
+					<a href="components.php?edit=<?=$component['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?=l('confirm_delete_component_x',$component['name'])?>')) { window.location = 'components.php?delete=<?=$component['id']?>'; } return false;"><img src="images/delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
 				</td>
 			</tr>
 			<? } ?>
