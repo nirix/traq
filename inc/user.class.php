@@ -9,14 +9,19 @@
 
 class User
 {
+	// Default/Guest user info
 	public $info = array(
 		'id'=>'0',
 		'username' => 'Guest',
 		'name' => '',
 		'group_id' => '3'
 		);
+	// Group info holder
 	public $group = NULL;
+	// Pretty obvious,
+	// true = logged in, false = logged out
 	public $loggedin = false;
+	// Errors holder
 	public $errors = NULL;
 	
 	/**
@@ -44,6 +49,7 @@ class User
 	
 	/**
 	 * User login function
+	 * Used to login users.
 	 * @access public
 	 * @param string $username Username
 	 * @param string $password Password
@@ -74,6 +80,7 @@ class User
 	
 	/**
 	 * Logout
+	 * Used to clear values of the user's cookies.
 	 */
 	public function logout()
 	{
@@ -84,6 +91,9 @@ class User
 	
 	/**
 	 * Register
+	 * Used to easily register a user account.
+	 * @params array $data User data array.
+	 * @return bool True or False if the account was created.
 	 */
 	public function register($data)
 	{
@@ -141,6 +151,9 @@ class User
 	
 	/**
 	 * Get User Info
+	 * Used to easily get the given user ID's info.
+	 * @params integer $userid The useris ID.
+	 * @return array
 	 */
 	public function getinfo($userid)
 	{
@@ -151,6 +164,7 @@ class User
 	/**
 	 * Get Users
 	 * Returns an array of the users in the database.
+	 * @return array
 	 */
 	public function getusers()
 	{

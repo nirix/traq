@@ -158,46 +158,63 @@ $hook_locations = array(
 	'getsettings',
 	
 	// Projects
-	'roadmap_fetch',
-	'projectlist_fetch',
+	'projects' => array(
+		'roadmap_fetch',
+		'projectlist_fetch'
+	),
 	
 	// Tickets
-	'ticket_create',
-	'ticket_update',
-	'ticket_get',
-	'ticket_delete',
+	'tickets' => array(
+		'ticket_create',
+		'ticket_update',
+		'ticket_get',
+		'ticket_delete'
+	),
+	
+	// Users
+	'users' => array(
+		'user_construct')
+	,
 	
 	// Templates
-	'template_new_ticket_properties',
-	'template_view_ticket_properties',
-	'template_update_ticket_properties',
-	'template_headerinc',
+	'templates' => array(
+		'template_new_ticket_properties',
+		'template_view_ticket_properties',
+		'template_update_ticket_properties',
+		'template_headerinc'
+	),
 	
 	// AdminCP
-	'admin_settings',
+	'admincp' => array(
+		'admin_settings'
+	),
 	
 	// Functions
-	'function_locale',
-	'function_ticket_statuses',
-	'function_ticket_types',
-	'function_ticket_priorities',
-	'function_ticket_severities',
-	'function_ticket_columns',
-	'function_ticket_columns',
-	'function_ticket_filters',
-	'function_project_milestones',
-	'function_project_verions',
-	'function_project_components',
-	'function_project_managers',
+	'functions' => array(
+		'function_locale',
+		'function_ticket_statuses',
+		'function_ticket_types',
+		'function_ticket_priorities',
+		'function_ticket_severities',
+		'function_ticket_columns',
+		'function_ticket_columns',
+		'function_ticket_filters',
+		'function_project_milestones',
+		'function_project_verions',
+		'function_project_components',
+		'function_project_managers'
+	),
 	
 	// Handlers
-	'handler_milestone',
-	'handler_newticket',
-	'handler_project',
-	'handler_projectlist',
-	'handler_roadmap',
-	'handler_ticket',
-	'handler_tickets',
-	'handler_timeline'
+	'handlers' => array(
+		'handler_milestone',
+		'handler_newticket',
+		'handler_project',
+		'handler_projectlist',
+		'handler_roadmap',
+		'handler_ticket',
+		'handler_tickets',
+		'handler_timeline'
+	)
 );
 ?>

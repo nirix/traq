@@ -300,7 +300,7 @@ elseif(isset($_REQUEST['hooks']))
 			</tr>
 			<? foreach($hooks as $hook) { ?>
 			<tr class="<?=altbg()?>">
-				<td><?=$hook['title']?></td>
+				<td><a href="plugins.php?edithook&amp;hook=<?=$hook['id']?>"><?=$hook['title']?></a></td>
 				<td><?=$hook['hook']?></td>
 				<td align="right">
 					<select>
@@ -396,8 +396,16 @@ elseif(isset($_REQUEST['newhook']))
 				<td align="right">
 					<select name="hook">
 						<option value=""><?=l('select_hook')?></option>
-						<? foreach($hook_locations as $hookname) { ?>
-						<option value="<?=$hookname?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$hookname?></option>
+						<? foreach($hook_locations as $key => $value) { ?>
+						<? if(is_array($value)) { ?>
+							<optgroup label="<?=l($key)?>">
+								<? foreach($value as $hookname) { ?>
+								<option value="<?=$hookname?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$hookname?></option>
+								<? } ?>
+							</optgroup>
+						<? } else { ?>
+						<option value="<?=$value?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$value?></option>
+						<? } ?>
 						<? } ?>
 					</select>
 				</td>
@@ -505,8 +513,16 @@ elseif(isset($_REQUEST['edithook']))
 				<td align="right">
 					<select name="hook">
 						<option value=""><?=l('select_hook')?></option>
-						<? foreach($hook_locations as $hookname) { ?>
-						<option value="<?=$hookname?>"<?=iif($hookname==$hook['hook'],' selected="selected"')?>><?=$hookname?></option>
+						<? foreach($hook_locations as $key => $value) { ?>
+						<? if(is_array($value)) { ?>
+							<optgroup label="<?=l($key)?>">
+								<? foreach($value as $hookname) { ?>
+								<option value="<?=$hookname?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$hookname?></option>
+								<? } ?>
+							</optgroup>
+						<? } else { ?>
+						<option value="<?=$value?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$value?></option>
+						<? } ?>
 						<? } ?>
 					</select>
 				</td>
@@ -634,7 +650,7 @@ else
 			</tr>
 			<? foreach($plugins['active'] as $plugin) { ?>
 			<tr class="<?=altbg()?>">
-				<td><?=$plugin['name']?></td>
+				<td><a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><?=$plugin['name']?></a></td>
 				<td align="center"><?=$plugin['author']?></td>
 				<td align="center"><?=$plugin['version']?></td>
 				<td align="right">
@@ -668,12 +684,18 @@ else
 			</tr>
 			<? foreach($plugins['disabled'] as $plugin) { ?>
 			<tr class="<?=altbg()?>">
-				<td><?=$plugin['name']?></td>
+				<td><a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><?=$plugin['name']?></a></td>
 				<td align="center"><?=$plugin['author']?></td>
 				<td align="center"><?=$plugin['version']?></td>
 				<td align="right">
-					<button onclick="window.location='plugins.php?enable&amp;plugin=<?=$plugin['id']?>';"><?=l('enable')?></button>
-					<button><?=l('remove')?></button>
+					<select>
+						<option selected="selected">Actions</option>
+						<option onclick="window.location='plugins.php?enable&amp;plugin=<?=$plugin['id']?>';"><?=l('enable')?></option>
+						<option onclick="window.location='plugins.php?export&amp;plugin=<?=$plugin['id']?>';"><?=l('export')?></option>
+						<option onclick="window.location='plugins.php?hooks&amp;plugin=<?=$plugin['id']?>';"><?=l('hooks')?></option>
+						<option onclick="window.location='plugins.php?edit&amp;plugin=<?=$plugin['id']?>';"><?=l('edit')?></option>
+						<option onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; }"><?=l('uninstall')?></option>
+					</select>
 				</td>
 			</tr>
 			<? } ?>
