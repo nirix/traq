@@ -140,13 +140,14 @@ CREATE TABLE `traq_ticket_types` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_usergroups` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `is_admin` smallint(6) NOT NULL,
   `create_tickets` smallint(6) NOT NULL,
   `update_tickets` smallint(6) NOT NULL,
   `delete_tickets` smallint(6) NOT NULL,
-  PRIMARY KEY  (`id`)
+  `add_attachments` smallint(6) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `traq_users` (
@@ -216,7 +217,7 @@ INSERT INTO `traq_ticket_types` VALUES
 (2, 'Feature Request', '+'),
 (3, 'Task', '*');
 
-INSERT INTO  `traq_usergroups` (`id`,`name`,`is_admin`,`create_tickets`,`update_tickets`,`delete_tickets`)
-VALUES (NULL,'Administrators','1','1','1','1'),
-(NULL,'Members','0','1','1','0'),
-(NULL,'Guests','0','0','0','0');
+INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`, `create_tickets`, `update_tickets`, `delete_tickets`, `add_attachments`) VALUES
+(1, 'Administrators', 1, 1, 1, 1, 1),
+(2, 'Members', 0, 1, 1, 0, 1),
+(3, 'Guests', 0, 0, 0, 0, 0);
