@@ -404,7 +404,7 @@ elseif(isset($_REQUEST['newhook']))
 								<? } ?>
 							</optgroup>
 						<? } else { ?>
-						<option value="<?=$value?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$value?></option>
+						<option value="<?=$value?>"<?=iif($value==$_POST['hook'],' selected="selected"')?>><?=$value?></option>
 						<? } ?>
 						<? } ?>
 					</select>
@@ -517,11 +517,11 @@ elseif(isset($_REQUEST['edithook']))
 						<? if(is_array($value)) { ?>
 							<optgroup label="<?=l($key)?>">
 								<? foreach($value as $hookname) { ?>
-								<option value="<?=$hookname?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$hookname?></option>
+								<option value="<?=$hookname?>"<?=iif($hookname==$hook['hook'],' selected="selected"')?>><?=$hookname?></option>
 								<? } ?>
 							</optgroup>
 						<? } else { ?>
-						<option value="<?=$value?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$value?></option>
+						<option value="<?=$value?>"<?=iif($value==$hook['hook'],' selected="selected"')?>><?=$value?></option>
 						<? } ?>
 						<? } ?>
 					</select>
