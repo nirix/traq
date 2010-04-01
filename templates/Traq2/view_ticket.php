@@ -59,7 +59,7 @@
 					<? foreach($ticket['attachments'] as $attachment) { ?>
 						<li>
 							<? if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?><form action="<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>" method="post"><? } ?>
-							<strong><a href="<?=$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'],'attachment-'.$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['owner_name']?> <?=timesince($attachment['uploaded'])?> ago.
+							<strong><a href="<?=$uri->anchor($project['slug'],'attachment-'.$attachment['id'])?>"><?=$attachment['name']?></a></strong> added by <?=$attachment['owner_name']?> <?=timesince($attachment['uploaded'])?> ago.
 							<? if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?><input type="hidden" name="action" value="delete_attachment" /><input type="hidden" name="attach_id" value="<?=$attachment['id']?>" /><input type="submit" value="<?=l('delete')?>" /></form><? } ?>
 						</li>
 					<? } ?>

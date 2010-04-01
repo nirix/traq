@@ -44,4 +44,8 @@ elseif($uri->seg[1] == 'changelog')
 {
 	require(TRAQPATH.'handlers/changelog.php');
 }
+elseif(preg_match('/attachment-(?<id>\d+)/',$uri->seg[1],$matches))
+{
+	require(TRAQPATH.'handlers/attachment.php');
+}
 ?>

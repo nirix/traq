@@ -278,7 +278,7 @@ form p#buttons {
 	margin: 5px 0 0 0;
 }
 #update_ticket textarea {
-	width: 560px;
+	width: 100%;
 	height: 100px;
 }
 fieldset.properties th {
