@@ -25,7 +25,7 @@ function settings($setting)
 	$result = $db->fetcharray($db->query("SELECT setting, value FROM ".DBPF."settings WHERE setting='".$db->es($setting)."' LIMIT 1"));
 	$CACHE['settings'][$setting] = $result['value'];
 	
-	($hook = FishHook::hook('function_getsetting')) ? eval($hook) : false;
+	($hook = FishHook::hook('function_settings')) ? eval($hook) : false;
 	
 	return $CACHE['settings'][$setting];
 }
@@ -99,7 +99,7 @@ function formattext($text)
 	global $uri,$project;
 	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
 	
-	($hook = FishHook::hook('formattext')) ? eval($hook) : false;
+	($hook = FishHook::hook('function_formattext')) ? eval($hook) : false;
 	
 	return $text;
 }

@@ -175,8 +175,8 @@ $hook_locations = array(
 	
 	// Functions
 	'functions' => array(
-		'formattext',
-		'function_getsetting',
+		'function_formattext',
+		'function_settings',
 		'function_locale',
 		'function_ticket_statuses',
 		'function_ticket_types',
