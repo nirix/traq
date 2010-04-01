@@ -84,44 +84,29 @@ $sidebar_links = array(
 	'tickets' => array(
 		'title' => l('tickets'),
 		'url' => 'tickets.php',
-		'active' => activepage('tickets.php'),
-		'links' => array(
-			array(
-				'title' => l('manage_types'),
-				'url' => 'tickets.php?types',
-				'active' => activepage('tickets.php?types','tickets.php?types&type='.$_REQUEST['type'])
-			),
-			array(
-				'title' => l('manage_priorities'),
-				'url' => 'tickets.php?priorities',
-				'active' => activepage('tickets.php?priorities','tickets.php?priorities&priority='.$_REQUEST['priority'])
-			),
-			array(
-				'title' => l('manage_severities'),
-				'url' => 'tickets.php?severities',
-				'active' => activepage('tickets.php?severities','tickets.php?severities&severity='.$_REQUEST['severity'])
-			),
-			array(
-				'title' => l('manage_status_types'),
-				'url' => 'tickets.php?statustypes',
-				'active' => activepage('tickets.php?statustypes','tickets.php?statustypes&status='.$_REQUEST['status'])
-			)
-		)
+		'active' => activepage('tickets.php')
 	),
 	// User pages links.
 	'users' => array(
 		'title' => l('users'),
 		'url' => 'users.php',
-		'active' => activepage('users.php','edit&user='.$_REQUEST['user']),
+		'active' => activepage('users.php'),
 		'links' => array(
 			array(
-				'title' => l('new'),
-				'url' => '#',
+				'title' => l('new_user'),
+				'url' => 'users.php?new',
+				'active' => activepage('users.php','new')
+			),
+			array('divider'=>true),
+			array(
+				'title' => l('new_group'),
+				'url' => 'groups.php?new',
 				'active' => activepage('groups.php','new')
 			),
 			array(
-				'title' => l('manage'),
-				'active' => activepage('groups.php','edit&group='.$_REQUEST['group'])
+				'title' => l('manage_groups'),
+				'url' => 'groups.php',
+				'active' => activepage('groups.php','','edit='.$_REQUEST['group'])
 			)
 		)
 	),
@@ -191,7 +176,7 @@ $hook_locations = array(
 	// Functions
 	'functions' => array(
 		'formattext',
-		'getsettings',
+		'function_getsetting',
 		'function_locale',
 		'function_ticket_statuses',
 		'function_ticket_types',

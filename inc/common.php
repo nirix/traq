@@ -25,7 +25,7 @@ function settings($setting)
 	$result = $db->fetcharray($db->query("SELECT setting, value FROM ".DBPF."settings WHERE setting='".$db->es($setting)."' LIMIT 1"));
 	$CACHE['settings'][$setting] = $result['value'];
 	
-	($hook = FishHook::hook('getsetting')) ? eval($hook) : false;
+	($hook = FishHook::hook('function_getsetting')) ? eval($hook) : false;
 	
 	return $CACHE['settings'][$setting];
 }

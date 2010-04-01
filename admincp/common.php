@@ -39,9 +39,31 @@ function getprojects()
 }
 
 /**
+ * Get User Groups
+ * Returns an array of the user groups.
+ * @return array
+ */
+function getgroups()
+{
+	global $db;
+	
+	$groups = array();
+	$fetch = $db->query("SELECT id,name FROM ".DBPF."usergroups ORDER BY name ASC");
+	while($info = $db->fetcharray($fetch))
+	{
+		$groups[] = $info;
+	}
+	
+	return $groups;
+}
+
+/**
  * Check Active
  * @param string $page The page filename
  * @param array $query An array of query strings the page can have. (Opional)
+ *
+ * This may be changed someday to just check a complete page and query string in one,
+ * for example: activepage('page.php?this=that') instead of activepage('page.php','this=that')
  */
 function activepage($pages,$query=NULL)
 {
@@ -54,7 +76,7 @@ function activepage($pages,$query=NULL)
 	// check if $query is empty and set it to _SERVER[QUERY_STRING]
 	if(!count($query)) $query = array($_SERVER['QUERY_STRING']);
 	
-	return iif(in_array(THISPAGE,$pages) && in_array($_SERVER['QUERY_STRING'],$query),1,0);
+	return (in_array(THISPAGE,$pages) && in_array($_SERVER['QUERY_STRING'],$query) ? true : false);
 }
 
 /**

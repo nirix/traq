@@ -54,7 +54,9 @@ elseif($uri->seg[1] == "register" && settings('allow_registration'))
 		if(!count($errors))
 		{
 			if($user->register($data))
-				header("Location: ".$uri->anchor('user','settings')."?welcome");
+			{
+				header("Location: ".$uri->anchor('user','login'));
+			}
 		}
 		else
 		{

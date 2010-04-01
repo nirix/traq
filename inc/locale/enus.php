@@ -266,6 +266,16 @@ $lang['date_time_format_description'] = 'The format of the date and time, see <a
 $lang['templates'] = 'Templates';
 $lang['functions'] = 'Functions';
 $lang['handlers'] = 'Handlers';
+$lang['new_user'] = 'New User';
+$lang['new_group'] = 'New Group';
+$lang['manage_groups'] = 'Manage Groups';
+$lang['edit_user'] = 'Edit User';
+$lang['username_description'] = 'The users login name.';
+$lang['password_description'] = 'The users login password.<br /><small>Leave blank to keep current password.</small>';
+$lang['name_description'] = 'The users name.';
+$lang['email_description'] = 'The users email address.';
+$lang['group'] = 'Group';
+$lang['group_description'] = 'The group the user belongs to.';
 
 // Confirms
 $lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';
