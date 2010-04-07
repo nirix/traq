@@ -57,10 +57,10 @@ function altbg($even='even',$odd='odd')
 {
 	static $bg;
 	
-	if($bg == $odd)
-		return $bg = $even;
-	else
+	if($bg == $even)
 		return $bg = $odd;
+	else
+		return $bg = $even;
 }
 
 /**
