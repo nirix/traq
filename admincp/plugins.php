@@ -57,7 +57,6 @@ if(isset($_REQUEST['install']))
 	}
 	
 	head(l('install_plugin'),true,'plugins');
-	
 	?>
 	<form action="plugins.php?install" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="install" value="1" />
@@ -65,20 +64,19 @@ if(isset($_REQUEST['install']))
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('plugin_file')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('plugin_file')?></td>
 			</tr>
 			<tr>
-				<td><?=l('plugin_file_description')?></td>
+				<td><?php echo l('plugin_file_description')?></td>
 				<td align="right"><input type="file" name="pluginfile" />
 			</td>
 			<tr>
-				<td colspan="2" class="tfoot"><div align="center"><input type="submit" value="<?=l('install')?>" /></div></td>
+				<td colspan="2" class="tfoot"><div align="center"><input type="submit" value="<?php echo l('install')?>" /></div></td>
 			</tr>
 		</table>
 	</div>
 	</form>
-	<?
-		
+	<?php
 	foot();
 }
 // Create new Plugin
@@ -123,62 +121,62 @@ elseif(isset($_REQUEST['create']))
 	
 	head(l('create_plugin'),true,'plugins');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
+	<?php } ?>
 	<form action="plugins.php?create" method="post">
-	<div class="thead"><?=l('create_plugin')?></div>
+	<div class="thead"><?php echo l('create_plugin')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('plugin_name')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('plugin_name')?></td>
 			</tr>
 			<tr>
-				<td><?=l('plugin_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?=$_POST['name']?>" /></td>
+				<td><?php echo l('plugin_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?php echo $_POST['name']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_author')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_author')?></td>
 			</tr>
 			<tr>
-				<td><?=l('plugin_author_description')?></td>
-				<td align="right"><input type="text" name="author" value="<?=$_POST['author']?>" /></td>
+				<td><?php echo l('plugin_author_description')?></td>
+				<td align="right"><input type="text" name="author" value="<?php echo $_POST['author']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_website')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_website')?></td>
 			</tr>
 			<tr>
-				<td><?=l('plugin_website_description')?></td>
-				<td align="right"><input type="text" name="website" value="<?=$_POST['website']?>" /></td>
+				<td><?php echo l('plugin_website_description')?></td>
+				<td align="right"><input type="text" name="website" value="<?php echo $_POST['website']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_version')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_version')?></td>
 			</tr>
 			<tr>
-				<td><?=l('plugin_version_description')?></td>
-				<td align="right"><input type="text" name="version" value="<?=$_POST['version']?>" /></td>
+				<td><?php echo l('plugin_version_description')?></td>
+				<td align="right"><input type="text" name="version" value="<?php echo $_POST['version']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_install_sql')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_install_sql')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?=$_POST['install_sql']?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?php echo $_POST['install_sql']?></textarea></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_uninstall_sql')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_uninstall_sql')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?=$_POST['uninstall_sql']?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?php echo $_POST['uninstall_sql']?></textarea></td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Edit Plugin
@@ -216,62 +214,62 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
 	
 	head(l('edit_plugin'),true,'plugins');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
-	<form action="plugins.php?edit&amp;plugin=<?=$_REQUEST['plugin']?>" method="post">
-	<div class="thead"><?=l('edit_plugin')?></div>
+	<?php } ?>
+	<form action="plugins.php?edit&amp;plugin=<?php echo $_REQUEST['plugin']?>" method="post">
+	<div class="thead"><?php echo l('edit_plugin')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('plugin_name')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('plugin_name')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('plugin_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?=$plugin['name']?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_author')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('plugin_author_description')?></td>
-				<td align="right"><input type="text" name="author" value="<?=$plugin['author']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('plugin_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?php echo $plugin['name']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_website')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_author')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('plugin_website_description')?></td>
-				<td align="right"><input type="text" name="website" value="<?=$plugin['website']?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_version')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('plugin_version_description')?></td>
-				<td align="right"><input type="text" name="version" value="<?=$plugin['version']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('plugin_author_description')?></td>
+				<td align="right"><input type="text" name="author" value="<?php echo $plugin['author']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_install_sql')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_website')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?=stripslashes($plugin['install_sql'])?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('plugin_website_description')?></td>
+				<td align="right"><input type="text" name="website" value="<?php echo $plugin['website']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('plugin_uninstall_sql')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_version')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?=stripslashes($plugin['uninstall_sql'])?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('plugin_version_description')?></td>
+				<td align="right"><input type="text" name="version" value="<?php echo $plugin['version']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_install_sql')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?php echo stripslashes($plugin['install_sql'])?></textarea></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('plugin_uninstall_sql')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?php echo stripslashes($plugin['uninstall_sql'])?></textarea></td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Plugin Hook listing
@@ -290,27 +288,27 @@ elseif(isset($_REQUEST['hooks']))
 	
 	head(l('plugin_hooks_for_x',$plugin['name']),true,'plugins');
 	?>
-	<div class="thead"><?=l('plugin_hooks_for_x',$plugin['name'])?></div>
+	<div class="thead"><?php echo l('plugin_hooks_for_x',$plugin['name'])?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
-				<th width="200" align="left"><?=l('title')?></th>
-				<th width="200" align="left"><?=l('hook')?></th>
+				<th width="200" align="left"><?php echo l('title')?></th>
+				<th width="200" align="left"><?php echo l('hook')?></th>
 				<th></td>
 			</tr>
-			<? foreach($hooks as $hook) { ?>
-			<tr class="<?=altbg()?>">
-				<td><a href="plugins.php?edithook&amp;hook=<?=$hook['id']?>"><?=$hook['title']?></a></td>
-				<td><?=$hook['hook']?></td>
+			<?php foreach($hooks as $hook) { ?>
+			<tr class="<?php echo altbg()?>">
+				<td><a href="plugins.php?edithook&amp;hook=<?php echo $hook['id']?>"><?php echo $hook['title']?></a></td>
+				<td><?php echo $hook['hook']?></td>
 				<td align="right">
-					<a href="plugins.php?edithook&amp;hook=<?=$hook['id']?>"><img src="images/plugin_edit.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?=l('delete_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?=$hook['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
+					<a href="plugins.php?edithook&amp;hook=<?php echo $hook['id']?>"><img src="images/plugin_edit.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('delete_plugin_hook_confirm')?>')) { window.location='plugins.php?removehook&amp;hook=<?php echo $hook['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
-			<? } ?>
+			<?php } ?>
 		</table>
 	</div>
-	<?
+	<?php
 	foot();
 }
 // New Hook
@@ -354,77 +352,77 @@ elseif(isset($_REQUEST['newhook']))
 	
 	head(l('new_hook'),true,'plugins');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
+	<?php } ?>
 	<form action="plugins.php?newhook" method="post">
-	<div class="thead"><?=l('new_hook')?></div>
+	<div class="thead"><?php echo l('new_hook')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('plugin')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('plugin')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_plugin_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_plugin_description')?></td>
 				<td align="right">
 					<select name="plugin_id">
-						<? foreach($plugins as $plugin) { ?>
-						<option value="<?=$plugin['id']?>"<?=iif($plugin['id']==$_POST['plugin_id'],' selected="selected"')?>><?=$plugin['name']?></option>
-						<? } ?>
+						<?php foreach($plugins as $plugin) { ?>
+						<option value="<?php echo $plugin['id']?>"<?php echo iif($plugin['id']==$_POST['plugin_id'],' selected="selected"')?>><?php echo $plugin['name']?></option>
+						<?php } ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('title')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('title')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_title_description')?></td>
-				<td align="right"><input type="text" name="title" value="<?=$_POST['title']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_title_description')?></td>
+				<td align="right"><input type="text" name="title" value="<?php echo $_POST['title']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('hook')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('hook')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_description')?></td>
 				<td align="right">
 					<select name="hook">
-						<option value=""><?=l('select_hook')?></option>
-						<? foreach($hook_locations as $key => $value) { ?>
-						<? if(is_array($value)) { ?>
-							<optgroup label="<?=l($key)?>">
-								<? foreach($value as $hookname) { ?>
-								<option value="<?=$hookname?>"<?=iif($hookname==$_POST['hook'],' selected="selected"')?>><?=$hookname?></option>
-								<? } ?>
+						<option value=""><?php echo l('select_hook')?></option>
+						<?php foreach($hook_locations as $key => $value) { ?>
+						<?php if(is_array($value)) { ?>
+							<optgroup label="<?php echo l($key)?>">
+								<?php foreach($value as $hookname) { ?>
+								<option value="<?php echo $hookname?>"<?php echo iif($hookname==$_POST['hook'],' selected="selected"')?>><?php echo $hookname?></option>
+								<?php } ?>
 							</optgroup>
-						<? } else { ?>
-						<option value="<?=$value?>"<?=iif($value==$_POST['hook'],' selected="selected"')?>><?=$value?></option>
-						<? } ?>
-						<? } ?>
+						<?php } else { ?>
+						<option value="<?php echo $value?>"<?php echo iif($value==$_POST['hook'],' selected="selected"')?>><?php echo $value?></option>
+						<?php } ?>
+						<?php } ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('execution_order')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('execution_order')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_execution_order_description')?></td>
-				<td align="right"><input type="text" name="execorder" value="<?=iif($_POST['execorder'],$_POST['execorder'],0)?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_execution_order_description')?></td>
+				<td align="right"><input type="text" name="execorder" value="<?php echo iif($_POST['execorder'],$_POST['execorder'],0)?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('code')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('code')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=$_POST['code']?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?php echo $_POST['code']?></textarea></td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Edit Hook
@@ -470,78 +468,78 @@ elseif(isset($_REQUEST['edithook']))
 	
 	head(l('edit_hook'),true,'plugins');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
+	<?php } ?>
 	<form action="plugins.php?edithook" method="post">
-	<input type="hidden" name="hook_id" value="<?=$hook['id']?>" />
-	<div class="thead"><?=l('edit_hook')?></div>
+	<input type="hidden" name="hook_id" value="<?php echo $hook['id']?>" />
+	<div class="thead"><?php echo l('edit_hook')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('plugin')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('plugin')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_plugin_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_plugin_description')?></td>
 				<td align="right">
 					<select name="plugin_id">
-						<? foreach($plugins as $plugin) { ?>
-						<option value="<?=$plugin['id']?>"<?=iif($plugin['id']==$hook['plugin_id'],' selected="selected"')?>><?=$plugin['name']?></option>
-						<? } ?>
+						<?php foreach($plugins as $plugin) { ?>
+						<option value="<?php echo $plugin['id']?>"<?php echo iif($plugin['id']==$hook['plugin_id'],' selected="selected"')?>><?php echo $plugin['name']?></option>
+						<?php } ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('title')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('title')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_title_description')?></td>
-				<td align="right"><input type="text" name="title" value="<?=$hook['title']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_title_description')?></td>
+				<td align="right"><input type="text" name="title" value="<?php echo $hook['title']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('hook')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('hook')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_description')?></td>
 				<td align="right">
 					<select name="hook">
-						<option value=""><?=l('select_hook')?></option>
-						<? foreach($hook_locations as $key => $value) { ?>
-						<? if(is_array($value)) { ?>
-							<optgroup label="<?=l($key)?>">
-								<? foreach($value as $hookname) { ?>
-								<option value="<?=$hookname?>"<?=iif($hookname==$hook['hook'],' selected="selected"')?>><?=$hookname?></option>
-								<? } ?>
+						<option value=""><?php echo l('select_hook')?></option>
+						<?php foreach($hook_locations as $key => $value) { ?>
+						<?php if(is_array($value)) { ?>
+							<optgroup label="<?php echo l($key)?>">
+								<?php foreach($value as $hookname) { ?>
+								<option value="<?php echo $hookname?>"<?php echo iif($hookname==$hook['hook'],' selected="selected"')?>><?php echo $hookname?></option>
+								<?php } ?>
 							</optgroup>
-						<? } else { ?>
-						<option value="<?=$value?>"<?=iif($value==$hook['hook'],' selected="selected"')?>><?=$value?></option>
-						<? } ?>
-						<? } ?>
+						<?php } else { ?>
+						<option value="<?php echo $value?>"<?php echo iif($value==$hook['hook'],' selected="selected"')?>><?php echo $value?></option>
+						<?php } ?>
+						<?php } ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('execution_order')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('execution_order')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('hook_execution_order_description')?></td>
-				<td align="right"><input type="text" name="execorder" value="<?=$hook['execorder']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('hook_execution_order_description')?></td>
+				<td align="right"><input type="text" name="execorder" value="<?php echo $hook['execorder']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('code')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('code')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?=($hook['code'])?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?php echo ($hook['code'])?></textarea></td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Export Plugin
@@ -562,25 +560,25 @@ elseif(isset($_REQUEST['export']))
 	echo '<'.'?'.'xml version="1.0" encoding="UTF-8"'.'?'.'>';
 	?><plugin>
 	<info>
-		<name><?=$plugin['name']?></name>
-		<author><?=$plugin['author']?></author>
-		<website><?=$plugin['website']?></website>
-		<version><?=$plugin['version']?></version>
+		<name><?php echo $plugin['name']?></name>
+		<author><?php echo $plugin['author']?></author>
+		<website><?php echo $plugin['website']?></website>
+		<version><?php echo $plugin['version']?></version>
 	</info>
 	<sql>
-		<install><?=str_replace(DBPF,'traq_',$plugin['install_sql'])?></install>
-		<uninstall><?=str_replace(DBPF,'traq_',$plugin['uninstall_sql'])?></uninstall>
+		<install><?php echo str_replace(DBPF,'traq_',$plugin['install_sql'])?></install>
+		<uninstall><?php echo str_replace(DBPF,'traq_',$plugin['uninstall_sql'])?></uninstall>
 	</sql>
 	<hooks>
-		<? foreach($hooks as $hook) { ?>
-		<hook title="<?=$hook['title']?>" hook="<?=$hook['hook']?>" execorder="<?=$hook['execorder']?>">
+		<?php foreach($hooks as $hook) { ?>
+		<hook title="<?php echo $hook['title']?>" hook="<?php echo $hook['hook']?>" execorder="<?php echo $hook['execorder']?>">
 			<code><![CDATA[
-<?=($hook['code'])?>
+<?php echo ($hook['code'])?>
 ]]></code>
 		</hook>
-		<? } ?>
+		<?php } ?>
 	</hooks>
-</plugin><?
+</plugin><?php
 }
 // Delete Hook
 elseif(isset($_REQUEST['removehook']))
@@ -636,68 +634,68 @@ else
 	
 	head(l('plugins'),true,'plugins');
 	?>
-	<div class="thead"><?=l('active_plugins')?></div>
+	<div class="thead"><?php echo l('active_plugins')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
-				<th width="200" align="left"><?=l('plugin')?></th>
-				<th width="200"><?=l('author')?></th>
-				<th width="50"><?=l('version')?></th>
+				<th width="200" align="left"><?php echo l('plugin')?></th>
+				<th width="200"><?php echo l('author')?></th>
+				<th width="50"><?php echo l('version')?></th>
 				<th></th>
 			</tr>
-			<? foreach($plugins['active'] as $plugin) { ?>
-			<tr class="<?=altbg()?>">
-				<td><a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><?=$plugin['name']?></a></td>
-				<td align="center"><?=$plugin['author']?></td>
-				<td align="center"><?=$plugin['version']?></td>
+			<?php foreach($plugins['active'] as $plugin) { ?>
+			<tr class="<?php echo altbg()?>">
+				<td><a href="plugins.php?edit&amp;plugin=<?php echo $plugin['id']?>"><?php echo $plugin['name']?></a></td>
+				<td align="center"><?php echo $plugin['author']?></td>
+				<td align="center"><?php echo $plugin['version']?></td>
 				<td align="right">
-					<a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_edit.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
-					<a href="plugins.php?disable&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_disabled.png" alt="<?=l('disable')?>" title="<?=l('disable')?>" /></a>
-					<a href="plugins.php?hooks&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_link.png" alt="<?=l('hooks')?>" title="<?=l('hooks')?>" /></a>
-					<a href="plugins.php?export&amp;plugin=<?=$plugin['id']?>"><img src="images/package_go.png" alt="<?=l('export')?>" title="<?=l('export')?>" /></a>
-					<a href="#" onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
+					<a href="plugins.php?edit&amp;plugin=<?php echo $plugin['id']?>"><img src="images/plugin_edit.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
+					<a href="plugins.php?disable&amp;plugin=<?php echo $plugin['id']?>"><img src="images/plugin_disabled.png" alt="<?php echo l('disable')?>" title="<?php echo l('disable')?>" /></a>
+					<a href="plugins.php?hooks&amp;plugin=<?php echo $plugin['id']?>"><img src="images/plugin_link.png" alt="<?php echo l('hooks')?>" title="<?php echo l('hooks')?>" /></a>
+					<a href="plugins.php?export&amp;plugin=<?php echo $plugin['id']?>"><img src="images/package_go.png" alt="<?php echo l('export')?>" title="<?php echo l('export')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?php echo $plugin['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
-			<? } ?>
-			<? if(!count($plugins['active'])) { ?>
+			<?php } ?>
+			<?php if(!count($plugins['active'])) { ?>
 			<tr>
-				<td align="center" colspan="4"><?=l('no_plugins')?></td>
+				<td align="center" colspan="4"><?php echo l('no_plugins')?></td>
 			</tr>
-			<? } ?>
+			<?php } ?>
 		</table>
 	</div>
 	<br />
-	<div class="thead"><?=l('disabled_plugins')?></div>
+	<div class="thead"><?php echo l('disabled_plugins')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
-				<th width="200" align="left"><?=l('plugin')?></th>
-				<th width="200"><?=l('author')?></th>
-				<th width="50"><?=l('version')?></th>
+				<th width="200" align="left"><?php echo l('plugin')?></th>
+				<th width="200"><?php echo l('author')?></th>
+				<th width="50"><?php echo l('version')?></th>
 				<th></th>
 			</tr>
-			<? foreach($plugins['disabled'] as $plugin) { ?>
-			<tr class="<?=altbg()?>">
-				<td><a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><?=$plugin['name']?></a></td>
-				<td align="center"><?=$plugin['author']?></td>
-				<td align="center"><?=$plugin['version']?></td>
+			<?php foreach($plugins['disabled'] as $plugin) { ?>
+			<tr class="<?php echo altbg()?>">
+				<td><a href="plugins.php?edit&amp;plugin=<?php echo $plugin['id']?>"><?php echo $plugin['name']?></a></td>
+				<td align="center"><?php echo $plugin['author']?></td>
+				<td align="center"><?php echo $plugin['version']?></td>
 				<td align="right">
-					<a href="plugins.php?edit&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_edit.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
-					<a href="plugins.php?enable&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin.png" alt="<?=l('enable')?>" title="<?=l('enable')?>" /></a>
-					<a href="plugins.php?hooks&amp;plugin=<?=$plugin['id']?>"><img src="images/plugin_link.png" alt="<?=l('hooks')?>" title="<?=l('hooks')?>" /></a>
-					<a href="plugins.php?export&amp;plugin=<?=$plugin['id']?>"><img src="images/package_go.png" alt="<?=l('export')?>" title="<?=l('export')?>" /></a>
-					<a href="#" onclick="if(confirm('<?=l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?=$plugin['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
+					<a href="plugins.php?edit&amp;plugin=<?php echo $plugin['id']?>"><img src="images/plugin_edit.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
+					<a href="plugins.php?enable&amp;plugin=<?php echo $plugin['id']?>"><img src="images/plugin.png" alt="<?php echo l('enable')?>" title="<?php echo l('enable')?>" /></a>
+					<a href="plugins.php?hooks&amp;plugin=<?php echo $plugin['id']?>"><img src="images/plugin_link.png" alt="<?php echo l('hooks')?>" title="<?php echo l('hooks')?>" /></a>
+					<a href="plugins.php?export&amp;plugin=<?php echo $plugin['id']?>"><img src="images/package_go.png" alt="<?php echo l('export')?>" title="<?php echo l('export')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('uninstall_plugin_confirm')?>')) { window.location='plugins.php?remove&amp;plugin=<?php echo $plugin['id']?>'; } return false;"><img src="images/plugin_delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
-			<? } ?>
-			<? if(!count($plugins['disabled'])) { ?>
+			<?php } ?>
+			<?php if(!count($plugins['disabled'])) { ?>
 			<tr>
-				<td align="center" colspan="4"><?=l('no_plugins')?></td>
+				<td align="center" colspan="4"><?php echo l('no_plugins')?></td>
 			</tr>
-			<? } ?>
+			<?php } ?>
 		</table>
 	</div>
-	<?
+	<?php
 	foot();
 }
 ?>

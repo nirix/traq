@@ -40,42 +40,42 @@ if(isset($_REQUEST['new']))
 	
 	head(l('new_component'),true,'projects');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
+	<?php } ?>
 	<form action="components.php?new" method="post">
-	<div class="thead"><?=l('new_component')?></div>
+	<div class="thead"><?php echo l('new_component')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('name')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('name')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('component_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?=$_POST['name']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('component_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?php echo $_POST['name']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('project')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('component_project_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('component_project_description')?></td>
 				<td align="right">
 					<select name="project">
-					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $_POST['project'],' selected="selected"')?>><?=$project['name']?></option>
-					<? } ?>
+					<?php foreach(getprojects() as $project) { ?>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $_POST['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+					<?php } ?>
 					</select>
 				</td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Edit Component
@@ -107,42 +107,42 @@ elseif(isset($_REQUEST['edit']))
 	
 	head(l('edit_component'),true,'projects');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
-	<form action="components.php?edit=<?=$_REQUEST['edit']?>" method="post">
-	<div class="thead"><?=l('edit_component')?></div>
+	<?php } ?>
+	<form action="components.php?edit=<?php echo $_REQUEST['edit']?>" method="post">
+	<div class="thead"><?php echo l('edit_component')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('name')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('name')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('component_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?=$component['name']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('component_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?php echo $component['name']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('project')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('component_project_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('component_project_description')?></td>
 				<td align="right">
 					<select name="project">
-					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $component['project'],' selected="selected"')?>><?=$project['name']?></option>
-					<? } ?>
+					<?php foreach(getprojects() as $project) { ?>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $component['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+					<?php } ?>
 					</select>
 				</td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Delete Component
@@ -172,36 +172,34 @@ else
 	
 	head(l('components'),true,'projects');
 	?>
-	<h2><?=l('components')?></h2>
-	<?
-	
+	<h2><?php echo l('components')?></h2>
+	<?php
 	foreach($projects as $project) { ?>
-	<div class="thead"><?=$project['name']?></div>
+	<div class="thead"><?php echo $project['name']?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
-				<th width="200" align="left"><?=l('component')?></th>
+				<th width="200" align="left"><?php echo l('component')?></th>
 				<th></th>
 			</tr>
-			<? foreach($project['components'] as $component) { ?>
-			<tr class="<?=altbg()?>">
-				<td><a href="components.php?edit=<?=$component['id']?>"><?=$component['name']?></a></td>
+			<?php foreach($project['components'] as $component) { ?>
+			<tr class="<?php echo altbg()?>">
+				<td><a href="components.php?edit=<?php echo $component['id']?>"><?php echo $component['name']?></a></td>
 				<td align="right">
-					<a href="components.php?edit=<?=$component['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?=l('confirm_delete_component_x',$component['name'])?>')) { window.location = 'components.php?delete=<?=$component['id']?>'; } return false;"><img src="images/delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
+					<a href="components.php?edit=<?php echo $component['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_component_x',$component['name'])?>')) { window.location = 'components.php?delete=<?php echo $component['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
-			<? } ?>
-			<? if(!count($project['components'])) { ?>
+			<?php } ?>
+			<?php if(!count($project['components'])) { ?>
 			<tr>
-				<td align="center" colspan="3"><?=l('no_components')?></td>
+				<td align="center" colspan="3"><?php echo l('no_components')?></td>
 			</tr>
-			<? } ?>
+			<?php } ?>
 		</table>
 	</div>
-	<?
+	<?php
 	}
-	
 	foot();
 }
 ?>

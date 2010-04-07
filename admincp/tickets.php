@@ -165,130 +165,130 @@ else
 	
 	head(l('tickets'));
 	?>
-	<h2><?=l('ticket_properties')?></h2>
+	<h2><?php echo l('ticket_properties')?></h2>
 	
 	<form action="tickets.php?update" method="post">
 		<input type="hidden" name="action" value="type" />
-		<div class="thead"><?=l('type')?></div>
+		<div class="thead"><?php echo l('type')?></div>
 		<div class="tborder">
 			<table width="100%" cellspacing="0">
 				<tr class="optiontitle first">
-					<th width="180" align="left"><?=l('name')?></th>
-					<th align="left"><?=l('bullet')?></th>
+					<th width="180" align="left"><?php echo l('name')?></th>
+					<th align="left"><?php echo l('bullet')?></th>
 					<th></th>
 				</tr>
-				<? foreach($types as $type) { ?>
+				<?php foreach($types as $type) { ?>
 				<tr>
-					<td><input type="text" name="type[<?=$type['id']?>][name]" value="<?=$type['name']?>" /></td>
-					<td><input type="text" name="type[<?=$type['id']?>][bullet]" value="<?=$type['bullet']?>" /></td>
+					<td><input type="text" name="type[<?php echo $type['id']?>][name]" value="<?php echo $type['name']?>" /></td>
+					<td><input type="text" name="type[<?php echo $type['id']?>][bullet]" value="<?php echo $type['bullet']?>" /></td>
 					<td align="right">
-						<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'tickets.php?delete&type=<?=$type['id']?>'; }" />
+						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&type=<?php echo $type['id']?>'; }" />
 					</td>
 				</tr>
-				<? } ?>
+				<?php } ?>
 				<tr>
 					<td>
 						<input type="text" name="name" value="" /><br />
-						<small><?=l('fill_in_to_add_new_type')?></small>
+						<small><?php echo l('fill_in_to_add_new_type')?></small>
 					</td>
 					<td colspan="2"><input type="text" name="bullet" value="" /></td>
 				</tr>
 			</table>
-			<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+			<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 		</div>
 	</form>
 	<br />
 	<form action="tickets.php?update" method="post">
 		<input type="hidden" name="action" value="status" />
-		<div class="thead"><?=l('status')?></div>
+		<div class="thead"><?php echo l('status')?></div>
 		<div class="tborder">
 			<table width="100%" cellspacing="0">
 				<tr class="optiontitle first">
-					<th width="180" align="left"><?=l('name')?></th>
-					<th align="left"><?=l('type')?></th>
+					<th width="180" align="left"><?php echo l('name')?></th>
+					<th align="left"><?php echo l('type')?></th>
 					<th></th>
 				</tr>
-				<? foreach($statuses as $status) { ?>
+				<?php foreach($statuses as $status) { ?>
 				<tr>
-					<td><input type="text" name="statuses[<?=$status['id']?>][name]" value="<?=$status['name']?>" /></td>
+					<td><input type="text" name="statuses[<?php echo $status['id']?>][name]" value="<?php echo $status['name']?>" /></td>
 					<td>
-						<select name="statuses[<?=$status['id']?>][status]">
-							<option value="1"<?=iif($status['status'],' selected="selected"')?>><?=l('open')?></option>
-							<option value="0"<?=iif(!$status['status'],' selected="selected"')?>><?=l('closed')?></option>
+						<select name="statuses[<?php echo $status['id']?>][status]">
+							<option value="1"<?php echo iif($status['status'],' selected="selected"')?>><?php echo l('open')?></option>
+							<option value="0"<?php echo iif(!$status['status'],' selected="selected"')?>><?php echo l('closed')?></option>
 						</select>
 					</td>
 					<td align="right">
-						<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'tickets.php?delete&status=<?=$status['id']?>'; }" />
+						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&status=<?php echo $status['id']?>'; }" />
 					</td>
 				</tr>
-				<? } ?>
+				<?php } ?>
 				<tr>
 					<td>
 						<input type="text" name="name" value="" /><br />
-						<small><?=l('fill_in_to_add_new_status')?></small>
+						<small><?php echo l('fill_in_to_add_new_status')?></small>
 					</td>
 					<td colspan="2">
 						<select name="status">
-							<option value="1"><?=l('open')?></option>
-							<option value="0"><?=l('closed')?></option>
+							<option value="1"><?php echo l('open')?></option>
+							<option value="0"><?php echo l('closed')?></option>
 						</select>
 					</td>
 				</tr>
 			</table>
-			<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+			<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 		</div>
 	</form>
 	<br />
 	<form action="tickets.php?update" method="post">
 		<input type="hidden" name="action" value="priority" />
-		<div class="thead"><?=l('priority')?></div>
+		<div class="thead"><?php echo l('priority')?></div>
 		<div class="tborder">
 			<table width="100%" cellspacing="0">
 				<tr class="optiontitle first">
-					<th width="200" align="left"><?=l('name')?></th>
+					<th width="200" align="left"><?php echo l('name')?></th>
 					<th></th>
 				</tr>
-				<? foreach($priorities as $priority) { ?>
+				<?php foreach($priorities as $priority) { ?>
 				<tr>
-					<td><input type="text" name="priority[<?=$priority['id']?>]" value="<?=$priority['name']?>" /></td>
+					<td><input type="text" name="priority[<?php echo $priority['id']?>]" value="<?php echo $priority['name']?>" /></td>
 					<td align="right">
-						<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'tickets.php?delete&priority=<?=$priority['id']?>'; }" />
+						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&priority=<?php echo $priority['id']?>'; }" />
 					</td>
 				</tr>
-				<? } ?>
+				<?php } ?>
 			</table>
-			<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+			<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 		</div>
 	</form>
 	<br />
 	<form action="tickets.php?update" method="post">
 		<input type="hidden" name="action" value="severity" />
-		<div class="thead"><?=l('severity')?></div>
+		<div class="thead"><?php echo l('severity')?></div>
 		<div class="tborder">
 			<table width="100%" cellspacing="0">
 				<tr class="optiontitle first">
-					<th width="200" align="left"><?=l('name')?></th>
+					<th width="200" align="left"><?php echo l('name')?></th>
 					<th></th>
 				</tr>
-				<? foreach($severities as $severity) { ?>
+				<?php foreach($severities as $severity) { ?>
 				<tr>
-					<td><input type="text" name="severity[<?=$severity['id']?>]" value="<?=$severity['name']?>" /></td>
+					<td><input type="text" name="severity[<?php echo $severity['id']?>]" value="<?php echo $severity['name']?>" /></td>
 					<td align="right">
-						<input type="button" value="<?=l('delete')?>" onclick="if(confirm('<?=l('confirm_delete')?>')) { window.location = 'tickets.php?delete&severity=<?=$severity['id']?>'; }" />
+						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&severity=<?php echo $severity['id']?>'; }" />
 					</td>
 				</tr>
-				<? } ?>
+				<?php } ?>
 				<tr>
 					<td colspan="2">
 						<input type="text" name="name" value="" /><br />
-						<small><?=l('fill_in_to_add_new_severity')?></small>
+						<small><?php echo l('fill_in_to_add_new_severity')?></small>
 					</td>
 				</tr>
 			</table>
-			<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+			<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 		</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 ?>

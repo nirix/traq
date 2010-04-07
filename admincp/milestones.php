@@ -56,76 +56,76 @@ if(isset($_REQUEST['new']))
 	
 	head(l('new_milestone'),true,'projects');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
+	<?php } ?>
 	<form action="milestones.php?new" method="post">
-	<div class="thead"><?=l('new_milestone')?></div>
+	<div class="thead"><?php echo l('new_milestone')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('milestone')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('milestone')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_name_description')?></td>
-				<td align="right"><input type="text" name="milestone" value="<?=$_POST['milestone']?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?=l('slug')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_slug_description')?></td>
-				<td align="right"><input type="text" name="slug" value="<?=$_POST['slug']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_name_description')?></td>
+				<td align="right"><input type="text" name="milestone" value="<?php echo $_POST['milestone']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('codename')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('slug')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_codename_description')?></td>
-				<td align="right"><input type="text" name="codename" value="<?=$_POST['codename']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_slug_description')?></td>
+				<td align="right"><input type="text" name="slug" value="<?php echo $_POST['slug']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('project')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('codename')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_project_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_codename_description')?></td>
+				<td align="right"><input type="text" name="codename" value="<?php echo $_POST['codename']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_project_description')?></td>
 				<td align="right">
 					<select name="project">
-					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $_POST['project'],' selected="selected"')?>><?=$project['name']?></option>
-					<? } ?>
+					<?php foreach(getprojects() as $project) { ?>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $_POST['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+					<?php } ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('due')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('due')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_due_description')?></td>
-				<td align="right"><input type="text" name="due" value="<?=$_POST['due']?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?=l('display_order')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_displayorder_description')?></td>
-				<td align="right"><input type="text" name="displayorder" value="<?=($_POST['displayorder'] ? $_POST['displayorder'] : '0')?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_due_description')?></td>
+				<td align="right"><input type="text" name="due" value="<?php echo $_POST['due']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('milestone_description')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('display_order')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?=$_POST['info']?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_displayorder_description')?></td>
+				<td align="right"><input type="text" name="displayorder" value="<?php echo ($_POST['displayorder'] ? $_POST['displayorder'] : '0')?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('milestone_description')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?php echo $_POST['info']?></textarea></td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Edit Milestone
@@ -196,95 +196,95 @@ elseif(isset($_REQUEST['edit']))
 	
 	head(l('edit_milestone'),true,'projects');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
-	<form action="milestones.php?edit=<?=$_REQUEST['edit']?>" method="post">
-	<div class="thead"><?=l('edit_milestone')?></div>
+	<?php } ?>
+	<form action="milestones.php?edit=<?php echo $_REQUEST['edit']?>" method="post">
+	<div class="thead"><?php echo l('edit_milestone')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('milestone')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('milestone')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_name_description')?></td>
-				<td align="right"><input type="text" name="milestone" value="<?=$milestone['milestone']?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?=l('slug')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_slug_description')?></td>
-				<td align="right"><input type="text" name="slug" value="<?=$milestone['slug']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_name_description')?></td>
+				<td align="right"><input type="text" name="milestone" value="<?php echo $milestone['milestone']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('codename')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('slug')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_codename_description')?></td>
-				<td align="right"><input type="text" name="codename" value="<?=$milestone['codename']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_slug_description')?></td>
+				<td align="right"><input type="text" name="slug" value="<?php echo $milestone['slug']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('project')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('codename')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_project_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_codename_description')?></td>
+				<td align="right"><input type="text" name="codename" value="<?php echo $milestone['codename']?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_project_description')?></td>
 				<td align="right">
 					<select name="project">
-					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $milestone['project_id'],' selected="selected"')?>><?=$project['name']?></option>
-					<? } ?>
+					<?php foreach(getprojects() as $project) { ?>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $milestone['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
+					<?php } ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('status')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('status')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_status_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_status_description')?></td>
 				<td align="right">
 					<select name="status">
-						<option value="active"<?=(!$milestone['locked'] ? ' selected="selected"' : '')?>><?=l('active')?></option>
-						<option value="completed"<?=($milestone['locked'] && $milestone['completed'] > 0 ? ' selected="selected"' : '')?>><?=l('completed')?></option>
-						<option value="cancelled"<?=($milestone['locked'] && $milestone['cancelled'] > 0 ? ' selected="selected"' : '')?>><?=l('cancelled')?></option>
+						<option value="active"<?php echo (!$milestone['locked'] ? ' selected="selected"' : '')?>><?php echo l('active')?></option>
+						<option value="completed"<?php echo ($milestone['locked'] && $milestone['completed'] > 0 ? ' selected="selected"' : '')?>><?php echo l('completed')?></option>
+						<option value="cancelled"<?php echo ($milestone['locked'] && $milestone['cancelled'] > 0 ? ' selected="selected"' : '')?>><?php echo l('cancelled')?></option>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('due')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('due')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_due_description')?></td>
-				<td align="right"><input type="text" name="due" value="<?=($milestone['due'] > 0 ? $milestone['due'] : '')?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?=l('display_order')?></td>
-			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('milestone_displayorder_description')?></td>
-				<td align="right"><input type="text" name="displayorder" value="<?=$milestone['displayorder']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_due_description')?></td>
+				<td align="right"><input type="text" name="due" value="<?php echo ($milestone['due'] > 0 ? $milestone['due'] : '')?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('milestone_description')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('display_order')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="info" style="width:100%;height:150px"><?=$milestone['info']?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('milestone_displayorder_description')?></td>
+				<td align="right"><input type="text" name="displayorder" value="<?php echo $milestone['displayorder']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('milestone_changelog')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('milestone_description')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td colspan="2"><textarea name="changelog" style="width:100%;height:150px"><?=$milestone['changelog']?></textarea></td>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="info" style="width:100%;height:150px"><?php echo $milestone['info']?></textarea></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('milestone_changelog')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td colspan="2"><textarea name="changelog" style="width:100%;height:150px"><?php echo $milestone['changelog']?></textarea></td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Delete Milestone
@@ -320,39 +320,37 @@ else
 	
 	head(l('milestones'),true,'projects');
 	?>
-	<h2><?=l('milestones')?></h2>
-	<?
-	
+	<h2><?php echo l('milestones')?></h2>
+	<?php
 	foreach($projects as $project) {
 	?>
-	<div class="thead"><?=$project['name']?></div>
+	<div class="thead"><?php echo $project['name']?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
-				<th width="200" align="left"><?=l('milestone')?></th>
-				<th width="200"><?=l('codename')?></th>
+				<th width="200" align="left"><?php echo l('milestone')?></th>
+				<th width="200"><?php echo l('codename')?></th>
 				<th></th>
 			</tr>
-			<? foreach($project['milestones'] as $milestone) { ?>
-			<tr class="<?=altbg()?>">
-				<td><a href="milestones.php?edit=<?=$milestone['id']?>"><?=$milestone['milestone']?></a></td>
-				<td align="center"><?=$milestone['codename']?></td>
+			<?php foreach($project['milestones'] as $milestone) { ?>
+			<tr class="<?php echo altbg()?>">
+				<td><a href="milestones.php?edit=<?php echo $milestone['id']?>"><?php echo $milestone['milestone']?></a></td>
+				<td align="center"><?php echo $milestone['codename']?></td>
 				<td align="right">
-					<a href="milestones.php?edit=<?=$milestone['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?=l('confirm_delete_milestone_x',$milestone['milestone'])?>')) { window.location='milestones.php?delete=<?=$milestone['id']?>'; } return false;"><img src="images/delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
+					<a href="milestones.php?edit=<?php echo $milestone['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_milestone_x',$milestone['milestone'])?>')) { window.location='milestones.php?delete=<?php echo $milestone['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
-			<? } ?>
-			<? if(!count($project['milestones'])) { ?>
+			<?php } ?>
+			<?php if(!count($project['milestones'])) { ?>
 			<tr>
-				<td align="center" colspan="3"><?=l('no_milestones')?></td>
+				<td align="center" colspan="3"><?php echo l('no_milestones')?></td>
 			</tr>
-			<? } ?>
+			<?php } ?>
 		</table>
 	</div>
-	<?
+	<?php
 	}
-	
 	foot();
 }
 ?>

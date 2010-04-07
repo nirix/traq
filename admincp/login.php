@@ -27,25 +27,25 @@ head(l('login'));
 			<div id="login">
 				<?php if(!$login && isset($_POST['username'])) { ?>
 				<div class="message error">Invalid Username or Password</div>
-				<? } ?>
-				<div class="thead"><?=l('login')?></div>
+				<?php } ?>
+				<div class="thead"><?php echo l('login')?></div>
 				<div class="tborder" align="center">
 					<table width="100% cellspacing="0">
 						<tr>
-							<td><?=l('username')?></td>
+							<td><?php echo l('username')?></td>
 							<td><input type="text" name="username" /></td>
 						</tr>
 						<tr>
-							<td><?=l('password')?></td>
+							<td><?php echo l('password')?></td>
 							<td><input type="password" name="password" /></td>
 						</tr>
 					</table>
 					<div class="tfoot">
-						<input type="submit" value="<?=l('login')?>" />
+						<input type="submit" value="<?php echo l('login')?>" />
 					</div>
 				</div>
 			</div>
 			</form>
-<?
+<?php
 foot();
 ?>

@@ -94,46 +94,46 @@ function head($title='',$sidebar=false,$links=array())
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title><?=l('traq_admincp')?><?=iif($title != '',' / '.$title)?></title>
+		<title><?php echo l('traq_admincp')?><?php echo iif($title != '',' / '.$title)?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="style.css" type="text/css" />
 	</head>
 	<body id="project_info">
 		<div id="head">
-			<span><a href="./"><?=l('traq_admincp')?></a></span>
-			<div id="nav<?=(defined("HIDENAV") ? '_small' : '')?>">
-			<? if(!defined("HIDENAV")) { ?>
+			<span><a href="./"><?php echo l('traq_admincp')?></a></span>
+			<div id="nav<?php echo (defined("HIDENAV") ? '_small' : '')?>">
+			<?php if(!defined("HIDENAV")) { ?>
 				<div id="meta_nav">
 					<ul>
-						<li class="first"><a href="../"><?=l('view_site')?></a></li>
+						<li class="first"><a href="../"><?php echo l('view_site')?></a></li>
 					</ul>
 				</div>
 				<ul class="main_nav">
-					<? foreach($sidebar_links as $link) { ?>
-					<li class="<?=$link['class'].iif($link['active'],' active')?>"><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
-					<? } ?>
+					<?php foreach($sidebar_links as $link) { ?>
+					<li class="<?php echo $link['class'].iif($link['active'],' active')?>"><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>
+					<?php } ?>
 				</ul>
-				<? } ?>
+				<?php } ?>
 			</div>
 		</div>
 		<div id="page">
 			<table width="100%" cellpadding="0" cellspacing="0">
 				<tr>
-					<? if($sidebar) { ?>
+					<?php if($sidebar) { ?>
 					<td valign="top" id="sidebar">
 						<ul>
-						<? foreach($links as $link) { ?>
-							<? if($link['divider']) { ?>
+						<?php foreach($links as $link) { ?>
+							<?php if($link['divider']) { ?>
 							<li class="divider"></li>
-							<? } else { ?>
-							<li class="<?=$link['class'].iif($link['active'],' active')?>"><a href="<?=$link['url']?>"><?=$link['title']?></a></li>
-							<? } ?>
-						<? } ?>
+							<?php } else { ?>
+							<li class="<?php echo $link['class'].iif($link['active'],' active')?>"><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>
+							<?php } ?>
+						<?php } ?>
 						</ul>
 					</td>
-					<? } ?>
+					<?php } ?>
 					<td valign="top">
-	<?
+	<?php
 }
 
 /**
@@ -149,11 +149,11 @@ function foot()
 		</div>
 		<div id="foot">
 			<span id="powered_by">
-				<?=l('poweredby')?>
+				<?php echo l('poweredby')?>
 			</span>
 		</div>
 	</body>
 </html>
-	<?
+	<?php
 }
 ?>

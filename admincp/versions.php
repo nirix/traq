@@ -39,42 +39,42 @@ if(isset($_REQUEST['new']))
 	
 	head(l('new_version'),true,'projects');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
+	<?php } ?>
 	<form action="versions.php?new" method="post">
-	<div class="thead"><?=l('new_version')?></div>
+	<div class="thead"><?php echo l('new_version')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('name')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('name')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('version_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?=$_POST['name']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('version_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?php echo $_POST['name']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('project')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('version_project_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('version_project_description')?></td>
 				<td align="right">
 					<select name="project">
-					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $_POST['project'],' selected="selected"')?>><?=$project['name']?></option>
-					<? } ?>
+					<?php foreach(getprojects() as $project) { ?>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $_POST['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+					<?php } ?>
 					</select>
 				</td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('create')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Edit Version
@@ -105,42 +105,42 @@ elseif(isset($_REQUEST['edit']))
 	
 	head(l('edit_version'),true,'projects');
 	?>
-	<? if(count($errors)) { ?>
+	<?php if(count($errors)) { ?>
 	<div class="message error">
-		<? foreach($errors as $error) { ?>
-		<?=$error?><br />
-		<? } ?>
+		<?php foreach($errors as $error) { ?>
+		<?php echo $error?><br />
+		<?php } ?>
 	</div>
-	<? } ?>
-	<form action="versions.php?edit=<?=$_REQUEST['edit']?>" method="post">
-	<div class="thead"><?=l('edit_version')?></div>
+	<?php } ?>
+	<form action="versions.php?edit=<?php echo $_REQUEST['edit']?>" method="post">
+	<div class="thead"><?php echo l('edit_version')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
-				<td class="optiontitle first" colspan="2"><?=l('name')?></td>
+				<td class="optiontitle first" colspan="2"><?php echo l('name')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('version_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?=$version['version']?>" /></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('version_name_description')?></td>
+				<td align="right"><input type="text" name="name" value="<?php echo $version['version']?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?=l('project')?></td>
+				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
 			</tr>
-			<tr class="<?=altbg()?>">
-				<td><?=l('version_project_description')?></td>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('version_project_description')?></td>
 				<td align="right">
 					<select name="project">
-					<? foreach(getprojects() as $project) { ?>
-						<option value="<?=$project['id']?>"<?=iif($project['id'] == $version['project'],' selected="selected"')?>><?=$project['name']?></option>
-					<? } ?>
+					<?php foreach(getprojects() as $project) { ?>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $version['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+					<?php } ?>
 					</select>
 				</td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?=l('update')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
 	</div>
 	</form>
-	<?
+	<?php
 	foot();
 }
 // Delete Version
@@ -171,34 +171,33 @@ else
 	
 	head(l('versions'),true,'projects');
 	?>
-	<h2><?=l('versions')?></h2>
-	<?
-	
+	<h2><?php echo l('versions')?></h2>
+	<?php
 	foreach($projects as $project) { ?>
-	<div class="thead"><?=$project['name']?></div>
+	<div class="thead"><?php echo $project['name']?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr class="optiontitle first">
-				<th width="200" align="left"><?=l('version')?></th>
+				<th width="200" align="left"><?php echo l('version')?></th>
 				<th></th>
 			</tr>
-			<? foreach($project['versions'] as $version) { ?>
-			<tr class="<?=altbg()?>">
-				<td><a href="versions.php?edit=<?=$version['id']?>"><?=$version['version']?></a></td>
+			<?php foreach($project['versions'] as $version) { ?>
+			<tr class="<?php echo altbg()?>">
+				<td><a href="versions.php?edit=<?php echo $version['id']?>"><?php echo $version['version']?></a></td>
 				<td align="right">
-					<a href="versions.php?edit=<?=$version['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?=l('confirm_delete_version_x',$version['version'])?>')) { window.location = 'versions.php?delete=<?=$version['id']?>'; } return false;"><img src="images/delete.png" alt="<?=l('delete')?>" title="<?=l('delete')?>" /></a>
+					<a href="versions.php?edit=<?php echo $version['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_version_x',$version['version'])?>')) { window.location = 'versions.php?delete=<?php echo $version['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
-			<? } ?>
-			<? if(!count($project['versions'])) { ?>
+			<?php } ?>
+			<?php if(!count($project['versions'])) { ?>
 			<tr>
-				<td align="center" colspan="3"><?=l('no_versions')?></td>
+				<td align="center" colspan="3"><?php echo l('no_versions')?></td>
 			</tr>
-			<? } ?>
+			<?php } ?>
 		</table>
 	</div>
-	<?
+	<?php
 	}
 	foot();
 }
