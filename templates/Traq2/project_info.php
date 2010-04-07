@@ -1,19 +1,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title><?=settings('title')?> / <?=$project['name']?></title>
-		<? require(template('headerinc')); ?>
+		<title><?php echo settings('title')?> / <?php echo $project['name']?></title>
+		<?php require(template('headerinc')); ?>
 	</head>
 	<body id="project_info">
-		<? require(template('header')); ?>
+		<?php require(template('header')); ?>
 		
-		<? require(template('breadcrumbs')); ?>
+		<?php require(template('breadcrumbs')); ?>
 		
-		<h1><?=$project['name']?></h1>
+		<h1><?php echo $project['name']?></h1>
 		<p>
-			<?=$project['info']?>
+			<?php echo $project['info']?>
 		</p>
 		
-		<? require(template('footer')); ?>
+		<?php require(template('footer')); ?>
 	</body>
 </html>

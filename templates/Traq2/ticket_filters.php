@@ -1,83 +1,83 @@
-<form action="<?=$uri->geturi()?>" method="post">
+<form action="<?php echo $uri->geturi()?>" method="post">
 	<fieldset id="ticket_filters">
-		<legend><?=l('filters')?></legend>
+		<legend><?php echo l('filters')?></legend>
 		<table width="100%" cellpadding="2" cellspacing="0">
-			<? foreach($filters as $filter) {
+			<?php foreach($filters as $filter) {
 				$val = -1;
 			?>
-			<? if(in_array($filter['type'],array('milestone','version','type','component'))) { ?>
-			<? foreach($filter['values'] as $value) { $val++; ?>
+			<?php if(in_array($filter['type'],array('milestone','version','type','component'))) { ?>
+			<?php foreach($filter['values'] as $value) { $val++; ?>
 			<tr>
-				<td class="label"><?=iif($val == 0,l($filter['type']))?></td>
+				<td class="label"><?php echo iif($val == 0,l($filter['type']))?></td>
 				<td class="mode">
-					<? if($val == 0) { ?>
-					<select name="modes[<?=$filter['type']?>]">
-						<option value=""<?=iif($filter['mode'] == '',' selected="selected"')?>><?=l('is')?></option>
-						<option value="!"<?=iif($filter['mode'] == '!',' selected="selected"')?>><?=l('is_not')?></option>
+					<?php if($val == 0) { ?>
+					<select name="modes[<?php echo $filter['type']?>]">
+						<option value=""<?php echo iif($filter['mode'] == '',' selected="selected"')?>><?php echo l('is')?></option>
+						<option value="!"<?php echo iif($filter['mode'] == '!',' selected="selected"')?>><?php echo l('is_not')?></option>
 					</select>
-					<? } else { ?>
-					<?=l('or')?>
-					<? } ?>
+					<?php } else { ?>
+					<?php echo l('or')?>
+					<?php } ?>
 				</td>
 				<td class="value">
-					<? if($filter['type'] == 'milestone') { ?>
-					<select name="filters[<?=$filter['type']?>][<?=$val?>][value]">
+					<?php if($filter['type'] == 'milestone') { ?>
+					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
 						<option></option>
-						<? foreach(project_milestones() as $milestone) { ?>
-						<option value="<?=$milestone['slug']?>"<?=iif($value == $milestone['slug'],' selected="selected"')?>><?=$milestone['milestone']?></option>
-						<? } ?>
+						<?php foreach(project_milestones() as $milestone) { ?>
+						<option value="<?php echo $milestone['slug']?>"<?php echo iif($value == $milestone['slug'],' selected="selected"')?>><?php echo $milestone['milestone']?></option>
+						<?php } ?>
 					</select>
-					<? } elseif($filter['type'] == 'version') { ?>
-					<select name="filters[<?=$filter['type']?>][<?=$val?>][value]">
+					<?php } elseif($filter['type'] == 'version') { ?>
+					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
 						<option></option>
-						<? foreach(project_versions() as $version) { ?>
-						<option value="<?=$version['id']?>"<?=iif($value == $version['id'],' selected="selected"')?>><?=$version['version']?></option>
-						<? } ?>
+						<?php foreach(project_versions() as $version) { ?>
+						<option value="<?php echo $version['id']?>"<?php echo iif($value == $version['id'],' selected="selected"')?>><?php echo $version['version']?></option>
+						<?php } ?>
 					</select>
-					<? } elseif($filter['type'] == 'type') { ?>
-					<select name="filters[<?=$filter['type']?>][<?=$val?>][value]">
+					<?php } elseif($filter['type'] == 'type') { ?>
+					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
 						<option></option>
-						<? foreach(ticket_types() as $type) { ?>
-						<option value="<?=$type['id']?>"<?=iif($value == $type['id'],' selected="selected"')?>><?=$type['name']?></option>
-						<? } ?>
+						<?php foreach(ticket_types() as $type) { ?>
+						<option value="<?php echo $type['id']?>"<?php echo iif($value == $type['id'],' selected="selected"')?>><?php echo $type['name']?></option>
+						<?php } ?>
 					</select>
-					<? } elseif($filter['type'] == 'component') { ?>
-					<select name="filters[<?=$filter['type']?>][<?=$val?>][value]">
+					<?php } elseif($filter['type'] == 'component') { ?>
+					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
 						<option></option>
-						<? foreach(project_components() as $component) { ?>
-						<option value="<?=$component['id']?>"<?=iif($value == $component['id'],' selected="selected"')?>><?=$component['name']?></option>
-						<? } ?>
+						<?php foreach(project_components() as $component) { ?>
+						<option value="<?php echo $component['id']?>"<?php echo iif($value == $component['id'],' selected="selected"')?>><?php echo $component['name']?></option>
+						<?php } ?>
 					</select>
-					<? } ?>
+					<?php } ?>
 				</td>
 				<td class="remove">
-					<input type="submit" name="rmfilter[<?=$filter['type']?>][<?=$val?>]" value="-" />
+					<input type="submit" name="rmfilter[<?php echo $filter['type']?>][<?php echo $val?>]" value="-" />
 				</td>
 			</tr>
-			<? } ?>
-			<? } elseif($filter['type'] == 'status') { ?>
+			<?php } ?>
+			<?php } elseif($filter['type'] == 'status') { ?>
 			<tr>
-				<td class="label"><?=l($filter['type'])?></td>
+				<td class="label"><?php echo l($filter['type'])?></td>
 				<td class="value" colspan="2">
-					<? foreach(ticket_status_list('all') as $status) { ?>
-						<input type="checkbox" name="filters[status][]" value="<?=$status['id']?>" id="filter_status_<?=$status['id']?>"<?=iif(in_array($status['id'],$filter['values']) or ($filter['value'] == 'open' && $status['status'] == 1) or ($filter['value'] == 'closed' && $status['status'] == 0),' checked="checked"')?> /> <label for="filter_status_<?=$status['id']?>"><?=$status['name']?></label>
-					<? } ?>
+					<?php foreach(ticket_status_list('all') as $status) { ?>
+						<input type="checkbox" name="filters[status][]" value="<?php echo $status['id']?>" id="filter_status_<?php echo $status['id']?>"<?php echo iif(in_array($status['id'],$filter['values']) or ($filter['value'] == 'open' && $status['status'] == 1) or ($filter['value'] == 'closed' && $status['status'] == 0),' checked="checked"')?> /> <label for="filter_status_<?php echo $status['id']?>"><?php echo $status['name']?></label>
+					<?php } ?>
 				</td>
 				<td class="remove">
-					<input type="submit" name="rmfilter[<?=$filter['type']?>]" value="-" />
+					<input type="submit" name="rmfilter[<?php echo $filter['type']?>]" value="-" />
 				</td>
 			</tr>
-			<? } ?>
-			<? } ?>
+			<?php } ?>
+			<?php } ?>
 			<tr>
-				<td><input type="submit" value="<?=l('update')?>" /></td>
+				<td><input type="submit" value="<?php echo l('update')?>" /></td>
 				<td class="add_filter" align="right" colspan="3">
-					<label><small><?=l('add_filter')?></small></label>
+					<label><small><?php echo l('add_filter')?></small></label>
 					<select name="add_filter">
 						<option></option>
-					<? foreach(ticket_filters() as $filter) { ?>
-						<option value="<?=$filter?>"><?=l($filter)?></option>
-					<? } ?>
+					<?php foreach(ticket_filters() as $filter) { ?>
+						<option value="<?php echo $filter?>"><?php echo l($filter)?></option>
+					<?php } ?>
 					</select>
 					<input type="submit" value="+" />
 				</td>
@@ -85,12 +85,12 @@
 		</table>
 	</fieldset>
 	<fieldset id="ticket_columns">
-		<legend><?=l('columns')?></legend>
-		<? foreach(ticket_columns() as $column) { ?>
-		<input type="checkbox" name="columns[]" value="<?=$column?>" id="col_<?=$column?>"<?=iif(in_array($column,$columns),' checked="checked"')?> /> <label for="col_<?=$column?>"><?=l($column)?></label>
-		<? } ?>
+		<legend><?php echo l('columns')?></legend>
+		<?php foreach(ticket_columns() as $column) { ?>
+		<input type="checkbox" name="columns[]" value="<?php echo $column?>" id="col_<?php echo $column?>"<?php echo iif(in_array($column,$columns),' checked="checked"')?> /> <label for="col_<?php echo $column?>"><?php echo l($column)?></label>
+		<?php } ?>
 		<div>
-			<input type="submit" value="<?=l('update')?>" />
+			<input type="submit" value="<?php echo l('update')?>" />
 		</div>
 	</fieldset>
 </form>

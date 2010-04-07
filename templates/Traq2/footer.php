@@ -3,6 +3,6 @@
 		</div>
 		<div id="foot">
 			<span id="powered_by">
-				<?=l('poweredby')?>
+				<?php echo l('poweredby')?>
 			</span>
 		</div>

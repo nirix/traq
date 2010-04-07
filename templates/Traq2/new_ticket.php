@@ -1,130 +1,130 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title><?=settings('title')?> / <?=$project['name']?> / <?=l('new_ticket')?></title>
-		<? require(template('headerinc')); ?>
+		<title><?php echo settings('title')?> / <?php echo $project['name']?> / <?php echo l('new_ticket')?></title>
+		<?php require(template('headerinc')); ?>
 	</head>
 	<body>
-		<? require(template('header')); ?>
+		<?php require(template('header')); ?>
 		
-		<? require(template('breadcrumbs')); ?>
+		<?php require(template('breadcrumbs')); ?>
 		
-		<h1><?=l('new_ticket')?></h1>
+		<h1><?php echo l('new_ticket')?></h1>
 		
-		<form action="<?=$uri->geturi()?>" method="post" class="new_ticket">
-		<? if(isset($errors)) { ?>
+		<form action="<?php echo $uri->geturi()?>" method="post" class="new_ticket">
+		<?php if(isset($errors)) { ?>
 		<div class="message error">
-			<? foreach($errors as $error) { ?>
-			<?=$error?><br />
-			<? } ?>
+			<?php foreach($errors as $error) { ?>
+			<?php echo $error?><br />
+			<?php } ?>
 		</div>
-		<? } ?>
-			<fieldset<?=(isset($errors['summary']) ? ' class="error"' : '')?>>
-				<legend><?=l('summary')?></legend>
-				<input type="text" name="summary" class="summary" value="<?=$_POST['summary']?>" />
+		<?php } ?>
+			<fieldset<?php echo (isset($errors['summary']) ? ' class="error"' : '')?>>
+				<legend><?php echo l('summary')?></legend>
+				<input type="text" name="summary" class="summary" value="<?php echo $_POST['summary']?>" />
 			</fieldset>
 			
-			<fieldset<?=(isset($errors['body']) ? ' class="error"' : '')?>>
-				<legend><?=l('description')?></legend>
-				<textarea name="body" class="body"><?=$_POST['body']?></textarea>
+			<fieldset<?php echo (isset($errors['body']) ? ' class="error"' : '')?>>
+				<legend><?php echo l('description')?></legend>
+				<textarea name="body" class="body"><?php echo $_POST['body']?></textarea>
 			</fieldset>
 			
 			<fieldset id="ticket_properties" class="properties">
-				<legend><?=l('properties')?></legend>
+				<legend><?php echo l('properties')?></legend>
 				<table width="100%" cellpading="0" cellspacing="0">
 					<tr>
-						<th class="col1"><?=l('type')?></th>
+						<th class="col1"><?php echo l('type')?></th>
 						<td>
 							<select name="type">
-								<? foreach(ticket_types() as $type) { ?>
-								<option value="<?=$type['id']?>"><?=$type['name']?></option>
-								<? } ?>
+								<?php foreach(ticket_types() as $type) { ?>
+								<option value="<?php echo $type['id']?>"><?php echo $type['name']?></option>
+								<?php } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('assign_to')?></th>
+						<th class="col2"><?php echo l('assign_to')?></th>
 						<td>
 							<select name="assign_to">
 								<option value="0" selected=""></option>
-								<? foreach(project_managers() as $manager) { ?>
-								<option value="<?=$manager['id']?>"><?=$manager['name']?></option>
-								<? } ?>
+								<?php foreach(project_managers() as $manager) { ?>
+								<option value="<?php echo $manager['id']?>"><?php echo $manager['name']?></option>
+								<?php } ?>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th class="col1"><?=l('priority')?></th>
+						<th class="col1"><?php echo l('priority')?></th>
 						<td>
 							<select name="priority">
-								<? foreach(ticket_priorities() as $priority) { ?>
-								<option value="<?=$priority['id']?>"<?=($priority['name']=='Normal' ? ' selected="selected"' : '')?>><?=$priority['name']?></option>
-								<? } ?>
+								<?php foreach(ticket_priorities() as $priority) { ?>
+								<option value="<?php echo $priority['id']?>"<?php echo ($priority['name']=='Normal' ? ' selected="selected"' : '')?>><?php echo $priority['name']?></option>
+								<?php } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('severity')?></th>
+						<th class="col2"><?php echo l('severity')?></th>
 						<td>
 							<select name="severity">
-								<? foreach(ticket_severities() as $severity) { ?>
-								<option value="<?=$severity['id']?>"<?=($severity['name']=='Normal' ? ' selected="selected"' : '')?>><?=$severity['name']?></option>
-								<? } ?>
+								<?php foreach(ticket_severities() as $severity) { ?>
+								<option value="<?php echo $severity['id']?>"<?php echo ($severity['name']=='Normal' ? ' selected="selected"' : '')?>><?php echo $severity['name']?></option>
+								<?php } ?>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th class="col1"><?=l('milestone')?></th>
+						<th class="col1"><?php echo l('milestone')?></th>
 						<td>
 							<select name="milestone">
-								<? foreach(project_milestones() as $milestone) { ?>
-								<? if(!$milestone['locked']) { ?>
-								<option value="<?=$milestone['id']?>"><?=$milestone['milestone']?></option>
-								<? } ?>
-								<? } ?>
+								<?php foreach(project_milestones() as $milestone) { ?>
+								<?php if(!$milestone['locked']) { ?>
+								<option value="<?php echo $milestone['id']?>"><?php echo $milestone['milestone']?></option>
+								<?php } ?>
+								<?php } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('version')?></th>
+						<th class="col2"><?php echo l('version')?></th>
 						<td>
 							<select name="version">
 								<option value="0" selected=""></option>
-								<? foreach(project_versions() as $version) { ?>
-								<option value="<?=$version['id']?>"><?=$version['version']?></option>
-								<? } ?>
+								<?php foreach(project_versions() as $version) { ?>
+								<option value="<?php echo $version['id']?>"><?php echo $version['version']?></option>
+								<?php } ?>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th class="col1"><?=l('component')?></th>
+						<th class="col1"><?php echo l('component')?></th>
 						<td>
 							<select name="component">
-								<option value="0"><?=l('none')?></option>
-								<? foreach(project_components() as $component) { ?>
-								<option value="<?=$component['id']?>"<?=iif($component['default'],' selected="selected"')?>><?=$component['name']?></option>
-								<? } ?>
+								<option value="0"><?php echo l('none')?></option>
+								<?php foreach(project_components() as $component) { ?>
+								<option value="<?php echo $component['id']?>"<?php echo iif($component['default'],' selected="selected"')?>><?php echo $component['name']?></option>
+								<?php } ?>
 							</select>
 						</td>
-						<th class="col2"><?=l('private_ticket')?></th>
+						<th class="col2"><?php echo l('private_ticket')?></th>
 						<td><input type="checkbox" name="private" value="1" /></td>
 					</tr>
-					<? ($hook = FishHook::hook('template_new_ticket_properties')) ? eval($hook) : false; ?>
+					<?php ($hook = FishHook::hook('template_new_ticket_properties')) ? eval($hook) : false; ?>
 				</table>
 			</fieldset>
 			
-			<? if(!$user->loggedin) { ?>
-			<fieldset<?=(isset($errors['name']) ? ' class="error"' : '')?>>
-				<legend><?=l('your_name')?></legend>
-				<input type="text" name="name" value="<?=$_COOKIE['guestname']?>" />
+			<?php if(!$user->loggedin) { ?>
+			<fieldset<?php echo (isset($errors['name']) ? ' class="error"' : '')?>>
+				<legend><?php echo l('your_name')?></legend>
+				<input type="text" name="name" value="<?php echo $_COOKIE['guestname']?>" />
 			</fieldset>
-			<? if(settings('recaptcha_enabled')) { ?>
-			<fieldset<?=(isset($errors['key']) ? ' class="error"' : '')?>>
-				<legend><?=l('recaptcha')?></legend>
-				<?=recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?>
+			<?php if(settings('recaptcha_enabled')) { ?>
+			<fieldset<?php echo (isset($errors['key']) ? ' class="error"' : '')?>>
+				<legend><?php echo l('recaptcha')?></legend>
+				<?php echo recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?>
 			</fieldset>
-			<? } ?>
-			<? } ?>
+			<?php } ?>
+			<?php } ?>
 			
 			<p id="buttons">
 				<input type="submit" value="Create Ticket" />
 			</p>
 		</form>
 		
-		<? require(template('footer')); ?>
+		<?php require(template('footer')); ?>
 	</body>
 </html>
