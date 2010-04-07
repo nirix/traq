@@ -51,6 +51,10 @@ h2 {
 	color: #000;
 }
 
+.even {
+	background: #F8FCFE;
+}
+
 #nav, #nav_small {
 	padding: 0;
 	height: 28px;

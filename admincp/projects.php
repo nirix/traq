@@ -255,7 +255,7 @@ else
 				<th></th>
 			</tr>
 			<? foreach($projects as $project) { ?>
-			<tr>
+			<tr class="<?=altbg()?>">
 				<td><a href="projects.php?edit&project=<?=$project['id']?>"><?=$project['name']?></a></td>
 				<td align="center"><?=$project['codename']?></td>
 				<td align="right">

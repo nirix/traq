@@ -184,7 +184,7 @@ else
 				<th></th>
 			</tr>
 			<? foreach($project['components'] as $component) { ?>
-			<tr>
+			<tr class="<?=altbg()?>">
 				<td><a href="components.php?edit=<?=$component['id']?>"><?=$component['name']?></a></td>
 				<td align="right">
 					<a href="components.php?edit=<?=$component['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>

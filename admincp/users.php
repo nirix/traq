@@ -215,7 +215,7 @@ else
 			while($usr = $db->fetcharray($fetchusers))
 			{
 			?>
-			<tr>
+			<tr class="<?=altbg()?>">
 				<td><a href="users.php?edit=<?=$usr['id']?>"><?=$usr['username']?></a></td>
 				<td align="right">
 					<a href="users.php?edit=<?=$usr['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>

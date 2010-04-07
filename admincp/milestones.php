@@ -334,7 +334,7 @@ else
 				<th></th>
 			</tr>
 			<? foreach($project['milestones'] as $milestone) { ?>
-			<tr>
+			<tr class="<?=altbg()?>">
 				<td><a href="milestones.php?edit=<?=$milestone['id']?>"><?=$milestone['milestone']?></a></td>
 				<td align="center"><?=$milestone['codename']?></td>
 				<td align="right">

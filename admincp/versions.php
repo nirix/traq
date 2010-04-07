@@ -183,7 +183,7 @@ else
 				<th></th>
 			</tr>
 			<? foreach($project['versions'] as $version) { ?>
-			<tr>
+			<tr class="<?=altbg()?>">
 				<td><a href="versions.php?edit=<?=$version['id']?>"><?=$version['version']?></a></td>
 				<td align="right">
 					<a href="versions.php?edit=<?=$version['id']?>"><img src="images/pencil.png" alt="<?=l('edit')?>" title="<?=l('edit')?>" /></a>
