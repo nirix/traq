@@ -192,6 +192,12 @@ elseif(isset($_REQUEST['edit']))
 	<?php
 	foot();
 }
+// Delete user
+elseif(isset($_REQUEST['delete']))
+{
+	$db->query("DELETE FROM ".DBPF."users WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");
+	header("Location: users.php?deleted");
+}
 // List users
 else
 {
