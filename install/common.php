@@ -16,7 +16,7 @@ function head($script) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Traq <?=$title?></title>
+<title>Traq <?php echo $title?></title>
 <style type="text/css">
 body {
 	background: #e8f5fd;
@@ -75,7 +75,7 @@ function foot() {
 ?>
 	</div>
 	<div id="foot">
-		Traq <?=TRAQVER?>,<br />
+		Traq <? echo TRAQVER?>,<br />
 		Copyright &copy; <?php echo date("Y"); ?> Jack Polgar
 	</div>
 </div>
