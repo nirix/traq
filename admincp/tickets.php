@@ -182,7 +182,7 @@ else
 					<td><input type="text" name="type[<?php echo $type['id']?>][name]" value="<?php echo $type['name']?>" /></td>
 					<td><input type="text" name="type[<?php echo $type['id']?>][bullet]" value="<?php echo $type['bullet']?>" /></td>
 					<td align="right">
-						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&type=<?php echo $type['id']?>'; }" />
+						<a href="#" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&type=<?php echo $type['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 					</td>
 				</tr>
 				<?php } ?>
@@ -218,7 +218,7 @@ else
 						</select>
 					</td>
 					<td align="right">
-						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&status=<?php echo $status['id']?>'; }" />
+						<a href="#" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&status=<?php echo $status['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 					</td>
 				</tr>
 				<?php } ?>
@@ -252,7 +252,7 @@ else
 				<tr>
 					<td><input type="text" name="priority[<?php echo $priority['id']?>]" value="<?php echo $priority['name']?>" /></td>
 					<td align="right">
-						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&priority=<?php echo $priority['id']?>'; }" />
+						<a href="#" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&priority=<?php echo $priority['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 					</td>
 				</tr>
 				<?php } ?>
@@ -274,7 +274,7 @@ else
 				<tr>
 					<td><input type="text" name="severity[<?php echo $severity['id']?>]" value="<?php echo $severity['name']?>" /></td>
 					<td align="right">
-						<input type="button" value="<?php echo l('delete')?>" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&severity=<?php echo $severity['id']?>'; }" />
+						<a href="#" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'tickets.php?delete&severity=<?php echo $severity['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 					</td>
 				</tr>
 				<?php } ?>
