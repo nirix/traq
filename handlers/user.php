@@ -4,19 +4,18 @@
  * Copyright (C) 2009, 2010 Jack Polgar
  *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
+ * it under the terms of the GNU General Public License version 3
+ * only, as published by the Free Software Foundation.
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * 
+ * GNU General Public License version 3 for more details.
+ *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * version 3 along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -109,6 +108,8 @@ elseif($uri->seg[1] == "usercp")
 			if(!empty($_POST['new_password']))
 				$password = ", password='".$db->res(sha1($_POST['email']))."'";
 			
+			($hook = FishHook::hook('handler_usercp_save')) ? eval($hook) : false;
+			
 			$db->query("UPDATE ".DBPF."users SET
 			email='".$db->res($_POST['email'])."'
 			$password
@@ -130,6 +131,8 @@ elseif($uri->seg[1] == "usercp")
 		$info['project'] = $db->queryfirst("SELECT slug FROM ".DBPF."projects WHERE id='".$info['project_id']."' LIMIT 1");
 		$tickets['assigned'][] = $info;
 	}
+	
+	($hook = FishHook::hook('handler_usercp')) ? eval($hook) : false;
 	
 	include(template('user/usercp'));
 }
