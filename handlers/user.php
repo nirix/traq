@@ -67,6 +67,7 @@ elseif($uri->seg[1] == "register" && settings('allow_registration'))
 			if($user->register($data))
 				header("Location: ".$uri->anchor('user','login'));
 		}
+		// reCaptcha error
 		else
 		{
 			$user->errors['recaptcha'] = l('error_recaptcha');
@@ -128,6 +129,7 @@ elseif($uri->seg[1] == "usercp")
 	$fetchassigned = $db->query("SELECT * FROM ".DBPF."tickets WHERE assigned_to='".$user->info['id']."' ORDER BY severity");
 	while($info = $db->fetcharray($fetchassigned))
 	{
+		// Fetch slug
 		$info['project'] = $db->queryfirst("SELECT slug FROM ".DBPF."projects WHERE id='".$info['project_id']."' LIMIT 1");
 		$tickets['assigned'][] = $info;
 	}
