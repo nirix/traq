@@ -157,7 +157,8 @@ $hook_locations = array(
 	// Projects
 	'projects' => array(
 		'roadmap_fetch',
-		'projectlist_fetch'
+		'projectlist_fetch',
+		'roadmap_fetch'
 	),
 	
 	// Tickets
@@ -219,9 +220,7 @@ $hook_locations = array(
 		'handler_timeline',
 		'handler_usercp',
 		'handler_usercp_save',
-		'attachment_view',
-		'projectlist_fetch',
-		'roadmap_fetch'
+		'attachment_view'
 	)
 );
 ?>

@@ -1,8 +1,21 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (C) 2009, 2010 Jack Polgar
+ *
+ * This file is part of Traq.
+ *
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3
+ * only, as published by the Free Software Foundation.
+ *
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License version 3 for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * version 3 along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -12,10 +25,12 @@ $milestones = array();
 $fetch = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$db->es($project['id'])."' AND locked='0' ORDER BY displayorder ASC");
 while($info = $db->fetcharray($fetch))
 {
+	// Get the milestone tickets
 	$info['tickets'] = array();
-	$info['tickets']['open'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='0'"));
-	$info['tickets']['closed'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='1'"));
-	$info['tickets']['total'] = ($info['tickets']['open']+$info['tickets']['closed']);
+	$info['tickets']['open'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='0'")); // Count open tickets
+	$info['tickets']['closed'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' AND project_id='".$project['id']."' AND closed='1'")); // Count closed tickets
+	$info['tickets']['total'] = ($info['tickets']['open']+$info['tickets']['closed']); // Count total tickets
+	// Calculate percent
 	$info['tickets']['percent'] = array(
 		'open' => ($info['tickets']['open'] ? getpercent($info['tickets']['open'],$info['tickets']['total']) : 0),
 		'closed' => getpercent($info['tickets']['closed'],$info['tickets']['total'])
