@@ -1,8 +1,21 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (C) 2009, 2010 Jack Polgar
+ *
+ * This file is part of Traq.
+ *
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3
+ * only, as published by the Free Software Foundation.
+ *
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License version 3 for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * version 3 along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -14,6 +27,7 @@ authenticate();
 // Get the statistics...
 $projects = $db->numrows($db->query("SELECT id FROM ".DBPF."projects"));
 $tickets = $db->numrows($db->query("SELECT id FROM ".DBPF."tickets"));
+$milestones = $db->numrows($db->query("SELECT id FROM ".DBPF."milestones"));
 $users = $db->numrows($db->query("SELECT id FROM ".DBPF."users"));
 
 head(l('overview'));
@@ -24,14 +38,14 @@ head(l('overview'));
 		<tr class="<?php echo altbg()?>">
 			<td width="150"><?php echo l('projects')?></td>
 			<td><?php echo $projects?></td>
-		</tr>
-		<tr class="<?php echo altbg()?>">
 			<td width="150"><?php echo l('tickets')?></td>
 			<td><?php echo $tickets?></td>
 		</tr>
 		<tr class="<?php echo altbg()?>">
 			<td width="150"><?php echo l('users')?></td>
 			<td><?php echo $users?></td>
+			<td width="150"><?php echo l('milestones')?></td>
+			<td><?php echo $milestones?></td>
 		</tr>
 	</table>
 </div>

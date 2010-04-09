@@ -1,8 +1,21 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (C) 2009, 2010 Jack Polgar
+ *
+ * This file is part of Traq.
+ *
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3
+ * only, as published by the Free Software Foundation.
+ *
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License version 3 for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * version 3 along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -135,33 +148,25 @@ else
 	$types = array();
 	$fetchtypes = $db->query("SELECT * FROM ".DBPF."ticket_types ORDER BY name ASC");
 	while($type = $db->fetcharray($fetchtypes))
-	{
 		$types[] = $type;
-	}
 	
 	// Get Statuses
 	$statuses = array();
 	$fetchstatuses = $db->query("SELECT * FROM ".DBPF."ticket_status ORDER BY name ASC");
 	while($status = $db->fetcharray($fetchstatuses))
-	{
 		$statuses[] = $status;
-	}
 	
 	// Get Priorities
 	$priorities = array();
 	$fetchpriorities = $db->query("SELECT * FROM ".DBPF."priorities ORDER BY name ASC");
 	while($priority = $db->fetcharray($fetchpriorities))
-	{
 		$priorities[] = $priority;
-	}
 	
 	// Get Severities
 	$severities = array();
 	$fetchseverities = $db->query("SELECT * FROM ".DBPF."severities ORDER BY name ASC");
 	while($severity = $db->fetcharray($fetchseverities))
-	{
 		$severities[] = $severity;
-	}
 	
 	head(l('tickets'));
 	?>

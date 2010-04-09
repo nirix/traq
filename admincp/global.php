@@ -185,6 +185,7 @@ $hook_locations = array(
 	// AdminCP
 	'admincp' => array(
 		'admin_settings',
+		'admin_settings_save',
 		'admin_global'
 	),
 	

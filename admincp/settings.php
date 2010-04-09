@@ -1,8 +1,21 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (C) 2009, 2010 Jack Polgar
+ *
+ * This file is part of Traq.
+ *
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3
+ * only, as published by the Free Software Foundation.
+ *
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License version 3 for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * version 3 along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -11,10 +24,13 @@ include("global.php");
 
 authenticate();
 
+// Save the settings
 if($_POST['action'] == 'save')
 {
+	// Loop through the fields and save
 	foreach($_POST as $field => $value)
 	{
+		($hook = FishHook::hook('admin_settings_save')) ? eval($hook) : false;
 		$db->query("UPDATE ".DBPF."settings SET value='".$db->res($value)."' WHERE setting='".$db->res($field)."' LIMIT 1");
 	}
 	header("Location: settings.php?saved");
