@@ -4,19 +4,18 @@
  * Copyright (C) 2009, 2010 Jack Polgar
  *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
+ * it under the terms of the GNU General Public License version 3
+ * only, as published by the Free Software Foundation.
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * 
+ * GNU General Public License version 3 for more details.
+ *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * version 3 along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -65,6 +64,7 @@ if(!isset($_POST['step']))
 		'class' => 'good',
 		'message' => 'Connected'
 	);
+	
 	// Check connection
 	$connect = mysql_connect($conf['db']['server'],$conf['db']['user'],$conf['db']['pass']);
 	if(!$connect)
@@ -221,10 +221,10 @@ elseif($_POST['step'] == '2')
 			'password' => $_POST['admin_pass'],
 			'password2' => $_POST['admin_pass'],
 			'email' => $_POST['admin_email'],
-			'name' => $_POST['admin_name']
+			'name' => $_POST['admin_name'],
+			'group_id' => 1
 		);
 		$user->register($admindata);
-		$db->query("UPDATE ".$conf['db']['prefix']."users SET group_id='1' WHERE username='".$db->res($_POST['admin_name'])."' LIMIT 1");
 		
 		head('install');
 		?>
