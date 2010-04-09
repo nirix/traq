@@ -9,9 +9,9 @@
 		
 		<?php require(template('breadcrumbs')); ?>
 		
-		<div id="no_permission">
+		<div id="error">
 			<h1><?php echo l('error')?></h1>
-			<?php echo l('error_no_permission')?>
+			<?php echo l('page_x_not_found',$uri->seg[0])?>
 		</div>
 		
 		<?php require(template('footer')); ?>

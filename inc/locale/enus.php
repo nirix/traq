@@ -3,6 +3,21 @@
  * Traq 2
  * Copyright (C) 2009, 2010 Jack Polgar
  *
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ *
  * $Id$
  */
 
@@ -324,4 +339,7 @@ $lang['error_component_name_blank'] = 'You must enter a name.';
 $lang['error_version_name_blank'] = 'Name cannot be blank.';
 $lang['error_enter_password'] = 'You must enter your current password.';
 $lang['error_name_empty'] = 'You must enter a Name.';
+$lang['error'] = 'Error';
+$lang['error_no_permission'] = 'You don\'t have permission to view this page.';
+$lang['page_x_not_found'] = 'The page \'{1}\' could not be found.';
 ?>
