@@ -3,6 +3,21 @@
  * Traq 2
  * Copyright (C) 2009, 2010 Jack Polgar
  *
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ *
  * $Id$
  */
 
@@ -19,8 +34,7 @@ define("THISPAGE",$pagebits[sizeof($pagebits)-1]);
 unset($pagebits);
 
 // AdminCP links array.
-// Stores all the links for the nav
-// and sidebar.
+// Stores all the links for the nav and sidebar.
 $sidebar_links = array(
 	array(
 		'title' => l('overview'),
@@ -134,6 +148,8 @@ $sidebar_links = array(
 	)
 );
 
+($hook = FishHook::hook('admin_global')) ? eval($hook) : false;
+
 // Plugin Hook Locations.
 // Holds all the hook locations in Traq.
 $hook_locations = array(
@@ -169,7 +185,8 @@ $hook_locations = array(
 	
 	// AdminCP
 	'admincp' => array(
-		'admin_settings'
+		'admin_settings',
+		'admin_global'
 	),
 	
 	// Functions

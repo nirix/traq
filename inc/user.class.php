@@ -1,8 +1,22 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (c) 2009, 2010 Jack Polgar
+ *
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -101,21 +115,21 @@ class User
 		
 		// Check for errors
 		$errors = array();
-		if($db->numrows($db->query("SELECT username FROM ".DBPF."users WHERE username='".$db->escapestring($data['username'])."' LIMIT 1"))) {
+		if($db->numrows($db->query("SELECT username FROM ".DBPF."users WHERE username='".$db->escapestring($data['username'])."' LIMIT 1")))
 			$errors['username'] = l('error_username_taken');
-		}
-		if(empty($data['username'])) {
+		
+		if(empty($data['username']))
 			$errors['username'] = l('error_username_empty');
-		}
-		if(empty($data['password'])) {
+		
+		if(empty($data['password']))
 			$errors['password'] = l('error_password_empty');
-		}
-		if($data['password'] != $data['password2']) {
+		
+		if($data['password'] != $data['password2'])
 			$errors['password'] = l('error_password_nomatch');
-		}
-		if(empty($data['email'])) {
+		
+		if(empty($data['email']))
 			$errors['email'] = l('error_email_empty');
-		}
+		
 		if(count($errors) > 0)
 		{
 			$this->errors = $errors;
@@ -172,9 +186,8 @@ class User
 		$users = array();
 		$fetch = $db->query("SELECT id,username FROM ".DBPF."users ORDER BY id ASC");
 		while($info = $db->fetcharray($fetch))
-		{
 			$users[] = $info;
-		}
+		
 		return $users;
 	}
 }

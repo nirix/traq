@@ -1,12 +1,24 @@
 <?php
 /**
  * FishHook 3.0 for Traq 2
- * The ultimate plugin library.
+ * Copyright (c) 2010 Jack Polgar
  *
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
- * http://jackpolgar.com
+ * $Id$
  */
 
 class FishHook
@@ -23,9 +35,7 @@ class FishHook
 		$code = array();
 		$fetch = $db->query("SELECT * FROM ".DBPF."plugin_code WHERE hook='".$db->es($hook)."' AND enabled='1' ORDER BY execorder ASC");
 		while($info = $db->fetcharray($fetch))
-		{
 			$code[] = ($info['code']);
-		}
 		
 		return implode(" /* */ ",$code);
 	}

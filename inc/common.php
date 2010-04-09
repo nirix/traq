@@ -1,8 +1,22 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (c) 2009, 2010 Jack Polgar
+ *
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -160,12 +174,6 @@ function is_project($string)
 function iif($condition, $true, $false='')
 {
 	return ($condition ? $true : $false);
-}
-
-// Stupid function to easily make a simple array.
-function a()
-{
-	return func_get_args();
 }
 
 /**
@@ -465,9 +473,7 @@ function timesince($original, $detailed = false)
 		$seconds = $chunks[$i][0];
 		$name = $chunks[$i][1];
 		$names = $chunks[$i][2];
-		if(0 != $count = floor($difference / $seconds)) {
-			break;
-		}
+		if(0 != $count = floor($difference / $seconds)) break;
 	}
 	
 	// Format the time since
@@ -518,9 +524,7 @@ function timefrom($original, $detailed = false)
 		$seconds = $chunks[$i][0];
 		$name = $chunks[$i][1];
 		$names = $chunks[$i][2];
-		if(0 != $count = floor($difference / $seconds)) {
-			break;
-		}
+		if(0 != $count = floor($difference / $seconds)) break;
 	}
 	
 	// Format the time from
