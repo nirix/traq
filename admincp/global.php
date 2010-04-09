@@ -216,7 +216,10 @@ $hook_locations = array(
 		'handler_roadmap',
 		'handler_ticket',
 		'handler_tickets',
-		'handler_timeline'
+		'handler_timeline',
+		'attachment_view',
+		'projectlist_fetch',
+		'roadmap_fetch'
 	)
 );
 ?>

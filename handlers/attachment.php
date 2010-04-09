@@ -1,8 +1,22 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (C) 2009, 2010 Jack Polgar
+ *
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  */
@@ -14,13 +28,9 @@ $type = explode('/',$attachment['type']);
 header("Content-type: ".$attachment['type']); // Set the page content-type
 
 if($type[0] == 'text' or $type[0] == 'image')
-{
 	header("Content-Disposition: filename=\"".$attachment['name']."\""); // Set the content disposition and filename
-}
 else
-{
 	header("Content-Disposition: attachment; filename=\"".$attachment['name']."\""); // Set the content disposition and filename
-}
 
 ($hook = FishHook::hook('attachment_view')) ? eval($hook) : false;
 
