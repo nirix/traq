@@ -1,8 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (C) 2009, 2010 Jack Polgar
  *
  * $Id$
  */
@@ -276,12 +275,26 @@ $lang['name_description'] = 'The users name.';
 $lang['email_description'] = 'The users email address.';
 $lang['group'] = 'Group';
 $lang['group_description'] = 'The group the user belongs to.';
+$lang['edit_usergroup'] = 'Edit Usergroup';
+$lang['usergroup_name_description'] = 'The name of the Usergroup';
+$lang['administrator'] = 'Administrator';
+$lang['usergroup_admin_description'] = 'Select yes if you want this group to access the AdminCP.';
+$lang['yes'] = 'Yes';
+$lang['no'] = 'No';
+$lang['create_tickets'] = 'Create Tickets';
+$lang['usergroup_create_tickets_description'] = 'Whether or not the group and create tickets.';
+$lang['update_tickets'] = 'Update Tickets';
+$lang['usergroup_update_tickets_description'] = 'Whether or not the group and update tickets.';
+$lang['delete_tickets'] = 'Delete Tickets';
+$lang['usergroup_delete_tickets_description'] = 'Whether or not the group and delete tickets.';
+$lang['add_attachments'] = 'Add Attachments';
+$lang['usergroup_add_attachments_description'] = 'Whether or not the group and add attachments to tickets.';
 
 // Confirms
 $lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';
 $lang['confirm_delete_component_x'] = 'Are you sure you want to delete component {1}?';
 $lang['confirm_delete_milestone_x'] = 'Are you sure you want to delete milestone {1}?';
-$lang['confirm_delete'] = 'Are you sure you want to delete that?';
+$lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
 
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
@@ -310,4 +323,5 @@ $lang['error_project_blank'] = 'You must choose a project.';
 $lang['error_component_name_blank'] = 'You must enter a name.';
 $lang['error_version_name_blank'] = 'Name cannot be blank.';
 $lang['error_enter_password'] = 'You must enter your current password.';
+$lang['error_name_empty'] = 'You must enter a Name.';
 ?>

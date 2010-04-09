@@ -1,8 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009 Jack Polgar
- * All Rights Reserved
+ * Copyright (C) 2009, 2010 Jack Polgar
  *
  * $Id$
  */
@@ -90,7 +89,7 @@ $sidebar_links = array(
 	'users' => array(
 		'title' => l('users'),
 		'url' => 'users.php',
-		'active' => activepage('users.php'),
+		'active' => activepage(array('users.php','groups.php')),
 		'links' => array(
 			array(
 				'title' => l('new_user'),
@@ -106,7 +105,7 @@ $sidebar_links = array(
 			array(
 				'title' => l('manage_groups'),
 				'url' => 'groups.php',
-				'active' => activepage('groups.php','','edit='.$_REQUEST['group'])
+				'active' => activepage('groups.php','','edit='.$_REQUEST['edit'])
 			)
 		)
 	),
