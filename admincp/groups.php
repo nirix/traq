@@ -24,14 +24,36 @@ include("global.php");
 
 authenticate();
 
-// New Usergroup
-if(isset($_REQUEST['new']))
+// New and Edit Usergroup
+if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 {
-
-}
-// Edit Usergroup
-elseif(isset($_REQUEST['edit']))
-{
+	// Create
+	if($_POST['action'] == 'create')
+	{
+		// Check for errors
+		$errors = array();
+		if(empty($_POST['values']['name']))
+			$errors['name'] = l('error_name_empty');
+			
+		if(!count($errors))
+		{
+			// Sort columns from values
+			$keys = array();
+			$values = array();
+			foreach($_POST['values'] as $key => $val)
+			{
+				$keys[] = $key;
+				$values[] = "'".$val."'";
+			}
+			
+			$db->query("INSERT INTO ".DBPF."usergroups (".implode(',',$keys).") VALUES(".implode(',',$values).")");
+			
+			header("Location: groups.php?created");
+		}
+		
+		$group = $_POST['values'];
+	}
+	
 	// Save Usergroup
 	if($_POST['action'] == 'save')
 	{
@@ -56,9 +78,10 @@ elseif(isset($_REQUEST['edit']))
 		}
 	}
 	
-	$group = $db->queryfirst("SELECT * FROM ".DBPF."usergroups WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+	if(isset($_REQUEST['edit']))
+		$group = $db->queryfirst("SELECT * FROM ".DBPF."usergroups WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 	
-	head(l('edit_usergroup'),true,'users');
+	head(l((isset($_REQUEST['edit']) ? 'edit' : 'new').'_usergroup'),true,'users');
 	?>
 	<?php if(count($errors)) { ?>
 	<div class="message error">
@@ -67,9 +90,9 @@ elseif(isset($_REQUEST['edit']))
 		<?php } ?>
 	</div>
 	<?php } ?>
-	<form action="groups.php?edit=<?php echo $_REQUEST['edit']?>" method="post">
-	<input type="hidden" name="action" value="save" />
-	<div class="thead"><?php echo l('edit_usergroup')?></div>
+	<form action="groups.php?<?php echo (isset($_REQUEST['edit']) ? 'edit='.$_REQUEST['edit'] : 'new')?>" method="post">
+	<input type="hidden" name="action" value="<?php echo (isset($_REQUEST['edit']) ? 'save' : 'create')?>" />
+	<div class="thead"><?php echo l((isset($_REQUEST['edit']) ? 'edit' : 'new').'_usergroup')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
@@ -130,7 +153,7 @@ elseif(isset($_REQUEST['edit']))
 				</td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l((isset($_REQUEST['edit']) ? 'update' : 'create'))?>" /></div>
 	</div>
 	<?php
 	foot();
@@ -147,7 +170,7 @@ elseif(isset($_REQUEST['delete']))
 	// Update Users
 	$db->query("UPDATE ".DBPF."users SET group_id='2' WHERE group_id='".$db->res($_REQUEST['delete'])."'");
 
-	header("Loaction: groups.php?deleted");
+	header("Location: groups.php?deleted");
 }
 // List Usergroups
 else

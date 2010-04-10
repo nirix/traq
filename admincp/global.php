@@ -111,7 +111,7 @@ $sidebar_links = array(
 			),
 			array('divider'=>true),
 			array(
-				'title' => l('new_group'),
+				'title' => l('new_usergroup'),
 				'url' => 'groups.php?new',
 				'active' => activepage('groups.php','new')
 			),
