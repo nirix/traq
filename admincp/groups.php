@@ -3,6 +3,20 @@
  * Traq 2
  * Copyright (C) 2009, 2010 Jack Polgar
  *
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3 only.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ *
  * $Id$
  */
 
@@ -120,6 +134,20 @@ elseif(isset($_REQUEST['edit']))
 	</div>
 	<?php
 	foot();
+}
+// Delete Usergroup
+elseif(isset($_REQUEST['delete']))
+{
+	// Make sure we're not trying to delete the default groups...
+	if(in_array($_REQUEST['delete'],array(1,2,3))) die();
+	
+	// Delete Usergroup
+	$db->query("DELETE FROM ".DBPF."usergroups WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");
+	
+	// Update Users
+	$db->query("UPDATE ".DBPF."users SET group_id='2' WHERE group_id='".$db->res($_REQUEST['delete'])."'");
+
+	header("Loaction: groups.php?deleted");
 }
 // List Usergroups
 else
