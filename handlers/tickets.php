@@ -132,7 +132,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				$values[] = $milestone['id'];
 			}
 			if(count($values))
-				$query .= " AND (milestone_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' milestone_id'.$filter['mode'].'=',$values).")";
+				$query .= "AND milestone_id ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).")";
 		}
 		// Version filter
 		elseif($filter['type'] == 'version')
@@ -147,7 +147,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				$values[] = $value;
 			}
 			if(count($values))
-				$query .= " AND (version_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' version_id'.$filter['mode'].'=',$values).")";
+				$query .= "AND version_id ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).")";
 		}
 		// Type filter
 		elseif($filter['type'] == 'type')
