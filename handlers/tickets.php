@@ -134,23 +134,8 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			if(count($values))
 				$query .= "AND milestone_id ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).")";
 		}
-		// Version filter
-		elseif($filter['type'] == 'version')
-		{
-			// Loop through the values
-			foreach($filter['values'] as $value)
-			{
-				// Make sure the value is not empty.
-				if(empty($value))
-					continue;
-				
-				$values[] = $value;
-			}
-			if(count($values))
-				$query .= "AND version_id ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).")";
-		}
-		// Type filter
-		elseif($filter['type'] == 'type')
+		// Version, Tpye and Component filter
+		elseif($filter['type'] == 'version' or $filter['type'] == 'type' or $filter['type'] == 'component')
 		{
 			// Loop through the values
 			foreach($filter['values'] as $value)
@@ -162,23 +147,19 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				$values[] = $value;
 			}
 			
-			if(count($values))
-				$query .= " AND (type".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' type'.$filter['mode'].'=',$values).")";
-		}
-		// Component filter
-		elseif($filter['type'] == 'component')
-		{
-			// Loop through the values
-			foreach($filter['values'] as $value)
+			switch($filter['type'])
 			{
-				// Make sure the value is not empty.
-				if(empty($value))
-					continue;
+				case "version":
+				case "component":
+					$type = $filter['type'].'_id';
+				break;
 				
-				$values[] = $value;
+				case "type":
+					$type = $filter['type'];
 			}
+			
 			if(count($values))
-				$query .= " AND (component_id".$filter['mode']."=".implode(' '.($filter['mode'] == '!' ? 'AND' : 'OR').' component_id'.$filter['mode'].'=',$values).")";
+				$query .= "AND ".$type." ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).")";
 		}
 		// Status filter
 		elseif($filter['type'] == 'status')
@@ -195,14 +176,8 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 					$status['closed'][] = $row['id'];
 				
 				$filter['values'] = ($filter['value'] == 'open' ? $status['open'] : $status['closed']);
-				
-				$query .= " AND (status=".implode(' OR status=',$filter['values']).")";
 			}
-			// ID's are in the URL.
-			else
-			{
-				$query .= " AND (status=".implode(' OR status=',$filter['values']).")";
-			}
+			$query .= "AND status ".iif($filter['mode'] == '!','not ')."in (".implode(',',$filter['values']).")";
 		}
 	}
 }
