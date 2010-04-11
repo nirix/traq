@@ -200,7 +200,7 @@ else
 				<td><a href="components.php?edit=<?php echo $component['id']?>"><?php echo $component['name']?></a></td>
 				<td align="right">
 					<a href="components.php?edit=<?php echo $component['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_component_x',$component['name'])?>')) { window.location = 'components.php?delete=<?php echo $component['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$component['name'])?>')) { window.location = 'components.php?delete=<?php echo $component['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
 			<?php } ?>

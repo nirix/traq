@@ -26,16 +26,47 @@ class Subversion extends Source
 	{
 		if(substr($location,0,1) == '/')
 			$this->location = substr($location,1);
+		else
+			$this->location = $location.'/';
 	}
 	
 	/**
-	 * Get
-	 * Gets the information for the specified location in the repository.
-	 * @param string $location The filename or directroy in the repository.
+	 * List
+	 * Returns an array of the requested directory.
+	 * @param string $dir The directroy in the repository.
 	 */
-	public function get($location)
+	public function ls($dir='')
 	{
+		$dir = $this->cleandirname($dir);
+		
+		// Exec the command
+		$info = exec("svn ls --xml ".$this->location.$dir,$_a,$_r);
+		
+		// Loop through the entries
+		$array = array();
+		$xml = new SimpleXMLElement(implode('',$_a));
+		foreach($xml->list->entry as $entry)
+		{
+			// Get the entry data and out it into an array...
+			$attribs = $entry->attributes();
+			$commit = $entry->commit->attributes();
+			$info = array();
+			$info['name'] = (string)$entry->name;
+			$info['size'] = (int)$entry->size;
+			$info['kind'] = (string)$attribs['kind'];
+			$info['path'] = (string)(empty($dir) ? $info['name'] : $dir.'/'.$info['name']);
+			$info['commit'] = array('author'=>(string)$entry->commit->author,'date'=>(string)$entry->commit->date,'rev'=>(int)$commit->revision);
+			$array[] = $info;
+		}
+		
+		return $array;
+	}
 	
+	// Used to clean the directory name.
+	private function cleandirname($dir)
+	{
+		if(empty($dir)) return;
+		return (substr($dir,-1) == '/' ? $dir : $dir.'/');
 	}
 }
 ?>

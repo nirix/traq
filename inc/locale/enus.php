@@ -88,6 +88,9 @@ $lang['assigned_tickets_x'] = 'Assigned Tickets ({1})';
 $lang['updated'] = 'Updated';
 $lang['none'] = 'None';
 $lang['attach_file'] = 'Attach file';
+$lang['revision'] = 'Revision';
+$lang['files'] = 'Files';
+$lang['source'] = 'Source';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
@@ -305,9 +308,6 @@ $lang['add_attachments'] = 'Add Attachments';
 $lang['usergroup_add_attachments_description'] = 'Whether or not the group and add attachments to tickets.';
 
 // Confirms
-$lang['confirm_delete_version_x'] = 'Are you sure you want to delete verion {1}?';
-$lang['confirm_delete_component_x'] = 'Are you sure you want to delete component {1}?';
-$lang['confirm_delete_milestone_x'] = 'Are you sure you want to delete milestone {1}?';
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
 
 // Errors

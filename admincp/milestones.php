@@ -351,7 +351,7 @@ else
 				<td align="center"><?php echo $milestone['codename']?></td>
 				<td align="right">
 					<a href="milestones.php?edit=<?php echo $milestone['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_milestone_x',$milestone['milestone'])?>')) { window.location='milestones.php?delete=<?php echo $milestone['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$milestone['milestone'])?>')) { window.location='milestones.php?delete=<?php echo $milestone['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
 			<?php } ?>

@@ -271,7 +271,7 @@ else
 				<td align="center"><?php echo $project['codename']?></td>
 				<td align="right">
 					<a href="projects.php?edit&project=<?php echo $project['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'projects.php?delete=<?php echo $project['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$project['name'])?>')) { window.location = 'projects.php?delete=<?php echo $project['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
 			<?php } ?>

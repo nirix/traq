@@ -20,6 +20,7 @@
  * $Id$
  */
 
+// Get the project info.
 $project = $db->queryfirst("SELECT * FROM ".DBPF."projects WHERE slug='".$db->res($uri->seg[0])."' LIMIT 1");
 $project['managers'] = explode(',',$project['managers']);
 
@@ -69,5 +70,10 @@ elseif($uri->seg[1] == 'changelog')
 elseif(preg_match('/attachment-(?<id>\d+)/',$uri->seg[1],$matches))
 {
 	require(TRAQPATH.'handlers/attachment.php');
+}
+// Source
+elseif($uri->seg[1] == 'source')
+{
+	require(TRAQPATH.'handlers/source.php');
 }
 ?>

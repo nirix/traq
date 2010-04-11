@@ -197,7 +197,7 @@ else
 				<td><a href="versions.php?edit=<?php echo $version['id']?>"><?php echo $version['version']?></a></td>
 				<td align="right">
 					<a href="versions.php?edit=<?php echo $version['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_version_x',$version['version'])?>')) { window.location = 'versions.php?delete=<?php echo $version['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$version['version'])?>')) { window.location = 'versions.php?delete=<?php echo $version['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
 			<?php } ?>

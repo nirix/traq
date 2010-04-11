@@ -230,7 +230,7 @@ else
 				<td><a href="users.php?edit=<?php echo $usr['id']?>"><?php echo $usr['username']?></a></td>
 				<td align="right">
 					<a href="users.php?edit=<?php echo $usr['id']?>"><img src="images/pencil.png" alt="<?php echo l('edit')?>" title="<?php echo l('edit')?>" /></a>
-					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete')?>')) { window.location = 'users.php?delete=<?php echo $usr['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
+					<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$usr['name'])?>')) { window.location = 'users.php?delete=<?php echo $usr['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 				</td>
 			</tr>
 			<?php } ?>
