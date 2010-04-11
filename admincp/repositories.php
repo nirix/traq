@@ -109,7 +109,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td width="200">
 					<select name="project_id">
 						<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $project['id'],' selected="selected"')?>><?php echo $project['name']?></option>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $repo['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
 						<?php } ?>
 					</select>
 				</td>

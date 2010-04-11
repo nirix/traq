@@ -312,6 +312,7 @@ $lang['new_repository'] = 'New Repository';
 $lang['manage_repositories'] = 'Manage Repositories';
 $lang['edit_repository'] = 'Edit Repository';
 $lang['repository_name_description'] = 'The name of the repository.';
+$lang['repository_project_description'] = 'The project this repository belongs to.';
 $lang['repository_type_description'] = 'The type of the repository.';
 $lang['repository_location_description'] = 'The location where the repository is.<br /><small>Example: http://project.googlecode.com/svn</small>';
 $lang['no_repositories'] = 'No Repositories';
