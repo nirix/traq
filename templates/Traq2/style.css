@@ -592,3 +592,4 @@ table.tickets tbody tr.even.priority1 {
 
 /* Misc. */
 .clear { clear: both; }
+#repository_select { float: right; }

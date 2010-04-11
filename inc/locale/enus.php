@@ -91,6 +91,7 @@ $lang['attach_file'] = 'Attach file';
 $lang['revision'] = 'Revision';
 $lang['files'] = 'Files';
 $lang['source'] = 'Source';
+$lang['select_repository'] = 'Select Repository:';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
@@ -314,6 +315,7 @@ $lang['repository_name_description'] = 'The name of the repository.';
 $lang['repository_type_description'] = 'The type of the repository.';
 $lang['repository_location_description'] = 'The location where the repository is.<br /><small>Example: http://project.googlecode.com/svn</small>';
 $lang['no_repositories'] = 'No Repositories';
+$lang['repository'] = 'Repository';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';

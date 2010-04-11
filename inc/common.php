@@ -174,6 +174,22 @@ function has_repo($project_id='')
 }
 
 /**
+ * Project Repositories
+ */
+function project_repos($project_id='')
+{
+	global $project,$db;
+	if(empty($project_id)) $project_id = $project['id'];
+	
+	$repos = array();
+	$fetch = $db->query("SELECT id,name,slug FROM ".DBPF."repositories WHERE project_id='".$project_id."' ORDER BY name ASC");
+	while($repo = $db->fetcharray($fetch))
+		$repos[] = $repo;
+	
+	return $repos;
+}
+
+/**
  * Simple if()
  * Used to easy execute a condition.
  * @param condition $condition The condition to check.

@@ -80,6 +80,17 @@ CREATE TABLE `traq_projects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+CREATE TABLE `traq_repositories` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `slug` varchar(255) COLLATE utf8_bin NOT NULL,
+  `location` varchar(255) COLLATE utf8_bin NOT NULL,
+  `file` varchar(255) COLLATE utf8_bin NOT NULL,
+  `main` smallint(6) NOT NULL,
+  `project_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 CREATE TABLE `traq_settings` (
   `setting` varchar(255) COLLATE utf8_bin NOT NULL,
   `value` longtext COLLATE utf8_bin NOT NULL,

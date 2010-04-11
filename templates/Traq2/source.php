@@ -9,6 +9,16 @@
 		
 		<?php require(template('breadcrumbs')); ?>
 		
+		<?php if(count(project_repos()) > 1) { ?>
+		<div id="repository_select">
+			<?php echo l('select_repository')?> <select>
+			<?php foreach(project_repos() as $rep) { ?>
+				<option onclick="javascript:window.location='<?php echo $uri->anchor($project['slug'],'source',$rep['slug'])?>';"<?php echo iif($rep['slug'] == $uri->seg[2],' selected="selected"')?>><?php echo $rep['name']?></option>
+			<?php } ?>
+			</select>
+		</div>
+		<?php } ?>
+		
 		<h1><?php echo l('files')?></h1>
 		
 		<?php require(template('source/'.$repo['type'])); ?>
