@@ -30,6 +30,10 @@ if(!isset($uri->seg[2]))
 
 // Get the repository info
 $repo = $db->queryfirst("SELECT * FROM ".DBPF."repositories WHERE slug='".$db->res($uri->seg[2])."' AND project_id='".$project['id']."' LIMIT 1");
+$repo['type'] = str_replace('.class','',$repo['file']);
+
+// Check the repository exists...
+if(empty($repo['name'])) exit;
 
 // Build breadcrumbs
 addcrumb($uri->anchor($project['slug'],'source'),l('source'));
@@ -44,9 +48,9 @@ foreach(array_slice($uri->seg,3) as $dir)
 
 // Fetch repository browser files..
 require(TRAQPATH.'inc/source.class.php');
-require(TRAQPATH.'inc/'.$repo['type'].'.class.php');
+require(TRAQPATH.'inc/'.$repo['file'].'.php');
 
-// Create the browser and fetch the file list..
+// Initiate the browser and fetch the file list..
 $source = new $repo['type']($repo['location']);
 $files = $source->ls(implode('/',array_slice($uri->seg,3)));
 

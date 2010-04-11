@@ -163,6 +163,17 @@ function is_project($string)
 }
 
 /**
+ * Has Repository
+ */
+function has_repo($project_id='')
+{
+	global $project,$db;
+	if(empty($project_id)) $project_id = $project['id'];
+	
+	return $db->numrows($db->query("SELECT id FROM ".DBPF."repositories WHERE project_id='".$db->res($project_id)."' LIMIT 1"));
+}
+
+/**
  * Simple if()
  * Used to easy execute a condition.
  * @param condition $condition The condition to check.

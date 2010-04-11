@@ -306,6 +306,14 @@ $lang['delete_tickets'] = 'Delete Tickets';
 $lang['usergroup_delete_tickets_description'] = 'Whether or not the group and delete tickets.';
 $lang['add_attachments'] = 'Add Attachments';
 $lang['usergroup_add_attachments_description'] = 'Whether or not the group and add attachments to tickets.';
+$lang['repositories'] = 'Repositories';
+$lang['new_repository'] = 'New Repository';
+$lang['manage_repositories'] = 'Manage Repositories';
+$lang['edit_repository'] = 'Edit Repository';
+$lang['repository_name_description'] = 'The name of the repository.';
+$lang['repository_type_description'] = 'The type of the repository.';
+$lang['repository_location_description'] = 'The location where the repository is.<br /><small>Example: http://project.googlecode.com/svn</small>';
+$lang['no_repositories'] = 'No Repositories';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
@@ -338,6 +346,8 @@ $lang['error_component_name_blank'] = 'You must enter a name.';
 $lang['error_version_name_blank'] = 'Name cannot be blank.';
 $lang['error_enter_password'] = 'You must enter your current password.';
 $lang['error_name_empty'] = 'You must enter a Name.';
+$lang['error_name_taken'] = 'That name is already in use.';
+$lang['error_location_empty'] = 'You must enter a location.';
 $lang['error'] = 'Error';
 $lang['error_no_permission'] = 'You don\'t have permission to view this page.';
 $lang['page_x_not_found'] = 'The page \'{1}\' could not be found.';

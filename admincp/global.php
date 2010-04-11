@@ -50,7 +50,7 @@ $sidebar_links = array(
 	'projects' => array(
 		'title' => l('projects'),
 		'url' => 'projects.php',
-		'active' => activepage(array('projects.php','milestones.php','components.php','versions.php')),
+		'active' => activepage(array('projects.php','milestones.php','components.php','versions.php','repositories.php')),
 		'links' => array(
 			array(
 				'title' => l('new_project'),
@@ -89,6 +89,17 @@ $sidebar_links = array(
 				'title' => l('manage_versions'),
 				'url' => 'versions.php',
 				'active' => activepage('versions.php','','edit')
+			),
+			array('divider'=>true),
+			array(
+				'title' => l('new_repository'),
+				'url' => 'repositories.php?new',
+				'active' => activepage('repositories.php','new')
+			),
+			array(
+				'title' => l('manage_repositories'),
+				'url' => 'repositories.php',
+				'active' => activepage('repositories.php','','edit='.$_REQUEST['edit'])
 			)
 		)
 	),
@@ -154,6 +165,14 @@ $sidebar_links = array(
 $hook_locations = array(
 	'global',
 	
+	// AdminCP
+	'admincp' => array(
+		'admin_settings',
+		'admin_settings_save',
+		'admin_global',
+		'admin_repositories'
+	),
+	
 	// Projects
 	'projects' => array(
 		'roadmap_fetch',
@@ -183,13 +202,6 @@ $hook_locations = array(
 		'template_view_ticket_properties',
 		'template_update_ticket_properties',
 		'template_headerinc'
-	),
-	
-	// AdminCP
-	'admincp' => array(
-		'admin_settings',
-		'admin_settings_save',
-		'admin_global'
 	),
 	
 	// Functions
