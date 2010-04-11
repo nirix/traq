@@ -21,7 +21,7 @@
  */
 
 // Traq Version
-$traq_version = '2.0 Alpha 1';
+$traq_version = '2.0 Alpha 2';
 
 // Database Version
 $db_rev = 18;
