@@ -21,7 +21,7 @@
 		
 		<h1><?php echo l('files')?></h1>
 		
-		<?php require(template('source/'.$repo['type'])); ?>
+		<?php require(template('source/'.$repo['info']['template'])); ?>
 		
 		<?php require(template('footer')); ?>
 	</body>

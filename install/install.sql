@@ -85,7 +85,7 @@ CREATE TABLE `traq_repositories` (
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `slug` varchar(255) COLLATE utf8_bin NOT NULL,
   `location` varchar(255) COLLATE utf8_bin NOT NULL,
-  `file` varchar(255) COLLATE utf8_bin NOT NULL,
+  `info` longtext COLLATE utf8_bin NOT NULL,
   `main` smallint(6) NOT NULL,
   `project_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)

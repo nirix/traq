@@ -27,14 +27,18 @@ authenticate();
 // Repository types
 $repository_types = array();
 ($hook = FishHook::hook('admin_repositories')) ? eval($hook) : false;
-$repository_types[] = array('file'=>'subversion.class','name'=>'Subversion');
+$repository_types[] = array('file'=>'subversion.class.php','template'=>'subversion','class'=>'Subversion','name'=>'Subversion');
+$repository_types[] = array('file'=>'subversion_enhanced.class.php','template'=>'subversion_enhanced','class'=>'Subversion','name'=>'Subversion Enhanced');
 
 // New and Edit Repository
 if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 {
 	// Get the repository info
 	if(isset($_REQUEST['edit']))
+	{
 		$repo = $db->queryfirst("SELECT * FROM ".DBPF."repositories WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+		$repo['info'] = (array)json_decode($repo['info']);
+	}
 	
 	// Check for errors
 	if(isset($_POST['action']))
@@ -55,11 +59,11 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		if(!count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."repositories
-			(name,slug,location,file,main,project_id) VALUES(
+			(name,slug,location,info,main,project_id) VALUES(
 			'".$db->res($_POST['name'])."',
 			'".$db->res(strtolower(str_replace("+","_",urlencode($_POST['name']))))."',
 			'".$db->res($_POST['location'])."',
-			'".$db->res($_POST['type'])."',
+			'".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class']))."',
 			'".($db->numrows($db->query("SELECT id FROM ".DBPF."repositories WHERE project_id='".$db->res($_POST['project_id'])."' LIMIT 1")) ? '0' : '1')."',
 			'".$db->res($_POST['project_id'])."'
 			)");
@@ -73,7 +77,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			$db->query("UPDATE ".DBPF."repositories SET
 			name='".$db->res($_POST['name'])."',
 			slug='".$db->res(strtolower(str_replace("+","_",urlencode($_POST['name']))))."',
-			file='".$db->res($_POST['type'])."',
+			info='".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class']))."',
 			location='".$db->res($_POST['location'])."',
 			project_id='".$db->res($_POST['project_id'])."'
 			WHERE id='".$repo['id']."' LIMIT 1");
@@ -121,8 +125,8 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td><?php echo l('repository_type_description')?></td>
 				<td width="200">
 					<select name="type">
-						<?php foreach($repository_types as $type) { ?>
-						<option value="<?php echo $type['file']?>"<?php echo iif($type['file'] == $repo['file'],' selected="selected"')?>><?php echo $type['name']?></option>
+						<?php foreach($repository_types as $key => $type) { ?>
+						<option value="<?php echo $key?>"<?php echo iif($type['file'] == $repo['info']['file'],' selected="selected"')?>><?php echo $type['name']?></option>
 						<?php } ?>
 					</select>
 				</td>

@@ -47,8 +47,14 @@ class Subversion extends Source
 		$xml = new SimpleXMLElement(implode('',$_a));
 		foreach($xml->list->entry as $entry)
 		{
+			$_a = null;
+			
 			// Get the entry data
 			$attribs = $entry->attributes();
+			
+			// Get log message
+			$log = exec("svn log --xml ".$this->location.$dir." -r ".(int)$entry->commit['revision'],$_a,$_r);
+			$loginfo = simplexml_load_string(implode('',$_a));
 			
 			$info = array();
 			$info['name'] = (string)$entry->name;
@@ -56,9 +62,10 @@ class Subversion extends Source
 			$info['kind'] = (string)$attribs['kind'];
 			$info['path'] = (string)(empty($dir) ? $info['name'] : $dir.'/'.$info['name']);
 			$info['commit'] = array(
-				'author' => (string)$entry->commit->author,
+				'author' => (string)$loginfo->logentry->author,
 				'date' => (string)$entry->commit->date,
-				'rev' => (int)$entry->commit['revision']
+				'rev' => (int)$entry->commit['revision'],
+				'msg' => (string)$loginfo->logentry->msg
 				);
 			$array[] = $info;
 		}
