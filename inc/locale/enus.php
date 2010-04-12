@@ -317,6 +317,8 @@ $lang['repository_type_description'] = 'The type of the repository.';
 $lang['repository_location_description'] = 'The location where the repository is.<br /><small>Example: http://project.googlecode.com/svn</small>';
 $lang['no_repositories'] = 'No Repositories';
 $lang['repository'] = 'Repository';
+$lang['location'] = 'Location';
+$lang['statistics'] = 'Statistics';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';

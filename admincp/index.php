@@ -32,7 +32,7 @@ $users = $db->numrows($db->query("SELECT id FROM ".DBPF."users"));
 
 head(l('overview'));
 ?>
-<div class="thead">Statistics</div>
+<div class="thead"><?php echo l('statistics')?></div>
 <div class="tborder">
 	<table width="100%" cellspacing="0">
 		<tr class="<?php echo altbg()?>">
