@@ -28,7 +28,7 @@ $traq_version = '2.0 Alpha 2';
 $traq_version_code = '10902';
 
 // Database Version
-$db_rev = 18;
+$db_revision = 18;
 
 // Define the TRAQVER constant...
 define("TRAQVER",$traq_version);

@@ -202,7 +202,8 @@ INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('recaptcha_pubkey', ''),
 ('recaptcha_privkey', ''),
 ('allow_registration', '1'),
-('date_time_format', 'g:iA d/m/Y');
+('date_time_format', 'g:iA d/m/Y'),
+('db_revision', '18');
 
 INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
 (1, 'Lowest'),

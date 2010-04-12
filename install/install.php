@@ -23,7 +23,6 @@
 // Fetch required files
 require('common.php');
 require('../inc/version.php');
-require('../inc/fishhook.class.php');
 include('../inc/config.php');
 include('../inc/db.class.php');
 
@@ -97,7 +96,6 @@ if(!isset($_POST['step']))
 		}
 	}
 	
-	
 	head('install');
 	?>
 	<form action="install.php" method="post">
@@ -106,15 +104,15 @@ if(!isset($_POST['step']))
 		<table width="400" align="center">
 		<?php foreach($checks as $check) { ?>
 			<tr>
-				<td><?=$check['name']?></td>
-				<td class="<?=$check['class']?>" align="right"><?=$check['message']?></td>
+				<td><?php echo $check['name']?></td>
+				<td class="<?php echo $check['class']?>" align="right"><?php echo $check['message']?></td>
 			</tr>
 		<?php } ?>
 		</table>
 		
 		<?php if(!$error) { ?>
 			<div align="center"><input type="submit" value="Next" /></div>
-		<? } ?>
+		<?php } ?>
 	</form>
 	<?php
 	foot();
@@ -160,7 +158,7 @@ elseif($_POST['step'] == '1')
 		
 		<?php if(!$error) { ?>
 			<div align="center"><input type="submit" value="Install" /></div>
-		<? } ?>
+		<?php } ?>
 	</form>
 	<?php
 	foot();

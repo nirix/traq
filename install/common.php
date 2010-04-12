@@ -20,6 +20,29 @@
  * $Id$
  */
 
+/**
+* Settings
+* Used to get the value of the specified setting.
+* @param string $setting The setting...
+*/
+function settings($setting)
+{
+	global $db;
+	$result = $db->fetcharray($db->query("SELECT setting, value FROM ".DBPF."settings WHERE setting='".$db->res($setting)."' LIMIT 1"));
+	return $result['value'];
+}
+
+/**
+ * Error
+ * Used to display an error message.
+ * @param string $title Error title.
+ * @param string $message Error message.
+ */
+function error($title,$message)
+{
+	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial; font-size: 14px;\"><h1 style=\"margin:0px;color:#000;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1><div style=\"padding: 0;\">".$message."</div><div style=\"color:#999;border-top:1px solid #000;margin-top:10px;font-size:small;padding-top:2px;\">Traq ".TRAQVER." &copy; 2009 Jack Polgar</div></blockquote>");
+}
+
 // Install/Upgrade header.
 function head($script) {
 	if($script == 'install') { $title = 'Install'; }
@@ -39,9 +62,15 @@ body {
 	margin: 0;
 	padding: 0;
 }
+#wrapper {
+	width: 600px;
+	margin: 0 auto;
+}
 #page {
 	background: #fff;
 	padding: 10px;
+	border-left: 1px solid #95d2f6;
+	border-right: 1px solid #95d2f6;
 }
 a {
 	color: #0092e8;
@@ -77,7 +106,7 @@ h2 {
 <body>
 <div id="wrapper">
 	<div id="head">
-		<h1>Traq <?=$title?></h1>
+		<h1>Traq <?php echo $title?></h1>
 	</div>
 	<div id="page">
 <?php
@@ -88,7 +117,7 @@ function foot() {
 ?>
 	</div>
 	<div id="foot">
-		Traq <? echo TRAQVER?>,<br />
+		Traq <?php echo TRAQVER?>,<br />
 		Copyright &copy; <?php echo date("Y"); ?> Jack Polgar
 	</div>
 </div>
@@ -97,11 +126,8 @@ function foot() {
 <?php
 }
 
-// Display an error...
-function error($title,$message)
+class FishHook
 {
-	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial; font-size: 14px;\"><h1 style=\"margin:0px;color:#000;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1><div style=\"padding: 0;\">".$message."</div><div style=\"color:#999;border-top:1px solid #000;margin-top:10px;font-size:small;padding-top:2px;\">Traq ".TRAQVER." &copy; 2009 Jack Polgar</div></blockquote>");
+	public static function hook($hook) {}
 }
-
-function l($l) {}
 ?>
