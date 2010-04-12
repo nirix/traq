@@ -89,6 +89,25 @@ function activepage($pages,$query=NULL)
 }
 
 /**
+ * Check for update
+ */
+function check4update()
+{
+	global $traq_version_code;
+	
+	if($contents = @file_get_contents("http://traqproject.org/version_check.php?version=".TRAQVER."&versioncode=".$traq_version_code))
+	{
+		$xml = simplexml_load_string($contents);
+		
+		if($xml->version['code'] > $traq_version_code)
+		{
+			return $xml;
+		}
+		return false;
+	}
+}
+
+/**
  * AdminCP Header
  * Used to print the AdminCP header.
  * @param string $title Page title.
@@ -107,7 +126,7 @@ function head($title='',$sidebar=false,$links=array())
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="style.css" type="text/css" />
 	</head>
-	<body id="project_info">
+	<body>
 		<div id="head">
 			<span><a href="./"><?php echo l('traq_admincp')?></a></span>
 			<div id="nav<?php echo (defined("HIDENAV") ? '_small' : '')?>">

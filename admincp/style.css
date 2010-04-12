@@ -37,6 +37,13 @@ h2 {
 	margin-top: 0;
 }
 
+#update_available {
+	text-align: center;
+	padding: 4px 0;
+	background: #FFFFDD;
+	border: 2px solid #FFD700;
+}
+
 #head {
 	padding-top: 5px;
 	background: #e8f5fd url('images/headerbg.png') repeat-x;

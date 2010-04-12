@@ -163,6 +163,7 @@ $lang['manage_types'] = 'Mange Types';
 $lang['manage_priorities'] = 'Manage Priorities';
 $lang['manage_severities'] = 'Manage Severities';
 $lang['manage_status_types'] = 'Manage Status Types';
+$lang['update_available_x_download'] = 'Update available: <a href="{1}">{2}</a> [<a href="{3}">Download</a>]';
 $lang['general'] = 'General';
 $lang['traq_name'] = 'Traq Name';
 $lang['traq_name_description'] = 'The name of the Traq installation.';

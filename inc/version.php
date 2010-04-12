@@ -23,6 +23,10 @@
 // Traq Version
 $traq_version = '2.0 Alpha 2';
 
+// Version code
+// 3.2.1 would be 30201
+$traq_version_code = '10902';
+
 // Database Version
 $db_rev = 18;
 
