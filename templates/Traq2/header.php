@@ -1,5 +1,5 @@
 <div id="head">
-			<span><a href="<?php echo $uri->anchor()?>"><?php echo settings('title')?></a> <?php if(is_project($project['slug'])) { ?>/ <?php echo $project['name']?><?php } ?></span>
+			<span><a href="<?php echo $uri->anchor()?>"><?php echo settings('title')?></a> <?php if(isset($project) && is_project($project['slug'])) { ?>/ <?php echo $project['name']?><?php } ?></span>
 			<div id="nav">
 				<div id="meta_nav">
 					<ul>
@@ -17,7 +17,7 @@
 					<?php } ?>
 					</ul>
 				</div>
-				<?php if(is_project($uri->seg[0])) { ?>
+				<?php if(isset($project) && is_project($project['slug'])) { ?>
 				<ul class="main_nav">
 					<li class="first<?php echo iif(empty($uri->seg[1]),' active')?>"><a href="<?php echo $uri->anchor($project['slug'])?>"><?php echo l('project_info')?></a></li>
 					<li<?php echo iif($uri->seg[1]=='roadmap' or preg_match('/milestone-(?<slug>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'roadmap')?>"><?php echo l('roadmap')?></a></li>

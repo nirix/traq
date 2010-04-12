@@ -26,7 +26,7 @@ class FishHook
 	 * Hook
 	 * Used to fetch plugin code for the specified hook.
 	 */
-	public function hook($hook)
+	public static function hook($hook)
 	{
 		global $db;
 		

@@ -95,7 +95,7 @@ function check4update()
 {
 	global $traq_version_code;
 	
-	if($contents = @file_get_contents("http://traqproject.org/version_check.php?version=".TRAQVER."&versioncode=".$traq_version_code))
+	if($contents = @file_get_contents("http://traqproject.org/version_check.php?version=".urlencode(TRAQVER)."&versioncode=".$traq_version_code))
 	{
 		$xml = simplexml_load_string($contents);
 		

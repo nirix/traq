@@ -29,8 +29,7 @@ class URI
 	// Construct function.
 	public function __construct()
 	{
-		$pathinfo = trim($_SERVER['PATH_INFO'],'/');
-		$this->seg = explode('/',$pathinfo);
+		$this->seg = explode('/',trim($_SERVER['PATH_INFO'],'/'));
 		$this->anchorfile = pathinfo($_SERVER['SCRIPT_FILENAME'],PATHINFO_BASENAME);
 	}
 	
