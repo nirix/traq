@@ -217,6 +217,7 @@ function iif($condition, $true, $false='')
  */
 function ticket_sort_url($field)
 {
+	$_SERVER['QUERY_STRING'] = str_replace(array('&sort='.$_REQUEST['sort'],'&order='.$_REQUEST['order'],'sort='.$_REQUEST['sort'],'order='.$_REQUEST['order']),'',$_SERVER['QUERY_STRING']);
 	return '?'.($_SERVER['QUERY_STRING'] != '' ? $_SERVER['QUERY_STRING'].'&' : '').'sort='.$field.'&order='.($_REQUEST['order'] == 'desc' ? 'asc' : 'desc');
 }
 
