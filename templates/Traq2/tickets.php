@@ -26,7 +26,7 @@
 					<?php if(in_array('milestone',$columns)) { ?><th><a href="<?php echo ticket_sort_url('milestone_id')?>"><?php echo l('milestone')?></a></th><?php } ?>
 					<?php if(in_array('version',$columns)) { ?><th><a href="<?php echo ticket_sort_url('version_id')?>"><?php echo l('version')?></a></th><?php } ?>
 					<?php if(in_array('assigned_to',$columns)) { ?><th><a href="<?php echo ticket_sort_url('assigned_to')?>"><?php echo l('assigned_to')?></a></th><?php } ?>
-					<?php if(in_array('updated',$columns)) { ?><th><a href="<?php echo ticket_sort_url('updated,created')?>"><?php echo l('updated')?></a></th><?php } ?>
+					<?php if(in_array('updated',$columns)) { ?><th><a href="<?php echo ticket_sort_url('updated')?>"><?php echo l('updated')?></a></th><?php } ?>
 				</tr>
 			</thead>
 			<tbody>

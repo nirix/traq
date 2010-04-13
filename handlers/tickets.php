@@ -192,7 +192,7 @@ $columns = explode(',',$_REQUEST['columns']);
 
 // Get Tickets
 $tickets = array();
-$fetchtickets = $db->query("SELECT * FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY ".$db->res($sort)." ".$db->res($order));
+$fetchtickets = $db->query("SELECT *,@lastupdate:=IF(updated < 1, created, updated) FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY ".$db->res(($sort == 'updated' ? '@lastupdate' : $sort))." ".$db->res($order));
 while($info = $db->fetcharray($fetchtickets))
 {
 	$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
