@@ -16,17 +16,17 @@
 		<table class="listing tickets">
 			<thead>
 				<tr>
-					<?php if(in_array('ticket',$columns)) { ?><th class="id"><?php echo l('ticket')?></th><?php } ?>
-					<?php if(in_array('summary',$columns)) { ?><th><?php echo l('summary')?></th><?php } ?>
-					<?php if(in_array('status',$columns)) { ?><th><?php echo l('status')?></th><?php } ?>
-					<?php if(in_array('owner',$columns)) { ?><th><?php echo l('owner')?></th><?php } ?>
-					<?php if(in_array('type',$columns)) { ?><th><?php echo l('type')?></th><?php } ?>
-					<?php if(in_array('severity',$columns)) { ?><th><?php echo l('severity')?></th><?php } ?>
-					<?php if(in_array('component',$columns)) { ?><th><?php echo l('component')?></th><?php } ?>
-					<?php if(in_array('milestone',$columns)) { ?><th><?php echo l('milestone')?></th><?php } ?>
-					<?php if(in_array('version',$columns)) { ?><th><?php echo l('version')?></th><?php } ?>
-					<?php if(in_array('assigned_to',$columns)) { ?><th><?php echo l('assigned_to')?></th><?php } ?>
-					<?php if(in_array('updated',$columns)) { ?><th><?php echo l('updated')?></th><?php } ?>
+					<?php if(in_array('ticket',$columns)) { ?><th class="id"><a href="<?php echo ticket_sort_url('id')?>"><?php echo l('ticket')?></a></th><?php } ?>
+					<?php if(in_array('summary',$columns)) { ?><th><a href="<?php echo ticket_sort_url('summary')?>"><?php echo l('summary')?></a></th><?php } ?>
+					<?php if(in_array('status',$columns)) { ?><th><a href="<?php echo ticket_sort_url('status')?>"><?php echo l('status')?></a></th><?php } ?>
+					<?php if(in_array('owner',$columns)) { ?><th><a href="<?php echo ticket_sort_url('user_name')?>"><?php echo l('owner')?></a></th><?php } ?>
+					<?php if(in_array('type',$columns)) { ?><th><a href="<?php echo ticket_sort_url('type')?>"><?php echo l('type')?></a></th><?php } ?>
+					<?php if(in_array('severity',$columns)) { ?><th><a href="<?php echo ticket_sort_url('severity')?>"><?php echo l('severity')?></a></th><?php } ?>
+					<?php if(in_array('component',$columns)) { ?><th><a href="<?php echo ticket_sort_url('component_id')?>"><?php echo l('component')?></a></th><?php } ?>
+					<?php if(in_array('milestone',$columns)) { ?><th><a href="<?php echo ticket_sort_url('milestone_id')?>"><?php echo l('milestone')?></a></th><?php } ?>
+					<?php if(in_array('version',$columns)) { ?><th><a href="<?php echo ticket_sort_url('version_id')?>"><?php echo l('version')?></a></th><?php } ?>
+					<?php if(in_array('assigned_to',$columns)) { ?><th><a href="<?php echo ticket_sort_url('assigned_to')?>"><?php echo l('assigned_to')?></a></th><?php } ?>
+					<?php if(in_array('updated',$columns)) { ?><th><a href="<?php echo ticket_sort_url('updated,created')?>"><?php echo l('updated')?></a></th><?php } ?>
 				</tr>
 			</thead>
 			<tbody>

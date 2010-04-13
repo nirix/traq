@@ -164,6 +164,9 @@ function is_project($string)
 
 /**
  * Has Repository
+ * Check's if the project has a repository.
+ * @param integer $project_id The project ID.
+ * @return integer
  */
 function has_repo($project_id='')
 {
@@ -175,6 +178,9 @@ function has_repo($project_id='')
 
 /**
  * Project Repositories
+ * Fetches the projects repositories.
+ * @param integer $project_id The project ID.
+ * @return array
  */
 function project_repos($project_id='')
 {
@@ -200,6 +206,15 @@ function project_repos($project_id='')
 function iif($condition, $true, $false='')
 {
 	return ($condition ? $true : $false);
+}
+
+/**
+ * Ticket Sort Link
+ * Used to create the sort URL for the tickets listing.
+ */
+function ticket_sort_url($field)
+{
+	return '?'.($_SERVER['QUERY_STRING'] != '' ? $_SERVER['QUERY_STRING'].'&' : '').'sort='.$field.'&order='.($_REQUEST['order'] == 'desc' ? 'asc' : 'desc');
 }
 
 /**

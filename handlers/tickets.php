@@ -79,7 +79,7 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 
 // Ticket Sorting
 $sort = (isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'priority'); // Field to sort by
-$order = (isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc'); // Direction to sort by
+$order = (isset($_REQUEST['order']) ? $_REQUEST['order'] : 'DESC'); // Direction to sort by
 
 // Filters
 $filters = array();
@@ -192,7 +192,7 @@ $columns = explode(',',$_REQUEST['columns']);
 
 // Get Tickets
 $tickets = array();
-$fetchtickets = $db->query("SELECT * FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY $sort $order");
+$fetchtickets = $db->query("SELECT * FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY ".$db->res($sort)." ".$db->res($order));
 while($info = $db->fetcharray($fetchtickets))
 {
 	$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
