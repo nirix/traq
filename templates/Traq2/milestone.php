@@ -44,7 +44,7 @@
 					<dt><?php echo l('total_tickets')?>:</dt>
 					<dd><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['milestone']?>"><?php echo $milestone['tickets']['total']?></a></dd>
 				</dl>
-				<?php echo $milestone['info']?>
+				<?php echo formattext($milestone['info'])?>
 			</div>
 		</div>
 		

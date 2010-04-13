@@ -14,7 +14,7 @@
 					<h2><a href="<?php echo $uri->anchor($project['slug'])?>"><?php echo $project['name']?></a></h2>
 					<div class="description">
 						<small class="quick_nav"><a href="<?php echo $uri->anchor($project['slug'],'roadmap')?>">Roadmap</a> | <a href="<?php echo $uri->anchor($project['slug'],'tickets')?>">All Tickets</a> | <a href="<?php echo $uri->anchor($project['slug'],'timeline')?>">Timeline</a></small>
-						 <?php echo $project['info']?>
+						 <?php echo formattext($project['info'])?>
 					</div>
 				</div>
 			</li>

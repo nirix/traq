@@ -11,7 +11,7 @@
 		
 		<h1><?php echo $project['name']?></h1>
 		<p>
-			<?php echo $project['info']?>
+			<?php echo formattext($project['info'])?>
 		</p>
 		
 		<?php require(template('footer')); ?>

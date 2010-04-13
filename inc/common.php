@@ -106,8 +106,11 @@ function error($title,$message)
  * @param string $text The text to format.
  * @return string
  */
-function formattext($text)
+function formattext($text,$disablehtml=false)
 {
+	// Disable HTML
+	if($disablehtml) $text = str_replace('<',"&lt;",$text);
+	
 	// [ticket:x] to ticked URL
 	global $uri,$project;
 	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
