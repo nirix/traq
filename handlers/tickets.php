@@ -42,7 +42,7 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 	{		
 		$val = -1;
 		// Milestone, Version, Type, Component
-		if(in_array($filter,array('milestone','version','type','component')))
+		if(in_array($filter,array('milestone','version','type','component','severity','priority')))
 		{
 			// Loop through values
 			$bits = array();
@@ -135,7 +135,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				$query .= "AND milestone_id ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).")";
 		}
 		// Version, Tpye and Component filter
-		elseif($filter['type'] == 'version' or $filter['type'] == 'type' or $filter['type'] == 'component')
+		elseif(in_array($filter['type'],array('version','type','component','severity','priority')))
 		{
 			// Loop through the values
 			foreach($filter['values'] as $value)
@@ -154,7 +154,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 					$type = $filter['type'].'_id';
 				break;
 				
-				case "type":
+				default:
 					$type = $filter['type'];
 			}
 			

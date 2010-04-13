@@ -5,7 +5,7 @@
 			<?php foreach($filters as $filter) {
 				$val = -1;
 			?>
-			<?php if(in_array($filter['type'],array('milestone','version','type','component'))) { ?>
+			<?php if(in_array($filter['type'],array('milestone','version','type','component','severity','priority'))) { ?>
 			<?php foreach($filter['values'] as $value) { $val++; ?>
 			<tr>
 				<td class="label"><?php echo iif($val == 0,l($filter['type']))?></td>
@@ -46,6 +46,20 @@
 						<option></option>
 						<?php foreach(project_components() as $component) { ?>
 						<option value="<?php echo $component['id']?>"<?php echo iif($value == $component['id'],' selected="selected"')?>><?php echo $component['name']?></option>
+						<?php } ?>
+					</select>
+					<?php } elseif($filter['type'] == 'severity') { ?>
+					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
+						<option></option>
+						<?php foreach(ticket_severities() as $severity) { ?>
+						<option value="<?php echo $severity['id']?>"<?php echo iif($value == $severity['id'],' selected="selected"')?>><?php echo $severity['name']?></option>
+						<?php } ?>
+					</select>
+					<?php } elseif($filter['type'] == 'priority') { ?>
+					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
+						<option></option>
+						<?php foreach(ticket_priorities() as $priority) { ?>
+						<option value="<?php echo $priority['id']?>"<?php echo iif($value == $priority['id'],' selected="selected"')?>><?php echo $priority['name']?></option>
 						<?php } ?>
 					</select>
 					<?php } ?>
