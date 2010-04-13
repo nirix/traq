@@ -93,6 +93,7 @@ $lang['files'] = 'Files';
 $lang['source'] = 'Source';
 $lang['select_repository'] = 'Select Repository:';
 $lang['message'] = 'Message';
+$lang['show_more'] = 'Show More';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';

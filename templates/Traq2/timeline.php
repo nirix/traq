@@ -9,6 +9,9 @@
 		
 		<?php require(template('breadcrumbs')); ?>
 		
+		<h1><?php echo l('timeline')?></h1>
+		<p><a href="?days=<?php echo $limit+7?>"><?php echo l('show_more')?></a></p>
+		
 		<?php foreach($days as $day) { ?>
 		<div class="day">
 			<h3><?php echo date("l, jS F Y",$day['timestamp'])?></h3>
