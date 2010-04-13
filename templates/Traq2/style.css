@@ -168,7 +168,7 @@ h3,h4 {
 ul.projects {
 	
 }
-ul.projects li {
+ul.projects li.project {
 	margin: 10px 0;
 }
 ul.projects h2 {
@@ -592,4 +592,5 @@ table.tickets tbody tr.even.priority1 {
 
 /* Misc. */
 .clear { clear: both; }
+img { border: 0; }
 #repository_select { float: right; }

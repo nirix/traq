@@ -12,7 +12,7 @@
 				<tr class="<?php echo altbg()?>">
 					<td><?php if($file['kind'] == 'dir') { ?><a href="<?php echo $uri->geturi()?>/<?php echo $file['name']?>"><?php echo $file['name']?></a><?php } else { ?><?php echo $file['name']?><?php } ?></td>
 					<td><?php echo $file['commit']['rev']?></td>
-					<td><?php echo $file['commit']['msg']?></td>
+					<td><?php echo substr($file['commit']['msg'],0,100).iif(strlen($file['commit']['msg']) > 100, '...')?></td>
 					<td><?php echo $file['commit']['author']?></td>
 				</tr>
 				<?php } ?>
