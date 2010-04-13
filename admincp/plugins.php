@@ -546,7 +546,7 @@ elseif(isset($_REQUEST['edithook']))
 				<td class="optiontitle" colspan="2"><?php echo l('code')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?php echo ($hook['code'])?></textarea></td>
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?php echo htmlspecialchars($hook['code'])?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>

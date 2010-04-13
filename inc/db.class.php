@@ -94,16 +94,29 @@ class Database
 		return $result;
 	}
 	
+	/**
+	 * Escape String
+	 * Escapes the string.
+	 * @deprecated
+	 */
+	public function escapestring($string)
+	{
+		return mysql_escape_string($string);
+	}
+	
+	/**
+	 * Escape String Shortcut
+	 * Shortcut for escapestring
+	 */
 	public function es($string)
 	{
 		return $this->escapestring($string);
 	}
 	
-	public function escapestring($string)
-	{
-		return mysql_real_escape_string($string);
-	}
-	
+	/**
+	 * Insert ID
+	 * Used to get the last inserted row ID.
+	 */
 	public function insertid()
 	{
 		return mysql_insert_id();
@@ -124,12 +137,12 @@ class Database
 	 */
 	public function res($string)
 	{
-		return mysql_real_escape_string($string);
+		return mysql_real_escape_string($string,$this->link);
 	}
 	
 	/**
 	 * Query First
-	 * Query and fetch the array of the first row returned.
+	 * Returns an array of the first row from the query result.
 	 * @param string $query The query.
 	 */
 	public function queryfirst($query)
