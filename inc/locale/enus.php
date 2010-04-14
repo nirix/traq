@@ -93,7 +93,12 @@ $lang['files'] = 'Files';
 $lang['source'] = 'Source';
 $lang['select_repository'] = 'Select Repository:';
 $lang['message'] = 'Message';
-$lang['show_more'] = 'Show More';
+$lang['show'] = 'Show:';
+$lang['1_week'] = '1 week';
+$lang['2_weeks'] = '2 weeks';
+$lang['4_weeks'] = '4 weeks';
+$lang['1_year'] = '1 year';
+$lang['All_time'] = 'All time';
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';

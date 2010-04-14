@@ -45,8 +45,9 @@ function error($title,$message)
 
 // Install/Upgrade header.
 function head($script) {
-	if($script == 'install') { $title = 'Install'; }
-	if($script == 'upgrade') { $title = 'Upgrade'; }
+	if($script == 'install') $title = 'Install';
+	if($script == 'upgrade') $title = 'Upgrade';
+	if($script == 'migrate') $title = 'Migrate';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

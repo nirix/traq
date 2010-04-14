@@ -30,7 +30,7 @@ $limit = ($_REQUEST['days'] ? $_REQUEST['days'] : 7);
 
 // Fetch timeline
 $days = array();
-$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPF."timeline WHERE project_id='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC LIMIT ".$db->res($limit));
+$fetchdays = $db->query("SELECT DISTINCT YEAR(date) AS 'year', MONTH(date) AS 'month', DAY(date) AS 'day', date, timestamp FROM ".DBPF."timeline WHERE project_id='".$project['id']."' GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY date DESC ".iif(is_numeric($limit),"LIMIT ".$db->res($limit)));
 while($dayinfo = $db->fetcharray($fetchdays))
 {
 	// Set the day information
