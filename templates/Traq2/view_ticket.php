@@ -91,7 +91,7 @@
 					<?php } ?>
 				</div>
 				<?php if(count($change['changes']) > 0) { ?>
-				<ul>
+				<ul class="ticket_change_list">
 					<?php foreach($change['changes'] as $row) { ?>
 					<li><?php echo l('ticket_history_'.$row->property.iif($row->action,'_'.$row->action),$row->from,$row->to)?></li>
 					<?php } ?>
