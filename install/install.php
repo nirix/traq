@@ -204,7 +204,7 @@ elseif($_POST['step'] == '2')
 		
 		// Run the install queries.
 		foreach($queries as $query) {
-			if(!empty($query)) {
+			if(!empty($query) && strlen($query) > 5) {
 				$db->query($query);
 			}
 		}
