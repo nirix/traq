@@ -9,17 +9,17 @@
 		
 		<h1><?php echo l('login')?></h1>
 		
-		<?php if($user->errors) { ?>
-		<div class="message error">
-		<?php foreach($user->errors as $error) { ?>
-			<?php echo $error?><br />
-		<?php } ?>
-		</div>
-		<?php } ?>
 		<form action="<?php echo $uri->anchor('user','login')?>" method="post">
 			<input type="hidden" name="action" value="login" />
 			<input type="hidden" name="goto" value="<?php echo $_REQUEST['goto']?>" />
 			<div class="form login">
+				<?php if($user->errors) { ?>
+				<div class="message error">
+				<?php foreach($user->errors as $error) { ?>
+					<?php echo $error?><br />
+				<?php } ?>
+				</div>
+				<?php } ?>
 				<fieldset>
 					<label><?php echo l('username')?></label>
 					<input type="text" name="username" />
@@ -32,6 +32,7 @@
 					<label for="remember"><?php echo l('remember')?></label> <input type="checkbox" name="remember" value="1" id="remember" />
 					<input type="submit" value="<?php echo l('login')?>" /> <input type="button" onclick="javascript:history.back()" value="<?php echo l('cancel')?>" />
 				</fieldset>
+				<div align="center"><a href="<?php echo $uri->anchor('user','resetpass')?>"><?php echo l('Reset_Password')?></a></div>
 			</div>
 		</form>
 		

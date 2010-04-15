@@ -99,6 +99,12 @@ $lang['2_weeks'] = '2 weeks';
 $lang['4_weeks'] = '4 weeks';
 $lang['1_year'] = '1 year';
 $lang['All_time'] = 'All time';
+$lang['Reset_Password'] = 'Reset Password';
+$lang['Reset'] = 'Reset';
+$lang['x_password_reset'] = '{1} Password Reset';
+$lang['password_reset_message'] = 'Hello {1}, you or someone requested a password reset for your account.'."\r\n\r\n".
+	'Please follow the URL below to reset your password:'."\r\n".
+	'http://'.$_SERVER['HTTP_HOST'].$uri->anchor('user','resetpass?hash={2}');
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
@@ -331,6 +337,9 @@ $lang['statistics'] = 'Statistics';
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
 
+// Success messages
+$lang['success_reset_pass_email_sent'] = 'Email sent, check your inbox for instructions.';
+
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
 $lang['error_body_empty'] = 'Description cannot be blank.';
@@ -361,6 +370,8 @@ $lang['error_enter_password'] = 'You must enter your current password.';
 $lang['error_name_empty'] = 'You must enter a Name.';
 $lang['error_name_taken'] = 'That name is already in use.';
 $lang['error_location_empty'] = 'You must enter a location.';
+$lang['error_user_not_found'] = 'User not found.';
+$lang['error_resetting_password'] = 'Unable to reset password.';
 $lang['error'] = 'Error';
 $lang['error_no_permission'] = 'You don\'t have permission to view this page.';
 $lang['page_x_not_found'] = 'The page \'{1}\' could not be found.';

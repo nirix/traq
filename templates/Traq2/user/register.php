@@ -9,16 +9,16 @@
 		
 		<h1><?php echo l('register')?></h1>
 		
-		<?php if($user->errors) { ?>
-		<div class="message error">
-		<?php foreach($user->errors as $error) { ?>
-			<?php echo $error?><br />
-		<?php } ?>
-		</div>
-		<?php } ?>
 		<form action="<?php echo $uri->anchor('user','register')?>" method="post">
 			<input type="hidden" name="action" value="register" />
 			<div class="form register">
+				<?php if($user->errors) { ?>
+				<div class="message error">
+				<?php foreach($user->errors as $error) { ?>
+					<?php echo $error?><br />
+				<?php } ?>
+				</div>
+				<?php } ?>
 				<fieldset>
 					<label><?php echo l('username')?></label>
 					<input type="text" name="username" />

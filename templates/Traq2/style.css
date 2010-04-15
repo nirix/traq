@@ -354,6 +354,10 @@ fieldset.error input[type=text], fieldset.error input[type=password] {
 	width: 100px;
 	margin-right: 5px;
 }
+.form.login, .form.register, .form.resetpass {
+	width: 300px;
+	margin: 0 auto;
+}
 
 /* New/Edit ticket form */
 form.new_ticket {

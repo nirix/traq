@@ -138,4 +138,46 @@ elseif($uri->seg[1] == "usercp")
 	
 	include(template('user/usercp'));
 }
+// Reset Password
+elseif($uri->seg[1] == 'resetpass')
+{
+	// Reset
+	if($_POST['action'] == 'update')
+	{
+		// Find the user
+		$fetchuser = $db->query("SELECT id FROM ".DBPF."users WHERE sesshash='RESET:".$db->res($_POST['hash'])."' LIMIT 1");
+		if($db->numrows($fetchuser))
+		{
+			// Update the users password and rediect to the login page.
+			$db->query("UPDATE ".DBPF."users SET password='".sha1($_POST['password'])."' WHERE sesshash='RESET:".$db->res($_POST['hash'])."' LIMIT 1");
+			header("Location: ".$uri->anchor('user','login')."?reset");
+		}
+		$error = l('error_resetting_password');
+	}
+	
+	// Email
+	if($_POST['action'] == 'reset')
+	{
+		// Check the user exists...
+		$fetchuser = $db->query("SELECT username,name,email FROM ".DBPF."users WHERE username='".$db->res($_POST['username'])."' LIMIT 1");
+		if($db->numrows($fetchuser))
+		{
+			// Create a unique hash and store it in the
+			// users session hash field.
+			$reset = sha1(time().date("Y-m-d g:ia").$_POST['username'].rand(1,time()));
+			$db->query("UPDATE ".DBPF."users SET sesshash='RESET:".$reset."' WHERE username='".$db->res($_POST['username'])."' LIMIT 1");
+			
+			// Send the email.
+			$userinfo = $db->fetcharray($fetchuser);
+			mail($userinfo['email'],l('x_password_reset',settings('title')),l('password_reset_message',$userinfo['name'],$reset),"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">");
+			$sent = true;
+		}
+		else
+		{
+			$error = l('error_user_not_found');
+		}
+	}
+	
+	include(template('user/resetpass'));
+}
 ?>
