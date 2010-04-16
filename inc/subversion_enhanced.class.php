@@ -43,7 +43,7 @@ class Subversion extends Source
 		$info = exec("svn ls --xml ".$this->location.$dir,$_a,$_r);
 		
 		// Loop through the entries
-		$array = array();
+		$files = array('dirs'=>array(),'files'=>array());
 		$xml = new SimpleXMLElement(implode('',$_a));
 		foreach($xml->list->entry as $entry)
 		{
@@ -67,10 +67,11 @@ class Subversion extends Source
 				'rev' => (int)$entry->commit['revision'],
 				'msg' => (string)$loginfo->logentry->msg
 				);
-			$array[] = $info;
+			if($info['kind'] == 'dir') $files['dirs'][] = $info;
+			if($info['kind'] == 'file') $files['files'][] = $info;
 		}
 		
-		return $array;
+		return array_merge($files['dirs'],$files['files']);
 	}
 	
 	// Used to clean the directory name.
