@@ -103,6 +103,16 @@ CREATE TABLE `traq_severities` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `traq_subscriptions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `project_id` bigint(20) NOT NULL,
+  `data` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `last_update` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `traq_tickets` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ticket_id` bigint(20) NOT NULL,

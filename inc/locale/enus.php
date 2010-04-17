@@ -180,8 +180,6 @@ $lang['update_available_x_download'] = 'Update available: <a href="{1}">{2}</a> 
 $lang['general'] = 'General';
 $lang['traq_name'] = 'Traq Name';
 $lang['traq_name_description'] = 'The name of the Traq installation.';
-$lang['single_project'] = 'Single Project';
-$lang['single_project_description'] = 'To use Traq as a single project tracker, enter it\'s "slug".';
 $lang['seo_friendly_urls'] = 'SEO Friendly URL\'s';
 $lang['seo_friendly_urls_description'] = 'Choose the style of URL you want to use.';
 $lang['recaptcha_public_api_key'] = 'Public API Key';

@@ -397,7 +397,7 @@ function project_milestones($project_id=NULL)
 	$project_id = ($project_id == NULL ? $project['id'] : $project_id);
 	
 	$milestones = array();
-	$fetch = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$db->es($project_id)."' ORDER BY displayorder ASC");
+	$fetch = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$db->res($project_id)."' ORDER BY displayorder ASC");
 	while($info = $db->fetcharray($fetch))
 		$milestones[] = $info;
 	
@@ -416,7 +416,7 @@ function project_versions($project_id=NULL)
 	$project_id = ($project_id == NULL ? $project['id'] : $project_id);
 	
 	$versions = array();
-	$fetch = $db->query("SELECT * FROM ".DBPF."versions WHERE project_id='".$db->es($project_id)."' ORDER BY version ASC");
+	$fetch = $db->query("SELECT * FROM ".DBPF."versions WHERE project_id='".$db->res($project_id)."' ORDER BY version ASC");
 	while($info = $db->fetcharray($fetch))
 		$versions[] = $info;
 	
@@ -435,7 +435,7 @@ function project_components($project_id=NULL)
 	$project_id = ($project_id == NULL ? $project['id'] : $project_id);
 	
 	$components = array();
-	$fetch = $db->query("SELECT * FROM ".DBPF."components WHERE project_id='".$db->es($project_id)."' ORDER BY name ASC");
+	$fetch = $db->query("SELECT * FROM ".DBPF."components WHERE project_id='".$db->res($project_id)."' ORDER BY name ASC");
 	while($info = $db->fetcharray($fetch))
 		$components[] = $info;
 	
@@ -455,7 +455,7 @@ function project_managers($project_id=NULL)
 	
 	if(!isset($project))
 	{
-		$info = $db->queryfirst("SELECT managers FROM ".DBPF."projects WHERE id='".$db->es($project_id)."' LIMIT 1");
+		$info = $db->queryfirst("SELECT managers FROM ".DBPF."projects WHERE id='".$db->res($project_id)."' LIMIT 1");
 		$managers = array();
 		$manager_ids = explode(',',$info['managers']);
 	}
@@ -466,11 +466,70 @@ function project_managers($project_id=NULL)
 	
 	
 	foreach($manager_ids as $id)
-		$managers[] = $db->queryfirst("SELECT id,username,name FROM ".DBPF."users WHERE id='".$db->es($id)."' LIMIT 1");
+		$managers[] = $db->queryfirst("SELECT id,username,name FROM ".DBPF."users WHERE id='".$db->res($id)."' LIMIT 1");
 	
 	($hook = FishHook::hook('function_project_managers')) ? eval($hook) : false;
 	
 	return $managers;
+}
+
+function is_subscribed($type,$data='')
+{
+	global $db,$user,$project;
+	
+	if($type == 'project')
+	{
+		if($db->numrows($db->query("SELECT id FROM ".DBPF."subscriptions WHERE type='project' AND user_id='".$user->info['id']."' AND project_id='".$data."' LIMIT 1")))
+			return true;
+	}
+	
+	return false;
+}
+
+/**
+ * Add Subscription
+ */
+function add_subscription($type,$data='')
+{
+	global $db,$user,$project;
+	
+	if($type == 'project')
+	{
+		$db->query("INSERT INTO ".DBPF."subscriptions
+		(type,user_id,project_id,data,last_update)
+		VALUES(
+		'project',
+		'".$user->info['id']."',
+		'".$project['id']."',
+		'',
+		'".time()."'
+		)");
+	}
+}
+
+/**
+ * Remove Subscription
+ */
+function remove_subscription($type,$data='')
+{
+	global $db,$user,$project;
+	
+	if($type == 'project')
+	{
+		$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='project' AND user_id='".$user->info['id']."' AND project_id='".$project['id']."' LIMIT 1");
+	}
+}
+
+/**
+ * Send Notification
+ */
+function send_notification($type,$data=array(),$project_id='')
+{
+	global $project, $db;
+	if(!isset($project)) $project = $db->queryfirst("SELECT * FROM ".DBPF."projects WHERE id='".$db->res($project_id)."' LIMIT 1");
+	
+	
+	($hook = FishHook::hook('function_send_notification')) ? eval($hook) : false;
 }
 
 /**
