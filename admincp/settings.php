@@ -51,13 +51,6 @@ head('Settings');
 				<td width="200"><input type="text" name="title" value="<?php echo settings('title')?>" /></td>
 			</tr>
 			<tr>
-				<td class="optiontitle" colspan="2"><?php echo l('single_project')?></td>
-			</tr>
-			<tr class="<?php echo altbg()?>">
-				<td><?php echo l('single_project_description')?></td>
-				<td><input type="text" name="single_project" value="<?php echo (!settings('single_project') ? '' : settings('single_project'))?>" /></td>
-			</tr>
-			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('seo_friendly_urls')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">

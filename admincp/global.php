@@ -158,8 +158,6 @@ $sidebar_links = array(
 	)
 );
 
-($hook = FishHook::hook('admin_global')) ? eval($hook) : false;
-
 // Plugin Hook Locations.
 // Holds all the hook locations in Traq.
 $hook_locations = array(
@@ -219,7 +217,8 @@ $hook_locations = array(
 		'function_project_milestones',
 		'function_project_verions',
 		'function_project_components',
-		'function_project_managers'
+		'function_project_managers',
+		'function_send_notification'
 	),
 	
 	// Handlers
@@ -237,4 +236,6 @@ $hook_locations = array(
 		'attachment_view'
 	)
 );
+
+($hook = FishHook::hook('admin_global')) ? eval($hook) : false;
 ?>
