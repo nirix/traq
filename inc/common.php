@@ -516,20 +516,32 @@ function remove_subscription($type,$data='')
 	
 	if($type == 'project')
 	{
-		$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='project' AND user_id='".$user->info['id']."' AND project_id='".$project['id']."' LIMIT 1");
+		$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='project' AND user_id='".$user->info['id']."' AND project_id='".$data."' LIMIT 1");
 	}
 }
 
 /**
  * Send Notification
  */
-function send_notification($type,$data=array(),$project_id='')
+function send_notification($type,$data=array())
 {
 	global $project, $db;
-	if(!isset($project)) $project = $db->queryfirst("SELECT * FROM ".DBPF."projects WHERE id='".$db->res($project_id)."' LIMIT 1");
 	
-	
-	($hook = FishHook::hook('function_send_notification')) ? eval($hook) : false;
+	if($type == 'project')
+	{
+		if($data['type'] == 'ticket_created')
+		{
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='project' AND project_id='".$project['id']."'");
+			while($info = $db->fetcharray($fetch))
+			{
+				mail($info['email'],
+					l('x_x_notification',settings('title'),$project['name']),
+					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+				);
+			}
+		}
+	}
 }
 
 /**

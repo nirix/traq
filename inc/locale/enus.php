@@ -99,12 +99,18 @@ $lang['2_weeks'] = '2 weeks';
 $lang['4_weeks'] = '4 weeks';
 $lang['1_year'] = '1 year';
 $lang['All_time'] = 'All time';
+$lang['Watch_this_project'] = 'Watch this project';
+$lang['Unwatch_this_project'] = 'Unwatch this project';
 $lang['Reset_Password'] = 'Reset Password';
 $lang['Reset'] = 'Reset';
 $lang['x_password_reset'] = '{1} Password Reset';
 $lang['password_reset_message'] = 'Hello {1}, you or someone requested a password reset for your account.'."\r\n\r\n".
 	'Please follow the URL below to reset your password:'."\r\n".
 	'http://'.$_SERVER['HTTP_HOST'].$uri->anchor('user','resetpass?hash={2}');
+
+// Notifications
+$lang['x_x_created'] = '{1}: {2} notification';
+$lang['notification_project_ticket_created'] = "Hello {1}, a new ticket has been created on {2}.\r\n\r\n#{3}: {4}\r\n{5}";
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';

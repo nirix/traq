@@ -79,13 +79,9 @@ elseif($uri->seg[1] == 'source')
 elseif($uri->seg[1] == 'watch')
 {
 	if(is_subscribed('project',$project['id']))
-	{
 		remove_subscription('project',$project['id']);
-	}
 	else
-	{
 		add_subscription('project',$project['id']);
-	}
 	
 	header("Location: ".$uri->anchor($project['slug']).'?'.(is_subscribed('project',$project['id']) ? 'subscribed' : 'unsubscribed'));
 }

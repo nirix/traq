@@ -72,6 +72,13 @@ if(isset($_POST['summary']))
 	if($ticket->check($data) && !count($errors))
 	{
 		$ticket->create($data);
+		$notification = array(
+			'type' = 'ticket_created',
+			'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'ticket-'.$this->ticket_id);
+			'id' => $this->ticket_id,
+			'summary' => $data['summary']
+		);
+		send_notification('project',$notification);
 		header("Location: ".$uri->anchor($project['slug'],'ticket-'.$ticket->ticket_id));
 	}
 	else
