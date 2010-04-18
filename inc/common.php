@@ -473,6 +473,14 @@ function project_managers($project_id=NULL)
 	return $managers;
 }
 
+/**
+ * Is Subscribed
+ * Checks if the user is subscribed/watching something.
+ *
+ * @param string $type The type of subscription (project,ticket,etc).
+ * @param mixed $data The data for the subscription.
+ * @return bool
+ */
 function is_subscribed($type,$data='')
 {
 	global $db,$user,$project;
@@ -488,6 +496,10 @@ function is_subscribed($type,$data='')
 
 /**
  * Add Subscription
+ * Adds a subscription for the user.
+ *
+ * @param string $type The type of subscription.
+ * @param mixed $data The subscription data.
  */
 function add_subscription($type,$data='')
 {
@@ -505,10 +517,16 @@ function add_subscription($type,$data='')
 		'".time()."'
 		)");
 	}
+	
+	($hook = FishHook::hook('function_add_subscription')) ? eval($hook) : false;
 }
 
 /**
  * Remove Subscription
+ * Removes a subscription for the user.
+ *
+ * @param string $type The type of subscription.
+ * @param mixed $data The subscription data.
  */
 function remove_subscription($type,$data='')
 {
@@ -518,15 +536,22 @@ function remove_subscription($type,$data='')
 	{
 		$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='project' AND user_id='".$user->info['id']."' AND project_id='".$data."' LIMIT 1");
 	}
+	
+	($hook = FishHook::hook('function_remove_subscription')) ? eval($hook) : false;
 }
 
 /**
  * Send Notification
+ * Adds a subscription for the user.
+ *
+ * @param string $type The type of subscription.
+ * @param array $data The subscription data.
  */
 function send_notification($type,$data=array())
 {
 	global $project, $db;
 	
+	// Project notification
 	if($type == 'project')
 	{
 		if($data['type'] == 'ticket_created')
@@ -542,6 +567,20 @@ function send_notification($type,$data=array())
 			}
 		}
 	}
+	// Ticket notification
+	elseif($type == 'ticket')
+	{
+		if($data['type'] == 'ticket_updated')
+		{
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='project' AND project_id='".$project['id']."'");
+			while($info = $db->fetcharray($fetch))
+			{
+			
+			}
+		}
+	}
+	
+	($hook = FishHook::hook('function_send_notification')) ? eval($hook) : false;
 }
 
 /**

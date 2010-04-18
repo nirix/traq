@@ -218,6 +218,8 @@ $hook_locations = array(
 		'function_project_verions',
 		'function_project_components',
 		'function_project_managers',
+		'function_add_subscription',
+		'function_remove_subscription',
 		'function_send_notification'
 	),
 	
