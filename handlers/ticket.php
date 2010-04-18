@@ -139,7 +139,7 @@ if(isset($_POST['update']))
 			$changes[] = array('property'=>'priority','from'=>ticket_priority($ticket['priority']),'to'=>ticket_priority($_POST['priority']));
 		}
 		// Milestone
-		if($_POST['milestone'] != $ticket['milestone_id'])
+		if((int)$_POST['milestone'] != $ticket['milestone_id'])
 		{
 			$querybits[] = "milestone_id='".$db->res($_POST['milestone'])."'";
 			$newmilestone = $db->fetcharray($db->query("SELECT milestone FROM ".DBPF."milestones WHERE id='".$db->res($_POST['milestone'])."' LIMIT 1"));
@@ -253,6 +253,15 @@ if(isset($_POST['update']))
 			
 			// Update ticket updated field
 			$db->query("UPDATE ".DBPF."tickets SET updated='".time()."' WHERE id='".$ticket['id']."' LIMIT 1");
+			
+			// Send notification
+			$notification = array(
+				'type' => 'ticket_updated',
+				'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id']),
+				'id' => $ticket['ticket_id'],
+				'summary' => $ticket['summary']
+			);
+			send_notification('ticket',$notification);
 		}
 	}
 }
