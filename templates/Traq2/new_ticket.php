@@ -29,82 +29,76 @@
 				<textarea name="body" class="body"><?php echo $_POST['body']?></textarea>
 			</fieldset>
 			
-			<fieldset id="ticket_properties" class="properties">
+			<fieldset id="ticket_properties" class="new_ticket properties">
 				<legend><?php echo l('properties')?></legend>
-				<table width="100%" cellpading="0" cellspacing="0">
-					<tr>
-						<th class="col1"><?php echo l('type')?></th>
-						<td>
-							<select name="type">
-								<?php foreach(ticket_types() as $type) { ?>
-								<option value="<?php echo $type['id']?>"><?php echo $type['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('assign_to')?></th>
-						<td>
-							<select name="assign_to">
-								<option value="0" selected=""></option>
-								<?php foreach(project_managers() as $manager) { ?>
-								<option value="<?php echo $manager['id']?>"><?php echo $manager['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th class="col1"><?php echo l('priority')?></th>
-						<td>
-							<select name="priority">
-								<?php foreach(ticket_priorities() as $priority) { ?>
-								<option value="<?php echo $priority['id']?>"<?php echo ($priority['name']=='Normal' ? ' selected="selected"' : '')?>><?php echo $priority['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('severity')?></th>
-						<td>
-							<select name="severity">
-								<?php foreach(ticket_severities() as $severity) { ?>
-								<option value="<?php echo $severity['id']?>"<?php echo ($severity['name']=='Normal' ? ' selected="selected"' : '')?>><?php echo $severity['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th class="col1"><?php echo l('milestone')?></th>
-						<td>
-							<select name="milestone">
-								<?php foreach(project_milestones() as $milestone) { ?>
-								<?php if(!$milestone['locked']) { ?>
-								<option value="<?php echo $milestone['id']?>"><?php echo $milestone['milestone']?></option>
-								<?php } ?>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('version')?></th>
-						<td>
-							<select name="version">
-								<option value="0" selected=""></option>
-								<?php foreach(project_versions() as $version) { ?>
-								<option value="<?php echo $version['id']?>"><?php echo $version['version']?></option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th class="col1"><?php echo l('component')?></th>
-						<td>
-							<select name="component">
-								<option value="0"><?php echo l('none')?></option>
-								<?php foreach(project_components() as $component) { ?>
-								<option value="<?php echo $component['id']?>"<?php echo iif($component['default'],' selected="selected"')?>><?php echo $component['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('private_ticket')?></th>
-						<td><input type="checkbox" name="private" value="1" /></td>
-					</tr>
-					<?php ($hook = FishHook::hook('template_new_ticket_properties')) ? eval($hook) : false; ?>
-				</table>
+				<div class="properties">
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('type')?></span>
+						<select name="type">
+							<?php foreach(ticket_types() as $type) { ?>
+							<option value="<?php echo $type['id']?>"><?php echo $type['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('assigned_to')?></span>
+						<select name="assign_to">
+							<option value="0"></option>
+							<?php foreach(project_managers() as $manager) { ?>
+							<option value="<?php echo $manager['id']?>"><?php echo $manager['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('priority')?></span>
+						<select name="priority">
+							<?php foreach(ticket_priorities() as $priority) { ?>
+							<option value="<?php echo $priority['id']?>"<?php echo ($priority['id']=='3' ? ' selected="selected"' : '')?>><?php echo $priority['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('severity')?></span>
+						<select name="severity">
+							<?php foreach(ticket_severities() as $severity) { ?>
+							<option value="<?php echo $severity['id']?>"<?php echo $severity['id']?>"<?php echo ($severity['id']=='4' ? ' selected="selected"' : '')?>><?php echo $severity['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('milestone')?></span>
+						<select name="milestone">
+							<?php foreach(project_milestones() as $milestone) { ?>
+							<?php if(!$milestone['locked'] or ($milestone['locked'] && $ticket['milestone_id'] == $milestone['id'])) { ?>
+							<option value="<?php echo $milestone['id']?>"><?php echo $milestone['milestone']?></option>
+							<?php } ?>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('version')?></span>
+						<select name="version">
+							<option value="0"></option>
+							<?php foreach(project_versions() as $version) { ?>
+							<option value="<?php echo $version['id']?>"><?php echo $version['version']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('component')?></span>
+						<select name="component">
+							<option value="0"><?php echo l('none')?></option>
+							<?php foreach(project_components() as $component) { ?>
+							<option value="<?php echo $component['id']?>"><?php echo $component['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo l('private_ticket')?></span>
+						<input type="checkbox" name="private" value="1" />
+					</div>
+				</div>
+				<div class="clear"></div>
 			</fieldset>
 			
 			<?php if(!$user->loggedin) { ?>

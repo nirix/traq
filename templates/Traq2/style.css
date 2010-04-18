@@ -286,25 +286,33 @@ form p#buttons {
 	margin: 5px 0 0 0;
 }
 #update_ticket textarea {
-	width: 100%;
+	width: 99%;
 	height: 100px;
+	padding: 5px;
+}
+fieldset.new_ticket.properties div.properties {
+	width: 580px;
 }
 fieldset.properties .property {
 	float: left;
-	width: 300px;
+	width: 49.80%;
 	padding-top: 4px;
 	padding-bottom: 4px;
 	vertical-align: top;
+	
+}
+fieldset.properties .property.odd {
 	border-right: 1px dotted #d7d7d7;
 }
 fieldset.properties .property span {
 	width: 90px;
 	float: left;
 	text-align: right;
-	padding-right: 10px;
+	padding: 4px 10px 0 0;
+	font-size: 12px;
 }
 fieldset.properties div.properties {
-	width: 610px;
+	width: 612px;
 }
 fieldset.properties table.actions {
 	width: 550px;
@@ -377,6 +385,7 @@ form.new_ticket input.summary {
 form.new_ticket textarea.body {
 	width: 98%;
 	height: 150px;
+	padding: 5px;
 }
 
 /* Ticket display */

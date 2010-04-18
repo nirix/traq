@@ -101,7 +101,7 @@
 			<fieldset class="properties">
 				<legend><?php echo l('ticket_properties')?></legend>
 				<div class="properties">
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('type')?></span>
 						<select name="type">
 							<?php foreach(ticket_types() as $type) { ?>
@@ -109,7 +109,7 @@
 							<?php } ?>
 						</select>
 					</div>
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('assigned_to')?></span>
 						<select name="assign_to">
 							<option value="0"></option>
@@ -118,7 +118,7 @@
 							<?php } ?>
 						</select>
 					</div>
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('priority')?></span>
 						<select name="priority">
 							<?php foreach(ticket_priorities() as $priority) { ?>
@@ -126,7 +126,7 @@
 							<?php } ?>
 						</select>
 					</div>
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('severity')?></span>
 						<select name="severity">
 							<?php foreach(ticket_severities() as $severity) { ?>
@@ -134,7 +134,7 @@
 							<?php } ?>
 						</select>
 					</div>
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('milestone')?></span>
 						<select name="milestone">
 							<?php foreach(project_milestones() as $milestone) { ?>
@@ -144,7 +144,7 @@
 							<?php } ?>
 						</select>
 					</div>
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('version')?></span>
 						<select name="version">
 							<option value="0"></option>
@@ -153,7 +153,7 @@
 							<?php } ?>
 						</select>
 					</div>
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('component')?></span>
 						<select name="component">
 							<option value="0"><?php echo l('none')?></option>
@@ -162,12 +162,15 @@
 							<?php } ?>
 						</select>
 					</div>
-					<div class="property">
+					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('summary')?></span>
 						<input type="text" name="summary" value="<?php echo $ticket['summary']?>" />
 					</div>
 					<?php ($hook = FishHook::hook('template_update_ticket_properties')) ? eval($hook) : false; ?>
-					<div class="property">
+				</div>
+				<div class="clear"></div>
+				<div class="properties">
+					<div class="property odd">
 						<span><?php echo l('action')?></span>
 						<table>
 							<tr>
@@ -195,7 +198,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="property">
+					<div class="property even">
 						<span><?php echo l('private_ticket')?></span>
 						<input type="checkbox" name="private" id="private" value="1"<?php echo iif($ticket['private'],' checked="checked"')?> />
 					</div>
