@@ -69,7 +69,7 @@
 						<span><?php echo l('milestone')?></span>
 						<select name="milestone">
 							<?php foreach(project_milestones() as $milestone) { ?>
-							<?php if(!$milestone['locked'] or ($milestone['locked'] && $ticket['milestone_id'] == $milestone['id'])) { ?>
+							<?php if(!$milestone['locked']) { ?>
 							<option value="<?php echo $milestone['id']?>"><?php echo $milestone['milestone']?></option>
 							<?php } ?>
 							<?php } ?>
