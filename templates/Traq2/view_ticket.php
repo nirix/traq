@@ -18,10 +18,10 @@
 				<input type="button" onclick="if(confirm('<?php echo l('delete_ticket_confirm',$ticket['ticket_id'])?>')) { window.location='<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'],'delete')?>' }" value="<?php echo l('delete')?>" />
 				<?php } ?></h1>
 			<div class="ticket_properties">
-			<?php foreach($ticket_properties as $label => $value) { ?>
+			<?php foreach($ticket_properties as $property) { ?>
 				<div class="property">
-					<span><?php echo $label?></span>
-					<?php echo $value?>
+					<span><?php echo $property['label']?></span>
+					<?php echo $property['value']?>
 				</div>
 			<?php } ?>
 				<?php ($hook = FishHook::hook('template_view_ticket_properties')) ? eval($hook) : false; ?>
