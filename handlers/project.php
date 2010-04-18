@@ -76,7 +76,7 @@ elseif($uri->seg[1] == 'source')
 {
 	require(TRAQPATH.'handlers/source.php');
 }
-elseif($uri->seg[1] == 'watch')
+elseif($uri->seg[1] == 'watch' && $user->loggedin)
 {
 	if(is_subscribed('project',$project['id']))
 		remove_subscription('project',$project['id']);

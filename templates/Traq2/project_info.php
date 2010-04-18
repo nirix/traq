@@ -10,7 +10,9 @@
 		<?php require(template('breadcrumbs')); ?>
 		
 		<h1><?php echo $project['name']?></h1>
+		<?php if($user->loggedin) { ?>
 		<div><a href="<?php echo $uri->anchor($project['slug'],'watch')?>"><?php echo l(iif(is_subscribed('project',$project['id']),'Unwatch','Watch').'_this_project')?></a></div>
+		<?php } ?>
 		<p>
 			<?php echo formattext($project['info'])?>
 		</p>
