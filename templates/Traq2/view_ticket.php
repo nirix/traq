@@ -100,83 +100,79 @@
 			<textarea name="comment"></textarea>
 			<fieldset class="properties">
 				<legend><?php echo l('ticket_properties')?></legend>
-				<table class="properties">
-					<tr>
-						<th class="col1"><?php echo l('type')?></th>
-						<td>
-							<select name="type">
-								<?php foreach(ticket_types() as $type) { ?>
-								<option value="<?php echo $type['id']?>"<?php echo iif($type['id']==$ticket['type'],' selected="selected"')?>><?php echo $type['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('assigned_to')?></thd>
-						<td>
-							<select name="assign_to">
-								<option value="0"></option>
-								<?php foreach(project_managers() as $manager) { ?>
-								<option value="<?php echo $manager['id']?>"<?php echo iif($manager['id']==$ticket['assigned_to'],' selected="selected"')?>><?php echo $manager['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th class="col1"><?php echo l('priority')?></th>
-						<td>
-							<select name="priority">
-								<?php foreach(ticket_priorities() as $priority) { ?>
-								<option value="<?php echo $priority['id']?>"<?php echo iif($priority['id']==$ticket['priority'],' selected="selected"')?>><?php echo $priority['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('severity')?></th>
-						<td>
-							<select name="severity">
-								<?php foreach(ticket_severities() as $severity) { ?>
-								<option value="<?php echo $severity['id']?>"<?php echo iif($severity['id']==$ticket['severity'],' selected="selected"')?>><?php echo $severity['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th class="col1"><?php echo l('milestone')?></th>
-						<td>
-							<select name="milestone">
-								<?php foreach(project_milestones() as $milestone) { ?>
-								<?php if(!$milestone['locked'] or ($milestone['locked'] && $ticket['milestone_id'] == $milestone['id'])) { ?>
-								<option value="<?php echo $milestone['id']?>"<?php echo iif($milestone['id']==$ticket['milestone_id'],' selected="selected"')?>><?php echo $milestone['milestone']?></option>
-								<?php } ?>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('version')?></th>
-						<td>
-							<select name="version">
-								<option value="0"></option>
-								<?php foreach(project_versions() as $version) { ?>
-								<option value="<?php echo $version['id']?>"<?php echo iif($version['id']==$ticket['version_id'],' selected="selected"')?>><?php echo $version['version']?></option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th class="col1"><?php echo l('component')?></th>
-						<td>
-							<select name="component">
-								<option value="0"><?php echo l('none')?></option>
-								<?php foreach(project_components() as $component) { ?>
-								<option value="<?php echo $component['id']?>"<?php echo iif($component['id']==$ticket['component_id'],' selected="selected"')?>><?php echo $component['name']?></option>
-								<?php } ?>
-							</select>
-						</td>
-						<th class="col2"><?php echo l('summary')?></th>
-						<td><input type="text" name="summary" value="<?php echo $ticket['summary']?>" /></td>
-					</tr>
+				<div class="properties">
+					<div class="property">
+						<span><?php echo l('type')?></span>
+						<select name="type">
+							<?php foreach(ticket_types() as $type) { ?>
+							<option value="<?php echo $type['id']?>"<?php echo iif($type['id']==$ticket['type'],' selected="selected"')?>><?php echo $type['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property">
+						<span><?php echo l('assigned_to')?></span>
+						<select name="assign_to">
+							<option value="0"></option>
+							<?php foreach(project_managers() as $manager) { ?>
+							<option value="<?php echo $manager['id']?>"<?php echo iif($manager['id']==$ticket['assigned_to'],' selected="selected"')?>><?php echo $manager['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property">
+						<span><?php echo l('priority')?></span>
+						<select name="priority">
+							<?php foreach(ticket_priorities() as $priority) { ?>
+							<option value="<?php echo $priority['id']?>"<?php echo iif($priority['id']==$ticket['priority'],' selected="selected"')?>><?php echo $priority['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property">
+						<span><?php echo l('severity')?></span>
+						<select name="severity">
+							<?php foreach(ticket_severities() as $severity) { ?>
+							<option value="<?php echo $severity['id']?>"<?php echo iif($severity['id']==$ticket['severity'],' selected="selected"')?>><?php echo $severity['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property">
+						<span><?php echo l('milestone')?></span>
+						<select name="milestone">
+							<?php foreach(project_milestones() as $milestone) { ?>
+							<?php if(!$milestone['locked'] or ($milestone['locked'] && $ticket['milestone_id'] == $milestone['id'])) { ?>
+							<option value="<?php echo $milestone['id']?>"<?php echo iif($milestone['id']==$ticket['milestone_id'],' selected="selected"')?>><?php echo $milestone['milestone']?></option>
+							<?php } ?>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property">
+						<span><?php echo l('version')?></span>
+						<select name="version">
+							<option value="0"></option>
+							<?php foreach(project_versions() as $version) { ?>
+							<option value="<?php echo $version['id']?>"<?php echo iif($version['id']==$ticket['version_id'],' selected="selected"')?>><?php echo $version['version']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property">
+						<span><?php echo l('component')?></span>
+						<select name="component">
+							<option value="0"><?php echo l('none')?></option>
+							<?php foreach(project_components() as $component) { ?>
+							<option value="<?php echo $component['id']?>"<?php echo iif($component['id']==$ticket['component_id'],' selected="selected"')?>><?php echo $component['name']?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="property">
+						<span><?php echo l('summary')?></span>
+						<input type="text" name="summary" value="<?php echo $ticket['summary']?>" />
+					</div>
 					<?php ($hook = FishHook::hook('template_update_ticket_properties')) ? eval($hook) : false; ?>
-					<tr>
-						<th class="col1"><?php echo l('action')?></th>
-						<td>
-							<?php if(!$ticket['closed']) { ?>
+					<div class="property">
+						<span><?php echo l('action')?></span>
+						<table>
+							<tr>
+								<td>
+						<?php if(!$ticket['closed']) { ?>
 							<input type="radio" name="action" value="mark" checked="checked" id="mark" /> <label for="mark"><?php echo l('mark_as')?></label> <select name="mark_as">
 								<?php foreach(ticket_status_list() as $status) { ?>
 									<option value="<?php echo $status['id']?>"<?php echo iif($status['id']==$ticket['status'],' selected="selected"')?>><?php echo $status['name']?></option>
@@ -195,28 +191,28 @@
 								<?php } ?>
 							</select>
 							<?php } ?>
-						</td>
-						<th class="col2"><label for="private"><?php echo l('private_ticket')?></label></th>
-						<td><input type="checkbox" name="private" id="private" value="1"<?php echo iif($ticket['private'],' checked="checked"')?> /></td>
-					</tr>
-					<?php if(!$user->loggedin) { ?>
-					<tr>
-						<th><?php echo l('your_name')?></th>
-						<td><input type="text" name="name" value="<?php echo $_COOKIE['guestname']?>" />	</td>
-					</tr>
-					<?php if(settings('recaptcha_enabled')) { ?>
-					<tr>
-						<th><?php echo l('recaptcha')?></th>
-						<td colspan="2"><?php echo recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?></td>
-					</tr>
-					<?php } ?>
-					<?php } ?>
-					<tr>
-						<td></td>
-						<td><input type="submit" value="<?php echo l('update')?>" /></td>
-					</tr>
-				</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="property">
+						<span><?php echo l('private_ticket')?></span>
+						<input type="checkbox" name="private" id="private" value="1"<?php echo iif($ticket['private'],' checked="checked"')?> />
+					</div>
+					<div class="property">
+						<span><?php echo l('your_name')?></span>
+						<input type="text" name="name" value="<?php echo $_COOKIE['guestname']?>" />
+					</div>
+				</div>
+				<div class="clear"></div>
 			</fieldset>
+			<?php if(settings('recaptcha_enabled')) { ?>
+			<fieldset>
+				<legend><?php echo l('recaptcha')?></legend>
+				<?php echo recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?>
+			</fieldset>
+			<?php } ?>
+			<input type="submit" value="<?php echo l('update')?>" />
 		</div>
 		</form>
 		<?php } ?>

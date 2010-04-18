@@ -289,17 +289,25 @@ form p#buttons {
 	width: 100%;
 	height: 100px;
 }
-fieldset.properties th {
+fieldset.properties .property {
+	float: left;
+	width: 300px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	vertical-align: top;
+	border-right: 1px dotted #d7d7d7;
+}
+fieldset.properties .property span {
+	width: 90px;
+	float: left;
 	text-align: right;
-	width: 20%;
-	padding-right: 2px;
-	font-weight: normal;
+	padding-right: 10px;
 }
-fieldset.properties td {
-	padding-left: 2px;
+fieldset.properties div.properties {
+	width: 610px;
 }
-fieldset.properties .col2 {
-	border-left: 1px dotted #d7d7d7;
+fieldset.properties table.actions {
+	width: 550px;
 }
 input[type=text], input[type=password], textarea {
 	border: 1px solid #d7d7d7;
@@ -393,34 +401,9 @@ form.new_ticket textarea.body {
 #ticket .date p {
 	margin: 0;
 }
-
-#ticket table.properties {
-	border-top: 1px solid #dd9;
-	border-collapse: collapse;
-	table-layout: fixed;
-	width: 100%;
-}
-#ticket table.properties tr {
-	border-bottom: 1px dotted #eed;
-}
-#ticket table.properties td, #ticket table.properties th {
-	font-size: 80%;
-	padding: .5em 1em;
-	vertical-align: top;
-}
-#ticket table.properties th {
-	color: #663;
-	font-weight: normal;
-	text-align: left;
-	width: 20%;
-}
-#ticket table.properties td {
-	width: 30%;
-}
 #ticket table.properties .description {
 	border-top: 1px solid #dd9;
 }
-
 #ticket .properties {
 	display: block;
 }
