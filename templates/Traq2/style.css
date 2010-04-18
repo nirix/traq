@@ -426,8 +426,9 @@ form.new_ticket textarea.body {
 }
 #ticket .property {
 	float: left;
-	width: 45%;
-	padding: 4px 6px;
+	width: 50%;
+	padding-top: 4px;
+	padding-bottom: 4px;
 	font-size: 80%;
 	vertical-align: top;
 	border-bottom: 1px dotted #eed;
@@ -437,6 +438,8 @@ form.new_ticket textarea.body {
 	float: left;
 	color: #663;
 	text-align: left;
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 #ticket .description h3 {
