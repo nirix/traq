@@ -337,6 +337,10 @@ $lang['no_repositories'] = 'No Repositories';
 $lang['repository'] = 'Repository';
 $lang['location'] = 'Location';
 $lang['statistics'] = 'Statistics';
+$lang['Theme'] = 'Theme';
+$lang['theme_description'] = 'The theme used by Traq';
+$lang['Language'] = 'Language';
+$lang['language_description'] = 'Select the language Traq should be displayed in.';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';

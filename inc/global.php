@@ -50,7 +50,7 @@ define("THEMEDIR",$uri->anchor('templates',settings('theme')));
 $uri->style = settings('seo_urls');
 
 // Fetch locale file...
-require('locale/'.settings('locale').'.php');
+require('locale/'.settings('locale'));
 
 ($hook = FishHook::hook('global')) ? eval($hook) : false;
 ?>

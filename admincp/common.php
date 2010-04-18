@@ -66,6 +66,26 @@ function getgroups()
 	return $groups;
 }
 
+function get_locales()
+{
+	$locales = array();
+	foreach(scandir(TRAQPATH.'inc/locale') as $file)
+	{
+		if(!in_array($file,array('.','..','.svn')))
+		{
+			$data = file_get_contents(TRAQPATH.'inc/locale/'.$file);
+			preg_match('| Name: (.*)$|mi',$data,$name); // Language name
+			preg_match('| Author:(.*)$|mi',$data, $author); // Language author
+			$locales[] = array(
+				'name' => trim($name[1]),
+				'author' => $author[1],
+				'file' => $file
+			);
+		}
+	}
+	return $locales;
+}
+
 /**
  * Check Active
  * @param string $page The page filename

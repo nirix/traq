@@ -60,6 +60,32 @@ head('Settings');
 					<input type="radio" name="seo_urls" value="0" id="seo_urls_no"<?php echo (!settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_no">No</label>
 				</td>
 			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('Theme')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('theme_description')?></td>
+				<td>
+					<select name="theme">
+					<?php foreach(scandir('../templates') as $theme) { if(in_array($theme,array('.','..','.svn')) or !is_dir('../templates/'.$theme)) continue; ?>
+						<option value="<?php echo $theme?>"<?php echo iif(settings('theme') == $theme,' selected="selected"')?>><?php echo str_replace('.php','',$theme)?></option>
+					<?php } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('Language')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('language_description')?></td>
+				<td>
+					<select name="locale">
+					<?php foreach(get_locales() as $locale) { ?>
+						<option value="<?php echo $locale['file']?>"<?php echo iif(settings('locale') == $locale['file'],' selected="selected"')?>><?php echo str_replace('.php','',$locale['name'])?></option>
+					<?php } ?>
+					</select>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<br />

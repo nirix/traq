@@ -206,7 +206,7 @@ CREATE TABLE `traq_versions` (
 
 INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('theme', 'Traq2'),
-('locale', 'enus'),
+('locale', 'enus.php'),
 ('seo_urls','0'),
 ('recaptcha_enabled','0'),
 ('recaptcha_pubkey', ''),
