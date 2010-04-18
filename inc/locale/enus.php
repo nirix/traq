@@ -109,7 +109,7 @@ $lang['password_reset_message'] = 'Hello {1}, you or someone requested a passwor
 	'http://'.$_SERVER['HTTP_HOST'].$uri->anchor('user','resetpass?hash={2}');
 
 // Notifications
-$lang['x_x_created'] = '{1}: {2} notification';
+$lang['x_x_notification'] = '{1}: {2} notification';
 $lang['notification_project_ticket_created'] = "Hello {1}, a new ticket has been created on {2}.\r\n\r\n#{3}: {4}\r\n{5}";
 
 // Tickets
