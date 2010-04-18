@@ -17,37 +17,16 @@
 			<h1 class="summary"><?php echo $ticket['summary']?> <small>(<?php echo l('ticket_x',$ticket['ticket_id'])?>)</small> <?php if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?>
 				<input type="button" onclick="if(confirm('<?php echo l('delete_ticket_confirm',$ticket['ticket_id'])?>')) { window.location='<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'],'delete')?>' }" value="<?php echo l('delete')?>" />
 				<?php } ?></h1>
-			<table class="properties">
-				<tr>
-					<th id="h_owner"><?php echo l('reported_by')?>:</th>
-					<td headers="h_owner"><?php echo $ticket['user_name']?></td>
-					<th id="h_assignee"><?php echo l('assigned_to')?>:</th>
-					<td headers="h_assignee"><?php echo $ticket['assignee']['username']?></td>
-				</tr>
-				<tr>
-					<th id="h_type"><?php echo l('type')?>:</th>
-					<td headers="h_type"><?php echo ticket_type($ticket['type'])?></td>
-					<th id="h_priority"><?php echo l('priority')?>:</th>
-					<td headers="h_priority"><?php echo ticket_priority($ticket['priority'])?></td>
-				</tr>
-				<tr>
-					<th id="h_severity"><?php echo l('severity')?>:</th>
-					<td headers="h_severity"><?php echo ticket_severity($ticket['severity'])?></td>
-					<th id="h_component"><?php echo l('component')?>:</th>
-					<td headers="h_component"><?php echo $ticket['component']['name']?></td>
-				</tr>
-				<tr>
-					<th id="h_milestone"><?php echo l('milestone')?>:</th>
-					<td headers="h_milestone"><?php echo $ticket['milestone']['milestone']?></td>
-					<th id="h_version"><?php echo l('version')?>:</th>
-					<td headers="h_version"><?php echo $version['version']?></td>
-				</tr>
-				<tr>
-					<th id="h_status"><?php echo l('status')?>:</th>
-					<td headers="h_status"><?php echo ticket_status($ticket['status'])?></td>
-				</tr>
+			<div class="ticket_properties">
+			<?php foreach($ticket_properties as $label => $value) { ?>
+				<div class="property">
+					<span><?php echo $label?></span>
+					<?php echo $value?>
+				</div>
+			<?php } ?>
 				<?php ($hook = FishHook::hook('template_view_ticket_properties')) ? eval($hook) : false; ?>
-			</table>
+			</div>
+			<div class="clear"></div>
 			<div class="description">
 				<h3 id="description"><?php echo l('description')?></h3>
 				<p>

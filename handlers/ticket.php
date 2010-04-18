@@ -257,6 +257,19 @@ if(isset($_POST['update']))
 	}
 }
 
+// Ticket Properties
+$ticket_properties = array(
+	l('reported_by') => $ticket['user_name'],
+	l('assigned_to') => $ticket['assignee']['name'],
+	l('type') => ticket_type($ticket['type']),
+	l('priority') => ticket_priority($ticket['priority']),
+	l('severity') => ticket_severity($ticket['severity']),
+	l('component') => $ticket['component']['name'],
+	l('milestone') => $ticket['milestone']['milestone'],
+	l('version') => $ticket['version']['version'],
+	l('status') => ticket_status($ticket['status'])
+);
+
 ($hook = FishHook::hook('handler_ticket')) ? eval($hook) : false;
 
 // Assuming all goes well, display the view ticket page.
