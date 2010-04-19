@@ -25,7 +25,7 @@
 					<li<?php echo iif($uri->seg[1]=='tickets' or preg_match('/ticket-(?<ticket_id>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>"><?php echo l('tickets')?></a></li>
 					<li<?php echo iif($uri->seg[1]=='changelog',' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'changelog')?>"><?php echo l('changelog')?></a></li>
 					<?php if(has_repo()) { ?><li<?php echo iif($uri->seg[1]=='source',' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'source')?>"><?php echo l('source')?></a></li><?php } ?>
-					
+					<?php ($hook = FishHook::hook('template_header_project_links')) ? eval($hook) : false; ?>
 					<?php if($user->group['create_tickets']) { ?>
 					<li class="standalone<?php echo iif($uri->seg[1]=='newticket',' active')?>"><a href="<?php echo $uri->anchor($project['slug'],'newticket')?>"><?php echo l('new_ticket')?></a></li>
 					<?php } ?>
