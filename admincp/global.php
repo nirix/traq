@@ -191,7 +191,9 @@ $hook_locations = array(
 	'users' => array(
 		'user_construct',
 		'user_register',
-		'user_logout'
+		'user_logout',
+		'user_login_success',
+		'user_login_error'
 	),
 	
 	// Templates
@@ -220,6 +222,7 @@ $hook_locations = array(
 		'function_project_verions',
 		'function_project_components',
 		'function_project_managers',
+		'function_is_subscribed',
 		'function_add_subscription',
 		'function_remove_subscription',
 		'function_send_notification'
@@ -235,6 +238,8 @@ $hook_locations = array(
 		'handler_ticket',
 		'handler_tickets',
 		'handler_timeline',
+		'handler_changelog',
+		'handler_source',
 		'handler_usercp',
 		'handler_usercp_save',
 		'attachment_view'

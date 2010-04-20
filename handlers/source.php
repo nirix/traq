@@ -55,5 +55,7 @@ require(TRAQPATH.'inc/'.$repo['info']['file']);
 $source = new $repo['info']['class']($repo['location']);
 $files = $source->ls(implode('/',array_slice($uri->seg,3)));
 
+($hook = FishHook::hook('handler_source')) ? eval($hook) : false;
+
 include(template('source'));
 ?>

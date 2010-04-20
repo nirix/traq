@@ -87,10 +87,12 @@ class User
 				setcookie('traq_h',sha1($password.time().$username),0,'/');
 				setcookie('traq_remember',0,0,'/');
 			}
+			($hook = FishHook::hook('user_login_success')) ? eval($hook) : false;
 			return true;
 		} else {
 			unset($this->errors);
 			$this->errors[] = l('error_invalid_username_or_password');
+			($hook = FishHook::hook('user_login_error')) ? eval($hook) : false;
 			return false;
 		}
 	}

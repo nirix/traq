@@ -46,5 +46,7 @@ while($info = $db->fetcharray($fetchmilestones))
 	$milestones[] = $info;
 }
 
+($hook = FishHook::hook('handler_changelog')) ? eval($hook) : false;
+
 include(template('changelog'));
 ?>

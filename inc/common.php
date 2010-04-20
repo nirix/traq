@@ -486,8 +486,10 @@ function is_subscribed($type,$data='')
 	global $db,$user,$project;
 	
 	if($db->numrows($db->query("SELECT id FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$project['id']."' AND data='".$data."' LIMIT 1")))
+	{
+		($hook = FishHook::hook('function_is_subscribed')) ? eval($hook) : false;
 		return true;
-	
+	}
 	return false;
 }
 
