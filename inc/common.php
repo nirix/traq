@@ -579,8 +579,6 @@ function send_notification($type,$data=array())
 				if(in_array($info['username'],$sent)) continue;
 				$sent[] = $info['username'];
 				
-				die("WTF");
-				
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
 					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
