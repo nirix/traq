@@ -41,8 +41,8 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 	foreach($_POST['filters'] as $filter => $values)
 	{		
 		$val = -1;
-		// Milestone, Version, Type, Component
-		if(in_array($filter,array('milestone','version','type','component','severity','priority')))
+		// Milestone, Version, Type, Component, Severity, Priority, Owner
+		if(in_array($filter,array('milestone','version','type','component','severity','priority','owner')))
 		{
 			// Loop through values
 			$bits = array();
@@ -68,6 +68,7 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 			// Add it to the URL.
 			$url[] = 'status='.implode(',',$values);
 		}
+
 	}
 	
 	// Columns
@@ -178,6 +179,22 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				$filter['values'] = ($filter['value'] == 'open' ? $status['open'] : $status['closed']);
 			}
 			$query .= "AND status ".iif($filter['mode'] == '!','not ')."in (".implode(',',$filter['values']).")";
+		}
+		// Owner filter
+		elseif($filter['type'] == 'owner')
+		{
+			// Loop through the values
+			foreach($filter['values'] as $value)
+			{
+				// Make sure the value is not empty.
+				if(empty($value))
+					continue;
+				
+				$values[] = "'".$value."'";
+			}
+			
+			if(count($values))
+				$query .= "AND user_name ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).")";
 		}
 	}
 }

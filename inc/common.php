@@ -380,7 +380,8 @@ function ticket_filters()
 		'status',
 		'type',
 		'severity',
-		'priority'
+		'priority',
+		'owner'
 	);
 	($hook = FishHook::hook('function_ticket_filters')) ? eval($hook) : false;
 	return $filters;
