@@ -551,6 +551,8 @@ function send_notification($type,$data=array())
 {
 	global $project, $db;
 	
+	static $sent = array();
+	
 	// Project notification
 	if($type == 'project')
 	{
@@ -559,9 +561,12 @@ function send_notification($type,$data=array())
 			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='project' AND project_id='".$project['id']."'");
 			while($info = $db->fetcharray($fetch))
 			{
+				if(in_array($info['username'],$sent)) continue;
+				$sent[] = $info['username'];
+				
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
-					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
+					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['ticket_id'],$data['summary'],$data['url']),
 					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
 				);
 			}
@@ -572,10 +577,17 @@ function send_notification($type,$data=array())
 	{
 		if($data['type'] == 'ticket_updated')
 		{
-			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='project' AND project_id='".$project['id']."'");
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='ticket' AND project_id='".$project['id']."' AND data='".$data['ticket_id']."'");
 			while($info = $db->fetcharray($fetch))
 			{
-			
+				if(in_array($info['username'],$sent)) continue;
+				$sent[] = $info['username'];
+				
+				mail($info['email'],
+					l('x_x_notification',settings('title'),$project['name']),
+					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['ticket_id'],$data['summary'],$data['url']),
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+				);
 			}
 		}
 	}

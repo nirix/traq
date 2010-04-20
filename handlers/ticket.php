@@ -258,7 +258,7 @@ if(isset($_POST['update']))
 			$notification = array(
 				'type' => 'ticket_updated',
 				'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id']),
-				'id' => $ticket['ticket_id'],
+				'ticket_id' => $ticket['ticket_id'],
 				'summary' => $ticket['summary']
 			);
 			send_notification('ticket',$notification);
