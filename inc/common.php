@@ -546,11 +546,13 @@ function send_notification($type,$data=array())
 	// Project notification
 	if($type == 'project')
 	{
+		// Ticket Created
 		if($data['type'] == 'ticket_created')
 		{
 			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='project' AND project_id='".$project['id']."'");
 			while($info = $db->fetcharray($fetch))
 			{
+				// Check to make sure we havn't already emailed the user.
 				if(in_array($info['username'],$sent)) continue;
 				$sent[] = $info['username'];
 				
@@ -565,11 +567,13 @@ function send_notification($type,$data=array())
 	// Ticket notification
 	elseif($type == 'ticket')
 	{
+		// Ticket Updated
 		if($data['type'] == 'ticket_updated')
 		{
-			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='ticket' AND project_id='".$project['id']."' AND data='".$data['ticket_id']."'");
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='ticket' AND project_id='".$project['id']."' AND data='".$data['tid']."'");
 			while($info = $db->fetcharray($fetch))
 			{
+				// Check to make sure we havn't already emailed the user.
 				if(in_array($info['username'],$sent)) continue;
 				$sent[] = $info['username'];
 				
