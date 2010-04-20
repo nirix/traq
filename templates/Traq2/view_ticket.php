@@ -54,7 +54,9 @@
 				<?php } ?>
 			</div>
 		</div>
+		<?php if($user->loggedin) { ?>
 		<div align="right"><a href="<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'],'watch')?>"><?php echo l(iif(is_subscribed('ticket',$ticket['id']),'Unwatch','Watch').'_this_ticket')?></a></div>
+		<?php } ?>
 		
 		<h2><?php echo l('ticket_history')?></h2>
 		<div id="ticket_history">
