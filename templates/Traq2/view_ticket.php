@@ -203,10 +203,12 @@
 						<span><?php echo l('private_ticket')?></span>
 						<input type="checkbox" name="private" id="private" value="1"<?php echo iif($ticket['private'],' checked="checked"')?> />
 					</div>
+					<?php if(!$user->loggedin) { ?>
 					<div class="property">
 						<span><?php echo l('your_name')?></span>
 						<input type="text" name="name" value="<?php echo $_COOKIE['guestname']?>" />
 					</div>
+					<?php } ?>
 				</div>
 				<div class="clear"></div>
 			</fieldset>
