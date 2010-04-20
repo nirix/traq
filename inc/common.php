@@ -485,7 +485,7 @@ function is_subscribed($type,$data='')
 {
 	global $db,$user,$project;
 	
-	if($db->numrows($db->query("SELECT id FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$data."' AND data='".$data."' LIMIT 1")))
+	if($db->numrows($db->query("SELECT id FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$project['id']."' AND data='".$data."' LIMIT 1")))
 		return true;
 	
 	return false;
