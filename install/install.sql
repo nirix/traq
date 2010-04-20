@@ -1,6 +1,6 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-CREATE TABLE `traq_attachments` (
+CREATE TABLE IF NOT EXISTS `traq_attachments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `contents` longtext COLLATE utf8_unicode_ci NOT NULL,
@@ -12,9 +12,9 @@ CREATE TABLE `traq_attachments` (
   `ticket_id` bigint(20) NOT NULL,
   `project_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_components` (
+CREATE TABLE IF NOT EXISTS `traq_components` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `default` smallint(6) NOT NULL DEFAULT '0',
@@ -22,7 +22,7 @@ CREATE TABLE `traq_components` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_milestones` (
+CREATE TABLE IF NOT EXISTS `traq_milestones` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `milestone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `traq_milestones` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_plugins` (
+CREATE TABLE IF NOT EXISTS `traq_plugins` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `traq_plugins` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_plugin_code` (
+CREATE TABLE IF NOT EXISTS `traq_plugin_code` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `plugin_id` bigint(20) NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -61,13 +61,13 @@ CREATE TABLE `traq_plugin_code` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_priorities` (
+CREATE TABLE IF NOT EXISTS `traq_priorities` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_projects` (
+CREATE TABLE IF NOT EXISTS `traq_projects` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `traq_projects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_repositories` (
+CREATE TABLE IF NOT EXISTS `traq_repositories` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -89,21 +89,21 @@ CREATE TABLE `traq_repositories` (
   `main` smallint(6) NOT NULL,
   `project_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_settings` (
+CREATE TABLE IF NOT EXISTS `traq_settings` (
   `setting` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `value` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`setting`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_severities` (
+CREATE TABLE IF NOT EXISTS `traq_severities` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_subscriptions` (
+CREATE TABLE IF NOT EXISTS `traq_subscriptions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `user_id` bigint(20) NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE `traq_subscriptions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_tickets` (
+CREATE TABLE IF NOT EXISTS `traq_tickets` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ticket_id` bigint(20) NOT NULL,
   `summary` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -132,10 +132,11 @@ CREATE TABLE `traq_tickets` (
   `created` bigint(20) NOT NULL,
   `updated` bigint(20) NOT NULL DEFAULT '0',
   `private` smallint(6) NOT NULL DEFAULT '0',
+  `percent_done` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_ticket_history` (
+CREATE TABLE IF NOT EXISTS `traq_ticket_history` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `user_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -147,21 +148,21 @@ CREATE TABLE `traq_ticket_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_ticket_status` (
+CREATE TABLE IF NOT EXISTS `traq_ticket_status` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` smallint(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_ticket_types` (
+CREATE TABLE IF NOT EXISTS `traq_ticket_types` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bullet` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_timeline` (
+CREATE TABLE IF NOT EXISTS `traq_timeline` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) NOT NULL,
   `owner_id` bigint(20) NOT NULL,
@@ -174,7 +175,7 @@ CREATE TABLE `traq_timeline` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_usergroups` (
+CREATE TABLE IF NOT EXISTS `traq_usergroups` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_admin` smallint(6) NOT NULL,
@@ -185,7 +186,7 @@ CREATE TABLE `traq_usergroups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_users` (
+CREATE TABLE IF NOT EXISTS `traq_users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -196,7 +197,7 @@ CREATE TABLE `traq_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_versions` (
+CREATE TABLE IF NOT EXISTS `traq_versions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `project_id` bigint(20) NOT NULL,
