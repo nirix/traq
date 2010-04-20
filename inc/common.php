@@ -570,7 +570,7 @@ function send_notification($type,$data=array())
 		// Ticket Updated
 		if($data['type'] == 'ticket_updated')
 		{
-			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='ticket' AND project_id='".$project['id']."' AND data='".$data['tid']."'");
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='ticket' AND project_id='".$project['id']."' AND data='".$data['id']."'");
 			while($info = $db->fetcharray($fetch))
 			{
 				// Check to make sure we havn't already emailed the user.

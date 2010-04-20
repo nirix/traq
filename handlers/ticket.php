@@ -260,7 +260,6 @@ if(isset($_POST['update']))
 				'".json_encode($changes)."',
 				'".$db->res($_POST['comment'])."'
 			)");
-			header("Location: ".$uri->geturi().'?updated');
 			
 			// Update ticket updated field
 			$db->query("UPDATE ".DBPF."tickets SET updated='".time()."' WHERE id='".$ticket['id']."' LIMIT 1");
@@ -274,6 +273,8 @@ if(isset($_POST['update']))
 				'summary' => $ticket['summary']
 			);
 			send_notification('ticket',$notification);
+			
+			header("Location: ".$uri->geturi().'?updated');
 		}
 	}
 }
