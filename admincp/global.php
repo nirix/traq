@@ -203,7 +203,8 @@ $hook_locations = array(
 		'template_update_ticket_properties',
 		'template_headerinc',
 		'template_header_project_links',
-		'template_footer'
+		'template_footer',
+		'template_projectlist_quick_nav'
 	),
 	
 	// Functions
