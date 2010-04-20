@@ -78,14 +78,14 @@ class Ticket
 			(".$fields.")
 			VALUES(".$values.")
 		");
-		$ticketid = $db->insertid();
+		$this->id = $db->insertid();
 		
 		// Insert the ticket history row
 		$db->query("INSERT INTO ".DBPF."ticket_history (user_id,user_name,timestamp,ticket_id,project_id,changes,comment) VALUES(
 			'".$user->info['id']."',
 			'".$user->info['username']."',
 			'".time()."',
-			'".$ticketid."',
+			'".$this->id."',
 			'".$project['id']."',
 			'".json_encode(array(array('property'=>'status','from'=>'','to'=>'1','action'=>'open')))."',
 			''
@@ -95,7 +95,7 @@ class Ticket
 		$db->query("INSERT INTO ".DBPF."timeline VALUES(
 			0,
 			'".$db->res($project['id'])."',
-			'".$ticketid."',
+			'".$this->id."',
 			'open_ticket',
 			'".$project['next_tid']."',
 			'".$user->info['id']."',
