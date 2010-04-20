@@ -34,6 +34,17 @@ $ticket = $ticketC->get(array('ticket_id'=>$matches['id'],'project_id'=>$project
 if(!$ticket['id'])
 	die();
 
+// Watch/Unwatch
+if($uri->seg[2] == 'watch')
+{
+	if(is_subscribed('ticket',$ticket['id']))
+		remove_subscription('ticket',$ticket['id']);
+	else
+		add_subscription('ticket',$ticket['id']);
+	
+	header("Location: ".$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'].'?'.(is_subscribed('ticket',$ticket['id']) ? 'subscribed' : 'unsubscribed')));
+}
+
 // Delete Comment
 if($_POST['action'] == 'delete_comment')
 {
@@ -258,7 +269,8 @@ if(isset($_POST['update']))
 			$notification = array(
 				'type' => 'ticket_updated',
 				'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id']),
-				'ticket_id' => $ticket['ticket_id'],
+				'id' => $ticket['id'],
+				'tid' => $ticket['ticket_id'],
 				'summary' => $ticket['summary']
 			);
 			send_notification('ticket',$notification);

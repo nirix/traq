@@ -75,7 +75,7 @@ if(isset($_POST['summary']))
 		$notification = array(
 			'type' => 'ticket_created',
 			'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'ticket-'.$ticket->ticket_id),
-			'ticket_id' => $ticket->ticket_id,
+			'tid' => $ticket->ticket_id,
 			'summary' => $data['summary']
 		);
 		send_notification('project',$notification);

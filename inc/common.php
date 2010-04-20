@@ -485,11 +485,8 @@ function is_subscribed($type,$data='')
 {
 	global $db,$user,$project;
 	
-	if($type == 'project')
-	{
-		if($db->numrows($db->query("SELECT id FROM ".DBPF."subscriptions WHERE type='project' AND user_id='".$user->info['id']."' AND project_id='".$data."' LIMIT 1")))
-			return true;
-	}
+	if($db->numrows($db->query("SELECT id FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$data."' AND data='".$data."' LIMIT 1")))
+		return true;
 	
 	return false;
 }
@@ -505,18 +502,14 @@ function add_subscription($type,$data='')
 {
 	global $db,$user,$project;
 	
-	if($type == 'project')
-	{
-		$db->query("INSERT INTO ".DBPF."subscriptions
-		(type,user_id,project_id,data,last_update)
-		VALUES(
-		'project',
-		'".$user->info['id']."',
-		'".$project['id']."',
-		'',
-		'".time()."'
-		)");
-	}
+	$db->query("INSERT INTO ".DBPF."subscriptions
+	(type,user_id,project_id,data)
+	VALUES(
+	'".$type."',
+	'".$user->info['id']."',
+	'".$project['id']."',
+	'".$data."'
+	)");
 	
 	($hook = FishHook::hook('function_add_subscription')) ? eval($hook) : false;
 }
@@ -532,10 +525,7 @@ function remove_subscription($type,$data='')
 {
 	global $db,$user,$project;
 	
-	if($type == 'project')
-	{
-		$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='project' AND user_id='".$user->info['id']."' AND project_id='".$data."' LIMIT 1");
-	}
+	$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$data."' AND data='".$data."' LIMIT 1");
 	
 	($hook = FishHook::hook('function_remove_subscription')) ? eval($hook) : false;
 }
@@ -566,7 +556,7 @@ function send_notification($type,$data=array())
 				
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
-					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['ticket_id'],$data['summary'],$data['url']),
+					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['tid'],$data['summary'],$data['url']),
 					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
 				);
 			}
@@ -585,7 +575,7 @@ function send_notification($type,$data=array())
 				
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
-					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['ticket_id'],$data['summary'],$data['url']),
+					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
 					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
 				);
 			}
