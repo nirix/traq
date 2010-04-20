@@ -525,7 +525,7 @@ function remove_subscription($type,$data='')
 {
 	global $db,$user,$project;
 	
-	$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$data."' AND data='".$data."' LIMIT 1");
+	$db->query("DELETE FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$project['id']."' AND data='".$data."' LIMIT 1");
 	
 	($hook = FishHook::hook('function_remove_subscription')) ? eval($hook) : false;
 }
