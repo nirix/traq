@@ -32,10 +32,8 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 	
 	// Check if we're adding a filter
 	$newfilters = array();
-	if(in_array($_POST['add_filter'],ticket_filters()) AND !isset($_POST['filters'][$_POST['add_filter']]))
-	{
+	if(in_array($_POST['add_filter'],ticket_filters()) and !isset($_POST['filters'][$_POST['add_filter']]))
 		$newfilters[] = $_POST['add_filter'].'=';
-	}
 	
 	// Filters
 	foreach($_POST['filters'] as $filter => $values)

@@ -115,6 +115,9 @@ function formattext($text,$disablehtml=false)
 	global $uri,$project;
 	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
 	
+	// [[WikiPage]]
+	$text = preg_replace("/\[\[(.*?)\\]\\]/is",'<a href="'.$uri->anchor($project['slug'],'wiki').'/$1">$1</a>',$text);
+	
 	($hook = FishHook::hook('function_formattext')) ? eval($hook) : false;
 	
 	return $text;
@@ -561,7 +564,7 @@ function send_notification($type,$data=array())
 				
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
-					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['tid'],$data['summary'],$data['url']),
+					l('notification_'.$data['type'],$info['username'],$project['name'],$data['tid'],$data['summary'],$data['url']),
 					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
 				);
 			}
@@ -582,7 +585,28 @@ function send_notification($type,$data=array())
 				
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
-					l('notification_project_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
+					l('notification_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+				);
+			}
+		}
+	}
+	// Milestone notification
+	elseif($type == 'milestone')
+	{
+		// Ticket Updated
+		if($data['type'] == 'ticket_created')
+		{
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='milestone' AND project_id='".$project['id']."' AND data='".$data['id']."'");
+			while($info = $db->fetcharray($fetch))
+			{
+				// Check to make sure we havn't already emailed the user.
+				if(in_array($info['username'],$sent)) continue;
+				$sent[] = $info['username'];
+				
+				mail($info['email'],
+					l('x_x_notification',settings('title'),$project['name']),
+					l('notification_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
 					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
 				);
 			}

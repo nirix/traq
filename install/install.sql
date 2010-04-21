@@ -204,6 +204,16 @@ CREATE TABLE IF NOT EXISTS `traq_versions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `traq_wiki` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `project_id` bigint(20) NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `body` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `main` smallint(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('theme', 'Traq2'),
 ('locale', 'enus.php'),

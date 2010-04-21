@@ -76,6 +76,11 @@ elseif($uri->seg[1] == 'source')
 {
 	require(TRAQPATH.'handlers/source.php');
 }
+// Wiki
+elseif($uri->seg[1] == 'wiki')
+{
+	require(TRAQPATH.'handlers/wiki.php');
+}
 elseif($uri->seg[1] == 'watch' && $user->loggedin)
 {
 	if(is_subscribed('project',$project['id']))

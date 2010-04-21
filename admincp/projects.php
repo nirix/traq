@@ -41,6 +41,7 @@ if(isset($_REQUEST['new']))
 		
 		if(!count($errors))
 		{
+			// Insert the project.
 			$db->query("INSERT INTO ".DBPF."projects (id,name,slug,codename,info,managers,private,next_tid,displayorder)
 				VALUES(
 				0,
@@ -52,7 +53,18 @@ if(isset($_REQUEST['new']))
 				0,
 				1,
 				'".$db->res($_POST['displayorder'])."'
-			)");
+				)");
+			$project_id = $db->insertid();
+			
+			// Create the main wiki page.
+			$db->query("INSERT INTO ".DBPF."wiki (project_id,title,slug,body,main)
+				VALUES(
+				'".$project_id."',
+				'Home',
+				'home',
+				'Welcome to the ".$db->res($_POST['name'])." wiki.',
+				'1'
+				)");
 			header("Location: projects.php");
 		}
 	}
@@ -240,6 +252,9 @@ elseif(isset($_REQUEST['delete']))
 	
 	// Delete the timeline
 	$db->query("DELETE FROM ".DBPF."timeline WHERE project_id='".$db->res($_REQUEST['delete'])."'");
+	
+	// Delete the wiki pages
+	$db->query("DELETE FROM ".DBPF."wiki WHERE project_id='".$db->res($_REQUEST['delete'])."'");
 	
 	// Delete the project
 	$db->query("DELETE FROM ".DBPF."projects WHERE id='".$db->res($_REQUEST['delete'])."' LIMIT 1");

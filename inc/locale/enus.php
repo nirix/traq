@@ -109,6 +109,7 @@ $lang['x_password_reset'] = '{1} Password Reset';
 $lang['password_reset_message'] = 'Hello {1}, you or someone requested a password reset for your account.'."\r\n\r\n".
 	'Please follow the URL below to reset your password:'."\r\n".
 	'http://'.$_SERVER['HTTP_HOST'].$uri->anchor('user','resetpass?hash={2}');
+$lang['Wiki'] = 'Wiki';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';
@@ -344,6 +345,13 @@ $lang['Theme'] = 'Theme';
 $lang['theme_description'] = 'The theme used by Traq';
 $lang['Language'] = 'Language';
 $lang['language_description'] = 'Select the language Traq should be displayed in.';
+$lang['New_Page'] = 'New Page';
+$lang['no_pages'] = 'No Pages';
+$lang['New_Wiki_Page'] = 'New Wiki Page';
+$lang['Edit_Wiki_Page'] = 'Edit Wiki Page';
+$lang['page_title_description'] = 'Title of the page.';
+$lang['page_project_description'] = 'The project this Wiki page belongs to.';
+$lang['Body'] = 'Body';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
@@ -383,6 +391,8 @@ $lang['error_name_taken'] = 'That name is already in use.';
 $lang['error_location_empty'] = 'You must enter a location.';
 $lang['error_user_not_found'] = 'User not found.';
 $lang['error_resetting_password'] = 'Unable to reset password.';
+$lang['error_title_empty'] = 'You must enter a title.';
+$lang['error_title_taken'] = 'Title already in use.';
 $lang['error'] = 'Error';
 $lang['error_no_permission'] = 'You don\'t have permission to view this page.';
 $lang['page_x_not_found'] = 'The page \'{1}\' could not be found.';

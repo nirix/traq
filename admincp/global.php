@@ -133,6 +133,19 @@ $sidebar_links = array(
 			)
 		)
 	),
+	// Wiki page links.
+	'wiki' => array(
+		'title' => l('Wiki'),
+		'url' => 'wiki.php',
+		'active' => activepage('wiki.php'),
+		'links' => array(
+			array(
+				'title' => l('New_Page'),
+				'url' => 'wiki.php?new',
+				'active' => activepage('wiki.php','new')
+			)
+		)
+	),
 	// Plugin pages links.
 	'plugins' => array(
 		'title' => l('plugins'),
@@ -241,6 +254,7 @@ $hook_locations = array(
 		'handler_timeline',
 		'handler_changelog',
 		'handler_source',
+		'handler_wiki',
 		'handler_usercp',
 		'handler_usercp_save',
 		'attachment_view'
