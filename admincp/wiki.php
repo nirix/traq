@@ -48,7 +48,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				VALUES(
 				'".$db->res($_POST['project_id'])."',
 				'".$db->res($_POST['title'])."',
-				'".$db->res(str_replace('+','_',urlencode(strtolower($_POST['title']))))."',
+				'".$db->res(slugit($_POST['title']))."',
 				'".$db->res($_POST['body'])."'
 				)");
 			header("Location: wiki.php?created");
@@ -61,7 +61,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			$db->query("UPDATE ".DBPF."wiki SET
 				project_id='".$db->res($_POST['project_id'])."',
 				title='".$db->res($_POST['title'])."',
-				slug='".$db->res(str_replace('+','_',urlencode(strtolower($_POST['title']))))."',
+				slug='".$db->res(slugit($_POST['title']))."',
 				body='".$db->res($_POST['body'])."'
 				WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 			header("Location: wiki.php?updated");

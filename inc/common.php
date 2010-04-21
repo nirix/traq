@@ -108,21 +108,58 @@ function error($title,$message)
  */
 function formattext($text,$disablehtml=false)
 {
+	global $uri,$project;
+	
 	// Disable HTML
 	if($disablehtml) $text = str_replace('<',"&lt;",$text);
 	
 	// [ticket:x] to ticked URL
-	global $uri,$project;
-	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
+	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">Ticket #$1</a>',$text);
 	
-	// [[WikiPage|Label]]
-	$text = preg_replace("/\[\[(.*?)\|(.*?)\\]\\]/is",'<a href="'.$uri->anchor($project['slug'],'wiki').'/$1">$2</a>',$text);
-	
+	// [[WikiPage|Text]]
+	$text = preg_replace_callback('/\[\[([^\|\n\]:]+)[\|]([^\]]+)\]\]/','_interwikilinks',$text);
 	// [[WikiPage]]
-	$text = preg_replace("/\[\[(.*?)\\]\\]/is",'<a href="'.$uri->anchor($project['slug'],'wiki').'/$1">$1</a>',$text);
+	$text = preg_replace_callback('/\[\[([^\|\n\]:]+)\]\]/','_interwikilinks',$text);
+	
+	// [http://example.com]
+	$text = preg_replace_callback('/\[([^\[\]\|\n\' ]+)\]/','_externlinks',$text);
+	// [http://example.com/ Text]
+	$text = preg_replace_callback('/\[([^\[\]\|\n\' ]+)[\| ]([^\]\']+)\]/','_externlinks',$text);
 	
 	($hook = FishHook::hook('function_formattext')) ? eval($hook) : false;
 	
+	return $text;
+}
+function _externlinks($matches){
+	$url = $matches[1];
+	$text = (empty($matches[2]) ? $matches[1] : $matches[2]);
+	return '<a href="'.$url.'">'.$text.'</a>';
+}
+function _interwikilinks($matches)
+{
+	global $project, $uri;
+	$url = $matches[1];
+	$text = (empty($matches[2]) ? $matches[1] : $matches[2]);
+	return '<a href="'.$uri->anchor($project['slug'],'wiki',slugit($url)).'">'.$text.'</a>';
+}
+
+/**
+ * Slug it
+ * Creates a slug / URI safe string.
+ *
+ * @param string $text The string to change.
+ * @return string
+ */
+function slugit($text)
+{
+	$text = strip_tags($text);
+	$text = remove_accents($text);
+	$text = strtolower($text);
+	$text = preg_replace('/&.+?;/', '', $text);
+	$text = preg_replace('/[^%a-z0-9 _-]/', '', $text);
+	$text = preg_replace('/\s+/', '_', $text);
+	$text = preg_replace('|-+|', '-', $text);
+	$text = trim($text, '_');
 	return $text;
 }
 
@@ -736,4 +773,50 @@ function timefrom($original, $detailed = false)
 	// Return the time from
 	return $from;
 }
+
+/**
+ * Remove Accents
+ * Removes accents from the string.
+ *
+ * @param string $text The string to remove accents from.
+ * @return string
+ */
+function remove_accents($text)
+{
+	$from = array(
+		'À','Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë','Ì','Í',
+		'Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö','Ø','Ù','Ú','Û','Ü',
+		'Ý','ß','à','á','â','ã','ä','å','æ','ç','è','é','ê','ë',
+		'ì','í','î','ï','ñ','ò','ó','ô','õ','ö','ø','ù','ú','û',
+		'ü','ý','ÿ','A','a','A','a','A','a','C','c','C','c','C',
+		'c','C','c','D','d','Ð','d','E','e','E','e','E','e','E',
+		'e','E','e','G','g','G','g','G','g','G','g','H','h','H',
+		'h','I','i','I','i','I','i','I','i','I','i','?','?','J',
+		'j','K','k','L','l','L','l','L','l','?','?','L','l','N',
+		'n','N','n','N','n','?','O','o','O','o','O','o','Œ','œ',
+		'R','r','R','r','R','r','S','s','S','s','S','s','Š','š',
+		'T','t','T','t','T','t','U','u','U','u','U','u','U','u',
+		'U','u','U','u','W','w','Y','y','Ÿ','Z','z','Z','z','Ž',
+		'ž','?','ƒ','O','o','U','u','A','a','I','i','O','o','U',
+		'u','U','u','U','u','U','u','U','u','?','?','?','?','?','?'
+	);
+	$to = array(
+		'A','A','A','A','A','A','AE','C','E','E','E','E','I','I',
+		'I','I','D','N','O','O','O','O','O','O','U','U','U','U',
+		'Y','s','a','a','a','a','a','a','ae','c','e','e','e','e',
+		'i','i','i','i','n','o','o','o','o','o','o','u','u','u',
+		'u','y','y','A','a','A','a','A','a','C','c','C','c','C',
+		'c','C','c','D','d','D','d','E','e','E','e','E','e','E',
+		'e','E','e','G','g','G','g','G','g','G','g','H','h','H',
+		'h','I','i','I','i','I','i','I','i','I','i','IJ','ij','J',
+		'j','K','k','L','l','L','l','L','l','L','l','l','l','N',
+		'n','N','n','N','n','n','O','o','O','o','O','o','OE','oe',
+		'R','r','R','r','R','r','S','s','S','s','S','s','S','s',
+		'T','t','T','t','T','t','U','u','U','u','U','u','U','u',
+		'U','u','U','u','W','w','Y','y','Y','Z','z','Z','z','Z',
+		'z','s','f','O','o','U','u','A','a','I','i','O','o','U',
+		'u','U','u','U','u','U','u','U','u','A','a','AE','ae','O','o'
+	);
+	return str_replace($from,$to,$text);
+} 
 ?>

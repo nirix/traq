@@ -61,7 +61,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			$db->query("INSERT INTO ".DBPF."repositories
 			(name,slug,location,info,main,project_id) VALUES(
 			'".$db->res($_POST['name'])."',
-			'".$db->res(strtolower(str_replace("+","_",urlencode($_POST['name']))))."',
+			'".$db->res(slugit($_POST['name']))."',
 			'".$db->res($_POST['location'])."',
 			'".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class']))."',
 			'".($db->numrows($db->query("SELECT id FROM ".DBPF."repositories WHERE project_id='".$db->res($_POST['project_id'])."' LIMIT 1")) ? '0' : '1')."',
@@ -76,7 +76,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		{
 			$db->query("UPDATE ".DBPF."repositories SET
 			name='".$db->res($_POST['name'])."',
-			slug='".$db->res(strtolower(str_replace("+","_",urlencode($_POST['name']))))."',
+			slug='".$db->res(slugit($_POST['name']))."',
 			info='".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class']))."',
 			location='".$db->res($_POST['location'])."',
 			project_id='".$db->res($_POST['project_id'])."'

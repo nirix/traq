@@ -156,6 +156,7 @@ a {
 h1 {
 	font-size: 20px;
 	margin: 0;
+	margin-bottom: 5px;
 }
 h2 {
 	font-size: 18px;
@@ -618,3 +619,4 @@ table.tickets tbody tr.even.priority1 {
 .clear { clear: both; }
 img { border: 0; }
 #repository_select { float: right; }
+.breadcrumbs { margin-bottom: 5px; }
