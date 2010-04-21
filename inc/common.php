@@ -115,6 +115,9 @@ function formattext($text,$disablehtml=false)
 	global $uri,$project;
 	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
 	
+	// [[WikiPage|Label]]
+	$text = preg_replace("/\[\[(.*?)\|(.*?)\\]\\]/is",'<a href="'.$uri->anchor($project['slug'],'wiki').'/$1">$2</a>',$text);
+	
 	// [[WikiPage]]
 	$text = preg_replace("/\[\[(.*?)\\]\\]/is",'<a href="'.$uri->anchor($project['slug'],'wiki').'/$1">$1</a>',$text);
 	
