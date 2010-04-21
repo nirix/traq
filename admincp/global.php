@@ -70,21 +70,11 @@ $sidebar_links = array(
 			),
 			array('divider'=>true),
 			array(
-				'title' => l('new_component'),
-				'url' => 'components.php?new',
-				'active' => activepage('components.php','new')
-			),
-			array(
 				'title' => l('manage_components'),
 				'url' => 'components.php',
 				'active' => activepage('components.php','','edit')
 			),
 			array('divider'=>true),
-			array(
-				'title' => l('new_version'),
-				'url' => 'versions.php?new',
-				'active' => activepage('versions.php','new')
-			),
 			array(
 				'title' => l('manage_versions'),
 				'url' => 'versions.php',

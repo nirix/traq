@@ -113,8 +113,8 @@ $lang['Wiki'] = 'Wiki';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';
-$lang['notification_project_ticket_created'] = "Hello {1},\r\n\r\nA new ticket has been created on {2}.\r\n\r\n#{3}: {4}\r\n{5}";
-$lang['notification_project_ticket_updated'] = "Hello {1},\r\n\r\nAn update has been made to ticket #{3}: {4}\r\n{5}";
+$lang['notification_ticket_created'] = "Hello {1},\r\n\r\nA new ticket has been created on {2}.\r\n\r\n#{3}: {4}\r\n{5}";
+$lang['notification_ticket_updated'] = "Hello {1},\r\n\r\nAn update has been made to ticket #{3}: {4}\r\n{5}";
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';

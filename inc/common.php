@@ -113,27 +113,17 @@ function formattext($text,$disablehtml=false)
 	// Disable HTML
 	if($disablehtml) $text = str_replace('<',"&lt;",$text);
 	
-	($hook = FishHook::hook('function_formattext')) ? eval($hook) : false;
-	
 	// [ticket:x] to ticked URL
-	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">Ticket #$1</a>',$text);
+	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
 	
 	// [[WikiPage|Text]]
 	$text = preg_replace_callback('/\[\[([^\|\n\]:]+)[\|]([^\]]+)\]\]/','_interwikilinks',$text);
 	// [[WikiPage]]
 	$text = preg_replace_callback('/\[\[([^\|\n\]:]+)\]\]/','_interwikilinks',$text);
 	
-	// [http://example.com]
-	$text = preg_replace_callback('/\[([^\[\]\|\n\' ]+)\]/','_externlinks',$text);
-	// [http://example.com/ Text]
-	$text = preg_replace_callback('/\[([^\[\]\|\n\' ]+)[\| ]([^\]\']+)\]/','_externlinks',$text);
+	($hook = FishHook::hook('function_formattext')) ? eval($hook) : false;
 	
 	return $text;
-}
-function _externlinks($matches){
-	$url = $matches[1];
-	$text = (empty($matches[2]) ? $matches[1] : $matches[2]);
-	return '<a href="'.$url.'">'.$text.'</a>';
 }
 function _interwikilinks($matches)
 {

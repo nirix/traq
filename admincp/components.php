@@ -186,6 +186,31 @@ else
 	head(l('components'),true,'projects');
 	?>
 	<h2><?php echo l('components')?></h2>
+	
+	<form action="components.php?new" method="post">
+	<div class="thead"><?php echo l('new_component')?></div>
+	<div class="tborder">
+		<table width="100%" cellspacing="0">
+			<tr class="optiontitle first">
+				<th width="200" align="left"><?php echo l('name')?></th>
+				<th width="200" align="left"><?php echo l('project')?></th>
+				<th></th>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><input type="text" name="name" /></td>
+				<td>
+					<select name="project">
+					<?php foreach(getprojects() as $project) { ?>
+						<option value="<?php echo $project['id']?>"><?php echo $project['name']?></option>
+					<?php } ?>
+					</select>
+				</td>
+				<td align="right"><input type="submit" value="<?php echo l('create')?>" /></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+	<br />
 	<?php
 	foreach($projects as $project) { ?>
 	<div class="thead"><?php echo $project['name']?></div>
