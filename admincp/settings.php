@@ -136,14 +136,14 @@ head('Settings');
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('recaptcha_public_api_key_description')?></td>
-				<td width="200"><input type="text" name="recaptcha_pub" value="<?php echo settings('recaptcha_pubkey')?>" /></td>
+				<td width="200"><input type="text" name="recaptcha_pubkey" value="<?php echo settings('recaptcha_pubkey')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('recaptcha_private_api_key')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('recaptcha_private_api_key_description')?></td>
-				<td><input type="text" name="recaptcha_priv" value="<?php echo settings('recaptcha_privkey')?>" /></td>
+				<td><input type="text" name="recaptcha_privkey" value="<?php echo settings('recaptcha_privkey')?>" /></td>
 			</tr>
 		</table>
 	</div>
