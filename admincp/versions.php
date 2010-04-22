@@ -24,19 +24,21 @@ include("global.php");
 
 authenticate();
 
-// New Version
-if(isset($_REQUEST['new']))
+// New/Edit Version
+if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 {
-	// Create the version
-	if(isset($_POST['name']))
+	// Check for errors...
+	if(isset($_POST['action']))
 	{
-		// Check for errors...
 		$errors = array();
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_version_name_blank');
 		if(empty($_POST['project']))
-			$errors['project'] = l('error_project_blank');
-		
+			$errors['project'] = l('error_project_blank');	
+	}
+	
+	// Create the version
+	if($_POST['action'] == 'create')
 		if(!count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."versions
@@ -48,63 +50,9 @@ if(isset($_REQUEST['new']))
 			
 			header("Location: versions.php");
 		}
-	}
-	
-	head(l('new_version'),true,'projects');
-	?>
-	<?php if(count($errors)) { ?>
-	<div class="message error">
-		<?php foreach($errors as $error) { ?>
-		<?php echo $error?><br />
-		<?php } ?>
-	</div>
-	<?php } ?>
-	<form action="versions.php?new" method="post">
-	<div class="thead"><?php echo l('new_version')?></div>
-	<div class="tborder">
-		<table width="100%" cellspacing="0">
-			<tr>
-				<td class="optiontitle first" colspan="2"><?php echo l('name')?></td>
-			</tr>
-			<tr class="<?php echo altbg()?>">
-				<td><?php echo l('version_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?php echo $_POST['name']?>" /></td>
-			</tr>
-			<tr>
-				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
-			</tr>
-			<tr class="<?php echo altbg()?>">
-				<td><?php echo l('version_project_description')?></td>
-				<td align="right">
-					<select name="project">
-					<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $_POST['project'],' selected="selected"')?>><?php echo $project['name']?></option>
-					<?php } ?>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
-	</div>
-	</form>
-	<?php
-	foot();
-}
-// Edit Version
-elseif(isset($_REQUEST['edit']))
-{
-	$version = $db->queryfirst("SELECT * FROM ".DBPF."versions WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 	
 	// Save the version
-	if(isset($_POST['name']))
-	{
-		// Check for errors...
-		$errors = array();
-		if(empty($_POST['name']))
-			$errors['name'] = l('error_version_name_blank');
-		if(empty($_POST['project']))
-			$errors['project'] = l('error_project_blank');	
-		
+	if($_POST['action'] == 'save')
 		if(!count($errors))
 		{
 			$db->query("UPDATE ".DBPF."versions SET
@@ -114,9 +62,11 @@ elseif(isset($_REQUEST['edit']))
 			
 			header("Location: versions.php");
 		}
-	}
 	
-	head(l('edit_version'),true,'projects');
+	if(isset($_REQUEST['edit']))
+		$version = $db->queryfirst("SELECT * FROM ".DBPF."versions WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+	
+	head(l((isset($_REQUEST['new']) ? 'new' : 'edit').'_version'),true,'projects');
 	?>
 	<?php if(count($errors)) { ?>
 	<div class="message error">
@@ -125,8 +75,9 @@ elseif(isset($_REQUEST['edit']))
 		<?php } ?>
 	</div>
 	<?php } ?>
-	<form action="versions.php?edit=<?php echo $_REQUEST['edit']?>" method="post">
-	<div class="thead"><?php echo l('edit_version')?></div>
+	<form action="versions.php?<?php echo (isset($_REQUEST['edit']) ? 'edit='.$_REQUEST['edit'] : 'new')?>" method="post">
+	<input type="hidden" name="action" value="<?php echo (isset($_REQUEST['edit']) ? 'save' : 'create')?>" />
+	<div class="thead"><?php echo l((isset($_REQUEST['new']) ? 'new' : 'edit').'_version')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
 			<tr>
@@ -150,7 +101,7 @@ elseif(isset($_REQUEST['edit']))
 				</td>
 			</tr>
 		</table>
-		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>
+		<div class="tfoot" align="center"><input type="submit" value="<?php echo l((isset($_REQUEST['edit']) ? 'update' : 'create'))?>" /></div>
 	</div>
 	</form>
 	<?php
@@ -185,6 +136,7 @@ else
 	<h2><?php echo l('versions')?></h2>
 	
 	<form action="versions.php?new" method="post">
+	<input type="hidden" name="action" value="create" />
 	<div class="thead"><?php echo l('new_version')?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
