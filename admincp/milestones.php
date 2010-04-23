@@ -169,19 +169,22 @@ elseif(isset($_REQUEST['edit']))
 				$due = mktime(12,00,00,$due[1],$due[0],$due[2]);
 			}
 			
+			$completed = $milestone['completed'];
+			$cancelled = $milestone['cancelled'];
+			$locked = $milestone['locked'];
 			if($_POST['status'] == 'active')
 			{
 				$completed = 0;
 				$cancelled = 0;
 				$locked = 0;
 			}
-			elseif($_POST['status'] == 'completed')
+			elseif($_POST['status'] == 'completed' and !$milestone['completed'])
 			{
 				$completed = time();
 				$cancelled = 0;
 				$locked = 1;
 			}
-			elseif($_POST['status'] = 'cancelled')
+			elseif($_POST['status'] == 'cancelled' and !$milestone['cancelled'])
 			{
 				$completed = 0;
 				$cancelled = time();
