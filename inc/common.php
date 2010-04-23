@@ -97,7 +97,7 @@ function addcrumb($url,$label)
  */
 function error($title,$message)
 {
-	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial; font-size: 14px;\"><h1 style=\"margin:0px;color:#000;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1><div style=\"padding: 0;\">".$message."</div><div style=\"color:#999;border-top:1px solid #000;margin-top:10px;font-size:small;padding-top:2px;\">Traq ".TRAQVER." &copy; 2009 Jack Polgar</div></blockquote>");
+	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial; font-size: 14px;\"><h1 style=\"margin:0px;color:#000;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1><div style=\"padding: 0;\">".$message."</div><div style=\"color:#999;border-top:1px solid #000;margin-top:10px;font-size:small;padding-top:2px;\">Traq ".TRAQVER." &copy; ".date("Y")." Jack Polgar</div></blockquote>");
 }
 
 /**
@@ -184,6 +184,19 @@ function l($string,$vars=array())
 	
 	// Now return it...
 	return $string;
+}
+
+/**
+ * Source Code
+ * Function to make source code safe in a template.
+ *
+ * @param string $code The code.
+ * @return string
+ */
+function source_code($code)
+{
+	($hook = FishHook::hook('function_source_code')) ? eval($hook) : false;
+	return htmlspecialchars($code);
 }
 
 /**

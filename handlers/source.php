@@ -53,9 +53,41 @@ require(TRAQPATH.'inc/'.$repo['info']['file']);
 
 // Initiate the browser and fetch the file list..
 $source = new $repo['info']['class']($repo['location']);
-$files = $source->ls(implode('/',array_slice($uri->seg,3)));
+$path = implode('/',array_slice($uri->seg,3));
+
+// Get location info
+$info = $source->getinfo($path);
 
 ($hook = FishHook::hook('handler_source')) ? eval($hook) : false;
 
-include(template('source'));
-?>
+// List directory
+if($info['kind'] == 'dir')
+{
+	$files = $source->listdir($path);
+	include(template('source'));
+}
+// Show file
+elseif($info['kind'] == 'file')
+{
+	$type = explode('/',$info['mime-type']);
+	
+	// Text/text-like file
+	// Basically so we can view it inside of Traq.
+	if($type[0] == 'text')
+	{
+		include(template('source'));
+	}
+	// Other.
+	else
+	{
+		header("Content-type: ".$info['mime-type']);
+		
+		// Check what type of file we're dealing with.
+		if($type[0] == 'image')
+			header("Content-Disposition: filename=\"".urlencode($info['name'])."\""); // Set the content disposition and filename
+		else
+			header("Content-Disposition: attachment; filename=\"".urlencode($info['name'])."\""); // Set the content disposition and filename
+		
+		print($source->getfile($path,false));
+	}
+}

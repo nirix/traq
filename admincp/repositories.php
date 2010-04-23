@@ -28,7 +28,6 @@ authenticate();
 $repository_types = array();
 ($hook = FishHook::hook('admin_repositories')) ? eval($hook) : false;
 $repository_types[] = array('file'=>'subversion.class.php','template'=>'subversion','class'=>'Subversion','name'=>'Subversion');
-$repository_types[] = array('file'=>'subversion_enhanced.class.php','template'=>'subversion_enhanced','class'=>'Subversion','name'=>'Subversion Enhanced');
 
 // New and Edit Repository
 if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))

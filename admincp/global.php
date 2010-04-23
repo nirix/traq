@@ -230,7 +230,8 @@ $hook_locations = array(
 		'function_is_subscribed',
 		'function_add_subscription',
 		'function_remove_subscription',
-		'function_send_notification'
+		'function_send_notification',
+		'function_source_code'
 	),
 	
 	// Handlers
