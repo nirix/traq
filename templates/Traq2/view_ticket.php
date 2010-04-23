@@ -214,7 +214,7 @@
 				</div>
 				<div class="clear"></div>
 			</fieldset>
-			<?php if(settings('recaptcha_enabled')) { ?>
+			<?php if(!$user->loggedin and settings('recaptcha_enabled')) { ?>
 			<fieldset>
 				<legend><?php echo l('recaptcha')?></legend>
 				<?php echo recaptcha_get_html(settings('recaptcha_pubkey'), $recaptcha_error)?>

@@ -118,7 +118,7 @@ if(isset($_POST['update']))
 	// Check for errors
 	$errors = array();
 	// Check reCaptcha
-	if(settings('recaptcha_enabled'))
+	if(!$user->loggedin and settings('recaptcha_enabled'))
 	{
 		$resp = recaptcha_check_answer(settings('recaptcha_privkey'),$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
 		
