@@ -620,3 +620,4 @@ table.tickets tbody tr.even.priority1 {
 img { border: 0; }
 #repository_select { float: right; }
 .breadcrumbs { margin-bottom: 5px; }
+.code { border: 1px dashed #999; background: #FBFBFB; padding: 4px; }

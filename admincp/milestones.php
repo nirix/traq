@@ -275,7 +275,7 @@ elseif(isset($_REQUEST['edit']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('milestone_due_description')?></td>
-				<td align="right"><input type="text" name="due" value="<?php echo ($milestone['due'] > 0 ? $milestone['due'] : '')?>" /></td>
+				<td align="right"><input type="text" name="due" value="<?php echo ($milestone['due'] > 0 ? date("d/m/Y",$milestone['due']) : '')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('display_order')?></td>
