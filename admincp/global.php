@@ -171,7 +171,8 @@ $hook_locations = array(
 		'admin_settings',
 		'admin_settings_save',
 		'admin_global',
-		'admin_repositories'
+		'admin_repositories',
+		'admin_headerinc'
 	),
 	
 	// Projects

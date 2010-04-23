@@ -145,6 +145,7 @@ function head($title='',$sidebar=false,$links=array())
 		<title><?php echo l('traq_admincp')?><?php echo iif($title != '',' / '.$title)?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="style.css" type="text/css" />
+		<?php ($hook = FishHook::hook('admin_headerinc')) ? eval($hook) : false; ?>
 	</head>
 	<body>
 		<div id="head">
@@ -196,6 +197,7 @@ function foot()
 			</table>
 		</div>
 		<div id="foot">
+			<?php ($hook = FishHook::hook('admin_foot')) ? eval($hook) : false; ?>
 			<span id="powered_by">
 				<?php echo l('poweredby')?>
 			</span>
