@@ -93,7 +93,7 @@ $lang['files'] = 'Files';
 $lang['source'] = 'Source';
 $lang['select_repository'] = 'Select Repository:';
 $lang['message'] = 'Message';
-$lang['show'] = 'Show:';
+$lang['show'] = 'Show';
 $lang['1_week'] = '1 week';
 $lang['2_weeks'] = '2 weeks';
 $lang['4_weeks'] = '4 weeks';
@@ -110,6 +110,8 @@ $lang['password_reset_message'] = 'Hello {1}, you or someone requested a passwor
 	'Please follow the URL below to reset your password:'."\r\n".
 	'http://'.$_SERVER['HTTP_HOST'].$uri->anchor('user','resetpass?hash={2}');
 $lang['Wiki'] = 'Wiki';
+$lang['completed_on_x'] = 'Completed on {1}';
+$lang['All'] = 'All';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';
@@ -144,7 +146,7 @@ $lang['ticket_history_private_private'] = 'Marked ticket as private';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';
-$lang['due_x_ago'] = 'Due {1} ago';
+$lang['x_late'] = '{1} late';
 $lang['due_x_from_now'] = 'Due {1} from now';
 $lang['active_tickets'] = 'Active tickets';
 $lang['closed_tickets'] = 'Closed tickets';

@@ -20,9 +20,18 @@
  * $Id$
  */
 
+// Work out what milestones to display
+if(isset($_REQUEST['all']))
+	$filter = '';
+elseif(isset($_REQUEST['completed']))
+	$filter = "AND locked='1' AND completed > 0";
+else
+	$filter = "AND locked='0'";
+
+
 // Fetch project milestones...
 $milestones = array();
-$fetch = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$db->es($project['id'])."' AND locked='0' ORDER BY displayorder ASC");
+$fetch = $db->query("SELECT * FROM ".DBPF."milestones WHERE project_id='".$db->es($project['id'])."' $filter ORDER BY displayorder ASC");
 while($info = $db->fetcharray($fetch))
 {
 	// Get the milestone tickets

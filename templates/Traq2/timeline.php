@@ -10,7 +10,7 @@
 		<?php require(template('breadcrumbs')); ?>
 		
 		<h1><?php echo l('timeline')?></h1>
-		<p><?php echo l('show')?> <a href="?days=7"><?php echo l('1_week')?></a>, <a href="?days=14"><?php echo l('2_weeks')?></a>, <a href="?days=28"><?php echo l('4_weeks')?></a>, <a href="?days=366"><?php echo l('1_year')?></a>, <a href="?days=all"><?php echo l('All_time')?></a></p>
+		<p><?php echo l('show')?>: <a href="?days=7"><?php echo l('1_week')?></a>, <a href="?days=14"><?php echo l('2_weeks')?></a>, <a href="?days=28"><?php echo l('4_weeks')?></a>, <a href="?days=366"><?php echo l('1_year')?></a>, <a href="?days=all"><?php echo l('All_time')?></a></p>
 		
 		<?php foreach($days as $day) { ?>
 		<div class="day">

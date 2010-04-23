@@ -11,6 +11,8 @@
 		
 		<h1><?php echo l('x_roadmap',$project['name'])?></h1>
 		
+		<div><?php echo l('show')?>: <a href="?all"><?php echo l('All')?></a>, <a href="?completed"><?php echo l('completed')?></a></div>
+		
 		<ul class="milestones">
 		<?php foreach($milestones as $milestone) { ?>
 			<li class="milestone">
@@ -20,9 +22,9 @@
 						<?php if($milestone['due'] == 0 && $milestone['completed'] == 0) { ?>
 						
 						<?php } elseif($milestone['completed'] > 0) { ?>
-						<?php echo l('completed_on_x',date("d/m/Y",$project['completed']))?>
+						<?php echo l('completed_on_x',date("d/m/Y",$milestone['completed']))?>
 						<?php } elseif($milestone['due'] <= time()) { ?>
-						<?php echo l('due_x_ago',timesince($milestone['due'],true))?>
+						<?php echo l('x_late',timesince($milestone['due'],true))?>
 						<?php } elseif($milestone['due'] > time()) { ?>
 						<?php echo l('due_x_from_now',timefrom($milestone['due'],true))?>
 						<?php } ?>
