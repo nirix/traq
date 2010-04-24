@@ -640,7 +640,7 @@ function send_notification($type,$data=array())
 		// Ticket Updated
 		if($data['type'] == 'ticket_created')
 		{
-			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='milestone' AND project_id='".$project['id']."' AND data='".$data['id']."'");
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='milestone' AND project_id='".$project['id']."' AND data='".$data['milestone']."'");
 			while($info = $db->fetcharray($fetch))
 			{
 				// Check to make sure we havn't already emailed the user.
@@ -660,7 +660,7 @@ function send_notification($type,$data=array())
 }
 
 /**
- * Calcuate Percent
+ * Calculate Percent
  * Used to calculate the percent of two numbers,
  * if both numbers are the same, 100(%) is returned.
  * @param integer $min Lowest number

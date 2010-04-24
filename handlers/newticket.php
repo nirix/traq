@@ -77,9 +77,11 @@ if(isset($_POST['summary']))
 			'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'ticket-'.$ticket->ticket_id),
 			'id' => $ticket->id,
 			'tid' => $ticket->ticket_id,
-			'summary' => $data['summary']
+			'summary' => $data['summary'],
+			'milestone' => $_POST['milestone']
 		);
 		send_notification('project',$notification);
+		send_notification('milestone',$notification);
 		header("Location: ".$uri->anchor($project['slug'],'ticket-'.$ticket->ticket_id));
 	}
 	else

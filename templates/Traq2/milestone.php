@@ -10,6 +10,9 @@
 		<?php require(template('breadcrumbs')); ?>
 		
 		<h1><?php echo l('milestone')?>: <em><?php echo $milestone['milestone']?><?php echo (!empty($milestone['codename']) ? ' <small>"'.$milestone['codename'].'"</small>' : '')?></em></h1>
+		<?php if($user->loggedin) { ?>
+		<div><a href="<?php echo $uri->anchor($project['slug'],'milestone-'.$milestone['slug'],'watch')?>"><?php echo l(iif(is_subscribed('milestone',$milestone['id']),'Unwatch','Watch').'_this_milestone')?></a></div>
+		<?php } ?>
 		<div class="milestone">
 			<div class="info">
 				<p class="date">
@@ -18,7 +21,7 @@
 					<?php } elseif($milestone['completed'] > 0) { ?>
 					<?php echo l('completed_on_x',date("d/m/Y",$project['completed']))?>
 					<?php } elseif($milestone['due'] <= time()) { ?>
-					<?php echo l('due_x_ago',timesince($milestone['due'],true))?>
+					<?php echo l('x_late',timesince($milestone['due'],true))?>
 					<?php } elseif($milestone['due'] > time()) { ?>
 					<?php echo l('due_x_from_now',timefrom($milestone['due'],true))?>
 					<?php } ?>

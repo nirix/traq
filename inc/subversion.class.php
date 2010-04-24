@@ -61,8 +61,6 @@ class Subversion extends Source
 		'.rtf' => 'application/rtf',
 		'.xls' => 'application/vnd.ms-excel',
 		'.ppt' => 'application/vnd.ms-powerpoint',
-		'odt' => 'application/vnd.oasis.opendocument.text',
-		'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
 		'.dwg' => 'application/acad',
 		'.arj' => 'application/arj',
 		'.ccad' => 'application/clariscad',
@@ -183,31 +181,37 @@ class Subversion extends Source
 		$dir = $this->cleandirname($dir);
 		
 		// Exec the command
-		$info = exec("svn ls --xml ".$this->location.$dir,$_a,$_r);
-		
-		// Loop through the entries
-		$files = array('dirs'=>array(),'files'=>array());
-		$xml = new SimpleXMLElement(implode('',$_a));
-		foreach($xml->list->entry as $entry)
+		$descriptorspec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w'));
+		$process = proc_open("svn ls --xml ".$this->location.$dir, $descriptorspec, $pipes);
+		if(is_resource($process))
 		{
-			// Get the entry data
-			$attribs = $entry->attributes();
-			
-			$info = array();
-			$info['name'] = (string)$entry->name;
-			$info['size'] = (int)$entry->size;
-			$info['kind'] = (string)$attribs['kind'];
-			$info['path'] = (string)(empty($dir) ? $info['name'] : $dir.'/'.$info['name']);
-			$info['commit'] = array(
-				'author' => (string)$entry->commit->author,
-				'date' => (string)$entry->commit->date,
-				'rev' => (int)$entry->commit['revision']
-				);
-			if($info['kind'] == 'dir') $files['dirs'][] = $info;
-			if($info['kind'] == 'file') $files['files'][] = $info;
-		}
+			fclose($pipes[0]);
+			$contents = stream_get_contents($pipes[1]);
 		
-		return array_merge($files['dirs'],$files['files']);
+			// Loop through the entries
+			$files = array('dirs'=>array(),'files'=>array());
+			$xml = new SimpleXMLElement($contents);
+			foreach($xml->list->entry as $entry)
+			{
+				// Get the entry data
+				$attribs = $entry->attributes();
+				
+				$info = array();
+				$info['name'] = (string)$entry->name;
+				$info['size'] = (int)$entry->size;
+				$info['kind'] = (string)$attribs['kind'];
+				$info['path'] = (string)(empty($dir) ? $info['name'] : $dir.'/'.$info['name']);
+				$info['commit'] = array(
+					'author' => (string)$entry->commit->author,
+					'date' => (string)$entry->commit->date,
+					'rev' => (int)$entry->commit['revision']
+					);
+				if($info['kind'] == 'dir') $files['dirs'][] = $info;
+				if($info['kind'] == 'file') $files['files'][] = $info;
+			}
+			
+			return array_merge($files['dirs'],$files['files']);
+		}
 	}
 	
 	/**

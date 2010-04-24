@@ -29,6 +29,17 @@ if(!$db->numrows($milestone)) die();
 // Fetch milestone info
 $milestone = $db->fetcharray($milestone);
 
+// Watch milestone
+if($uri->seg[2] == 'watch' && $user->loggedin)
+{
+	if(is_subscribed('milestone',$milestone['id']))
+		remove_subscription('milestone',$milestone['id']);
+	else
+		add_subscription('milestone',$milestone['id']);
+	
+	header("Location: ".$uri->anchor($project['slug'],'milestone-'.$milestone['slug']).'?'.(is_subscribed('milestone',$milestone['id']) ? 'subscribed' : 'unsubscribed'));
+}
+
 // Get the milestone tickets
 $milestone['tickets'] = array();
 $milestone['tickets']['open'] = $db->numrows($db->query("SELECT * FROM ".DBPF."tickets WHERE milestone_id='".$milestone['id']."' AND project_id='".$project['id']."' AND closed='0'")); // Count open tickets
