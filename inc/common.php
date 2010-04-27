@@ -193,10 +193,10 @@ function l($string,$vars=array())
  * @param string $code The code.
  * @return string
  */
-function source_code($code)
+function source_code($code,$disablehtml=true)
 {
 	($hook = FishHook::hook('function_source_code')) ? eval($hook) : false;
-	return htmlspecialchars($code);
+	return ($disablehtml ? htmlspecialchars($code) : $code);
 }
 
 /**

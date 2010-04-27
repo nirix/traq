@@ -1,7 +1,7 @@
 <?php
 /**
  * FishHook 3.0 for Traq 2
- * Copyright (c) 2010 Jack Polgar
+ * Copyright (C) 2010 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -22,6 +22,8 @@
 
 class FishHook
 {
+	private static $code = array();
+	
 	/**
 	 * Hook
 	 * Used to fetch plugin code for the specified hook.
@@ -30,13 +32,19 @@ class FishHook
 	{
 		global $db;
 		
+		// Check if it's cached
+		if(isset(self::$code[$hook])) return self::$code[$hook];
+		
 		// Fetch the plugin code from the DB.
 		$code = array();
 		$fetch = $db->query("SELECT * FROM ".DBPF."plugin_code WHERE hook='".$db->res($hook)."' AND enabled='1' ORDER BY execorder ASC");
 		while($info = $db->fetcharray($fetch))
-			$code[] = ($info['code']);
+			$code[] = $info['code'];
+			
+		// Cache it
+		self::$code[$hook] = implode(" /* */ ",$code);
 		
-		return implode(" /* */ ",$code);
+		return self::$code[$hook];
 	}
 }
 ?>

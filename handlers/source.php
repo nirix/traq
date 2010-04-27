@@ -80,8 +80,6 @@ elseif($info['kind'] == 'file')
 	// Other.
 	else
 	{
-		header("Content-type: ".$info['mime-type']);
-		
 		// Check what type of file we're dealing with.
 		if($type[0] == 'image')
 			header("Content-Disposition: filename=\"".urlencode($info['name'])."\""); // Set the content disposition and filename
