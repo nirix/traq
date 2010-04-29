@@ -612,6 +612,23 @@ function send_notification($type,$data=array())
 				);
 			}
 		}
+		// Milestone Completed
+		elseif($data['type'] == 'milestone_completed')
+		{
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='project' AND project_id='".$data['project_id']."' AND data='".$data['project_id']."'");
+			while($info = $db->fetcharray($fetch))
+			{
+				// Check to make sure we havn't already emailed the user.
+				if(in_array($info['username'],$sent)) continue;
+				$sent[] = $info['username'];
+				
+				mail($info['email'],
+					l('x_x_notification',settings('title'),$project['name']),
+					l('notification_'.$data['type'],$info['username'],$project['name'],$data['name'],$data['url']),
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+				);
+			}
+		}
 	}
 	// Ticket notification
 	elseif($type == 'ticket')
@@ -654,8 +671,25 @@ function send_notification($type,$data=array())
 				);
 			}
 		}
+		// Milestone Completed
+		elseif($data['type'] == 'milestone_completed')
+		{
+			$fetch = $db->query("SELECT ".DBPF."subscriptions.*,".DBPF."users.username,".DBPF."users.email FROM ".DBPF."subscriptions JOIN ".DBPF."users ON (".DBPF."users.id = ".DBPF."subscriptions.user_id) WHERE type='milestone' AND project_id='".$data['project_id']."' AND data='".$data['id']."'");
+			while($info = $db->fetcharray($fetch))
+			{
+				// Check to make sure we havn't already emailed the user.
+				if(in_array($info['username'],$sent)) continue;
+				$sent[] = $info['username'];
+				
+				mail($info['email'],
+					l('x_x_notification',settings('title'),$project['name']),
+					l('notification_'.$data['type'],$info['username'],$project['name'],$data['name'],$data['url']),
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+				);
+			}
+		}
+		exit;
 	}
-	
 	($hook = FishHook::hook('function_send_notification')) ? eval($hook) : false;
 }
 

@@ -145,6 +145,7 @@ if(isset($_REQUEST['new']))
 elseif(isset($_REQUEST['edit']))
 {
 	$milestone = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+	$project = $db->queryfirst("SELECT id,name,slug FROM ".DBPF."projects WHERE id='".$milestone['project_id']."' LIMIT 1");
 	
 	// Save the milestone
 	if(isset($_POST['milestone']))
@@ -183,6 +184,16 @@ elseif(isset($_REQUEST['edit']))
 				$completed = time();
 				$cancelled = 0;
 				$locked = 1;
+				
+				$notification = array(
+					'type' => 'milestone_completed',
+					'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'milestone-'.$milestone['slug']),
+					'id' => $milestone['id'],
+					'project_id' => $milestone['project_id'],
+					'name' => $milestone['milestone']
+				);
+				send_notification('project',$notification);
+				send_notification('milestone',$notification);
 			}
 			elseif($_POST['status'] == 'cancelled' and !$milestone['cancelled'])
 			{
