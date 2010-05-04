@@ -688,7 +688,6 @@ function send_notification($type,$data=array())
 				);
 			}
 		}
-		exit;
 	}
 	($hook = FishHook::hook('function_send_notification')) ? eval($hook) : false;
 }

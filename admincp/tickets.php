@@ -35,7 +35,7 @@ if(isset($_REQUEST['update']))
 		{
 			// Make sure the value isnt empty.
 			if(!empty($values['name']))
-				$db->query("UPDATE ".DBPF."ticket_types SET name='".$db->res($values['name'])."', bullet='".$db->res($values['bullet'])."' WHERE id='".$db->res($id)."' LIMIT 1");
+				$db->query("UPDATE ".DBPF."ticket_types SET name='".$db->res($values['name'])."', bullet='".$db->res($values['bullet'])."', changelog='".$db->res(($values['changelog'] ? $values['changelog'] : 0))."' WHERE id='".$db->res($id)."' LIMIT 1");
 		}
 		
 		// Check if we're adding one as well...
@@ -179,13 +179,15 @@ else
 			<table width="100%" cellspacing="0">
 				<tr class="optiontitle first">
 					<th width="180" align="left"><?php echo l('name')?></th>
-					<th align="left"><?php echo l('bullet')?></th>
+					<th width="50" align="left"><?php echo l('bullet')?></th>
+					<th align="left"><?php echo l('changelog')?></th>
 					<th></th>
 				</tr>
 				<?php foreach($types as $type) { ?>
 				<tr>
 					<td><input type="text" name="type[<?php echo $type['id']?>][name]" value="<?php echo $type['name']?>" /></td>
-					<td><input type="text" name="type[<?php echo $type['id']?>][bullet]" value="<?php echo $type['bullet']?>" /></td>
+					<td><input type="text" name="type[<?php echo $type['id']?>][bullet]" value="<?php echo $type['bullet']?>" style="width:20px;" /></td>
+					<td><input type="checkbox" name="type[<?php echo $type['id']?>][changelog]" value="1"<?php echo iif($type['changelog'],' checked="checked"') ?> /></td>
 					<td align="right">
 						<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$type['name'])?>')) { window.location = 'tickets.php?delete&type=<?php echo $type['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 					</td>
@@ -196,7 +198,8 @@ else
 						<input type="text" name="name" value="" /><br />
 						<small><?php echo l('fill_in_to_add_new_type')?></small>
 					</td>
-					<td colspan="2"><input type="text" name="bullet" value="" /></td>
+					<td><input type="text" name="bullet" value="" style="width:20px;" /></td>
+					<td colspan="2"><input type="checkbox" name="changelog" value="1" checked="checked" /></td>
 				</tr>
 			</table>
 			<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>

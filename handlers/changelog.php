@@ -41,7 +41,8 @@ while($info = $db->fetcharray($fetchmilestones))
 	// Fetch changes
 	$fetchchanges = $db->query("SELECT id,summary,status,type FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' ORDER BY summary ASC");
 	while($change = $db->fetcharray($fetchchanges))
-		$info['changes'][] = $change;
+		if($types[$change['type']]['changelog'])
+			$info['changes'][] = $change;
 	
 	$milestones[] = $info;
 }
