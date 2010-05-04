@@ -53,7 +53,7 @@ if(isset($_REQUEST['update']))
 		{
 			// Make sure the value isnt empty.
 			if(!empty($values['name']))
-				$db->query("UPDATE ".DBPF."ticket_status SET name='".$db->res($values['name'])."', status='".$db->res($values['status'])."' WHERE id='".$db->res($id)."' LIMIT 1");
+				$db->query("UPDATE ".DBPF."ticket_status SET name='".$db->res($values['name'])."', status='".$db->res($values['status'])."', changelog='".$db->res(($values['changelog'] ? $values['changelog'] : 0))."' WHERE id='".$db->res($id)."' LIMIT 1");
 		}
 		
 		// Check if we're adding one as well...
@@ -213,7 +213,8 @@ else
 			<table width="100%" cellspacing="0">
 				<tr class="optiontitle first">
 					<th width="180" align="left"><?php echo l('name')?></th>
-					<th align="left"><?php echo l('type')?></th>
+					<th width="100" align="left"><?php echo l('type')?></th>
+					<th width="180" align="left"><?php echo l('changelog')?></th>
 					<th></th>
 				</tr>
 				<?php foreach($statuses as $status) { ?>
@@ -225,6 +226,7 @@ else
 							<option value="0"<?php echo iif(!$status['status'],' selected="selected"')?>><?php echo l('closed')?></option>
 						</select>
 					</td>
+					<td><input type="checkbox" name="statuses[<?php echo $status['id']?>][changelog]" value="1"<?php echo iif($status['changelog'],' checked="checked"') ?> /></td>
 					<td align="right">
 						<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$status['name'])?>')) { window.location = 'tickets.php?delete&status=<?php echo $status['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 					</td>
@@ -235,12 +237,13 @@ else
 						<input type="text" name="name" value="" /><br />
 						<small><?php echo l('fill_in_to_add_new_status')?></small>
 					</td>
-					<td colspan="2">
+					<td>
 						<select name="status">
 							<option value="1"><?php echo l('open')?></option>
 							<option value="0"><?php echo l('closed')?></option>
 						</select>
 					</td>
+					<td colspan="2"><input type="checkbox" name="changelog" value="1" checked="checked" /></td>
 				</tr>
 			</table>
 			<div class="tfoot" align="center"><input type="submit" value="<?php echo l('update')?>" /></div>

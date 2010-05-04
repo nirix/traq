@@ -28,6 +28,12 @@ $fetchtickettypes = $db->query("SELECT * FROM ".DBPF."ticket_types");
 while($info = $db->fetcharray($fetchtickettypes))
 	$types[$info['id']] = $info;
 
+// Fetch Ticket Statuses
+$statuses = array();
+$fetchtickettypes = $db->query("SELECT * FROM ".DBPF."ticket_status");
+while($info = $db->fetcharray($fetchtickettypes))
+	$statuses[$info['id']] = $info;
+
 // Fetch Milestones
 $milestones = array();
 $fetchmilestones = $db->query("SELECT id,milestone,completed,changelog FROM ".DBPF."milestones WHERE project_id='".$project['id']."' AND completed > 0 ORDER BY completed DESC");
@@ -41,7 +47,7 @@ while($info = $db->fetcharray($fetchmilestones))
 	// Fetch changes
 	$fetchchanges = $db->query("SELECT id,summary,status,type FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' ORDER BY summary ASC");
 	while($change = $db->fetcharray($fetchchanges))
-		if($types[$change['type']]['changelog'])
+		if($types[$change['type']]['changelog'] && $statuses[$change['status']]['changelog'])
 			$info['changes'][] = $change;
 	
 	$milestones[] = $info;
