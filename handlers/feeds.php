@@ -62,13 +62,7 @@ elseif($uri->seg[2] == 'tickets')
 	$fetchtickets = $db->query("SELECT * FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY IF(updated < 1, created, updated) DESC");
 	while($info = $db->fetcharray($fetchtickets))
 	{
-		$info['summary'] = stripslashes($info['summary']); // Strip the slahes from the summary field
-		$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
-		$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."components WHERE id='".$info['component_id']."' LIMIT 1")); // Get Component info
-		$info['owner'] = $user->getinfo($info['user_id']); // Get owner info
-		$info['milestone'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."milestones WHERE id='".$info['milestone_id']."' LIMIT 1")); // Get Milestone info
-		$info['version'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."versions WHERE id='".$info['version_id']."' LIMIT 1")); // Get Version info
-		$info['assignee'] = $db->fetcharray($db->query("SELECT id, username FROM ".DBPF."users WHERE id='".$info['assigned_to']."' LIMIT 1")); // Get assignee info
+		$info['body'] = formattext($info['body']);
 		
 		$items[] = array(
 			'title' => $info['summary'],
