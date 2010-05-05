@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><?php echo settings('title')?> / <?php echo $project['name']?> / <?php echo l('timeline')?></title>
+		<link rel="alternate" type="application/rss+xml" title="Timeline (RSS 2.0)" href="http://<?php echo $_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'feeds','timeline')?>" />
 		<?php require(template('headerinc')); ?>
 	</head>
 	<body id="timeline">
