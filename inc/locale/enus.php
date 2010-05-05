@@ -115,6 +115,7 @@ $lang['Wiki'] = 'Wiki';
 $lang['completed_on_x'] = 'Completed on {1}';
 $lang['All'] = 'All';
 $lang['x_timeline'] = '{1} Timeline';
+$lang['x_tickets'] = '{1} Tickets';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';

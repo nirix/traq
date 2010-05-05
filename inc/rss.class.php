@@ -49,7 +49,7 @@ class RSSFeed
 		echo "	<channel>".PHP_EOL;
 		echo "		<title><![CDATA[".$this->title."]]></title>".PHP_EOL;
 		echo "		<link>".$this->link."</link>".PHP_EOL;
-		echo "		<description><![CDATA[".$this->link."]]></description>".PHP_EOL;
+		echo "		<description><![CDATA[".$this->desc."]]></description>".PHP_EOL;
 		echo "		<pubDate>".date("D, d M Y H:i:s O",$pubDate)."</pubDate>".PHP_EOL;
 		echo "		<generator>Traq</generator>".PHP_EOL;
 		
