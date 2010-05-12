@@ -359,6 +359,8 @@ $lang['Edit_Wiki_Page'] = 'Edit Wiki Page';
 $lang['page_title_description'] = 'Title of the page.';
 $lang['page_project_description'] = 'The project this Wiki page belongs to.';
 $lang['Body'] = 'Body';
+$lang['comment_on_tickets'] = 'Comment on tickets';
+$lang['usergroup_comment_on_tickets_description'] = 'Select yes if you want this group to comment on tickets.';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';

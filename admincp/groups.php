@@ -67,9 +67,7 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			// Make the query.
 			$query = array();
 			foreach($_POST['values'] as $key => $val)
-			{
 				$query[] = $key."='".$val."'";
-			}
 			
 			// Run the query.
 			$db->query("UPDATE ".DBPF."usergroups SET ".implode(', ',$query)." WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
@@ -130,6 +128,16 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 				<td width="200">
 					<input type="radio" name="values[update_tickets]" value="1" id="update_tickets_yes"<?php echo iif($group['update_tickets'],' checked="checked"')?> /> <label for="update_tickets_yes"><?php echo l('yes')?></label>
 					<input type="radio" name="values[update_tickets]" value="0" id="update_tickets_no"<?php echo iif(!$group['update_tickets'],' checked="checked"')?> /> <label for="update_tickets_no"><?php echo l('no')?></label>
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('comment_on_tickets')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('usergroup_comment_on_tickets_description')?></td>
+				<td width="200">
+					<input type="radio" name="values[comment_tickets]" value="1" id="comment_tickets_yes"<?php echo iif($group['comment_tickets'],' checked="checked"')?> /> <label for="comment_tickets_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="values[comment_tickets]" value="0" id="comment_tickets_no"<?php echo iif(!$group['comment_tickets'],' checked="checked"')?> /> <label for="comment_tickets_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 			<tr>

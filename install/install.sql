@@ -183,6 +183,7 @@ CREATE TABLE IF NOT EXISTS `traq_usergroups` (
   `is_admin` smallint(6) NOT NULL,
   `create_tickets` smallint(6) NOT NULL,
   `update_tickets` smallint(6) NOT NULL,
+  `comment_tickets` smallint(6) NOT NULL DEFAULT '1',
   `delete_tickets` smallint(6) NOT NULL,
   `add_attachments` smallint(6) NOT NULL,
   PRIMARY KEY (`id`)
@@ -253,7 +254,7 @@ INSERT INTO `traq_ticket_types` VALUES
 (2, 'Feature Request', '+'),
 (3, 'Task', '*');
 
-INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`, `create_tickets`, `update_tickets`, `delete_tickets`, `add_attachments`) VALUES
-(1, 'Administrators', 1, 1, 1, 1, 1),
-(2, 'Members', 0, 1, 1, 0, 1),
-(3, 'Guests', 0, 0, 0, 0, 0);
+INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`, `create_tickets`, `update_tickets`, `comment_tickets`, `delete_tickets`, `add_attachments`) VALUES
+(1, 'Administrators', 1, 1, 1, 1, 1, 1),
+(2, 'Members', 0, 1, 1, 1, 0, 1),
+(3, 'Guests', 0, 0, 0, 0, 0, 0);

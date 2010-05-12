@@ -88,7 +88,7 @@
 			<?php } ?>
 		</div>
 		
-		<?php if($user->group['update_tickets']) { ?>
+		<?php if($user->group['update_tickets'] OR $user->group['comment_tickets']) { ?>
 		<form action="<?php echo $uri->geturi()?>" method="post">
 		<input type="hidden" name="update" value="1" />
 		<h2><?php echo l('update_ticket')?></h2>
@@ -100,7 +100,10 @@
 				<?php } ?>
 			</div>
 			<?php } ?>
+			<?php if($user->group['comment_tickets']) { ?>
 			<textarea name="comment"></textarea>
+			<?php } ?>
+			<?php if($user->group['update_tickets']) { ?>
 			<fieldset class="properties">
 				<legend><?php echo l('ticket_properties')?></legend>
 				<div class="properties">
@@ -214,6 +217,7 @@
 				</div>
 				<div class="clear"></div>
 			</fieldset>
+			<?php } ?>
 			<?php if(!$user->loggedin and settings('recaptcha_enabled')) { ?>
 			<fieldset>
 				<legend><?php echo l('recaptcha')?></legend>

@@ -21,14 +21,14 @@
  */
 
 require(TRAQPATH.'inc/rss.class.php');
-require(TRAQPATH.'inc/ticket.class.php');
-
-$ticket = new Ticket;
-$items = array();
 
 // Timeline Feed
 if($uri->seg[2] == 'timeline')
 {
+	require(TRAQPATH.'inc/ticket.class.php');
+	$ticket = new Ticket;
+	$items = array();
+
 	// Fetch changes
 	$fetchchanges = $db->query("SELECT * FROM ".DBPF."timeline WHERE project_id='".$project['id']."' ORDER BY timestamp DESC LIMIT 20");
 	while($changeinfo = $db->fetcharray($fetchchanges))
@@ -59,7 +59,7 @@ if($uri->seg[2] == 'timeline')
 elseif($uri->seg[2] == 'tickets')
 {
 	// Get Tickets
-	$fetchtickets = $db->query("SELECT * FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY IF(updated < 1, created, updated) DESC");
+	$fetchtickets = $db->query("SELECT * FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY IF(updated < 1, created, updated) DESC LIMIT 20");
 	while($info = $db->fetcharray($fetchtickets))
 	{
 		$info['body'] = formattext($info['body']);
