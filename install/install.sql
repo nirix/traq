@@ -132,7 +132,6 @@ CREATE TABLE IF NOT EXISTS `traq_tickets` (
   `created` bigint(20) NOT NULL,
   `updated` bigint(20) NOT NULL DEFAULT '0',
   `private` smallint(6) NOT NULL DEFAULT '0',
-  `percent_done` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
