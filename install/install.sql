@@ -249,10 +249,10 @@ INSERT INTO `traq_ticket_status` (`id`, `name`, `status`) VALUES
 (3, 'Closed', 0),
 (4, 'Completed', 0);
 
-INSERT INTO `traq_ticket_types` VALUES
-(1, 'Defect', '-'),
-(2, 'Feature Request', '+'),
-(3, 'Task', '*');
+INSERT INTO `traq_ticket_types` (`id`, `name`, `bullet`, `changelog`) VALUES
+(1, 'Defect', '-', 1),
+(2, 'Feature Request', '+', 1),
+(3, 'Task', '*', 1);
 
 INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`, `create_tickets`, `update_tickets`, `comment_tickets`, `delete_tickets`, `add_attachments`) VALUES
 (1, 'Administrators', 1, 1, 1, 1, 1, 1),
