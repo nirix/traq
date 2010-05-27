@@ -32,12 +32,12 @@ if($uri->seg[1] == '')
 	require(template('project_info'));
 }
 // View Ticket
-elseif(preg_match('/ticket-(?<id>\d+)/',$uri->seg[1],$matches))
+elseif(preg_match('/ticket-(?P<id>\d+)/',$uri->seg[1],$matches))
 {
 	require(TRAQPATH.'handlers/ticket.php');
 }
 // View Milestone
-elseif(preg_match('/milestone-(?<slug>.*)/',$uri->seg[1],$matches))
+elseif(preg_match('/milestone-(?P<slug>.*)/',$uri->seg[1],$matches))
 {
 	require(TRAQPATH.'handlers/milestone.php');
 }
@@ -67,7 +67,7 @@ elseif($uri->seg[1] == 'changelog')
 	require(TRAQPATH.'handlers/changelog.php');
 }
 // View Attachment
-elseif(preg_match('/attachment-(?<id>\d+)/',$uri->seg[1],$matches))
+elseif(preg_match('/attachment-(?P<id>\d+)/',$uri->seg[1],$matches))
 {
 	require(TRAQPATH.'handlers/attachment.php');
 }

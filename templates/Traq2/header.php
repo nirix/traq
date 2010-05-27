@@ -20,9 +20,9 @@
 				<?php if(isset($project) && is_project($project['slug'])) { ?>
 				<ul class="main_nav">
 					<li class="first<?php echo iif(empty($uri->seg[1]),' active')?>"><a href="<?php echo $uri->anchor($project['slug'])?>"><?php echo l('project_info')?></a></li>
-					<li<?php echo iif($uri->seg[1]=='roadmap' or preg_match('/milestone-(?<slug>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'roadmap')?>"><?php echo l('roadmap')?></a></li>
+					<li<?php echo iif($uri->seg[1]=='roadmap' or preg_match('/milestone-(?P<slug>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'roadmap')?>"><?php echo l('roadmap')?></a></li>
 					<li<?php echo iif($uri->seg[1]=='timeline',' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'timeline')?>"><?php echo l('timeline')?></a></li>
-					<li<?php echo iif($uri->seg[1]=='tickets' or preg_match('/ticket-(?<ticket_id>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>"><?php echo l('tickets')?></a></li>
+					<li<?php echo iif($uri->seg[1]=='tickets' or preg_match('/ticket-(?P<ticket_id>.*)/',$uri->seg[1]),' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>"><?php echo l('tickets')?></a></li>
 					<li<?php echo iif($uri->seg[1]=='changelog',' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'changelog')?>"><?php echo l('changelog')?></a></li>
 					<li<?php echo iif($uri->seg[1]=='wiki',' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'wiki')?>"><?php echo l('Wiki')?></a></li>
 					<?php if(has_repo()) { ?><li<?php echo iif($uri->seg[1]=='source',' class="active"')?>><a href="<?php echo $uri->anchor($project['slug'],'source')?>"><?php echo l('source')?></a></li><?php } ?>
