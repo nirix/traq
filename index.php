@@ -27,7 +27,7 @@ define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__))
 require('inc/global.php');
 
 // Project listing
-if(empty($uri->seg[0]))
+if(empty($uri->seg[0]) or $uri->seg[0] == 'index.php')
 {
 	require('handlers/projectlist.php');
 }
