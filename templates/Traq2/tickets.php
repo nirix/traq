@@ -33,7 +33,7 @@
 			<tbody>
 				<?php foreach($tickets as $ticket) { ?>
 				<tr class="<?php echo altbg()?> priority<?php echo $ticket['priority']?>">
-					<?php if(in_array('ticket',$columns)) { ?><td class="id"><a href="<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>"><?php echo $ticket['ticket_id']?></a></td><?php } ?>
+					<?php if(in_array('ticket',$columns)) { ?><td class="id"><a href="<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>"><?php echo ($ticket['closed'] ? '<s>' : '').$ticket['ticket_id'].($ticket['closed'] ? '</s>' : ''); ?></a></td><?php } ?>
 					<?php if(in_array('summary',$columns)) { ?><td><a href="<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>"><?php echo $ticket['summary']?></a></td><?php } ?>
 					<?php if(in_array('status',$columns)) { ?><td><?php echo ticket_status($ticket['status'])?></td><?php } ?>
 					<?php if(in_array('owner',$columns)) { ?><td><?php echo $ticket['user_name']?></td><?php } ?>
