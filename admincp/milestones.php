@@ -36,7 +36,7 @@ if(isset($_REQUEST['new']))
 			$errors['milestone'] = l('error_milestone_name_blank');
 		if(empty($_POST['slug']))
 			$errors['slug'] = l('error_milestone_slug_blank');
-		if($db->numrows($db->query("SELECT slug FROM ".DBPF."milestones WHERE slug='".$db->res($_POST['slug'])."' AND project_id != '".$db->res($_POST['project'])."' LIMIT 1")))
+		if($db->numrows($db->query("SELECT slug FROM ".DBPF."milestones WHERE slug='".$db->res($_POST['slug'])."' AND project_id='".$db->res($_POST['project'])."' LIMIT 1")))
 			$errors['slug'] = l('error_milestone_slug_taken');
 		if(empty($_POST['project']))
 			$errors['project'] = l('error_project_blank');
@@ -156,7 +156,7 @@ elseif(isset($_REQUEST['edit']))
 			$errors['milestone'] = l('error_milestone_name_blank');
 		if(empty($_POST['slug']))
 			$errors['slug'] = l('error_milestone_slug_blank');
-		if($db->numrows($db->query("SELECT slug FROM ".DBPF."milestones WHERE slug='".$db->res($_POST['slug'])."' AND project_id != '".$db->res($_POST['project'])."' AND id != '".$db->res($_REQUEST['edit'])."' LIMIT 1")))
+		if($db->numrows($db->query("SELECT slug FROM ".DBPF."milestones WHERE slug='".$db->res($_POST['slug'])."' AND project_id='".$db->res($_POST['project'])."' AND id != '".$db->res($_REQUEST['edit'])."' LIMIT 1")))
 			$errors['slug'] = l('error_milestone_slug_taken');
 		if(empty($_POST['project']))
 			$errors['project'] = l('error_project_blank');
