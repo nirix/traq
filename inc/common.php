@@ -54,8 +54,13 @@ function template($template)
 	// Check if the template exists
 	if(file_exists(TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php")) {
 		return TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php";
-	} else {
+	}
+	// If not, load the Traq2 theme file
+	elseif(file_exists(TRAQPATH.'/templates/Traq2/'.$template.".php")) {
+		return TRAQPATH.'/templates/Traq2/'.$template.".php";
+	}
 	// Display an error it we couldn't load it
+	else {
 		error("Template","Unable to load file: <code>".settings('theme')."/".$template."</code>");
 	}
 }
