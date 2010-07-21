@@ -27,6 +27,25 @@ $breadcrumbs = array();
 // Traq Version
 require('version.php');
 
+// Strip magic quotes from request data.
+if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+    $quotes_sybase = strtolower(ini_get('magic_quotes_sybase'));
+    $unescape_function = (empty($quotes_sybase) || $quotes_sybase === 'off') ? 'stripslashes($value)' : 'str_replace("\'\'","\'",$value)';
+    $stripslashes_deep = create_function('&$value, $fn', '
+        if (is_string($value)) {
+            $value = ' . $unescape_function . ';
+        } else if (is_array($value)) {
+            foreach ($value as &$v) $fn($v, $fn);
+        }
+    ');
+   
+    // Unescape data
+    $stripslashes_deep($_POST, $stripslashes_deep);
+    $stripslashes_deep($_GET, $stripslashes_deep);
+    $stripslashes_deep($_COOKIE, $stripslashes_deep);
+    $stripslashes_deep($_REQUEST, $stripslashes_deep);
+}
+
 // Fetch core files.
 require(TRAQPATH.'inc/db.class.php');
 require(TRAQPATH.'inc/user.class.php');
