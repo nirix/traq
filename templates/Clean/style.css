@@ -53,7 +53,7 @@ a {
 	height: 19px;
 	border: 1px solid #000;
 	font-size: 12px;
-	background: #D3D3D3;
+	background: #EAEAEA;
 }
 #nav ul.main_nav {
 	float: left;
@@ -128,7 +128,9 @@ h3,h4 {
 
 /* Project listing */
 ul.projects {
-	
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
 ul.projects li.project {
 	margin: 10px 0;
@@ -141,8 +143,33 @@ ul.projects .quick_nav {
 	display: block;
 	font-size: 12px;
 }
+ul.projects h2 a {
+	display: block;
+	background: #EAEAEA;
+	border-bottom: 1px solid #D3D3D3;
+	text-decoration: none;
+	padding: 2px;
+}
+ul.projects h2 a:hover {
+	background: #fff;
+}
 
 /* Milestone stuff */
+ul.milestones {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+ul.milestones h2 a {
+	display: block;
+	background: #EAEAEA;
+	border-bottom: 1px solid #D3D3D3;
+	text-decoration: none;
+	padding: 2px;
+}
+ul.milestones h2 a:hover {
+	background: #fff;
+}
 .milestone {
 	margin: 12px 0;
 }
