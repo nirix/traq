@@ -21,12 +21,12 @@
  */
 
 // Traq Version
-$traq_version = '2.0 Beta 1';
+$traq_version = '2.0 Beta 2';
 
 // Version code
 // 3.2.1 would be 30201
 // 3.2.11 would be 30211
-$traq_version_code = '10904';
+$traq_version_code = '10905';
 
 // Database Version
 $db_revision = 18;
