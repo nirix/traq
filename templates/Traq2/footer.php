@@ -7,3 +7,4 @@
 				<?php echo l('poweredby')?>
 			</span>
 		</div>
+</div>

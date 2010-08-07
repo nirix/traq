@@ -8,7 +8,7 @@
 
 /* Global stuff */
 body {
-	background: #e8f5fd;
+	background: #ddd;
 	color: #000;
 	font-family: arial;
 	font-size: 14px;
@@ -16,13 +16,18 @@ body {
 	padding: 0;
 }
 
+a {
+	color: #000;
+}
+
 #page {
 	background: #fff;
 	padding: 10px;
+	color: #000;
 }
 
-a {
-	color: #0092e8;
+#page a {
+	color: #000;
 }
 
 img {
@@ -46,7 +51,7 @@ h2 {
 
 #head {
 	padding-top: 5px;
-	background: #e8f5fd url('images/headerbg.png') repeat-x;
+	background: #5A9ECF;
 }
 #head span {
 	font-size: 25px;
@@ -55,7 +60,7 @@ h2 {
 }
 #head span a {
 	text-decoration: none;
-	color: #000;
+	color: #fff;
 }
 
 .even {
@@ -65,8 +70,9 @@ h2 {
 #nav, #nav_small {
 	padding: 0;
 	height: 28px;
-	border-bottom: 1px solid #95d2f6;
+	border-bottom: 1px solid #006699;
 	font-size: 12px;
+	color: #000;
 }
 #nav_small {
 	height: 1px;
@@ -91,10 +97,11 @@ h2 {
 	padding-top: 5px;
 	display: block;
 	float: left;
-	border: 1px solid #95d2f6;
+	border: 1px solid #006699;
 	border-left: 0;
 	border-bottom: 0px;
 	background: #fff;
+	color: #006699;
 }
 #nav ul.main_nav li.active a {
 	height: 19px;
@@ -107,7 +114,7 @@ h2 {
 	background: #fff;
 }
 #nav ul.main_nav li.first a {
-	border-left: 1px solid #95d2f6;
+	border-left: 1px solid #006699;
 }
 #nav ul.main_nav a, #nav ul.main_nav li.active a:hover {
 	text-decoration: none;
@@ -117,7 +124,7 @@ h2 {
 }
 #nav ul.main_nav li.standalone a {
 	margin-left: 10px;
-	border-left: 1px solid #95d2f6;
+	border-left: 1px solid #006699;
 }
 
 #nav #meta_nav ul {
@@ -139,7 +146,7 @@ h2 {
 	padding-bottom: 0;
 	display: block;
 	float: left;
-	border: 1px solid #95d2f6;
+	border: 1px solid #006699;
 	border-left: 0;
 	border-bottom: 0px;
 	background: #fff;
@@ -149,24 +156,23 @@ h2 {
 	height: 17px;
 }
 #nav #meta_nav ul li.first a {
-	border-left: 1px solid #95d2f6;
+	border-left: 1px solid #507AAA;
 }
-#nav #meta_mav ul a, #nav #meta_nav ul li.active a:hover {
+#nav #meta_nav ul a, #nav #meta_nav ul li.active a:hover {
 	text-decoration: none;
+	color: #006699;
 }
 #nav #meta_nav ul a:hover {
 	text-decoration: underline;
 }
-
 #nav #meta_nav {
 	float: right;
 	padding-top: 8px;
 	padding-right: 8px;
 }
 
-
 #foot {
-	border-top: 1px solid #95d2f6;
+	border-top: 1px solid #507AAA;
 	padding: 5px;
 	font-size: small;
 }
@@ -190,12 +196,13 @@ h2 {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	border: 1px solid #95d2f6;
+	border: 1px solid #006699;
 }
 #sidebar ul li a {
 	padding: 4px;
 	text-decoration: none;
 	display: block;
+	color: #006699;
 }
 #sidebar ul li.active a {
 	text-decoration: underline;
@@ -204,14 +211,12 @@ h2 {
 	text-decoration: underline;
 }
 #sidebar ul li.divider {
-	border-top: 1px solid #95d2f6;
+	border-top: 1px solid #006699;
 }
 
 .thead {
 	font-weight: bold;
 	padding: 4px;
-	/*background: url('images/headerbg.png');
-	border-bottom: 1px solid #aaa;*/
 }
 .tborder {
 	border: 1px solid #000;

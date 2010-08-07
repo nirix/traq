@@ -1,4 +1,5 @@
-<div id="head">
+<div id="wrapper">
+	<div id="head">
 			<span><a href="<?php echo $uri->anchor()?>"><?php echo settings('title')?></a> <?php if(isset($project) && is_project($project['slug'])) { ?>/ <?php echo $project['name']?><?php } ?></span>
 			<div id="nav">
 				<div id="meta_nav">
