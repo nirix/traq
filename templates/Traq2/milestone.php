@@ -41,11 +41,11 @@
 				</table>
 				<dl>
 					<dt><?php echo l('closed_tickets')?>:</dt>
-					<dd><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['milestone']?>&status=closed"><?php echo $milestone['tickets']['closed']?></a></dd>
+					<dd><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>&status=closed"><?php echo $milestone['tickets']['closed']?></a></dd>
 					<dt><?php echo l('active_tickets')?>:</dt>
-					<dd><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['milestone']?>&status=open"><?php echo $milestone['tickets']['open']?></a></dd>
+					<dd><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>&status=open"><?php echo $milestone['tickets']['open']?></a></dd>
 					<dt><?php echo l('total_tickets')?>:</dt>
-					<dd><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['milestone']?>"><?php echo $milestone['tickets']['total']?></a></dd>
+					<dd><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>"><?php echo $milestone['tickets']['total']?></a></dd>
 				</dl>
 				<?php echo formattext($milestone['info'])?>
 			</div>
