@@ -1,6 +1,6 @@
 /*
-	Traq 2
-	Copyright (c) 2009 Jack Polgar
+	Traq 2: Clean Theme
+	Copyright (c) 2010 Jack Polgar
 	All Rights Reserved
 	
 	http://traqproject.org
@@ -53,7 +53,7 @@ a {
 	height: 19px;
 	border: 1px solid #000;
 	font-size: 12px;
-	background: #EAEAEA;
+	background: #F2F2F2;
 }
 #nav ul.main_nav {
 	float: left;
@@ -66,8 +66,7 @@ a {
 	display: inline;
 }
 #nav ul.main_nav li.standalone a {
-	margin-left: 10px;
-	border-left: 1px solid #000;
+	
 }
 
 #nav a {
