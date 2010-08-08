@@ -23,16 +23,5 @@
 class Source
 {
 	private $location;
-	
-	/**
-	 * Cache
-	 * Caches the data in JSON format.
-	 * @param string $filename The name of the file to cache the data, example: r231.trunk-inc-lang.json
-	 * @param array $data The data to cache in an array.
-	 */
-	private function cache($filename,$data)
-	{
-		
-	}
 }
 ?>

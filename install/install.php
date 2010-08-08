@@ -45,7 +45,7 @@ if(!isset($_POST['step']))
 	}
 	
 	// cache dir check
-	$checks['cache_dir'] = array(
+	/*$checks['cache_dir'] = array(
 		'name' => "<code>cache/</code> directory",
 		'class' => 'good',
 		'message' => 'Writable'
@@ -55,7 +55,7 @@ if(!isset($_POST['step']))
 		$error = true;
 		$checks['cache_dir']['class'] = 'bad';
 		$checks['cache_dir']['message'] = 'Not writable';
-	}
+	}*/
 	
 	// Database check
 	$checks['database'] = array(
