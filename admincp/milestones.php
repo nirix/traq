@@ -187,7 +187,7 @@ elseif(isset($_REQUEST['edit']))
 				
 				$notification = array(
 					'type' => 'milestone_completed',
-					'url' => 'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'milestone-'.$milestone['slug']),
+					'url' => 'http://'.$_SERVER['HTTP_HOST'].str_replace('admincp/','',$uri->anchor($project['slug'],'milestone-'.$milestone['slug'])),
 					'id' => $milestone['id'],
 					'project_id' => $milestone['project_id'],
 					'name' => $milestone['milestone']
