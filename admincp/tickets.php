@@ -146,25 +146,25 @@ else
 {
 	// Get Types
 	$types = array();
-	$fetchtypes = $db->query("SELECT * FROM ".DBPF."ticket_types ORDER BY name ASC");
+	$fetchtypes = $db->query("SELECT * FROM ".DBPF."ticket_types ORDER BY id ASC");
 	while($type = $db->fetcharray($fetchtypes))
 		$types[] = $type;
 	
 	// Get Statuses
 	$statuses = array();
-	$fetchstatuses = $db->query("SELECT * FROM ".DBPF."ticket_status ORDER BY name ASC");
+	$fetchstatuses = $db->query("SELECT * FROM ".DBPF."ticket_status ORDER BY id ASC");
 	while($status = $db->fetcharray($fetchstatuses))
 		$statuses[] = $status;
 	
 	// Get Priorities
 	$priorities = array();
-	$fetchpriorities = $db->query("SELECT * FROM ".DBPF."priorities ORDER BY name ASC");
+	$fetchpriorities = $db->query("SELECT * FROM ".DBPF."priorities ORDER BY id ASC");
 	while($priority = $db->fetcharray($fetchpriorities))
 		$priorities[] = $priority;
 	
 	// Get Severities
 	$severities = array();
-	$fetchseverities = $db->query("SELECT * FROM ".DBPF."severities ORDER BY name ASC");
+	$fetchseverities = $db->query("SELECT * FROM ".DBPF."severities ORDER BY id ASC");
 	while($severity = $db->fetcharray($fetchseverities))
 		$severities[] = $severity;
 	
