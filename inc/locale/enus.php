@@ -361,7 +361,7 @@ $lang['page_project_description'] = 'The project this Wiki page belongs to.';
 $lang['Body'] = 'Body';
 $lang['comment_on_tickets'] = 'Comment on tickets';
 $lang['usergroup_comment_on_tickets_description'] = 'Select yes if you want this group to comment on tickets.';
-$lang['ticket_template'] = 'Ticket Template';
+$lang['edit_ticket_template'] = 'Edit Ticket Template';
 $lang['edit_ticket_template_x'] = 'Edit Ticket Template: {1}';
 $lang['template'] = 'Template';
 
