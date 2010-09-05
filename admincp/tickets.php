@@ -182,12 +182,14 @@ else
 					<th width="50" align="left"><?php echo l('bullet')?></th>
 					<th align="left"><?php echo l('changelog')?></th>
 					<th></th>
+					<th></th>
 				</tr>
 				<?php foreach($types as $type) { ?>
 				<tr>
 					<td><input type="text" name="type[<?php echo $type['id']?>][name]" value="<?php echo $type['name']?>" /></td>
 					<td><input type="text" name="type[<?php echo $type['id']?>][bullet]" value="<?php echo $type['bullet']?>" style="width:20px;" /></td>
 					<td><input type="checkbox" name="type[<?php echo $type['id']?>][changelog]" value="1"<?php echo iif($type['changelog'],' checked="checked"') ?> /></td>
+					<td><a href="ticket_templates.php?edit=<?php echo $type['id']?>"><?php echo l('ticket_template')?></a></td>
 					<td align="right">
 						<a href="#" onclick="if(confirm('<?php echo l('confirm_delete_x',$type['name'])?>')) { window.location = 'tickets.php?delete&type=<?php echo $type['id']?>'; } return false;"><img src="images/delete.png" alt="<?php echo l('delete')?>" title="<?php echo l('delete')?>" /></a>
 					</td>
