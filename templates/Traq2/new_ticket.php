@@ -24,7 +24,7 @@
 					<td width="140">
 						<fieldset>
 							<legend><?php echo l('type'); ?></legend>
-							<select name="type">
+							<select name="type" id="ticket_type">
 								<?php foreach(ticket_types() as $type) { ?>
 								<option value="<?php echo $type['id']?>"><?php echo $type['name']?></option>
 								<?php } ?>
@@ -43,7 +43,7 @@
 			
 			<fieldset<?php echo (isset($errors['body']) ? ' class="error"' : '')?>>
 				<legend><?php echo l('description')?></legend>
-				<textarea name="body" class="body"><?php echo $_POST['body']?></textarea>
+				<textarea name="body" class="body" id="ticket_body"><?php echo $_POST['body']?></textarea>
 			</fieldset>
 			
 			<fieldset id="ticket_properties" class="new_ticket properties">
@@ -127,7 +127,9 @@
 				<input type="submit" value="Create Ticket" />
 			</p>
 		</form>
-		
+		<script type="text/javascript">
+			getTicketTemplate()
+		</script>
 		<?php require(template('footer')); ?>
 	</body>
 </html>

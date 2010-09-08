@@ -25,12 +25,18 @@ authenticate();
 // Edit
 if(isset($_REQUEST['edit']))
 {
-	$type = $db->fetcharray($db->query("SELECT name FROM ".DBPF."ticket_types WHERE id='".$db->es($_REQUEST['edit'])."' LIMIT 1"));
+	$type = $db->fetcharray($db->query("SELECT id, name, template FROM ".DBPF."ticket_types WHERE id='".$db->es($_REQUEST['edit'])."' LIMIT 1"));
+	
+	if($_POST['action'] == 'save')
+	{
+		$db->query("UPDATE ".DBPF."ticket_types SET template='".$db->es($_POST['template'])."' WHERE id='".$type['id']."' LIMIT 1");
+		header("Location: tickets.php");
+	}
 	
 	head(l('edit_ticket_template'));
 	?>
 	<form action="ticket_templates.php?edit=<?php echo $_REQUEST['edit']?>" method="post">
-	<input type="hidden" name="action" value="create" />
+	<input type="hidden" name="action" value="save" />
 	<div class="thead"><?php echo l('edit_ticket_template_x',$type['name'])?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">

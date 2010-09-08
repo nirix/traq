@@ -1,4 +1,3 @@
-<?php
 /**
  * Traq 2
  * Copyright (C) 2009, 2010 Jack Polgar
@@ -18,34 +17,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Set the full path to the Traq folder
-define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__));
+$(document).ready(function(){
+	$('#ticket_type').change(function() {
+		getTicketTemplate();
+	});
+});
 
-// Fetch core file.
-require('inc/global.php');
-
-// Project listing
-if(empty($uri->seg[0]) or $uri->seg[0] == 'index.php')
+function getTicketTemplate()
 {
-	require('handlers/projectlist.php');
-}
-// User pages
-elseif($uri->seg[0] == 'user')
-{
-	require('handlers/user.php');
-}
-// Ajax page
-elseif($uri->seg[0] == '_ajax')
-{
-	require('handlers/ajax.php');
-}
-// Project pages
-elseif(is_project($uri->seg[0]))
-{
-	require('handlers/project.php');
-}
-// Something we're not sure of... load the 404 page...
-else
-{
-	include(template('404'));
+	var type_id = $("#ticket_type option:selected").val()
+	$("#ticket_body").load(BASE_URL+'_ajax/ticket_template/' + type_id)
 }
