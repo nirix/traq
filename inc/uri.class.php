@@ -29,7 +29,8 @@ class URI
 	// Construct function.
 	public function __construct()
 	{
-		$this->seg = explode('/',trim(($_SERVER['PATH_INFO'] != '' ? $_SERVER['PATH_INFO'] : $_SERVER['ORIG_PATH_INFO']),'/'));
+		if(!isset($_SERVER['ORIG_PATH_INFO'])) $_SERVER['ORIG_PATH_INFO'] = '';
+		$this->seg = explode('/',trim((isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['ORIG_PATH_INFO']),'/'));
 		$this->anchorfile = pathinfo($_SERVER['SCRIPT_FILENAME'],PATHINFO_BASENAME);
 	}
 	
@@ -40,6 +41,12 @@ class URI
 	public function geturi()
 	{
 		return $this->anchor($this->seg);
+	}
+	
+	public function seg($seg)
+	{
+		if(isset($this->seg[$seg])) return $seg;
+		return false;
 	}
 	
 	/**

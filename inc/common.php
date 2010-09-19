@@ -181,6 +181,7 @@ function l($string,$vars=array())
 	// Loop through the vars and replace the the {x} stuff
 	foreach($vars as $var)
 	{
+		if(!isset($v)) $v = 0;
 		++$v;
 		$string = str_replace('{'.$v.'}',$var,$string);
 	}

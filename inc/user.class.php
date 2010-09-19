@@ -45,6 +45,9 @@ class User
 	{
 		global $db;
 		
+		if(!isset($_COOKIE['traq_u'])) $_COOKIE['traq_u'] = '';
+		if(!isset($_COOKIE['traq_h'])) $_COOKIE['traq_h'] = '';
+		
 		// Check if the user cookies are set and valid.
 		$query = $db->query("SELECT * FROM ".DBPF."users WHERE username='".$db->es($_COOKIE['traq_u'])."' AND sesshash='".$db->es($_COOKIE['traq_h'])."' LIMIT 1");
 		if($db->numrows($query))
