@@ -18,34 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Set the full path to the Traq folder
-define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__));
 
-// Fetch core file.
-require('inc/global.php');
-
-// Project listing
-if(empty($uri->seg[0]) or $uri->seg[0] == 'index.php')
+if($uri->seg[1] == 'ticket_template')
 {
-	require('handlers/projectlist.php');
-}
-// User pages
-elseif($uri->seg[0] == 'user')
-{
-	require('handlers/user.php');
-}
-// Ajax page
-elseif($uri->seg[0] == '_ajax')
-{
-	require('handlers/ajax.php');
-}
-// Project pages
-elseif(is_project($uri->seg[0]))
-{
-	require('handlers/project.php');
-}
-// Something we're not sure of... load the 404 page...
-else
-{
-	include(template('404'));
+	$type = $db->fetcharray($db->query("SELECT template FROM ".DBPF."ticket_types WHERE id='".$db->es($uri->seg[2])."' LIMIT 1"));
+	echo $type['template'];
 }

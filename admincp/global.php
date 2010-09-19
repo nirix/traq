@@ -97,7 +97,7 @@ $sidebar_links = array(
 	'tickets' => array(
 		'title' => l('tickets'),
 		'url' => 'tickets.php',
-		'active' => activepage('tickets.php')
+		'active' => activepage(array('tickets.php','ticket_templates.php'))
 	),
 	// User pages links.
 	'users' => array(

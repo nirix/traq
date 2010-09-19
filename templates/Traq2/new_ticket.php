@@ -19,27 +19,36 @@
 			<?php } ?>
 		</div>
 		<?php } ?>
-			<fieldset<?php echo (isset($errors['summary']) ? ' class="error"' : '')?>>
-				<legend><?php echo l('summary')?></legend>
-				<input type="text" name="summary" class="summary" value="<?php echo $_POST['summary']?>" />
-			</fieldset>
+			<table width="100%" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td width="140">
+						<fieldset>
+							<legend><?php echo l('type'); ?></legend>
+							<select name="type" id="ticket_type">
+								<?php foreach(ticket_types() as $type) { ?>
+								<option value="<?php echo $type['id']?>"><?php echo $type['name']?></option>
+								<?php } ?>
+							</select>
+						</fieldset>
+					</td>
+					<td width="5"></td>
+					<td>
+						<fieldset<?php echo (isset($errors['summary']) ? ' class="error"' : '')?>>
+							<legend><?php echo l('summary')?></legend>
+							<input type="text" name="summary" class="summary" value="<?php echo $_POST['summary']?>" />
+						</fieldset>
+					</td>
+				</tr>
+			</table>
 			
 			<fieldset<?php echo (isset($errors['body']) ? ' class="error"' : '')?>>
 				<legend><?php echo l('description')?></legend>
-				<textarea name="body" class="body"><?php echo $_POST['body']?></textarea>
+				<textarea name="body" class="body" id="ticket_body"><?php echo $_POST['body']?></textarea>
 			</fieldset>
 			
 			<fieldset id="ticket_properties" class="new_ticket properties">
 				<legend><?php echo l('properties')?></legend>
 				<div class="properties">
-					<div class="property <?php echo altbg()?>">
-						<span><?php echo l('type')?></span>
-						<select name="type">
-							<?php foreach(ticket_types() as $type) { ?>
-							<option value="<?php echo $type['id']?>"><?php echo $type['name']?></option>
-							<?php } ?>
-						</select>
-					</div>
 					<div class="property <?php echo altbg()?>">
 						<span><?php echo l('assigned_to')?></span>
 						<select name="assign_to">
@@ -118,7 +127,9 @@
 				<input type="submit" value="Create Ticket" />
 			</p>
 		</form>
-		
+		<script type="text/javascript">
+			getTicketTemplate()
+		</script>
 		<?php require(template('footer')); ?>
 	</body>
 </html>
