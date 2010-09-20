@@ -11,7 +11,7 @@
 		
 		<form action="<?php echo $uri->anchor('user','login')?>" method="post">
 			<input type="hidden" name="action" value="login" />
-			<input type="hidden" name="goto" value="<?php echo $_REQUEST['goto']?>" />
+			<input type="hidden" name="goto" value="<?php echo (isset($_REQUEST['goto']) ? $_REQUEST['goto'] :'')?>" />
 			<div class="form login">
 				<?php if($user->errors) { ?>
 				<div class="message error">

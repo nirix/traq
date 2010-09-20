@@ -35,7 +35,7 @@ class User
 	// true = logged in, false = logged out
 	public $loggedin = false;
 	// Errors holder
-	public $errors = NULL;
+	public $errors = array();
 	
 	/**
 	 * Consturct

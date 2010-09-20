@@ -35,7 +35,7 @@ if(!$ticket['id'])
 	die();
 
 // Watch/Unwatch
-if($uri->seg[2] == 'watch')
+if($uri->seg(2) == 'watch')
 {
 	if(is_subscribed('ticket',$ticket['id']))
 		remove_subscription('ticket',$ticket['id']);
@@ -46,7 +46,7 @@ if($uri->seg[2] == 'watch')
 }
 
 // Delete Comment
-if($_POST['action'] == 'delete_comment')
+if(isset($_POST['action']) && $_POST['action'] == 'delete_comment')
 {
 	// Make sure the user is an Admin or Project Manager.
 	if($user->group['is_admin'] or in_array($user->info['id'],$project['managers']))
@@ -57,7 +57,7 @@ if($_POST['action'] == 'delete_comment')
 }
 
 // Delete ticket
-if($uri->seg[2] == 'delete')
+if($uri->seg(2) == 'delete')
 {
 	// Make sure the user is an Admin or Project Manager.
 	if($user->group['is_admin'] or in_array($user->info['id'],$project['managers']))
@@ -69,7 +69,7 @@ if($uri->seg[2] == 'delete')
 }
 
 // Attach file
-if($_POST['action'] == 'attach_file')
+if(isset($_POST['action']) && $_POST['action'] == 'attach_file')
 {
 	$db->query("INSERT INTO ".DBPF."attachments
 		(name,contents,type,size,uploaded,owner_id,owner_name,ticket_id,project_id)

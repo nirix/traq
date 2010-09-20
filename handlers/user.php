@@ -21,25 +21,27 @@
  */
 
 // Login
-if($uri->seg[1] == "login")
+if($uri->seg(1) == "login")
 {
 	// Check if the form has been submitted.
-	if($_POST['action'] == 'login')
+	if(isset($_POST['action']) && $_POST['action'] == 'login')
 	{
 		// Check if there were errors, if not go back to where we came from.
-		if($user->login($_POST['username'],$_POST['password'],$_POST['remember']))
-			header("Location: ".($_POST['goto'] != '' ? $_POST['goto'] : $uri->anchor()));
+		if($user->login($_POST['username'],$_POST['password'],(isset($_POST['remember']) ? $_POST['remember'] :'')))
+			header("Location: ".(isset($_POST['goto']) && $_POST['goto'] != '' ? $_POST['goto'] : $uri->anchor()));
 	}
 	include(template('user/login'));
 }
 // Register
-elseif($uri->seg[1] == "register" && settings('allow_registration'))
+elseif($uri->seg(1) == "register" && settings('allow_registration'))
 {
 	// Include reCaptcha
 	require(TRAQPATH.'inc/recaptchalib.php');
 	
+	$errors = array();
+	
 	// Check if the form has been submitted.
-	if($_POST['action'] == 'register')
+	if(isset($_POST['action']) && $_POST['action'] == 'register')
 	{
 		// Check reCaptcha
 		if(settings('recaptcha_enabled'))
@@ -62,26 +64,22 @@ elseif($uri->seg[1] == "register" && settings('allow_registration'))
 		);
 		
 		// Check if there were errors, if not go to the UserCP.
-		if(!count($errors))
+		if(isset($errors) && !count($errors))
 		{
 			if($user->register($data))
 				header("Location: ".$uri->anchor('user','login'));
 		}
-		// reCaptcha error
-		else
-		{
-			$user->errors['recaptcha'] = l('error_recaptcha');
-		}
 	}
+	$errors = array_merge($errors,$user->errors);
 	include(template('user/register'));
 }
 // Logout
-elseif($uri->seg[1] == "logout")
+elseif($uri->seg(1) == "logout")
 {
 	$user->logout();
 	header("Location: ".$uri->anchor());
 }
-elseif($uri->seg[1] == "usercp")
+elseif($uri->seg(1) == "usercp")
 {
 	// Update user info
 	if($_POST['action'] == 'save')
@@ -139,7 +137,7 @@ elseif($uri->seg[1] == "usercp")
 	include(template('user/usercp'));
 }
 // Reset Password
-elseif($uri->seg[1] == 'resetpass')
+elseif($uri->seg(1) == 'resetpass')
 {
 	// Reset
 	if($_POST['action'] == 'update')
@@ -156,7 +154,7 @@ elseif($uri->seg[1] == 'resetpass')
 	}
 	
 	// Email
-	if($_POST['action'] == 'reset')
+	if(isset($_POST['action']) && $_POST['action'] == 'reset')
 	{
 		// Check the user exists...
 		$fetchuser = $db->query("SELECT username,name,email FROM ".DBPF."users WHERE username='".$db->res($_POST['username'])."' LIMIT 1");

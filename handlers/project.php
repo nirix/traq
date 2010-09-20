@@ -27,67 +27,67 @@ $project['managers'] = explode(',',$project['managers']);
 ($hook = FishHook::hook('handler_project')) ? eval($hook) : false;
 
 // Project Info
-if($uri->seg[1] == '')
+if($uri->seg(1) == '')
 {	
 	require(template('project_info'));
 }
 // View Ticket
-elseif(preg_match('/ticket-(?P<id>\d+)/',$uri->seg[1],$matches))
+elseif(preg_match('/ticket-(?P<id>\d+)/',$uri->seg(1),$matches))
 {
 	require(TRAQPATH.'handlers/ticket.php');
 }
 // View Milestone
-elseif(preg_match('/milestone-(?P<slug>.*)/',$uri->seg[1],$matches))
+elseif(preg_match('/milestone-(?P<slug>.*)/',$uri->seg(1),$matches))
 {
 	require(TRAQPATH.'handlers/milestone.php');
 }
 // Roadmap
-elseif($uri->seg[1] == 'roadmap')
+elseif($uri->seg(1) == 'roadmap')
 {
 	require(TRAQPATH.'handlers/roadmap.php');
 }
 // View Tickets
-elseif($uri->seg[1] == 'tickets')
+elseif($uri->seg(1) == 'tickets')
 {
 	require(TRAQPATH.'handlers/tickets.php');
 }
 // New Ticket
-elseif($uri->seg[1] == 'newticket')
+elseif($uri->seg(1) == 'newticket')
 {
 	require(TRAQPATH.'handlers/newticket.php');
 }
 // Timeline
-elseif($uri->seg[1] == 'timeline')
+elseif($uri->seg(1) == 'timeline')
 {
 	require(TRAQPATH.'handlers/timeline.php');
 }
 // Changelog
-elseif($uri->seg[1] == 'changelog')
+elseif($uri->seg(1) == 'changelog')
 {
 	require(TRAQPATH.'handlers/changelog.php');
 }
 // View Attachment
-elseif(preg_match('/attachment-(?P<id>\d+)/',$uri->seg[1],$matches))
+elseif(preg_match('/attachment-(?P<id>\d+)/',$uri->seg(1),$matches))
 {
 	require(TRAQPATH.'handlers/attachment.php');
 }
 // Source
-elseif($uri->seg[1] == 'source')
+elseif($uri->seg(1) == 'source')
 {
 	require(TRAQPATH.'handlers/source.php');
 }
 // Wiki
-elseif($uri->seg[1] == 'wiki')
+elseif($uri->seg(1) == 'wiki')
 {
 	require(TRAQPATH.'handlers/wiki.php');
 }
 // Feeds
-elseif($uri->seg[1] == 'feeds')
+elseif($uri->seg(1) == 'feeds')
 {
 	require(TRAQPATH.'handlers/feeds.php');
 }
 // Watch
-elseif($uri->seg[1] == 'watch' && $user->loggedin)
+elseif($uri->seg(1) == 'watch' && $user->loggedin)
 {
 	if(is_subscribed('project',$project['id']))
 		remove_subscription('project',$project['id']);

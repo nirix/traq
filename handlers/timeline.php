@@ -26,7 +26,7 @@ $ticket = new Ticket;
 addcrumb($uri->geturi(),l('timeline'));
 
 // Set the limit
-$limit = ($_REQUEST['days'] ? $_REQUEST['days'] : 7);
+$limit = (isset($_REQUEST['days']) ? $_REQUEST['days'] : 7);
 
 // Fetch timeline
 $days = array();

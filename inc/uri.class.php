@@ -45,7 +45,7 @@ class URI
 	
 	public function seg($seg)
 	{
-		if(isset($this->seg[$seg])) return $seg;
+		if(isset($this->seg[$seg])) return $this->seg[$seg];
 		return false;
 	}
 	
