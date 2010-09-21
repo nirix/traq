@@ -69,7 +69,7 @@ if(isset($_REQUEST['new']))
 	
 	head(l('new_milestone'),true,'projects');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(isset($errors) && count($errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -85,21 +85,21 @@ if(isset($_REQUEST['new']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('milestone_name_description')?></td>
-				<td align="right"><input type="text" name="milestone" value="<?php echo $_POST['milestone']?>" /></td>
+				<td align="right"><input type="text" name="milestone" value="<?php echo (isset($_POST['milestone']) ? $_POST['milestone'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('slug')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('milestone_slug_description')?></td>
-				<td align="right"><input type="text" name="slug" value="<?php echo $_POST['slug']?>" /></td>
+				<td align="right"><input type="text" name="slug" value="<?php echo (isset($_POST['slug']) ? $_POST['slug'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('codename')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('milestone_codename_description')?></td>
-				<td align="right"><input type="text" name="codename" value="<?php echo $_POST['codename']?>" /></td>
+				<td align="right"><input type="text" name="codename" value="<?php echo (isset($_POST['codename']) ? $_POST['codename'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
@@ -109,7 +109,7 @@ if(isset($_REQUEST['new']))
 				<td align="right">
 					<select name="project">
 					<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $_POST['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+						<option value="<?php echo $project['id']?>"<?php echo iif(isset($_POST['project']) && $project['id'] == $_POST['project'],' selected="selected"')?>><?php echo $project['name']?></option>
 					<?php } ?>
 					</select>
 				</td>
@@ -119,20 +119,20 @@ if(isset($_REQUEST['new']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('milestone_due_description')?></td>
-				<td align="right"><input type="text" name="due" value="<?php echo $_POST['due']?>" /></td>
+				<td align="right"><input type="text" name="due" value="<?php echo (isset($_POST['due']) ? $_POST['due'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('display_order')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('milestone_displayorder_description')?></td>
-				<td align="right"><input type="text" name="displayorder" value="<?php echo ($_POST['displayorder'] ? $_POST['displayorder'] : '0')?>" /></td>
+				<td align="right"><input type="text" name="displayorder" value="<?php echo (isset($_POST['displayorder']) ? $_POST['displayorder'] : '0')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('milestone_description')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?php echo $_POST['info']?></textarea></td>
+				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?php echo (isset($_POST['info']) ? $_POST['info'] :'')?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
@@ -223,7 +223,7 @@ elseif(isset($_REQUEST['edit']))
 	
 	head(l('edit_milestone'),true,'projects');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(isset($errors) && count($errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />

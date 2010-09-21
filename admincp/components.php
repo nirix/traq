@@ -65,10 +65,12 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	
 	if(isset($_REQUEST['edit']))
 		$component = $db->queryfirst("SELECT * FROM ".DBPF."components WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+	else
+		$component = $_POST;
 	
 	head(l((isset($_REQUEST['new']) ? 'new' : 'edit').'_component'),true,'projects');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(isset($error) && count($errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
