@@ -172,7 +172,7 @@ function head($title='',$sidebar=false,$links=array())
 					<td valign="top" id="sidebar">
 						<ul>
 						<?php foreach($links as $link) { ?>
-							<?php if($link['divider']) { ?>
+							<?php if(isset($link['divider']) && $link['divider']) { ?>
 							<li class="divider"></li>
 							<?php } else { ?>
 							<li class="<?php echo $link['class'].iif($link['active'],' active')?>"><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>

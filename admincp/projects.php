@@ -28,7 +28,7 @@ authenticate();
 if(isset($_REQUEST['new']))
 {
 	// Check if the form has been submit.
-	if($_POST['action'] == 'create')
+	if(isset($_POST['action']) && $_POST['action'] == 'create')
 	{
 		// Check for errors...
 		$errors = array();
@@ -72,7 +72,7 @@ if(isset($_REQUEST['new']))
 	// Display the form.
 	head(l('new_project'),true,'projects');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(isset($errors) && count($errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -89,21 +89,21 @@ if(isset($_REQUEST['new']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('project_name_description')?></td>
-				<td width="200"><input type="text" name="name" value="<?php echo $_POST['name']?>" /></td>
+				<td width="200"><input type="text" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('slug')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('project_slug_description')?></td>
-				<td width="200"><input type="text" name="slug" value="<?php echo $_POST['slug']?>" /></td>
+				<td width="200"><input type="text" name="slug" value="<?php echo (isset($_POST['slug']) ? $_POST['slug'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('codename')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('codename_description')?></td>
-				<td width="200"><input type="text" name="codename" value="<?php echo $_POST['codename']?>" /></td>
+				<td width="200"><input type="text" name="codename" value="<?php echo (isset($_POST['codename']) ? $_POST['codename'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('project_managers')?></td>
@@ -129,7 +129,7 @@ if(isset($_REQUEST['new']))
 				<td class="optiontitle" colspan="2"><?php echo l('project_description')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?php echo $_POST['info']?></textarea></td>
+				<td colspan="2"><textarea name="info" style="width:100%;height:200px"><?php echo (isset($_POST['info']) ? $_POST['info'] :'')?></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="tfoot"><div align="center"><input type="submit" value="<?php echo l('create')?>" /></div></td>
@@ -174,7 +174,7 @@ elseif(isset($_REQUEST['edit']))
 	
 	head(l('edit_project'),true,'projects');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(isset($errors) && count($errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />

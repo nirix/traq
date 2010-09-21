@@ -27,7 +27,7 @@ if(isset($_REQUEST['edit']))
 {
 	$type = $db->fetcharray($db->query("SELECT id, name, template FROM ".DBPF."ticket_types WHERE id='".$db->es($_REQUEST['edit'])."' LIMIT 1"));
 	
-	if($_POST['action'] == 'save')
+	if(isset($_POST['action']) && $_POST['action'] == 'save')
 	{
 		$db->query("UPDATE ".DBPF."ticket_types SET template='".$db->es($_POST['template'])."' WHERE id='".$type['id']."' LIMIT 1");
 		header("Location: tickets.php");
@@ -58,6 +58,6 @@ if(isset($_REQUEST['edit']))
 				</tr>
 		</table>
 	</div>
-	<?
+	<?php
 	foot();
 }

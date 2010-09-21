@@ -25,7 +25,7 @@ include("global.php");
 authenticate();
 
 // Save the settings
-if($_POST['action'] == 'save')
+if(isset($_POST['action']) && $_POST['action'] == 'save')
 {
 	// Loop through the fields and save
 	foreach($_POST as $field => $value)

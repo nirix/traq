@@ -107,7 +107,7 @@ h2 {
 <body>
 <div id="wrapper">
 	<div id="head">
-		<h1>Traq <?php echo $title?></h1>
+		<h1>Traq <?php echo (isset($title) ? $title :'')?></h1>
 	</div>
 	<div id="page">
 <?php

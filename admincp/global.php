@@ -89,7 +89,7 @@ $sidebar_links = array(
 			array(
 				'title' => l('manage_repositories'),
 				'url' => 'repositories.php',
-				'active' => activepage('repositories.php','','edit='.$_REQUEST['edit'])
+				'active' => activepage('repositories.php','','edit='.(isset($_REQUEST['edit']) ? $_REQUEST['edit'] :''))
 			)
 		)
 	),
@@ -119,7 +119,7 @@ $sidebar_links = array(
 			array(
 				'title' => l('manage_groups'),
 				'url' => 'groups.php',
-				'active' => activepage('groups.php','','edit='.$_REQUEST['edit'])
+				'active' => activepage('groups.php','','edit='.(isset($_REQUEST['edit']) ? $_REQUEST['edit'] :''))
 			)
 		)
 	),
