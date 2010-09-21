@@ -38,7 +38,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	}
 	
 	// Create the version
-	if($_POST['action'] == 'create')
+	if(isset($_POST['action']) && $_POST['action'] == 'create')
 		if(!count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."versions
@@ -52,7 +52,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		}
 	
 	// Save the version
-	if($_POST['action'] == 'save')
+	if(isset($_POST['action']) && $_POST['action'] == 'save')
 		if(!count($errors))
 		{
 			$db->query("UPDATE ".DBPF."versions SET
@@ -65,10 +65,12 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	
 	if(isset($_REQUEST['edit']))
 		$version = $db->queryfirst("SELECT * FROM ".DBPF."versions WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+	else
+		$version = $_POST;
 	
 	head(l((isset($_REQUEST['new']) ? 'new' : 'edit').'_version'),true,'projects');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(isset($errors) && count($errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -85,7 +87,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('version_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?php echo $version['version']?>" /></td>
+				<td align="right"><input type="text" name="version" value="<?php echo $version['version']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
@@ -95,7 +97,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td align="right">
 					<select name="project">
 					<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $version['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $version['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
 					<?php } ?>
 					</select>
 				</td>
@@ -146,7 +148,7 @@ else
 				<th></th>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td><input type="text" name="name" /></td>
+				<td><input type="text" name="version" /></td>
 				<td>
 					<select name="project">
 					<?php foreach(getprojects() as $project) { ?>

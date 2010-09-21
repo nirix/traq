@@ -38,7 +38,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	}
 	
 	// Create the component
-	if($_POST['action'] == 'create')
+	if(isset($_POST['action']) && $_POST['action'] == 'create')
 		if(!count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."components
@@ -52,7 +52,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		}
 	
 	// Save the component
-	if($_POST['action'] == 'save')
+	if(isset($_POST['action']) && $_POST['action'] == 'save')
 		if(!count($errors))
 		{
 			$db->query("UPDATE ".DBPF."components SET
