@@ -97,7 +97,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td align="right">
 					<select name="project">
 					<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $component['project'],' selected="selected"')?>><?php echo $project['name']?></option>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $component['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
 					<?php } ?>
 					</select>
 				</td>

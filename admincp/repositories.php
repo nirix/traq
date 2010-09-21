@@ -54,7 +54,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	}
 	
 	// Create the repository
-	if($_POST['action'] == 'create')
+	if(isset($_POST['action']) && $_POST['action'] == 'create')
 		if(!count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."repositories
@@ -70,7 +70,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		}
 	
 	// Save the repository information
-	if($_POST['action'] == 'save')
+	if(isset($_POST['action']) && $_POST['action'] == 'save')
 		if(!count($errors))
 		{
 			$db->query("UPDATE ".DBPF."repositories SET
@@ -85,7 +85,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	
 	head(l((isset($_REQUEST['edit']) ? 'edit' : 'new').'_repository'),true,'projects');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(isset($errors) && count($errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -102,7 +102,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('repository_name_description')?></td>
-				<td width="200"><input type="text" name="name" value="<?php echo $repo['name']?>" /></td>
+				<td width="200"><input type="text" name="name" value="<?php echo (isset($repo['name']) ? $repo['name'] :'')?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
@@ -112,7 +112,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td width="200">
 					<select name="project_id">
 						<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $repo['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
+						<option value="<?php echo $project['id']?>"<?php echo iif(isset($repo) && $project['id'] == $repo['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
 						<?php } ?>
 					</select>
 				</td>
@@ -125,7 +125,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td width="200">
 					<select name="type">
 						<?php foreach($repository_types as $key => $type) { ?>
-						<option value="<?php echo $key?>"<?php echo iif($type['file'] == $repo['info']['file'],' selected="selected"')?>><?php echo $type['name']?></option>
+						<option value="<?php echo $key?>"<?php echo iif(isset($repo) && $type['file'] == $repo['info']['file'],' selected="selected"')?>><?php echo $type['name']?></option>
 						<?php } ?>
 					</select>
 				</td>
@@ -136,7 +136,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('repository_location_description')?></td>
 				<td width="200">
-					<input type="text" name="location" value="<?php echo $repo['location']?>" />
+					<input type="text" name="location" value="<?php echo (isset($repo['location']) ? $repo['location'] :'')?>" />
 				</td>
 			</tr>
 		</table>
