@@ -196,12 +196,12 @@ if(isset($_POST['update']))
 			$changes[] = array('property'=>'private','from'=>$ticket['private'],'to'=>$_POST['private'],'action'=>($_POST['private'] ? 'private' : 'public'));
 		}
 		// Action
-		if($_POST['action'] == 'mark' && $ticket['status'] != $_POST['mark_as'])
+		if(isset($_POST['action']) && $_POST['action'] == 'mark' && $ticket['status'] != $_POST['mark_as'])
 		{
 			$querybits[] = "status='".$db->res($_POST['mark_as'])."'";
 			$changes[] = array('property'=>'status','from'=>ticket_status($ticket['status']),'to'=>ticket_status($_POST['mark_as']),'action'=>'mark');
 		}
-		elseif($_POST['action'] == 'close' && $ticket['status'] != $_POST['close_as'])
+		elseif(isset($_POST['action']) && $_POST['action'] == 'close' && $ticket['status'] != $_POST['close_as'])
 		{
 			$querybits[] = "status='".$db->res($_POST['close_as'])."'";
 			$querybits[] = "closed='1'";
@@ -219,7 +219,7 @@ if(isset($_POST['update']))
 				NOW()
 			)");
 		}
-		elseif($_POST['action'] == 'reopen' && $ticket['status'] != $_POST['reopen_as'])
+		elseif(isset($_POST['action']) && $_POST['action'] == 'reopen' && $ticket['status'] != $_POST['reopen_as'])
 		{
 			$querybits[] = "status='".$db->res($_POST['reopen_as'])."'";
 			$querybits[] = "closed='0'";

@@ -75,7 +75,7 @@
 				<?php if(count($change['changes']) > 0) { ?>
 				<ul class="ticket_change_list">
 					<?php foreach($change['changes'] as $row) { ?>
-					<li><?php echo l('ticket_history_'.$row->property.iif($row->action,'_'.$row->action),$row->from,$row->to)?></li>
+					<li><?php echo l('ticket_history_'.$row->property.(isset($row->action) ? '_'.$row->action :''),$row->from,$row->to)?></li>
 					<?php } ?>
 				</ul>
 				<?php } ?>
@@ -93,7 +93,7 @@
 		<input type="hidden" name="update" value="1" />
 		<h2><?php echo l('update_ticket')?></h2>
 		<div id="update_ticket">
-			<?php if(count($errors)) { ?>
+			<?php if(isset($errors) && count($errors)) { ?>
 			<div class="message error">
 				<?php foreach($errors as $error) { ?>
 				<?php echo $error?><br />

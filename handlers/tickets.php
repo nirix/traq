@@ -131,7 +131,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				$values[] = $milestone['id'];
 			}
 			if(count($values))
-				$query .= "AND milestone_id ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
+				$query .= "AND milestone_id ".iif(isset($filter['mode']) && $filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
 		}
 		// Version, Tpye and Component filter
 		elseif(in_array($filter['type'],array('version','type','component','severity','priority')))
@@ -158,7 +158,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			}
 			
 			if(count($values))
-				$query .= "AND ".$type." ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
+				$query .= "AND ".$type." ".iif(isset($filter['mode']) && $filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
 		}
 		// Status filter
 		elseif($filter['type'] == 'status')
@@ -176,7 +176,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				
 				$filter['values'] = ($filter['value'] == 'open' ? $status['open'] : $status['closed']);
 			}
-			$query .= "AND status ".iif($filter['mode'] == '!','not ')."in (".implode(',',$filter['values']).") ";
+			$query .= "AND status ".iif(isset($filter['mode']) && $filter['mode'] == '!','not ')."in (".implode(',',$filter['values']).") ";
 		}
 		// Owner filter
 		elseif($filter['type'] == 'owner')
@@ -192,7 +192,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			}
 			
 			if(count($values))
-				$query .= "AND user_name ".iif($filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
+				$query .= "AND user_name ".iif(isset($filter['mode']) && $filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
 		}
 	}
 }

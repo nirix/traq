@@ -12,8 +12,8 @@
 				<td class="mode">
 					<?php if($val == 0) { ?>
 					<select name="modes[<?php echo $filter['type']?>]">
-						<option value=""<?php echo iif($filter['mode'] == '',' selected="selected"')?>><?php echo l('is')?></option>
-						<option value="!"<?php echo iif($filter['mode'] == '!',' selected="selected"')?>><?php echo l('is_not')?></option>
+						<option value=""<?php echo iif(isset($filter['mode']) && $filter['mode'] == '',' selected="selected"')?>><?php echo l('is')?></option>
+						<option value="!"<?php echo iif(isset($filter['mode']) && $filter['mode'] == '!',' selected="selected"')?>><?php echo l('is_not')?></option>
 					</select>
 					<?php } else { ?>
 					<?php echo l('or')?>
