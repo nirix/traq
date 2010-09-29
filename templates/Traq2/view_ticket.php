@@ -62,7 +62,7 @@
 		<div id="ticket_history">
 			<?php foreach($ticket['changes'] as $change) { ?>
 			<div class="ticket_prop_change">
-				<h3><?php echo timesince($change['timestamp'],true)?> ago by <?php echo $change['user_name']?></h3>
+				<h3><?php echo l('x_ago_by_x',timesince($change['timestamp'],true),$change['user_name']); ?></h3>
 				<div class="ticket_change_actions">
 					<?php if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?>
 					<form action="<?php echo $uri->geturi()?>" method="post">

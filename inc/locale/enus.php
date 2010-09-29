@@ -72,7 +72,6 @@ $lang['new'] = 'New';
 $lang['manage'] = 'Manage';
 $lang['users'] = 'Users';
 $lang['usergroups'] = 'Usergroups';
-$lang['admincp'] = 'AdminCP';
 $lang['delete'] = 'Delete';
 $lang['update'] = 'Update';
 $lang['columns'] = 'Columns';
@@ -116,6 +115,7 @@ $lang['completed_on_x'] = 'Completed on {1}';
 $lang['All'] = 'All';
 $lang['x_timeline'] = '{1} Timeline';
 $lang['x_tickets'] = '{1} Tickets';
+$lang['x_ago_by_x'] = '{1} ago by {2}';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';

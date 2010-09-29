@@ -140,7 +140,7 @@ elseif($uri->seg(1) == "usercp")
 elseif($uri->seg(1) == 'resetpass')
 {
 	// Reset
-	if($_POST['action'] == 'update')
+	if(isset($_REQUEST['action']) && $_POST['action'] == 'update')
 	{
 		// Find the user
 		$fetchuser = $db->query("SELECT id FROM ".DBPF."users WHERE sesshash='RESET:".$db->res($_POST['hash'])."' LIMIT 1");
