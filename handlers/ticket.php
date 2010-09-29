@@ -257,7 +257,7 @@ if(isset($_POST['update']))
 				'".time()."',
 				'".$ticket['id']."',
 				'".$project['id']."',
-				'".json_encode($changes)."',
+				'".$db->res(json_encode($changes))."',
 				'".$db->res($_POST['comment'])."'
 			)");
 			
