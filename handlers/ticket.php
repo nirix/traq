@@ -56,6 +56,13 @@ if(isset($_POST['action']) && $_POST['action'] == 'delete_comment')
 	}
 }
 
+// Delete attachment
+if(isset($_POST['action']) && $_POST['action'] == 'delete_attachment')
+{
+	$db->query("DELETE FROM ".DBPF."attachments WHERE id='".$db->res($_POST['attach_id'])."' LIMIT 1");
+	header("Location: ".$uri->geturi());
+}
+
 // Delete ticket
 if($uri->seg(2) == 'delete')
 {
@@ -66,25 +73,6 @@ if($uri->seg(2) == 'delete')
 		$ticketC->delete($ticket['id']);
 		header("Location: ".$uri->anchor($project['slug'],'tickets'));
 	}
-}
-
-// Attach file
-if(isset($_POST['action']) && $_POST['action'] == 'attach_file')
-{
-	$db->query("INSERT INTO ".DBPF."attachments
-		(name,contents,type,size,uploaded,owner_id,owner_name,ticket_id,project_id)
-		VALUES(
-		'".$db->res($_FILES['file']['name'])."',
-		'".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."',
-		'".$db->res($_FILES['file']['type'])."',
-		'".$db->res($_FILES['file']['size'])."',
-		'".time()."',
-		'".$user->info['id']."',
-		'".($_COOKIE['guestname'] ? $_COOKIE['guestname'] : $user->info['username'])."',
-		'".$ticket['id']."',
-		'".$project['id']."'
-		)");
-	header("Location: ".$uri->geturi());
 }
 
 // Fetch ticket histoy
@@ -137,6 +125,24 @@ if(isset($_POST['update']))
 	
 	if(!count($errors))
 	{
+		if(isset($_FILES['file']) and $_FILES['file']['name'] != '') {
+			$db->query("INSERT INTO ".DBPF."attachments
+				(name,contents,type,size,uploaded,owner_id,owner_name,ticket_id,project_id)
+				VALUES(
+				'".$db->res($_FILES['file']['name'])."',
+				'".base64_encode(file_get_contents($_FILES['file']['tmp_name']))."',
+				'".$db->res($_FILES['file']['type'])."',
+				'".$db->res($_FILES['file']['size'])."',
+				'".time()."',
+				'".$user->info['id']."',
+				'".(isset($_COOKIE['guestname']) ? $_COOKIE['guestname'] : $user->info['username'])."',
+				'".$ticket['id']."',
+				'".$project['id']."'
+			)");
+			
+			$changes[] = array('property'=>'attachment','from'=>'','to'=>$_FILES['file']['name'],'action'=>'add');
+		}
+		
 		// Type
 		if($_POST['type'] != $ticket['type'])
 		{
@@ -243,7 +249,7 @@ if(isset($_POST['update']))
 		if(count($changes) > 0 || $_POST['comment'] != '')
 		{
 			// Update the ticket
-			if(count($changes) > 0)
+			if(count($querybits) > 0)
 				$db->query("UPDATE ".DBPF."tickets SET ".implode(', ',$querybits)." WHERE id='".$ticket['id']."' LIMIT 1");
 			
 			// Set guest name cookie

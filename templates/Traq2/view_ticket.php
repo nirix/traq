@@ -44,14 +44,6 @@
 					<?php } ?>
 					</ul>
 				</p>
-				<?php if($user->group['add_attachments']) { ?>
-				<p>
-					<form action="<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>" method="post" enctype="multipart/form-data">
-						<input type="hidden" name="action" value="attach_file" />
-						<label><?php echo l('attach_file')?>: <input type="file" name="file" /> <input type="submit" value="<?php echo l('attach')?>" /></label>
-					</form>
-				</p>
-				<?php } ?>
 			</div>
 		</div>
 		<?php if($user->loggedin) { ?>
@@ -89,7 +81,7 @@
 		</div>
 		
 		<?php if($user->group['update_tickets'] OR $user->group['comment_tickets']) { ?>
-		<form action="<?php echo $uri->geturi()?>" method="post">
+		<form action="<?php echo $uri->geturi()?>" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="update" value="1" />
 		<h2><?php echo l('update_ticket')?></h2>
 		<div id="update_ticket">
@@ -208,6 +200,11 @@
 						<span><?php echo l('private_ticket')?></span>
 						<input type="checkbox" name="private" id="private" value="1"<?php echo iif($ticket['private'],' checked="checked"')?> />
 					</div>
+					<?php if($user->group['add_attachments']) { ?>
+					<div class="clear">
+							<label><?php echo l('attach_file')?>: <input type="file" name="file" /></label>
+					</div>
+					<?php } ?>
 					<?php if(!$user->loggedin) { ?>
 					<div class="property">
 						<span><?php echo l('your_name')?></span>
