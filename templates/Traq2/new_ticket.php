@@ -35,7 +35,7 @@
 					<td>
 						<fieldset<?php echo (isset($errors['summary']) ? ' class="error"' : '')?>>
 							<legend><?php echo l('summary')?></legend>
-							<input type="text" name="summary" class="summary" value="<?php echo $_POST['summary']?>" />
+							<input type="text" name="summary" class="summary" value="<?php echo @$_POST['summary']?>" />
 						</fieldset>
 					</td>
 				</tr>

@@ -30,7 +30,7 @@
 			<div class="description">
 				<h3 id="description"><?php echo l('description')?></h3>
 				<p>
-					<?php echo formattext($ticket['body'],true)?> 
+					<?php echo nl2br(formattext($ticket['body'],true))?> 
 				</p>
 				<h3><?php echo l('attachments')?></h3>
 				<p id="attachments">
@@ -73,7 +73,7 @@
 				<?php } ?>
 				<?php if($change['comment'] != '') { ?>
 				<div class="change_comment">
-					<?php echo formattext($change['comment'],true)?>
+					<?php echo nl2br(formattext($change['comment'],true))?>
 				</div>
 				<?php } ?>
 			</div>
