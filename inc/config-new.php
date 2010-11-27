@@ -27,4 +27,6 @@ $conf['db']['user'] = 'root'; // Database Username
 $conf['db']['pass'] = 'root'; // Database Password
 $conf['db']['dbname'] = 'traq'; // Database Name
 $conf['db']['prefix'] = 'traq_'; // Table prefix
+
+$conf['general']['authorized_only'] = false; // access for authorized users only
 ?>
