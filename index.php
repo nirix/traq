@@ -24,6 +24,11 @@ define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__))
 // Fetch core file.
 require('inc/global.php');
 
+if(isset($conf['general']['authorized_only']) && $conf['general']['authorized_only'] == true && !$user->loggedin && @$_POST['action'] != 'login') {
+    include(template('user/login'));
+    exit;
+}
+
 // Project listing
 if(empty($uri->seg[0]) or $uri->seg[0] == 'index.php')
 {
