@@ -28,7 +28,7 @@ authenticate();
 if(isset($_REQUEST['new']))
 {
 	// Create the user...
-	if($_POST['action'] == 'create')
+	if(@$_POST['action'] == 'create')
 	{
 		// User data array.
 		$data = array(

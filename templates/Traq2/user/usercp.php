@@ -33,7 +33,7 @@
 				<td>
 					<form action="<?php echo $uri->geturi()?>" method="post">
 						<input type="hidden" name="action" value="save" />
-						<?php if(count($errors)) { ?>
+						<?php if(count(@$errors)) { ?>
 						<div class="message error">
 							<?php echo implode('<br />',$errors)?>
 						</div>

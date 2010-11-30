@@ -82,7 +82,7 @@ elseif($uri->seg(1) == "logout")
 elseif($uri->seg(1) == "usercp")
 {
 	// Update user info
-	if($_POST['action'] == 'save')
+	if(@$_POST['action'] == 'save')
 	{
 		// Check for errors
 		$errors = array();

@@ -40,8 +40,8 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	}
 	
 	// Create the page
-	if($_POST['action'] == 'create')
-		if(!count($errors))
+	if(@$_POST['action'] == 'create')
+		if(isset($errors) and !count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."wiki
 				(project_id,title,slug,body)
@@ -55,7 +55,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		}
 	
 	// Update the page
-	if($_POST['action'] == 'update')
+	if(@$_POST['action'] == 'update')
 		if(!count($errors))
 		{
 			$db->query("UPDATE ".DBPF."wiki SET
@@ -73,7 +73,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	
 	head(l((isset($_REQUEST['edit']) ? 'Edit' : 'New').'_Wiki_Page'),true,'wiki');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(count(@$errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -90,7 +90,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			</tr>
 			<tr>
 				<td><?php echo l('page_title_description')?></td>
-				<td align="right"><input type="text" name="title" value="<?php echo $page['title']?>" /></td>
+				<td align="right"><input type="text" name="title" value="<?php echo @$page['title']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('project')?></td>
@@ -100,7 +100,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td width="200" align="right">
 					<select name="project_id">
 						<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == $page['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
+						<option value="<?php echo $project['id']?>"<?php echo iif($project['id'] == @$page['project_id'],' selected="selected"')?>><?php echo $project['name']?></option>
 						<?php } ?>
 					</select>
 				</td>
@@ -109,7 +109,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td class="optiontitle" colspan="2"><?php echo l('Body')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td colspan="2"><textarea name="body" style="width:100%;height:200px"><?php echo $page['body']?></textarea></td>
+				<td colspan="2"><textarea name="body" style="width:100%;height:200px"><?php echo @$page['body']?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?php echo l((isset($_REQUEST['edit']) ? 'update' : 'create'))?>" /></div>
