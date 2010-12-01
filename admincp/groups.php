@@ -28,7 +28,7 @@ authenticate();
 if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 {
 	// Create
-	if($_POST['action'] == 'create')
+	if(@$_POST['action'] == 'create')
 	{
 		// Check for errors
 		$errors = array();
@@ -55,7 +55,7 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 	}
 	
 	// Save Usergroup
-	if($_POST['action'] == 'save')
+	if(@$_POST['action'] == 'save')
 	{
 		// Check for errors
 		$errors = array();
@@ -81,7 +81,7 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 	
 	head(l((isset($_REQUEST['edit']) ? 'edit' : 'new').'_usergroup'),true,'users');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(count(@$errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -98,7 +98,7 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('usergroup_name_description')?></td>
-				<td width="200"><input type="text" name="values[name]" value="<?php echo $group['name']?>" /></td>
+				<td width="200"><input type="text" name="values[name]" value="<?php echo @$group['name']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('administrator')?></td>
@@ -106,8 +106,8 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('usergroup_admin_description')?></td>
 				<td width="200">
-					<input type="radio" name="values[is_admin]" value="1" id="is_admin_yes"<?php echo iif($group['is_admin'],' checked="checked"')?> /> <label for="is_admin_yes"><?php echo l('yes')?></label>
-					<input type="radio" name="values[is_admin]" value="0" id="is_admin_no"<?php echo iif(!$group['is_admin'],' checked="checked"')?> /> <label for="is_admin_no"><?php echo l('no')?></label>
+					<input type="radio" name="values[is_admin]" value="1" id="is_admin_yes"<?php echo iif(@$group['is_admin'],' checked="checked"')?> /> <label for="is_admin_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="values[is_admin]" value="0" id="is_admin_no"<?php echo iif(!@$group['is_admin'],' checked="checked"')?> /> <label for="is_admin_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 			<tr>
@@ -116,8 +116,8 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('usergroup_create_tickets_description')?></td>
 				<td width="200">
-					<input type="radio" name="values[create_tickets]" value="1" id="create_tickets_yes"<?php echo iif($group['create_tickets'],' checked="checked"')?> /> <label for="create_tickets_yes"><?php echo l('yes')?></label>
-					<input type="radio" name="values[create_tickets]" value="0" id="create_tickets_no"<?php echo iif(!$group['create_tickets'],' checked="checked"')?> /> <label for="create_tickets_no"><?php echo l('no')?></label>
+					<input type="radio" name="values[create_tickets]" value="1" id="create_tickets_yes"<?php echo iif(@$group['create_tickets'],' checked="checked"')?> /> <label for="create_tickets_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="values[create_tickets]" value="0" id="create_tickets_no"<?php echo iif(!@$group['create_tickets'],' checked="checked"')?> /> <label for="create_tickets_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 			<tr>
@@ -126,8 +126,8 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('usergroup_update_tickets_description')?></td>
 				<td width="200">
-					<input type="radio" name="values[update_tickets]" value="1" id="update_tickets_yes"<?php echo iif($group['update_tickets'],' checked="checked"')?> /> <label for="update_tickets_yes"><?php echo l('yes')?></label>
-					<input type="radio" name="values[update_tickets]" value="0" id="update_tickets_no"<?php echo iif(!$group['update_tickets'],' checked="checked"')?> /> <label for="update_tickets_no"><?php echo l('no')?></label>
+					<input type="radio" name="values[update_tickets]" value="1" id="update_tickets_yes"<?php echo iif(@$group['update_tickets'],' checked="checked"')?> /> <label for="update_tickets_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="values[update_tickets]" value="0" id="update_tickets_no"<?php echo iif(!@$group['update_tickets'],' checked="checked"')?> /> <label for="update_tickets_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 			<tr>
@@ -136,8 +136,8 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('usergroup_comment_on_tickets_description')?></td>
 				<td width="200">
-					<input type="radio" name="values[comment_tickets]" value="1" id="comment_tickets_yes"<?php echo iif($group['comment_tickets'],' checked="checked"')?> /> <label for="comment_tickets_yes"><?php echo l('yes')?></label>
-					<input type="radio" name="values[comment_tickets]" value="0" id="comment_tickets_no"<?php echo iif(!$group['comment_tickets'],' checked="checked"')?> /> <label for="comment_tickets_no"><?php echo l('no')?></label>
+					<input type="radio" name="values[comment_tickets]" value="1" id="comment_tickets_yes"<?php echo iif(@$group['comment_tickets'],' checked="checked"')?> /> <label for="comment_tickets_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="values[comment_tickets]" value="0" id="comment_tickets_no"<?php echo iif(!@$group['comment_tickets'],' checked="checked"')?> /> <label for="comment_tickets_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 			<tr>
@@ -146,8 +146,8 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('usergroup_delete_tickets_description')?></td>
 				<td width="200">
-					<input type="radio" name="values[delete_tickets]" value="1" id="delete_tickets_yes"<?php echo iif($group['delete_tickets'],' checked="checked"')?> /> <label for="delete_tickets_yes"><?php echo l('yes')?></label>
-					<input type="radio" name="values[delete_tickets]" value="0" id="delete_tickets_no"<?php echo iif(!$group['delete_tickets'],' checked="checked"')?> /> <label for="delete_tickets_no"><?php echo l('no')?></label>
+					<input type="radio" name="values[delete_tickets]" value="1" id="delete_tickets_yes"<?php echo iif(@$group['delete_tickets'],' checked="checked"')?> /> <label for="delete_tickets_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="values[delete_tickets]" value="0" id="delete_tickets_no"<?php echo iif(!@$group['delete_tickets'],' checked="checked"')?> /> <label for="delete_tickets_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 			<tr>
@@ -156,8 +156,8 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('usergroup_add_attachments_description')?></td>
 				<td width="200">
-					<input type="radio" name="values[add_attachments]" value="1" id="add_attachments_yes"<?php echo iif($group['add_attachments'],' checked="checked"')?> /> <label for="add_attachments_yes"><?php echo l('yes')?></label>
-					<input type="radio" name="values[add_attachments]" value="0" id="add_attachments_no"<?php echo iif(!$group['add_attachments'],' checked="checked"')?> /> <label for="add_attachments_no"><?php echo l('no')?></label>
+					<input type="radio" name="values[add_attachments]" value="1" id="add_attachments_yes"<?php echo iif(@$group['add_attachments'],' checked="checked"')?> /> <label for="add_attachments_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="values[add_attachments]" value="0" id="add_attachments_no"<?php echo iif(!@$group['add_attachments'],' checked="checked"')?> /> <label for="add_attachments_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 		</table>

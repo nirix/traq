@@ -134,7 +134,7 @@ elseif(isset($_REQUEST['create']))
 	
 	head(l('create_plugin'),true,'plugins');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(count(@$errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -150,40 +150,40 @@ elseif(isset($_REQUEST['create']))
 			</tr>
 			<tr>
 				<td><?php echo l('plugin_name_description')?></td>
-				<td align="right"><input type="text" name="name" value="<?php echo $_POST['name']?>" /></td>
+				<td align="right"><input type="text" name="name" value="<?php echo @$_POST['name']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('plugin_author')?></td>
 			</tr>
 			<tr>
 				<td><?php echo l('plugin_author_description')?></td>
-				<td align="right"><input type="text" name="author" value="<?php echo $_POST['author']?>" /></td>
+				<td align="right"><input type="text" name="author" value="<?php echo @$_POST['author']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('plugin_website')?></td>
 			</tr>
 			<tr>
 				<td><?php echo l('plugin_website_description')?></td>
-				<td align="right"><input type="text" name="website" value="<?php echo $_POST['website']?>" /></td>
+				<td align="right"><input type="text" name="website" value="<?php echo @$_POST['website']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('plugin_version')?></td>
 			</tr>
 			<tr>
 				<td><?php echo l('plugin_version_description')?></td>
-				<td align="right"><input type="text" name="version" value="<?php echo $_POST['version']?>" /></td>
+				<td align="right"><input type="text" name="version" value="<?php echo @$_POST['version']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('plugin_install_sql')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?php echo $_POST['install_sql']?></textarea></td>
+				<td colspan="2"><textarea name="install_sql" style="width:100%;height:150px"><?php echo @$_POST['install_sql']?></textarea></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('plugin_uninstall_sql')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?php echo $_POST['uninstall_sql']?></textarea></td>
+				<td colspan="2"><textarea name="uninstall_sql" style="width:100%;height:150px"><?php echo @$_POST['uninstall_sql']?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
@@ -365,7 +365,7 @@ elseif(isset($_REQUEST['newhook']))
 	
 	head(l('new_hook'),true,'plugins');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(count(@$errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
@@ -384,7 +384,7 @@ elseif(isset($_REQUEST['newhook']))
 				<td align="right">
 					<select name="plugin_id">
 						<?php foreach($plugins as $plugin) { ?>
-						<option value="<?php echo $plugin['id']?>"<?php echo iif($plugin['id']==$_POST['plugin_id'],' selected="selected"')?>><?php echo $plugin['name']?></option>
+						<option value="<?php echo $plugin['id']?>"<?php echo iif($plugin['id']==@$_POST['plugin_id'],' selected="selected"')?>><?php echo $plugin['name']?></option>
 						<?php } ?>
 					</select>
 				</td>
@@ -394,7 +394,7 @@ elseif(isset($_REQUEST['newhook']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('hook_title_description')?></td>
-				<td align="right"><input type="text" name="title" value="<?php echo $_POST['title']?>" /></td>
+				<td align="right"><input type="text" name="title" value="<?php echo @$_POST['title']?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('hook')?></td>
@@ -408,11 +408,11 @@ elseif(isset($_REQUEST['newhook']))
 						<?php if(is_array($value)) { ?>
 							<optgroup label="<?php echo l($key)?>">
 								<?php foreach($value as $hookname) { ?>
-								<option value="<?php echo $hookname?>"<?php echo iif($hookname==$_POST['hook'],' selected="selected"')?>><?php echo $hookname?></option>
+								<option value="<?php echo $hookname?>"<?php echo iif($hookname==@$_POST['hook'],' selected="selected"')?>><?php echo $hookname?></option>
 								<?php } ?>
 							</optgroup>
 						<?php } else { ?>
-						<option value="<?php echo $value?>"<?php echo iif($value==$_POST['hook'],' selected="selected"')?>><?php echo $value?></option>
+						<option value="<?php echo $value?>"<?php echo iif($value==@$_POST['hook'],' selected="selected"')?>><?php echo $value?></option>
 						<?php } ?>
 						<?php } ?>
 					</select>
@@ -423,13 +423,13 @@ elseif(isset($_REQUEST['newhook']))
 			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('hook_execution_order_description')?></td>
-				<td align="right"><input type="text" name="execorder" value="<?php echo iif($_POST['execorder'],$_POST['execorder'],0)?>" /></td>
+				<td align="right"><input type="text" name="execorder" value="<?php echo iif(@$_POST['execorder'],@$_POST['execorder'],0)?>" /></td>
 			</tr>
 			<tr>
 				<td class="optiontitle" colspan="2"><?php echo l('code')?></td>
 			</tr>
 			<tr class="<?php echo altbg()?>">
-				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?php echo $_POST['code']?></textarea></td>
+				<td colspan="2"><textarea name="code" style="width:100%;height:150px"><?php echo @$_POST['code']?></textarea></td>
 			</tr>
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?php echo l('create')?>" /></div>
