@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `traq_ticket_status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `traq_ticket_types` (
+CREATE TABLE IF NOT EXISTS `traq_ticket_types` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bullet` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
@@ -258,3 +258,9 @@ INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`, `create_tickets`, `upda
 (1, 'Administrators', 1, 1, 1, 1, 1, 1),
 (2, 'Members', 0, 1, 1, 1, 0, 1),
 (3, 'Guests', 0, 0, 0, 0, 0, 0);
+
+INSERT INTO `traq_plugins` (`id`, `name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
+(1, 'New line converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');
+
+INSERT INTO `traq_plugin_code` (`id`, `plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
+(1, 1, 'formattext', 'function_formattext', '$text = nl2br($text);', 0, 1);
