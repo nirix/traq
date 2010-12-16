@@ -406,6 +406,7 @@ $lang['error_user_not_found'] = 'User not found.';
 $lang['error_resetting_password'] = 'Unable to reset password.';
 $lang['error_title_empty'] = 'You must enter a title.';
 $lang['error_title_taken'] = 'Title already in use.';
+$lang['error_select_at_least_one_manager'] = 'You must select at least one manager.';
 $lang['error'] = 'Error';
 $lang['error_no_permission'] = 'You don\'t have permission to view this page.';
 $lang['page_x_not_found'] = 'The page \'{1}\' could not be found.';

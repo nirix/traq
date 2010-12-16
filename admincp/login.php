@@ -36,7 +36,7 @@ head(l('login'));
 ?>
 			<form action="login.php" method="post">
 			<div id="login">
-				<?php if(!$login && isset($_POST['username'])) { ?>
+				<?php if(!@$login && isset($_POST['username'])) { ?>
 				<div class="message error">Invalid Username or Password</div>
 				<?php } ?>
 				<div class="thead"><?php echo l('login')?></div>

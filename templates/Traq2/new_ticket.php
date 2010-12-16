@@ -35,7 +35,7 @@
 					<td>
 						<fieldset<?php echo (isset($errors['summary']) ? ' class="error"' : '')?>>
 							<legend><?php echo l('summary')?></legend>
-							<input type="text" name="summary" class="summary" value="<?php echo $_POST['summary']?>" />
+							<input type="text" name="summary" class="summary" value="<?php echo @$_POST['summary']?>" />
 						</fieldset>
 					</td>
 				</tr>
@@ -43,7 +43,7 @@
 			
 			<fieldset<?php echo (isset($errors['body']) ? ' class="error"' : '')?>>
 				<legend><?php echo l('description')?></legend>
-				<textarea name="body" class="body" id="ticket_body"><?php echo $_POST['body']?></textarea>
+				<textarea name="body" class="body" id="ticket_body"><?php echo @$_POST['body']?></textarea>
 			</fieldset>
 			
 			<fieldset id="ticket_properties" class="new_ticket properties">

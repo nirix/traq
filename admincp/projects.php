@@ -38,6 +38,8 @@ if(isset($_REQUEST['new']))
 			$errors['slug'] = l('error_project_slug_blank');
 		if($db->numrows($db->query("SELECT slug FROM ".DBPF."projects WHERE slug='".$db->res($_POST['slug'])."' LIMIT 1")))
 			$errors['slug'] = l('error_project_slug_taken');
+		if(!count(@$_POST['managers']))
+			$errors['managers'] = l('error_select_at_least_one_manager');
 		
 		if(!count($errors))
 		{
@@ -156,6 +158,8 @@ elseif(isset($_REQUEST['edit']))
 			$errors['slug'] = l('error_project_slug_blank');
 		if($db->numrows($db->query("SELECT slug FROM ".DBPF."projects WHERE slug='".$db->res($_POST['slug'])."' AND id != '".$db->res($_REQUEST['project'])."' LIMIT 1")))
 			$errors['slug'] = l('error_project_slug_taken');
+		if(!count(@$_POST['managers']))
+			$errors['managers'] = l('error_select_at_least_one_manager');
 		
 		if(!count($errors))
 		{

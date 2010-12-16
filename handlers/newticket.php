@@ -64,8 +64,8 @@ if(isset($_POST['summary']))
 		'version_id' => $_POST['version'],
 		'component_id' => (int)$_POST['component'],
 		'assigned_to' => $_POST['assign_to'],
-		'private' => $_POST['private'],
-		'user_name' => $_POST['name']
+		'private' => @$_POST['private'],
+		'user_name' => @$_POST['name']
 	);
 	
 	// Check for errors
