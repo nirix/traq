@@ -186,8 +186,8 @@ if(isset($_POST['update']))
 		if($_POST['version'] != $ticket['version_id'])
 		{
 			$querybits[] = "version_id='".$db->res($_POST['version'])."'";
-			$newversion = $db->fetcharray($db->query("SELECT version FROM ".DBPF."versions WHERE id='".$db->res($_POST['version'])."' LIMIT 1"));
-			$changes[] = array('property'=>'version','from'=>$ticket['version']['version'],'to'=>$newversion['version']);
+			$newversion = $db->fetcharray($db->query("SELECT milestone FROM ".DBPF."milestones WHERE id='".$db->res($_POST['version'])."' LIMIT 1"));
+			$changes[] = array('property'=>'version','from'=>$ticket['version']['milestone'],'to'=>$newversion['milestone']);
 		}
 		// Summary
 		if($_POST['summary'] != $ticket['summary'])
@@ -294,7 +294,7 @@ $ticket_properties = array(
 	'severity' => array('label'=>l('severity'),'value'=>ticket_severity($ticket['severity'])),
 	'component' => array('label'=>l('component'),'value'=>$ticket['component']['name']),
 	'milestone' => array('label'=>l('milestone'),'value'=>$ticket['milestone']['milestone']),
-	'version' => array('label'=>l('version'),'value'=>$ticket['version']['version']),
+	'version' => array('label'=>l('version'),'value'=>$ticket['version']['milestone']),
 	'status' => array('label'=>l('status'),'value'=>ticket_status($ticket['status'])),
 );
 

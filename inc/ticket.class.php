@@ -180,7 +180,7 @@ class Ticket
 		// Fetch the ticket, milestone, version, component and assignee info.
 		$ticket = $db->queryfirst("SELECT * FROM ".DBPF."tickets WHERE $query LIMIT 1"); // Fetch the ticket info
 		$ticket['milestone'] = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE id='".$db->res($ticket['milestone_id'])."' LIMIT 1"); // Fetch the milestone info
-		$ticket['version'] = $db->queryfirst("SELECT * FROM ".DBPF."versions WHERE id='".$db->res($ticket['version_id'])."' LIMIT 1"); // Fetch the version info
+		$ticket['version'] = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE id='".$db->res($ticket['version_id'])."' LIMIT 1"); // Fetch the version info
 		$ticket['component'] = $db->queryfirst("SELECT * FROM ".DBPF."components WHERE id='".$db->res($ticket['component_id'])."' LIMIT 1"); // Fetch the component info
 		$ticket['assignee'] = $db->queryfirst("SELECT * FROM ".DBPF."users WHERE id='".$db->res($ticket['assigned_to'])."' LIMIT 1"); // Fetch the assignee info
 		

@@ -76,12 +76,6 @@ $sidebar_links = array(
 			),
 			array('divider'=>true),
 			array(
-				'title' => l('manage_versions'),
-				'url' => 'versions.php',
-				'active' => activepage('versions.php','','edit')
-			),
-			array('divider'=>true),
-			array(
 				'title' => l('new_repository'),
 				'url' => 'repositories.php?new',
 				'active' => activepage('repositories.php','new')

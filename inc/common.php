@@ -56,8 +56,8 @@ function template($template)
 		return TRAQPATH.'/templates/'.settings('theme').'/'.$template.".php";
 	}
 	// If not, load the Traq2 theme file
-	elseif(file_exists(TRAQPATH.'/templates/Traq2/'.$template.".php")) {
-		return TRAQPATH.'/templates/Traq2/'.$template.".php";
+	elseif(file_exists(TRAQPATH.'/templates/traq.templates/'.$template.".php")) {
+		return TRAQPATH.'/templates/traq.templates/'.$template.".php";
 	}
 	// Display an error it we couldn't load it
 	else {

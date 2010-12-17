@@ -30,7 +30,7 @@ if(!$db->numrows($milestone)) die();
 $milestone = $db->fetcharray($milestone);
 
 // Watch milestone
-if($uri->seg[2] == 'watch' && $user->loggedin)
+if(@$uri->seg[2] == 'watch' && $user->loggedin)
 {
 	if(is_subscribed('milestone',$milestone['id']))
 		remove_subscription('milestone',$milestone['id']);

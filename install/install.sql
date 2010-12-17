@@ -200,13 +200,6 @@ CREATE TABLE IF NOT EXISTS `traq_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `traq_versions` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `project_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `traq_wiki` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) NOT NULL,
@@ -218,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `traq_wiki` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
-('theme', 'Traq2'),
+('theme', 'Traq 2.0'),
 ('locale', 'enus.php'),
 ('seo_urls','0'),
 ('recaptcha_enabled','0'),
@@ -226,7 +219,7 @@ INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('recaptcha_privkey', ''),
 ('allow_registration', '1'),
 ('date_time_format', 'g:iA d/m/Y'),
-('db_revision', '18');
+('db_revision', '19');
 
 INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
 (1, 'Lowest'),
