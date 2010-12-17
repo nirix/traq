@@ -30,8 +30,8 @@
 					<?php } elseif($filter['type'] == 'version') { ?>
 					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
 						<option></option>
-						<?php foreach(project_versions() as $version) { ?>
-						<option value="<?php echo $version['id']?>"<?php echo iif($value == $version['id'],' selected="selected"')?>><?php echo $version['version']?></option>
+						<?php foreach(project_milestones() as $version) { ?>
+						<option value="<?php echo $version['id']?>"<?php echo iif($value == $version['id'],' selected="selected"')?>><?php echo $version['milestone']?></option>
 						<?php } ?>
 					</select>
 					<?php } elseif($filter['type'] == 'type') { ?>
