@@ -29,6 +29,8 @@ if(isset($_REQUEST['install']))
 {
 	if(isset($_POST['install']))
 	{
+		if(empty($_FILES['pluginfile']['name'])) { exit; }
+		
 		$plugin = simplexml_load_file($_FILES['pluginfile']['tmp_name']);
 		// Insert plugin
 		$db->query("INSERT INTO ".DBPF."plugins VALUES(
@@ -227,7 +229,7 @@ elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
 	
 	head(l('edit_plugin'),true,'plugins');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(count(@$errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
