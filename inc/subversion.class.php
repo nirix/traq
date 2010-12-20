@@ -16,8 +16,6 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 class Subversion extends Source
@@ -38,12 +36,21 @@ class Subversion extends Source
 		'.bmp' => 'image/bmp',
 		);
 	
-	public function __construct($location)
+	public function __construct($location,$user=null,$pass=null)
 	{
 		if(substr($location,0,1) == '/')
 			$this->location = substr($location,1);
 		else
 			$this->location = $location.'/';
+		
+		$this->username = $user;
+		$this->password = $pass;
+	}
+	
+	private function userpass()
+	{
+		if($this->username == null and $this->password == null) return false;
+		return ' --username '. $this->username.' --password '.$this->password.' --non-interactive';
 	}
 	
 	/**
@@ -59,7 +66,7 @@ class Subversion extends Source
 		
 		// Exec the command
 		$descriptorspec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w'));
-		$process = proc_open("svn ls --xml ".$this->location.$dir, $descriptorspec, $pipes);
+		$process = proc_open("svn ls --xml ".$this->location.$dir.$this->userpass(), $descriptorspec, $pipes);
 		if(is_resource($process))
 		{
 			fclose($pipes[0]);
@@ -101,7 +108,7 @@ class Subversion extends Source
 	public function getfile($file)
 	{
 		$descriptorspec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w'));
-		$process = proc_open("svn cat ".$this->location.$file, $descriptorspec, $pipes);
+		$process = proc_open("svn cat ".$this->location.$file.$this->userpass(), $descriptorspec, $pipes);
 		if(is_resource($process))
 		{
 			fclose($pipes[0]);
@@ -113,13 +120,13 @@ class Subversion extends Source
 	 * Get Info
 	 * Fetches information about the path.
 	 *
-	 * @param string $path The path/
+	 * @param string $path The path
 	 * @return array
 	 */
 	public function getinfo($path)
 	{
 		$descriptorspec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w'));
-		$process = proc_open("svn info --xml ".$this->location.$path, $descriptorspec, $pipes);
+		$process = proc_open("svn info --xml ".$this->location.$path.$this->userpass(), $descriptorspec, $pipes);
 		if(is_resource($process))
 		{
 			fclose($pipes[0]);

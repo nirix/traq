@@ -52,7 +52,7 @@ require(TRAQPATH.'inc/source.class.php');
 require(TRAQPATH.'inc/'.$repo['info']['file']);
 
 // Initiate the browser and fetch the file list..
-$source = new $repo['info']['class']($repo['location']);
+$source = new $repo['info']['class']($repo['location'],$repo['info']['username'],$repo['info']['password']);
 $path = implode('/',array_slice($uri->seg,3));
 
 // Get location info

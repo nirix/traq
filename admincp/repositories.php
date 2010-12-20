@@ -62,7 +62,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			'".$db->res($_POST['name'])."',
 			'".$db->res(slugit($_POST['name']))."',
 			'".$db->res($_POST['location'])."',
-			'".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class']))."',
+			'".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class'],'username'=>$_POST['username'],'password'=>$_POST['password']))."',
 			'".($db->numrows($db->query("SELECT id FROM ".DBPF."repositories WHERE project_id='".$db->res($_POST['project_id'])."' LIMIT 1")) ? '0' : '1')."',
 			'".$db->res($_POST['project_id'])."'
 			)");
@@ -76,7 +76,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			$db->query("UPDATE ".DBPF."repositories SET
 			name='".$db->res($_POST['name'])."',
 			slug='".$db->res(slugit($_POST['name']))."',
-			info='".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class']))."',
+			info='".json_encode(array('file'=>$repository_types[$_POST['type']]['file'],'template'=>$repository_types[$_POST['type']]['template'],'class'=>$repository_types[$_POST['type']]['class'],'username'=>$_POST['username'],'password'=>$_POST['password']))."',
 			location='".$db->res($_POST['location'])."',
 			project_id='".$db->res($_POST['project_id'])."'
 			WHERE id='".$repo['id']."' LIMIT 1");
@@ -137,6 +137,21 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td><?php echo l('repository_location_description')?></td>
 				<td width="200">
 					<input type="text" name="location" value="<?php echo (isset($repo['location']) ? $repo['location'] :'')?>" />
+				</td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('Username_and_Password')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('repositroy_username_description')?></td>
+				<td width="200">
+					<input type="text" name="username" value="<?php echo @$repo['info']['username']; ?>" />
+				</td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('repositroy_password_description')?></td>
+				<td width="200">
+					<input type="password" name="password" value="<?php echo @$repo['info']['password']; ?>" />
 				</td>
 			</tr>
 		</table>

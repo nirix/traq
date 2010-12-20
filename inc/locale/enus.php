@@ -365,6 +365,9 @@ $lang['usergroup_comment_on_tickets_description'] = 'Select yes if you want this
 $lang['edit_ticket_template'] = 'Edit Ticket Template';
 $lang['edit_ticket_template_x'] = 'Edit Ticket Template: {1}';
 $lang['template'] = 'Template';
+$lang['Username_and_Password'] = 'Username and Password';
+$lang['repositroy_username_description'] = 'Username to access the repository.';
+$lang['repositroy_password_description'] = 'Password to access the repository.';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
