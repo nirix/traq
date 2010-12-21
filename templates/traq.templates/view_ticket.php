@@ -28,7 +28,7 @@
 			</div>
 			<div class="clear"></div>
 			<div class="description">
-				<h3 id="description"><?php echo l('description')?></h3>
+				<h3 id="description"><?php echo l('description')?><?php if($user->info['id'] == $ticket['user_id'] or $user->group['is_admin']) { ?> <img id="edit_ticket_content" src="<?php echo str_replace('index.php','',$uri->anchor('admincp','images'))?>/pencil.png" alt="Edit" /><?php } ?></h3>
 				<input type="hidden" id="ticket_iid" value="<?php echo $ticket['id']; ?>" />
 				<p id="ticket_content">
 					<?php echo formattext($ticket['body'],true)?> 

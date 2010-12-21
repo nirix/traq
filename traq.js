@@ -22,16 +22,15 @@ $(document).ready(function(){
 		getTicketTemplate();
 	});
 	
-	$('#ticket_content').dblclick(function() {
+	$('#edit_ticket_content').click(function() {
 		var obj = $('#ticket_content');
 		var old_ticket_content = obj.html();
 		var tiid = $('#ticket_iid').val();
 		
 		obj.load(BASE_URL + '_ajax/ticket_content/' + tiid, function() {
 			$('#update_ticket_save').click(function() {
-				//obj.load(BASE_URL + '_ajax/ticket_content' + tiid + '/save');
 				$.post(BASE_URL + '_ajax/ticket_content/' + tiid + '/save', { body: $('#new_ticket_content').val() }, function(data) {
-					obj.html(data)
+					obj.html(data);
 				});
 			});
 			$('#update_ticket_cancel').click(function() { obj.html(old_ticket_content); });
