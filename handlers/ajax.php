@@ -26,7 +26,13 @@ if(@$uri->seg[1] == 'ticket_template')
 }
 elseif(@$uri->seg[1] == 'ticket_content')
 {
-	$ticket = $db->fetcharray($db->query("SELECT body FROM ".DBPF."tickets WHERE id='".$db->es($uri->seg[2])."' LIMIT 1"));
+	$ticket = $db->fetcharray($db->query("SELECT body,user_id FROM ".DBPF."tickets WHERE id='".$db->es($uri->seg[2])."' LIMIT 1"));
+	
+	if($user->info['id'] != $ticket['user_id'] and !$user->group['is_admin'])
+	{
+		echo formattext($ticket['body']);
+		exit;
+	}
 	
 	if(@$uri->seg[3] == 'save')
 	{
