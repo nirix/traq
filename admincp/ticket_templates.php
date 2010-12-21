@@ -58,6 +58,7 @@ if(isset($_REQUEST['edit']))
 				</tr>
 		</table>
 	</div>
+	</form>
 	<?php
 	foot();
 }

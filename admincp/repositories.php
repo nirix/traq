@@ -157,6 +157,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		</table>
 		<div class="tfoot" align="center"><input type="submit" value="<?php echo l((isset($_REQUEST['edit']) ? 'update' : 'create'))?>" /></div>
 	</div>
+	</form>
 	<?php
 	foot();
 }
