@@ -273,10 +273,13 @@ form.new_ticket {
 form p#buttons {
 	margin: 5px 0 0 0;
 }
-#update_ticket textarea {
+#update_ticket textarea, #new_ticket_content {
 	width: 99%;
 	height: 100px;
 	padding: 5px;
+}
+#new_ticket_content {
+	height: 250px;
 }
 fieldset.new_ticket.properties div.properties {
 	width: 580px;

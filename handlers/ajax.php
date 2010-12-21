@@ -19,8 +19,22 @@
  */
 
 
-if($uri->seg[1] == 'ticket_template')
+if(@$uri->seg[1] == 'ticket_template')
 {
 	$type = $db->fetcharray($db->query("SELECT template FROM ".DBPF."ticket_types WHERE id='".$db->es($uri->seg[2])."' LIMIT 1"));
 	echo $type['template'];
+}
+elseif(@$uri->seg[1] == 'ticket_content')
+{
+	$ticket = $db->fetcharray($db->query("SELECT body FROM ".DBPF."tickets WHERE id='".$db->es($uri->seg[2])."' LIMIT 1"));
+	
+	if(@$uri->seg[3] == 'save')
+	{
+		if(empty($_POST['body'])) echo $ticket['body'];
+		
+		$db->query("UPDATE ".DBPF."tickets SET body='".$db->es($_POST['body'])."' WHERE id='".$db->res($uri->seg[2])."' LIMIT 1");
+		echo formattext($_POST['body']);
+	} else {
+		?><textarea id="new_ticket_content" class="body"><?php echo $ticket['body']; ?></textarea><button type="button" id="update_ticket_save"><?php echo l('update')?></button> <button type="button" id="update_ticket_cancel"><?php echo l('cancel')?></button><?php
+	}
 }

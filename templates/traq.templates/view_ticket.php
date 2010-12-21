@@ -29,7 +29,8 @@
 			<div class="clear"></div>
 			<div class="description">
 				<h3 id="description"><?php echo l('description')?></h3>
-				<p>
+				<input type="hidden" id="ticket_iid" value="<?php echo $ticket['id']; ?>" />
+				<p id="ticket_content">
 					<?php echo formattext($ticket['body'],true)?> 
 				</p>
 				<h3><?php echo l('attachments')?></h3>

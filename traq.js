@@ -21,10 +21,26 @@ $(document).ready(function(){
 	$('#ticket_type').change(function() {
 		getTicketTemplate();
 	});
+	
+	$('#ticket_content').dblclick(function() {
+		var obj = $('#ticket_content');
+		var old_ticket_content = obj.html();
+		var tiid = $('#ticket_iid').val();
+		
+		obj.load(BASE_URL + '_ajax/ticket_content/' + tiid, function() {
+			$('#update_ticket_save').click(function() {
+				//obj.load(BASE_URL + '_ajax/ticket_content' + tiid + '/save');
+				$.post(BASE_URL + '_ajax/ticket_content/' + tiid + '/save', { body: $('#new_ticket_content').val() }, function(data) {
+					obj.html(data)
+				});
+			});
+			$('#update_ticket_cancel').click(function() { obj.html(old_ticket_content); });
+		});
+	});
 });
 
 function getTicketTemplate()
 {
 	var type_id = $("#ticket_type option:selected").val()
-	$("#ticket_body").load(BASE_URL+'_ajax/ticket_template/' + type_id)
+	$("#ticket_body").load(BASE_URL + '_ajax/ticket_template/' + type_id);
 }
