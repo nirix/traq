@@ -68,6 +68,12 @@ elseif($_POST['action'] == 'upgrade')
 		$db->query("DROP TABLE `traq_versions`");
 		
 		$db->query("ALTER TABLE `traq_tickets` ADD `extra` LONGTEXT NOT NULL ");
+		
+		$db->query("INSERT INTO `traq_plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
+					('New Line Converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');");
+		
+		$db->query("INSERT INTO `traq_plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
+					(".$db->insertid().", 'formattext', 'function_formattext', '".$db->res('$text = nl2br($text);')."', 0, 1);");
 	}
 	
 	$db->query("UPDATE ".DBPF."settings SET value=".$db_revision." WHERE setting='db_revision' LIMIT 1");

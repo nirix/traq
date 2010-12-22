@@ -25,7 +25,6 @@ require('common.php');
 require('../inc/version.php');
 include('../inc/config.php');
 include('../inc/db.class.php');
-include('../inc/fishhook.class.php');
 
 // Intro
 if(!isset($_POST['step']))
@@ -210,10 +209,11 @@ elseif($_POST['step'] == '2')
 			}
 		}
 		
-		// Import the new line converter plugin...
-		// Pretty much forced to do it this way because
-		// MySuckL doesn't seem to like semicolons.
-		FishHook::import_plugin('newlineconverter.xml');
+		$db->query("INSERT INTO `traq_plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
+					('New Line Converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');");
+		
+		$db->query("INSERT INTO `traq_plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
+					(".$db->insertid().", 'formattext', 'function_formattext', '".$db->res('$text = nl2br($text);')."', 0, 1);");
 		
 		// Insert Settings.
 		$db->query("UPDATE ".$conf['db']['prefix']."settings SET value='".$db->res($_POST['traq_name'])."' WHERE setting='title'");

@@ -48,6 +48,8 @@ class URI
 		return false;
 	}
 	
+	public function anchorfile() { return $this->anchorfile; }
+	
 	/**
 	 * Anchor
 	 * Used to create URI's
@@ -57,7 +59,7 @@ class URI
 		if(!is_array($segments))
 			$segments = func_get_args();
 		
-		$path = ($this->style == 1 ? str_replace($this->anchorfile,'',$_SERVER['SCRIPT_NAME']) : $_SERVER['SCRIPT_NAME'].'/');
+		$path = ($this->style == 1 ? str_replace($this->anchorfile,'',$_SERVER['SCRIPT_NAME']) : $_SERVER['SCRIPT_NAME'].'?url=/');
 		return $path.$this->array_to_uri($segments);
 	}
 	

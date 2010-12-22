@@ -125,3 +125,5 @@ function foot() {
 </html>
 <?php
 }
+
+class FishHook { public static function hook($hook) {} }
