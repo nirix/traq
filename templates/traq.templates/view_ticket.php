@@ -34,7 +34,7 @@
 					<?php echo formattext($ticket['body'],true)?> 
 				</p>
 				<h3><?php echo l('attachments')?></h3>
-				<p id="attachments">
+				<div id="attachments">
 					<ul>
 					<?php foreach($ticket['attachments'] as $attachment) { ?>
 						<li>
@@ -44,7 +44,7 @@
 						</li>
 					<?php } ?>
 					</ul>
-				</p>
+				</div>
 			</div>
 		</div>
 		<?php if($user->loggedin) { ?>

@@ -572,28 +572,26 @@ elseif(isset($_REQUEST['export']))
 	}
 	
 	header('Content-type: application/xml');
-	echo '<'.'?'.'xml version="1.0" encoding="UTF-8"'.'?'.'>';
-	?><plugin>
-	<info>
-		<name><?php echo $plugin['name']?></name>
-		<author><?php echo $plugin['author']?></author>
-		<website><?php echo $plugin['website']?></website>
-		<version><?php echo $plugin['version']?></version>
-	</info>
-	<sql>
-		<install><?php echo str_replace(DBPF,'traq_',$plugin['install_sql'])?></install>
-		<uninstall><?php echo str_replace(DBPF,'traq_',$plugin['uninstall_sql'])?></uninstall>
-	</sql>
-	<hooks>
-		<?php foreach($hooks as $hook) { ?>
-		<hook title="<?php echo $hook['title']?>" hook="<?php echo $hook['hook']?>" execorder="<?php echo $hook['execorder']?>">
-			<code><![CDATA[
-<?php echo ($hook['code'])?>
-]]></code>
-		</hook>
-		<?php } ?>
-	</hooks>
-</plugin><?php
+	echo '<'.'?'.'xml version="1.0" encoding="UTF-8"'.'?'.'>'.PHP_EOL;
+	echo '	<plugin>'.PHP_EOL;
+	echo '		<info>'.PHP_EOL;
+	echo '		<name>'.$plugin['name'].'</name>'.PHP_EOL;
+	echo '		<author>'.$plugin['author'].'</author>'.PHP_EOL;
+	echo '		<website>'.$plugin['website'].'</website>'.PHP_EOL;
+	echo '		<version>'.$plugin['version'].'</version>'.PHP_EOL;
+	echo '	</info>'.PHP_EOL;
+	echo '	<sql>'.PHP_EOL;
+	echo '		<install>'.str_replace(DBPF,'traq_',$plugin['install_sql']).'</install>'.PHP_EOL;
+	echo '		<uninstall>'.str_replace(DBPF,'traq_',$plugin['uninstall_sql']).'</uninstall>'.PHP_EOL;
+	echo '	</sql>'.PHP_EOL;
+	echo '	<hooks>'.PHP_EOL;
+	foreach($hooks as $hook) {
+		echo '		<hook title="'.$hook['title'].'" hook="'.$hook['hook'].'" execorder="'.$hook['execorder'].'">'.PHP_EOL;
+		echo '			<code><![CDATA['.$hook['code'].']]></code>'.PHP_EOL;
+		echo '		</hook>'.PHP_EOL;
+	}
+	echo '	</hooks>'.PHP_EOL;
+	echo '</plugin>'.PHP_EOL;
 }
 // Delete Hook
 elseif(isset($_REQUEST['removehook']))
