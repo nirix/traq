@@ -22,6 +22,14 @@ CREATE TABLE IF NOT EXISTS `traq_components` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `traq_custom_fields` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `code` longtext NOT NULL,
+  `project_ids` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `traq_milestones` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `milestone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -110,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `traq_subscriptions` (
   `project_id` bigint(20) NOT NULL,
   `data` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `traq_tickets` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
