@@ -84,7 +84,7 @@ if(isset($_REQUEST['install']))
 			<tr>
 				<td><?php echo l('plugin_file_description')?></td>
 				<td align="right"><input type="file" name="pluginfile" />
-			</td>
+			</tr>
 			<tr>
 				<td colspan="2" class="tfoot"><div align="center"><input type="submit" value="<?php echo l('install')?>" /></div></td>
 			</tr>
@@ -309,7 +309,7 @@ elseif(isset($_REQUEST['hooks']))
 			<tr class="optiontitle first">
 				<th width="200" align="left"><?php echo l('title')?></th>
 				<th width="200" align="left"><?php echo l('hook')?></th>
-				<th></td>
+				<th></th>
 			</tr>
 			<?php foreach($hooks as $hook) { ?>
 			<tr class="<?php echo altbg()?>">
@@ -483,7 +483,7 @@ elseif(isset($_REQUEST['edithook']))
 	
 	head(l('edit_hook'),true,'plugins');
 	?>
-	<?php if(count($errors)) { ?>
+	<?php if(count(@$errors)) { ?>
 	<div class="message error">
 		<?php foreach($errors as $error) { ?>
 		<?php echo $error?><br />
