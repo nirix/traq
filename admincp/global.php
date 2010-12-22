@@ -16,8 +16,6 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 // Set the full path to the Traq folder
@@ -91,7 +89,19 @@ $sidebar_links = array(
 	'tickets' => array(
 		'title' => l('tickets'),
 		'url' => 'tickets.php',
-		'active' => activepage(array('tickets.php','ticket_templates.php'))
+		'active' => activepage(array('tickets.php','ticket_templates.php','custom_fields.php')),
+		'links' => array(
+			array(
+				'title' => l('Custom_Fields'),
+				'url' => 'custom_fields.php',
+				'active' => activepage('custom_fields.php','')
+			),
+			array(
+				'title' => l('New_Field'),
+				'url' => 'custom_fields.php?new',
+				'active' => activepage('custom_fields.php','new')
+			)
+		)
 	),
 	// User pages links.
 	'users' => array(

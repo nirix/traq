@@ -168,7 +168,7 @@ else
 	while($severity = $db->fetcharray($fetchseverities))
 		$severities[] = $severity;
 	
-	head(l('tickets'));
+	head(l('tickets'),true,'tickets');
 	?>
 	<h2><?php echo l('ticket_properties')?></h2>
 	

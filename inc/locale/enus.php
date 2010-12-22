@@ -368,6 +368,13 @@ $lang['template'] = 'Template';
 $lang['Username_and_Password'] = 'Username and Password';
 $lang['repositroy_username_description'] = 'Username to access the repository.';
 $lang['repositroy_password_description'] = 'Password to access the repository.';
+$lang['Custom_Fields'] = 'Custom Fields';
+$lang['New_Field'] = $lang['New_Custom_Field'] = 'New Field';
+$lang['Edit_Custom_Field'] = 'Edit Field';
+$lang['Field_Code'] = 'Field Code';
+$lang['custom_field_name_description'] = 'Field name';
+$lang['custom_field_code_description'] = 'Enter the code for the field, such as <pre>'.htmlentities("<input type=\"text\" name=\"myfield\" value=\"<?php echo @\$ticket['extra']['myfield']; ?>\" />").'</pre>';
+$lang['custom_field_project_description'] = 'Select which projects can use this field.';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
@@ -378,7 +385,6 @@ $lang['success_reset_pass_email_sent'] = 'Email sent, check your inbox for instr
 // Errors
 $lang['error_summary_empty'] = 'Summary cannot be blank.';
 $lang['error_body_empty'] = 'Description cannot be blank.';
-$lang['error_name_empty'] = 'Please fill in your Name.';
 $lang['error_recaptcha'] = 'reCaptcha must be valid.';
 $lang['error_invalid_username_or_password'] = 'Invalid Username or Password.';
 $lang['error_username_taken'] = 'Username is unavailable.';
