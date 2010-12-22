@@ -8,7 +8,7 @@
 						<li class="first<?php echo iif($uri->seg(1) == 'usercp',' active')?>"><a href="<?php echo $uri->anchor('user','usercp')?>"><?php echo l('usercp')?></a></li>
 						<li><a href="<?php echo $uri->anchor('user','logout')?>"><?php echo l('logout')?></a></li>
 						<?php if($user->group['is_admin']) { ?>
-						<li><a href="<?php echo str_replace('index.php/','',$uri->anchor('admincp'))?>"><?php echo l('admincp')?></a></li>
+						<li><a href="<?php echo baseurl(); ?>admincp"><?php echo l('admincp')?></a></li>
 						<?php } ?>
 					<?php } else { ?>
 						<li class="first<?php echo iif($uri->seg(1) == 'login',' active')?>"><a href="<?php echo $uri->anchor('user','login')?>"><?php echo l('login')?></a></li>
