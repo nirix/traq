@@ -32,7 +32,7 @@ if(settings('db_revision') < $db_revision) $upgrade = 1;
 
 if(!isset($_POST['action'])) {
 	head('Upgrade');
-	if($upgrade) {
+	if(@$upgrade) {
 		?>
 		<form action="upgrade.php" method="post">
 			<input type="hidden" name="action" value="upgrade" />
@@ -53,6 +53,21 @@ elseif($_POST['action'] == 'upgrade')
 	if(settings('db_revision') < 19)
 	{
 		$db->query("ALTER TABLE ".DBPF."ticket_types ADD `template` LONGTEXT NOT NULL");
+	}
+	
+	if(settings('db_revision') < 20)
+	{
+		$db->query("CREATE TABLE `traq_custom_fields` (
+		  `id` int(11) NOT NULL AUTO_INCREMENT,
+		  `name` varchar(255) NOT NULL,
+		  `code` longtext NOT NULL,
+		  `project_ids` longtext NOT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;");
+		
+		$db->query("DROP TABLE `traq_versions`");
+		
+		$db->query("ALTER TABLE `traq_tickets` ADD `extra` LONGTEXT NOT NULL ");
 	}
 	
 	$db->query("UPDATE ".DBPF."settings SET value=".$db_revision." WHERE setting='db_revision' LIMIT 1");

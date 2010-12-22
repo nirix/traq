@@ -53,13 +53,13 @@ function head($script) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Traq <?php echo $title?></title>
+<title>Traq <?php echo @$title?></title>
 <style type="text/css">
 body {
-	background: #e8f5fd;
-	color: #000;
-	font-family: arial;
-	font-size: 14px;
+	background: #1c5e7e;
+	color: #fff;
+	font-family: Verdana,sans-serif;
+	font-size: 12px;
 	margin: 0;
 	padding: 0;
 }
@@ -68,23 +68,22 @@ body {
 	margin: 0 auto;
 }
 #page {
+	color: #000;
 	background: #fff;
 	padding: 10px;
-	border-left: 1px solid #95d2f6;
-	border-right: 1px solid #95d2f6;
+	-moz-border-radius:4px; 
+	-webkit-border-radius:4px;
 }
 a {
-	color: #0092e8;
+	color: #1c5e7e;
 }
 #head {
 	padding: 5px;
-	border-bottom: 1px solid #95d2f6;
 }
 #head h1 {
 	margin: 0;
 }
 #foot {
-	border-top: 1px solid #95d2f6;
 	padding: 5px;
 	font-size: small;
 }
@@ -126,9 +125,3 @@ function foot() {
 </html>
 <?php
 }
-
-class FishHook
-{
-	public static function hook($hook) {}
-}
-?>

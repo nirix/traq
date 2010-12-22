@@ -244,13 +244,13 @@ INSERT INTO `traq_severities` (`id`, `name`) VALUES
 (5, 'Minor'),
 (6, 'Trivial');
 
-INSERT INTO `traq_ticket_status` (`id`, `name`, `status`) VALUES 
-(1, 'New', 1),
-(2, 'Accepted', 1),
-(3, 'Closed', 0),
-(4, 'Completed', 0);
+INSERT INTO `traq_ticket_status` (`id`, `name`, `status`, `changelog`) VALUES 
+(1, 'New', 1, 1),
+(2, 'Accepted', 1, 1),
+(3, 'Closed', 0, 1),
+(4, 'Completed', 0, 1);
 
-INSERT INTO `traq_ticket_types` (`id`, `name`, `bullet`, `changelog`) VALUES
+INSERT INTO `traq_ticket_types` (`id`, `name`, `bullet`, `changelog`, `template`) VALUES
 (1, 'Defect', '-', 1,''),
 (2, 'Feature Request', '+', 1,''),
 (3, 'Task', '*', 1,'');
@@ -259,9 +259,3 @@ INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`, `create_tickets`, `upda
 (1, 'Administrators', 1, 1, 1, 1, 1, 1),
 (2, 'Members', 0, 1, 1, 1, 0, 1),
 (3, 'Guests', 0, 0, 0, 0, 0, 0);
-
-INSERT INTO `traq_plugins` (`id`, `name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
-(1, 'New line converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');
-
-INSERT INTO `traq_plugin_code` (`id`, `plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
-(1, 1, 'formattext', 'function_formattext', '$text = nl2br($text);', 0, 1);

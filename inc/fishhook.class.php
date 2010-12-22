@@ -46,5 +46,48 @@ class FishHook
 		
 		return self::$code[$hook];
 	}
+	
+	public static function import_plugin($file)
+	{
+		global $db;
+		
+		$plugin = simplexml_load_file($file);
+		
+		// Insert plugin
+		$db->query("INSERT INTO ".DBPF."plugins VALUES(
+			0,
+			'".$db->res((string)$plugin->info->name)."',
+			'".$db->res((string)$plugin->info->author)."',
+			'".$db->res((string)$plugin->info->website)."',
+			'".$db->res((string)$plugin->info->version)."',
+			'1',
+			'".$db->res((string)$plugin->sql->install)."',
+			'".$db->res((string)$plugin->sql->uninstall)."'
+		)");
+		$pluginid = $db->insertid();
+		
+		// Run the install SQL
+		if($plugin->sql->install != '')
+		{
+			$queries = explode(';',$plugin->sql->install);
+			foreach($queries as $query)
+				if($query != '')
+					$db->query(str_replace('traq_',DBPF,$query));
+		}
+		
+		// Add the hooks
+		foreach($plugin->hooks->hook as $hook)
+		{
+			$db->query("INSERT INTO ".DBPF."plugin_code VALUES(
+				0,
+				'".$pluginid."',
+				'".$db->res((string)$hook['title'])."',
+				'".$db->res((string)$hook['hook'])."',
+				'".$db->res((string)$hook->code)."',
+				'".$db->res((integer)$hook['execorder'])."',
+				'1'
+			)");
+		}
+	}
 }
 ?>

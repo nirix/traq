@@ -25,6 +25,7 @@ require('common.php');
 require('../inc/version.php');
 include('../inc/config.php');
 include('../inc/db.class.php');
+include('../inc/fishhook.class.php');
 
 // Intro
 if(!isset($_POST['step']))
@@ -110,7 +111,7 @@ if(!isset($_POST['step']))
 		<?php } ?>
 		</table>
 		
-		<?php if(!$error) { ?>
+		<?php if(!@$error) { ?>
 			<div align="center"><input type="submit" value="Next" /></div>
 		<?php } ?>
 	</form>
@@ -156,7 +157,7 @@ elseif($_POST['step'] == '1')
 			</tr>
 		</table>
 		
-		<?php if(!$error) { ?>
+		<?php if(!@$error) { ?>
 			<div align="center"><input type="submit" value="Install" /></div>
 		<?php } ?>
 	</form>
@@ -176,7 +177,7 @@ elseif($_POST['step'] == '2')
 	if(empty($_POST['admin_email']))
 		$error = true;
 	
-	if($error)
+	if(@$error)
 	{
 		head('install');
 		?>
@@ -209,6 +210,11 @@ elseif($_POST['step'] == '2')
 			}
 		}
 		
+		// Import the new line converter plugin...
+		// Pretty much forced to do it this way because
+		// MySuckL doesn't seem to like semicolons.
+		FishHook::import_plugin('newlineconverter.xml');
+		
 		// Insert Settings.
 		$db->query("UPDATE ".$conf['db']['prefix']."settings SET value='".$db->res($_POST['traq_name'])."' WHERE setting='title'");
 		
@@ -235,4 +241,3 @@ elseif($_POST['step'] == '2')
 		foot();
 	}
 }
-?>
