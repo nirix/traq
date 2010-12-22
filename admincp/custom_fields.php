@@ -30,8 +30,8 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		// check for errors
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_name_empty');
-		if(!count($_POST['project_ids']))
-			$errors['projects'] = true;
+		if(!count(@$_POST['project_ids']))
+			$errors['projects'] = l('error_select_at_least_one_project');
 	}
 	
 	// Create field
@@ -39,10 +39,9 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	{
 		if(!count($errors))
 		{
-			$project_ids = implode(',',$_POST['project_ids']);
-			
 			$db->query("INSERT INTO ".DBPF."custom_fields (id,name,code,project_ids)
-				        VALUES(0,'".$db->es($_POST['name'])."','".$db->es($_POST['code'])."','".$project_ids."')");
+				        VALUES(0,'".$db->es($_POST['name'])."','".$db->es($_POST['code'])."','".implode(',',$_POST['project_ids'])."')");
+			header("Location: custom_fields.php?created");
 		}
 	}
 	
@@ -79,7 +78,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			</tr>
 			<tr class="<?php echo altbg(); ?>">
 				<td colspan="2"><?php echo l('custom_field_code_description'); ?></td>
-			<tr>
+			</tr>
 			<tr class="<?php echo altbg()?>">
 				<td colspan="2"><textarea name="code" style="width:100%;height:200px"><?php echo (isset($_POST['code']) ? $_POST['code'] : @$field['code'])?></textarea></td>
 			</tr>
@@ -107,7 +106,8 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 // Delete field
 elseif(isset($_REQUEST['delete']))
 {
-	
+	$db->query("DELETE FROM ".DBPF."custom_fields WHERE id='".$db->es($_REQUEST['delete'])."' LIMIT 1");
+	header("Location: custom_fields.php");
 }
 // List fields
 else
@@ -120,8 +120,6 @@ else
 	
 	head(l('Custom_Fields'),true,'tickets');
 	?>
-	<h2><?php echo l('Custom_Fields'); ?></h2>
-	
 	<div class="thead"><?php echo l('Custom_Fields'); ?></div>
 	<div class="tborder">
 		<table width="100%" cellspacing="0">
