@@ -29,14 +29,12 @@ class URI
 	// Construct function.
 	public function __construct()
 	{
-		if(strpos($_SERVER['REQUEST_URI'],$this->file))
-			$this->request = trim(str_replace($_SERVER['SCRIPT_NAME'],'',$_SERVER['REQUEST_URI']),'/');
-		else
-			$this->request = trim(str_replace(str_replace($this->file,'',$_SERVER['SCRIPT_NAME']),'',$_SERVER['REQUEST_URI']),'/');
+		$this->root = str_replace($this->file,'',$_SERVER['SCRIPT_NAME']);
+		$this->seg = explode('/',trim($_SERVER['REQUEST_URI'],'/'));
 		
-		$this->request = str_replace('?'.$_SERVER['QUERY_STRING'],'',$this->request);
+		foreach(explode('/',trim($this->root,'/')) as $seg => $val) array_shift($this->seg);
 		
-		$this->seg = explode('/',$this->request);
+		if($this->seg['0'] == 'index.php') array_shift($this->seg);
 	}
 	
 	/**
