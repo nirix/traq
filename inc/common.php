@@ -150,6 +150,48 @@ function _interwikilinks($matches)
 }
 
 /**
+ * Get an array of the custom fields.
+ * 
+ * @return array
+ */
+function custom_fields()
+{
+	global $db, $project;
+	
+	$fields = array();
+	$fetch = $db->query("SELECT * FROM ".DBPF."custom_fields WHERE project_ids LIKE '%[".$project['id']."]%'");
+	while($info = $db->fetcharray($fetch))
+	{
+		$info['code'] = str_replace(
+									array(
+										'%name%',
+										'%value%'
+									),
+									array(
+										'cfields['.$info['id'].']',
+										'<?php if(is_array($ticket)) { echo @$ticket[\'extra\']['.$info['id'].']; } ?>'
+									),
+									$info['code']
+						);
+		$fields[] = $info;
+	}
+	return $fields;
+}
+
+/**
+ * Returns the custom field name.
+ * 
+ * @return string
+ */
+function custom_field_name($field_id)
+{
+	global $db;
+	
+	$field = $db->fetcharray($db->query("SELECT name FROM ".DBPF."custom_fields WHERE id='".$db->res($field_id)."' LIMIT 1"));
+	return $field['name'];
+}
+
+/**
  * Slug it
  * Creates a slug / URI safe string.
  *

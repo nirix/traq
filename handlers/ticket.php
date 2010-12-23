@@ -29,6 +29,12 @@ require(TRAQPATH.'inc/recaptchalib.php');
 
 // Get the ticket info.
 $ticket = $ticketC->get(array('ticket_id'=>$matches['id'],'project_id'=>$project['id'])); // Fetch the ticket.
+$ticket['extra_json'] = $ticket['extra'];
+$ticket['extra'] = array();
+foreach((array)json_decode($ticket['extra_json']) as $cfield_id => $cfield_value)
+{
+	$ticket['extra'][$cfield_id] = $cfield_value;
+}
 
 // Check if the ticket exists...
 if(!$ticket['id'])
@@ -243,7 +249,18 @@ if(isset($_POST['update']))
 				NOW()
 			)");
 		}
-	
+		
+		// Custom fields
+		foreach($_POST['cfields'] as $cf_id => $cf_val)
+		{
+			if($cf_val != $ticket['extra'][$cf_id])
+			{
+				$changes[] = array('property'=>'custom_field','name'=>custom_field_name($cf_id),'from'=>$ticket['extra'][$cf_id],'to'=>$cf_val);
+			}
+		}
+		
+		$querybits[] = "extra='".$db->res(json_encode($_POST['cfields']))."'";
+		
 		($hook = FishHook::hook('ticket_update')) ? eval($hook) : false;
 	
 		if(count($changes) > 0 || $_POST['comment'] != '')
@@ -297,6 +314,10 @@ $ticket_properties = array(
 	'version' => array('label'=>l('version'),'value'=>$ticket['version']['milestone']),
 	'status' => array('label'=>l('status'),'value'=>ticket_status($ticket['status'])),
 );
+
+foreach(custom_fields() as $field) {
+	$ticket_properties[$field['id']] = array('label'=>$field['name'],'value'=>$ticket['extra'][$field['id']]);
+}
 
 ($hook = FishHook::hook('handler_ticket')) ? eval($hook) : false;
 

@@ -106,6 +106,12 @@
 						<span><?php echo l('private_ticket')?></span>
 						<input type="checkbox" name="private" value="1" />
 					</div>
+					<?php foreach(custom_fields() as $field) { ?>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo $field['name']?></span>
+						<?php eval("?>".$field['code']); ?>
+					</div>
+					<?php } ?>
 				</div>
 				<div class="clear"></div>
 			</fieldset>

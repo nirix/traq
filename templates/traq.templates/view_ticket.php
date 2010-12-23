@@ -28,7 +28,7 @@
 			</div>
 			<div class="clear"></div>
 			<div class="description">
-				<h3 id="description"><?php echo l('description')?><?php if($user->info['id'] == $ticket['user_id'] or $user->group['is_admin']) { ?> <img id="edit_ticket_content" src="<?php echo str_replace('index.php','',$uri->anchor('admincp','images'))?>/pencil.png" alt="Edit" /><?php } ?></h3>
+				<h3 id="description"><?php echo l('description')?><?php if($user->info['id'] == $ticket['user_id'] or $user->group['is_admin']) { ?> <img id="edit_ticket_content" src="<?php echo baseurl(); ?>admincp/images/pencil.png" alt="Edit" /><?php } ?></h3>
 				<input type="hidden" id="ticket_iid" value="<?php echo $ticket['id']; ?>" />
 				<p id="ticket_content">
 					<?php echo formattext($ticket['body'],true)?> 
@@ -68,7 +68,7 @@
 				<?php if(count($change['changes']) > 0) { ?>
 				<ul class="ticket_change_list">
 					<?php foreach($change['changes'] as $row) { ?>
-					<li><?php echo l('ticket_history_'.$row->property.(isset($row->action) ? '_'.$row->action :''),$row->from,$row->to)?></li>
+					<li><?php echo l('ticket_history_'.$row->property.(isset($row->action) ? '_'.$row->action :''),$row->from,$row->to,@$row->name)?></li>
 					<?php } ?>
 				</ul>
 				<?php } ?>
@@ -166,6 +166,12 @@
 						<input type="text" name="summary" value="<?php echo $ticket['summary']?>" />
 					</div>
 					<?php ($hook = FishHook::hook('template_update_ticket_properties')) ? eval($hook) : false; ?>
+					<?php foreach(custom_fields() as $field) { ?>
+					<div class="property <?php echo altbg()?>">
+						<span><?php echo $field['name']?></span>
+						<?php eval("?>".$field['code']); ?>
+					</div>
+					<?php } ?>
 				</div>
 				<div class="clear"></div>
 				<div class="properties">

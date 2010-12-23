@@ -149,6 +149,7 @@ $lang['ticket_history_status_reopen'] = 'Reopened ticket as {2}';
 $lang['ticket_history_private_public'] = 'Marked ticket as public';
 $lang['ticket_history_private_private'] = 'Marked ticket as private';
 $lang['ticket_history_attachment_add'] = 'Attached file: {2}';
+$lang['ticket_history_custom_field'] = 'Changed {3} from {1} to {2}';
 
 // Roadmap
 $lang['x_roadmap'] = '{1} Roadmap';
@@ -374,7 +375,7 @@ $lang['Edit_Custom_Field'] = 'Edit Field';
 $lang['Field_Code'] = 'Field Code';
 $lang['Field'] = 'Field';
 $lang['custom_field_name_description'] = 'Field name';
-$lang['custom_field_code_description'] = 'Enter the code for the field, such as <pre>'.htmlentities("<input type=\"text\" name=\"myfield\" value=\"<?php echo @\$ticket['extra']['myfield']; ?>\" />").'</pre>';
+$lang['custom_field_code_description'] = 'Enter the code for the field, such as <pre>'.htmlentities('<input type="text" name="%name%" value="%value%" />').'</pre>';
 $lang['custom_field_project_description'] = 'Select which projects can use this field.';
 
 // Confirms

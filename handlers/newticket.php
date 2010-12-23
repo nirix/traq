@@ -65,7 +65,8 @@ if(isset($_POST['summary']))
 		'component_id' => (int)$_POST['component'],
 		'assigned_to' => $_POST['assign_to'],
 		'private' => @$_POST['private'],
-		'user_name' => @$_POST['name']
+		'user_name' => @$_POST['name'],
+		'extra' => json_encode($_POST['cfields'])
 	);
 	
 	// Check for errors
