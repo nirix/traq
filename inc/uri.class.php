@@ -40,10 +40,11 @@ class URI
 		$this->seg = explode('/',trim($this->request,'/'));
 		
 		// Remove the crap
-		foreach(explode('/',trim($this->root,'/')) as $seg => $val) array_shift($this->seg);
+		foreach(explode('/',$this->root) as $seg => $val)
+			if(!empty($val)) array_shift($this->seg);
 		
 		// Remove the index.php if it's in there...
-		if($this->seg['0'] == 'index.php') array_shift($this->seg);
+		if(@$this->seg['0'] == 'index.php') array_shift($this->seg);
 	}
 	
 	/**
