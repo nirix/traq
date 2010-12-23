@@ -4,7 +4,7 @@
 		<title><?php echo settings('title')?> / <?php echo $project['name']?> / <?php echo l('changelog')?></title>
 		<?php require(template('headerinc')); ?>
 	</head>
-	<body id="changelog">
+	<body>
 		<?php require(template('header')); ?>
 		
 		<?php require(template('breadcrumbs')); ?>
