@@ -57,7 +57,7 @@ elseif($_POST['action'] == 'upgrade')
 	
 	if(settings('db_revision') < 20)
 	{
-		$db->query("CREATE TABLE `traq_custom_fields` (
+		$db->query("CREATE TABLE `".DBPF."custom_fields` (
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
 		  `name` varchar(255) NOT NULL,
 		  `code` longtext NOT NULL,
@@ -65,15 +65,17 @@ elseif($_POST['action'] == 'upgrade')
 		  PRIMARY KEY (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;");
 		
-		$db->query("DROP TABLE `traq_versions`");
+		$db->query("DROP TABLE `".DBPF."versions`");
 		
-		$db->query("ALTER TABLE `traq_tickets` ADD `extra` LONGTEXT NOT NULL");
+		$db->query("ALTER TABLE `".DBPF."tickets` ADD `extra` LONGTEXT NOT NULL");
 		
-		$db->query("INSERT INTO `traq_plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
+		$db->query("INSERT INTO `".DBPF."plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
 					('New Line Converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');");
 		
-		$db->query("INSERT INTO `traq_plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
+		$db->query("INSERT INTO `".DBPF."plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
 					(".$db->insertid().", 'formattext', 'function_formattext', '".$db->res('$text = nl2br($text);')."', 0, 1);");
+		
+		$db->query("UPDATE ".DBPF."settings SET value='Default' WHERE setting='theme' LIMIT 1");
 	}
 	
 	$db->query("UPDATE ".DBPF."settings SET value=".$db_revision." WHERE setting='db_revision' LIMIT 1");
