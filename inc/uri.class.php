@@ -29,11 +29,20 @@ class URI
 	// Construct function.
 	public function __construct()
 	{
+		// Get the root
 		$this->root = str_replace($this->file,'',$_SERVER['SCRIPT_NAME']);
-		$this->seg = explode('/',trim($_SERVER['REQUEST_URI'],'/'));
 		
+		// Get the request without the query string
+		$req = explode('?',$_SERVER['REQUEST_URI']);
+		$this->request = $req['0'];
+		
+		// Explode the segments
+		$this->seg = explode('/',trim($this->request,'/'));
+		
+		// Remove the crap
 		foreach(explode('/',trim($this->root,'/')) as $seg => $val) array_shift($this->seg);
 		
+		// Remove the index.php if it's in there...
 		if($this->seg['0'] == 'index.php') array_shift($this->seg);
 	}
 	
