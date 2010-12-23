@@ -33,7 +33,7 @@ $ticket['extra_json'] = $ticket['extra'];
 $ticket['extra'] = array();
 foreach((array)json_decode($ticket['extra_json']) as $cfield_id => $cfield_value)
 {
-	$ticket['extra'][$cfield_id] = $cfield_value;
+	@$ticket['extra'][$cfield_id] = $cfield_value;
 }
 
 // Check if the ticket exists...
@@ -316,7 +316,7 @@ $ticket_properties = array(
 );
 
 foreach(custom_fields() as $field) {
-	$ticket_properties[$field['id']] = array('label'=>$field['name'],'value'=>$ticket['extra'][$field['id']]);
+	@$ticket_properties[$field['id']] = array('label'=>$field['name'],'value'=>$ticket['extra'][$field['id']]);
 }
 
 ($hook = FishHook::hook('handler_ticket')) ? eval($hook) : false;

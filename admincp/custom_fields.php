@@ -34,14 +34,30 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 			$errors['projects'] = l('error_select_at_least_one_project');
 	}
 	
+	// Build project ids for the DB
+	if(isset($_POST['action']))
+	{
+		$project_ids = array();
+		foreach($_POST['project_ids'] as $pid) $project_ids[] = '['.$pid.']';
+	}
+	
 	// Create field
 	if(@$_POST['action'] == 'create')
 	{
 		if(!count($errors))
 		{
 			$db->query("INSERT INTO ".DBPF."custom_fields (id,name,code,project_ids)
-				        VALUES(0,'".$db->es($_POST['name'])."','".$db->es($_POST['code'])."','".implode(',',$_POST['project_ids'])."')");
+				        VALUES(0,'".$db->es($_POST['name'])."','".$db->es($_POST['code'])."','".implode(',',$project_ids)."')");
 			header("Location: custom_fields.php?created");
+		}
+	}
+	
+	// Update field
+	if(@$_POST['action'] == 'save')
+	{
+		if(!count($errors))
+		{
+			$db->query("UPDATE ".DBPF."custom_fields SET name='".$db->res($_POST['name'])."', code='".$db->res($_POST['code'])."', project_ids='".implode(',',$project_ids)."' WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 		}
 	}
 	
@@ -90,7 +106,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 				<td width="200">
 					<select name="project_ids[]" multiple="multiple" style="width:100%;height:50px;">
 						<?php foreach(getprojects() as $project) { ?>
-						<option value="<?php echo $project['id']?>"<?php echo iif(isset($field) && in_array($project['id'],$field['projects']),' selected="selected"')?>><?php echo $project['name']?></option>
+						<option value="<?php echo $project['id']?>"<?php echo iif(isset($field) && in_array('['.$project['id'].']',$field['projects']),' selected="selected"')?>><?php echo $project['name']?></option>
 						<?php } ?>
 					</select>
 				</td>

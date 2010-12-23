@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `traq_tickets` (
   `created` bigint(20) NOT NULL,
   `updated` bigint(20) NOT NULL DEFAULT '0',
   `private` smallint(6) NOT NULL DEFAULT '0',
+  `extra` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
