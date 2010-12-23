@@ -16,21 +16,27 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 class URI
 {
 	public $seg = array();
 	public $style = 1;
-	private $anchorfile = NULL;
+	private $root;
+	private $request;
+	private $file = 'index.php';
 	
 	// Construct function.
 	public function __construct()
 	{
-		$this->seg = explode('/',trim(@$_REQUEST['url'],'/'));
-		$this->anchorfile = pathinfo($_SERVER['SCRIPT_FILENAME'],PATHINFO_BASENAME);
+		if(strpos($_SERVER['REQUEST_URI'],$this->file))
+			$this->request = trim(str_replace($_SERVER['SCRIPT_NAME'],'',$_SERVER['REQUEST_URI']),'/');
+		else
+			$this->request = trim(str_replace(str_replace($this->file,'',$_SERVER['SCRIPT_NAME']),'',$_SERVER['REQUEST_URI']),'/');
+		
+		$this->request = str_replace('?'.$_SERVER['QUERY_STRING'],'',$this->request);
+		
+		$this->seg = explode('/',$this->request);
 	}
 	
 	/**
@@ -48,7 +54,7 @@ class URI
 		return false;
 	}
 	
-	public function anchorfile() { return $this->anchorfile; }
+	public function anchorfile() { return $this->file; }
 	
 	/**
 	 * Anchor
@@ -59,7 +65,7 @@ class URI
 		if(!is_array($segments))
 			$segments = func_get_args();
 		
-		$path = ($this->style == 1 ? str_replace($this->anchorfile,'',$_SERVER['SCRIPT_NAME']) : $_SERVER['SCRIPT_NAME'].'?url=/');
+		$path = ($this->style == 1 ? str_replace($this->file,'',$_SERVER['SCRIPT_NAME']) : $_SERVER['SCRIPT_NAME'].'/');
 		return $path.$this->array_to_uri($segments);
 	}
 	
