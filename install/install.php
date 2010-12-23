@@ -209,10 +209,10 @@ elseif($_POST['step'] == '2')
 			}
 		}
 		
-		$db->query("INSERT INTO `traq_plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
+		$db->query("INSERT INTO `".DBPF."plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
 					('New Line Converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');");
 		
-		$db->query("INSERT INTO `traq_plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
+		$db->query("INSERT INTO `".DBPF."plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
 					(".$db->insertid().", 'formattext', 'function_formattext', '".$db->res('$text = nl2br($text);')."', 0, 1);");
 		
 		// Insert Settings.
