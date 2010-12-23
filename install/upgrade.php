@@ -74,8 +74,6 @@ elseif($_POST['action'] == 'upgrade')
 		
 		$db->query("INSERT INTO `traq_plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
 					(".$db->insertid().", 'formattext', 'function_formattext', '".$db->res('$text = nl2br($text);')."', 0, 1);");
-		
-		$db->query("ALTER TABLE `traq_tickets` ADD `extra` LONGTEXT NOT NULL");
 	}
 	
 	$db->query("UPDATE ".DBPF."settings SET value=".$db_revision." WHERE setting='db_revision' LIMIT 1");
