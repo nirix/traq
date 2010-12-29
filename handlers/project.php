@@ -35,7 +35,7 @@ if($uri->seg(1) == '')
 	);
 	$milestones = array(
 		'open' => $db->numrows($db->query("SELECT id FROM ".DBPF."milestones WHERE project_id=".$project['id']." AND completed=0")),
-		'completed' => $db->numrows($db->query("SELECT id FROM ".DBPF."milestones WHERE project_id=".$project['id']." AND completed=1"))
+		'completed' => $db->numrows($db->query("SELECT id FROM ".DBPF."milestones WHERE project_id=".$project['id']." AND completed > 1"))
 	);
 	require(template('project_info'));
 }
