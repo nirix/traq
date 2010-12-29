@@ -18,11 +18,18 @@
  */
 
 $(document).ready(function(){
+	var traq = {
+			editing_ticket: false
+	}
+	
 	$('#ticket_type').change(function() {
 		getTicketTemplate();
 	});
 	
 	$('#edit_ticket_content').click(function() {
+		if(traq.editing_ticket) { return false; }
+		
+		traq.editing_ticket = true;
 		var obj = $('#ticket_content');
 		var old_ticket_content = obj.html();
 		var tiid = $('#ticket_iid').val();
@@ -31,9 +38,10 @@ $(document).ready(function(){
 			$('#update_ticket_save').click(function() {
 				$.post(BASE_URL + '_ajax/ticket_content/' + tiid + '/save', { body: $('#new_ticket_content').val() }, function(data) {
 					obj.html(data);
+					traq.editing_ticket = false;
 				});
 			});
-			$('#update_ticket_cancel').click(function() { obj.html(old_ticket_content); });
+			$('#update_ticket_cancel').click(function() { obj.html(old_ticket_content); traq.editing_ticket = false; });
 		});
 	});
 });
