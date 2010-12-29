@@ -125,6 +125,13 @@ h3,h4 {
 	margin: 10px 0 5px 0;
 }
 
+.codeblock {
+	background: #fff;
+	border: 1px dashed #000;
+	display: block;
+	padding: 5px;
+}
+
 /* Project listing */
 ul.projects {
 	list-style-type: none;

@@ -137,6 +137,9 @@ function formattext($text,$disablehtml=false)
 	// [[WikiPage]]
 	$text = preg_replace_callback('/\[\[([^\|\n\]:]+)\]\]/','_interwikilinks',$text);
 	
+	// [code]blarg[/code]
+	$text = preg_replace("/\[code\](.*?)\[\/code\]/is", '<code class="prettyprint codeblock">$1</code>', $text);
+	
 	($hook = FishHook::hook('function_formattext')) ? eval($hook) : false;
 	
 	return $text;
