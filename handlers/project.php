@@ -29,6 +29,14 @@ $project['managers'] = explode(',',$project['managers']);
 // Project Info
 if($uri->seg(1) == '')
 {	
+	$tickets = array(
+		'open' => $db->numrows($db->query("SELECT id FROM ".DBPF."tickets WHERE project_id='".$project['id']."' AND closed=0")),
+		'closed' => $db->numrows($db->query("SELECT id FROM ".DBPF."tickets WHERE project_id='".$project['id']."' AND closed=1"))
+	);
+	$milestones = array(
+		'open' => $db->numrows($db->query("SELECT id FROM ".DBPF."milestones WHERE project_id=".$project['id']." AND completed=0")),
+		'completed' => $db->numrows($db->query("SELECT id FROM ".DBPF."milestones WHERE project_id=".$project['id']." AND completed=1"))
+	);
 	require(template('project_info'));
 }
 // View Ticket

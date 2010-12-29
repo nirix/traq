@@ -16,8 +16,6 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 /**
@@ -116,6 +114,7 @@ $lang['All'] = 'All';
 $lang['x_timeline'] = '{1} Timeline';
 $lang['x_tickets'] = '{1} Tickets';
 $lang['x_ago_by_x'] = '{1} ago by {2}';
+$lang['charts'] = 'Charts';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';
