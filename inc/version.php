@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009, 2010 Jack Polgar
+ * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -16,8 +16,6 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 // Traq Version
@@ -29,7 +27,7 @@ $traq_version = '2.1';
 $traq_version_code = '20100';
 
 // Database Version
-$db_revision = 19;
+$db_revision = 20;
 
 // Define the TRAQVER constant...
 define("TRAQVER",$traq_version);
