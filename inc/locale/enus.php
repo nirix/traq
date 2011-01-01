@@ -120,7 +120,7 @@ $lang['charts'] = 'Charts';
 $lang['x_x_notification'] = '{1}: {2} notification';
 $lang['notification_ticket_created'] = "Hello {1},\r\n\r\nA new ticket has been created on {2}.\r\n\r\n#{3}: {4}\r\n{5}";
 $lang['notification_ticket_updated'] = "Hello {1},\r\n\r\nAn update has been made to ticket #{3}: {4}\r\n{5}";
-$lang['notification_milestone_completed'] = "Hello {1},\r\n\r\nThe Milestone {3} has been marked as completed.\r\n{4}";
+$lang['notification_milestone_completed'] = "Hello {1},\r\n\r\nThe milestone {3} has been marked as completed.\r\n";
 
 // Tickets
 $lang['ticket_x'] = 'Ticket #{1}';
