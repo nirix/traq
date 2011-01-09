@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+ * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -251,15 +251,18 @@ if(isset($_POST['update']))
 		}
 		
 		// Custom fields
-		foreach($_POST['cfields'] as $cf_id => $cf_val)
+		if(isset($_POST['cfields']))
 		{
-			if($cf_val != $ticket['extra'][$cf_id])
+			foreach($_POST['cfields'] as $cf_id => $cf_val)
 			{
-				$changes[] = array('property'=>'custom_field','name'=>custom_field_name($cf_id),'from'=>$ticket['extra'][$cf_id],'to'=>$cf_val);
+				if($cf_val != $ticket['extra'][$cf_id])
+				{
+					$changes[] = array('property'=>'custom_field','name'=>custom_field_name($cf_id),'from'=>$ticket['extra'][$cf_id],'to'=>$cf_val);
+				}
 			}
 		}
 		
-		$querybits[] = "extra='".$db->res(json_encode($_POST['cfields']))."'";
+		$querybits[] = "extra='".$db->res(json_encode(@$_POST['cfields']))."'";
 		
 		($hook = FishHook::hook('ticket_update')) ? eval($hook) : false;
 	

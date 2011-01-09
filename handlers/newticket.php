@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+ * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -66,7 +66,7 @@ if(isset($_POST['summary']))
 		'assigned_to' => $_POST['assign_to'],
 		'private' => @$_POST['private'],
 		'user_name' => @$_POST['name'],
-		'extra' => json_encode($_POST['cfields'])
+		'extra' => json_encode(@$_POST['cfields'])
 	);
 	
 	// Check for errors
