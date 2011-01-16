@@ -50,13 +50,13 @@ elseif(@$uri->seg[1] == 'wiki_content')
 	
 	if(!$user->group['is_admin'])
 	{
-		echo formattext($ticket['body']);
+		echo formattext($wiki['body']);
 		exit;
 	}
 	
 	if(@$uri->seg[3] == 'save')
 	{
-		if(empty($_POST['body'])) echo $ticket['body'];
+		if(empty($_POST['body'])) echo $wiki['body'];
 		
 		$db->query("UPDATE ".DBPF."wiki SET body='".$db->es($_POST['body'])."' WHERE id='".$db->res($uri->seg[2])."' LIMIT 1");
 		echo formattext($_POST['body']);
