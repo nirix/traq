@@ -134,7 +134,7 @@
 			</p>
 		</form>
 		<script type="text/javascript">
-			getTicketTemplate()
+			traq.ticket.getTemplate();
 		</script>
 		<?php require(template('footer')); ?>
 	</body>

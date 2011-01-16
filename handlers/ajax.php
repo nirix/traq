@@ -44,3 +44,23 @@ elseif(@$uri->seg[1] == 'ticket_content')
 		?><textarea id="new_ticket_content" class="body"><?php echo $ticket['body']; ?></textarea><button type="button" id="update_ticket_save"><?php echo l('update')?></button> <button type="button" id="update_ticket_cancel"><?php echo l('cancel')?></button><?php
 	}
 }
+elseif(@$uri->seg[1] == 'wiki_content')
+{
+	$wiki = $db->fetcharray($db->query("SELECT * FROM ".DBPF."wiki WHERE id='".$db->es($uri->seg[2])."' LIMIT 1"));
+	
+	if(!$user->group['is_admin'])
+	{
+		echo formattext($ticket['body']);
+		exit;
+	}
+	
+	if(@$uri->seg[3] == 'save')
+	{
+		if(empty($_POST['body'])) echo $ticket['body'];
+		
+		$db->query("UPDATE ".DBPF."wiki SET body='".$db->es($_POST['body'])."' WHERE id='".$db->res($uri->seg[2])."' LIMIT 1");
+		echo formattext($_POST['body']);
+	} else {
+		?><textarea id="new_wiki_content" class="body"><?php echo $wiki['body']; ?></textarea><button type="button" id="update_wiki_save"><?php echo l('update')?></button> <button type="button" id="update_wiki_cancel"><?php echo l('cancel')?></button><?php
+	}
+}

@@ -9,8 +9,11 @@
 		
 		<?php require(template('breadcrumbs')); ?>
 		
-		<h1><?php echo $wiki['title']?></h1>
-		<?php echo formattext($wiki['body']); ?>
+		<h1><?php echo $wiki['title']?> <?php if($user->group['is_admin']) {?> <img id="edit_wiki_page" src="<?php echo baseurl(); ?>admincp/images/pencil.png" alt="<?php echo l('edit'); ?>" /><?php } ?></h1>
+		<input type="hidden" id="wikident" value="<?php echo $wiki['id']; ?>" />
+		<div id="wiki_page">
+			<?php echo formattext($wiki['body']); ?>
+		</div>
 		
 		<?php require(template('footer')); ?>
 	</body>

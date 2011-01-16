@@ -280,10 +280,13 @@ form.new_ticket {
 form p#buttons {
 	margin: 5px 0 0 0;
 }
-#update_ticket textarea, #new_ticket_content {
+#update_ticket textarea, #new_ticket_content, #new_wiki_content {
 	width: 99%;
 	height: 100px;
 	padding: 5px;
+}
+#new_wiki_content {
+	height: 250px;
 }
 #new_ticket_content {
 	height: 250px;

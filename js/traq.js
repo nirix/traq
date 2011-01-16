@@ -17,15 +17,23 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(document).ready(function(){
-	var traq = {
-			editing_ticket: false
+var traq = {
+	editing_ticket: false,
+	editing_wiki: false,
+	ticket: {
+		getTemplate: function() {
+			var type_id = $("#ticket_type option:selected").val()
+			$("#ticket_body").load(BASE_URL + '_ajax/ticket_template/' + type_id);
+		}
 	}
-	
+}
+$(document).ready(function(){
+	// Ticket Type Template
 	$('#ticket_type').change(function() {
-		getTicketTemplate();
+		traq.ticket.getTemplate();
 	});
 	
+	// Edit Ticket Template
 	$('#edit_ticket_content').click(function() {
 		if(traq.editing_ticket) { return false; }
 		
@@ -44,10 +52,25 @@ $(document).ready(function(){
 			$('#update_ticket_cancel').click(function() { obj.html(old_ticket_content); traq.editing_ticket = false; });
 		});
 	});
+	
+	// Edit Wiki Page
+	$('#edit_wiki_page').click(function() {
+		if(traq.editing_wiki) { return false; }
+		
+		traq.editing_wiki = true;
+		var obj = $('#wiki_page');
+		var old_wiki_content = obj.html();
+		var wikident = $('#wikident').val();
+		
+		obj.load(BASE_URL + '_ajax/wiki_content/' + wikident, function() {
+			$('#update_wiki_save').click(function() {
+				$.post(BASE_URL + '_ajax/wiki_content/' + wikident + '/save', { body: $('#new_wiki_content').val() }, function(data) {
+					obj.html(data);
+					traq.editing_wiki = false;
+					window.location.reload();
+				});
+			});
+			$('#update_wiki_cancel').click(function() { obj.html(old_wiki_content); traq.editing_wiki = false; });
+		});
+	});
 });
-
-function getTicketTemplate()
-{
-	var type_id = $("#ticket_type option:selected").val()
-	$("#ticket_body").load(BASE_URL + '_ajax/ticket_template/' + type_id);
-}

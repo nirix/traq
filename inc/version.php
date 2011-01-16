@@ -19,16 +19,15 @@
  */
 
 // Traq Version
-$traq_version = '2.1.1';
+$traq_version = '2.2';
 
 // Version code
 // 3.2.1 would be 30201
 // 3.2.11 would be 30211
-$traq_version_code = '20101';
+$traq_version_code = '20200';
 
 // Database Version
 $db_revision = 20;
 
 // Define the TRAQVER constant...
 define("TRAQVER",$traq_version);
-?>
