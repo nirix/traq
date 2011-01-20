@@ -138,7 +138,7 @@ class Subversion extends Source
 			$info = array(
 				'kind' => (string)$xml->entry['kind'],
 				'name' => (string)$xml->entry['path'],
-				'mime-type' => $this->mimetypes[$ext]
+				'mime-type' => @$this->mimetypes[$ext]
 			);
 			
 			return $info;

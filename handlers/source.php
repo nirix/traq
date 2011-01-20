@@ -30,7 +30,7 @@ if(!isset($uri->seg[2]))
 
 // Get the repository info
 $repo = $db->queryfirst("SELECT * FROM ".DBPF."repositories WHERE slug='".$db->res($uri->seg[2])."' AND project_id='".$project['id']."' LIMIT 1");
-$repo['type'] = str_replace('.class','',$repo['file']);
+$repo['type'] = str_replace('.class','',@$repo['file']);
 $repo['info'] = (array)json_decode($repo['info']);
 
 // Check the repository exists...
