@@ -97,7 +97,7 @@ addcrumb($uri->geturi(),l('ticket_x',$ticket['ticket_id']));
 
 // Check if this is a private ticket,
 // if it is, only let the admins, managers and registered owner see it.
-if($ticket['private'] && (!$user->group['is_admin'] or ($user->info['id'] != $ticket['user_id'] && $user->loggedin)))
+if($ticket['private'] && (!$user->group['is_admin'] or (!$user->group['is_admin'] && $user->info['id'] != $ticket['user_id'] && $user->loggedin)))
 {
 	include(template('no_permission'));
 	exit;
