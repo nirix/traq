@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009, 2010 Jack Polgar
+ * Copyright (c) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -47,12 +47,12 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
 }
 
 // Fetch core files.
-require(TRAQPATH.'inc/db.class.php');
-require(TRAQPATH.'inc/user.class.php');
-require(TRAQPATH.'inc/fishhook.class.php');
-require(TRAQPATH.'inc/uri.class.php');
-require(TRAQPATH.'inc/common.php');
-require(TRAQPATH.'inc/config.php');
+require(TRAQPATH.'system/libraries/db.class.php');
+require(TRAQPATH.'system/libraries/user.class.php');
+require(TRAQPATH.'system/libraries/fishhook.class.php');
+require(TRAQPATH.'system/libraries/uri.class.php');
+require(TRAQPATH.'system/common.php');
+require(TRAQPATH.'system/config.php');
 
 // Start the DB class.
 $db = new Database($conf['db']['server'],$conf['db']['user'],$conf['db']['pass'],$conf['db']['dbname']);
@@ -63,7 +63,7 @@ $user = new User;
 $uri = new URI;
 
 // Define the THEMEDIR
-define("THEMEDIR",$uri->anchor('templates',settings('theme')));
+define("THEMEDIR",$uri->anchor('system/views',settings('theme')));
 
 // Set the SEO URL option
 $uri->style = settings('seo_urls');

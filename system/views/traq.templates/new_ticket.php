@@ -119,7 +119,7 @@
 			<?php if(!$user->loggedin) { ?>
 			<fieldset<?php echo (isset($errors['name']) ? ' class="error"' : '')?>>
 				<legend><?php echo l('your_name')?></legend>
-				<input type="text" name="name" value="<?php echo $_COOKIE['guestname']?>" />
+				<input type="text" name="name" value="<?php echo @$_COOKIE['guestname']?>" />
 			</fieldset>
 			<?php if(settings('recaptcha_enabled')) { ?>
 			<fieldset<?php echo (isset($errors['key']) ? ' class="error"' : '')?>>

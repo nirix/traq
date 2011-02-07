@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+ * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -48,8 +48,8 @@ foreach(array_slice($uri->seg,3) as $dir)
 }
 
 // Fetch repository browser files..
-require(TRAQPATH.'inc/source.class.php');
-require(TRAQPATH.'inc/'.$repo['info']['file']);
+require(TRAQPATH.'system/libraries/source.class.php');
+require(TRAQPATH.'system/libraries/'.$repo['info']['file']);
 
 // Initiate the browser and fetch the file list..
 $source = new $repo['info']['class']($repo['location'],$repo['info']['username'],$repo['info']['password']);
