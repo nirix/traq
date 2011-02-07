@@ -49,6 +49,7 @@ a {
 	height: 28px;
 	border-bottom: 1px solid #95d2f6;
 	font-size: 12px;
+	line-height: 1.5em;
 }
 #nav ul.main_nav {
 	float: left;
