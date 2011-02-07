@@ -22,7 +22,7 @@
 define('TRAQPATH',str_replace(pathinfo('../index.php',PATHINFO_BASENAME),'','../index.php'));
 
 // Fetch required files
-include(TRAQPATH."inc/global.php");
+include(TRAQPATH."system/global.php");
 include("common.php");
 
 // Get the filename of the current page

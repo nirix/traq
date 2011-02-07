@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+ * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -22,7 +22,7 @@
 define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__));
 
 // Fetch core file.
-require('inc/global.php');
+require('system/global.php');
 
 if(isset($conf['general']['authorized_only']) && $conf['general']['authorized_only'] == true && !$user->loggedin && @$_POST['action'] != 'login') {
     include(template('user/login'));
@@ -32,22 +32,22 @@ if(isset($conf['general']['authorized_only']) && $conf['general']['authorized_on
 // Project listing
 if(empty($uri->seg[0]) or $uri->seg[0] == 'index.php')
 {
-	require('handlers/projectlist.php');
+	require('system/controllers/projectlist.php');
 }
 // User pages
 elseif($uri->seg[0] == 'user')
 {
-	require('handlers/user.php');
+	require('system/controllers/user.php');
 }
 // Ajax page
 elseif($uri->seg[0] == '_ajax')
 {
-	require('handlers/ajax.php');
+	require('system/controllers/ajax.php');
 }
 // Project pages
 elseif(is_project($uri->seg[0]))
 {
-	require('handlers/project.php');
+	require('system/controllers/project.php');
 }
 // Something we're not sure of... load the 404 page...
 else
