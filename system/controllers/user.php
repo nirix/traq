@@ -105,7 +105,7 @@ elseif($uri->seg(1) == "usercp")
 			// If the new_password field is filled out,
 			// update the users password.
 			if(!empty($_POST['new_password']))
-				$password = ", password='".$db->res(sha1($_POST['email']))."'";
+				$password = ", password='".$db->res(sha1($_POST['new_password']))."'";
 			
 			($hook = FishHook::hook('handler_usercp_save')) ? eval($hook) : false;
 			
