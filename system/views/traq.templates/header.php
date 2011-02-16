@@ -6,7 +6,7 @@
 					<ul>
 					<?php if($user->loggedin) { ?>
 						<li class="first<?php echo iif($uri->seg(1) == 'usercp',' active')?>"><a href="<?php echo $uri->anchor('user','usercp')?>"><?php echo l('usercp')?></a></li>
-						<li><a href="<?php echo $uri->anchor('user','logout')?>"><?php echo l('logout')?></a></li>
+						<li><a href="<?php echo $uri->anchor('user','logout')?>"><?php echo l('logout')?> (<?php echo $user->info['username']?>)</a></li>
 						<?php if($user->group['is_admin']) { ?>
 						<li><a href="<?php echo baseurl(); ?>admincp"><?php echo l('admincp')?></a></li>
 						<?php } ?>
