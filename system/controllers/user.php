@@ -124,7 +124,7 @@ elseif($uri->seg(1) == "usercp")
 	
 	// Fetch assigned tickets
 	$tickets['assigned'] = array();
-	$fetchassigned = $db->query("SELECT * FROM ".DBPF."tickets WHERE assigned_to='".$user->info['id']."' ORDER BY severity");
+	$fetchassigned = $db->query("SELECT * FROM ".DBPF."tickets WHERE assigned_to='".$user->info['id']."' AND closed='0' ORDER BY severity");
 	while($info = $db->fetcharray($fetchassigned))
 	{
 		// Fetch slug
