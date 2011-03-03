@@ -22,9 +22,9 @@
 
 // Fetch required files
 require('common.php');
-require('../inc/version.php');
-include('../inc/config.php');
-include('../inc/db.class.php');
+require('../system/version.php');
+include('../system/config.php');
+include('../system/libraries/db.class.php');
 
 // Intro
 if(!isset($_POST['step']))
@@ -37,7 +37,7 @@ if(!isset($_POST['step']))
 		'class' => 'good',
 		'message' => 'Found'
 	);
-	if(!file_exists('../inc/config.php'))
+	if(!file_exists('../system/config.php'))
 	{
 		$error = true;
 		$checks['config.php']['class'] = 'bad';
