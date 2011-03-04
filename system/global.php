@@ -20,6 +20,17 @@
  * $Id$
  */
 
+$config_file = TRAQPATH.'system/config.php';
+
+if(!file_exists($config_file) || !filesize($config_file))
+{
+	header('Location: ./install');
+} else if(file_exists($config_file) && is_dir(TRAQPATH.'install'))
+{
+	die('Please delete the installation directory!');
+}
+
+
 // Define a few things...
 $CACHE = array('settings'=>array());
 $breadcrumbs = array();
