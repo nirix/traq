@@ -1,7 +1,7 @@
 <?php
 /**
- * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+ * Traq
+ * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -16,114 +16,45 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
-/**
-* Settings
-* Used to get the value of the specified setting.
-* @param string $setting The setting...
-*/
-function settings($setting)
+function head($type, $step = false)
 {
-	global $db;
-	$result = $db->fetcharray($db->query("SELECT setting, value FROM ".DBPF."settings WHERE setting='".$db->res($setting)."' LIMIT 1"));
-	return $result['value'];
+	$titles = array('install'=>'Install','upgrade'=>'Upgrade','migrate'=>'Migrate');
+	$title = $titles[$type];
+	
+	if($step > 1)
+	{
+		$title .= " - Step ".$step;
+	}
+	
+	echo '<!DOCTYPE html>'.PHP_EOL;
+	echo '<html>'.PHP_EOL;
+	echo '	<head>'.PHP_EOL;
+	echo '		<title>Traq '.$title.'</title>'.PHP_EOL;
+	echo '		<link href="install.css" media="screen" rel="stylesheet" type="text/css" />'.PHP_EOL;
+	echo '	</head>'.PHP_EOL;
+	echo '	<body>'.PHP_EOL;
+	echo '		<div id="wrapper">'.PHP_EOL;
+	echo '			<h1>Traq '.aselect(0, explode(' - ', $title)).'</h1>'.PHP_EOL;
+	echo '			<div id="page">'.PHP_EOL;
 }
 
-/**
- * Error
- * Used to display an error message.
- * @param string $title Error title.
- * @param string $message Error message.
- */
-function error($title,$message)
+function foot()
 {
-	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial; font-size: 14px;\"><h1 style=\"margin:0px;color:#000;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1><div style=\"padding: 0;\">".$message."</div><div style=\"color:#999;border-top:1px solid #000;margin-top:10px;font-size:small;padding-top:2px;\">Traq ".TRAQVER." &copy; 2009 Jack Polgar</div></blockquote>");
+	echo '			</div>'.PHP_EOL;
+	echo '			<div id="footer">'.PHP_EOL;
+	echo '				Traq &copy; 2009-2011 Jack Polgar'.PHP_EOL;
+	echo '			</div>'.PHP_EOL;
+	echo '		</div>'.PHP_EOL;
+	echo '	</body>'.PHP_EOL;
+	echo '</html>'.PHP_EOL;
 }
 
-// Install/Upgrade header.
-function head($script) {
-	if($script == 'install') $title = 'Install';
-	if($script == 'upgrade') $title = 'Upgrade';
-	if($script == 'migrate') $title = 'Migrate';
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Traq <?php echo @$title?></title>
-<style type="text/css">
-body {
-	background: #1c5e7e;
-	color: #fff;
-	font-family: Verdana,sans-serif;
-	font-size: 12px;
-	margin: 0;
-	padding: 0;
-}
-#wrapper {
-	width: 600px;
-	margin: 0 auto;
-}
-#page {
-	color: #000;
-	background: #fff;
-	padding: 10px;
-	-moz-border-radius:4px; 
-	-webkit-border-radius:4px;
-}
-a {
-	color: #1c5e7e;
-}
-#head {
-	padding: 5px;
-}
-#head h1 {
-	margin: 0;
-}
-#foot {
-	padding: 5px;
-	font-size: small;
+function error($title, $message)
+{
+	echo '<div class="message error">'.$title.' error: '.$message.'</div>';
+	exit;
 }
 
-h2 {
-	margin: 0;
-}
-
-.good {
-	
-	color: #317b2c;
-	
-}
-
-.bad {
-	color: #7b181c;
-}
-</style>
-</head>
-<body>
-<div id="wrapper">
-	<div id="head">
-		<h1>Traq <?php echo (isset($title) ? $title :'')?></h1>
-	</div>
-	<div id="page">
-<?php
-}
-
-// Install/Upgrade footer.
-function foot() {
-?>
-	</div>
-	<div id="foot">
-		Traq <?php echo TRAQVER?>,<br />
-		Copyright &copy; <?php echo date("Y"); ?> Jack Polgar
-	</div>
-</div>
-</body>
-</html>
-<?php
-}
-
-class FishHook { public static function hook($hook) {} }
+function aselect($index, $array) {	return $array[$index]; }
