@@ -1,7 +1,7 @@
 <?php
 /**
- * Traq 2
- * Copyright (c) 2009, 2010 Jack Polgar
+ * Traq
+ * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -16,17 +16,17 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
-$conf = array();
-
-$conf['db']['server'] = 'localhost'; // Database Server
-$conf['db']['user'] = 'root'; // Database Username
-$conf['db']['pass'] = 'root'; // Database Password
-$conf['db']['dbname'] = 'traq'; // Database Name
-$conf['db']['prefix'] = 'traq_'; // Table prefix
-
-$conf['general']['authorized_only'] = false; // access for authorized users only
-?>
+$conf = array(
+	'db' => array(
+		'server' => 'localhost', // Database server
+		'user' => 'root', // Database username
+		'pass' => 'root', // Database password
+		'dbname' => 'traq', // Database mame
+		'prefix' => 'traq_' // Table prefix
+	),
+	'general' => array(
+		'authorized_only' => false // Access for authorized users only
+	)
+);

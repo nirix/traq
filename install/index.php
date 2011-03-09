@@ -32,10 +32,11 @@ if($step == 1)
 	if(file_exists("../system/config.php"))
 	{
 		require_once "../system/config.php";
-		$db = new Database($conf['db']['server'], $conf['db']['user'], $conf['db']['pass'], $conf['db']['dbname']);
+		$link = mysql_connect($conf['db']['server'], $conf['db']['user'], $conf['db']['pass']);
+		mysql_select_db($conf['db']['dbname'], $link);
 		
-		$tableCheck = $db->query("SHOW TABLES");
-		while($info = $db->fetcharray($tableCheck))
+		$tableCheck = mysql_query("SHOW TABLES", $link);
+		while($info = mysql_fetch_array($tableCheck))
 		{
 			if($info[0] == $conf['db']['prefix'].'settings')
 			{
@@ -109,6 +110,7 @@ elseif($step == 2)
 	// Database information form.
 	else
 	{
+		if(file_exists("../system/config.php")) { require_once "../system/config.php"; }
 		?>
 		<form action="index.php" method="post">
 			<input type="hidden" name="step" value="<?php echo $step; ?>" />
@@ -263,5 +265,91 @@ elseif($step == 3)
 // Install
 elseif($step == 4)
 {
+	head('install');
 	
+	// Decode database confg, settings and admin account info
+	$dbconf = json_decode($_POST['db'], true);
+	$settings = json_decode($_POST['settings'], true);
+	$admin = json_decode($_POST['admin'], true);
+	
+	$db = new Database($dbconf['server'], $dbconf['user'], $dbconf['pass'], $dbconf['dbname']);
+	
+	// Fetch the install SQL.
+	$installsql = file_get_contents('install.sql');
+	$installsql = str_replace('traq_', $dbconf['prefix'], $installsql);
+	$queries = explode(';', $installsql);
+	
+	// Run the install queries.
+	foreach($queries as $query) {
+		if(!empty($query) && strlen($query) > 5) {
+			$db->query($query);
+		}
+	}
+	
+	// Insert new line converter plugin
+	$db->query("INSERT INTO `".$dbconf['prefix']."plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
+					('New Line Converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');");
+	$db->query("INSERT INTO `".$dbconf['prefix']."plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
+					(".$db->insertid().", 'formattext', 'function_formattext', '".$db->res('$text = nl2br($text);')."', 0, 1);");
+	
+	// Insert Settings.
+	$db->query("UPDATE ".$dbconf['prefix']."settings SET value='".$db->res($settings['title'])."' WHERE setting='title'");
+	$db->query("UPDATE ".$dbconf['prefix']."settings SET value='".$db->res($settings['seo_urls'])."' WHERE setting='seo_urls'");
+	
+	// Create admin account
+	$db->query("INSERT INTO ".$dbconf['prefix']."users (id, username, password, name, email, group_id, sesshash) VALUES
+					(0, '".$db->res($admin['username'])."', '".sha1($admin['password'])."', '".$db->res($admin['username'])."', '".$db->res($admin['email'])."', 1, '')");
+	
+	// Config file code
+	$config_code = array();
+	$config_code[] = '&lt;?php';
+	$config_code[] = '/**';
+	$config_code[] = ' * Traq';
+	$config_code[] = ' * Copyright (C) 2009-2011 Jack Polgar';
+	$config_code[] = ' *';
+	$config_code[] = ' * This file is part of Traq.';
+	$config_code[] = ' * ';
+	$config_code[] = ' * Traq is free software: you can redistribute it and/or modify';
+	$config_code[] = ' * it under the terms of the GNU General Public License as published by';
+	$config_code[] = ' * the Free Software Foundation; version 3 only.';
+	$config_code[] = ' * ';
+	$config_code[] = ' * Traq is distributed in the hope that it will be useful,';
+	$config_code[] = ' * but WITHOUT ANY WARRANTY; without even the implied warranty of';
+	$config_code[] = ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the';
+	$config_code[] = ' * GNU General Public License for more details.';
+	$config_code[] = ' * ';
+	$config_code[] = ' * You should have received a copy of the GNU General Public License';
+	$config_code[] = ' * along with Traq. If not, see &lt;http://www.gnu.org/licenses/&gt;.';
+	$config_code[] = ' */';
+	$config_code[] = '';
+	$config_code[] = '$conf = array(';
+	$config_code[] = "	'db' => array(";
+	$config_code[] = "		'server' => '". $dbconf['server']."', // Database server";
+	$config_code[] = "		'user' => '".$dbconf['user']."', // Database username";
+	$config_code[] = "		'pass' => '".$dbconf['pass']."', // Database password";
+	$config_code[] = "		'dbname' => '".$dbconf['dbname']."', // Database name";
+	$config_code[] = "		'prefix' => '".$dbconf['prefix']."' // Table prefix";
+	$config_code[] = "	),";
+	$config_code[] = "	'general' => array(";
+	$config_code[] = "		'authorized_only' = false // Access for authorized users only";
+	$config_code[] = "	)";
+	$config_code[] = ');';
+	$config_code = implode(PHP_EOL, $config_code);
+		
+	if(!file_exists('../system/config.php') and is_writable('../system/config.php'))
+	{
+		?><div align="center" class="message good">Installation Completed</div><?php
+	}
+	else
+	{
+		?>
+		<div align="center" class="message error">The installer was unable to create the config file, please do this manually.</div><br />
+		<div align="center">Save this code to <code>system/config.php</code> and the installation will be complete.</div>
+		<br />
+<pre id="config_code">
+<?php echo $config_code; ?>
+</pre>
+		<?php
+	}
+	foot();
 }

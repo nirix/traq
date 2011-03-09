@@ -34,7 +34,7 @@ h2 {
 	margin: 0 0 5px 0;
 }
 
-#licence {
+#licence, #config_code {
 	width: 560px;
 	height: 400px;
 	overflow: scroll;
