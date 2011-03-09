@@ -83,8 +83,7 @@ elseif($step == 2)
 			$failed = true;
 		}
 		
-		$select = mysql_select_db($_POST['db']['dbname'], $link);
-		if(!$select)
+		if(!mysql_select_db($_POST['db']['dbname'], $link))
 		{
 			$failed = true;
 		}
@@ -302,7 +301,7 @@ elseif($step == 4)
 	
 	// Config file code
 	$config_code = array();
-	$config_code[] = '&lt;?php';
+	$config_code[] = '<?php';
 	$config_code[] = '/**';
 	$config_code[] = ' * Traq';
 	$config_code[] = ' * Copyright (C) 2009-2011 Jack Polgar';
@@ -319,7 +318,7 @@ elseif($step == 4)
 	$config_code[] = ' * GNU General Public License for more details.';
 	$config_code[] = ' * ';
 	$config_code[] = ' * You should have received a copy of the GNU General Public License';
-	$config_code[] = ' * along with Traq. If not, see &lt;http://www.gnu.org/licenses/&gt;.';
+	$config_code[] = ' * along with Traq. If not, see <http://www.gnu.org/licenses/>.';
 	$config_code[] = ' */';
 	$config_code[] = '';
 	$config_code[] = '$conf = array(';
@@ -331,14 +330,17 @@ elseif($step == 4)
 	$config_code[] = "		'prefix' => '".$dbconf['prefix']."' // Table prefix";
 	$config_code[] = "	),";
 	$config_code[] = "	'general' => array(";
-	$config_code[] = "		'authorized_only' = false // Access for authorized users only";
+	$config_code[] = "		'authorized_only' => false // Access for authorized users only";
 	$config_code[] = "	)";
 	$config_code[] = ');';
 	$config_code = implode(PHP_EOL, $config_code);
 		
-	if(!file_exists('../system/config.php') and is_writable('../system/config.php'))
+	if(!file_exists('../system/config.php') and is_writable('../system'))
 	{
-		?><div align="center" class="message good">Installation Completed</div><?php
+		$handle = fopen('../system/config.php', 'w+');
+		fwrite($handle, $config_code);
+		?><div align="center" class="message good">Installation Completed</div>
+		<div id="actions"><a href="../admincp">AdminCP</a></div><?php
 	}
 	else
 	{
@@ -347,7 +349,7 @@ elseif($step == 4)
 		<div align="center">Save this code to <code>system/config.php</code> and the installation will be complete.</div>
 		<br />
 <pre id="config_code">
-<?php echo $config_code; ?>
+<?php echo htmlentities($config_code); ?>
 </pre>
 		<?php
 	}

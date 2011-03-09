@@ -16,9 +16,9 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
+
+if(!file_exists(TRAQPATH.'system/config.php')) { header("Location: install/"); }
 
 // Define a few things...
 $CACHE = array('settings'=>array());
