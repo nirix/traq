@@ -18,6 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Prints the Install and Upgrade header
+ * @param string $type Page type (install or upgrade)
+ * @param integer $step The step the install/upgrade is on (1, 2, 3, etc)
+ */
 function head($type, $step = false)
 {
 	$titles = array('install'=>'Install','upgrade'=>'Upgrade','migrate'=>'Migrate');
@@ -40,6 +45,9 @@ function head($type, $step = false)
 	echo '			<div id="page">'.PHP_EOL;
 }
 
+/**
+ * Prints the Install and Upgrade footer
+ */
 function foot()
 {
 	echo '			</div>'.PHP_EOL;
@@ -51,6 +59,11 @@ function foot()
 	echo '</html>'.PHP_EOL;
 }
 
+/**
+ * Displays an error message
+ * @param string $title The error title
+ * @param string $message The error message
+ */
 function error($title, $message)
 {
 	echo '<div class="message error">'.$title.' error: '.$message.'</div>';
