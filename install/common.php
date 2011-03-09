@@ -19,6 +19,32 @@
  */
 
 /**
+ * Checks if Traq is already installed.
+ */
+function is_installed()
+{
+	$installed = false;
+	if(file_exists("../system/config.php"))
+	{
+		require_once "../system/config.php";
+		$link = mysql_connect($conf['db']['server'], $conf['db']['user'], $conf['db']['pass']);
+		mysql_select_db($conf['db']['dbname'], $link);
+		
+		$tableCheck = mysql_query("SHOW TABLES", $link);
+		while($info = mysql_fetch_array($tableCheck))
+		{
+			if($info[0] == $conf['db']['prefix'].'settings')
+			{
+				$installed = true;
+				break;
+			}
+		}
+	}
+	
+	return $installed;
+}
+
+/**
  * Prints the Install and Upgrade header
  * @param string $type Page type (install or upgrade)
  * @param integer $step The step the install/upgrade is on (1, 2, 3, etc)

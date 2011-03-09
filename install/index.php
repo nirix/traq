@@ -26,31 +26,15 @@ $step = (isset($_POST['step']) ? $_POST['step'] : 1);
 // Check if already installed, if not, show licence.
 if($step == 1)
 {
-	$installed = false;
-	
 	head('install', $step);
-	if(file_exists("../system/config.php"))
-	{
-		require_once "../system/config.php";
-		$link = mysql_connect($conf['db']['server'], $conf['db']['user'], $conf['db']['pass']);
-		mysql_select_db($conf['db']['dbname'], $link);
-		
-		$tableCheck = mysql_query("SHOW TABLES", $link);
-		while($info = mysql_fetch_array($tableCheck))
-		{
-			if($info[0] == $conf['db']['prefix'].'settings')
-			{
-				$installed = true;
-				break;
-			}
-		}
-	}
 	
-	if($installed)
+	if(is_installed())
 	{
-		?>
-		<div align="center" class="message error">Traq is already installed.</div>
-		<?php
+		?><div align="center" class="message error">Traq is already installed.</div><?php
+	}
+	elseif(file_exists("../system/config.php"))
+	{
+		?><div align="center" class="message error"><code>system/config.php</code> exists, unable to continue.</div><?php
 	}
 	else
 	{
@@ -78,15 +62,8 @@ elseif($step == 2)
 		$failed = false;
 		
 		$link = mysql_connect($_POST['db']['server'], $_POST['db']['user'], $_POST['db']['pass']);
-		if(!$link)
-		{
-			$failed = true;
-		}
-		
-		if(!mysql_select_db($_POST['db']['dbname'], $link))
-		{
-			$failed = true;
-		}
+		if(!$link) { $failed = true; }
+		if(!mysql_select_db($_POST['db']['dbname'], $link)) { $failed = true; }
 		
 		if($failed)
 		{
