@@ -52,7 +52,7 @@ if($step == 1)
 	foot();
 }
 // Database info
-elseif($step == 2)
+elseif($step == 2 and !is_installed())
 {
 	head('install', $step);
 	
@@ -122,7 +122,7 @@ elseif($step == 2)
 	foot();
 }
 // Settings and Admin account
-elseif($step == 3)
+elseif($step == 3 and !is_installed())
 {
 	head('install', $step);
 	
@@ -174,10 +174,10 @@ elseif($step == 3)
 					<td class="label">Username</td>
 					<td><?php echo $_POST['admin']['username']?></td>
 				</tr>
-				<tr>
+				<?php /*<tr>
 					<td class="label">Password</td>
 					<td><?php echo $_POST['admin']['password']?></td>
-				</tr>
+				</tr>*/ ?>
 				<tr>
 					<td class="label">Email</td>
 					<td><?php echo $_POST['admin']['email']?></td>
@@ -239,7 +239,7 @@ elseif($step == 3)
 	foot();
 }
 // Install
-elseif($step == 4)
+elseif($step == 4 and !is_installed())
 {
 	head('install');
 	
