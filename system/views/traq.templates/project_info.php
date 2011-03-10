@@ -19,8 +19,8 @@
 		
 		<div id="charts">
 			<h3><?php echo l('charts')?></h3>
-			<img src="http://chart.apis.google.com/chart?chs=300x150&cht=p3&chco=7777CC|76A4FB|3399CC|3366CC&chds=0,<?php echo $tickets['open']+$tickets['closed']?>&chd=t:<?php echo $tickets['open'].','.$tickets['closed']?>&chdl=<?php echo l('open').'|'.l('closed'); ?>&chtt=<?php echo l('tickets')?>&chts=676767,12" width="300" height="150" alt="" />
-			<img src="http://chart.apis.google.com/chart?chs=300x150&cht=p3&chco=7777CC|76A4FB|3399CC|3366CC&chds=0,<?php echo $milestones['open']+$milestones['completed']?>&chd=t:<?php echo $milestones['open'].','.$milestones['completed']?>&chdl=<?php echo l('open').'|'.l('completed'); ?>&chtt=<?php echo l('milestones')?>&chts=676767,12" width="300" height="150" alt="" />
+			<img src="http://chart.apis.google.com/chart?chs=300x150&cht=p3&chco=7777CC|76A4FB|3399CC|3366CC&chd=t:<?php echo $tickets['open']?>,<?php echo $tickets['closed'];?>&chdl=<?php echo l('open')?>|<?php echo l('closed')?>&chtt=<?php echo l('tickets')?>" alt="" />
+			<img src="http://chart.apis.google.com/chart?chs=300x150&cht=p3&chco=7777CC|76A4FB|3399CC|3366CC&chd=t:<?php echo $milestones['open']?>,<?php echo $milestones['completed'];?>&chdl=<?php echo l('open')?>|<?php echo l('completed')?>&chtt=<?php echo l('milestones')?>" alt="" />
 		</div>
 		
 		<?php require(template('footer')); ?>

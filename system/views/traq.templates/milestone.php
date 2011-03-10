@@ -51,7 +51,7 @@
 				
 				<div id="charts">
 					<h3><?php echo l('charts')?></h3>
-					<img src="http://chart.apis.google.com/chart?chs=300x150&cht=p3&chco=7777CC|76A4FB|3399CC|3366CC&chds=0,<?php echo $milestone['ticktes']['total']?>&chd=t:<?php echo $milestone['tickets']['open'].','.$milestone['tickets']['closed']?>&chdl=<?php echo l('open').'|'.l('closed'); ?>&chtt=<?php echo l('tickets')?>&chts=676767,12" width="300" height="150" alt="" />
+					<img src="http://chart.apis.google.com/chart?chs=300x150&cht=p3&chco=7777CC|76A4FB|3399CC|3366CC&chd=t:<?php echo $milestone['tickets']['open']?>,<?php echo $milestone['tickets']['closed'];?>&chdl=<?php echo l('open')?>|<?php echo l('closed')?>&chtt=<?php echo l('tickets')?>" alt="" />
 				</div>
 			</div>
 		</div>
