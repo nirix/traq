@@ -67,7 +67,7 @@ head('Settings');
 				<td><?php echo l('theme_description')?></td>
 				<td>
 					<select name="theme">
-					<?php foreach(scandir('../templates') as $theme) { if(in_array($theme,array('.','..','.svn','traq.templates')) or !is_dir('../templates/'.$theme)) continue; ?>
+					<?php foreach(scandir('../system/views') as $theme) { if(in_array($theme,array('.','..','.svn','traq.templates')) or !is_dir('../system/views/'.$theme)) continue; ?>
 						<option value="<?php echo $theme?>"<?php echo iif(settings('theme') == $theme,' selected="selected"')?>><?php echo str_replace('.php','',$theme)?></option>
 					<?php } ?>
 					</select>

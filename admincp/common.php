@@ -69,11 +69,11 @@ function getgroups()
 function get_locales()
 {
 	$locales = array();
-	foreach(scandir(TRAQPATH.'inc/locale') as $file)
+	foreach(scandir(TRAQPATH.'system/locale') as $file)
 	{
 		if(!in_array($file,array('.','..','.svn')))
 		{
-			$data = file_get_contents(TRAQPATH.'inc/locale/'.$file);
+			$data = file_get_contents(TRAQPATH.'system/locale/'.$file);
 			preg_match('| Name: (.*)$|mi',$data,$name); // Language name
 			preg_match('| Author:(.*)$|mi',$data, $author); // Language author
 			$locales[] = array(
