@@ -36,7 +36,7 @@ if($uri->seg(1) == "login")
 elseif($uri->seg(1) == "register" && settings('allow_registration'))
 {
 	// Include reCaptcha
-	require(TRAQPATH.'inc/recaptchalib.php');
+	require(TRAQPATH.'system/libraries/recaptchalib.php');
 	
 	$errors = array();
 	
