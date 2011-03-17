@@ -15,10 +15,10 @@
 		
 		<?php foreach($days as $day) { ?>
 		<div class="day">
-			<h3><?php echo date("l, jS F Y",$day['timestamp'])?></h3>
+			<h3><?php echo date(settings('timeline_day_format'), $day['timestamp'])?></h3>
 			<ul>
 			<?php foreach($day['changes'] as $change) { ?>
-				<li><?php echo date("h:iA",$change['timestamp'])?> <a href="<?php echo $change['url']?>"><?php echo $change['text']?></a></li>
+				<li><?php echo date(settings('timeline_time_format'), $change['timestamp'])?> <a href="<?php echo $change['url']?>"><?php echo $change['text']?></a></li>
 			<?php } ?>
 			</ul>
 		</div>

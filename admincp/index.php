@@ -32,7 +32,7 @@ $users = $db->numrows($db->query("SELECT id FROM ".DBPF."users"));
 
 head(l('overview'));
 ?>
-<?php if($update = check4update()) { ?>
+<?php if(settings('check_for_update') and $update = check4update()) { ?>
 		<div id="update_available">
 			<?php echo l('update_available_x_download',$update->announcement,$update->name,$update->download)?>
 		</div>
