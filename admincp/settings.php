@@ -56,8 +56,8 @@ head('Settings');
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('seo_friendly_urls_description')?></td>
 				<td>
-					<input type="radio" name="seo_urls" value="1" id="seo_urls_yes"<?php echo (settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_yes">Yes</label>
-					<input type="radio" name="seo_urls" value="0" id="seo_urls_no"<?php echo (!settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_no">No</label>
+					<input type="radio" name="seo_urls" value="1" id="seo_urls_yes"<?php echo (settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="seo_urls" value="0" id="seo_urls_no"<?php echo (!settings('seo_urls') ? ' checked="checked"' :'')?> /> <label for="seo_urls_no"><?php echo l('no')?></label>
 				</td>
 			</tr>
 			<tr>
@@ -86,6 +86,16 @@ head('Settings');
 					</select>
 				</td>
 			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('check_for_update')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('check_for_update_description')?></td>
+				<td>
+					<input type="radio" name="check_for_update" value="1" id="check_for_update_yes"<?php echo (settings('check_for_update') ? ' checked="checked"' :'')?> /> <label for="check_for_update_yes"><?php echo l('yes')?></label>
+					<input type="radio" name="check_for_update" value="0" id="check_for_update_no"<?php echo (!settings('check_for_update') ? ' checked="checked"' :'')?> /> <label for="check_for_update_no"><?php echo l('no')?></label>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<br />
@@ -98,6 +108,17 @@ head('Settings');
 			<tr class="<?php echo altbg()?>">
 				<td><?php echo l('date_time_format_description')?></td>
 				<td width="200"><input type="text" name="date_time_format" value="<?php echo settings("date_time_format")?>" /></td>
+			</tr>
+			<tr>
+				<td class="optiontitle" colspan="2"><?php echo l('timeline_day_and_time_format')?></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('timeline_day_format')?></td>
+				<td width="200"><input type="text" name="timeline_day_format" value="<?php echo settings("timeline_day_format")?>" /></td>
+			</tr>
+			<tr class="<?php echo altbg()?>">
+				<td><?php echo l('timeline_time_format')?></td>
+				<td width="200"><input type="text" name="timeline_time_format" value="<?php echo settings("timeline_time_format")?>" /></td>
 			</tr>
 		</table>
 	</div>

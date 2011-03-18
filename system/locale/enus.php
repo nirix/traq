@@ -376,6 +376,11 @@ $lang['Field'] = 'Field';
 $lang['custom_field_name_description'] = 'Field name';
 $lang['custom_field_code_description'] = 'Enter the code for the field, such as <pre>'.htmlentities('<input type="text" name="%name%" value="%value%" />').'</pre>';
 $lang['custom_field_project_description'] = 'Select which projects can use this field.';
+$lang['timeline_day_format'] = 'Timeline Day Format';
+$lang['timeline_time_format'] = 'Timeline Time Format';
+$lang['timeline_day_and_time_format'] = 'Timeline Day and Time format';
+$lang['check_for_update'] = 'Check for update';
+$lang['check_for_update_description'] = 'Allow Traq to check for updates?';
 
 // Confirms
 $lang['confirm_delete_x'] = 'Are you sure you want to delete {1}?';
