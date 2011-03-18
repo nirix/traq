@@ -39,8 +39,8 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 	foreach($_POST['filters'] as $filter => $values)
 	{		
 		$val = -1;
-		// Milestone, Version, Type, Component, Severity, Priority, Owner
-		if(in_array($filter,array('milestone','version','type','component','severity','priority','owner')))
+		// Milestone, Version, Type, Component, Severity, Priority, Owner, Summary, Description
+		if(in_array($filter,array('milestone','version','type','component','severity','priority','owner','summary','description')))
 		{
 			// Loop through values
 			$bits = array();

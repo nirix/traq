@@ -71,6 +71,25 @@
 				</td>
 			</tr>
 			<?php } ?>
+			<?php } elseif($filter['type'] == 'summary' or $filter['type'] == 'description') {?>
+			<?php foreach($filter['values'] as $value) { $val++; ?>
+			<tr>
+				<td class="label"><?php echo iif($val == 0,l($filter['type']))?></td>
+				<td class="mode">
+					<?php if($val == 0) { ?>
+					<select name="modes[<?php echo $filter['type']?>]">
+						<option value=""<?php echo iif(isset($filter['mode']) && $filter['mode'] == '',' selected="selected"')?>><?php echo l('contains')?></option>
+						<option value="!"<?php echo iif(isset($filter['mode']) && $filter['mode'] == '!',' selected="selected"')?>><?php echo l('does_not_contain')?></option>
+					</select>
+					<?php } else { ?>
+					<?php echo l('or')?>
+					<?php } ?>
+				</td>
+				<td class="value">
+					<input type="text" name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]" value="<?php echo $value?>" />
+				</td>
+			</tr>
+			<?php } ?>
 			<?php } elseif($filter['type'] == 'status') { ?>
 			<tr>
 				<td class="label"><?php echo l($filter['type'])?></td>
