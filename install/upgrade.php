@@ -84,7 +84,7 @@ elseif($_POST['action'] == 'upgrade')
 	
 	if($dbrev < 21)
 	{
-		$db->query("INSERT INTO `traq_settings` (`setting`, `value`) VALUES
+		$db->query("INSERT INTO `".DBPF."settings` (`setting`, `value`) VALUES
 					('check_for_update', '1'),
 					('timeline_day_format', 'l, jS F Y'),
 					('timeline_time_format', 'h:iA');");
