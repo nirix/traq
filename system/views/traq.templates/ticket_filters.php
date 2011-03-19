@@ -88,6 +88,9 @@
 				<td class="value">
 					<input type="text" name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]" value="<?php echo $value?>" />
 				</td>
+				<td class="remove">
+					<input type="submit" name="rmfilter[<?php echo $filter['type']?>]" value="-" />
+				</td>
 			</tr>
 			<?php } ?>
 			<?php } elseif($filter['type'] == 'status') { ?>

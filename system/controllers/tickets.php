@@ -185,14 +185,26 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			foreach($filter['values'] as $value)
 			{
 				// Make sure the value is not empty.
-				if(empty($value))
-					continue;
+				if(empty($value)) continue;
 				
 				$values[] = "'".$value."'";
 			}
 			
 			if(count($values))
 				$query .= "AND user_name ".iif(isset($filter['mode']) && $filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
+		}
+		// Summary / Description filter
+		elseif($filter['type'] == 'summary' or $filter['type'] == 'description') {
+			$column_name = ($filter['type'] == 'description' ? 'body' : $filter['type']);
+			$bits = array();
+			foreach($filter['values'] as $value)
+			{
+				if(empty($value)) continue;
+				
+				$bits[] = $column_name." ".(@$filter['mode'] == '!' ? 'NOT LIKE' : 'LIKE')." '%".$value."%'";
+			}
+			
+			$query .= "AND (".implode(' OR ', $bits).") ";
 		}
 	}
 }
