@@ -35,14 +35,15 @@ if($dbrev < $db_revision) $upgrade_required = 1;
 
 if(!isset($_POST['action'])) {
 	head('upgrade');
-	if(@$upgrade) {
-		?>
+	if(@$upgrade_required) {
+		?><div align="center">
 		<form action="upgrade.php" method="post">
 			<input type="hidden" name="action" value="upgrade" />
 			There is a database upgrade available, click next to continue.
 			<p><strong>It is highly recommended that you backup your database before each upgrade.</strong></p>
 			<input type="submit" value="Next" />
 		</form>
+		</div>
 		<?php
 	} else {
 		?>
