@@ -43,5 +43,12 @@ class AppController extends Controller
 		}
 		
 		View::set('traq', $this);
+		
+		$this->getUser();
+	}
+	
+	private function getUser()
+	{
+		define("LOGGEDIN", false);
 	}
 }

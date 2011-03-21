@@ -24,4 +24,24 @@ class ProjectsController extends AppController
 	{
 		View::set('projects', $this->db->select()->from('projects')->exec()->fetchAll());
 	}
+	
+	public function view()
+	{
+		if(!isset($this->project['id'])) $this->_view = 'error/notfound';
+	}
+	
+	public function roadmap()
+	{
+		View::set('milestones', $this->db->select()->from('milestones')->where(array('project_id'=>$this->project['id']))->exec()->fetchAll());
+	}
+	
+	public function timeline()
+	{
+		
+	}
+	
+	public function milestone()
+	{
+		View::set('milestone', $this->db->select()->from('milestones')->where(array('project_id'=>$this->project['id'],'slug'=>rescape(Request::seg(2))))->exec()->fetchArray());
+	}
 }
