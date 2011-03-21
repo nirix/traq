@@ -1,0 +1,3 @@
+[submodule "system/core"]
+	path = system/core
+	url = git://github.com/nirix/forerunner.git

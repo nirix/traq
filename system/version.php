@@ -1,6 +1,6 @@
 <?php
 /**
- * Traq 2
+ * Traq
  * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
@@ -19,15 +19,15 @@
  */
 
 // Traq Version
-$traq_version = '2.2';
+$traq_version = '3.0-dev';
 
 // Version code
 // 3.2.1 would be 30201
 // 3.2.11 would be 30211
-$traq_version_code = '20200';
+$traq_version_code = '30000';
 
 // Database Version
 $db_revision = 21;
 
 // Define the TRAQVER constant...
-define("TRAQVER",$traq_version);
+define("TRAQVER", $traq_version);
