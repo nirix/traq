@@ -1,12 +1,17 @@
 @import url('../../reset.css');
 
 body {
-	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	font-family: Verdana, sans-serif;
 	background-color: #eee;
 	color: #000;
 	margin: 0;
 	padding: 0;
 	font-size: 12px;
+}
+
+.width {
+	width: 800px;
+	margin: 0 auto;
 }
 
 a:link, a:active, a:visited,
@@ -20,7 +25,8 @@ a:hover {
 }
 
 #page a:link, #page a:active, #page a:visited {
-	color: #275067;
+	color: #000;
+	text-decoration: underline;
 }
 
 #header {
@@ -45,6 +51,9 @@ a:hover {
 	background: #fff;
 	color: #000;
 }
+#meta_nav {
+	float: right;
+}
 
 h1 {
 	font-weight: bold;
@@ -54,8 +63,13 @@ h1 {
 
 h2 {
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 18px;
 	margin-bottom: 8px;
+}
+
+h3 {
+	font-weight: bold;
+	font-size: 14px;
 }
 
 #page {
@@ -68,10 +82,6 @@ footer {
 	text-align: center;
 	border-top: 1px solid #275067;
 }
-
-p { margin-bottom: 8px; }
-blockquote, .prettyprint { border: 1px solid #e4e4e4; padding: 5px; margin-bottom: 8px; background: #f6f6f6; }
-blockquote p { margin: 0; }
 
 #overlay_blackout {
 	position: absolute;
@@ -111,4 +121,18 @@ blockquote p { margin: 0; }
 }
 #overlay .overlay_contents {
 	padding: 5px;
+}
+
+p { margin-bottom: 8px; }
+blockquote, .prettyprint { border: 1px solid #e4e4e4; padding: 5px; margin-bottom: 8px; background: #f6f6f6; }
+blockquote p { margin: 0; }
+ul { list-style: square; }
+li { margin-left: 20px; }
+
+ul.list h3 {
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+.projects_list .info, .milestones_list .info {
+	padding: 5px 0;
 }
