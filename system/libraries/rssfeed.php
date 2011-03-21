@@ -1,6 +1,6 @@
 <?php
 /**
- * Traq 2
+ * Traq
  * Copyright (C) 2009, 2010 Jack Polgar
  *
  * This file is part of Traq.
@@ -16,8 +16,6 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 class RSSFeed
@@ -27,7 +25,7 @@ class RSSFeed
 	private $desc = NULL;
 	private $items = array();
 	
-	public function __construct($title,$link,$desc,$items)
+	public function __construct($title, $link, $desc, $items)
 	{
 		$this->title = $title;
 		$this->link = $link;
