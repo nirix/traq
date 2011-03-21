@@ -19,5 +19,12 @@
  */
 
 Router::$routes = array(
-	'/' => 'Projects::index'
+	'/' => 'Projects::index',
+	
+	// Projects
+	':any/roadmap' => 'Projects::roadmap',
+	':any/timeline' => 'Projects::timeline',
+	':any/milestones/:any' => 'Projects::milestone',
+	':any/tickets' => 'Tickets::view',
+	':any' => 'Projects::view',
 );
