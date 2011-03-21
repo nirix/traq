@@ -1,8 +1,8 @@
 <?php
 /**
  * Traq
- * Copyright (c) 2009-2011 Jack Polgar
- *
+ * Copyright (C) 2009-2011 Jack Polgar
+ * 
  * This file is part of Traq.
  * 
  * Traq is free software: you can redistribute it and/or modify

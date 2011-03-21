@@ -18,10 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define("SYSPATH", dirname(__FILE__).'/system/core/');
-define("APPPATH", dirname(__FILE__).'/system/');
-
-require_once SYSPATH.'base.php';
-
-Meridian::init();
-Meridian::run();
+class ErrorController extends AppController
+{
+	public function notFound()
+	{
+	}
+}

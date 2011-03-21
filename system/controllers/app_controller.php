@@ -18,10 +18,19 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define("SYSPATH", dirname(__FILE__).'/system/core/');
-define("APPPATH", dirname(__FILE__).'/system/');
+require_once APPPATH.'version.php';
+require_once APPPATH.'common.php';
 
-require_once SYSPATH.'base.php';
-
-Meridian::init();
-Meridian::run();
+class AppController extends Controller
+{
+	public function __construct()
+	{
+		global $lang;
+		parent::__construct();
+		
+		require_once APPPATH.'locale/'.settings('locale');
+		
+		View::$inherit_from = APPPATH.'defaults/views';
+		
+	}
+}
