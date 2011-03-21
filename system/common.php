@@ -25,7 +25,7 @@
  */
 function settings($setting)
 {
-	global $CACHE, $db;
+	global $CACHE;
 	
 	// Check if the setting has already been fetched
 	// and return it if it has.
@@ -40,6 +40,14 @@ function settings($setting)
 }
 
 /**
+ * Shortcut for the databases real_escape_string function.
+ */
+function rescape($string)
+{
+	return Meridian::$db->real_escape_string($string);
+}
+
+/**
  * Alt. Background
  * Used to get an alternate background class.
  * @param string $even Even class color.
@@ -49,10 +57,8 @@ function altbg($even='even',$odd='odd')
 {
 	static $bg;
 	
-	if($bg == $odd)
-		return $bg = $even;
-	else
-		return $bg = $odd;
+	if($bg == $odd) return $bg = $even;
+	else return $bg = $odd;
 }
 
 /**
@@ -65,7 +71,7 @@ function addcrumb($url,$label)
 {
 	global $breadcrumbs;
 	
-	$breadcrumbs[] = array('url'=>$url,'label'=>$label);
+	$breadcrumbs[] = array('url'=>$url, 'label'=>$label);
 }
 
 /**
@@ -76,7 +82,7 @@ function addcrumb($url,$label)
  */
 function error($title,$message)
 {
-	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial; font-size: 14px;\"><h1 style=\"margin:0px;color:#000;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1><div style=\"padding: 0;\">".$message."</div><div style=\"color:#999;border-top:1px solid #000;margin-top:10px;font-size:small;padding-top:2px;\">Traq ".TRAQVER." &copy; ".date("Y")." Jack Polgar</div></blockquote>");
+	die("<blockquote style=\"border:2px solid darkred;padding:5px;background:#f9f9f9;font-family:arial; font-size: 14px;\"><h1 style=\"margin:0px;color:#000;border-bottom:1px solid #000;margin-bottom:10px;\">".$title." Error</h1><div style=\"padding: 0;\">".$message."</div><div style=\"color:#999;border-top:1px solid #000;margin-top:10px;font-size:small;padding-top:2px;\">Traq ".TRAQVER." &copy; 2009-".date("Y")." Jack Polgar</div></blockquote>");
 }
 
 /**
@@ -85,34 +91,39 @@ function error($title,$message)
  * @param string $text The text to format.
  * @return string
  */
-function formattext($text,$disablehtml=false)
+function formattext($text, $disablehtml=false)
 {
-	global $uri,$project;
+	global $textile;
 	
 	// Disable HTML
 	if($disablehtml) $text = str_replace('<',"&lt;",$text);
 	
-	// [ticket:x] to ticked URL
-	$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.$uri->anchor($project['slug'],'ticket-$1').'">[Ticket #$1]</a>',$text);
-	
-	// [[WikiPage|Text]]
-	$text = preg_replace_callback('/\[\[([^\|\n\]:]+)[\|]([^\]]+)\]\]/','_interwikilinks',$text);
-	// [[WikiPage]]
-	$text = preg_replace_callback('/\[\[([^\|\n\]:]+)\]\]/','_interwikilinks',$text);
+	// Check if we're on a project page...
+	if(isset(Meridian::app()->project['id']))
+	{
+		// [ticket:x] to ticked URL
+		$text = preg_replace("/\[ticket:(.*?)\\]/is",'<a href="'.baseurl(Meridian::app()->project['slug'],'tickets/$1').'">[Ticket #$1]</a>',$text);
+		
+		// [[WikiPage|Text]]
+		$text = preg_replace_callback('/\[\[([^\|\n\]:]+)[\|]([^\]]+)\]\]/','_interwikilinks',$text);
+		// [[WikiPage]]
+		$text = preg_replace_callback('/\[\[([^\|\n\]:]+)\]\]/','_interwikilinks',$text);
+	}
 	
 	// [code]blarg[/code]
 	$text = preg_replace("/\[code\](.*?)\[\/code\]/is", '<code class="prettyprint codeblock">$1</code>', $text);
 	
-	($hook = FishHook::hook('function_formattext')) ? eval($hook) : false;
+	// Textile
+	if(!isset($textile)) $textile = Load::library('Textile');
+	$text = $textile->TextileThis($text);
 	
 	return $text;
 }
 function _interwikilinks($matches)
 {
-	global $project, $uri;
 	$url = $matches[1];
 	$text = (empty($matches[2]) ? $matches[1] : $matches[2]);
-	return '<a href="'.$uri->anchor($project['slug'],'wiki',slugit($url)).'">'.$text.'</a>';
+	return '<a href="'.baseurl(Meridian::app()->project['slug'],'wiki',slugit($url)).'">'.$text.'</a>';
 }
 
 /**
@@ -122,8 +133,6 @@ function _interwikilinks($matches)
  */
 function custom_fields()
 {
-	global $db, $project;
-	
 	$fields = array();
 	$fetch = $db->query("SELECT * FROM ".DBPF."custom_fields WHERE project_ids LIKE '%[".$project['id']."]%'");
 	while($info = $db->fetcharray($fetch))
@@ -191,6 +200,8 @@ function l($string, $vars=array())
 	// Check if the string exists
 	if(!isset($lang[$string])) return '['.$string.']';
 	
+	if($lang[$string] === true) return $string;
+	
 	// Get the locale string
 	$string = $lang[$string];
 	
@@ -234,8 +245,7 @@ function source_code($code, $disablehtml=true)
  */
 function is_project($string)
 {
-	global $db;
-	return $db->numrows($db->query("SELECT slug FROM ".DBPF."projects WHERE slug='".$db->escapestring($string)."' LIMIT 1"));
+	return Meridian::$db->select(array('slug'))->from('projects')->where(array('slug'=>rescape($string)))->exec()->numRows();
 }
 
 /**

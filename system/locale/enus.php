@@ -26,6 +26,14 @@
 
 // Global
 $lang['powered_by'] = "Powered by Traq ".TRAQVER." &copy; 2009-".date("Y")." Jack Polgar";
+$lang['Projects'] = true;
+$lang['Login'] = true;
+$lang['Register'] = true;
+$lang['Logout'] = true;
+$lang['Roadmap'] = true;
+$lang['Timeline'] = true;
+$lang['Tickets'] = true;
+$lang['Project Info'] = true;
 
 // Admin
 
