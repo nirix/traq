@@ -1,6 +1,6 @@
 <?php
 /**
- * Traq 2
+ * Traq
  * Copyright (c) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
@@ -16,8 +16,6 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 /**
@@ -35,45 +33,10 @@ function settings($setting)
 	
 	// Looks like the setting isn't in the cache,
 	// lets fetch it now...
-	$result = $db->fetcharray($db->query("SELECT setting, value FROM ".DBPF."settings WHERE setting='".$db->res($setting)."' LIMIT 1"));
+	$result = Meridian::$db->select()->from('settings')->where(array('setting'=>$setting))->exec()->fetchArray();
 	$CACHE['settings'][$setting] = $result['value'];
 	
-	($hook = FishHook::hook('function_settings')) ? eval($hook) : false;
-	
 	return $CACHE['settings'][$setting];
-}
-
-/**
- * Get the base URL for the installation.
- * 
- * @return string
- */
-function baseurl()
-{
-	global $uri;
-	return str_replace($uri->anchorfile(),'',$_SERVER['SCRIPT_NAME']);
-}
-
-/**
- * Template
- * Used to easily fetch templates.
- * @param string $template Template Name
- * @return string
- */
-function template($template)
-{
-	// Check if the template exists
-	if(file_exists(TRAQPATH.'/themes/views/'.settings('theme').'/'.$template.".php")) {
-		return TRAQPATH.'/system/views/'.settings('theme').'/'.$template.".php";
-	}
-	// If not, load the Traq2 theme file
-	elseif(file_exists(TRAQPATH.'/system/views/traq.templates/'.$template.".php")) {
-		return TRAQPATH.'/system/views/traq.templates/'.$template.".php";
-	}
-	// Display an error it we couldn't load it
-	else {
-		error("Template","Unable to load file: <code>".settings('theme')."/".$template."</code>");
-	}
 }
 
 /**
@@ -166,16 +129,16 @@ function custom_fields()
 	while($info = $db->fetcharray($fetch))
 	{
 		$info['code'] = str_replace(
-									array(
-										'%name%',
-										'%value%'
-									),
-									array(
-										'cfields['.$info['id'].']',
-										'<?php if(is_array($ticket)) { echo @$ticket[\'extra\']['.$info['id'].']; } ?>'
-									),
-									$info['code']
-						);
+			array(
+				'%name%',
+				'%value%'
+			),
+			array(
+				'cfields['.$info['id'].']',
+				'<?php if(is_array($ticket)) { echo @$ticket[\'extra\']['.$info['id'].']; } ?>'
+			),
+			$info['code']
+		);
 		$fields[] = $info;
 	}
 	return $fields;
@@ -221,7 +184,7 @@ function slugit($text)
  * @param mixed $vars
  * @return string
  */
-function l($string,$vars=array())
+function l($string, $vars=array())
 {
 	global $lang;
 	
@@ -239,13 +202,15 @@ function l($string,$vars=array())
 	{
 		if(!isset($v)) $v = 0;
 		++$v;
-		$string = str_replace('{'.$v.'}',$var,$string);
+		$string = str_replace('{'.$v.'}', $var, $string);
 	}
-	
-	($hook = FishHook::hook('function_locale')) ? eval($hook) : false;
 	
 	// Now return it...
 	return $string;
+}
+function _l($string, $vars=array())
+{
+	echo l($string, $vars);
 }
 
 /**
@@ -255,7 +220,7 @@ function l($string,$vars=array())
  * @param string $code The code.
  * @return string
  */
-function source_code($code,$disablehtml=true)
+function source_code($code, $disablehtml=true)
 {
 	($hook = FishHook::hook('function_source_code')) ? eval($hook) : false;
 	return ($disablehtml ? htmlspecialchars($code) : $code);
@@ -919,4 +884,3 @@ function remove_accents($text)
 	);
 	return str_replace($from,$to,$text);
 } 
-?>

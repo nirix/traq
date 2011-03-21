@@ -1,6 +1,6 @@
 <?php
 /**
- * Traq 2
+ * Traq
  * Copyright (C) 2009-2011 Jack Polgar
  *
  * This file is part of Traq.
@@ -18,39 +18,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Set the full path to the Traq folder
-define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__));
+define("SYSPATH", dirname(__FILE__).'/system/core/');
+define("APPPATH", dirname(__FILE__).'/system/');
 
-// Fetch core file.
-require('system/global.php');
+require_once SYSPATH.'base.php';
 
-if(isset($conf['general']['authorized_only']) && $conf['general']['authorized_only'] == true && !$user->loggedin && @$_POST['action'] != 'login') {
-    include(template('user/login'));
-    exit;
-}
-
-// Project listing
-if(empty($uri->seg[0]) or $uri->seg[0] == 'index.php')
-{
-	require('system/controllers/projectlist.php');
-}
-// User pages
-elseif($uri->seg[0] == 'user')
-{
-	require('system/controllers/user.php');
-}
-// Ajax page
-elseif($uri->seg[0] == '_ajax')
-{
-	require('system/controllers/ajax.php');
-}
-// Project pages
-elseif(is_project($uri->seg[0]))
-{
-	require('system/controllers/project.php');
-}
-// Something we're not sure of... load the 404 page...
-else
-{
-	include(template('404'));
-}
+Meridian::init();
+Meridian::run();
