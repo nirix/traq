@@ -27,10 +27,21 @@ class AppController extends Controller
 	{
 		global $lang;
 		parent::__construct();
-		
-		require_once APPPATH.'locale/'.settings('locale');
-		
 		View::$inherit_from = APPPATH.'defaults/views';
 		
+		// Load the locale file
+		require_once APPPATH.'locale/'.settings('locale');
+		
+		// Load the helpers
+		foreach(array('HTML','Form','JS') as $helper) Load::helper($helper);
+		
+		// Check if we're on a project page
+		if(is_project(Request::seg(0)))
+		{
+			$this->project = $this->db->select()->from('projects')->where(array('slug'=>$this->db->res(Request::seg(0))))->exec()->fetchArray();
+			View::set('projectinfo', $this->project);
+		}
+		
+		View::set('traq', $this);
 	}
 }
