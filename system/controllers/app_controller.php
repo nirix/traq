@@ -49,6 +49,18 @@ class AppController extends Controller
 	
 	private function getUser()
 	{
-		define("LOGGEDIN", false);
+		$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr INNER JOIN ".DBPREFIX."usergroups as grp ON (usr.group_id = grp.id) WHERE usr.sesshash='".@$_COOKIE['traqsess']."' LIMIT 1");
+		if(isset($_COOKIE['traqsess']) and $check->numRows())
+		{
+			$this->user = $check->fetchArray();
+			$loggedin = true;
+		}
+		else
+		{
+			$this->user = array('id'=>0, 'username'=>l('Guest'), 'group_id'=>3);
+			$this->user['group'] = $this->db->select()->from('usergroups')->where(array('id'=>3))->exec()->fetchArray();
+			$loggedin = false;
+		}
+		define("LOGGEDIN", $loggedin);
 	}
 }

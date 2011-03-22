@@ -20,7 +20,11 @@
 
 Router::$routes = array(
 	'/' => 'Projects::index',
-	
+
+	// Users
+	'login' => 'User::login',
+	'register' => 'User::register',
+
 	// Projects
 	':any/roadmap' => 'Projects::roadmap',
 	':any/timeline' => 'Projects::timeline',

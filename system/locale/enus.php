@@ -29,6 +29,7 @@ $lang['powered_by'] = "Powered by Traq ".TRAQVER." &copy; 2009-".date("Y")." Jac
 $lang['Projects'] = true;
 $lang['Login'] = true;
 $lang['Register'] = true;
+$lang['UserCP'] = true;
 $lang['Logout'] = true;
 $lang['Roadmap'] = true;
 $lang['Timeline'] = true;
