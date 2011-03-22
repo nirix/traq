@@ -19,8 +19,8 @@
  */
 
 /**
- * Settings
  * Used to get the value of the specified setting.
+ * 
  * @param string $setting The setting...
  */
 function settings($setting)
@@ -48,8 +48,8 @@ function rescape($string)
 }
 
 /**
- * Alt. Background
  * Used to get an alternate background class.
+ * 
  * @param string $even Even class color.
  * @param string $odd Odd class color.
  */
@@ -62,8 +62,8 @@ function altbg($even='even',$odd='odd')
 }
 
 /**
- * Add Breadcrumb
  * Used to easily add breadcrumbs.
+ * 
  * @param string $url The URL.
  * @param string $label The Label.
  */
@@ -75,8 +75,8 @@ function addcrumb($url,$label)
 }
 
 /**
- * Error
  * Used to display an error message.
+ * 
  * @param string $title Error title.
  * @param string $message Error message.
  */
@@ -86,8 +86,8 @@ function error($title,$message)
 }
 
 /**
- * Format Text
  * Used to format text.
+ * 
  * @param string $text The text to format.
  * @return string
  */
@@ -167,7 +167,6 @@ function custom_field_name($field_id)
 }
 
 /**
- * Slug it
  * Creates a slug / URI safe string.
  *
  * @param string $text The string to change.
@@ -187,8 +186,8 @@ function slugit($text)
 }
 
 /**
- * Locale String
  * Gets the specified locale string for the set language.
+ *
  * @param string $string String name/key
  * @param mixed $vars
  * @return string
@@ -200,6 +199,8 @@ function l($string, $vars=array())
 	// Check if the string exists
 	if(!isset($lang[$string])) return '['.$string.']';
 	
+	// If the string in the $lang array is true, just return
+	// what we have.
 	if($lang[$string] === true) return $string;
 	
 	// Get the locale string
@@ -219,13 +220,20 @@ function l($string, $vars=array())
 	// Now return it...
 	return $string;
 }
+
+/**
+ * Shortcut to echo a localised string.
+ * 
+ * @param string $string
+ * @param mixed $vars
+ */
 function _l($string, $vars=array())
 {
+	if(!is_array($vars)) $vars = array_slice(func_get_args(),1);
 	echo l($string, $vars);
 }
 
 /**
- * Source Code
  * Function to make source code safe in a template.
  *
  * @param string $code The code.
@@ -233,15 +241,15 @@ function _l($string, $vars=array())
  */
 function source_code($code, $disablehtml=true)
 {
-	($hook = FishHook::hook('function_source_code')) ? eval($hook) : false;
 	return ($disablehtml ? htmlspecialchars($code) : $code);
 }
 
 /**
- * Is Project
  * Check if the supplied string is a project.
+ *
  * @param string $string String to check if a project exists with that slug.
  * @return integer
+ * @since 0.1
  */
 function is_project($string)
 {
@@ -249,8 +257,8 @@ function is_project($string)
 }
 
 /**
- * Has Repository
  * Check's if the project has a repository.
+ *
  * @param integer $project_id The project ID.
  * @return integer
  */
@@ -263,8 +271,8 @@ function has_repo($project_id='')
 }
 
 /**
- * Project Repositories
  * Fetches the projects repositories.
+ * 
  * @param integer $project_id The project ID.
  * @return array
  */
@@ -282,8 +290,8 @@ function project_repos($project_id='')
 }
 
 /**
- * Simple if()
  * Used to easy execute a condition.
+ * 
  * @param condition $condition The condition to check.
  * @param mixed $true Returned if condition is true.
  * @param mixed $false Returned if condition is false.
@@ -295,8 +303,9 @@ function iif($condition, $true, $false='')
 }
 
 /**
- * Ticket Sort Link
  * Used to create the sort URL for the tickets listing.
+ * 
+ * @return string
  */
 function ticket_sort_url($field)
 {
@@ -305,8 +314,8 @@ function ticket_sort_url($field)
 }
 
 /**
- * Ticket Status List
  * Fetches the requred type of ticket status options in an array.
+ * 
  * @param integer $getstatus Status type to fetch (1 for open, 0 for closed)
  * @return array
  */
@@ -324,8 +333,8 @@ function ticket_status_list($getstatus=1)
 }
 
 /**
- * Ticket Types
  * Fetches the Ticket Types specified in the AdminCP.
+ * 
  * @return array
  */
 function ticket_types()
@@ -342,8 +351,8 @@ function ticket_types()
 }
 
 /**
- * Ticket Priorities
  * Fetches the Ticket Priorities specified in the AdminCP.
+ * 
  * @return array
  */
 function ticket_priorities()
@@ -360,8 +369,8 @@ function ticket_priorities()
 }
 
 /**
- * Ticket Severities
  * Fetches the Ticket Severities specified in the AdminCP.
+ * 
  * @return array
  */
 function ticket_severities()
@@ -378,8 +387,8 @@ function ticket_severities()
 }
 
 /**
- * Ticket Status
  * Gets the ticket status.
+ * 
  * @return array
  */
 function ticket_status($status_id)
@@ -390,8 +399,8 @@ function ticket_status($status_id)
 }
 
 /**
- * Ticket Type
  * Gets the ticket type.
+ * 
  * @return array
  */
 function ticket_type($type_id)
@@ -402,8 +411,8 @@ function ticket_type($type_id)
 }
 
 /**
- * Ticket Priority
  * Gets the ticket priority.
+ * 
  * @return array
  */
 function ticket_priority($priority_id)
@@ -414,8 +423,8 @@ function ticket_priority($priority_id)
 }
 
 /**
- * Ticket Severity
  * Gets the ticket severity.
+ * 
  * @return array
  */
 function ticket_severity($severity_id)
@@ -426,8 +435,8 @@ function ticket_severity($severity_id)
 }
 
 /**
- * Ticket Columns
  * Returns an array of the ticket columns that can be displayed on the view tickets page.
+ * 
  * @return array
  */
 function ticket_columns()
@@ -450,8 +459,8 @@ function ticket_columns()
 }
 
 /**
- * Ticket Filters
  * Returns an array of ticket filters
+ * 
  * @return array
  */
 function ticket_filters()
@@ -473,8 +482,8 @@ function ticket_filters()
 }
 
 /**
- * Project Milestones
  * Fetches the project milestones.
+ * 
  * @return array
  */
 function project_milestones($project_id=NULL)
@@ -492,8 +501,8 @@ function project_milestones($project_id=NULL)
 }
 
 /**
- * Project Versions
  * Fetches the project verions.
+ * 
  * @return array
  */
 function project_versions($project_id=NULL)
@@ -511,8 +520,8 @@ function project_versions($project_id=NULL)
 }
 
 /**
- * Project Components
  * Fetches the project components.
+ * 
  * @return array
  */
 function project_components($project_id=NULL)
@@ -530,8 +539,8 @@ function project_components($project_id=NULL)
 }
 
 /**
- * Project Managers
  * Fetches the project managers.
+ * 
  * @return array
  */
 function project_managers($project_id=NULL)
@@ -560,7 +569,6 @@ function project_managers($project_id=NULL)
 }
 
 /**
- * Is Subscribed
  * Checks if the user is subscribed/watching something.
  *
  * @param string $type The type of subscription (project,ticket,etc).
@@ -580,7 +588,6 @@ function is_subscribed($type,$data='')
 }
 
 /**
- * Add Subscription
  * Adds a subscription for the user.
  *
  * @param string $type The type of subscription.
@@ -603,7 +610,6 @@ function add_subscription($type,$data='')
 }
 
 /**
- * Remove Subscription
  * Removes a subscription for the user.
  *
  * @param string $type The type of subscription.
@@ -619,7 +625,6 @@ function remove_subscription($type,$data='')
 }
 
 /**
- * Send Notification
  * Adds a subscription for the user.
  *
  * @param string $type The type of subscription.
@@ -732,9 +737,9 @@ function send_notification($type,$data=array())
 }
 
 /**
- * Calculate Percent
  * Used to calculate the percent of two numbers,
  * if both numbers are the same, 100(%) is returned.
+ * 
  * @param integer $min Lowest number
  * @param integer $max Highest number
  * @return integer
@@ -749,7 +754,9 @@ function getpercent($min,$max)
 }
 
 /**
- * Time Since
+ * Takes a timestamp and turns it into something
+ * like 5 days, 2 hours ago.
+ * 
  * @param integer $original Original Timestamp
  * @param integer $detailed Detailed format or not
  * @return string
@@ -800,7 +807,9 @@ function timesince($original, $detailed = false)
 }
 
 /**
- * Time From
+ * Takes a timestamp and turns it into something
+ * like 2 days, 9 hours from now.
+ * 
  * @param integer $original Original Timestamp
  * @param integer $detailed Detailed format or not
  * @return string
@@ -850,7 +859,6 @@ function timefrom($original, $detailed = false)
 }
 
 /**
- * Remove Accents
  * Removes accents from the string.
  *
  * @param string $text The string to remove accents from.

@@ -34,6 +34,9 @@ $lang['Roadmap'] = true;
 $lang['Timeline'] = true;
 $lang['Tickets'] = true;
 $lang['Project Info'] = true;
+$lang['Username'] = true;
+$lang['Password'] = true;
+$lang['Remember'] = true;
 
 // Admin
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title><?php echo settings('title')?></title>
 		<?php echo HTML::css_inc(baseurl('css/themes/'.settings('theme').'/style.css'))?>
 		<?php echo HTML::js_inc('http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js')?>
