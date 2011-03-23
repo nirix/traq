@@ -38,6 +38,7 @@ $lang['Project Info'] = true;
 $lang['Username'] = true;
 $lang['Password'] = true;
 $lang['Remember'] = true;
+$lang['Milestone_x'] = 'Milestone {1}';
 
 // Admin
 
