@@ -35,7 +35,6 @@ a:hover {
 }
 #header nav {
 	height: 20px;	
-	padding-left: 10px;
 }
 #header nav li {
 	display: inline;
@@ -58,7 +57,7 @@ a:hover {
 h1 {
 	font-weight: bold;
 	font-size: 24px;
-	padding: 8px;
+	padding: 8px 0;
 }
 
 h2 {
