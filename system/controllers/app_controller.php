@@ -39,7 +39,6 @@ class AppController extends Controller
 		if(is_project(Request::seg(0)))
 		{
 			$this->project = $this->db->select()->from('projects')->where(array('slug'=>$this->db->res(Request::seg(0))))->exec()->fetchArray();
-			View::set('projectinfo', $this->project);
 		}
 		
 		View::set('traq', $this);

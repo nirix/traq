@@ -3,7 +3,7 @@
 <ul class="list milestones_list">
 	<?php foreach($milestones as $milestone) { ?>
 	<li>
-		<h3><?php echo HTML::link(baseurl($projectinfo['slug'],'milestones',$milestone['slug']), $milestone['milestone'])?></h3>
+		<h3><?php echo HTML::link(baseurl($traq->project['slug'],'milestones',$milestone['slug']), $milestone['milestone'])?></h3>
 		<div class="info"><?php echo formattext($milestone['info'])?></div>
 	</li>
 	<?php } ?>
