@@ -35,10 +35,16 @@ $lang['Roadmap'] = true;
 $lang['Timeline'] = true;
 $lang['Tickets'] = true;
 $lang['Project Info'] = true;
+
+// Roadmap
+$lang['Milestone_x'] = 'Milestone {1}';
+$lang['x_open'] = '{1} open';
+$lang['x_closed'] = '{1} closed';
+
+// Users
 $lang['Username'] = true;
 $lang['Password'] = true;
 $lang['Remember'] = true;
-$lang['Milestone_x'] = 'Milestone {1}';
 
 // Admin
 

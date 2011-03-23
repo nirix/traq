@@ -135,3 +135,23 @@ ul.list h3 {
 .projects_list .info, .milestones_list .info {
 	padding: 5px 0;
 }
+
+table.progress {
+	border: 1px solid #d5d5d5;
+	height: 12px;
+	width: 250px;
+	float: left;
+}
+.progress .closed {
+	background: #afdbaf;
+}
+.progress-info {
+	clear: both;
+	font-size: 11px;
+	padding: 4px;
+}
+.percent {
+	float: left;
+	padding-left: 5px;
+	font-size: 11px;
+}

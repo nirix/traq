@@ -32,7 +32,8 @@ class ProjectsController extends AppController
 	
 	public function roadmap()
 	{
-		View::set('milestones', $this->db->select()->from('milestones')->where(array('project_id'=>$this->project['id']))->exec()->fetchAll());
+		$milestones = Load::model('milestones');
+		View::set('milestones', $milestones->fetchAll(array('where'=>array('project_id'=>$this->project['id']),'orderby'=>array('displayorder','ASC'))));
 	}
 	
 	public function timeline()
@@ -42,6 +43,7 @@ class ProjectsController extends AppController
 	
 	public function milestone()
 	{
-		View::set('milestone', $this->db->select()->from('milestones')->where(array('project_id'=>$this->project['id'],'slug'=>rescape(Request::seg(2))))->exec()->fetchArray());
+		$milestones = Load::model('milestones');
+		View::set('milestone', $milestones->find(array('where'=>array('project_id'=>$this->project['id'],'slug'=>rescape(Request::seg(2))))));
 	}
 }
