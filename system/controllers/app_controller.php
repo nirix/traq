@@ -49,10 +49,14 @@ class AppController extends Controller
 	
 	private function getUser()
 	{
-		$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr INNER JOIN ".DBPREFIX."usergroups as grp ON (usr.group_id = grp.id) WHERE usr.sesshash='".@$_COOKIE['traqsess']."' LIMIT 1");
-		if(isset($_COOKIE['traqsess']) and $check->numRows())
+		$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr WHERE usr.sesshash='".@$_COOKIE['traqsess']."' LIMIT 1");
+		//$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr JOIN ".DBPREFIX."usergroups as grp ON (usr.group_id = grp.id) WHERE usr.sesshash='".@$_COOKIE['traqsess']."' LIMIT 1");
+		//$check = $this->db->query("SELECT * FROM (SELECT * FROM traq_usergroups WHERE id=1 GROUP BY id ) as `group`, traq_users as usr WHERE usr.id=1 LIMIT 1");
+		//$check = $this->db->query("SELECT * FROM traq_users AS usr RIGHT OUTER JOIN traq_usergroups as grp ON usr.group_id = grp.id WHERE usr.id=1 LIMIT 1");
+		if($check->numRows())
 		{
 			$this->user = $check->fetchArray();
+			$this->user['group'] = $this->db->select()->from('usergroups')->where("id='".$this->user['group_id']."'")->limit(1)->exec()->fetchArray();
 			$loggedin = true;
 		}
 		else
