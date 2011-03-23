@@ -28,7 +28,7 @@ class UserController extends AppController
 			{
 				$sesshash = sha1($_POST['username'].time().rand(0,9999).time().date('r',time()));
 				
-				setcookie('traqsess', $sesshash, time()+9999999, '/');
+				setcookie('traqsess', $sesshash, ($_POST['remember_me'] ? time()+99999999 : 0), '/');
 				$this->db->query("UPDATE ".DBPREFIX."users SET sesshash='".$sesshash."' WHERE username='".rescape($_POST['username'])."' AND password='".sha1($_POST['password'])."' LIMIT 1");
 				header("Location: ".(isset($_POST['redir']) ? $_POST['redir'] : baseurl()));
 			}

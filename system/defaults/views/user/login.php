@@ -9,7 +9,7 @@
 			<input type="password" name="password" id="password" required>
 		</p>
 		<p>
-			<span><input type="checkbox" id="remember_me"> <label for="remember_me"><?php _l('Remember')?></label></span>
+			<span><input type="checkbox" name="remember_me" id="remember_me"> <label for="remember_me"><?php _l('Remember')?></label></span>
 			<input type="submit" value="<?php _l('Login')?>">
 		</p>
 	</div>
