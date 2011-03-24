@@ -50,7 +50,7 @@ class AppController extends Controller
 	private function getUser()
 	{
 		$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr WHERE usr.sesshash='".@$_COOKIE['traqsess']."' LIMIT 1");
-		if($check->numRows())
+		if(isset($_COOKIE['traqsess']) and $check->numRows())
 		{
 			$this->user = $check->fetchArray();
 			$this->user['group'] = $this->db->select()->from('usergroups')->where("id='".$this->user['group_id']."'")->limit(1)->exec()->fetchArray();
