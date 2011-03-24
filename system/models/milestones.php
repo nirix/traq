@@ -39,6 +39,7 @@ class MilestonesModel extends Model
 		foreach($rows as $row)
 		{
 			$row = array_merge($row, $this->get_data($row));
+			$row['tickets'] = $this->db->select('ticket_id','summary','closed')->from('tickets')->where("milestone_id='{$row['id']}'")->orderby('ticket_id','ASC')->exec()->fetchAll();
 			$milestones[] = $row;
 		}
 		
@@ -47,14 +48,14 @@ class MilestonesModel extends Model
 	
 	private function get_data($row)
 	{
-		$row['tickets'] = array(
+		$row['ticket_count'] = array(
 			'open' => $this->db->select('id')->from('tickets')->where("milestone_id='{$row['id']}'","closed='0'")->exec()->numRows(),
 			'closed' => $this->db->select('id')->from('tickets')->where("milestone_id='{$row['id']}'","closed='1'")->exec()->numRows()
 		);
-		$row['tickets']['total'] = $row['tickets']['open'] + $row['tickets']['closed'];
+		$row['ticket_count']['total'] = $row['ticket_count']['open'] + $row['ticket_count']['closed'];
 		$row['progress'] = array(
-			'open' => getpercent($row['tickets']['open'], $row['tickets']['total']),
-			'closed' => getpercent($row['tickets']['closed'], $row['tickets']['total']),
+			'open' => getpercent($row['ticket_count']['open'], $row['ticket_count']['total']),
+			'closed' => getpercent($row['ticket_count']['closed'], $row['ticket_count']['total']),
 		);
 		
 		return $row;

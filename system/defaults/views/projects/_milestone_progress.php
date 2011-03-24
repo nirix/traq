@@ -8,5 +8,5 @@
 </table>
 <div class="percent"><?php echo $milestone['progress']['closed']?>%</div>
 <div class="progress-info">
-	<?php _l('x_open', $milestone['tickets']['open']); ?>, <?php _l('x_closed', $milestone['tickets']['closed']); ?>
+	<?php _l('x open', $milestone['ticket_count']['open']); ?>, <?php _l('x closed', $milestone['ticket_count']['closed']); ?>
 </div>
