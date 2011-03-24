@@ -9,8 +9,8 @@
 		
 		<?php if(count($milestone['tickets'])) { ?>
 		<div class="related-tickets">
-			<h4><a href="#" onclick="$('#related_tickets_<?php $milestone['id']?>').slideToggle('slow'); return false;"><?php _l('Related Tickets')?></a></h4>
-			<div id="related_tickets_<?php $milestone['id']?>" style="display: none;" class="list">
+			<h4><a href="#" onclick="$('#related_tickets_<?php echo $milestone['id']?>').slideToggle('slow'); return false;"><?php _l('Related Tickets')?></a></h4>
+			<div id="related_tickets_<?php echo $milestone['id']?>" style="display: none;" class="list">
 				<?php foreach($milestone['tickets'] as $ticket) { ?>
 				<div>
 					<?php _l('Ticket: #x', $ticket['ticket_id'])?>:
