@@ -41,6 +41,7 @@ $lang['Milestone x'] = 'Milestone {1}';
 $lang['x open'] = '{1} open';
 $lang['x closed'] = '{1} closed';
 $lang['Ticket: #x'] = 'Ticket #{1}';
+$lang['x #x'] = '{1} #{2}';
 $lang['Related Tickets'] = true;
 
 // Users

@@ -405,9 +405,8 @@ function ticket_status($status_id)
  */
 function ticket_type($type_id)
 {
-	global $db;
-	$status = $db->queryfirst("SELECT * FROM ".DBPF."ticket_types WHERE id='".$db->res($type_id)."' LIMIT 1");
-	return $status['name'];
+	$type = Meridian::$db->select()->from('ticket_types')->where(array('id'=>rescape($type_id)))->exec()->fetchArray();
+	return $type['name'];
 }
 
 /**

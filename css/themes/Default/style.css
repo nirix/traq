@@ -14,19 +14,23 @@ body {
 	margin: 0 auto;
 }
 
-a:link, a:active, a:visited,
-#header a:link, #header a:active, #header a:visited, #header a:hover
+#header a:link,
+#header a:active,
+#header a:visited,
+#header a:hover
 {
 	color: #fff;
 	text-decoration: none;
 }
-a:hover {
+
+a:link,
+a:active,
+a:visited {
+	color: #275067;
 	text-decoration: underline;
 }
-
-#page a:link, #page a:active, #page a:visited {
+a:hover {
 	color: #000;
-	text-decoration: underline;
 }
 
 #header {
@@ -39,7 +43,9 @@ a:hover {
 #header nav li {
 	display: inline;
 }
-#header nav a:link, #header nav a:active, #header nav a:visited {
+#header nav a:link,
+#header nav a:active,
+#header nav a:visited {
 	display: block;
 	float: left;
 	padding: 4px 10px;
@@ -132,7 +138,11 @@ ul.list h3 {
 	font-size: 16px;
 	margin-bottom: 5px;
 }
-.projects_list .info, .milestones_list .info {
+ul.list li {
+	padding-bottom: 4px;
+}
+.projects_list .info,
+.milestones_list .info {
 	padding: 5px 0;
 }
 
@@ -164,6 +174,20 @@ table.list td, div.list div {
 	padding: 2px;
 }
 
-.related-tssues h4 {
-	margin-bottom: 2px;
+.related-tickets h4 {
+	margin-bottom: 4px;
+	font-size: 11px;
+}
+.related-tickets .list {
+	margin-bottom: 5px;
+}
+
+.related-tickets a {
+	text-decoration: none;
+}
+.related-tickets .closed,
+.related-tickets .closed:link,
+.realted-tickets .closed:visited {
+	text-decoration: line-through;
+	color: #999;
 }

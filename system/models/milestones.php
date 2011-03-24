@@ -39,7 +39,7 @@ class MilestonesModel extends Model
 		foreach($rows as $row)
 		{
 			$row = array_merge($row, $this->get_data($row));
-			$row['tickets'] = $this->db->select('ticket_id','summary','closed')->from('tickets')->where("milestone_id='{$row['id']}'")->orderby('ticket_id','ASC')->exec()->fetchAll();
+			$row['tickets'] = $this->db->select('ticket_id','summary','closed','type')->from('tickets')->where("milestone_id='{$row['id']}'")->orderby('ticket_id','ASC')->exec()->fetchAll();
 			$milestones[] = $row;
 		}
 		
