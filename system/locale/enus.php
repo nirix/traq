@@ -37,9 +37,11 @@ $lang['Tickets'] = true;
 $lang['Project Info'] = true;
 
 // Roadmap
-$lang['Milestone_x'] = 'Milestone {1}';
-$lang['x_open'] = '{1} open';
-$lang['x_closed'] = '{1} closed';
+$lang['Milestone x'] = 'Milestone {1}';
+$lang['x open'] = '{1} open';
+$lang['x closed'] = '{1} closed';
+$lang['Ticket: #x'] = 'Ticket #{1}';
+$lang['Related issues'] = true;
 
 // Users
 $lang['Username'] = true;
