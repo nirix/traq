@@ -43,7 +43,7 @@
 					<?php echo $output; ?>
 				</div>
 			</section>
-			<footer>
+			<footer id="footer">
 				<div class="width">
 				<?php _l('powered_by')?>
 				</div>
