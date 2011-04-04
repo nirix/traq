@@ -32,11 +32,13 @@ Router::$routes = array(
 
 	// Admin
 	'admincp/(:any)/(:any)' => "AdminCP::$1::$2",
+	'admincp/(:any)' => "AdminCP::$1::index",
 
 	// Projects
 	':any/roadmap' => 'Projects::roadmap',
 	':any/timeline' => 'Projects::timeline',
 	':any/milestones/:any' => 'Projects::milestone',
-	':any/tickets' => 'Tickets::view',
+	':any/tickets' => 'Tickets::index',
+	':any/tickets/:num' => 'Tickets::view',
 	':any' => 'Projects::view', // MUST be the last route as it captches anything and everything.
 );
