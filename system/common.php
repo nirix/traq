@@ -20,8 +20,8 @@
 
 /**
  * Used to get the value of the specified setting.
- * 
  * @param string $setting The setting...
+ * @return string
  */
 function settings($setting)
 {
@@ -49,7 +49,6 @@ function rescape($string)
 
 /**
  * Used to get an alternate background class.
- * 
  * @param string $even Even class color.
  * @param string $odd Odd class color.
  */
@@ -63,7 +62,6 @@ function altbg($even='even',$odd='odd')
 
 /**
  * Used to easily add breadcrumbs.
- * 
  * @param string $url The URL.
  * @param string $label The Label.
  */
@@ -76,7 +74,6 @@ function addcrumb($url,$label)
 
 /**
  * Used to display an error message.
- * 
  * @param string $title Error title.
  * @param string $message Error message.
  */
@@ -87,7 +84,6 @@ function error($title,$message)
 
 /**
  * Used to format text.
- * 
  * @param string $text The text to format.
  * @return string
  */
@@ -128,7 +124,6 @@ function _interwikilinks($matches)
 
 /**
  * Get an array of the custom fields.
- * 
  * @return array
  */
 function custom_fields()
@@ -155,7 +150,6 @@ function custom_fields()
 
 /**
  * Returns the custom field name.
- * 
  * @return string
  */
 function custom_field_name($field_id)
@@ -168,7 +162,6 @@ function custom_field_name($field_id)
 
 /**
  * Creates a slug / URI safe string.
- *
  * @param string $text The string to change.
  * @return string
  */
@@ -187,7 +180,6 @@ function slugit($text)
 
 /**
  * Gets the specified locale string for the set language.
- *
  * @param string $string String name/key
  * @param mixed $vars
  * @return string
@@ -223,7 +215,6 @@ function l($string, $vars=array())
 
 /**
  * Shortcut to echo a localised string.
- * 
  * @param string $string
  * @param mixed $vars
  */
@@ -235,7 +226,6 @@ function _l($string, $vars=array())
 
 /**
  * Function to make source code safe in a template.
- *
  * @param string $code The code.
  * @return string
  */
@@ -246,7 +236,6 @@ function source_code($code, $disablehtml=true)
 
 /**
  * Check if the supplied string is a project.
- *
  * @param string $string String to check if a project exists with that slug.
  * @return integer
  * @since 0.1
@@ -258,7 +247,6 @@ function is_project($string)
 
 /**
  * Check's if the project has a repository.
- *
  * @param integer $project_id The project ID.
  * @return integer
  */
@@ -272,7 +260,6 @@ function has_repo($project_id='')
 
 /**
  * Fetches the projects repositories.
- * 
  * @param integer $project_id The project ID.
  * @return array
  */
@@ -291,7 +278,6 @@ function project_repos($project_id='')
 
 /**
  * Used to easy execute a condition.
- * 
  * @param condition $condition The condition to check.
  * @param mixed $true Returned if condition is true.
  * @param mixed $false Returned if condition is false.
@@ -304,7 +290,6 @@ function iif($condition, $true, $false='')
 
 /**
  * Used to create the sort URL for the tickets listing.
- * 
  * @return string
  */
 function ticket_sort_url($field)
@@ -315,7 +300,6 @@ function ticket_sort_url($field)
 
 /**
  * Fetches the requred type of ticket status options in an array.
- * 
  * @param integer $getstatus Status type to fetch (1 for open, 0 for closed)
  * @return array
  */
@@ -323,12 +307,9 @@ function ticket_status_list($getstatus=1)
 {
 	global $db;
 	
-	$status = array();
-	$fetch = $db->query("SELECT * FROM ".DBPF."ticket_status ".(is_numeric($getstatus) ? "WHERE status='".$getstatus."'" :'')." ORDER BY name ASC");
-	while($info = $db->fetcharray($fetch))
-		$status[] = $info;
+	$status = Meridian::$db->select()->from('ticket_status')->where(is_numeric($getstatus) ? array('status'=>$getstatus) : null)->exec()->fetchAll();
 	
-	($hook = FishHook::hook('function_ticket_statuses')) ? eval($hook) : false;
+	//($hook = FishHook::hook('function_ticket_statuses')) ? eval($hook) : false;
 	return $status;
 }
 
