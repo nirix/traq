@@ -20,8 +20,6 @@
 
 class MilestonesModel extends Model
 {
-	public $_table = 'milestones';
-	
 	public function find(array $args)
 	{
 		$row = parent::find($args);
