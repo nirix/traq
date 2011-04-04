@@ -18,6 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Traq Routes
+ * @package Traq
+ * @todo Allow plugins to add their own without the last route intercepting them.
+ */
 Router::$routes = array(
 	'/' => 'Projects::index',
 
@@ -25,10 +30,13 @@ Router::$routes = array(
 	'login' => 'User::login',
 	'register' => 'User::register',
 
+	// Admin
+	'admincp/(:any)/(:any)' => "AdminCP::$1::$2",
+
 	// Projects
 	':any/roadmap' => 'Projects::roadmap',
 	':any/timeline' => 'Projects::timeline',
 	':any/milestones/:any' => 'Projects::milestone',
 	':any/tickets' => 'Tickets::view',
-	':any' => 'Projects::view',
+	':any' => 'Projects::view', // MUST be the last route as it captches anything and everything.
 );
