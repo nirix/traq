@@ -27,6 +27,7 @@ class AppController extends Controller
 	{
 		global $lang;
 		parent::__construct();
+		
 		View::$inherit_from = APPPATH.'defaults/views';
 		
 		// Load the locale file
@@ -49,8 +50,8 @@ class AppController extends Controller
 	
 	private function getUser()
 	{
-		$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr WHERE usr.sesshash='".@$_COOKIE['traqsess']."' LIMIT 1");
-		if(isset($_COOKIE['traqsess']) and $check->numRows())
+		$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr WHERE usr.sesshash='".@Param::$cookie['traqsess']."' LIMIT 1");
+		if(isset(Param::$cookie['traqsess']) and $check->numRows())
 		{
 			$this->user = $check->fetchArray();
 			$this->user['group'] = $this->db->select()->from('usergroups')->where("id='".$this->user['group_id']."'")->limit(1)->exec()->fetchArray();

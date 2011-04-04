@@ -24,13 +24,13 @@ class UserController extends AppController
 	{
 		if(Request::$method == 'post')
 		{
-			if($this->db->select(array('id'))->from('users')->where(array('username'=>rescape($_POST['username']),'password'=>sha1($_POST['password'])))->exec()->numRows())
+			if($this->db->select(array('id'))->from('users')->where(array('username'=>rescape(Param::$post['username']),'password'=>sha1(Param::$post['password'])))->exec()->numRows())
 			{
-				$sesshash = sha1($_POST['username'].time().rand(0,9999).time().date('r',time()));
+				$sesshash = sha1(Param::$post['username'].time().rand(0,9999).time().date('r',time()));
 				
-				setcookie('traqsess', $sesshash, ($_POST['remember_me'] ? time()+99999999 : 0), '/');
-				$this->db->query("UPDATE ".DBPREFIX."users SET sesshash='".$sesshash."' WHERE username='".rescape($_POST['username'])."' AND password='".sha1($_POST['password'])."' LIMIT 1");
-				header("Location: ".(isset($_POST['redir']) ? $_POST['redir'] : baseurl()));
+				setcookie('traqsess', $sesshash, (Param::$post['remember_me'] ? time()+99999999 : 0), '/');
+				$this->db->query("UPDATE ".DBPREFIX."users SET sesshash='".$sesshash."' WHERE username='".rescape(Param::$post['username'])."' AND password='".sha1(Param::$post['password'])."' LIMIT 1");
+				header("Location: ".(isset(Param::$post['redir']) ? Param::$post['redir'] : baseurl()));
 			}
 		}
 	}
