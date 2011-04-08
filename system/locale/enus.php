@@ -26,31 +26,62 @@
 
 // Global
 $lang['powered_by'] = "Powered by Traq ".TRAQVER." &copy; 2009-".date("Y")." Jack Polgar";
-$lang['Projects'] = true;
-$lang['Login'] = true;
-$lang['Register'] = true;
-$lang['UserCP'] = true;
-$lang['Logout'] = true;
-$lang['Roadmap'] = true;
-$lang['Timeline'] = true;
-$lang['Tickets'] = true;
-$lang['Project Info'] = true;
+$lang['projects'] = 'Projects';
+$lang['login'] = 'Login';
+$lang['register'] = 'Register';
+$lang['usercp'] = 'UserCP';
+$lang['logout'] = 'Logout';
+$lang['roadmap'] = 'Roadmap';
+$lang['timeline'] = 'Timeline';
+$lang['tickets'] = 'Tickets';
+$lang['project_info'] = 'Project Info';
+
+// Tickets
+$lang['ticket'] = 'Ticket';
+$lang['summary'] = 'Summary';
+$lang['status'] = 'Status';
+$lang['owner'] = 'Owner';
+$lang['type'] = 'Type';
+$lang['severity'] = 'Severity';
+$lang['component'] = 'Component';
+$lang['milestone'] = 'Milestone';
+$lang['version'] = 'Version';
+$lang['assigned_to'] = 'Assigned to';
+$lang['updated'] = 'Updated';
 
 // Roadmap
-$lang['Milestone x'] = 'Milestone {1}';
-$lang['x open'] = '{1} open';
-$lang['x closed'] = '{1} closed';
-$lang['Ticket: #x'] = 'Ticket #{1}';
-$lang['x #x'] = '{1} #{2}';
-$lang['Related Tickets'] = true;
+$lang['milestone_x'] = 'Milestone {1}';
+$lang['x_open'] = '{1} open';
+$lang['x_closed'] = '{1} closed';
+$lang['ticket_x'] = 'Ticket #{1}';
+$lang['related_tickets'] = 'Related Tickets';
 
 // Users
-$lang['Username'] = true;
-$lang['Password'] = true;
-$lang['Remember'] = true;
+$lang['username'] = 'Username';
+$lang['password'] = 'Password';
+$lang['remember'] = 'Remember';
 
 // Admin
 
 
+// Time since/from
+$lang['x_seconds'] = '{1} seconds';
+$lang['x_minutes'] = '{1} minutes';
+$lang['x_hours'] = '{1} hours';
+$lang['x_days'] = '{1} days';
+$lang['x_weeks'] = '{1} weeks';
+$lang['x_months'] = '{1} months';
+$lang['x_years'] = '{1} years';
+$lang['x_second'] = '{1} second';
+$lang['x_minute'] = '{1} minute';
+$lang['x_hour'] = '{1} hour';
+$lang['x_day'] = '{1} day';
+$lang['x_week'] = '{1} week';
+$lang['x_month'] = '{1} month';
+$lang['x_year'] = '{1} year';
+$lang['x_and_x'] = '{1} and {2}';
+$lang['x_ago'] = '{1} ago';
+$lang['opened_x_ago'] = 'Opened {1} ago';
+
 // Errors
-$lang['errors:404'] = 'The page you requested could not be found.';
+$lang['errors.404'] = 'The page you requested could not be found.';

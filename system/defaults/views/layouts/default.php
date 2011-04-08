@@ -18,21 +18,21 @@
 					<nav>
 						<ul id="meta_nav">
 							<?php if(LOGGEDIN) { ?>
-							<li><?php echo HTML::link(baseurl('usercp'), l('UserCP'))?></li>
-							<li><?php echo HTML::link(baseurl('logout'), l('Logout'))?></li>
+							<li><?php echo HTML::link(baseurl('usercp'), l('usercp'))?></li>
+							<li><?php echo HTML::link(baseurl('logout'), l('logout'))?></li>
 							<?php } else { ?>
-							<li><?php echo HTML::link(baseurl('login'), l('Login'))?></li>
-							<li><?php echo HTML::link(baseurl('register'), l('Register'))?></li>
+							<li><?php echo HTML::link(baseurl('login'), l('login'))?></li>
+							<li><?php echo HTML::link(baseurl('register'), l('register'))?></li>
 							<?php } ?>
 						</ul>
 						<ul>
 							<?php if(isset($traq->project['id'])) { ?>
-							<li><?php echo HTML::link(baseurl($traq->project['slug']), l('Project Info'))?></li>
-							<li><?php echo HTML::link(baseurl($traq->project['slug'],'timeline'), l('Timeline'))?></li>
-							<li><?php echo HTML::link(baseurl($traq->project['slug'],'roadmap'), l('Roadmap'))?></li>
-							<li><?php echo HTML::link(baseurl($traq->project['slug'],'tickets'), l('Tickets'))?></li>
+							<li><?php echo HTML::link(baseurl($traq->project['slug']), l('project_info'))?></li>
+							<li><?php echo HTML::link(baseurl($traq->project['slug'],'timeline'), l('timeline'))?></li>
+							<li><?php echo HTML::link(baseurl($traq->project['slug'],'roadmap'), l('roadmap'))?></li>
+							<li><?php echo HTML::link(baseurl($traq->project['slug'],'tickets'), l('tickets'))?></li>
 							<?php } else { ?>
-							<li><?php echo HTML::link(baseurl(), l('Projects'))?></li>
+							<li><?php echo HTML::link(baseurl(), l('projects'))?></li>
 							<?php } ?>
 						</ul>
 					</nav>

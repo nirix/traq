@@ -8,6 +8,6 @@
 </table>
 <div class="percent"><?php echo $milestone['progress']['closed']?>%</div>
 <div class="progress-info">
-	<?php echo HTML::link(baseurl($traq->project['slug'],'tickets').'?milestone='.$milestone['slug'].'&status=open', l('x open', $milestone['ticket_count']['open']))?>,
-	<?php echo HTML::link(baseurl($traq->project['slug'],'tickets').'?milestone='.$milestone['slug'].'&status=closed', l('x closed', $milestone['ticket_count']['closed']))?>
+	<?php echo HTML::link(baseurl($traq->project['slug'],'tickets').'?milestone='.$milestone['slug'].'&status=open', l('x_open', $milestone['ticket_count']['open']))?>,
+	<?php echo HTML::link(baseurl($traq->project['slug'],'tickets').'?milestone='.$milestone['slug'].'&status=closed', l('x_closed', $milestone['ticket_count']['closed']))?>
 </div>

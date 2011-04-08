@@ -1,1 +1,1 @@
-<?php _l('errors:404')?>
+<?php _l('errors::404')?>
