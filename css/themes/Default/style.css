@@ -114,8 +114,11 @@ table.list, div.list {
 	border: 1px solid #c0c0c0;
 	width: 100%;
 }
-table.list td, div.list div {
-	padding: 2px;
+table.list td {
+	padding: 4px;
+}
+div.list div {
+	padding: 2px
 }
 
 .projects_list .info,
@@ -125,6 +128,13 @@ table.list td, div.list div {
 
 .related-tickets .list {
 	margin-bottom: 5px;
+}
+
+.list.tickets th {
+	padding: 4px;
+	text-align: left;
+	font-weight: bold;
+	background: #eee;
 }
 
 /* ---------- PROGRESS BAR ---------- */
@@ -183,4 +193,11 @@ li { margin-left: 20px; }
 
 .project-info {
 	padding: 5px 0;
+}
+
+.even {
+	background: #f6f7f8;
+}
+.odd {
+	background: #fff;
 }

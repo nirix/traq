@@ -84,4 +84,5 @@ $lang['x_ago'] = '{1} ago';
 $lang['opened_x_ago'] = 'Opened {1} ago';
 
 // Errors
-$lang['errors.404'] = 'The page you requested could not be found.';
+$lang['errors::not_found'] = 'Not Found';
+$lang['errors::404'] = 'The page you requested could not be found.';
