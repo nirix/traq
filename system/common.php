@@ -422,7 +422,7 @@ function ticket_severity($severity_id)
 function ticket_columns()
 {
 	$columns = array(
-		'ticket',
+		'ticket_id',
 		'summary',
 		'status',
 		'owner',

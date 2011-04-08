@@ -45,11 +45,13 @@ class TicketsModel extends Model
 	
 	private function get_data($row)
 	{
-		$row['milestone'] = array();
-		$row['version'] = array();
-		$row['author'] = array();
-		$row['assigned_to'] = array();
-		
+		$row['milestone'] = $this->db->select('id','milestone','slug')->from('milestones')->where(array('id'=>$row['milestone_id']))->exec()->fetchArray();
+		$row['version'] = $this->db->select('id','milestone','slug')->from('milestones')->where(array('id'=>$row['version_id']))->exec()->fetchArray();
+		$row['owner'] = $this->db->select('id','username')->from('users')->where(array('id'=>$row['user_id']))->exec()->fetchArray();
+		$row['assigned_to'] = $this->db->select('id','username')->from('users')->where(array('id'=>$row['assigned_to']))->exec()->fetchArray();
+		$row['status'] = $this->db->select('id','name')->from('ticket_status')->where(array('id'=>$row['status']))->exec()->fetchArray();
+		$row['type'] = $this->db->select('id','name')->from('ticket_types')->where(array('id'=>$row['type']))->exec()->fetchArray();
+		$row['severity'] = $this->db->select('id','name')->from('severities')->where(array('id'=>$row['severity']))->exec()->fetchArray();
 		return $row;
 	}
 	

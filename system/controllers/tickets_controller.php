@@ -22,12 +22,15 @@ class TicketsController extends AppController
 {
 	public function index()
 	{
+		Load::helper('tickets');
 		$this->tickets = Load::model('tickets');
 		
 		$filters = array(
 			'project_id' => $this->project['id'],
 			'status' => isset(Param::$request['status']) ? Param::$request['status'] : null,
 		);
+		
+		View::set('columns', ticket_columns());
 		
 		View::set('tickets', $this->tickets->filter($filters));
 	}
