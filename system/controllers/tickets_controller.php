@@ -25,10 +25,14 @@ class TicketsController extends AppController
 		Load::helper('tickets');
 		$this->tickets = Load::model('tickets');
 		
+		// Build filter array
 		$filters = array(
 			'project_id' => $this->project['id'],
-			'status' => isset(Param::$request['status']) ? Param::$request['status'] : null,
 		);
+		foreach(ticket_filters() as $filter)
+		{
+			$filters[$filter] = isset(Param::$request[$filter]) ? Param::$request[$filter] : null;
+		}
 		
 		View::set('columns', ticket_columns());
 		

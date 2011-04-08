@@ -63,12 +63,15 @@ class TicketsModel extends Model
 		
 		foreach($filters as $filter => $opt)
 		{
+			// Make sure the filter is set
 			if($opt === null) continue;
 			
+			// Project ID
 			if($filter == 'project_id')
 			{
-				$where[] = "project_id='".$opt."'";
+				$where[] = "project_id='{$opt}'";
 			}
+			// Status
 			elseif($filter == 'status')
 			{
 				if($opt == 'open' or $opt == 'closed')
@@ -80,7 +83,20 @@ class TicketsModel extends Model
 					$opt = implode(',', $opts);
 				}
 				
-				$where[] = "`status` IN (".$opt.")";
+				$where[] = "`status` IN ({$opt})";
+			}
+			// Milestone
+			elseif($filter == 'milestone')
+			{
+				$opts = explode(',', $opt);
+				$milestones = array();
+				foreach($opts as $opt)
+				{
+					$milestone = $this->db->select('id')->from('milestones')->where(array('slug'=>$opt,'project_id'=>$filters['project_id']))->exec()->fetchArray();
+					$milestones[] = $milestone['id'];
+				}
+				
+				$where[] = "`milestone_id` IN (".implode(',', $milestones).")";
 			}
 		}
 		
