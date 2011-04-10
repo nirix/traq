@@ -39,7 +39,7 @@ class AppController extends Controller
 		// Check if we're on a project page
 		if(is_project(Request::seg(0)))
 		{
-			$this->project = $this->db->select()->from('projects')->where(array('slug'=>$this->db->res(Request::seg(0))))->exec()->fetchArray();
+			$this->project = $this->db->select()->from('projects')->where(array('slug'=>$this->db->res(Request::seg(0))))->exec()->fetchAssoc();
 		}
 		
 		View::set('traq', $this);
@@ -51,16 +51,16 @@ class AppController extends Controller
 	private function getUser()
 	{
 		$check = $this->db->query("SELECT * FROM ".DBPREFIX."users as usr WHERE usr.sesshash='".@Param::$cookie['traqsess']."' LIMIT 1");
-		if(isset(Param::$cookie['traqsess']) and $check->numRows())
+		if(isset(Param::$cookie['traqsess']) and $check->num_rows())
 		{
-			$this->user = $check->fetchArray();
-			$this->user['group'] = $this->db->select()->from('usergroups')->where("id='".$this->user['group_id']."'")->limit(1)->exec()->fetchArray();
+			$this->user = $check->fetchAssoc();
+			$this->user['group'] = $this->db->select()->from('usergroups')->where("id='".$this->user['group_id']."'")->limit(1)->exec()->fetchAssoc();
 			$loggedin = true;
 		}
 		else
 		{
 			$this->user = array('id'=>0, 'username'=>l('Guest'), 'group_id'=>3);
-			$this->user['group'] = $this->db->select()->from('usergroups')->where(array('id'=>3))->exec()->fetchArray();
+			$this->user['group'] = $this->db->select()->from('usergroups')->where(array('id'=>3))->exec()->fetchAssoc();
 			$loggedin = false;
 		}
 		define("LOGGEDIN", $loggedin);

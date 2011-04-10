@@ -24,7 +24,7 @@ class UserController extends AppController
 	{
 		if(Request::$method == 'post')
 		{
-			if($this->db->select(array('id'))->from('users')->where(array('username'=>rescape(Param::$post['username']),'password'=>sha1(Param::$post['password'])))->exec()->numRows())
+			if($this->db->select(array('id'))->from('users')->where(array('username'=>Param::$post['username'],'password'=>sha1(Param::$post['password'])))->exec()->numRows())
 			{
 				$sesshash = sha1(Param::$post['username'].time().rand(0,9999).time().date('r',time()));
 				

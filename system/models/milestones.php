@@ -24,7 +24,7 @@ class MilestonesModel extends Model
 	{
 		$row = parent::find($args);
 		
-		$row = array_merge($row, $this->get_data($row));
+		$row = $this->get_data($row);
 		
 		return $row;
 	}
@@ -36,7 +36,7 @@ class MilestonesModel extends Model
 		$milestones = array();
 		foreach($rows as $row)
 		{
-			$row = array_merge($row, $this->get_data($row));
+			$row = $this->get_data($row);
 			$row['tickets'] = $this->db->select('ticket_id','summary','closed','type')->from('tickets')->where("milestone_id='{$row['id']}'")->orderby('ticket_id','ASC')->exec()->fetchAll();
 			$milestones[] = $row;
 		}
@@ -47,8 +47,8 @@ class MilestonesModel extends Model
 	private function get_data($row)
 	{
 		$row['ticket_count'] = array(
-			'open' => $this->db->select('id')->from('tickets')->where("milestone_id='{$row['id']}'","closed='0'")->exec()->numRows(),
-			'closed' => $this->db->select('id')->from('tickets')->where("milestone_id='{$row['id']}'","closed='1'")->exec()->numRows()
+			'open' => $this->db->select('id')->from('tickets')->where(array('milestone_id'=>$row['id'],'closed'=>0))->exec()->numRows(),
+			'closed' => $this->db->select('id')->from('tickets')->where(array('milestone_id'=>$row['id'],'closed'=>1))->exec()->numRows()
 		);
 		$row['ticket_count']['total'] = $row['ticket_count']['open'] + $row['ticket_count']['closed'];
 		$row['progress'] = array(

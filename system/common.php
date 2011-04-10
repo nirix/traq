@@ -33,7 +33,7 @@ function settings($setting)
 	
 	// Looks like the setting isn't in the cache,
 	// lets fetch it now...
-	$result = Meridian::$db->select()->from('settings')->where(array('setting'=>$setting))->exec()->fetchArray();
+	$result = Meridian::$db->select()->from('settings')->where(array('setting'=>$setting))->exec()->fetchAssoc();
 	$CACHE['settings'][$setting] = $result['value'];
 	
 	return $CACHE['settings'][$setting];
@@ -386,7 +386,7 @@ function ticket_status($status_id)
  */
 function ticket_type($type_id)
 {
-	$type = Meridian::$db->select()->from('ticket_types')->where(array('id'=>rescape($type_id)))->exec()->fetchArray();
+	$type = Meridian::$db->select()->from('ticket_types')->where(array('id'=>$type_id))->exec()->fetchAssoc();
 	return $type['name'];
 }
 
@@ -434,7 +434,7 @@ function ticket_columns()
 		'assigned_to',
 		'updated'
 	);
-	($hook = FishHook::hook('function_ticket_columns')) ? eval($hook) : false;
+	//($hook = FishHook::hook('function_ticket_columns')) ? eval($hook) : false;
 	return $columns;
 }
 
@@ -457,7 +457,7 @@ function ticket_filters()
 		'summary',
 		'description'
 	);
-	($hook = FishHook::hook('function_ticket_filters')) ? eval($hook) : false;
+	//($hook = FishHook::hook('function_ticket_filters')) ? eval($hook) : false;
 	return $filters;
 }
 

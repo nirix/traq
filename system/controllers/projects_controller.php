@@ -44,6 +44,6 @@ class ProjectsController extends AppController
 	public function milestone()
 	{
 		$milestones = Load::model('milestones');
-		View::set('milestone', $milestones->find(array('where'=>array('project_id'=>$this->project['id'],'slug'=>rescape(Request::seg(2))))));
+		View::set('milestone', $milestones->find(array('where'=>array('project_id'=>$this->project['id'],'slug'=>Request::seg(2)))));
 	}
 }

@@ -45,13 +45,13 @@ class TicketsModel extends Model
 	
 	private function get_data($row)
 	{
-		$row['milestone'] = $this->db->select('id','milestone','slug')->from('milestones')->where(array('id'=>$row['milestone_id']))->exec()->fetchArray();
-		$row['version'] = $this->db->select('id','milestone','slug')->from('milestones')->where(array('id'=>$row['version_id']))->exec()->fetchArray();
-		$row['owner'] = $this->db->select('id','username')->from('users')->where(array('id'=>$row['user_id']))->exec()->fetchArray();
-		$row['assigned_to'] = $this->db->select('id','username')->from('users')->where(array('id'=>$row['assigned_to']))->exec()->fetchArray();
-		$row['status'] = $this->db->select('id','name')->from('ticket_status')->where(array('id'=>$row['status']))->exec()->fetchArray();
-		$row['type'] = $this->db->select('id','name')->from('ticket_types')->where(array('id'=>$row['type']))->exec()->fetchArray();
-		$row['severity'] = $this->db->select('id','name')->from('severities')->where(array('id'=>$row['severity']))->exec()->fetchArray();
+		$row['milestone'] = $this->db->select('id','milestone','slug')->from('milestones')->where(array('id'=>$row['milestone_id']))->exec()->fetchAssoc();
+		$row['version'] = $this->db->select('id','milestone','slug')->from('milestones')->where(array('id'=>$row['version_id']))->exec()->fetchAssoc();
+		$row['owner'] = $this->db->select('id','username')->from('users')->where(array('id'=>$row['user_id']))->exec()->fetchAssoc();
+		$row['assigned_to'] = $this->db->select('id','username')->from('users')->where(array('id'=>$row['assigned_to']))->exec()->fetchAssoc();
+		$row['status'] = $this->db->select('id','name')->from('ticket_status')->where(array('id'=>$row['status']))->exec()->fetchAssoc();
+		$row['type'] = $this->db->select('id','name')->from('ticket_types')->where(array('id'=>$row['type']))->exec()->fetchAssoc();
+		$row['severity'] = $this->db->select('id','name')->from('severities')->where(array('id'=>$row['severity']))->exec()->fetchAssoc();
 		return $row;
 	}
 	
@@ -92,7 +92,7 @@ class TicketsModel extends Model
 				$milestones = array();
 				foreach($opts as $opt)
 				{
-					$milestone = $this->db->select('id')->from('milestones')->where(array('slug'=>$opt,'project_id'=>$filters['project_id']))->exec()->fetchArray();
+					$milestone = $this->db->select('id')->from('milestones')->where(array('slug'=>$opt,'project_id'=>$filters['project_id']))->exec()->fetchAssoc();
 					$milestones[] = $milestone['id'];
 				}
 				
