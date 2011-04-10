@@ -67,10 +67,10 @@ class Tickets
 			break;
 			case 'owner':
 			case 'assigned_to':
-				$col .= (isset($ticket[$name]['id']) ? HTML::link(baseurl('users', $ticket['assigned_to']['id']), $ticket['assigned_to']['username']) : '');
+				$col .= (isset($ticket[$name]['id']) ? HTML::link(baseurl('users', $ticket[$name]['id']), $ticket[$name]['username']) : '');
 			break;
 			case 'updated':
-				$col .= l('x_ago', timesince($ticket['updated']));
+				$col .= l('x_ago', timesince($ticket['updated'] > 0 ? $ticket['updated'] : $ticket['created']));
 			break;
 			default:
 				$col .= @$ticket[$name];
