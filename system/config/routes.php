@@ -18,27 +18,19 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Traq Routes
- * @package Traq
- * @todo Allow plugins to add their own without the last route intercepting them.
- */
-Router::$routes = array(
-	'/' => 'Projects::index',
+Router::connect('/', 'Projects::index');
 
-	// Users
-	'login' => 'User::login',
-	'register' => 'User::register',
+// Users
+Router::connect('/login', 'User::login');
+Router::connect('/register', 'User::register');
 
-	// Admin
-	'admincp/(:any)/(:any)' => "AdminCP::$1::$2",
-	'admincp/(:any)' => "AdminCP::$1::index",
+// Admin
+Router::connect('admincp/:controller/:action', 'AdminCP::$1::$2');
 
-	// Projects
-	':any/roadmap' => 'Projects::roadmap',
-	':any/timeline' => 'Projects::timeline',
-	':any/milestones/:any' => 'Projects::milestone',
-	':any/tickets' => 'Tickets::index',
-	':any/tickets/:num' => 'Tickets::view',
-	':any' => 'Projects::view', // MUST be the last route as it captches anything and everything.
-);
+// Projects
+Router::connect('/:any/roadmap', 'Projects::roadmap');
+Router::connect('/:any/timeline', 'Projects::timeline');
+Router::connect('/:any/milestone/:any', 'Projects::milestone');
+Router::connect('/:any/tickets', 'Tickets::index');
+Router::connect('/:any/tickets/:num', 'Tickets::view');
+Router::connect('/:any', 'Projects::view');

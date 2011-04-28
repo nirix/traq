@@ -27,7 +27,12 @@ class ProjectsController extends AppController
 	
 	public function view()
 	{
-		if(!isset($this->project['id'])) $this->_view = 'error/notfound';
+		if (Request::seg(1) != '') {
+			$this->_view = 'error/notfound';
+		}
+		if (!isset($this->project['id'])) {
+			$this->_view = 'error/notfound';
+		}
 	}
 	
 	public function roadmap()
