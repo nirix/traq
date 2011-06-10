@@ -52,7 +52,7 @@ if($uri->seg[2] == 'timeline')
 		}
 	}
 	
-	$timeline = new RSSFeed(l('x_timeline',$project['name']),'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($projcet['slug'],'feeds','timeline'),l('x_timeline',$project['name']),$items);
+	$timeline = new RSSFeed(l('x_timeline',$project['name']),'http://'.$_SERVER['HTTP_HOST'].$uri->anchor($project['slug'],'feeds','timeline'),l('x_timeline',$project['name']),$items);
 	$timeline->output();
 }
 // Tickets
