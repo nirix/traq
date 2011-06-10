@@ -1,3 +1,0 @@
-[submodule "system/core"]
-	path = system/core
-	url = git://github.com/meridianphp/core.git
