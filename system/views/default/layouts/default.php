@@ -16,14 +16,14 @@
 			</header>
 			<nav id="nav">
 				<ul>
-					
+					<li><a href="#">test</a></li>
 				</ul>
 			</nav>
 			<section id="page">
 <?php echo $output; ?>
 			</section>
 			<footer id="footer">
-				
+				asd
 			</footer>
 		</div>
 	</body>
