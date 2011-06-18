@@ -18,19 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require APPPATH . '/common.php';
-
-class AppController extends Controller
+function settings($setting)
 {
-	public function __construct()
-	{
-		parent::__construct();
-		
-		// Load helpers
-		Load::helper('html', 'js');
-		
-		View::$theme = 'default';
-		
-		View::set('title', settings('title'));
+	static $CACHE;
+	
+	if (isset($CACHE[$setting])) {
+		return $CACHE[$setting];
 	}
+	
+	$table = new Setting;
+	$data = $table->find($setting)->toArray(); //$table->select('value')->where('setting = ?', $setting);
+	
+	$CACHE[$setting] = $data[0]['value'];
+	return $CACHE[$setting];
 }

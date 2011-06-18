@@ -19,7 +19,12 @@ class HTML
 	 */
 	public static function css_inc($path, $media = 'screen')
 	{
-		return '<link href="'.$path.'" media="'.$media.'" rel="stylesheet" type="text/css" />'.PHP_EOL;
+		return '<link href="' . $path . '" media="' . $media . '" rel="stylesheet" type="text/css" />' . PHP_EOL;
+	}
+	
+	public static function cssless_inc($path)
+	{
+		return '<link href="' . $path . '" rel="stylesheet/less" type="text/css">' . PHP_EOL;
 	}
 	
 	/**
@@ -28,17 +33,6 @@ class HTML
 	 */
 	public static function js_inc($path)
 	{
-		return '<script src="'.$path.'" type="text/javascript"></script>'.PHP_EOL;
-	}
-	
-	/**
-	 * Returns the code for a link.
-	 * @param string $url The URL.
-	 * @param string $label The label.
-	 * @param array $options Options for the URL code (class, title, etc).
-	 */
-	public static function link($url, $label, array $args=array())
-	{
-		return '<a href="'.$url.'"'.(isset($args['class']) ? ' class="'.$args['class'].'"' :'').'>'.$label.'</a>';
+		return '<script src="' . $path.'" type="text/javascript"></script>' . PHP_EOL;
 	}
 }

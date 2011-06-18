@@ -48,8 +48,17 @@ class Load
 		return static::$libs[$class];
 	}
 	
-	public static function helper($class)
+	public static function helper()
 	{
+		$class = func_num_args() > 1 ? func_get_args() : func_get_arg(0);
+		
+		if (is_array($class)) {
+			foreach ($class as $helper) {
+				static::helper($helper);
+			}
+			return;
+		}
+		
 		if (in_array($class, static::$helpers)) {
 			return true;
 		}
