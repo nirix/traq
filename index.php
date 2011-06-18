@@ -18,10 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define("SYSPATH", dirname(__FILE__).'/system/core/');
-define("APPPATH", dirname(__FILE__).'/system/');
+require dirname(__FILE__) . '/system/bootstrap.php';
 
-require_once SYSPATH.'base.php';
-
-Meridian::init();
-Meridian::run();
+Avalon::init();
+Avalon::run();

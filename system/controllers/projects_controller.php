@@ -20,35 +20,9 @@
 
 class ProjectsController extends AppController
 {
-	public function index()
+	public function action_index()
 	{
-		View::set('projects', $this->db->select()->from('projects')->exec()->fetchAll());
-	}
-	
-	public function view()
-	{
-		if (Request::seg(1) != '') {
-			$this->_view = 'error/notfound';
-		}
-		if (!isset($this->project['id'])) {
-			$this->_view = 'error/notfound';
-		}
-	}
-	
-	public function roadmap()
-	{
-		$milestones = Load::model('milestones');
-		View::set('milestones', $milestones->fetchAll(array('where'=>array('project_id'=>$this->project['id']),'orderby'=>array('displayorder','ASC'))));
-	}
-	
-	public function timeline()
-	{
-		
-	}
-	
-	public function milestone()
-	{
-		$milestones = Load::model('milestones');
-		View::set('milestone', $milestones->find(array('where'=>array('project_id'=>$this->project['id'],'slug'=>Request::seg(2)))));
+		$projects = new Project;
+		View::set('projects', $projects->fetchAll()->toArray());
 	}
 }

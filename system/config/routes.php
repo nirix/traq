@@ -18,19 +18,19 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Router::connect('/', 'Projects::index');
+Router::add('(<root>)', 'Projects::index');
 
 // Users
-Router::connect('/login', 'User::login');
-Router::connect('/register', 'User::register');
+Router::add('login', 'Users::login');
+Router::add('register', 'Users::register');
 
 // Admin
-Router::connect('admincp/:controller/:action', 'AdminCP::$1::$2');
+Router::add('admincp/:controller/:action', 'AdminCP::$1::$2');
 
 // Projects
-Router::connect('/:any/roadmap', 'Projects::roadmap');
-Router::connect('/:any/timeline', 'Projects::timeline');
-Router::connect('/:any/milestone/:any', 'Projects::milestone');
-Router::connect('/:any/tickets', 'Tickets::index');
-Router::connect('/:any/tickets/:num', 'Tickets::view');
-Router::connect('/:any', 'Projects::view');
+Router::add('(<project_slug>)/roadmap', 'Projects::roadmap');
+Router::add('(<project_slug>)/timeline', 'Projects::timeline');
+Router::add('(<project_slug>)/milestone/(<milestone_slug>)', 'Projects::milestone');
+Router::add('(<project_slug>)/tickets', 'Tickets::index');
+Router::add('(<project_slug>)/tickets/:num', 'Tickets::view');
+Router::add('(<project_slug>)/', 'Projects::view');
