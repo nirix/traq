@@ -18,8 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Project extends Zend_Db_Table_Abstract
+class Project extends Model
 {
-	protected $_name = 'projects';
-	protected $_primary = 'id';
+	protected static $_name = 'projects';
+	protected static $_primary = 'id';
 }

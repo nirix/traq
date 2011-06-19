@@ -22,11 +22,6 @@ define("SYSPATH", dirname(__FILE__) . '/core');
 define("APPPATH", dirname(__FILE__));
 define("DOCROOT", dirname(dirname(__FILE__)));
 
-set_include_path(get_include_path() . PATH_SEPARATOR . DOCROOT . '/libraries');
-require_once('Zend/Loader/Autoloader.php');
-$autoloader = Zend_Loader_Autoloader::getInstance();
-
 require_once SYSPATH . '/base.php';
-require_once APPPATH . '/database.php';
 
 Database::init();

@@ -18,8 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Setting extends Zend_Db_Table_Abstract
+class Setting extends Model
 {
-	protected $_name = 'settings';
-	protected $_primary = 'setting';
+	protected static $_name = 'settings';
+	protected static $_primary = 'setting';
 }

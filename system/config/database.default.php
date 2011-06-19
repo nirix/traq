@@ -19,6 +19,7 @@
  */
 
 $db = array(
+	'driver' => 'MySQLi',
 	'host' => 'localhost',
 	'user' => 'root',
 	'pass' => 'root',
