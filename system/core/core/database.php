@@ -18,7 +18,7 @@ class Database
 		
 		$class = 'Avalon_' . $db['driver'];
 		static::$link = new $class($db);
-		Model::$db = static::$link;
+		Model::$db =& static::$link;
 		
 		foreach(scandir(APPPATH . '/models') as $file) {
 			if(!is_dir($file)) {

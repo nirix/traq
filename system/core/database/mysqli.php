@@ -13,12 +13,13 @@ class Avalon_MySQLi
 {
 	private static $_instance;
 	public $prefix;
-
+	public $last_query;
+	
 	public function __construct(array $config)
 	{
 		self::$_instance = $this;
 		$this->prefix = @$config['prefix'];
-		$this->connect($config['host'], $config['user'], $config['pass'])->selectDb($config['name']);
+		$this->connect($config['host'], $config['user'], $config['pass'])->select_db($config['name']);
 		return $this;
 	}
 
@@ -28,7 +29,7 @@ class Avalon_MySQLi
 		return $this;
 	}
 
-	public function selectDb($dbname)
+	public function select_db($dbname)
 	{
 		mysqli_select_db($this->link, $dbname) or $this->halt();
 		return $this;
@@ -51,12 +52,12 @@ class Avalon_MySQLi
 
 	public function query($query)
 	{
-		$this->last_query = $query;
-		$result = mysqli_query($this->link, (string) $query) or $this->halt();
+		$this->last_query = (string) $query;
+		$result = mysqli_query($this->link, (string) $query);
 		return new MySQLi_Statement($result);
 	}
 
-	public function realEscapeString($string)
+	public function real_escape_string($string)
 	{
 		return mysqli_real_escape_string($this->link, $string);
 	}
@@ -65,12 +66,12 @@ class Avalon_MySQLi
 		return $this->realEscapeString($string);
 	}
 	
-	public function insertId()
+	public function insert_id()
 	{
 		return mysqli_insert_id($this->link);
 	}
 	
-	public static function getInstance()
+	public static function get_instance()
 	{
 		return self::$_instance;
 	}
@@ -79,7 +80,7 @@ class Avalon_MySQLi
 	{
 		return $this->link;
 	}
-
+	
 	public function halt()
 	{
 		Avalon::error("Database Error", mysqli_errno($this->link) . ": " . mysqli_error($this->link) . "<br />" . $this->last_query);

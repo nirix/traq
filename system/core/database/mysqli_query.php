@@ -21,7 +21,7 @@ class MySQLi_Query
 	{
 		$this->type = $type;
 		$this->cols = $cols;
-		$this->prefix = Avalon_MySQLi::getInstance()->prefix;
+		$this->prefix = Avalon_MySQLi::get_instance()->prefix;
 		return $this;
 	}
 
@@ -63,7 +63,7 @@ class MySQLi_Query
 	 */
 	public function where($sql, $val = '')
 	{
-		$this->where[] = "`{$this->prefix}{$this->table}`." . str_replace('?', Avalon_MySQLi::getInstance()->realEscapeString($val), $sql);
+		$this->where[] = "`{$this->prefix}{$this->table}`." . str_replace('?', Avalon_MySQLi::get_instance()->real_escape_string($val), $sql);
 		return $this;
 	}
 	
@@ -75,7 +75,7 @@ class MySQLi_Query
 	
 	public function exec()
 	{
-		return Avalon_MySQLi::getInstance()->query($this->_assemble());
+		return Avalon_MySQLi::get_instance()->query($this->_assemble());
 	}
 	
 	private function _assemble()
@@ -131,7 +131,7 @@ class MySQLi_Query
 			{
 				// Process the value
 				if (!in_array($value, array("NOW"))) {
-					$value = Avalon_MySQLi::getInstance()->realEscapeString($value);
+					$value = Avalon_MySQLi::get_instance()->real_escape_string($value);
 					$value = "'{$value}'";
 				}
 				
