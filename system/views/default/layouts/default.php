@@ -23,7 +23,7 @@
 <?php echo $output; ?>
 			</section>
 			<footer id="footer">
-				asd
+				<?php echo l('copyright'); ?>
 			</footer>
 		</div>
 	</body>

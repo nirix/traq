@@ -1,6 +1,6 @@
 <div id="page-content">
-	<h2 id="page-title">Woops!</h2>
 	<div class="content">
-		The requested page '<?php echo Request::url(); ?>' couldn't be found.
+		<h2 id="page-title"><?php echo l('error:404_title'); ?></h2>
+		<?php echo l('error:404_message', $request); ?>
 	</div>
 </div>

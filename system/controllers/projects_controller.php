@@ -26,4 +26,15 @@ class ProjectsController extends AppController
 		
 		View::set('projects', $projects);
 	}
+	
+	public function action_view($slug)
+	{
+		$project = Project::find('slug', $slug);
+		View::set('project', $project);
+		
+		if (!isset($project->name)) {
+			View::set('request', Request::url());
+			$this->_render['view'] = 'error/404';
+		}
+	}
 }

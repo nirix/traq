@@ -2,8 +2,8 @@
 
 class ErrorController extends AppController
 {
-	public function action_404()
+	public function action_404($request)
 	{
-		// set 404 header...
+		View::set('request', $request);
 	}
 }
