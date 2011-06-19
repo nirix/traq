@@ -18,20 +18,4 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require APPPATH . '/common.php';
-require APPPATH . '/version.php';
-
-class AppController extends Controller
-{
-	public function __construct()
-	{
-		parent::__construct();
-		
-		// Load helpers
-		Load::helper('html', 'js');
-		
-		View::$theme = 'default';
-		
-		View::set('title', settings('title'));
-	}
-}
+define("TRAQVER", "3.0-dev");

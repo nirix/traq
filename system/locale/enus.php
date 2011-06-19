@@ -18,40 +18,23 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-function settings($setting)
+function enus_info()
 {
-	static $CACHE;
-	
-	if (isset($CACHE[$setting])) {
-		return $CACHE[$setting];
-	}
-	
-	$data = Setting::find($setting);
-	
-	$CACHE[$setting] = $data->value;
-	return $CACHE[$setting];
+	return array(
+		'name' => 'English',
+		'author' => 'Jack Polgar',
+		'version' => '3.0'
+	);
 }
 
-function l()
+function enus_locale()
 {
-	static $lang = null;
-	
-	if ($lang === null) {
-		$locale = settings('locale');
-		$locale_func = $locale . '_locale';
-		require APPPATH . '/locale/' . $locale . '.php';
-		$lang = $locale_func();
-	}
-	
-	$string = $lang[func_get_arg(0)];
-	$vars = array_slice(func_get_args(), 1);
-	
-	// Loop through the vars and replace the the {x} stuff
-	$v = 0;
-	foreach ($vars as $var) {
-		++$v;
-		$string = str_replace('{'.$v.'}', $var, $string);
-	}
-	
-	return $string;
+	return array(
+		'copyright' => "Powered by Traq " . TRAQVER . " &copy; 2009-" . date("Y"),
+		'projects' => "Projects",
+		
+		// Errors
+		'error:404_title' => "Woops",
+		'error:404_message' => "The requested page '{1}' couldn't be found."
+	);
 }
