@@ -46,45 +46,38 @@ class Model
 		// Has many
 		if (static::$_has_many !== null) {
 			foreach (static::$_has_many as $has_many) {
+				// Check if we're doing it the verbose way.
 				if (is_array($has_many)) {
+					// Different table?
+					if (!isset($has_many['table'])) {
+						$has_many['table'] = $has_many[0];
+					}
+					// Different foreign key?
 					if (!isset($has_many['foreign_key'])) {
 						$has_many['foreign_key'] = substr(static::$_name, 0, -1) . '_id';
 					}
+					// Different column?
 					if (!isset($has_many['column'])) {
-						$has_many['column'] = 'id';
+						$has_many['column'] = static::$_primary;
 					}
-					
-					$model = $has_many['model'];
-					$data[$has_many[0]] = $model::fetchAll(array('where' => array(array($has_many['foreign_key'] . " = '?'", $data[$has_many['column']])), 'depth' => $depth, 'curdepth' => $curdepth + 1));
-				} else {
-					$model = ucfirst(substr($has_many, 0, -1));
-					$data[$has_many] = $model::fetchAll(array('where' => array(array(substr(static::$_name, 0, -1) . "_id = '?'", $data[static::$_primary])), 'depth' => $depth, 'curdepth' => $curdepth + 1));
+					// Get the data
+					$data[$has_many[0]] = static::$db->select()->from($has_many['table'])->where($has_many['foreign_key'] . " = '?'", $data[$has_many['column']])->exec()->fetchAll();
+				}
+				// Looks like we're using the simple way.
+				else {
+					$data[$has_many] = static::$db->select()->from($has_many)->where(substr(static::$_name, 0, -1) . "_id = '?'", $data[static::$_primary])->exec()->fetchAll();
 				}
 			}
 		}
 		
 		// Has one
 		if (static::$_has_one !== null) {
-			foreach (static::$_has_one as $has_one) {
-				if (is_array($has_one)) {
-					
-				} else {
-					$model = ucfirst($has_one);
-					$data[$has_one] = $model::find($has_one . '_id', $data[static::$_primary], $depth, $curdepth + 1);
-				}
-			}
+			
 		}
 		
 		// Belongs to
 		if (static::$_belongs_to !== null) {
-			foreach (static::$_belongs_to as $belongs_to) {
-				if (is_array($belongs_to)) {
-					
-				} else {
-					$model = ucfirst($belongs_to);
-					$data[$belongs_to] = $model::find($data[static::$_primary], null, $depth, $curdepth + 1);
-				}
-			}
+			
 		}
 		
 		return new static($data);
@@ -118,14 +111,7 @@ class Model
 		foreach ($rows as $row) {
 			// Belongs to
 			if (static::$_belongs_to !== null) {
-				foreach (static::$_belongs_to as $belongs_to) {
-					if (is_array($belongs_to)) {
-						
-					} else {
-						$model = ucfirst($belongs_to);
-						$row[$belongs_to] = $model::find($row[static::$_primary], null, $args['depth'], $args['curdepth']);
-					}
-				}
+				
 			}
 			
 			$data[] = $row;
