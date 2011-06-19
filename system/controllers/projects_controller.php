@@ -22,7 +22,8 @@ class ProjectsController extends AppController
 {
 	public function action_index()
 	{
-		$projects = new Project;
-		View::set('projects', $projects->fetchAll()->toArray());
+		$projects = Project::fetchAll();
+		
+		View::set('projects', $projects);
 	}
 }

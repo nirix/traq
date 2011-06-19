@@ -26,9 +26,8 @@ function settings($setting)
 		return $CACHE[$setting];
 	}
 	
-	$table = new Setting;
-	$data = $table->find($setting)->toArray(); //$table->select('value')->where('setting = ?', $setting);
+	$data = Setting::find($setting);
 	
-	$CACHE[$setting] = $data[0]['value'];
+	$CACHE[$setting] = $data->value;
 	return $CACHE[$setting];
 }

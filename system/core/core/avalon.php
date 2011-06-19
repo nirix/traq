@@ -79,6 +79,11 @@ class Avalon
 		}
 	}
 	
+	public static function error($title, $message)
+	{
+		die($title . "<br />" . $message);
+	}
+	
 	public static function app()
 	{
 		return static::$app;
