@@ -23,31 +23,17 @@ class Model
 		}
 	}
 	
-	public static function find($args = array())
+	public static function find($find, $value = null)
 	{
-		if (!is_array($args)) {
-			$args = array(
-				'where' => array(
-					array(static::$_primary . ' = \'?\'', $args)
-				)
-			);
-		}
-		
 		$row = static::$db->select()->from(static::$_name);
 		
-		if (isset($args['where'])) {
-			foreach ($args['where'] as $where) {
-				$row->where($where[0], $where[1]);
-			}
+		if ($value === null) {
+			$row->where("`" . static::$_primary . "` = '?'", $find);
+		} else {
+			$row->where("`{$find}` = '?'", $value);
 		}
 		
-		if (isset($args['order'])) {
-			$row->orderby($args['order'][0], $args['order'][1]);
-		}
-		
-		$row->limit(1);
-		
-		return new self($row->exec()->fetchAssoc());
+		return new static($row->limit(1)->exec()->fetchAssoc());
 	}
 	
 	public static function fetchAll($args = array())
