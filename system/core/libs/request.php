@@ -48,7 +48,7 @@ class Request
 		// Check for REQUEST_URI
 		$path = str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['REQUEST_URI']);
 		if (trim($path, '/') != '' && $path != "/index.php") {
-			return $path;
+			return str_replace(str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']), '', $path);
 		}
 		
 		// Check if there is a PATH_INFO variable

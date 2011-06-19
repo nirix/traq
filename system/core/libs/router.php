@@ -20,21 +20,32 @@ class Router
 	
 	public static function process($request)
 	{
+		$request = '/' . $request;
 		require_once APPPATH . '/config/routes.php';
 		
-		foreach (static::$routes as $route) {
-			$regex = static::compile($route['template']);
+		if ($request == '/') {
+			static::set_request(static::$routes['root']);
+			return true;
+		}
+		
+		if (isset(static::$routes[$request])) {
+			static::set_request(static::$routes[$request]);
+			return true;
+		}
+		#die(count(static::$routes).'a');
+		foreach (static::$routes as $route => $args) {
+			$route = '/' . str_replace('/', '\/', $route) . '/';
 			
-			// Check if it matches
-			if (preg_match($regex, $request, $matches)) {
-				// Get the params
+			if (preg_match($route, $request, $matches)) {
+				
+				// Params
 				$params = array();
 				foreach ($matches as $key => $value) {
 					if (!is_int($key)) {
 						$params[$key] = $value;
 					}
 				}
-				$route['params'] = array_merge($route['params'], $params);
+				$args['params'] = array_merge($args['params'], $params);
 				
 				if (strpos($route['value'], '$') !== false) {
 					foreach (explode('::', $route['value']) as $bit) {
@@ -45,7 +56,7 @@ class Router
 					}
 				}
 				
-				static::set_request($route);
+				static::set_request($args);
 				return true;
 			}
 		}
@@ -53,10 +64,10 @@ class Router
 		static::set_request(array('value' => 'Error::404', 'params' => array('request' => $request)));
 		return false;
 	}
-		
+
 	public static function add($route, $value, $params = array())
 	{
-		static::$routes[] = array(
+		static::$routes[$route] = array(
 			'template' => $route,
 			'value' => $value,
 			'params' => $params
@@ -76,24 +87,6 @@ class Router
 			static::$method = $bits[1];
 		}
 		
-		// Remove the controller and action values from the params array
-		unset($route['params']['controller'], $route['params']['action']);
-		
 		static::$args = $route['params'];
-	}
-	
-	private static function compile($uri)
-	{
-		$expression = preg_replace('#[.\\+*?[^\\]${}=!|]#', '\\\\$0', $uri);
-		
-		if (strpos($expression, '(') !== false) {
-			// Make optional parts of the URI non-capturing and optional
-			$expression = str_replace(array('(', ')'), array('(?:', ')?'), $expression);
-		}
-
-		// Insert default regex for keys
-		$expression = str_replace(array('<', '>'), array('(?P<', '>[^/.,;?\n]++)'), $expression);
-		
-		return '#^'.$expression.'$#uD';
 	}
 }

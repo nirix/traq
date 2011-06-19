@@ -18,19 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Router::add('(<root>)', 'Projects::index');
+Router::add('root', 'Projects::index');
 
-// Users
-Router::add('login', 'Users::login');
-Router::add('register', 'Users::register');
+Router::add('/login', 'Users::login');
 
-// Admin
-Router::add('admincp/:controller/:action', 'AdminCP::$1::$2');
-
-// Projects
-Router::add('(<project_slug>)/roadmap', 'Projects::roadmap');
-Router::add('(<project_slug>)/timeline', 'Projects::timeline');
-Router::add('(<project_slug>)/milestone/(<milestone_slug>)', 'Projects::milestone');
-Router::add('(<project_slug>)/tickets', 'Tickets::index');
-Router::add('(<project_slug>)/tickets/:num', 'Tickets::view');
-Router::add('(<project_slug>)/', 'Projects::view');
+Router::add('/(?P<slug>.*)', 'Projects::view');
