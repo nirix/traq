@@ -4,3 +4,4 @@
 		<?php echo $project->info; ?>
 	</div>
 </div>
+<?php print_r($project->tickets); ?>
