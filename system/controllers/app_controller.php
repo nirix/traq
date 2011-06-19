@@ -23,6 +23,8 @@ require APPPATH . '/version.php';
 
 class AppController extends Controller
 {
+	public $project = null;
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,5 +35,9 @@ class AppController extends Controller
 		View::$theme = 'default';
 		
 		View::set('title', settings('title'));
+		
+		if ($this->project = is_project(Request::seg(0))) {
+			View::set('project', $this->project);
+		}
 	}
 }

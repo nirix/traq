@@ -55,3 +55,13 @@ function l()
 	
 	return $string;
 }
+
+function is_project($find, $field = 'slug') {
+	$project = Project::find($field, $find);
+	
+	if (isset($project->name)) {
+		return $project;
+	} else {
+		return false;
+	}
+}

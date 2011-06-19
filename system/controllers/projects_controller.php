@@ -29,10 +29,7 @@ class ProjectsController extends AppController
 	
 	public function action_view($slug)
 	{
-		$project = Project::find('slug', $slug);
-		View::set('project', $project);
-		
-		if (!isset($project->name)) {
+		if (!isset($this->project->name)) {
 			View::set('request', Request::url());
 			$this->_render['view'] = 'error/404';
 		}
