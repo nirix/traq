@@ -22,5 +22,5 @@ class Project extends Model
 {
 	protected static $_name = 'projects';
 	protected static $_primary = 'id';
-	//protected static $_has_many = array('tickets');
+	protected static $_has_many = array('tickets');
 }
