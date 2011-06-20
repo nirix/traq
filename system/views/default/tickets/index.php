@@ -12,7 +12,11 @@
 		<?php foreach ($tickets as $ticket) { ?>
 			<tr>
 				<?php foreach (ticket_columns() as $column) { ?>
-					<th><?php echo ticketlist_data($column, $ticket)?></th>
+					<?php if ($column == 'summary') { ?>
+					<td><a href="<?php echo Request::base($traq->project->slug, 'tickets', $ticket->ticket_id)?>"><?php echo $ticket->summary?></a></td>
+					<?php } else { ?>
+					<td><?php echo ticketlist_data($column, $ticket)?></td>
+					<?php } ?>
 				<?php } ?>
 			</tr>
 		<?php } ?>
