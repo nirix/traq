@@ -32,6 +32,9 @@ function enus_locale()
 	return array(
 		'copyright' => "Powered by Traq " . TRAQVER . " &copy; 2009-" . date("Y"),
 		'projects' => "Projects",
+		'project_info' => "Project Info",
+		'tickets' => "Tickets",
+		'timeline' => "Timeline",
 		
 		// Errors
 		'error:404_title' => "Woops",

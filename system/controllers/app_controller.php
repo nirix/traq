@@ -35,6 +35,7 @@ class AppController extends Controller
 		View::$theme = 'default';
 		
 		View::set('title', settings('title'));
+		View::set('traq', $this);
 		
 		if ($this->project = is_project(Request::seg(0))) {
 			View::set('project', $this->project);

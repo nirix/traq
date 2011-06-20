@@ -16,7 +16,11 @@
 			</header>
 			<nav id="nav">
 				<ul>
-					<li><a href="#">test</a></li>
+				<?php if (isset($traq->project->name)) { ?>
+					<li><a href="<?php echo Request::base($traq->project->slug)?>"><?php echo l('project_info')?></a></li>
+					<li><a href="<?php echo Request::base($traq->project->slug, 'tickets')?>"><?php echo l('tickets')?></a></li>
+					<li><a href="<?php echo Request::base($traq->project->slug, 'timeline')?>"><?php echo l('timeline')?></a></li>
+				<?php } ?>
 				</ul>
 			</nav>
 			<section id="page">

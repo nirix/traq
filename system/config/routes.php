@@ -22,4 +22,7 @@ Router::add('root', 'Projects::index');
 
 Router::add('/login', 'Users::login');
 
+// Project controllers
+Router::add('/(?P<slug>.*)/tickets', 'Tickets::index');
+Router::add('/(?P<slug>.*)/timeline', 'Projects::timeline');
 Router::add('/(?P<slug>.*)', 'Projects::view');
