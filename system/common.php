@@ -43,6 +43,10 @@ function l()
 		$lang = $locale_func();
 	}
 	
+	if (!isset($lang[func_get_arg(0)])) {
+		return func_get_arg(0);
+	}
+	
 	$string = $lang[func_get_arg(0)];
 	$vars = array_slice(func_get_args(), 1);
 	
