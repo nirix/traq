@@ -83,6 +83,6 @@ class Avalon_MySQLi
 	
 	public function halt()
 	{
-		Avalon::error("Database Error", mysqli_errno($this->link) . ": " . mysqli_error($this->link) . "<br />" . $this->last_query);
+		Error::halt("Database Error", mysqli_errno($this->link) . ": " . mysqli_error($this->link) . "<br />" . $this->last_query);
 	}
 }

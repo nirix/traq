@@ -35,7 +35,7 @@ class Load
 		} elseif (file_exists(SYSPATH . '/libs/' . $file_name . '.php')) {
 			require_once SYSPATH . '/libs/' . $file_name . '.php';
 		} else {
-			new Error("Loader Error", "Unable to load library '{$class}'", 'HALT');
+			Error::halt("Loader Error", "Unable to load library '{$class}'");
 			return false;
 		}
 		
@@ -70,7 +70,7 @@ class Load
 		} elseif (file_exists(SYSPATH . '/helpers/' . $file_name . '.php')) {
 			require_once SYSPATH . '/helpers/' . $file_name . '.php';
 		} else {
-			new Error("Loader Error", "Unable to load helper '{$class}'", 'HALT');
+			Error::halt("Loader Error", "Unable to load helper '{$class}'");
 			return false;
 		}
 		

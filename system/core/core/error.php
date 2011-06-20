@@ -12,41 +12,21 @@
  */
 class Error
 {
-	private $title;
-	private $message;
-	
-	public function __construct($title, $message, $action = null)
-	{
-		$this->title = $title;
-		$this->message = $message;
-		
-		switch($action) {
-			case 'HALT':
-				echo $this->display();
-				exit;
-			break;
-		}
-	}
-	
-	public function display()
+	public static function halt($title, $message)
 	{
 		@ob_end_clean();
 		
 		$body = array();
-		$body[] = "<blackquote style=\"font-family: arial; font-size: 14px; border: 1px solid red; width: 80%; margin: 0 auto; background: #f4f4f4; padding: 10px; display: block;\">";
+		$body[] = "<blockquote style=\"font-family:'Helvetica Neue', Arial, Helvetica, sans-serif;background:#fbe3e4;color:#8a1f11;padding:0.8em;margin-bottom:1em;border:2px solid #fbc2c4;\">";
 		
-		if (!$this->title !== null) {
-			$body[] = "	<h1 style=\"margin: 0;\">{$this->title}</h1>";
+		if (!$title !== null) {
+			$body[] = "	<h1 style=\"margin: 0;\">{$title}</h1>";
 		}
 		
-		$body[] = "	{$this->message}";
-		$body[] = "</blackquote>";
+		$body[] = "	{$message}";
+		$body[] = "</blockquote>";
 		
-		return implode(PHP_EOL, $body);
-	}
-	
-	public function __toString()
-	{
-		return $this->message;
+		echo implode(PHP_EOL, $body);
+		exit;
 	}
 }

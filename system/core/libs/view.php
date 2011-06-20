@@ -88,7 +88,7 @@ class View
 		}
 		// Not there either? I'm not sure then..
 		else {
-			throw new Error("View Error", "Unable to load view '{$file}'", 'HALT');
+			Error::halt("View Error", "Unable to load view '{$file}'", 'HALT');
 		}
 		
 		return $file;
