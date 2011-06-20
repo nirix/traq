@@ -14,20 +14,20 @@ class Avalon
 {
 	private static $version = '0.1';
 	private static $app;
-	private static $db;
 	
+	/**
+	 * Initialize the Avalon framework
+	 */
 	public static function init()
 	{
-		// Connect to the database
-		if (file_exists(APPPATH . 'config/database.php')) {
-			
-		}
-		
 		// Route the request
 		Request::process();
 		Router::process(Request::url());
 	}
 	
+	/**
+	 * Execute the routed controller and method
+	 */
 	public static function run()
 	{
 		// Fetch the AppController
@@ -42,7 +42,7 @@ class Avalon
 		$controller_name = Router::$controller . 'Controller';
 		$method_view_name = Router::$method;
 		$method_name = 'action_' . Router::$method;
-		$method_params = Router::$method_params;
+		$method_args = Router::$args;
 		
 		// Check the controller file
 		if (!file_exists($controller_file)) {
@@ -74,7 +74,7 @@ class Avalon
 		}
 		
 		// Call the method
-		call_user_func_array(array(static::$app, $method_name), $method_params);
+		call_user_func_array(array(static::$app, $method_name), $method_args);
 		
 		// Call the 'destructor', why not just use PHP's?
 		// even after die or exit is called, the __destruct() is still executed.
@@ -83,16 +83,19 @@ class Avalon
 		}
 	}
 	
+	/**
+	 * Returns the application object.
+	 * @return object
+	 */
 	public static function app()
 	{
 		return static::$app;
 	}
 	
-	public static function db()
-	{
-		return static::$db;
-	}
-	
+	/**
+	 * Returns the version of the Avalon framework.
+	 * @return string
+	 */
 	public static function version()
 	{
 		return static::$version;
