@@ -53,6 +53,7 @@ function enus_locale()
 		'type' => "Type",
 		'component' => "Component",
 		'milestone' => "Milestone",
+		'description' => "Description",
 		
 		// Errors
 		'error:404_title' => "Woops",
