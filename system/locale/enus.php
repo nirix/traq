@@ -18,6 +18,12 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * enUS localization information.
+ * @return array
+ * @package traq
+ * @subpackage locale
+ */
 function enus_info()
 {
 	return array(
@@ -27,6 +33,12 @@ function enus_info()
 	);
 }
 
+/**
+ * enUS localization strings.
+ * @return array
+ * @package traq
+ * @subpackage locale
+ */
 function enus_locale()
 {
 	return array(

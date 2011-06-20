@@ -18,6 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Returns the value of the requested setting.
+ * @return string
+ * @package traq
+ */
 function settings($setting)
 {
 	static $CACHE;
@@ -32,6 +37,12 @@ function settings($setting)
 	return $CACHE[$setting];
 }
 
+/**
+ * Returns the value of the requested localization string.
+ * @return string
+ * @package traq
+ * @subpackage locale
+ */
 function l()
 {
 	static $lang = null;
@@ -60,6 +71,11 @@ function l()
 	return $string;
 }
 
+/**
+ * Checks if the specified field is a projet or not.
+ * @return mixed
+ * @package traq
+ */
 function is_project($find, $field = 'slug') {
 	$project = Project::find($field, $find);
 	

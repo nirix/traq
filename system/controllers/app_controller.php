@@ -37,6 +37,7 @@ class AppController extends Controller
 		View::set('title', settings('title'));
 		View::set('traq', $this);
 		
+		// Check if we're on a project page and get the project info
 		if ($this->project = is_project(Request::seg(0))) {
 			View::set('project', $this->project);
 		}
