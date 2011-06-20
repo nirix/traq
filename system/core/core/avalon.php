@@ -42,7 +42,7 @@ class Avalon
 		$controller_name = Router::$controller . 'Controller';
 		$method_view_name = Router::$method;
 		$method_name = 'action_' . Router::$method;
-		$method_params = Router::$params;
+		$method_params = Router::$method_params;
 		
 		// Check the controller file
 		if (!file_exists($controller_file)) {
@@ -81,11 +81,6 @@ class Avalon
 		if (method_exists(static::$app, '__shutdown')) {
 			static::$app->__shutdown();
 		}
-	}
-	
-	public static function error($title, $message)
-	{
-		die($title . "<br />" . $message);
 	}
 	
 	public static function app()
