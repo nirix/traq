@@ -53,10 +53,14 @@ class Avalon
 		
 		// Check the controller and method
 		if (!class_exists($controller_name) or !method_exists($controller_name, $method_name)) {
-			$controller_file = APPPATH . '/controllers/error_controller.php';
+			if (!class_exists('ErrorController')) {
+				require_once APPPATH . '/controllers/error_controller.php';
+			}
+			Router::$namespace = null;
+			Router::$controller = 'Error';
 			$controller_name = 'ErrorController';
+			$method_view_name = '404';
 			$method_name = 'action_404';
-			$method_args['request'] = Request::url();
 		}
 		
 		// Start the controller
