@@ -73,7 +73,7 @@ class Model
 	public function __get($var)
 	{
 		// Has Many
-		if (is_array(static::$_has_many) and in_array($var, static::$_has_many)) {
+		if (is_array(static::$_has_many) and (in_array($var, static::$_has_many) or isset(static::$_has_many[$var]))) {
 			$has_many = array();
 			if (isset(static::$_has_many[$var])) {
 				$has_many = static::$_has_many[$var];
@@ -95,7 +95,7 @@ class Model
 			return $this->$var;
 		}
 		// Belongs to
-		elseif (is_array(static::$_belongs_to) and in_array($var, static::$_belongs_to)) {
+		elseif (is_array(static::$_belongs_to) and (in_array($var, static::$_belongs_to) or isset(static::$_belongs_to[$var]))) {
 			$belongs_to = array();
 			if (isset(static::$_belongs_to[$var])) {
 				$belongs_to = static::$_belongs_to[$var];

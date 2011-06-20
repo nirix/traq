@@ -23,8 +23,7 @@
  * @return string
  * @package traq
  */
-function settings($setting)
-{
+function settings($setting) {
 	static $CACHE;
 	
 	if (isset($CACHE[$setting])) {
@@ -43,8 +42,7 @@ function settings($setting)
  * @package traq
  * @subpackage locale
  */
-function l()
-{
+function l() {
 	static $lang = null;
 	
 	if ($lang === null) {
@@ -84,4 +82,20 @@ function is_project($find, $field = 'slug') {
 	} else {
 		return false;
 	}
+}
+
+/**
+ *
+ */
+function ticket_columns() {
+	$columns = array(
+		'ticket_id',
+		'summary',
+		'status',
+		'owner',
+		'type',
+		'component',
+		'milestone'
+	);
+	return $columns;
 }

@@ -18,9 +18,12 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Ticket extends Model
+class TicketsController extends AppController
 {
-	protected static $_name = 'tickets';
-	protected static $_primary = 'id';
-	protected static $_belongs_to = array('user', 'project', 'milestone', 'status' => array('model' => 'ticketstatus'));
+	public function action_index()
+	{
+		Load::helper('tickets');
+		
+		View::set('tickets', $this->project->tickets);
+	}
 }

@@ -47,6 +47,12 @@ function enus_locale()
 		'project_info' => "Project Info",
 		'tickets' => "Tickets",
 		'timeline' => "Timeline",
+		'summary' => "Summary",
+		'status' => "Status",
+		'owner' => "Owner",
+		'type' => "Type",
+		'component' => "Component",
+		'milestone' => "Milestone",
 		
 		// Errors
 		'error:404_title' => "Woops",
