@@ -57,7 +57,7 @@ function ticketlist_data($column, $ticket) {
 		case 'owner':
 			return $ticket->user->username;
 		case 'milestone':
-			return $ticket->milestone->milestone;
+			return $ticket->milestone->name;
 		default:
 			return '';
 		break;
