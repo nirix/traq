@@ -9,6 +9,7 @@
 class Database
 {
 	private static $link;
+	private static $initiated = false;
 	
 	public static function init()
 	{
@@ -25,10 +26,17 @@ class Database
 				require(APPPATH . '/models/' . $file);
 			}
 		}
+		
+		static::$initiated = true;
 	}
 	
 	public static function link()
 	{
 		return static::$link;
+	}
+	
+	public static function initiated()
+	{
+		return static::$initiated;
 	}
 }

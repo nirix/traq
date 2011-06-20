@@ -18,7 +18,9 @@ class Controller
 	public function __construct()
 	{
 		// Get the database for easy access
-		$this->db = Avalon::db();
+		if (Database::initiated()) {
+			$this->db = Database::link();
+		}
 		
 		// Allow the views to access the app,
 		// even though its not good practice...

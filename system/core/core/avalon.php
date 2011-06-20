@@ -65,7 +65,6 @@ class Avalon
 		
 		// Start the controller
 		static::$app = new $controller_name();
-		static::$app->db = static::$db;
 		
 		// Set the view
 		$view = (isset(Router::$namespace) ? Router::$namespace . '/' . Router::$controller . '/' . $method_name : Router::$controller .'/' . $method_view_name);
