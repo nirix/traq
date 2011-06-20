@@ -32,9 +32,9 @@ class Router
 			static::set_request(static::$routes[$request]);
 			return true;
 		}
-		#die(count(static::$routes).'a');
+		
 		foreach (static::$routes as $route => $args) {
-			$route = '/' . str_replace('/', '\/', $route) . '/';
+			$route = '#^' . $route . '$#';
 			
 			if (preg_match($route, $request, $matches)) {
 				
@@ -47,14 +47,16 @@ class Router
 				}
 				$args['params'] = array_merge($args['params'], $params);
 				
-				if (strpos($route['value'], '$') !== false) {
+				$args['value'] = preg_replace($route, $args['value'], $request);
+				
+				/*if (strpos($route['value'], '$') !== false) {
 					foreach (explode('::', $route['value']) as $bit) {
 						if (strpos($bit, '$') !== false) {
 							$route['value'] = str_replace($bit, $route['params'][trim($bit, '$')], $route['value']);
 							unset($route['params'][trim($bit, '$')]);
 						}
 					}
-				}
+				}*/
 				
 				static::set_request($args);
 				return true;

@@ -20,9 +20,10 @@
 
 Router::add('root', 'Projects::index');
 
-Router::add('/login', 'Users::login');
+Router::add('/(login|logout|register)', 'Users::$1');
 
 // Project controllers
-Router::add('/(?P<slug>.*)/tickets', 'Tickets::index');
-Router::add('/(?P<slug>.*)/timeline', 'Projects::timeline');
-Router::add('/(?P<slug>.*)', 'Projects::view');
+Router::add('/[\w]+/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view');
+Router::add('/[\w]+/tickets', 'Tickets::index');
+Router::add('/[\w]+/(timeline|roadmap)', 'Projects::$1');
+Router::add('/(?P<slug>[\w]+)', 'Projects::view');

@@ -26,4 +26,10 @@ class TicketsController extends AppController
 		
 		View::set('tickets', $this->project->tickets);
 	}
+	
+	public function action_view($ticket_id)
+	{
+		$ticket = Ticket::find('ticket_id', $ticket_id);
+		View::set('ticket', $ticket);
+	}
 }
