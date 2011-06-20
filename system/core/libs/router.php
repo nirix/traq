@@ -15,7 +15,7 @@ class Router
 	public static $namespace;
 	public static $controller;
 	public static $method;
-	public static $args = array();
+	public static $params = array();
 	private static $routes = array();
 	
 	public static function process($request)
@@ -78,8 +78,10 @@ class Router
 	
 	private static function set_request($route)
 	{
-		$bits = explode('::', $route['value']);
+		$bits = explode('/', $route['value']);
+		static::$params = array_slice($bits, 1);
 		
+		$bits = explode('::', $bits[0]);
 		if (count($bits) == 3) {
 			static::$namespace = $bits[0];
 			static::$controller = $bits[1];
@@ -89,6 +91,6 @@ class Router
 			static::$method = $bits[1];
 		}
 		
-		static::$args = $route['params'];
+		
 	}
 }

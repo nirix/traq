@@ -27,7 +27,7 @@ class ProjectsController extends AppController
 		View::set('projects', $projects);
 	}
 	
-	public function action_view($slug)
+	public function action_view()
 	{
 		if (!isset($this->project->name)) {
 			View::set('request', Request::url());

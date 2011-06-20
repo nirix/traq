@@ -42,7 +42,7 @@ class Avalon
 		$controller_name = Router::$controller . 'Controller';
 		$method_view_name = Router::$method;
 		$method_name = 'action_' . Router::$method;
-		$method_args = Router::$args;
+		$method_params = Router::$params;
 		
 		// Check the controller file
 		if (!file_exists($controller_file)) {
@@ -74,7 +74,7 @@ class Avalon
 		}
 		
 		// Call the method
-		call_user_func_array(array(static::$app, $method_name), $method_args);
+		call_user_func_array(array(static::$app, $method_name), $method_params);
 		
 		// Call the 'destructor', why not just use PHP's?
 		// even after die or exit is called, the __destruct() is still executed.

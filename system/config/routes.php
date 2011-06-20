@@ -23,7 +23,7 @@ Router::add('root', 'Projects::index');
 Router::add('/(login|logout|register)', 'Users::$1');
 
 // Project controllers
-Router::add('/[\w]+/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view');
+Router::add('/[\w]+/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$1');
 Router::add('/[\w]+/tickets', 'Tickets::index');
 Router::add('/[\w]+/(timeline|roadmap)', 'Projects::$1');
-Router::add('/(?P<slug>[\w]+)', 'Projects::view');
+Router::add('/(?P<project_slug>[\w]+)', 'Projects::view');
