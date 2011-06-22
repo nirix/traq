@@ -53,7 +53,7 @@ class Avalon_MySQLi
 	public function query($query)
 	{
 		$this->last_query = (string) $query;
-		$result = mysqli_query($this->link, (string) $query);
+		$result = mysqli_query($this->link, (string) $query) or $this->halt();
 		return new MySQLi_Statement($result);
 	}
 

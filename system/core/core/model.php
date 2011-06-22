@@ -60,6 +60,10 @@ class Model
 			$rows->orderby($args['order'][0], $args['order'][1]);
 		}
 		
+		if (isset($args['sql'])) {
+			$rows->customSql($args['sql']);
+		}
+		
 		$rows = $rows->exec()->fetchAll();
 		
 		$data = array();

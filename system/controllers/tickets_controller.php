@@ -24,7 +24,59 @@ class TicketsController extends AppController
 	{
 		Load::helper('tickets');
 		
-		View::set('tickets', $this->project->tickets);
+		$where = array();
+		$where[] = array("project_id = '?'", $this->project->id);
+		
+		$sql = array();
+		
+		// Filters
+		foreach (Request::$request as $filter => $value) {
+			if (!in_array($filter, ticket_filters())) {
+				continue;
+			}
+			$filter_sql = array();
+			// Milestone filter
+			if ($filter == 'milestone') {
+				foreach (explode(',', $value) as $name) {
+					$milestone = Milestone::find('slug', $name);
+					$filter_sql[] = $milestone->id;
+				}
+				$sql[] = "milestone_id IN (" . implode(', ', $filter_sql) . ")";
+			}
+			// Status filter
+			elseif ($filter == 'status') {
+				foreach (explode(',', $value) as $name) {
+					$status = TicketStatus::find('name', urldecode($name));
+					$filter_sql[] = $status->id;
+				}
+				$sql[] = "status_id IN (" . implode(', ', $filter_sql) . ")";
+			}
+			// Type filter
+			elseif ($filter == 'type') {
+				foreach (explode(',', $value) as $name) {
+					$type = TicketType::find('name', urldecode($name));
+					$filter_sql[] = $type->id;
+				}
+				$sql[] = "type_id IN (" . implode(', ', $filter_sql) . ")";
+			}
+			// Component filter
+			elseif ($filter == 'component') {
+				foreach (explode(',', $value) as $name) {
+					$component = Component::find('name', urldecode($name));
+					$filter_sql[] = $component->id;
+				}
+				$sql[] = "component_id IN (" . implode(', ', $filter_sql) . ")";
+			}
+		}
+		
+		// Fetch tickets
+		$tickets = array();
+		$rows = $this->db->select()->from('tickets')->customSql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->exec()->fetchAll();
+		foreach($rows as $row) {
+			$tickets[] = new Ticket($row);
+		}
+		
+		View::set('tickets', $tickets);
 	}
 	
 	public function action_view($ticket_id)

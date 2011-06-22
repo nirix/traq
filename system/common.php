@@ -85,7 +85,8 @@ function is_project($find, $field = 'slug') {
 }
 
 /**
- *
+ * Ticket columns
+ * @return array
  */
 function ticket_columns() {
 	$columns = array(
@@ -98,4 +99,18 @@ function ticket_columns() {
 		'milestone'
 	);
 	return $columns;
+}
+
+/**
+ * Ticket filters
+ * @return array
+ */
+function ticket_filters() {
+	$filters = array(
+		'milestone',
+		'status',
+		'type',
+		'component',
+	);
+	return $filters;
 }

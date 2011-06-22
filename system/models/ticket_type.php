@@ -18,13 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Ticket extends Model
+class TicketType extends Model
 {
-	protected static $_name = 'tickets';
-	protected static $_primary = 'id';
-	protected static $_belongs_to = array(
-		'user', 'project', 'milestone', 'component',
-		'status' => array('model' => 'ticketstatus'),
-		'type' => array('model' => 'tickettype'),
-	);
+	protected static $_name = 'ticket_types';
 }
