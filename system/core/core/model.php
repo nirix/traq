@@ -34,15 +34,15 @@ class Model
 	
 	public function update()
 	{
-		return $this->db->update($this->_name);
+		return Database::link()->update($this->_name);
 	}
 	
 	public function find($find, $value = null)
 	{
-		$find = $this->db->select()->from($this->_name);
+		$find = Database::link()->select()->from($this->_name);
 		
 		if ($value == null) {
-			$find = $find->where($this->primary_key . " = '?'", $find)->limit(1)->exec();
+			$find = $find->where(static::$primary_key . " = '?'", $find)->limit(1)->exec();
 			return $find[0];
 		} else {
 			$find = $find->where($find . " = '?'", $value)->limit(1)->exec();
@@ -52,7 +52,7 @@ class Model
 	
 	public function fetchAll()
 	{
-		return $this->db->select()->from($this->_name)
+		return Database::link()->select()->from(static::$_name)
 	}
 	
 	public function __get($var)
