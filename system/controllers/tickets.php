@@ -156,7 +156,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				
 				// Fetch the milestone info and get the ID for the query.
 				$milestone = $db->fetcharray($db->query("SELECT id,project_id,milestone FROM ".DBPF."milestones WHERE project_id='".$db->res($project['id'])."' AND slug='".$db->res(urldecode($value))."' LIMIT 1"));
-				$values[] = $milestone['id'];
+				$values[] = $db->res($milestone['id']);
 			}
 			if(count($values))
 				$query .= "AND milestone_id ".iif(isset($filter['mode']) && $filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
@@ -171,7 +171,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				if(empty($value))
 					continue;
 				
-				$values[] = $value;
+				$values[] = $db->res($value);
 			}
 			
 			switch($filter['type'])
@@ -198,9 +198,9 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				// Build the $status array for the query.
 				$status = array('open'=>array(),'closed'=>array());
 				foreach(ticket_status_list() as $row)
-					$status['open'][] = $row['id'];
+					$status['open'][] = $db->res((int)$row['id']);
 				foreach(ticket_status_list(0) as $row)
-					$status['closed'][] = $row['id'];
+					$status['closed'][] = $db->res((int)$row['id']);
 				
 				$filter['values'] = ($filter['value'] == 'open' ? $status['open'] : $status['closed']);
 			}
