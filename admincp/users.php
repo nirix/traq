@@ -109,8 +109,10 @@ if(isset($_REQUEST['new']))
 // Edit user
 elseif(isset($_REQUEST['edit']))
 {
+	$errors = array();
+	
 	// Update user
-	if($_POST['action'] == 'save')
+	if(isset($_POST['action']) and $_POST['action'] == 'save')
 	{
 		// Check for errors...
 		// Check if username is entered

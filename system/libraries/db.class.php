@@ -165,7 +165,7 @@ class Database
 	// Used to display the error
 	private function halt($query=NULL)
 	{
-		error('Database','#'.$this->errno().': '.$this->error());
+		error('Database','#'.$this->errno().': '.$this->error()."<br />".($query !== null ? $query : ''));
 	}
 }
 ?>

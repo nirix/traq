@@ -96,8 +96,17 @@ $ordering = array(
 	'DESC' => 'DESC'
 );
 
-$sort = (isset($_REQUEST['sort']) and isset($sorting[$_REQUEST['sort']]) ? $sorting[$_REQUEST['sort']] : 'priority'); // Field to sort by
-$order = (isset($_REQUEST['order']) and isset($ordering[$_REQUEST['ordre']]) ? $ordering[$_REQUEST['order']] : 'DESC'); // Direction to sort by
+if (isset($_REQUEST['sort']) and in_array($_REQUEST['sort'], $sorting)) {
+	$sort = $_REQUEST['sort'];
+} else {
+	$sort = 'priority';
+}
+
+if (isset($_REQUEST['order']) and in_array($_REQUEST['order'], $ordering)) {
+	$order = $_REQUEST['order'];
+} else {
+	$order = 'DESC';
+}
 
 // Filters
 $filters = array();

@@ -32,6 +32,8 @@ $repository_types[] = array('file'=>'subversion.class.php','template'=>'subversi
 // New and Edit Repository
 if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 {
+	$errors = array();
+	
 	// Get the repository info
 	if(isset($_REQUEST['edit']))
 	{
@@ -42,7 +44,6 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 	// Check for errors
 	if(isset($_POST['action']))
 	{
-		$errors = array();
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_name_empty');
 		if(isset($_REQUEST['edit']) && $db->numrows($db->query("SELECT name FROM ".DBPF."repositories WHERE name='".$db->res($_POST['name'])."' AND id!='".$repo['id']."' AND project_id='".$db->res($_POST['project_id'])."' LIMIT 1")))

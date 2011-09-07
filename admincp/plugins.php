@@ -32,6 +32,7 @@ if(isset($_REQUEST['install']))
 		if(empty($_FILES['pluginfile']['name'])) { exit; }
 		
 		$plugin = simplexml_load_file($_FILES['pluginfile']['tmp_name']);
+		
 		// Insert plugin
 		$db->query("INSERT INTO ".DBPF."plugins VALUES(
 			0,
@@ -97,10 +98,11 @@ if(isset($_REQUEST['install']))
 // Create new Plugin
 elseif(isset($_REQUEST['create']))
 {
+	$errors = array();
+	
 	if(isset($_POST['name']))
 	{
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_plugin_name_blank');
 		if(empty($_POST['author']))
@@ -197,11 +199,12 @@ elseif(isset($_REQUEST['create']))
 // Edit Plugin
 elseif(isset($_REQUEST['edit']) && isset($_REQUEST['plugin']))
 {
+	$errors = array();
+	
 	// Update Plugin
 	if(isset($_POST['name']))
 	{
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_plugin_name_blank');
 		if(empty($_POST['author']))
@@ -329,11 +332,12 @@ elseif(isset($_REQUEST['hooks']))
 // New Hook
 elseif(isset($_REQUEST['newhook']))
 {
+	$errors = array();
+	
 	// Create Hook
 	if(isset($_POST['title']))
 	{
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['plugin_id']))
 			$errors['plugin_id'] = l('error_hook_plugin_blank');
 		if(empty($_POST['title']))
@@ -443,11 +447,12 @@ elseif(isset($_REQUEST['newhook']))
 // Edit Hook
 elseif(isset($_REQUEST['edithook']))
 {
+	$errors = array();
+	
 	// Save Hook
 	if(isset($_POST['title']))
 	{	
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['plugin_id']))
 			$errors['plugin_id'] = l('error_hook_plugin_blank');
 		if(empty($_POST['title']))

@@ -28,9 +28,9 @@ authenticate();
 if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 {
 	// Check for errors...
+	$errors = array();
 	if(isset($_POST['action']))
 	{
-		$errors = array();
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_component_name_blank');
 		if(empty($_POST['project']))

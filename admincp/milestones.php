@@ -27,11 +27,12 @@ authenticate();
 // New Milestone
 if(isset($_REQUEST['new']))
 {
+	$errors = array();
+	
 	// Create the milestone
 	if(isset($_POST['milestone']))
 	{
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['milestone']))
 			$errors['milestone'] = l('error_milestone_name_blank');
 		if(empty($_POST['slug']))
@@ -144,6 +145,8 @@ if(isset($_REQUEST['new']))
 // Edit Milestone
 elseif(isset($_REQUEST['edit']))
 {
+	$errors = array();
+	
 	$milestone = $db->queryfirst("SELECT * FROM ".DBPF."milestones WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 	$project = $db->queryfirst("SELECT id,name,slug FROM ".DBPF."projects WHERE id='".$milestone['project_id']."' LIMIT 1");
 	
@@ -151,7 +154,6 @@ elseif(isset($_REQUEST['edit']))
 	if(isset($_POST['milestone']))
 	{
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['milestone']))
 			$errors['milestone'] = l('error_milestone_name_blank');
 		if(empty($_POST['slug']))

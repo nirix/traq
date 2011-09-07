@@ -27,11 +27,12 @@ authenticate();
 // New and Edit Usergroup
 if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 {
+	$errors = array();
+	
 	// Create
 	if(@$_POST['action'] == 'create')
 	{
 		// Check for errors
-		$errors = array();
 		if(empty($_POST['values']['name']))
 			$errors['name'] = l('error_name_empty');
 			
@@ -58,7 +59,6 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 	if(@$_POST['action'] == 'save')
 	{
 		// Check for errors
-		$errors = array();
 		if(empty($_POST['values']['name']))
 			$errors['name'] = l('error_name_empty');
 			

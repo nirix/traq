@@ -41,7 +41,7 @@
 					<?php if(in_array('severity',$columns)) { ?><td><?php echo ticket_severity($ticket['severity'])?></td><?php } ?>
 					<?php if(in_array('component',$columns)) { ?><td><?php echo $ticket['component']['name']?></td><?php } ?>
 					<?php if(in_array('milestone',$columns)) { ?><td><?php echo $ticket['milestone']['milestone']?></td><?php } ?>
-					<?php if(in_array('version',$columns)) { ?><td><?php echo isset($ticket['version']) ? : $ticket['version']['milestone'] : ''; ?></td><?php } ?>
+					<?php if(in_array('version',$columns)) { ?><td><?php echo (isset($ticket['version']) ? $ticket['version']['milestone'] : ''); ?></td><?php } ?>
 					<?php if(in_array('assigned_to',$columns)) { ?><td><?php echo $ticket['assignee']['username']?></td><?php } ?>
 					<?php if(in_array('updated',$columns)) { ?><td><?php echo l('x_ago',timesince(($ticket['updated'] ? $ticket['updated'] : $ticket['created'])))?></td><?php } ?>
 				</tr>

@@ -27,11 +27,12 @@ authenticate();
 // New Project
 if(isset($_REQUEST['new']))
 {
+	$errors = array();
+	
 	// Check if the form has been submit.
 	if(isset($_POST['action']) && $_POST['action'] == 'create')
 	{
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_project_name_blank');
 		if(empty($_POST['slug']))
@@ -145,13 +146,14 @@ if(isset($_REQUEST['new']))
 // Edit Project
 elseif(isset($_REQUEST['edit']))
 {
+	$errors = array();
+	
 	$project = $db->queryfirst("SELECT * FROM ".DBPF."projects WHERE id='".$db->res($_REQUEST['project'])."' LIMIT 1");
 	$project['managers'] = explode(',',$project['managers']);
 	
 	if(isset($_POST['name']))
 	{
 		// Check for errors...
-		$errors = array();
 		if(empty($_POST['name']))
 			$errors['name'] = l('error_project_name_blank');
 		if(empty($_POST['slug']))

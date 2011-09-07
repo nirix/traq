@@ -28,7 +28,7 @@ if($uri->seg(1) == "login")
 	{
 		// Check if there were errors, if not go back to where we came from.
 		if($user->login($_POST['username'],$_POST['password'],(isset($_POST['remember']) ? $_POST['remember'] :'')))
-			header("Location: ".(isset($_POST['goto']) && $_POST['goto'] != '' ? $_POST['goto'] : $uri->anchor()));
+			header("Location: ".(isset($_POST['goto']) && $_POST['goto'] != '' ? urldecode(urlencode(($_POST['goto']))) : $uri->anchor()));
 	}
 	include(template('user/login'));
 }
