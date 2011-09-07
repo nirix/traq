@@ -24,7 +24,10 @@ define('TRAQPATH',str_replace(pathinfo(__FILE__,PATHINFO_BASENAME),'',__FILE__))
 // Fetch core file.
 require('system/global.php');
 
-if(isset($conf['general']['authorized_only']) && $conf['general']['authorized_only'] == true && !$user->loggedin && @$_POST['action'] != 'login') {
+if(isset($conf['general']['authorized_only'])
+&& $conf['general']['authorized_only'] == true
+&& !$user->loggedin && @$_POST['action'] != 'login'
+&& ($uri->seg[0] != 'user' && $uri->seg[1] != 'register')) {
     include(template('user/login'));
     exit;
 }

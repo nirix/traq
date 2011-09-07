@@ -77,8 +77,27 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 }
 
 // Ticket Sorting
-$sort = (isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'priority'); // Field to sort by
-$order = (isset($_REQUEST['order']) ? $_REQUEST['order'] : 'DESC'); // Direction to sort by
+$sorting = array(
+	'id' => 'id',
+	'summary' => 'summary',
+	'status' => 'status',
+	'user_name' => 'user_name',
+	'type' => 'type',
+	'component_id' => 'component_id',
+	'milestone_id' => 'milestone_id',
+	'version_id' => 'version_id',
+	'assigned_to' => 'assigned_to',
+	'updated' => 'updated'
+);
+$ordering = array(
+	'asc' => 'ASC',
+	'ASC' => 'ASC',
+	'desc' => 'DESC',
+	'DESC' => 'DESC'
+);
+
+$sort = (isset($_REQUEST['sort']) and isset($sorting[$_REQUEST['sort']]) ? $sorting[$_REQUEST['sort']] : 'priority'); // Field to sort by
+$order = (isset($_REQUEST['order']) and isset($ordering[$_REQUEST['ordre']]) ? $ordering[$_REQUEST['order']] : 'DESC'); // Direction to sort by
 
 // Filters
 $filters = array();
