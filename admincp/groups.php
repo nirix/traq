@@ -88,7 +88,7 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 		<?php } ?>
 	</div>
 	<?php } ?>
-	<form action="groups.php?<?php echo (isset($_REQUEST['edit']) ? 'edit='.$_REQUEST['edit'] : 'new')?>" method="post">
+	<form action="groups.php?<?php echo (isset($_REQUEST['edit']) ? 'edit='.(int)$_REQUEST['edit'] : 'new')?>" method="post">
 	<input type="hidden" name="action" value="<?php echo (isset($_REQUEST['edit']) ? 'save' : 'create')?>" />
 	<div class="thead"><?php echo l((isset($_REQUEST['edit']) ? 'edit' : 'new').'_usergroup')?></div>
 	<div class="tborder">

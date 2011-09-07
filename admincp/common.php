@@ -159,7 +159,7 @@ function head($title='',$sidebar=false,$links=array())
 				</div>
 				<ul class="main_nav">
 					<?php foreach($sidebar_links as $link) { ?>
-					<li class="<?php echo $link['class'].iif($link['active'],' active')?>"><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>
+					<li class="<?php echo isset($link['class']) ? $link['class'] : '' . iif($link['active'],' active')?>"><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>
 					<?php } ?>
 				</ul>
 				<?php } ?>
@@ -175,7 +175,7 @@ function head($title='',$sidebar=false,$links=array())
 							<?php if(isset($link['divider']) && $link['divider']) { ?>
 							<li class="divider"></li>
 							<?php } else { ?>
-							<li class="<?php echo $link['class'].iif($link['active'],' active')?>"><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>
+							<li class="<?php echo isset($link['class']) ? $link['class'] : '' . iif($link['active'],' active')?>"><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>
 							<?php } ?>
 						<?php } ?>
 						</ul>

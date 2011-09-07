@@ -77,7 +77,7 @@ if(isset($_REQUEST['new']) or isset($_REQUEST['edit']))
 		<?php } ?>
 	</div>
 	<?php } ?>
-	<form action="custom_fields.php?<?php echo (isset($_REQUEST['edit']) ? 'edit='.$_REQUEST['edit'] : 'new')?>" method="post">
+	<form action="custom_fields.php?<?php echo (isset($_REQUEST['edit']) ? 'edit='.(int)$_REQUEST['edit'] : 'new')?>" method="post">
 	<input type="hidden" name="action" value="<?php echo (isset($_REQUEST['edit']) ? 'save' : 'create')?>" />
 	<div class="thead"><?php echo l((isset($_REQUEST['edit']) ? 'Edit' : 'New').'_Custom_Field')?></div>
 	<div class="tborder">

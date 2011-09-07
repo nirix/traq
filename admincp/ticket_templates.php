@@ -35,7 +35,7 @@ if(isset($_REQUEST['edit']))
 	
 	head(l('edit_ticket_template'));
 	?>
-	<form action="ticket_templates.php?edit=<?php echo $_REQUEST['edit']?>" method="post">
+	<form action="ticket_templates.php?edit=<?php echo (int)$_REQUEST['edit']?>" method="post">
 	<input type="hidden" name="action" value="save" />
 	<div class="thead"><?php echo l('edit_ticket_template_x',$type['name'])?></div>
 	<div class="tborder">
