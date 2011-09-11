@@ -8,9 +8,17 @@
 
 class MySQLi_Statement
 {
+	private $_model;
+	
 	public function __construct($result)
 	{
 		$this->result = $result;
+	}
+	
+	public function _model($model)
+	{
+		$this->_model = $model;
+		return $this;
 	}
 
 	public function fetchArray()
@@ -27,7 +35,12 @@ class MySQLi_Statement
 	{
 		$rows = array();
 		while($row = $this->fetchAssoc()) {
-			$rows[] = $row;
+			if ($this->_model !== null) {
+				$model = $this->_model;
+				$rows[] = new $model($row);
+			} else {
+				$rows[] = $row;
+			}
 		}
 		return $rows;
 	}

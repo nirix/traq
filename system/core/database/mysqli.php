@@ -35,9 +35,12 @@ class Avalon_MySQLi
 		return $this;
 	}
 
-	public function select($cols = array('*'))
+	public function select($cols = array('*'), $after_exec = false)
 	{
-		return new MySQLi_Query("SELECT", (is_array($cols) ? $cols : func_get_args()));
+		if (!is_array($cols)) {
+			$cols = array($cols);
+		}
+		return new MySQLi_Query("SELECT", $cols, $after_exec);
 	}
 
 	public function delete()

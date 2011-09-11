@@ -46,6 +46,16 @@ class Model
 		
 	}
 	
+	public function create()
+	{
+		
+	}
+	
+	public static function select($cols = '*')
+	{
+		return Database::link()->select($cols)->from(static::$_name)->_model(static::_class_name());
+	}
+	
 	/**
 	 * Aliases the database's update() method for the current row.
 	 * @author Jack Polgar
@@ -53,8 +63,7 @@ class Model
 	 */
 	public function update()
 	{
-		$primary_key_value = $this->data[$this->_primary_key];
-		return Database::link()->update($this->_name)->where($this->_primary_key " = '?'", $primary_key_value);
+		return Database::link()->update(static::$_name)->where(static::$_primary_key . " = '?'", $this->data[static::$_primary_key]);
 	}
 	
 	/**
@@ -65,16 +74,16 @@ class Model
 	 * @author Jack Polgar
 	 * @since 0.1
 	 */
-	public function find($find, $value = null)
+	public static function find($find, $value = null)
 	{
-		$find = Database::link()->select()->from(static::$_name);
+		$select = Database::link()->select()->from(static::$_name);
 		
 		if ($value == null) {
-			$find = $find->where(static::$primary_key . " = '?'", $find)->limit(1)->exec();
-			return $find[0];
+			$select = $select->where(static::$_primary_key . " = '?'", $find)->limit(1)->exec()->fetchAssoc();
+			return new static($select);
 		} else {
-			$find = $find->where($find . " = '?'", $value)->limit(1)->exec();
-			return $find[0];
+			$select = $select->where($find . " = '?'", $value)->limit(1)->exec()->fetchAssoc();
+			return new static($select);
 		}
 	}
 	
@@ -82,10 +91,10 @@ class Model
 	 * Fetches all the rows for the table.
 	 * @return array
 	 */
-	public function fetchAll()
+	public static function fetchAll()
 	{
 		$rows = array();
-		$fetched = Database::link()->select()->from(static::$_name)->exec()->fetchAll();
+		$fetched = Database::link()->select('*')->from(static::$_name)->exec()->fetchAll();
 		
 		foreach ($fetched as $row) {
 			$rows[] = new static($row);
@@ -96,6 +105,33 @@ class Model
 	
 	public function __get($var)
 	{
-		
+		// Has many
+		// Belongs to
+		if (is_array(static::$_belongs_to) and (in_array($var, static::$_belongs_to) or isset(static::$_belongs_to[$var]))) {
+			$belongs_to = array();
+			if (isset(static::$_belongs_to[$var])) {
+				$belongs_to = static::$_belongs_to[$var];
+			}
+			// Model
+			if (!isset($belongs_to['model'])) {
+				$belongs_to['model'] = ucfirst($var);
+			}
+			// Different foreign key?
+			if (!isset($belongs_to['foreign_key'])) {
+				$belongs_to['foreign_key'] = 'id';
+			}
+			// Different column?
+			if (!isset($belongs_to['column'])) {
+				$belongs_to['column'] = $var . '_id';
+			}
+			$model = $belongs_to['model'];
+			$this->$var = $model::find($belongs_to['foreign_key'], $this->$belongs_to['column']);
+			return $this->$var;
+		}
+	}
+	
+	private static function _class_name()
+	{
+		return isset(static::$_class_name) ? static::$_class_name : static::$_name;
 	}
 }

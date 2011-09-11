@@ -30,6 +30,11 @@ class Request
 		return str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']) . (func_num_args() > 0 ? implode('/' , func_get_args()) : '');
 	}
 	
+	public static function redirect($url)
+	{
+		header("Location: " . $url);
+	}
+	
 	public static function url()
 	{
 		return static::$url;

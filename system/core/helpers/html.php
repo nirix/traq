@@ -35,4 +35,9 @@ class HTML
 	{
 		return '<script src="' . $path.'" type="text/javascript"></script>' . PHP_EOL;
 	}
+	
+	public static function link($url, $text)
+	{
+		return '<a href="' . $url . '">' . $text . '</a>';
+	}
 }

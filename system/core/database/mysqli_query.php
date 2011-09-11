@@ -16,12 +16,21 @@ class MySQLi_Query
 	private $limit;
 	private $order_by = array();
 	private $custom_sql = array();
-
-	public function __construct($type, array $cols)
+	private $callback;
+	private $model;
+	
+	public function __construct($type, array $cols = array('*'), $after_exec = false)
 	{
+		$this->after_exec = $after_exec;
 		$this->type = $type;
 		$this->cols = $cols;
 		$this->prefix = Avalon_MySQLi::get_instance()->prefix;
+		return $this;
+	}
+	
+	public function _model($model)
+	{
+		$this->model = $model;
 		return $this;
 	}
 
@@ -73,9 +82,22 @@ class MySQLi_Query
 		return $this;
 	}
 	
+  public function callback($callback)
+  {
+    $this->callback = $callback;
+    return $this;
+  }
+  
 	public function exec()
 	{
-		return Avalon_MySQLi::get_instance()->query($this->_assemble());
+		$result = Avalon_MySQLi::get_instance()->query($this->_assemble())->_model($this->model);
+		
+		if ($this->callback !== null) {
+			$method = $this->callback;
+			return $method($result);
+		} else {
+			return $result;
+		}
 	}
 	
 	private function _assemble()
