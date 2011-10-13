@@ -262,19 +262,24 @@ elseif($step == 4 and !is_installed())
 		}
 	}
 	
-	// Insert new line converter plugin
-	$db->query("INSERT INTO `".$dbconf['prefix']."plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
-					('New Line Converter', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');");
-	$db->query("INSERT INTO `".$dbconf['prefix']."plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
-					(".$db->insertid().", 'formattext', 'function_formattext', '".$db->res('$text = nl2br($text);')."', 0, 1);");
+	// Insert textile format text plugin
+	$db->query("INSERT INTO `" . $dbconf['prefix'] . "plugins` (`name`, `author`, `website`, `version`, `enabled`, `install_sql`, `uninstall_sql`) VALUES
+		('Textile Formatting', 'Jack', 'http://traqproject.org', '1.0', 1, '', '');");
+	$db->query("INSERT INTO `" . $dbconf['prefix'] . "plugin_code` (`plugin_id`, `title`, `hook`, `code`, `execorder`, `enabled`) VALUES
+		(" . $db->insertid() . ", 'formattext', 'function_formattext', '" . $db->res('global $textile;
+if(!isset($textile)) {
+	require(TRAQPATH."system/plugins/classTextile.php");
+	$textile = new Textile;
+}
+$text = $textile->TextileThis($text);') . "', 0, 1);");
 	
 	// Insert Settings.
 	$db->query("UPDATE ".$dbconf['prefix']."settings SET value='".$db->res($settings['title'])."' WHERE setting='title'");
 	$db->query("UPDATE ".$dbconf['prefix']."settings SET value='".$db->res($settings['seo_urls'])."' WHERE setting='seo_urls'");
 	
 	// Create admin account
-	$db->query("INSERT INTO ".$dbconf['prefix']."users (id, username, password, name, email, group_id, sesshash) VALUES
-					(0, '".$db->res($admin['username'])."', '".sha1($admin['password'])."', '".$db->res($admin['username'])."', '".$db->res($admin['email'])."', 1, '')");
+	$db->query("INSERT INTO ".$dbconf['prefix']."users (username, password, name, email, group_id, sesshash) VALUES
+					('".$db->res($admin['username'])."', '".sha1($admin['password'])."', '".$db->res($admin['username'])."', '".$db->res($admin['email'])."', 1, '')");
 	
 	// Config file code
 	$config_code = array();
