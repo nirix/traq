@@ -21,7 +21,6 @@
 class Ticket extends Model
 {
 	protected static $_name = 'tickets';
-	protected static $_primary = 'id';
 	protected static $_belongs_to = array(
 		'user', 'project', 'milestone', 'component',
 		'status' => array('model' => 'ticketstatus'),

@@ -21,5 +21,5 @@
 class Setting extends Model
 {
 	protected static $_name = 'settings';
-	protected static $_primary = 'setting';
+	protected static $_primary_key = 'setting';
 }

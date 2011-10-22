@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define("SYSPATH", dirname(__FILE__) . '/core');
+define("SYSPATH", dirname(__FILE__) . '/avalon');
 define("APPPATH", dirname(__FILE__));
 define("DOCROOT", dirname(dirname(__FILE__)));
 

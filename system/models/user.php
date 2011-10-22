@@ -21,5 +21,4 @@
 class User extends Model
 {
 	protected static $_name = 'users';
-	protected static $_primary = 'id';
 }
