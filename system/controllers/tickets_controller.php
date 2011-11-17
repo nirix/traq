@@ -26,7 +26,6 @@ class TicketsController extends AppController
 		
 		$where = array();
 		$where[] = array("project_id = '?'", $this->project->id);
-		
 		$sql = array();
 		
 		// Filters
@@ -81,7 +80,7 @@ class TicketsController extends AppController
 	
 	public function action_view($ticket_id)
 	{
-		$ticket = Ticket::find('ticket_id', $ticket_id);
+		$ticket = Ticket::select()->where("ticket_id = '?'", $ticket_id)->where("project_id = '?'", $this->project->id)->exec()->fetchAssoc();
 		View::set('ticket', $ticket);
 	}
 }
