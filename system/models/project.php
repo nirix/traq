@@ -22,4 +22,14 @@ class Project extends Model
 {
 	protected static $_name = 'projects';
 	protected static $_has_many = array('tickets');
+	
+	/**
+	 * Checks if the specified group has access to the action.
+	 * @param integer $group_id
+	 * @param string $action
+	 */
+	public function permission($group_id, $action)
+	{
+		
+	}
 }

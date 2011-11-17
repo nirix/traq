@@ -22,16 +22,20 @@ class ProjectsController extends AppController
 {
 	public function action_index()
 	{
-		$projects = Project::fetchAll();
+		$projects = array();
+		foreach (Project::fetchAll() as $project)
+		{
+			// Check if the user has access to view the project...
+			//if ($project->permission($this->user->group_id, 'view')
+			//{
+				$projects[] = $project;
+			//}
+		}
 		
 		View::set('projects', $projects);
 	}
 	
 	public function action_view()
 	{
-		if (!isset($this->project->name)) {
-			View::set('request', Request::url());
-			$this->_render['view'] = 'error/404';
-		}
 	}
 }
