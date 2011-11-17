@@ -21,4 +21,6 @@
 class Component extends Model
 {
 	protected static $_name = 'components';
+	
+	public $name;
 }
