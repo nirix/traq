@@ -26,10 +26,10 @@ class ProjectsController extends AppController
 		foreach (Project::fetchAll() as $project)
 		{
 			// Check if the user has access to view the project...
-			//if ($project->permission($this->user->group_id, 'view')
-			//{
+			if ($project->permission($this->user->group_id, 'view'))
+			{
 				$projects[] = $project;
-			//}
+			}
 		}
 		
 		View::set('projects', $projects);
@@ -37,5 +37,10 @@ class ProjectsController extends AppController
 	
 	public function action_view()
 	{
+		// Get open and closed ticket counts.
+		View::set('ticket_count', array(
+			'open' => Ticket::select()->where('project_id = ?', $this->project_id)->where('open = ?', 1)->exec()->numRows(),
+			'closed' => Ticket::select()->where('project_id = ?', $this->project_id)->where('open = ?', 0)->exec()->numRows()
+		));
 	}
 }
