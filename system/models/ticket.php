@@ -26,4 +26,16 @@ class Ticket extends Model
 		'status' => array('model' => 'ticketstatus'),
 		'type' => array('model' => 'tickettype'),
 	);
+	
+	public $summary;
+	
+	public function save()
+	{
+		$parent->save();
+		
+		if ($this->is_valid())
+		{
+			// code here to insert into timeline and such..
+		}
+	}
 }
