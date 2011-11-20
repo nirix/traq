@@ -20,6 +20,9 @@
 
 class TicketsController extends AppController
 {
+	/**
+	 * Handles the ticket listing index page.
+	 */
 	public function action_index()
 	{
 		Load::helper('tickets');
@@ -78,9 +81,43 @@ class TicketsController extends AppController
 		View::set('tickets', $tickets);
 	}
 	
+	/**
+	 * Handles the view ticket page.
+	 *
+	 * @param integer $ticket_id
+	 */
 	public function action_view($ticket_id)
 	{
+		// Fetch the ticket from the database and send it to the view.
 		$ticket = Ticket::select()->where("ticket_id = '?'", $ticket_id)->where("project_id = '?'", $this->project->id)->exec()->fetchAssoc();
 		View::set('ticket', $ticket);
+	}
+	
+	/**
+	 * Handles the new ticket page and ticket creation.
+	 */
+	public function action_new()
+	{
+		$ticket = new Ticket;
+		View::set('ticket', $ticket);
+		
+		// Check if the form has been submitted
+		if (Request::$method == 'post')
+		{
+			// Set the ticket data
+			$data = array(
+				'summary' => Request::$post['summary']
+			);
+			$ticket->set($data);
+			
+			// Check if the ticket data is valid...
+			// if it is, save the ticket to the DB and
+			// redirect to the ticket page.
+			if ($ticket->is_valid())
+			{
+				$ticket->save();
+				Request::redirect(Request::base($ticket->href()));
+			}
+		}
 	}
 }
