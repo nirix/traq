@@ -18,10 +18,23 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Project controller.
+ *
+ * @author Jack P.
+ * @since 3.0
+ * @package Traq
+ * @subpackage Controllers
+ */
 class ProjectsController extends AppController
 {
+	/**
+	 * Project listing page.
+	 */
 	public function action_index()
 	{
+		// Fetch all projects and make sure the user has permission
+		// to access the project then pass them to the view.
 		$projects = array();
 		foreach (Project::fetchAll() as $project)
 		{
@@ -35,6 +48,9 @@ class ProjectsController extends AppController
 		View::set('projects', $projects);
 	}
 	
+	/**
+	 * Handles the project info page.
+	 */
 	public function action_view()
 	{
 		// Get open and closed ticket counts.
@@ -42,5 +58,15 @@ class ProjectsController extends AppController
 			'open' => Ticket::select()->where('project_id = ?', $this->project_id)->where('open = ?', 1)->exec()->numRows(),
 			'closed' => Ticket::select()->where('project_id = ?', $this->project_id)->where('open = ?', 0)->exec()->numRows()
 		));
+	}
+	
+	/**
+	 * Handles the roadmap page.
+	 */
+	public function action_roadmap()
+	{
+		// Get the projects milestones and send them to the view.
+		$milestones = Milestone::select()->where('project_id = ?', $this->project->id)->orderBy('display_order', 'ASC')->exec()->fetchAll();
+		View::set('milestones', $milestones);
 	}
 }
