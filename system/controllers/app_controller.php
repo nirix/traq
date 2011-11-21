@@ -21,6 +21,14 @@
 require APPPATH . '/common.php';
 require APPPATH . '/version.php';
 
+/**
+ * App controller
+ *
+ * @author Jack P.
+ * @since 3.0
+ * @package Traq
+ * @subpackage Controllers
+ */
 class AppController extends Controller
 {
 	public $project = null;

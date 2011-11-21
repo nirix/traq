@@ -18,6 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Ticket controller.
+ *
+ * @author Jack P.
+ * @since 3.0
+ * @package Traq
+ * @subpackage Controllers
+ */
 class TicketsController extends AppController
 {
 	/**
