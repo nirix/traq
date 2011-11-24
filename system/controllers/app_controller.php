@@ -31,7 +31,8 @@ require APPPATH . '/version.php';
  */
 class AppController extends Controller
 {
-	public $project = null;
+	public $project;
+	public $user;
 	
 	public function __construct()
 	{
@@ -40,20 +41,62 @@ class AppController extends Controller
 		// Load helpers
 		Load::helper('html', 'js');
 		
-		View::$theme = 'default';
+		// Get the user info
+		$this->_getUser();
 		
+		// Set the theme, title and pass the app object to the view.
+		View::$theme = 'default';
 		View::set('title', settings('title'));
 		View::set('traq', $this);
 		
 		// Check if we're on a project page and get the project info
-		if ($this->project = is_project(Request::seg(0)) and $this->project->($this->user->group_id, 'view'))
+		if (is_project(Request::seg(0)) and $this->project = Project::find('slug', Request::seg(0)) and $this->project->permission($this->user->group_id, 'view'))
 		{
 			View::set('project', $this->project);
 		}
+		elseif (Request::seg(0) != '')
+		{
+			$this->show_404();
+		}
+	}
+	
+	/**
+	 * Used to display the 404 page.
+	 * 
+	 * @author Jack P.
+	 * @since 3.0
+	 */
+	public function show_404()
+	{
+		View::set('request', Request::url());
+		$this->_render['view'] = 'error/404';
+		$this->_render['action'] = false;
+	}
+	
+	/**
+	 * Does the checking for the session cookie and fetches the users info.
+	 * 
+	 * @author Jack P.
+	 * @since 3.0
+	 * @access private
+	 */
+	private function _getUser()
+	{
+		// Check if the session cookie is set, if so, check if it matches a user
+		// and set set the user info.
+		if (isset($_COOKIE['_sess']) and $user = User::find('login_id', $_COOKIE['_sess']) and isset($user->id))
+		{
+			$this->user = $user;
+			define("LOGGEDIN", true);
+		}
+		// Otherwise just set the user info to guest.
 		else
 		{
-			View::set('request', Request::url());
-			$this->_render['view'] = 'error/404';
+			$this->user = new User(array(
+				'username' => 'Guest',
+				'group_id' => 3
+			));
+			define("LOGGEDIN", false);
 		}
 	}
 }

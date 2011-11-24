@@ -30,6 +30,6 @@ class Project extends Model
 	 */
 	public function permission($group_id, $action)
 	{
-		
+		return true;
 	}
 }
