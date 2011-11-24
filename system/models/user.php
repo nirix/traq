@@ -23,7 +23,7 @@ class User extends Model
 	protected static $_name = 'users';
 	
 	public $username;
-	private $password;
+	protected $password;
 	public $email;
 	public $group_id;
 }
