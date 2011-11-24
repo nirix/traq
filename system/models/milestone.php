@@ -22,4 +22,10 @@ class Milestone extends Model
 {
 	protected static $_name = 'milestones';
 	protected static $_has_many = array('tickets');
+	protected static $_belongs_to = array('project');
+	
+	public function href()
+	{
+		return $this->project->slug . "/milestone/" . $this->slug;
+	}
 }
