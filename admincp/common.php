@@ -28,8 +28,10 @@ function authenticate()
 {
 	global $user;
 	
-	if(!$user->group['is_admin'])
+	if(!$user->group['is_admin']) {
 		header("Location: login.php");
+		exit;
+	}
 }
 
 /**
