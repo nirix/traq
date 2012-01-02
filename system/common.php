@@ -63,7 +63,7 @@ function baseurl()
 function template($template)
 {
 	// Check if the template exists
-	if(file_exists(TRAQPATH.'/themes/views/'.settings('theme').'/'.$template.".php")) {
+	if(file_exists(TRAQPATH.'/system/views/'.settings('theme').'/'.$template.".php")) {
 		return TRAQPATH.'/system/views/'.settings('theme').'/'.$template.".php";
 	}
 	// If not, load the Traq2 theme file
