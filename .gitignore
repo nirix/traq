@@ -2,3 +2,4 @@
 .buildpath
 .project
 system/config.php
+*.esproj/*
