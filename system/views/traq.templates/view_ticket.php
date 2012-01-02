@@ -30,9 +30,9 @@
 			<div class="description">
 				<h3 id="description"><?php echo l('description')?><?php if($user->info['id'] == $ticket['user_id'] or $user->group['is_admin']) { ?> <img id="edit_ticket_content" src="<?php echo baseurl(); ?>admincp/images/pencil.png" alt="<?php echo l('edit'); ?>" /><?php } ?></h3>
 				<input type="hidden" id="ticket_iid" value="<?php echo $ticket['id']; ?>" />
-				<p id="ticket_content">
+				<div id="ticket_content">
 					<?php echo formattext($ticket['body'],true)?> 
-				</p>
+				</div>
 				<h3><?php echo l('attachments')?></h3>
 				<div id="attachments">
 					<ul>
