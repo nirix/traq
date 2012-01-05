@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -20,8 +20,14 @@
 
 /**
  * Returns the value of the requested setting.
+ *
+ * @param string $setting The setting to fetch
+ *
  * @return string
- * @package traq
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
  */
 function settings($setting) {
 	static $CACHE;
@@ -38,9 +44,12 @@ function settings($setting) {
 
 /**
  * Returns the value of the requested localization string.
+ *
  * @return string
- * @package traq
- * @subpackage locale
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
  */
 function l() {
 	static $lang = null;
@@ -71,8 +80,15 @@ function l() {
 
 /**
  * Checks if the specified field is a projet or not.
- * @return mixed
- * @package traq
+ *
+ * @param mixed $find Value [or column] to search for.
+ * @param mixed $field Column [or value].
+ *
+ * @return object
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
  */
 function is_project($find, $field = 'slug') {
 	$project = Project::find($field, $find);
@@ -86,7 +102,12 @@ function is_project($find, $field = 'slug') {
 
 /**
  * Ticket columns
+ *
  * @return array
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
  */
 function ticket_columns() {
 	$columns = array(
@@ -103,7 +124,12 @@ function ticket_columns() {
 
 /**
  * Ticket filters
+ *
  * @return array
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
  */
 function ticket_filters() {
 	$filters = array(
