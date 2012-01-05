@@ -1,39 +1,22 @@
 Traq
 ======
 
-Traq is a PHP and MySQL powered Project Tracker, you can easily track Milestones, Versions, Bugs, Feature Requests and see how far your project has come.
+Traq is a PHP powered project manager, capable of tracking issues for multiple projects with multiple milestones.
 
-Features
-------
+Requirements
+------------
 
-- **Multiple Projects**
+- PHP 5.2+
+- Database supported by PHP's PDO
+- Apache mod_rewrite or properly configured NGiNX
 
-  Manage multiple projects easily and effecively with Traq's multiple project features.
+License
+-------
 
-- **Milestones**
+Traq is released under the GNU GPL license, _version 3 only_.
 
-  Easily manage bugs and requests with project milestones.
+Credits
+-------
 
-- **Timeline**
-
-  See what, and when, changes were made, tickets opened or closed with the project timeline.
-
-- **Repository Browser**
-
-  Browse your projects source repository with the built in repository browser.
-
-- **Plugins**
-
-  Extend with plugins, Traq has a powerful plugin system.
-
-- **Filters**
-
-  Filter tickets to find what you're looking for.
-
-- **Notifications**
-
-  Receive email notifications when tickets are created or updated.
-
-- **RSS Feeds**
-
-  Subscribe to the timeline or tickets RSS feed to get updates.
+- famfamfam.com for the sexy icons
+- authors of the Textile markup class
