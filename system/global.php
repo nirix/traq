@@ -66,7 +66,7 @@ $uri = new URI;
 define("THEMEDIR",$uri->anchor('system/views',settings('theme')));
 
 // Set the SEO URL option
-$uri->style = settings('seo_urls');
+$uri->style = file_exists(TRAQPATH . '.htaccess') ? settings('seo_urls') : 0;
 
 // Fetch locale file...
 require('locale/'.settings('locale'));
