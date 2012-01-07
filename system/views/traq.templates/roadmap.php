@@ -34,12 +34,24 @@
 							<td>
 								<table class="progress" cellspacing="0">
 									<tr>
-										<?php if($milestone['tickets']['percent']['closed'] != 0) { ?><td class="closed" width="<?php echo $milestone['tickets']['percent']['closed']?>%"><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>&status=closed"></a></td><?php } ?>
-										<?php if($milestone['tickets']['percent']['open'] != 0) { ?><td class="open" width="<?php echo $milestone['tickets']['percent']['open']?>%"><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>&status=open"></a></td><?php } ?>
+									<?php if($milestone['tickets']['all'] == 0) { ?>
+										<td class="open">
+											<a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>"></a>
+										</td>
+									<?php } else { ?>
+										<?php if($milestone['tickets']['percent']['closed'] != 0) { ?>
+											<td class="closed" width="<?php echo $milestone['tickets']['percent']['closed']?>%"><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>&status=closed"></a></td>
+										<?php } ?>
+										<?php if($milestone['tickets']['percent']['open'] != 0) { ?>
+											<td class="open" width="<?php echo $milestone['tickets']['percent']['open']?>%"><a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>&status=open"></a></td>
+										<?php } ?>
+									<?php } ?>
 									</tr>
 								</table>
 							</td>
-							<td class="percent"><?php echo $milestone['tickets']['percent']['closed']?>%</td>
+							<td class="percent">
+								<?php echo $milestone['tickets']['all'] > 0 ? $milestone['tickets']['percent']['closed'] : 0?>%
+							</td>
 						</tr>
 					</table>
 					<dl>
