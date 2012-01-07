@@ -36,7 +36,7 @@ class ProjectsController extends AppController
 		// Fetch all projects and make sure the user has permission
 		// to access the project then pass them to the view.
 		$projects = array();
-		foreach (Project::fetchAll() as $project)
+		foreach (Project::fetch_all() as $project)
 		{
 			// Check if the user has access to view the project...
 			if ($project->permission($this->user->group_id, 'view'))
@@ -53,10 +53,15 @@ class ProjectsController extends AppController
 	 */
 	public function action_view()
 	{
+		if (!$this->project->name)
+		{
+			$this->show_404();
+		}
+		
 		// Get open and closed ticket counts.
 		View::set('ticket_count', array(
-			'open' => Ticket::select()->where('project_id = ?', $this->project->id)->where('closed = ?', 0)->exec()->numRows(),
-			'closed' => Ticket::select()->where('project_id = ?', $this->project->id)->where('closed = ?', 1)->exec()->numRows()
+			'open' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->exec()->row_count(),
+			'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->exec()->row_count()
 		));
 	}
 	
@@ -66,7 +71,7 @@ class ProjectsController extends AppController
 	public function action_roadmap()
 	{
 		// Get the projects milestones and send them to the view.
-		$milestones = Milestone::select()->where('project_id = ?', $this->project->id)->orderBy('displayorder', 'ASC')->exec()->fetchAll();
+		$milestones = Milestone::select()->where('project_id', $this->project->id)->orderBy('displayorder', 'ASC')->exec()->fetch_all();
 		View::set('milestones', $milestones);
 	}
 	

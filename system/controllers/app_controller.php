@@ -42,7 +42,7 @@ class AppController extends Controller
 		Load::helper('html', 'js');
 		
 		// Get the user info
-		$this->_getUser();
+		$this->_get_user();
 		
 		// Set the theme, title and pass the app object to the view.
 		View::$theme = 'default';
@@ -50,13 +50,10 @@ class AppController extends Controller
 		View::set('traq', $this);
 		
 		// Check if we're on a project page and get the project info
-		if (is_project(Request::seg(0)) and $this->project = Project::find('slug', Request::seg(0)) and $this->project->permission($this->user->group_id, 'view'))
+		//if (is_project(Request::seg(0)) and $this->project = Project::find('slug', Request::seg(0)) and $this->project->permission($this->user->group_id, 'view'))
+		if ($this->project = is_project(Request::seg(0)) and $this->project->permission($this->user->group_id, 'view'))
 		{
 			View::set('project', $this->project);
-		}
-		elseif (Request::seg(0) != '')
-		{
-			$this->show_404();
 		}
 	}
 	
@@ -80,7 +77,7 @@ class AppController extends Controller
 	 * @since 3.0
 	 * @access private
 	 */
-	private function _getUser()
+	private function _get_user()
 	{
 		// Check if the session cookie is set, if so, check if it matches a user
 		// and set set the user info.

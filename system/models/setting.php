@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -22,4 +22,8 @@ class Setting extends Model
 {
 	protected static $_name = 'settings';
 	protected static $_primary_key = 'setting';
+	protected static $_properties = array(
+		'setting',
+		'value'
+	);
 }

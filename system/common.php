@@ -30,7 +30,7 @@
  * @package Traq
  */
 function settings($setting) {
-	static $CACHE;
+	static $CACHE = array();
 	
 	if (isset($CACHE[$setting])) {
 		return $CACHE[$setting];
@@ -93,7 +93,7 @@ function l() {
 function is_project($find, $field = 'slug') {
 	$project = Project::find($field, $find);
 	
-	if (isset($project->name)) {
+	if ($project->name) {
 		return $project;
 	} else {
 		return false;

@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -21,12 +21,26 @@
 class Project extends Model
 {
 	protected static $_name = 'projects';
+	protected static $_properties = array(
+		'id',
+		'name',
+		'slug',
+		'info',
+		'managers',
+		'private',
+		'next_tid',
+		'displayorder'
+	);
+	
 	protected static $_has_many = array('tickets');
 	
 	/**
 	 * Checks if the specified group has access to the action.
+	 *
 	 * @param integer $group_id
 	 * @param string $action
+	 *
+	 * @return bool
 	 */
 	public function permission($group_id, $action)
 	{

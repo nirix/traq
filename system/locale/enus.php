@@ -42,7 +42,7 @@ function enus_info()
 function enus_locale()
 {
 	return array(
-		'copyright' => "Powered by Traq " . TRAQVER . " &copy; 2009-" . date("Y"),
+		'copyright' => "Powered by Traq " . TRAQ_VER . " &copy; 2009-" . date("Y"),
 		'projects' => "Projects",
 		'project_info' => "Project Info",
 		'tickets' => "Tickets",
