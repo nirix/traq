@@ -34,7 +34,7 @@
 							<td>
 								<table class="progress" cellspacing="0">
 									<tr>
-									<?php if($milestone['tickets']['all'] == 0) { ?>
+									<?php if($milestone['tickets']['total'] == 0) { ?>
 										<td class="open">
 											<a href="<?php echo $uri->anchor($project['slug'],'tickets')?>?milestone=<?php echo $milestone['slug']?>"></a>
 										</td>
@@ -50,7 +50,7 @@
 								</table>
 							</td>
 							<td class="percent">
-								<?php echo $milestone['tickets']['all'] > 0 ? $milestone['tickets']['percent']['closed'] : 0?>%
+								<?php echo $milestone['tickets']['total'] > 0 ? $milestone['tickets']['percent']['closed'] : 0?>%
 							</td>
 						</tr>
 					</table>
