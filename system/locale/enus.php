@@ -1,7 +1,7 @@
 <?php
-/**
- * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+/*
+ * Traq
+ * Copyright (C) 2009-2012 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -21,12 +21,12 @@
 /**
  * Traq English Localization
  * Name: English
- * Author: Jack Polgar
+ * Author: Jack P.
  */
 
 // Global / Misc / In more than one place
 $lang['traq'] = 'Traq';
-$lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; 2009-'.date("Y").' Jack Polgar';
+$lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; 2009-'.date("Y").' Jack P.';
 $lang['login'] = 'Login';
 $lang['register'] = 'Register';
 $lang['logout'] = 'Logout';
