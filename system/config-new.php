@@ -27,6 +27,7 @@ $conf = array(
 		'prefix' => 'traq_' // Table prefix
 	),
 	'general' => array(
-		'authorized_only' => false // Access for authorized users only
+		'authorized_only' => false, // Access for authorized users only
+		'enable_notifications' => true // Enable email notifications.
 	)
 );

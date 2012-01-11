@@ -11,7 +11,9 @@
 		
 		<h1><?php echo l('milestone')?>: <em><?php echo $milestone['milestone']?><?php echo (!empty($milestone['codename']) ? ' <small>"'.$milestone['codename'].'"</small>' : '')?></em></h1>
 		<?php if($user->loggedin) { ?>
+		<?php if ($conf['general']['enable_notifications']) { ?>
 		<div><a href="<?php echo $uri->anchor($project['slug'],'milestone-'.$milestone['slug'],'watch')?>"><?php echo l(iif(is_subscribed('milestone',$milestone['id']),'Unwatch','Watch').'_this_milestone')?></a></div>
+		<?php } ?>
 		<?php } ?>
 		<div class="milestone">
 			<div class="info">

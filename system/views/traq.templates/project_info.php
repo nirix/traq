@@ -11,7 +11,9 @@
 		
 		<h1><?php echo $project['name']?></h1>
 		<?php if($user->loggedin) { ?>
+		<?php if ($conf['general']['enable_notifications']) { ?>
 		<div><a href="<?php echo $uri->anchor($project['slug'],'watch')?>"><?php echo l(iif(is_subscribed('project',$project['id']),'Unwatch','Watch').'_this_project')?></a></div>
+		<?php } ?>
 		<?php } ?>
 		<p>
 			<?php echo formattext($project['info'])?>

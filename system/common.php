@@ -594,7 +594,13 @@ function project_managers($project_id=NULL)
  */
 function is_subscribed($type,$data='')
 {
-	global $db,$user,$project;
+	global $db,$user,$project,$conf;
+	
+	// Check if notifications are enabled.
+	if (!$conf['general']['enable_notifications'])
+	{
+		return false;
+	}
 	
 	if($db->numrows($db->query("SELECT id FROM ".DBPF."subscriptions WHERE type='".$type."' AND user_id='".$user->info['id']."' AND project_id='".$project['id']."' AND data='".$data."' LIMIT 1")))
 	{
@@ -613,7 +619,13 @@ function is_subscribed($type,$data='')
  */
 function add_subscription($type,$data='')
 {
-	global $db,$user,$project;
+	global $db,$user,$project,$conf;
+	
+	// Check if notifications are enabled.
+	if (!$conf['general']['enable_notifications'])
+	{
+		return false;
+	}
 	
 	$db->query("INSERT INTO ".DBPF."subscriptions
 	(type,user_id,project_id,data)
@@ -652,7 +664,13 @@ function remove_subscription($type,$data='')
  */
 function send_notification($type,$data=array())
 {
-	global $project, $db;
+	global $project, $db, $conf;
+	
+	// Check if notifications are enabled.
+	if (!$conf['general']['enable_notifications'])
+	{
+		return false;
+	}
 	
 	static $sent = array();
 	
