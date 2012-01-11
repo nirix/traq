@@ -19,14 +19,14 @@
  */
 
 /**
- * Traq English Localization
+ * Traq English Localisation
  * Name: English
  * Author: Jack P.
  */
 
 // Global / Misc / In more than one place
 $lang['traq'] = 'Traq';
-$lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; 2009-'.date("Y").' Jack P.';
+$lang['poweredby'] = 'Powered by Traq '.TRAQVER.'<br />Copyright &copy; 2009-'.date("Y").' TraqProject.org';
 $lang['login'] = 'Login';
 $lang['register'] = 'Register';
 $lang['logout'] = 'Logout';
@@ -428,4 +428,3 @@ $lang['error_select_at_least_one_project'] = 'You must select at least one proje
 $lang['error'] = 'Error';
 $lang['error_no_permission'] = 'You don\'t have permission to view this page.';
 $lang['page_x_not_found'] = 'The page \'{1}\' could not be found.';
-?>
