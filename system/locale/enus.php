@@ -37,6 +37,7 @@ $lang['project_info'] = 'Project Info';
 $lang['roadmap'] = 'Roadmap';
 $lang['timeline'] = 'Timeline';
 $lang['tickets'] = 'Tickets';
+$lang['all_tickets'] = 'All Tickets';
 $lang['changelog'] = 'Changelog';
 $lang['milestone'] = 'Milestone';
 $lang['new_ticket'] = 'New Ticket';

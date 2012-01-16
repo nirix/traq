@@ -13,7 +13,7 @@
 				<div class="info">
 					<h2><a href="<?php echo $uri->anchor($project['slug'])?>"><?php echo $project['name']?></a></h2>
 					<div class="description">
-						<small class="quick_nav"><a href="<?php echo $uri->anchor($project['slug'],'roadmap')?>">Roadmap</a> | <a href="<?php echo $uri->anchor($project['slug'],'tickets')?>">All Tickets</a> | <a href="<?php echo $uri->anchor($project['slug'],'timeline')?>">Timeline</a> <?php ($hook = FishHook::hook('template_projectlist_quick_nav')) ? eval($hook) : false; ?></small>
+						<small class="quick_nav"><a href="<?php echo $uri->anchor($project['slug'],'roadmap')?>"><?php echo l('roadmap'); ?></a> | <a href="<?php echo $uri->anchor($project['slug'],'tickets')?>"><?php echo l('all_tickets'); ?></a> | <a href="<?php echo $uri->anchor($project['slug'],'timeline')?>"><?php echo l('timeline'); ?></a> <?php ($hook = FishHook::hook('template_projectlist_quick_nav')) ? eval($hook) : false; ?></small>
 						<?php echo formattext($project['info'])?>
 					</div>
 				</div>
