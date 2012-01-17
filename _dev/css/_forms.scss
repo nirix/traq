@@ -1,0 +1,16 @@
+.tabular {
+	.group {
+		margin: 0;
+		padding: 5px 0;
+		padding-left: 125px;
+		clear: left;
+	}
+	label {
+		font-weight: bold;
+		float: left;
+		margin-left: -125px;
+		text-align: right;
+		width: 120px;
+		padding-top: 6px;
+	}
+}
