@@ -947,3 +947,6 @@ thead th {
   text-align: right;
   width: 120px;
   padding-top: 6px; }
+
+.error ul, .success ul, .notice ul, .info ul {
+  margin-bottom: 0; }

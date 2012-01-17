@@ -61,10 +61,17 @@ function enus_locale()
 		'register' => "Register",
 		'username' => "Username",
 		'password' => "Password",
+		'email' => "Email",
 		
 		// Errors
 		'error:404_title' => "Woops",
 		'error:404_message' => "The requested page '{1}' couldn't be found.",
 		'error:invalid_username_or_password' => "Invalid Username or Password.",
+		
+		// User errors
+		'error:user:username_blank' => "Username cannot be blank",
+		'error:user:username_in_use' => "That username is already registered",
+		'error:user:password_blank' => "Password cannot be blank",
+		'error:user:email_invalid' => "Invalid email address",
 	);
 }

@@ -47,7 +47,8 @@ class UsersController extends AppController
 	
 	public function action_logout()
 	{
-		
+		setcookie('_traq', sha1(time()), time() + 5, '/');
+		Request::redirect(Request::base());
 	}
 	
 	/**
@@ -55,24 +56,23 @@ class UsersController extends AppController
 	 */
 	public function action_register()
 	{
-		$user = new User;
-		View::set('user', $user);
-		
 		if (Request::$method == 'post')
 		{
 			$data = array(
-				'username', Request::$post['username'],
-				'password', Request::$post['password'],
-				'email', Request::$post['email'],
+				'username' => Request::$post['username'],
+				'password' => Request::$post['password'],
+				'email' => Request::$post['email'],
 				'group_id' => 3
 			);
-			$user->set($data);
+			$user = new User($data);
 			
 			if ($user->is_valid())
 			{
 				$user->save();
 				Request::redirect(Request::base('login'));
 			}
+			
+			View::set('user', $user);
 		}
 	}
 }

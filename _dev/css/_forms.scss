@@ -14,3 +14,9 @@
 		padding-top: 6px;
 	}
 }
+
+.error, .success, .notice, .info {
+	ul {
+		margin-bottom: 0;
+	}
+}
