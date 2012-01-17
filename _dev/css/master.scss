@@ -148,6 +148,50 @@ thead th {
 	font-weight: normal;
 }
 
+/* ==========# Tabs #========== */
+.tabs {
+	height: 25px;
+	position: relative;
+	overflow: hidden;
+	
+	ul {
+		margin: 0;
+		position: absolute;
+		padding-left: 10px;
+		width: 2000px;
+		border-bottom: 1px solid #bbb;
+		list-style: none;
+		
+		li {
+			float: left;
+			white-space: nowrap;
+			margin-right: 4px;
+			position: relative;
+			margin-bottom: -1px;
+			
+			a {
+				display: block;
+				text-decoration: none;
+				padding: 2px 10px;
+				border: 1px solid #ccc;
+				background: #f6f6f6;
+				border-radius: 2px 2px 0 0;
+				color: #a2a2a2;
+				font-weight: bold;
+			}
+			
+			a:hover, &.active a {
+				background: #fff;
+			}
+			
+			&.active a {
+				color: #000;
+				border-bottom-color: #fff;
+			}
+		}
+	}
+}
+
 /* ==========# Sexy boots #========== */
 #footer {
 	color: #000;

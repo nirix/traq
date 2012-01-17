@@ -48,6 +48,16 @@ function enus_locale()
 		'tickets' => "Tickets",
 		'roadmap' => "Roadmap",
 		'timeline' => "Timeline",
+		'settings' => "Settings",
+		'managers' => "Managers",
+		'information' => "Information",
+		'milestones' => "Milestones",
+		'components' => "Components",
+		'project_settings' => "Project Settings",
+		'name' => "Name",
+		'slug' => "Slug",
+		
+		// Tickets
 		'summary' => "Summary",
 		'status' => "Status",
 		'owner' => "Owner",
@@ -55,6 +65,8 @@ function enus_locale()
 		'component' => "Component",
 		'milestone' => "Milestone",
 		'description' => "Description",
+		
+		// User stuff
 		'login' => "Login",
 		'logout' => "Logout",
 		'usercp' => "UserCP",
@@ -63,6 +75,12 @@ function enus_locale()
 		'username' => "Username",
 		'password' => "Password",
 		'email' => "Email",
+		
+		// Other
+		'save' => "Save",
+		
+		// Help
+		'help:slug' => "A lower case alpha-numerical string used in the URL.",
 		
 		// Errors
 		'error:404_title' => "Woops",

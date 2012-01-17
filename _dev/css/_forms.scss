@@ -11,7 +11,11 @@
 		margin-left: -125px;
 		text-align: right;
 		width: 120px;
-		padding-top: 6px;
+	}
+	
+	input {
+		margin-top: 1px;
+		vertical-align: middle;
 	}
 }
 
@@ -19,4 +23,18 @@
 	ul {
 		margin-bottom: 0;
 	}
+}
+
+form abbr {
+	border-radius: 15px;
+	background: #d5edf8;
+	color: #205791;
+	border: 1px solid #92cae4;
+	padding: 0 5px;
+	cursor: default;
+}
+
+textarea {
+	height: 150px;
+	width: 98%;
 }

@@ -32,6 +32,9 @@
 					<li><?php echo HTML::link(l('project_info'), $project->slug); ?></li>
 					<li><?php echo HTML::link(l('tickets'), "{$project->slug}/tickets"); ?></li>
 					<li><?php echo HTML::link(l('timeline'), "{$project->slug}/timeline"); ?></li>
+					<?php if($project->is_manager($current_user)) { ?>
+					<li><?php echo HTML::link(l('settings'), "{$project->slug}/settings"); ?></li>
+					<?php } ?>
 				<?php } else { ?>
 					<li><?php echo HTML::link(l('projects'), null); ?></li>
 				<?php } ?>

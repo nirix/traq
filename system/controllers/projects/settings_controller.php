@@ -18,13 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Router::add('root', 'Projects::index');
-
-Router::add('/(login|logout|register|usercp)', 'Users::$1');
-
-// Project controllers
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets', 'Tickets::index');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/(timeline|roadmap)', 'Projects::$2');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings', 'Projects::Settings::index');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)', 'Projects::view');
+/**
+ * Project settings controller
+ *
+ * @author Jack P.
+ * @since 3.0
+ * @package Traq
+ * @subpackage Controllers
+ */
+class ProjectsSettingsController extends AppController
+{
+	public function action_index()
+	{
+	}
+}
