@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -53,9 +53,9 @@ class ProjectsController extends AppController
 	 */
 	public function action_view()
 	{
-		if (!$this->project->name)
+		if (!$this->project)
 		{
-			$this->show_404();
+			return $this->show_404();
 		}
 		
 		// Get open and closed ticket counts.

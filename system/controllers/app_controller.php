@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -81,7 +81,7 @@ class AppController extends Controller
 	{
 		// Check if the session cookie is set, if so, check if it matches a user
 		// and set set the user info.
-		if (isset($_COOKIE['_sess']) and $user = User::find('login_id', $_COOKIE['_sess']) and isset($user->id))
+		if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq']))
 		{
 			$this->user = $user;
 			View::set('current_user', $this->user);
