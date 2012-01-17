@@ -27,10 +27,12 @@
 				<?php } ?>
 				</ul>
 				<ul id="main_nav">
-				<?php if (isset($traq->project)) { ?>
-					<li><a href="<?php echo Request::base($project->slug)?>"><?php echo l('project_info')?></a></li>
-					<li><a href="<?php echo Request::base($project->slug, 'tickets')?>"><?php echo l('tickets')?></a></li>
-					<li><a href="<?php echo Request::base($project->slug, 'timeline')?>"><?php echo l('timeline')?></a></li>
+				<?php if (isset($project)) { ?>
+					<li><?php echo HTML::link(l('project_info'), $project->slug); ?></li>
+					<li><?php echo HTML::link(l('tickets'), "{$project->slug}/tickets"); ?></li>
+					<li><?php echo HTML::link(l('timeline'), "{$project->slug}/timeline"); ?></li>
+				<?php } else { ?>
+					<li><?php echo HTML::link(l('projects'), null); ?></li>
 				<?php } ?>
 				</ul>
 			</nav>
