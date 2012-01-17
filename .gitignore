@@ -1,4 +1,6 @@
 system/config/database.php
+.sass-cache
+.DS_Store
 .project
 .settings
 .buildpath
