@@ -88,7 +88,7 @@ thead th {
 }
 
 .content {
-	padding: 5px;
+	padding: 10px;
 }
 
 .box,
@@ -97,6 +97,36 @@ thead th {
 	border: 1px solid #e4e4e4;
 	padding: 5px;
 	margin-bottom: 0;
+}
+
+/* ==========# Projects #========= */
+#project_list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	
+	li {
+		margin-top: 10px;
+		
+		h3 {
+			margin: 0;
+		}
+		
+		nav {
+			margin-bottom: 4px;
+			
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				
+				li {
+					display: inline;
+					margin-right: 4px;
+				}
+			}
+		}
+	}
 }
 
 /* ==========# Tickets #========== */

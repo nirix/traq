@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title><?php echo implode(' / ', $traq->title); ?></title>
+		<meta charset="UTF-8" />
 		<?php echo HTML::css_link(Request::base() . 'assets/css/master.css'); ?>
 		<?php echo HTML::css_link(Request::base() . 'assets/css/print.css', 'print'); ?>
 		<!--[if lt IE 8]>

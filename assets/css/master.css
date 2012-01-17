@@ -903,7 +903,7 @@ thead th {
   margin-top: 0; }
 
 .content {
-  padding: 5px; }
+  padding: 10px; }
 
 .box,
 .inline_box {
@@ -911,6 +911,25 @@ thead th {
   border: 1px solid #e4e4e4;
   padding: 5px;
   margin-bottom: 0; }
+
+/* ==========# Projects #========= */
+#project_list {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  #project_list li {
+    margin-top: 10px; }
+    #project_list li h3 {
+      margin: 0; }
+    #project_list li nav {
+      margin-bottom: 4px; }
+      #project_list li nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0; }
+        #project_list li nav ul li {
+          display: inline;
+          margin-right: 4px; }
 
 /* ==========# Tickets #========== */
 #ticket_info {

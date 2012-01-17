@@ -46,6 +46,7 @@ function enus_locale()
 		'projects' => "Projects",
 		'project_info' => "Project Info",
 		'tickets' => "Tickets",
+		'roadmap' => "Roadmap",
 		'timeline' => "Timeline",
 		'summary' => "Summary",
 		'status' => "Status",
