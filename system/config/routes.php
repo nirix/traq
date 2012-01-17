@@ -20,7 +20,7 @@
 
 Router::add('root', 'Projects::index');
 
-Router::add('/(login|logout|register)', 'Users::$1');
+Router::add('/(login|logout|register|usercp)', 'Users::$1');
 
 // Project controllers
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');

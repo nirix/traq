@@ -54,9 +54,15 @@ function enus_locale()
 		'component' => "Component",
 		'milestone' => "Milestone",
 		'description' => "Description",
+		'login' => "Login",
+		'logout' => "Logout",
+		'register' => "Register",
+		'username' => "Username",
+		'password' => "Password",
 		
 		// Errors
 		'error:404_title' => "Woops",
-		'error:404_message' => "The requested page '{1}' couldn't be found."
+		'error:404_message' => "The requested page '{1}' couldn't be found.",
+		'error:invalid_username_or_password' => "Invalid Username or Password.",
 	);
 }

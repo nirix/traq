@@ -39,7 +39,7 @@ class AppController extends Controller
 		parent::__construct();
 		
 		// Load helpers
-		Load::helper('html', 'js');
+		Load::helper('html', 'form', 'js');
 		
 		// Get the user info
 		$this->_get_user();
@@ -84,13 +84,14 @@ class AppController extends Controller
 		if (isset($_COOKIE['_sess']) and $user = User::find('login_id', $_COOKIE['_sess']) and isset($user->id))
 		{
 			$this->user = $user;
+			View::set('current_user', $this->user);
 			define("LOGGEDIN", true);
 		}
 		// Otherwise just set the user info to guest.
 		else
 		{
 			$this->user = new User(array(
-				'username' => 'Guest',
+				'username' => l('guest'),
 				'group_id' => 3
 			));
 			define("LOGGEDIN", false);

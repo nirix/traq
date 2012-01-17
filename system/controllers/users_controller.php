@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -30,7 +30,19 @@ class UsersController extends AppController
 {
 	public function action_login()
 	{
-		
+		if (Request::$method == 'post')
+		{
+			if ($user = User::find('username', Request::$post['username'])
+			and $user->verify_password(Request::$post['password']))
+			{
+				setcookie('_traq', $user->login_id, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+				Request::redirect(isset(Request::$post['goto']) ? Request::$post['goto'] : Request::base());
+			}
+			else
+			{
+				View::set('error', true);
+			}
+		}
 	}
 	
 	public function action_logout()
