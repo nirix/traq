@@ -79,6 +79,18 @@ function l() {
 }
 
 /**
+ *
+ *
+ *
+ */
+function format_text($text, $strip_html = true)
+{
+	$text = $strip_html ? htmlspecialchars($text) : $text;
+	
+	return $text;
+}
+
+/**
  * Checks if the specified field is a projet or not.
  *
  * @param mixed $find Value [or column] to search for.
