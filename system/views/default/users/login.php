@@ -1,6 +1,6 @@
 <section id="login_form" class="tabular content">
 	<div class="push-7 span-8">
-		<h2 id="page_title">Login</h2>
+		<h2 id="page_title"><?php echo l('login'); ?></h2>
 		<?php if (isset($error) and $error) { ?>
 		<div class="error">
 			<?php echo l('error:invalid_username_or_password'); ?>
