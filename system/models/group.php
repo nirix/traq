@@ -18,31 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class User extends Model
+class Group extends Model
 {
-	protected static $_name = 'users';
+	protected static $_name = 'usergroups';
 	protected static $_properties = array(
 		'id',
-		'username',
-		'password',
-		//'salt',
 		'name',
-		'email',
-		'group_id',
-		'login_hash'
+		'is_admin',
+		'create_tickets',
+		'update_tickets',
+		'comment_tickets',
+		'delete_tickets',
+		'add_attachments'
 	);
-	
-	protected static $_belongs_to = array('group');
-	
-	/**
-	 * Checks the given password against the users password.
-	 *
-	 * @param string $password
-	 *
-	 * @return bool
-	 */ 
-	public function verify_password($password)
-	{
-		return sha1($password) == $this->_data['password'];
-	}
 }

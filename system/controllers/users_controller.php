@@ -35,7 +35,7 @@ class UsersController extends AppController
 			if ($user = User::find('username', Request::$post['username'])
 			and $user->verify_password(Request::$post['password']))
 			{
-				setcookie('_traq', $user->login_id, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+				setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
 				Request::redirect(isset(Request::$post['goto']) ? Request::$post['goto'] : Request::base());
 			}
 			else

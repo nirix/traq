@@ -56,6 +56,8 @@ function enus_locale()
 		'description' => "Description",
 		'login' => "Login",
 		'logout' => "Logout",
+		'usercp' => "UserCP",
+		'admincp' => "AdminCP",
 		'register' => "Register",
 		'username' => "Username",
 		'password' => "Password",
