@@ -23,7 +23,17 @@ class Milestone extends Model
 	protected static $_name = 'milestones';
 	protected static $_properties = array(
 		'id',
-		'name'
+		'name',
+		'slug',
+		'codename',
+		'info',
+		'changelog',
+		'due',
+		'is_completed',
+		'is_cancelled',
+		'is_locked',
+		'project_id',
+		'displayorder'
 	);
 	
 	protected static $_has_many = array('tickets');

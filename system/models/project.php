@@ -34,6 +34,10 @@ class Project extends Model
 	
 	protected static $_has_many = array('tickets');
 	
+	protected static $_filters_after = array(
+		'construct' => array('process_managers')
+	);
+	
 	/**
 	 * Checks if the specified group has access to the action.
 	 *
@@ -45,5 +49,22 @@ class Project extends Model
 	public function permission($group_id, $action)
 	{
 		return true;
+	}
+	
+	/**
+	 * Check if the specified user has permission to manage the project.
+	 *
+	 * @param object $user
+	 *
+	 * @return bool
+	 */
+	public function is_manager($user)
+	{
+		return in_array($user->id, $this->managers);
+	}
+	
+	protected function process_managers()
+	{
+		$this->managers = explode(',', $this->_data['managers']);
 	}
 }
