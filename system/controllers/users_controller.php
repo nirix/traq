@@ -30,6 +30,8 @@ class UsersController extends AppController
 {
 	public function action_login()
 	{
+		$this->title(l('login'));
+		
 		if (Request::$method == 'post')
 		{
 			if ($user = User::find('username', Request::$post['username'])
@@ -56,6 +58,7 @@ class UsersController extends AppController
 	 */
 	public function action_register()
 	{
+		$this->title(l('register'));
 		if (Request::$method == 'post')
 		{
 			$data = array(

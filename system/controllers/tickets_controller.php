@@ -33,6 +33,7 @@ class TicketsController extends AppController
 	 */
 	public function action_index()
 	{
+		$this->title(l('tickets'));
 		Load::helper('tickets');
 		
 		$where = array();
@@ -111,6 +112,8 @@ class TicketsController extends AppController
 	{
 		// Fetch the ticket from the database and send it to the view.
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+		$this->title(l('tickets'));
+		$this->title($ticket->summary);
 		View::set('ticket', $ticket);
 	}
 	

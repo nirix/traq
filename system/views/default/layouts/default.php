@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo $title; ?></title>
+		<title><?php echo implode(' / ', $traq->title); ?></title>
 		<?php echo HTML::css_link(Request::base() . 'assets/css/master.css'); ?>
 		<?php echo HTML::css_link(Request::base() . 'assets/css/print.css', 'print'); ?>
 		<!--[if lt IE 8]>
@@ -11,7 +11,7 @@
 	<body>
 		<div id="wrapper" class="container">
 			<header id="header">
-				<h1><?php echo HTML::link(settings('title'), null); ?></h1>
+				<h1><?php echo HTML::link(settings('title'), null); ?><?php if (isset($project)) { ?> / <?php echo HTML::link($project->name, $project->slug); ?><?php } ?></h1>
 			</header>
 			<nav id="nav">
 				<ul id="meta_nav">

@@ -33,10 +33,13 @@ class AppController extends Controller
 {
 	public $project;
 	public $user;
+	public $title = array();
 	
 	public function __construct()
 	{
 		parent::__construct();
+		
+		$this->title(settings('title'));
 		
 		// Load helpers
 		Load::helper('html', 'form', 'js');
@@ -46,15 +49,25 @@ class AppController extends Controller
 		
 		// Set the theme, title and pass the app object to the view.
 		View::$theme = 'default';
-		View::set('title', settings('title'));
 		View::set('traq', $this);
 		
 		// Check if we're on a project page and get the project info
 		//if (is_project(Request::seg(0)) and $this->project = Project::find('slug', Request::seg(0)) and $this->project->permission($this->user->group_id, 'view'))
 		if ($this->project = is_project(Request::seg(0)) and $this->project->permission($this->user->group_id, 'view'))
 		{
+			$this->title($this->project->name);
 			View::set('project', $this->project);
 		}
+	}
+	
+	public function title($add = null)
+	{
+		if ($add === null)
+		{
+			return $this->title;
+		}
+		
+		$this->title[] = $add;
 	}
 	
 	/**
