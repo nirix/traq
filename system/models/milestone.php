@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -21,6 +21,11 @@
 class Milestone extends Model
 {
 	protected static $_name = 'milestones';
+	protected static $_properties = array(
+		'id',
+		'name'
+	);
+	
 	protected static $_has_many = array('tickets');
 	protected static $_belongs_to = array('project');
 	

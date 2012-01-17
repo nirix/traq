@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -21,4 +21,8 @@
 class TicketStatus extends Model
 {
 	protected static $_name = 'ticket_status';
+	protected static $_properties = array(
+		'id',
+		'name'
+	);
 }

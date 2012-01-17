@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -36,42 +36,54 @@ class TicketsController extends AppController
 		Load::helper('tickets');
 		
 		$where = array();
-		$where[] = array("project_id = '?'", $this->project->id);
+		$where[] = array("project_id", $this->project->id);
 		$sql = array();
 		
 		// Filters
-		foreach (Request::$request as $filter => $value) {
-			if (!in_array($filter, ticket_filters())) {
+		foreach (Request::$request as $filter => $value)
+		{
+			if (!in_array($filter, ticket_filters()))
+			{
 				continue;
 			}
+			
 			$filter_sql = array();
+			
 			// Milestone filter
-			if ($filter == 'milestone') {
-				foreach (explode(',', $value) as $name) {
+			if ($filter == 'milestone')
+			{
+				foreach (explode(',', $value) as $name)
+				{
 					$milestone = Milestone::find('slug', $name);
 					$filter_sql[] = $milestone->id;
 				}
 				$sql[] = "milestone_id IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Status filter
-			elseif ($filter == 'status') {
-				foreach (explode(',', $value) as $name) {
+			elseif ($filter == 'status')
+			{
+				foreach (explode(',', $value) as $name)
+				{
 					$status = TicketStatus::find('name', urldecode($name));
 					$filter_sql[] = $status->id;
 				}
 				$sql[] = "status_id IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Type filter
-			elseif ($filter == 'type') {
-				foreach (explode(',', $value) as $name) {
+			elseif ($filter == 'type')
+			{
+				foreach (explode(',', $value) as $name)
+				{
 					$type = TicketType::find('name', urldecode($name));
 					$filter_sql[] = $type->id;
 				}
 				$sql[] = "type_id IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Component filter
-			elseif ($filter == 'component') {
-				foreach (explode(',', $value) as $name) {
+			elseif ($filter == 'component')
+			{
+				foreach (explode(',', $value) as $name)
+				{
 					$component = Component::find('name', urldecode($name));
 					$filter_sql[] = $component->id;
 				}
@@ -81,9 +93,10 @@ class TicketsController extends AppController
 		
 		// Fetch tickets
 		$tickets = array();
-		$rows = $this->db->select()->from('tickets')->customSql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->exec()->fetchAll();
-		foreach($rows as $row) {
-			$tickets[] = new Ticket($row);
+		$rows = $this->db->select()->from('tickets')->custom_sql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->exec()->fetch_all();
+		foreach($rows as $row)
+		{
+			$tickets[] = new Ticket($row, false);
 		}
 		
 		View::set('tickets', $tickets);
@@ -97,7 +110,7 @@ class TicketsController extends AppController
 	public function action_view($ticket_id)
 	{
 		// Fetch the ticket from the database and send it to the view.
-		$ticket = Ticket::select()->where("ticket_id = '?'", $ticket_id)->where("project_id = '?'", $this->project->id)->exec()->fetchAssoc();
+		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 		View::set('ticket', $ticket);
 	}
 	

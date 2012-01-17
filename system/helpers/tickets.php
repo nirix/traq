@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -59,9 +59,9 @@ function ticketlist_data($column, $ticket) {
 		case 'type':
 			return $ticket->type->name;
 		case 'component':
-			return $ticket->component->name;
+			return $ticket->component ? $ticket->component->name : '';
 		case 'milestone':
-			return $ticket->milestone->name;
+			return $ticket->milestone ? $ticket->milestone->name : '';
 		default:
 			return '';
 		break;

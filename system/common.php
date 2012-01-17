@@ -91,9 +91,7 @@ function l() {
  * @package Traq
  */
 function is_project($find, $field = 'slug') {
-	$project = Project::find($field, $find);
-	
-	if ($project->name) {
+	if ($project = Project::find($field, $find)) {
 		return $project;
 	} else {
 		return false;

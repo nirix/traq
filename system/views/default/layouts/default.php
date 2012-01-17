@@ -2,12 +2,11 @@
 <html>
 	<head>
 		<title><?php echo $title; ?></title>
-		<?php echo HTML::cssless_inc(Request::base() . 'assets/css/master.less'); ?>
-		<?php echo HTML::css_inc(Request::base() . 'assets/css/print.css', 'print'); ?>
+		<?php echo HTML::css_link(Request::base() . 'assets/css/master.css'); ?>
+		<?php echo HTML::css_link(Request::base() . 'assets/css/print.css', 'print'); ?>
 		<!--[if lt IE 8]>
-		<?php echo HTML::css_inc(Request::base() . 'assets/css/ie.css'); ?>
+		<?php echo HTML::css_link(Request::base() . 'assets/css/ie.css'); ?>
 		<![endif]-->
-		<?php echo HTML::js_inc(Request::base() . 'assets/js/less.js'); ?>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -16,7 +15,7 @@
 			</header>
 			<nav id="nav">
 				<ul>
-				<?php if (isset($traq->project->name)) { ?>
+				<?php if (isset($traq->project)) { ?>
 					<li><a href="<?php echo Request::base($traq->project->slug)?>"><?php echo l('project_info')?></a></li>
 					<li><a href="<?php echo Request::base($traq->project->slug, 'tickets')?>"><?php echo l('tickets')?></a></li>
 					<li><a href="<?php echo Request::base($traq->project->slug, 'timeline')?>"><?php echo l('timeline')?></a></li>

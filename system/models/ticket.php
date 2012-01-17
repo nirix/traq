@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -23,6 +23,7 @@ class Ticket extends Model
 	protected static $_name = 'tickets';
 	protected static $_properties = array(
 		'id',
+		'ticket_id',
 		'summary',
 		'body',
 		'user_id',
@@ -34,7 +35,7 @@ class Ticket extends Model
 		'status_id',
 		'priority_id',
 		'severity_id',
-		'assigned_to',
+		'assignee_id',
 		'is_closed',
 		'is_private',
 		'extra',
@@ -48,15 +49,17 @@ class Ticket extends Model
 		'type' => array('model' => 'tickettype'),
 	);
 	
-	public $summary;
-	
 	public function save()
 	{
-		$parent->save();
-		
-		if ($this->is_valid())
+		if ($parent->save())
 		{
 			// code here to insert into timeline and such..
+			
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 }

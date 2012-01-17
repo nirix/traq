@@ -13,9 +13,9 @@
 			<tr>
 				<?php foreach (ticket_columns() as $column) { ?>
 					<?php if ($column == 'summary') { ?>
-					<td><a href="<?php echo Request::base($traq->project->slug, 'tickets', $ticket->ticket_id)?>"><?php echo $ticket->summary?></a></td>
+					<td><?php echo HTML::link($ticket->summary, "{$project->slug}/tickets/{$ticket->ticket_id}"); ?></td>
 					<?php } else { ?>
-					<td><?php echo ticketlist_data($column, $ticket)?></td>
+					<td><?php echo ticketlist_data($column, $ticket); ?></td>
 					<?php } ?>
 				<?php } ?>
 			</tr>
