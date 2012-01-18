@@ -150,7 +150,7 @@ thead th {
 
 /* ==========# Tabs #========== */
 .tabs {
-	height: 25px;
+	height: 24px;
 	position: relative;
 	overflow: hidden;
 	
@@ -190,6 +190,14 @@ thead th {
 			}
 		}
 	}
+}
+
+/* ==========# Project Settings #========== */
+th.milestone_name {
+	width: 200px;
+}
+th.actions {
+	width: 100px;
 }
 
 /* ==========# Sexy boots #========== */

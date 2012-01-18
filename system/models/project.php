@@ -32,7 +32,7 @@ class Project extends Model
 		'displayorder'
 	);
 	
-	protected static $_has_many = array('tickets');
+	protected static $_has_many = array('tickets', 'milestones');
 	
 	protected static $_filters_after = array(
 		'construct' => array('process_managers')

@@ -951,7 +951,7 @@ thead th {
 
 /* ==========# Tabs #========== */
 .tabs {
-  height: 25px;
+  height: 24px;
   position: relative;
   overflow: hidden; }
   .tabs ul {
@@ -981,6 +981,13 @@ thead th {
       .tabs ul li.active a {
         color: #000;
         border-bottom-color: #fff; }
+
+/* ==========# Project Settings #========== */
+th.milestone_name {
+  width: 200px; }
+
+th.actions {
+  width: 100px; }
 
 /* ==========# Sexy boots #========== */
 #footer {

@@ -26,5 +26,7 @@ Router::add('/(login|logout|register|usercp)', 'Users::$1');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets', 'Tickets::index');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/(timeline|roadmap)', 'Projects::$2');
+Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components)/([0-9]+)/(edit|delete)', 'Projects::$2::$4/$3');
+Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components)', 'Projects::$2::index');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings', 'Projects::Settings::index');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)', 'Projects::view');

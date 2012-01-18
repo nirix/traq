@@ -56,6 +56,12 @@ function enus_locale()
 		'project_settings' => "Project Settings",
 		'name' => "Name",
 		'slug' => "Slug",
+		'codename' => "Codename",
+		'actions' => "Actions",
+		'edit' => "Edit",
+		'delete' => "Delete",
+		'new_milestone' => "New Milestone",
+		'edit_milestone' => "Edit Milestone",
 		
 		// Tickets
 		'summary' => "Summary",
