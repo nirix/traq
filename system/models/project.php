@@ -38,6 +38,12 @@ class Project extends Model
 		'construct' => array('process_managers')
 	);
 	
+	
+	public function href($uri = null)
+	{
+		return $this->_data['slug'] . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
+	}
+	
 	/**
 	 * Checks if the specified group has access to the action.
 	 *

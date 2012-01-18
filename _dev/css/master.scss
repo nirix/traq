@@ -69,11 +69,11 @@ h3 {
 		color: #fff;
 		padding: 4px 10px;
 		text-decoration: none;
-		
-		&:hover, &:focus, &:active {
-			background: #fff;
-			color: #000;
-		}
+	}
+	
+	a:hover, a:focus, a:active, li.active a {
+		background: #fff;
+		color: #000;
 	}
 }
 

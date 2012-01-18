@@ -17,26 +17,27 @@
 			<nav id="nav">
 				<ul id="meta_nav">
 				<?php if (LOGGEDIN) { ?>
-					<li><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
+					<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
 					<li><?php echo HTML::link(l('logout'), '/logout'); ?></li>
 					<?php if ($current_user->group->is_admin) { ?>
-					<li><?php echo HTML::link(l('admincp'), '/admincp'); ?></li>
+					<li<?php echo iif(active_nav('/admincp(.*)'), ' class="active"')?>><?php echo HTML::link(l('admincp'), '/admincp'); ?></li>
 					<?php } ?>
 				<?php } else { ?>
-					<li><?php echo HTML::link(l('login'), '/login'); ?></li>
-					<li><?php echo HTML::link(l('register'), '/register'); ?></li>
+					<li<?php echo iif(active_nav('/login'), ' class="active"')?>><?php echo HTML::link(l('login'), '/login'); ?></li>
+					<li<?php echo iif(active_nav('/register'), ' class="active"')?>><?php echo HTML::link(l('register'), '/register'); ?></li>
 				<?php } ?>
 				</ul>
 				<ul id="main_nav">
 				<?php if (isset($project)) { ?>
-					<li><?php echo HTML::link(l('project_info'), $project->slug); ?></li>
-					<li><?php echo HTML::link(l('tickets'), "{$project->slug}/tickets"); ?></li>
-					<li><?php echo HTML::link(l('timeline'), "{$project->slug}/timeline"); ?></li>
+					<li<?php echo iif(active_nav('/:slug'), ' class="active"')?>><?php echo HTML::link(l('project_info'), $project->href()); ?></li>
+					<li<?php echo iif(active_nav('/:slug/roadmap'), ' class="active"')?>><?php echo HTML::link(l('roadmap'), $project->href("roadmap")); ?></li>
+					<li<?php echo iif(active_nav('/:slug/tickets'), ' class="active"')?>><?php echo HTML::link(l('tickets'), $project->href("tickets")); ?></li>
+					<li<?php echo iif(active_nav('/:slug/timeline'), ' class="active"')?>><?php echo HTML::link(l('timeline'), $project->href("timeline")); ?></li>
 					<?php if($project->is_manager($current_user)) { ?>
-					<li><?php echo HTML::link(l('settings'), "{$project->slug}/settings"); ?></li>
+					<li<?php echo iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>><?php echo HTML::link(l('settings'), $project->href("settings")); ?></li>
 					<?php } ?>
 				<?php } else { ?>
-					<li><?php echo HTML::link(l('projects'), null); ?></li>
+					<li<?php echo iif(active_nav('/'), ' class="active"')?>><?php echo HTML::link(l('projects'), null); ?></li>
 				<?php } ?>
 				</ul>
 			</nav>

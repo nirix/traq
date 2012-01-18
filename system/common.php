@@ -79,15 +79,49 @@ function l() {
 }
 
 /**
+ * Formats the supplied text.
  *
+ * @param string $text
+ * @param bool $strip_html Disables HTML, making it safe.
  *
- *
+ * @return string
  */
 function format_text($text, $strip_html = true)
 {
 	$text = $strip_html ? htmlspecialchars($text) : $text;
 	
 	return $text;
+}
+
+/**
+ * Checks if the given regex matches the request
+ *
+ * @param string $uri
+ *
+ * @return bool
+ */
+function active_nav($uri)
+{
+	$uri = str_replace(
+		array(':slug', ':any', ':num'),
+		array('([a-zA-Z0-9\-\_]+)', '(.*)', '([0-9]+)'),
+		$uri
+	);
+	return preg_match("#^{$uri}$#", Request::url());
+}
+
+/**
+ * Checks the condition and returns the respective value.
+ *
+ * @param bool $condition
+ * @param mixed $true
+ * @param mixed $false
+ *
+ * @return mixed
+ */
+function iif($condition, $true, $false = null)
+{
+	return $condition ? $true : $false;
 }
 
 /**
