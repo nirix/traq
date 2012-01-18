@@ -23,6 +23,27 @@ class Component extends Model
 	protected static $_name = 'components';
 	protected static $_properties = array(
 		'id',
-		'name'
+		'name',
+		'default',
+		'project_id'
 	);
+	
+	/**
+	 * Checks if the model data is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid()
+	{
+		$errors = array();
+		
+		// Check if the name is empty
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('error:name_blank');
+		}
+		
+		$this->errors = $errors;
+		return !count($errors) > 0;
+	}
 }

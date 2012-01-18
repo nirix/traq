@@ -59,6 +59,8 @@ function enus_locale()
 		'codename' => "Codename",
 		'new_milestone' => "New Milestone",
 		'edit_milestone' => "Edit Milestone",
+		'new_component' => "New Component",
+		'edit_component' => "Edit Component",
 		
 		// Tickets
 		'summary' => "Summary",
