@@ -33,9 +33,48 @@ class ProjectsMilestonesController extends AppController
 		View::set('milestones', $this->project->milestones);
 	}
 	
+	public function action_new()
+	{
+		$milestone = new Milestone();
+		
+		if (Request::$method == 'post')
+		{
+			$milestone->set(array(
+				'name' => Request::$post['name'],
+				'slug' => Request::$post['slug'],
+				'info' => Request::$post['info'],
+				'project_id' => $this->project->id
+			));
+			
+			if ($milestone->is_valid())
+			{
+				$milestone->save();
+				Request::redirect(Request::base("{$this->project->slug}/settings/milestones"));
+			}
+		}
+		
+		View::set('milestone', $milestone);
+	}
+	
 	public function action_edit($id)
 	{
 		$milestone = Milestone::find($id);
+		
+		if (Request::$method == 'post')
+		{
+			$milestone->set(array(
+				'name' => Request::$post['name'],
+				'slug' => Request::$post['slug'],
+				'info' => Request::$post['info']
+			));
+			
+			if ($milestone->is_valid())
+			{
+				$milestone->save();
+				Request::redirect(Request::base("{$this->project->slug}/settings/milestones"));
+			}
+		}
+		
 		View::set('milestone', $milestone);
 	}
 }

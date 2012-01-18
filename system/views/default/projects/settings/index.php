@@ -3,7 +3,7 @@
 </div>
 <?php View::render('projects/settings/_nav'); ?>
 <div class="content">
-	<form action="" method="post" class="tabular box">
+	<form action="<?php echo Request::full_uri(); ?>" method="post" class="tabular box">
 		<div class="group">
 			<label><?php echo l('name'); ?></label>
 			<?php echo Form::text('name', array('value' => $project->name)); ?>

@@ -3,11 +3,11 @@
 </div>
 <?php View::render('projects/settings/_nav'); ?>
 <div class="content">
-	<h3><?php echo l('edit_milestone'); ?></h3>
+	<h3><?php echo l('new_milestone'); ?></h3>
 	<form action="<?php echo Request::full_uri(); ?>" method="post" class="tabular box">
 		<?php View::render('projects/milestones/_form'); ?>
 		<div class="group">
-			<input type="submit" value="<?php echo l('save'); ?>" />
+			<input type="submit" value="<?php echo l('create'); ?>" />
 		</div>
 	</form>
 </div>

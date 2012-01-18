@@ -57,9 +57,6 @@ function enus_locale()
 		'name' => "Name",
 		'slug' => "Slug",
 		'codename' => "Codename",
-		'actions' => "Actions",
-		'edit' => "Edit",
-		'delete' => "Delete",
 		'new_milestone' => "New Milestone",
 		'edit_milestone' => "Edit Milestone",
 		
@@ -83,15 +80,22 @@ function enus_locale()
 		'email' => "Email",
 		
 		// Other
+		'actions' => "Actions",
+		'create' => "Create",
 		'save' => "Save",
+		'edit' => "Edit",
+		'delete' => "Delete",
 		
 		// Help
-		'help:slug' => "A lower case alpha-numerical string used in the URL.",
+		'help:slug' => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
 		
 		// Errors
 		'error:404_title' => "Woops",
 		'error:404_message' => "The requested page '{1}' couldn't be found.",
 		'error:invalid_username_or_password' => "Invalid Username or Password.",
+		'error:name_blank' => "Name cannot be blank",
+		'error:slug_blank' => "Slug cannot be blank",
+		'error:slug_in_use' => "That slug is already in use",
 		
 		// User errors
 		'error:user:username_blank' => "Username cannot be blank",
