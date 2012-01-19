@@ -30,5 +30,19 @@ class ProjectsSettingsController extends AppController
 {
 	public function action_index()
 	{
+		if (Request::$method == 'post')
+		{
+			$this->project->set(array(
+				'name' => Request::$post['name'],
+				'slug' => Request::$post['slug'],
+				'info' => Request::$post['info']
+			));
+			
+			if ($this->project->is_valid())
+			{
+				$this->project->save();
+				Request::redirect(Request::base($this->project->href('settings')));
+			}
+		}
 	}
 }

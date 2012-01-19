@@ -66,11 +66,49 @@ class Project extends Model
 	 */
 	public function is_manager($user)
 	{
-		return in_array($user->id, $this->managers);
+		return in_array($user->id, $this->_managers);
 	}
 	
+	/**
+	 * Returns a the project managers as an array.
+	 *
+	 * @return array
+	 */
+	public function managers()
+	{
+		return $this->_managers;
+	}
+	
+	/**
+	 * Checks if the model data is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid()
+	{
+		$errors = array();
+		
+		// Check if the name is empty
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('error:name_blank');
+		}
+		
+		// Check if the slug is empty
+		if (empty($this->_data['slug']))
+		{
+			$errors['slug'] = l('error:slug_blank');
+		}
+		
+		$this->errors = $errors;
+		return !count($errors) > 0;
+	}
+	
+	/**
+	 * Turns the managers value into an array.
+	 */
 	protected function process_managers()
 	{
-		$this->managers = explode(',', $this->_data['managers']);
+		$this->_managers = explode(',', $this->_data['managers']);
 	}
 }

@@ -4,6 +4,15 @@
 <?php View::render('projects/settings/_nav'); ?>
 <div class="content">
 	<form action="<?php echo Request::full_uri(); ?>" method="post" class="tabular box">
+		<?php if (count($project->errors)) { ?>
+		<div class="error">
+			<ul>
+			<?php foreach ($project->errors as $error) { ?>
+				<li><?php echo $error; ?></li>
+			<?php } ?>
+			</ul>
+		</div>
+		<?php } ?>
 		<div class="group">
 			<label><?php echo l('name'); ?></label>
 			<?php echo Form::text('name', array('value' => $project->name)); ?>

@@ -25,10 +25,14 @@ if (extension_loaded('zlib'))
 	ob_start('ob_gzhandler');
 }
 
+if (!isset($_REQUEST['css']))
+{
+	exit;
+}
+
 require "./system/avalon/libs/request.php";
 
 $output = array();
-
 foreach (explode(',', $_REQUEST['css']) as $file)
 {
 	$css = file_get_contents("./assets/css/{$file}.css");
