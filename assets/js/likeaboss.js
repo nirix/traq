@@ -31,6 +31,9 @@ var likeABoss = {
 		'h1': 'First level heading',
 		'h2': 'Second level heading',
 		'h3': 'Third level heading',
+		'h4': 'Fourth level heading',
+		'h5': 'Fifth level heading',
+		'h6': 'Sixth level heading',
 		
 		'bold': 'Bold text',
 		'italic': 'Italic text',
@@ -161,9 +164,9 @@ var likeABoss = {
 			$$.addClass('likeaboss_editor');
 			
 			var toolbar = $('<div class="likeaboss_toolbar"></div>');
-			toolbar.append(mkbtn('h1'));
 			toolbar.append(mkbtn('h2'));
 			toolbar.append(mkbtn('h3'));
+			toolbar.append(mkbtn('h4'));
 			
 			toolbar.append(mkbtn('bold'));
 			toolbar.append(mkbtn('italic'));
