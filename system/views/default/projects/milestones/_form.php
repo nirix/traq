@@ -17,5 +17,5 @@
 </div>
 <div class="group">
 	<label><?php echo l('Description'); ?></label>
-	<?php echo Form::textarea('info', array('value' => $milestone->info)); ?>
+	<?php echo Form::textarea('info', array('value' => $milestone->info, 'class' => 'editor')); ?>
 </div>

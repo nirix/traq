@@ -3,11 +3,14 @@
 	<head>
 		<title><?php echo implode(' / ', $traq->title); ?></title>
 		<meta charset="UTF-8" />
-		<?php echo HTML::css_link(Request::base() . 'assets/css/master.css'); ?>
-		<?php echo HTML::css_link(Request::base() . 'assets/css/print.css', 'print'); ?>
+		<?php echo HTML::css_link(Request::base() . 'css.php?css=master'); ?>
+		<?php echo HTML::css_link(Request::base() . 'css.php?css=print', 'print'); ?>
 		<!--[if lt IE 8]>
-		<?php echo HTML::css_link(Request::base() . 'assets/css/ie.css'); ?>
+		<?php echo HTML::css_link(Request::base() . 'minify.php?assets/css/ie.css'); ?>
 		<![endif]-->
+		<?php echo HTML::js_inc('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'); ?>
+		<?php echo HTML::js_inc(Request::base() . 'assets/js/likeaboss.js'); ?>
+		<?php echo HTML::js_inc(Request::base() . 'assets/js/traq.js'); ?>
 	</head>
 	<body>
 		<div id="wrapper" class="container">

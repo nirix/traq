@@ -14,7 +14,7 @@
 		</div>
 		<div class="group">
 			<label><?php echo l('Description'); ?></label>
-			<?php echo Form::textarea('info', array('value' => $project->info)); ?>
+			<?php echo Form::textarea('info', array('value' => $project->info, 'class' => 'editor')); ?>
 		</div>
 		<div class="group">
 			<input type="submit" value="<?php echo l('save'); ?>" />
