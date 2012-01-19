@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+require __DIR__ . "/base.php";
+
 /**
  * Milestones controller
  *
@@ -26,7 +28,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectsMilestonesController extends AppController
+class ProjectsMilestonesController extends ProjectSettingsBase
 {
 	public function action_index()
 	{

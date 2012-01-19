@@ -97,17 +97,19 @@ class AppController extends Controller
 		if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq']))
 		{
 			$this->user = $user;
-			View::set('current_user', $this->user);
 			define("LOGGEDIN", true);
 		}
 		// Otherwise just set the user info to guest.
 		else
 		{
 			$this->user = new User(array(
+				'id' => -1,
 				'username' => l('guest'),
 				'group_id' => 3
 			));
 			define("LOGGEDIN", false);
 		}
+		
+		View::set('current_user', $this->user);
 	}
 }

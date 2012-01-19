@@ -18,8 +18,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require __DIR__ . "/base.php";
-
 /**
  * Project settings controller
  *
@@ -28,27 +26,15 @@ require __DIR__ . "/base.php";
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectsSettingsController extends ProjectSettingsBase
+class ProjectSettingsBase extends AppController
 {
-	public function action_index()
+	public function __construct()
 	{
-		$project = clone $this->project;
+		parent::__construct();
 		
-		if (Request::$method == 'post')
+		if (!$this->project->is_manager($this->user))
 		{
-			$project->set(array(
-				'name' => Request::$post['name'],
-				'slug' => Request::$post['slug'],
-				'info' => Request::$post['info']
-			));
-			
-			if ($project->is_valid())
-			{
-				$project->save();
-				Request::redirect(Request::base($project->href('settings')));
-			}
+			$this->show_404();
 		}
-		
-		View::set('proj', $project);
 	}
 }

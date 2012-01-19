@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+require __DIR__ . "/base.php";
+
 /**
  * Components controller
  *
@@ -26,7 +28,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectsComponentsController extends AppController
+class ProjectsComponentsController extends ProjectSettingsBase
 {
 	public function action_index()
 	{
