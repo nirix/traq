@@ -9,7 +9,7 @@
 	<table class="list">
 		<thead>
 			<tr>
-				<th class="milestone_name"><?php echo l('name'); ?></th>
+				<th class="fixed_name"><?php echo l('name'); ?></th>
 				<th class="codename"><?php echo l('codename'); ?></th>
 				<th class="actions"><?php echo l('actions'); ?></th>
 			</tr>

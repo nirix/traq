@@ -203,11 +203,13 @@ h3 {
 	}
 }
 
-/* ==========# Project Settings #========== */
-th.milestone_name {
+/* ==========# Table listing #========== */
+.list th.fixed_name {
 	width: 200px;
 }
-th.actions {
+.list th.codename {
+}
+.list th.actions {
 	width: 100px;
 }
 

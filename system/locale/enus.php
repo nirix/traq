@@ -100,6 +100,9 @@ function enus_locale()
 		// Help
 		'help:slug' => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
 		
+		// Confirmations
+		'confirm:delete_x' => "Are you sure you want to delete {1}?",
+		
 		// Errors
 		'error:404_title' => "Woops",
 		'error:404_message' => "The requested page '{1}' couldn't be found.",
