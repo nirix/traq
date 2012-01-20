@@ -30,6 +30,7 @@ class ErrorController extends AppController
 {
 	public function action_404()
 	{
+		// Send the request URL to the view.
 		View::set('request', Request::url());
 	}
 }

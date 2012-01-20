@@ -45,6 +45,7 @@ class ProjectsController extends AppController
 			}
 		}
 		
+		// Send the projects array to the view.
 		View::set('projects', $projects);
 	}
 	
@@ -53,6 +54,7 @@ class ProjectsController extends AppController
 	 */
 	public function action_view()
 	{
+		// Make sure this is a project
 		if (!$this->project)
 		{
 			return $this->show_404();

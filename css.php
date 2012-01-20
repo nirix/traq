@@ -18,26 +18,39 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Set the content type and charset to text/css and UTF-8.
 header("content-type: text/css; charset: UTF-8;");
 
+// Check if we can gzip the page or not/
 if (extension_loaded('zlib'))
 {
+	// We can!
 	ob_start('ob_gzhandler');
 }
 
+// Check for the CSS index in the request array..
 if (!isset($_REQUEST['css']))
 {
 	exit;
 }
 
+// Fetch the request class.
 require "./system/avalon/libs/request.php";
 
 $output = array();
 foreach (explode(',', $_REQUEST['css']) as $file)
 {
-	$css = file_get_contents("./assets/css/{$file}.css");
-	$output[] = str_replace(':baseurl:', Request::base(), $css);
+	// Check if the file exists...
+	if (file_exists(__DIR__ . "/assets/css/{$file}.css"))
+	{
+		// Replace the :baseurl: placeholder with the base URL
+		// and send it to the output array.
+		$output[] = str_replace(':baseurl:', Request::base(), file_get_contents(__DIR__ . "/assets/css/{$file}.css"));
+	}
 }
 
+// Remove comments and such from the output.
 $output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
+
+// Minify the CSS.
 echo str_replace(array("\n\r", "\n", "\r", "\t", '  ', '   ', '    '), '', implode('', $output));

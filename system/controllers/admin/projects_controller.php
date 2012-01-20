@@ -30,20 +30,24 @@ class AdminProjectsController extends AppController
 {
 	public function action_index()
 	{
+		// Fetch all projects and pass them to the view.
 		$projects = Project::fetch_all();
 		View::set('projects', $projects);
 	}
 	
+	/**
+	 * Create a new project page.
+	 */
 	public function action_new()
 	{
 	
 	}
 	
-	public function action_edit($id)
-	{
-	
-	}
-	
+	/**
+	 * Delete a project.
+	 *
+	 * @param integer $id Project ID.
+	 */
 	public function action_delete($id)
 	{
 	

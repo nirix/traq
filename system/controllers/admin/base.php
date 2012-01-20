@@ -32,6 +32,10 @@ class AdminBase extends AppController
 	{
 		parent::__construct();
 		
+		// Check if the user is an admin before
+		// if not show the login page with this pages
+		// URI so we can redirect them back to this page
+		// after they login.
 		if (!$this->user->group->is_admin)
 		{
 			$this->show_login(Request::full_uri());

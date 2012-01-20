@@ -20,7 +20,9 @@
 
 /**
  * Returns the content for the ticket listing headers.
+ *
  * @param string $column The column to get the content for.
+ *
  * @return mixed
  */
 function ticketlist_header($column) {
@@ -42,26 +44,44 @@ function ticketlist_header($column) {
 
 /**
  * Returns the content for the ticket listing field.
+ *
  * @param string $column The column to get the content for.
  * @param object $ticket The ticket data object.
+ *
  * @return mixed
  */
 function ticketlist_data($column, $ticket) {
-	switch ($column) {
+	switch ($column)
+	{
+		// Ticket ID column
 		case 'ticket_id':
 			return $ticket->ticket_id;
+		
+		// Summary column
 		case 'summary':
 			return $ticket->summary;
+		
+		// Status column
 		case 'status':
 			return $ticket->status->name;
+		
+		// Owner / author column
 		case 'owner':
 			return $ticket->user->username;
+		
+		// Ticket type column
 		case 'type':
 			return $ticket->type->name;
+		
+		// Component column
 		case 'component':
 			return $ticket->component ? $ticket->component->name : '';
+		
+		// Milestone column
 		case 'milestone':
 			return $ticket->milestone ? $ticket->milestone->name : '';
+		
+		// Unknown column...
 		default:
 			return '';
 		break;

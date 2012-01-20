@@ -60,6 +60,13 @@ class AppController extends Controller
 		}
 	}
 	
+	/**
+	 * Adds to or returns the page title array.
+	 *
+	 * @param mixed $add
+	 *
+	 * @return mixed
+	 */
 	public function title($add = null)
 	{
 		if ($add === null)
@@ -78,6 +85,10 @@ class AppController extends Controller
 	 */
 	public function show_404()
 	{
+		// Send the request to the view and
+		// change the view file to error/404.php
+		// and disable the calling of the routed
+		// controller method.
 		View::set('request', Request::url());
 		$this->_render['view'] = 'error/404';
 		$this->_render['action'] = false;
@@ -110,6 +121,7 @@ class AppController extends Controller
 			define("LOGGEDIN", false);
 		}
 		
+		// Set the current_user variable in the views.
 		View::set('current_user', $this->user);
 	}
 }

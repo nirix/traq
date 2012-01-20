@@ -43,6 +43,7 @@ class TicketsController extends AppController
 		// Filters
 		foreach (Request::$request as $filter => $value)
 		{
+			// Check if the filter exists...
 			if (!in_array($filter, ticket_filters()))
 			{
 				continue;
@@ -100,6 +101,7 @@ class TicketsController extends AppController
 			$tickets[] = new Ticket($row, false);
 		}
 		
+		// Send the tickets array to the view..
 		View::set('tickets', $tickets);
 	}
 	

@@ -32,14 +32,19 @@ class UsersController extends AppController
 	{
 		$this->title(l('login'));
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Try to find the user in the database and verify their password
 			if ($user = User::find('username', Request::$post['username'])
 			and $user->verify_password(Request::$post['password']))
 			{
+				// User found and verified, set the cookie and redirect them
+				// to the index page if no "goto" page was set.
 				setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
 				Request::redirect(isset(Request::$post['goto']) ? Request::$post['goto'] : Request::base());
 			}
+			// No user found
 			else
 			{
 				View::set('error', true);
@@ -59,18 +64,25 @@ class UsersController extends AppController
 	public function action_register()
 	{
 		$this->title(l('register'));
+		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Build the data array
 			$data = array(
 				'username' => Request::$post['username'],
 				'password' => Request::$post['password'],
 				'email' => Request::$post['email'],
 				'group_id' => 3
 			);
+			
+			// Create a model with the data
 			$user = new User($data);
 			
+			// Check if the model is valid
 			if ($user->is_valid())
 			{
+				// Save the model and redirect to the login page.
 				$user->save();
 				Request::redirect(Request::base('login'));
 			}
