@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -20,9 +20,11 @@
 
 /**
  * enUS localization information.
+ *
+ * @package Traq
+ * @subpackage Locale
+ *
  * @return array
- * @package traq
- * @subpackage locale
  */
 function enus_info()
 {
@@ -35,9 +37,11 @@ function enus_info()
 
 /**
  * enUS localization strings.
+ *
+ * @package Traq
+ * @subpackage Locale
+ *
  * @return array
- * @package traq
- * @subpackage locale
  */
 function enus_locale()
 {
@@ -61,6 +65,11 @@ function enus_locale()
 		'edit_milestone' => "Edit Milestone",
 		'new_component' => "New Component",
 		'edit_component' => "Edit Component",
+		
+		// AdminCP
+		'users' => "Users",
+		'groups' => "Groups",
+		'new_project' => "New Project",
 		
 		// Tickets
 		'summary' => "Summary",

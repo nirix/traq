@@ -22,7 +22,7 @@ Router::add('root', 'Projects::index');
 
 Router::add('/(login|logout|register|usercp)', 'Users::$1');
 
-// Project controllers
+// Project routes
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets', 'Tickets::index');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/(timeline|roadmap)', 'Projects::$2');
@@ -31,3 +31,6 @@ Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components)', 'Projects::$2::index');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings', 'Projects::Settings::index');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)', 'Projects::view');
+
+// AdminCP routes
+Router::add('/admin', 'Admin::Projects::index');

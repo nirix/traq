@@ -24,6 +24,7 @@ class Project extends Model
 	protected static $_properties = array(
 		'id',
 		'name',
+		'codename',
 		'slug',
 		'info',
 		'managers',

@@ -3,7 +3,7 @@
 </div>
 <?php View::render('projects/settings/_nav'); ?>
 <div class="content">
-	<?php echo HTML::link(l('new_milestone'), "{$project->slug}/settings/milestones/new", array('class' => 'new_button')); ?>
+	<?php echo HTML::link(l('new_milestone'), "{$project->slug}/settings/milestones/new", array('class' => 'button_new')); ?>
 </div>
 <div>
 	<table class="list">
@@ -20,8 +20,8 @@
 				<td><?php echo HTML::link($milestone->name, "{$project->slug}/settings/milestones/{$milestone->id}/edit"); ?></td>
 				<td><?php echo $milestone->codename; ?></td>
 				<td>
-					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", array('class' => 'edit_button_small')); ?>
-					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/milestones/{$milestone->id}/delete", array('class' => 'delete_button_small', 'data-confirm' => l('confirm:delete_x', $milestone->name))); ?>
+					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", array('title' => l('edit'), 'class' => 'button_edit small')); ?>
+					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/milestones/{$milestone->id}/delete", array('title' => l('delete'), 'class' => 'button_delete small', 'data-confirm' => l('confirm:delete_x', $milestone->name))); ?>
 				</td>
 			</tr>
 		<?php } ?>
