@@ -71,7 +71,7 @@ class ProjectsController extends AppController
 	public function action_roadmap()
 	{
 		// Get the projects milestones and send them to the view.
-		$milestones = Milestone::select()->where('project_id', $this->project->id)->orderBy('displayorder', 'ASC')->exec()->fetch_all();
+		$milestones = Milestone::select()->where('project_id', $this->project->id)->order_by('displayorder', 'ASC')->exec()->fetch_all();
 		View::set('milestones', $milestones);
 	}
 	
