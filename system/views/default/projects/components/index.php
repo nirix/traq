@@ -18,8 +18,8 @@
 			<tr>
 				<td><?php echo HTML::link($component->name, "{$project->slug}/settings/components/{$component->id}/edit"); ?></td>
 				<td>
-					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", array('title' => l('edit'), 'class' => 'button_edit small')); ?>
-					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", array('title' => l('delete'), 'class' => 'button_delete small', 'data-confirm' => l('confirm:delete_x', $component->name))); ?>
+					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", array('title' => l('edit'), 'class' => 'button_edit')); ?>
+					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", array('title' => l('delete'), 'class' => 'button_delete', 'data-confirm' => l('confirm:delete_x', $component->name))); ?>
 				</td>
 			</tr>
 		<?php } ?>

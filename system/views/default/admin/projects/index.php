@@ -18,8 +18,8 @@
 				<td><?php echo HTML::link($project->name, "/admin/projects/{$project->id}/edit"); ?></td>
 				<td><?php echo $project->codename; ?></td>
 				<td>
-					<?php echo HTML::link(l('edit'), "/admin/projects/{$project->id}/edit", array('title' => l('edit'), 'class' => 'button_edit small')); ?>
-					<?php echo HTML::link(l('delete'), "/admin/projects/{$project->id}/delete", array('title' => l('delete'), 'class' => 'button_delete small', 'data-confirm' => l('confirm:delete_x', $project->name))); ?>
+					<?php echo HTML::link(l('edit'), "/admin/projects/{$project->id}/edit", array('title' => l('edit'), 'class' => 'button_edit')); ?>
+					<?php echo HTML::link(l('delete'), "/admin/projects/{$project->id}/delete", array('title' => l('delete'), 'class' => 'button_delete', 'data-confirm' => l('confirm:delete_x', $project->name))); ?>
 				</td>
 			</tr>
 		<?php } ?>
