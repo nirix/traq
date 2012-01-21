@@ -36,9 +36,8 @@ class TicketsController extends AppController
 		$this->title(l('tickets'));
 		Load::helper('tickets');
 		
-		$where = array();
-		$where[] = array("project_id", $this->project->id);
 		$sql = array();
+		$sql[] = "`project_id` = '{$this->project->id}'";
 		
 		// Filters
 		foreach (Request::$request as $filter => $value)
