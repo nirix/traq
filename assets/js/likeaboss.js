@@ -39,6 +39,9 @@ var likeABoss = {
 		'bold': 'Bold text',
 		'italic': 'Italic text',
 		
+		'bullet_list': 'Bulleted list',
+		'number_list': 'Numbered list',
+		
 		'link': 'Link',
 		'image': 'Image',
 		
@@ -80,6 +83,8 @@ var likeABoss = {
 			close: ''
 		},
 		
+		//
+		
 		'bold': {
 			open: '**',
 			close: '**'
@@ -89,6 +94,20 @@ var likeABoss = {
 			open: '_',
 			close: '_'
 		},
+		
+		//
+		
+		'bullet_list': {
+			open: '- ',
+			close: ''
+		},
+		
+		'number_list': {
+			open: '1. ',
+			close: ''
+		},
+		
+		//
 		
 		'link': {
 			open: '[',
@@ -109,10 +128,7 @@ var likeABoss = {
 			}
 		},
 		
-		'code': {
-			open: "\n    ",
-			close: ''
-		},
+		//
 		
 		'image': {
 			open: '![An Image](',
@@ -128,7 +144,12 @@ var likeABoss = {
 				var val = url ? url : selection;
 				return tag.open + val + tag.close;
 			}
-		}
+		},
+		
+		'code': {
+			open: "\n    ",
+			close: ''
+		},
 	},
 	
 	markup: function(type) {
@@ -214,6 +235,9 @@ var likeABoss = {
 			
 			toolbar.append(mkbtn('bold'));
 			toolbar.append(mkbtn('italic'));
+			
+			toolbar.append(mkbtn('bullet_list'));
+			toolbar.append(mkbtn('number_list'));
 			
 			toolbar.append(mkbtn('link'));
 			toolbar.append(mkbtn('image'));
