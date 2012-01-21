@@ -876,6 +876,9 @@ hr.space {
 .likeaboss_toolbar .likeaboss_link {
   background-image: url(":baseurl:assets/images/link.png"); }
 
+.likeaboss_toolbar .likeaboss_image {
+  background-image: url(":baseurl:assets/images/picture.png"); }
+
 .likeaboss_toolbar .likeaboss_code {
   background-image: url(":baseurl:assets/images/script_code.png"); }
 

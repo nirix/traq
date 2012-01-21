@@ -27,7 +27,8 @@
  */
 
 var likeABoss = {
-	l: {
+	strings: {
+		// Tags
 		'h1': 'First level heading',
 		'h2': 'Second level heading',
 		'h3': 'Third level heading',
@@ -39,8 +40,13 @@ var likeABoss = {
 		'italic': 'Italic text',
 		
 		'link': 'Link',
+		'image': 'Image',
 		
 		'code': 'Code block',
+		
+		// Other
+		'link_text': 'Link text',
+		'url': 'URL',
 	},
 	
 	tag: {
@@ -75,23 +81,42 @@ var likeABoss = {
 		},
 		
 		'bold': {
-			open: '*',
-			close: '*'
+			open: '**',
+			close: '**'
 		},
 		
 		'italic': {
-			open: '__',
-			close: '__'
+			open: '_',
+			close: '_'
 		},
 		
 		'link': {
 			open: '[',
-			close: '](http://)'
+			middle: '](',
+			close: ')',
+			func: function(tag, selection) {
+				var text = prompt(likeABoss.locale('link_text'), selection);
+				if (!text || text == null) {
+					return;
+				}
+				
+				var url = prompt(likeABoss.locale('url'), selection ? selection : 'http://');
+				if (!url || url == null) {
+					return;
+				}
+				
+				return tag.open + text + tag.middle + url + tag.close;
+			}
 		},
 		
 		'code': {
 			open: "\n    ",
-			close: ""
+			close: ''
+		},
+		
+		'image': {
+			open: '![An Image](http://',
+			close: ')',
 		}
 	},
 	
@@ -100,7 +125,7 @@ var likeABoss = {
 	},
 	
 	locale: function(name) {
-		return likeABoss.l[name];
+		return likeABoss.strings[name];
 	}
 };
 
@@ -116,7 +141,7 @@ var likeABoss = {
 			scrollPosition = caretPosition = 0;
 			
 			function mkbtn(name) {
-				button = $('<a href="" class="likeaboss_' + name + '" title="' + likeABoss.locale(name) + '">' + name + '</a>');
+				button = $('<a href="#" class="likeaboss_' + name + '" title="' + likeABoss.locale(name) + '">' + name + '</a>');
 				button.click(function(){ markup(name); return false; });
 				return button;
 			}
@@ -153,10 +178,18 @@ var likeABoss = {
 				caretPosition = getCaretPosition();
 				selection = getSelection();
 				
-				var block = likeABoss.tag[type].open + selection + likeABoss.tag[type].close;
+				var block;
+				if (likeABoss.tag[type].func) {
+					block = likeABoss.tag[type].func(likeABoss.tag[type], selection);
+				} else {
+					block = likeABoss.tag[type].open + selection + likeABoss.tag[type].close;
+				}
+				
+				if (!block || block == '' || block == null) {
+					return false;
+				}
 				
 				textarea.value = textarea.value.substr(0, caretPosition) + block + textarea.value.substring(caretPosition + selection.length, textarea.value.length)
-				
 				setCaretPosition(caretPosition + block.length);
 			}
 			
@@ -172,6 +205,7 @@ var likeABoss = {
 			toolbar.append(mkbtn('italic'));
 			
 			toolbar.append(mkbtn('link'));
+			toolbar.append(mkbtn('image'));
 			
 			toolbar.append(mkbtn('code'));
 			
