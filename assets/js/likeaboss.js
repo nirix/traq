@@ -115,8 +115,19 @@ var likeABoss = {
 		},
 		
 		'image': {
-			open: '![An Image](http://',
+			open: '![An Image](',
 			close: ')',
+			func: function(tag, selection) {
+				if (!selection || selection == null) {
+					var url = prompt(likeABoss.locale('url'));
+					if (!url || url == null) {
+						return;
+					}
+				}
+				
+				var val = url ? url : selection;
+				return tag.open + val + tag.close;
+			}
 		}
 	},
 	
