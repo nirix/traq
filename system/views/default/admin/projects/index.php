@@ -15,7 +15,7 @@
 		<tbody>
 		<?php foreach ($projects as $project) { ?>
 			<tr>
-				<td><?php echo HTML::link($project->name, "/admin/projects/{$project->id}/edit"); ?></td>
+				<td><?php echo HTML::link($project->name, "/{$project->slug}/settings"); ?></td>
 				<td><?php echo $project->codename; ?></td>
 				<td>
 					<?php echo HTML::link(l('edit'), "/{$project->slug}/settings", array('title' => l('edit'), 'class' => 'button_edit')); ?>
