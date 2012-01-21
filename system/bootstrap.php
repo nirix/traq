@@ -22,6 +22,17 @@ define("SYSPATH", dirname(__FILE__) . '/avalon');
 define("APPPATH", dirname(__FILE__));
 define("DOCROOT", dirname(dirname(__FILE__)));
 
-require_once SYSPATH . '/base.php';
+require SYSPATH . '/base.php';
+require APPPATH . '/libraries/fishhook.php';
 
 Database::init();
+
+// Load the plugins
+$plugins = Database::driver()->select('file')->from('plugins')->where('is_enabled', 1)->exec()->fetch_all();
+foreach ($plugins as $plugin)
+{
+	require APPPATH . "/plugins/{$plugin['directory']}/{$plugin['directory']}.plugin.php";
+	$plugin = 'Plugin_' . $plugin['directory'];
+	$plugin = $plugin::init();
+}
+unset($plugins, $plugin);
