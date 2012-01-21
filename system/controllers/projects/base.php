@@ -32,7 +32,7 @@ class ProjectSettingsBase extends AppController
 	{
 		parent::__construct();
 		
-		if (!$this->project->is_manager($this->user) or !$this->user->group->is_admin)
+		if (!$this->project->is_manager($this->user) and !$this->user->group->is_admin)
 		{
 			$this->show_404();
 		}

@@ -40,7 +40,24 @@ class AdminProjectsController extends AppController
 	 */
 	public function action_new()
 	{
-	
+		$project = new Project;
+		
+		if (Request::$method == 'post')
+		{
+			$project->set(array(
+				'name' => Request::$post['name'],
+				'slug' => Request::$post['slug'],
+				'info' => Request::$post['info']
+			));
+			
+			if ($project->is_valid())
+			{
+				$project->save();
+				Request::redirect(Request::base('admin'));
+			}
+		}
+		
+		View::set('proj', $project);
 	}
 	
 	/**
@@ -50,6 +67,8 @@ class AdminProjectsController extends AppController
 	 */
 	public function action_delete($id)
 	{
-	
+		$project = Project::find('id', $id);
+		$project->delete();
+		Request::redirect(Request::base('admin'));
 	}
 }
