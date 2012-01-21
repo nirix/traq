@@ -70,6 +70,11 @@ function enus_locale()
 		'users' => "Users",
 		'groups' => "Groups",
 		'new_project' => "New Project",
+		'plugins' => "Plugins",
+		'enabled_plugins' => "Enabled Plugins",
+		'disabled_plugins' => "Disabled Plugins",
+		'author' => "Author",
+		'version' => "Version",
 		
 		// Tickets
 		'summary' => "Summary",

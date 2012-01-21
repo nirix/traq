@@ -33,6 +33,10 @@ h3 {
 	margin-bottom: 5px;
 }
 
+hr {
+	margin-bottom: 0;
+}
+
 /* ==========# Top Hat #========== */
 #header {
 	background: #3478AA;
@@ -204,6 +208,12 @@ h3 {
 }
 
 /* ==========# Table listing #========== */
+h3.list_title {
+	font-size: 15px;
+}
+.list_title {
+	margin-bottom: 0;
+}
 .list th.fixed_name {
 	width: 200px;
 }

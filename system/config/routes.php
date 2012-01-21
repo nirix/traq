@@ -33,6 +33,7 @@ Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings', 'Projects::Settings:
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)', 'Projects::view');
 
 // AdminCP routes
-Router::add('/admin', 'Admin::Projects::index');Router::add('/admin', 'Admin::Projects::index');
+Router::add('/admin', 'Admin::Projects::index');
 Router::add('/admin/projects/new', 'Admin::Projects::new');
 Router::add('/admin/projects/([0-9]+)/delete', 'Admin::Projects::delete/$1');
+Router::add('/admin/plugins', 'Admin::Plugins::index');
