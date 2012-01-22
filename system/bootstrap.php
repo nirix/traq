@@ -31,8 +31,8 @@ Database::init();
 $plugins = Database::driver()->select('file')->from('plugins')->where('is_enabled', 1)->exec()->fetch_all();
 foreach ($plugins as $plugin)
 {
-	require APPPATH . "/plugins/{$plugin['directory']}/{$plugin['directory']}.plugin.php";
-	$plugin = 'Plugin_' . $plugin['directory'];
+	require APPPATH . "/plugins/{$plugin['file']}.plugin.php";
+	$plugin = 'Plugin_' . $plugin['file'];
 	$plugin = $plugin::init();
 }
 unset($plugins, $plugin);
