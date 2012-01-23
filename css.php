@@ -18,9 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Set the appropriate content type and charset.
-$type = isset($_REQUEST['css']) ? 'css' : 'javascript';
-header("content-type: text/{$type}; charset: UTF-8;");
+// Set the content type and charset.
+header("content-type: text/css; charset: UTF-8;");
 
 // Check if we can gzip the page or not/
 if (extension_loaded('zlib'))
@@ -30,7 +29,7 @@ if (extension_loaded('zlib'))
 }
 
 // Check for the CSS index in the request array..
-if (!isset($_REQUEST['css']) and !isset($_REQUEST['js']))
+if (!isset($_REQUEST['css']))
 {
 	exit;
 }
@@ -39,26 +38,13 @@ if (!isset($_REQUEST['css']) and !isset($_REQUEST['js']))
 require "./system/avalon/libs/request.php";
 
 $output = array();
-if ($type == 'css')
+foreach (explode(',', $_REQUEST['css']) as $file)
 {
-	foreach (explode(',', $_REQUEST['css']) as $file)
+	// Check if the file exists...
+	if (file_exists(__DIR__ . "/assets/css/{$file}.css"))
 	{
-		// Check if the file exists...
-		if (file_exists(__DIR__ . "/assets/css/{$file}.css"))
-		{
-			$output[] = file_get_contents(__DIR__ . "/assets/css/{$file}.css");
-		}
-	}
-}
-else if($type == 'javascript')
-{
-	foreach (explode(',', $_REQUEST['js']) as $file)
-	{
-		// Check if the file exists...
-		if (file_exists(__DIR__ . "/assets/js/{$file}.js"))
-		{
-			$output[] = file_get_contents(__DIR__ . "/assets/js/{$file}.js");
-		}
+		// Add it to the output array.
+		$output[] = file_get_contents(__DIR__ . "/assets/css/{$file}.css");
 	}
 }
 
@@ -70,15 +56,6 @@ $output = str_replace(':baseuri:', Request::base(), $output);
 // Remove comments and such from the output.
 $output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
 $output = preg_replace('/\s*(,|;|:|{|})\s*/', '$1', $output);
-//$output = preg_replace("#(?:[\t]+)?//(.*?)\n#", '', $output);
 
-if ($type == 'css')
-{
-	// Minify the CSS.
-	echo str_replace(array("\t", "\n"), '', $output);
-}
-else
-{
-	// Minify the JS.
-	echo str_replace(array("\t"), '', $output);
-}
+// Minify the CSS.
+echo str_replace(array("\t", "\n"), '', $output);
