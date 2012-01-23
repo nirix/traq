@@ -53,66 +53,20 @@ var likeABoss = {
 	},
 	
 	tag: {
-		'h1': {
-			open: '#',
-			close: ''
-		},
-		
-		'h2': {
-			open: '##',
-			close: ''
-		},
-		
-		'h3': {
-			open: '###',
-			close: ''
-		},
-		
-		'h4': {
-			open: '####',
-			close: ''
-		},
-		
-		'h5': {
-			open: '#####',
-			close: ''
-		},
-		
-		'h6': {
-			open: '######',
-			close: ''
-		},
-		
+		'h1': {open: '#'},
+		'h2': {open: '##'},
+		'h3': {open: '###'},
+		'h4': {open: '####'},
+		'h5': {open: '#####'},
+		'h6': {open: '######'},
 		//
-		
-		'bold': {
-			open: '**',
-			close: '**'
-		},
-		
-		'italic': {
-			open: '_',
-			close: '_'
-		},
-		
+		'bold': {open: '**', close: '**'},
+		'italic': {open: '_', close: '_'},
 		//
-		
-		'bullet_list': {
-			open: '- ',
-			close: ''
-		},
-		
-		'number_list': {
-			open: '1. ',
-			close: ''
-		},
-		
+		'bullet_list': {open: '- '},
+		'number_list': {open: '1. '},
 		//
-		
-		'link': {
-			open: '[',
-			middle: '](',
-			close: ')',
+		'link': {open: '[', middle: '](', close: ')',
 			func: function(tag, selection) {
 				var text = prompt(likeABoss.locale('link_text'), selection);
 				if (!text || text == null) {
@@ -127,12 +81,8 @@ var likeABoss = {
 				return tag.open + text + tag.middle + url + tag.close;
 			}
 		},
-		
 		//
-		
-		'image': {
-			open: '![An Image](',
-			close: ')',
+		'image': {open: '![An Image](', close: ')',
 			func: function(tag, selection) {
 				if (!selection || selection == null) {
 					var url = prompt(likeABoss.locale('url'));
@@ -145,17 +95,16 @@ var likeABoss = {
 				return tag.open + val + tag.close;
 			}
 		},
-		
-		'code': {
-			open: "\n    ",
-			close: ''
-		},
+		'code': {open: "\n    "},
 	},
 	
-	markup: function(type) {
-		this.value = 'a';
-	},
-	
+	/**
+	 * Fetches the localised string.
+	 *
+	 * @param string
+	 *
+	 * @return string
+	 */
 	locale: function(name) {
 		return likeABoss.strings[name];
 	}
@@ -172,12 +121,26 @@ var likeABoss = {
 			
 			scrollPosition = caretPosition = 0;
 			
+			/**
+			 * Creates a link element for the editor toolbar
+			 * with the appropriate class, title and text
+			 * and binds a click event to it
+			 *
+			 * @param string name
+			 *
+			 * @return object
+			 */
 			function mkbtn(name) {
 				button = $('<a href="#" class="likeaboss_' + name + '" title="' + likeABoss.locale(name) + '">' + name + '</a>');
 				button.click(function(){ markup(name); return false; });
 				return button;
 			}
 			
+			/**
+			 * Gets the caret position.
+			 *
+			 * @return integer
+			 */
 			function getCaretPosition() {
 				if (document.selection) {
 					var slct = document.selection.createRange();
@@ -190,10 +153,20 @@ var likeABoss = {
 				return caretPosition;
 			}
 			
-			function setCaretPosition(len) {
-				setSelection(len, 0);
+			/**
+			 * Sets the caret position.
+			 *
+			 * @param integer pos
+			 */
+			function setCaretPosition(pos) {
+				setSelection(pos, 0);
 			}
 			
+			/**
+			 * Gets the selected text.
+			 *
+			 * @return string
+			 */
 			function getSelection() {
 				textarea.focus();
 				caretPosition = textarea.selectionStart;
@@ -201,11 +174,23 @@ var likeABoss = {
 				return selection;
 			}
 			
+			/**
+			 * Selects the text in the specified range.
+			 *
+			 * @param integer start
+			 * @param integer len Length of the selection from the start.
+			 */
 			function setSelection(start, len) {
 				textarea.setSelectionRange(start, start + len);
 				textarea.focus();
 			}
 			
+			/**
+			 * Adds the markup to the textarea, or around
+			 * the users current selection.
+			 *
+			 * @param string type
+			 */
 			function markup(type) {
 				caretPosition = getCaretPosition();
 				selection = getSelection();
@@ -214,7 +199,7 @@ var likeABoss = {
 				if (likeABoss.tag[type].func) {
 					block = likeABoss.tag[type].func(likeABoss.tag[type], selection);
 				} else {
-					block = likeABoss.tag[type].open + selection + likeABoss.tag[type].close;
+					block = (likeABoss.tag[type].open ? likeABoss.tag[type].open : '') + selection + (likeABoss.tag[type].close ? likeABoss.tag[type].close : '');
 				}
 				
 				if (!block || block == '' || block == null) {
@@ -225,9 +210,11 @@ var likeABoss = {
 				setCaretPosition(caretPosition + block.length);
 			}
 			
+			// Wrap the textarea in a container
 			$$.wrap('<div class="likeaboss_container"></div>');
 			$$.addClass('likeaboss_editor');
 			
+			// Create the toolbar and add the buttons.
 			var toolbar = $('<div class="likeaboss_toolbar"></div>');
 			toolbar.append(mkbtn('h2'));
 			toolbar.append(mkbtn('h3'));
@@ -244,6 +231,7 @@ var likeABoss = {
 			
 			toolbar.append(mkbtn('code'));
 			
+			// Add the toolbar to the container
 			$$.before(toolbar);
 		});
 	}
