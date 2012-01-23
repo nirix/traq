@@ -25,16 +25,23 @@
 	}
 }
 
-form abbr {
-	border-radius: 15px;
-	background: #d5edf8;
-	color: #205791;
-	border: 1px solid #92cae4;
-	padding: 0 5px;
-	cursor: default;
-}
+form {
+	.actions {
+		text-align: center;
+		padding: 4px 0;
+	}
 
-textarea {
-	height: 150px;
-	width: 98%;
+	abbr {
+		border-radius: 15px;
+		background: #d5edf8;
+		color: #205791;
+		border: 1px solid #92cae4;
+		padding: 0 5px;
+		cursor: default;
+	}
+	
+	textarea {
+		height: 150px;
+		width: 98%;
+	}
 }
