@@ -4,9 +4,12 @@
 <?php View::render('projects/settings/_nav'); ?>
 <div class="content">
 	<h3><?php echo l('new_component'); ?></h3>
-	<form action="<?php echo Request::full_uri(); ?>" method="post" class="tabular box">
-		<?php View::render('projects/components/_form'); ?>
-		<div class="group">
+	<form action="<?php echo Request::full_uri(); ?>" method="post">
+		<?php show_errors($component->errors); ?>
+		<div class="tabular box">
+			<?php View::render('projects/components/_form'); ?>
+		</div>
+		<div class="actions">
 			<input type="submit" value="<?php echo l('create'); ?>" />
 		</div>
 	</form>

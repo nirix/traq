@@ -18,21 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define("SYSPATH", dirname(__FILE__) . '/avalon');
-define("APPPATH", dirname(__FILE__));
-define("DOCROOT", dirname(dirname(__FILE__)));
-
-require SYSPATH . '/base.php';
-require APPPATH . '/libraries/fishhook.php';
-
-Database::init();
-
-// Load the plugins
-$plugins = Database::driver()->select('file')->from('plugins')->exec()->fetch_all();
-foreach ($plugins as $plugin)
+/**
+ * Used to render an array of errors.
+ *
+ * @param array $errors
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
+ * @subpackage Helpers
+ */
+function show_errors($errors)
 {
-	require APPPATH . "/plugins/{$plugin['file']}.plugin.php";
-	$plugin = 'Plugin_' . $plugin['file'];
-	$plugin = $plugin::init();
+	View::render('error/_list', array('errors' => is_array($errors) ? $errors : array($errors)));
 }
-unset($plugins, $plugin);

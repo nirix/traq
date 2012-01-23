@@ -43,6 +43,7 @@ class AppController extends Controller
 		
 		// Load helpers
 		Load::helper('html', 'form', 'js');
+		Load::helper('html', 'errors', 'form', 'js');
 		
 		// Get the user info
 		$this->_get_user();
