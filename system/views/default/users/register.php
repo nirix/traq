@@ -1,15 +1,7 @@
 <section id="register_form" class="tabular content">
 	<div class="push-7 span-8">
 		<h2 id="page_title"><?php echo l('register'); ?></h2>
-		<?php if (isset($user) and count($user->errors) > 0) { ?>
-		<div class="error">
-			<ul>
-			<?php foreach ($user->errors as $error) { ?>
-				<li><?php echo $error; ?></li>
-			<?php } ?>
-			</ul>
-		</div>
-		<?php } ?>
+		<?php if (isset($user)) { show_errors($user->errors); } ?>
 		<form action="<?php echo Request::base('register'); ?>" method="post" class="box">
 			<div class="group">
 				<label><?php echo l('username'); ?></label>
