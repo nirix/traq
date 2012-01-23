@@ -42,7 +42,6 @@ class AppController extends Controller
 		$this->title(settings('title'));
 		
 		// Load helpers
-		Load::helper('html', 'form', 'js');
 		Load::helper('html', 'errors', 'form', 'js');
 		
 		// Get the user info
@@ -124,5 +123,16 @@ class AppController extends Controller
 		
 		// Set the current_user variable in the views.
 		View::set('current_user', $this->user);
+	}
+	
+	public function __shutdown()
+	{
+		if (Request::is_ajax())
+		{
+			$this->_render['layout'] = 'ajax';
+			$this->_render['view'] = $this->_render['view'] . (isset(Request::$request['overlay']) ? '.overlay' : '.js');
+		}
+		
+		parent::__shutdown();
 	}
 }

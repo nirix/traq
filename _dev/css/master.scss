@@ -37,6 +37,46 @@ hr {
 	margin-bottom: 0;
 }
 
+#overlay_blackout {
+	background: #fff;
+	z-index: 2000;
+	display: none;
+}
+
+#overlay {
+	display: none;
+	position: absolute;
+	border-radius: 4px;
+	box-shadow: 0 0 5px #444;
+	z-index: 2100;
+	background: #fff;
+	color: #000;
+	padding: 0;
+	
+	h3 {
+		background: #3478AA;
+		color: #fff;
+		padding: 4px 6px;
+		border-radius: 3px 3px 0 0;
+		margin: 0;
+	}
+	
+	.box {
+		border-radius: 0 0 3px 3px;
+		border: 0;
+		background: transparent;
+	}
+	
+	form {
+		margin: 0;
+		width: 600px;
+		
+		textarea {
+			width:  95%;
+		}
+	}
+}
+
 /* ==========# Top Hat #========== */
 #header {
 	background: #3478AA;
@@ -241,15 +281,15 @@ h3.list_title {
 }
 
 .button_new {
-	background-image: url(':baseurl:assets/images/add.png');
+	background-image: url(':baseuri:assets/images/add.png');
 }
 
 .button_edit {
-	background-image: url(':baseurl:assets/images/pencil.png');
+	background-image: url(':baseuri:assets/images/pencil.png');
 }
 
 .button_delete {
-	background-image: url(':baseurl:assets/images/delete.png');
+	background-image: url(':baseuri:assets/images/delete.png');
 }
 
 @import "forms";
