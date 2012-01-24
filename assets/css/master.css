@@ -1013,19 +1013,16 @@ hr {
   margin: 0;
   padding: 0;
   list-style: none; }
-  #project_list li {
+  #project_list li h3 {
+    margin: 0;
     margin-top: 10px; }
-    #project_list li h3 {
-      margin: 0; }
-    #project_list li nav {
-      margin-bottom: 4px; }
-      #project_list li nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0; }
-        #project_list li nav ul li {
-          display: inline;
-          margin-right: 4px; }
+  #project_list li nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+    #project_list li nav ul li {
+      display: inline;
+      margin-right: 4px; }
 
 /* ==========# Tickets #========== */
 #ticket_info {

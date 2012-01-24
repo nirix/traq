@@ -2,7 +2,7 @@
 	<h2 id="page_title"><?php echo l('projects'); ?></h2>
 	<ul id="project_list">
 		<?php foreach($projects as $project) { ?>
-		<li class="box">
+		<li>
 			<h3><?php echo HTML::link($project->name, $project->slug); ?></h3>
 			<nav>
 				<ul>
@@ -11,7 +11,7 @@
 					<li><?php echo HTML::link(l('timeline'), "{$project->slug}/timeline"); ?></li>
 				</ul>
 			</nav>
-			<div class="description">
+			<div class="description box">
 				<?php echo format_text($project->info); ?>
 			</div>
 		</li>
