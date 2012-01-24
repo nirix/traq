@@ -12,6 +12,11 @@
 			<td><?php echo $plugin['author'] ? $plugin['author'] : ''; ?></td>
 			<td><?php echo $plugin['version']; ?></td>
 			<td>
+				<?php if (in_array($plugin['file'], $enabled_plugins)) {
+					echo HTML::link(l('disable'), "/admin/plugins/disable/{$plugin['file']}", array('class' => 'button_disable'));
+				} else if (!in_array($plugin['file'], $enabled_plugins)) {
+					echo HTML::link(l('enable'), "/admin/plugins/enable/{$plugin['file']}", array('class' => 'button_enable'));
+				} ?>
 			</td>
 		</tr>
 	<?php } ?>

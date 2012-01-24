@@ -75,6 +75,8 @@ function enus_locale()
 		'disabled_plugins' => "Disabled Plugins",
 		'author' => "Author",
 		'version' => "Version",
+		'enable' => "Enable",
+		'disable' => "Disable",
 		
 		// Tickets
 		'summary' => "Summary",

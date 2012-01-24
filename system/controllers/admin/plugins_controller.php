@@ -58,7 +58,7 @@ class AdminPluginsController extends AppController
 			{
 				require $plugins_dir . "{$match[1]}.plugin.php";
 				$class = "Plugin_{$match[1]}";
-				$plugins['disabled'][] = $class::info();
+				$plugins['disabled'][] = array_merge($class::info(), array('file' => $match[1]));
 			}
 			// It's enabled, only call the info() method.
 			else
@@ -68,6 +68,29 @@ class AdminPluginsController extends AppController
 			}
 		}
 		
+		View::set('enabled_plugins', $enabled_plugins);
 		View::set('plugins', $plugins);
+	}
+	
+	/**
+	 * Enables the specified plugin.
+	 *
+	 * @param string $file The plugin filename (without .plugin.php)
+	 */
+	public function action_enable($file)
+	{
+		$this->db->insert(array('file' => $file))->into('plugins')->exec();
+		Request::redirect(Request::base('/admin/plugins'));
+	}
+	
+	/**
+	 * Disables the specified plugin.
+	 *
+	 * @param string $file The plugin filename (without .plugin.php)
+	 */
+	public function action_disable($file)
+	{
+		$this->db->delete()->from('plugins')->where('file', $file)->exec();
+		Request::redirect(Request::base('/admin/plugins'));
 	}
 }

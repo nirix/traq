@@ -37,3 +37,4 @@ Router::add('/admin', 'Admin::Projects::index');
 Router::add('/admin/projects/new', 'Admin::Projects::new');
 Router::add('/admin/projects/([0-9]+)/delete', 'Admin::Projects::delete/$1');
 Router::add('/admin/plugins', 'Admin::Plugins::index');
+Router::add('/admin/plugins/(enable|disable)/([a-zA-Z0-9\-\_]+)', 'Admin::Plugins::$1/$2');
