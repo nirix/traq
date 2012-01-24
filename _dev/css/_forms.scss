@@ -5,6 +5,7 @@
 		padding-left: 125px;
 		clear: left;
 	}
+	
 	label {
 		font-weight: bold;
 		float: left;
@@ -38,6 +39,10 @@ form {
 		border: 1px solid #92cae4;
 		padding: 0 5px;
 		cursor: default;
+	}
+	
+	select {
+		margin-top: 0;
 	}
 	
 	textarea {

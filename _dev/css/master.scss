@@ -78,6 +78,11 @@ hr {
 		&.overlay_thin {
 			width:  300px;
 		}
+		
+		.actions {
+			background-color: #f6f6f6;
+			border-radius: 0 0 4px 4px;
+		}
 	}
 }
 
@@ -258,13 +263,16 @@ h3.list_title {
 .list_title {
 	margin-bottom: 0;
 }
-.list th.fixed_name {
-	width: 200px;
-}
-.list th.codename {
-}
-.list th.actions {
-	width: 120px;
+.list {
+	th {
+		&.fixed_username, &.fixed_name {
+			width:  200px;
+		}
+		
+		&.actions {
+			width: 120px;
+		}
+	}
 }
 
 /* ==========# Sexy Buttons #========== */
