@@ -1,5 +1,5 @@
 <div class="content">
-	<?php echo link_to(l('new_user'), '/admin/users/new', array('class' => 'button_new', 'data-overlay' => true)); ?>
+	<?php echo HTML::link(l('new_user'), '/admin/users/new', array('class' => 'button_new', 'data-overlay' => true)); ?>
 </div>
 <div>
 	<table class="list">
@@ -11,11 +11,11 @@
 		<tbody>
 		<?php foreach ($users as $user) { ?>
 			<tr>
-				<td><?php echo link_to($user->username, "/admin/users/{$user->id}/edit", array('data-overlay' => true)); ?></td>
+				<td><?php echo HTML::link($user->username, "/admin/users/{$user->id}/edit", array('data-overlay' => true)); ?></td>
 				<td><?php echo $user->group->name; ?></td>
 				<td>
-					<?php echo link_to(l('edit'), "/admin/users/{$user->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>
-					<?php echo link_to(l('delete'), "/admin/users/{$user->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm:delete_x', $user->username))); ?>
+					<?php echo HTML::link(l('edit'), "/admin/users/{$user->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>
+					<?php echo HTML::link(l('delete'), "/admin/users/{$user->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm:delete_x', $user->username))); ?>
 				</td>
 			</tr>
 		<?php } ?>
