@@ -32,6 +32,12 @@ class Group extends Model
 		'add_attachments'
 	);
 	
+	/**
+	 * Returns an array of groups to be used
+	 * with the Form::select() method.
+	 *
+	 * @return array
+	 */
 	public function select_options()
 	{
 		$options = array();
@@ -40,5 +46,24 @@ class Group extends Model
 			$options[] = array('value' => $group->id, 'text' => $group->name);
 		}
 		return $options;
+	}
+	
+	/**
+	 * Checks if the groups data is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid()
+	{
+		$errors = array();
+		
+		// Make sure the name is set...
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('error:name_blank');
+		}
+		
+		$this->errors = $errors;
+		return !count($errors) > 0;
 	}
 }

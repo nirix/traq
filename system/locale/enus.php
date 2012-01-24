@@ -80,6 +80,8 @@ function enus_locale()
 		'new_user' => "New User",
 		'edit_user' => "Edit User",
 		'group' => "Group",
+		'new_group' => "New Group",
+		'edit_group' => "Edit Group",
 		
 		// Tickets
 		'summary' => "Summary",
