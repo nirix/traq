@@ -32,6 +32,9 @@ class AdminBase extends AppController
 	{
 		parent::__construct();
 		
+		// Set the admin layout.
+		$this->_render['layout'] = 'admin';
+		
 		// Check if the user is an admin before
 		// if not show the login page with this pages
 		// URI so we can redirect them back to this page

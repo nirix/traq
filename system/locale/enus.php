@@ -77,6 +77,9 @@ function enus_locale()
 		'version' => "Version",
 		'enable' => "Enable",
 		'disable' => "Disable",
+		'new_user' => "New User",
+		'edit_user' => "Edit User",
+		'group' => "Group",
 		
 		// Tickets
 		'summary' => "Summary",

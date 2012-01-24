@@ -1,8 +1,4 @@
 <div class="content">
-	<h2 id="page_id"><?php echo l('admincp'); ?></h2>
-</div>
-<?php View::render('admin/_nav'); ?>
-<div class="content">
 	<?php echo HTML::link(l('new_project'), '/admin/projects/new', array('class' => 'button_new')); ?>
 </div>
 <div>

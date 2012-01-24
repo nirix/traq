@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+require __DIR__ . '/base.php';
+
 /**
  * Admin Projects controller
  *
@@ -26,7 +28,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminProjectsController extends AppController
+class AdminProjectsController extends AdminBase
 {
 	public function action_index()
 	{
