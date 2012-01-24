@@ -38,3 +38,6 @@ Router::add('/admin/projects/new', 'Admin::Projects::new');
 Router::add('/admin/projects/([0-9]+)/delete', 'Admin::Projects::delete/$1');
 Router::add('/admin/plugins', 'Admin::Plugins::index');
 Router::add('/admin/plugins/(enable|disable)/([a-zA-Z0-9\-\_]+)', 'Admin::Plugins::$1/$2');
+Router::add('/admin/users', 'Admin::Users::index');
+Router::add('/admin/users/new', 'Admin::Users::new');
+Router::add('/admin/users/([0-9]+)/(edit|delete)', 'Admin::Users::$2/$1');

@@ -25,7 +25,6 @@ class User extends Model
 		'id',
 		'username',
 		'password',
-		//'salt',
 		'name',
 		'email',
 		'group_id',
@@ -50,13 +49,34 @@ class User extends Model
 		return sha1($password) == $this->_data['password'];
 	}
 	
-	public function _before_create()
+	/**
+	 * Handles all the required stuff before creating
+	 * the user, such as hashing the password.
+	 */
+	protected function _before_create()
 	{
-		$this->_data['name'] = $this->_data['username'];
-		$this->_data['password'] = sha1($this->_data['password']);
+		$this->prepare_password();
 		$this->_data['login_hash'] = sha1(time() . $this->_data['username'] . rand(0, 1000));
+		
+		if (!isset($this->_data['name']))
+		{
+			$this->_data['name'] = $this->_data['username'];
+		}
 	}
 	
+	/**
+	 * Hashes the users password.
+	 */
+	public function prepare_password()
+	{
+		$this->_data['password'] = sha1($this->_data['password']);
+	}
+	
+	/**
+	 * Checks if the users data is valid or not.
+	 *
+	 * @return bool
+	 */
 	public function is_valid()
 	{
 		$errors = array();

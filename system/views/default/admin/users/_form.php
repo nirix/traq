@@ -1,0 +1,20 @@
+<div class="group">
+	<label><?php echo l('username'); ?></label>
+	<?php echo Form::text('username', array('value' => $user->username)); ?>
+</div>
+<div class="group">
+	<label><?php echo l('name'); ?></label>
+	<?php echo Form::text('name', array('value' => $user->name)); ?>
+</div>
+<div class="group">
+	<label><?php echo l('password'); ?></label>
+	<?php echo Form::password('password'); ?>
+</div>
+<div class="group">
+	<label><?php echo l('email'); ?></label>
+	<?php echo Form::text('email', array('value' => $user->email)); ?>
+</div>
+<div class="group">
+	<label><?php echo l('group'); ?></label>
+	<?php echo Form::select('group_id', Group::select_options(), array('value' => $user->group_id)); ?>
+</div>

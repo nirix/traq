@@ -31,4 +31,14 @@ class Group extends Model
 		'delete_tickets',
 		'add_attachments'
 	);
+	
+	public function select_options()
+	{
+		$options = array();
+		foreach (static::fetch_all() as $group)
+		{
+			$options[] = array('value' => $group->id, 'text' => $group->name);
+		}
+		return $options;
+	}
 }
