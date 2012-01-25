@@ -951,6 +951,9 @@ hr {
       background-color: #f6f6f6;
       border-radius: 0 0 4px 4px; }
 
+#page_title {
+  line-height: 1; }
+
 /* ==========# Top Hat #========== */
 #header {
   background: #3478AA;
