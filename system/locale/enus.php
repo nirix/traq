@@ -82,6 +82,13 @@ function enus_locale()
 		'group' => "Group",
 		'new_group' => "New Group",
 		'edit_group' => "Edit Group",
+		'ticket_types' => "Ticket Types",
+		'ticket_statuses' => "Ticket Statuses",
+		'new_ticket_type' => "New Ticket Type",
+		'edit_ticket_type' => "Edit Ticket Type",
+		'bullet' => "Bullet",
+		'show_on_changelog' => "Show on Changelog",
+		'template' => "Template",
 		
 		// Tickets
 		'summary' => "Summary",
@@ -111,6 +118,7 @@ function enus_locale()
 		
 		// Help
 		'help:slug' => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
+		'help:ticket_type_bullet' => "The bullet style used on the changelog list.",
 		
 		// Confirmations
 		'confirm:delete_x' => "Are you sure you want to delete {1}?",
@@ -122,6 +130,7 @@ function enus_locale()
 		'error:name_blank' => "Name cannot be blank",
 		'error:slug_blank' => "Slug cannot be blank",
 		'error:slug_in_use' => "That slug is already in use",
+		'error:ticket_type:bullet_blank' => "Bullet cannot be blank",
 		
 		// User errors
 		'error:user:username_blank' => "Username cannot be blank",

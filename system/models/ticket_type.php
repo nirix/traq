@@ -23,6 +23,29 @@ class TicketType extends Model
 	protected static $_name = 'ticket_types';
 	protected static $_properties = array(
 		'id',
-		'name'
+		'name',
+		'bullet',
+		'changelog',
+		'template'
 	);
+	
+	public function is_valid()
+	{
+		$errors = array();
+		
+		// Check if the name is set
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('error:name_blank');
+		}
+		
+		// Check if the bullet is set
+		if ($this->_data['changelog'] and empty($this->_data['bullet']))
+		{
+			$errors['bullet'] = l('error:ticket_type:bullet_blank');
+		}
+		
+		$this->errors = $errors;
+		return !count($errors);
+	}
 }
