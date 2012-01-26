@@ -35,7 +35,7 @@
 				<?php if (isset($project)) { ?>
 					<li<?php echo iif(active_nav('/:slug'), ' class="active"')?>><?php echo HTML::link(l('project_info'), $project->href()); ?></li>
 					<li<?php echo iif(active_nav('/:slug/roadmap'), ' class="active"')?>><?php echo HTML::link(l('roadmap'), $project->href("roadmap")); ?></li>
-					<li<?php echo iif(active_nav('/:slug/tickets'), ' class="active"')?>><?php echo HTML::link(l('tickets'), $project->href("tickets")); ?></li>
+					<li<?php echo iif(active_nav('/:slug/tickets(.*)'), ' class="active"')?>><?php echo HTML::link(l('tickets'), $project->href("tickets")); ?></li>
 					<li<?php echo iif(active_nav('/:slug/timeline'), ' class="active"')?>><?php echo HTML::link(l('timeline'), $project->href("timeline")); ?></li>
 					<?php if($project->is_manager($current_user) or $current_user->group->is_admin) { ?>
 					<li<?php echo iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>><?php echo HTML::link(l('settings'), $project->href("settings")); ?></li>
