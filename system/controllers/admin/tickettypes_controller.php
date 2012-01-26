@@ -36,12 +36,18 @@ class AdminTicketTypesController extends AdminBase
 		View::set('types', $types);
 	}
 	
+	/**
+	 * New ticket type page.
+	 */
 	public function action_new()
 	{
+		// Create a new ticket type object
 		$type = new TicketType();
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Set the information
 			$type->set(array(
 				'name' => Request::$post['name'],
 				'bullet' => Request::$post['bullet'],
@@ -49,22 +55,33 @@ class AdminTicketTypesController extends AdminBase
 				'template' => Request::$post['template'],
 			));
 			
+			// Check if the data is valid
 			if ($type->is_valid())
 			{
+				// Save and redirect
 				$type->save();
 				Request::redirect(Request::base('/admin/tickets/types'));
 			}
 		}
 		
+		// Send the data to the view
 		View::set('type', $type);
 	}
 	
+	/**
+	 * Edit ticket type.
+	 *
+	 * @param integer $id
+	 */
 	public function action_edit($id)
 	{
+		// Find the ticket type
 		$type = TicketType::find($id);
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Update the information
 			$type->set(array(
 				'name' => Request::$post['name'],
 				'bullet' => Request::$post['bullet'],
@@ -72,18 +89,27 @@ class AdminTicketTypesController extends AdminBase
 				'template' => Request::$post['template'],
 			));
 			
+			// Check if the data is valid
 			if ($type->is_valid())
 			{
+				// Save and redirect.
 				$type->save();
 				Request::redirect(Request::base('/admin/tickets/types'));
 			}
 		}
 		
+		// Send the data to the view.
 		View::set('type', $type);
 	}
 	
+	/**
+	 * Delete ticket type.
+	 *
+	 * @param integer $id
+	 */
 	public function action_delete($id)
 	{
+		// Find the ticket type, delete and redirect.
 		$type = TicketType::find($id);
 		$type->delete();
 		Request::redirect(Request::base('/admin/tickets/types'));
