@@ -1,7 +1,7 @@
 <?php
-/**
+/*!
  * Traq
- * Copyright (C) 2009-2011 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  * 
  * This file is part of Traq.
  * 
@@ -19,9 +19,11 @@
  */
 
 $db = array(
-	'driver' => 'MySQLi',
-	'host' => 'localhost',
-	'user' => 'root',
-	'pass' => 'root',
-	'name' => 'traq'
+	'driver'   => 'PDO',       // Leave as is.
+	'type'     => 'MySQL',     // Database type.
+	'host'     => 'localhost', // Database server.
+	'username' => 'root',      // Database username.
+	'password' => 'root',      // Database password.
+	'database' => 'traq',      // Database name.
+	'prefix'   => ''           // Table prefix.
 );
