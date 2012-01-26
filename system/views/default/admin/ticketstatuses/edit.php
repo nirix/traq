@@ -1,5 +1,5 @@
 <div class="content">
-	<h3><?php echo l('edit_ticket_type'); ?></h3>
+	<h3><?php echo l('edit_ticket_status'); ?></h3>
 	<form action="<?php echo Request::full_uri(); ?>" method="post">
 		<?php show_errors($status->errors); ?>
 		<div class="tabular box">

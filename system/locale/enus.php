@@ -92,6 +92,7 @@ function enus_locale()
 		'show_on_changelog' => "Show on Changelog",
 		'template' => "Template",
 		'new_ticket_status' => "New Ticket Status",
+		'edit_ticket_status' => "Edit Ticket Status",
 		
 		// Tickets
 		'summary' => "Summary",
