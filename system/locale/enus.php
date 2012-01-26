@@ -67,6 +67,7 @@ function enus_locale()
 		'edit_component' => "Edit Component",
 		'open' => "Open",
 		'closed' => "Closed",
+		'cancel' => "Cancel",
 		
 		// AdminCP
 		'users' => "Users",

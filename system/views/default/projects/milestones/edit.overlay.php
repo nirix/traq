@@ -5,5 +5,6 @@
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?php echo l('save'); ?>" />
+		<input type="button" value="<?php echo l('cancel'); ?>" onclick="close_overlay();" />
 	</div>
 </form>

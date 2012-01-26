@@ -75,3 +75,10 @@ $(document).ready(function(){
 		});
 	};
 })(jQuery);
+
+// Function to close overlay
+function close_overlay()
+{
+	$('#overlay_blackout').fadeOut();
+	$('#overlay').fadeOut();
+}
