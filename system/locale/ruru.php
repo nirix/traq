@@ -36,7 +36,7 @@ function ruru_info()
 }
 
 /**
- * enUS localization strings.
+ * ruRu localization strings.
  *
  * @package Traq
  * @subpackage Locale
