@@ -36,7 +36,7 @@ function ruru_info()
 }
 
 /**
- * ruRu localization strings.
+ * ruRU localization strings.
  *
  * @package Traq
  * @subpackage Locale
