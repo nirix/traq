@@ -45,28 +45,30 @@ class AdminPluginsController extends AdminBase
 		
 		// Scan the plugin directory
 		$plugins_dir = APPPATH . '/plugins/';
-		foreach (scandir($plugins_dir) as $file)
-		{
-			// Make sure its a plugin, not some weird
-			// or unwanted file or directory.
-			if (!preg_match('#^([a-zA-Z0-9\-_]+).plugin.php$#', $file, $match))
+		if (is_dir($plugins_dir)) {
+			foreach (scandir($plugins_dir) as $file)
 			{
-				continue;
-			}
-			
-			// If the plugin isn't enabled, fetch the plugin
-			// file and then call the info() method.
-			if (!in_array($match[1], $enabled_plugins))
-			{
-				require $plugins_dir . "{$match[1]}.plugin.php";
-				$class = "Plugin_{$match[1]}";
-				$plugins['disabled'][] = array_merge($class::info(), array('file' => $match[1]));
-			}
-			// It's enabled, only call the info() method.
-			else
-			{
-				$class = "Plugin_{$match[1]}";
-				$plugins['enabled'][] = array_merge($class::info(), array('file' => $match[1]));
+				// Make sure its a plugin, not some weird
+				// or unwanted file or directory.
+				if (!preg_match('#^([a-zA-Z0-9\-_]+).plugin.php$#', $file, $match))
+				{
+					continue;
+				}
+
+				// If the plugin isn't enabled, fetch the plugin
+				// file and then call the info() method.
+				if (!in_array($match[1], $enabled_plugins))
+				{
+					require $plugins_dir . "{$match[1]}.plugin.php";
+					$class = "Plugin_{$match[1]}";
+					$plugins['disabled'][] = array_merge($class::info(), array('file' => $match[1]));
+				}
+				// It's enabled, only call the info() method.
+				else
+				{
+					$class = "Plugin_{$match[1]}";
+					$plugins['enabled'][] = array_merge($class::info(), array('file' => $match[1]));
+				}
 			}
 		}
 		
