@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Jack Polgar
  * 
@@ -19,9 +19,9 @@
  */
 
 Router::add('root', 'Projects::index');
-
 Router::add('/(login|logout|register|usercp)', 'Users::$1');
 
+// ------------------------------------------------
 // Project routes
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets', 'Tickets::index');
@@ -32,18 +32,34 @@ Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings', 'Projects::Settings::index');
 Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)', 'Projects::view');
 
+// ------------------------------------------------
 // AdminCP routes
 Router::add('/admin', 'Admin::Projects::index');
+
+// Projects
 Router::add('/admin/projects/new', 'Admin::Projects::new');
 Router::add('/admin/projects/([0-9]+)/delete', 'Admin::Projects::delete/$1');
+
+// Plugins
 Router::add('/admin/plugins', 'Admin::Plugins::index');
 Router::add('/admin/plugins/(enable|disable)/([a-zA-Z0-9\-\_]+)', 'Admin::Plugins::$1/$2');
+
+// Users
 Router::add('/admin/users', 'Admin::Users::index');
 Router::add('/admin/users/new', 'Admin::Users::new');
 Router::add('/admin/users/([0-9]+)/(edit|delete)', 'Admin::Users::$2/$1');
+
+// User groups
 Router::add('/admin/groups', 'Admin::Groups::index');
 Router::add('/admin/groups/new', 'Admin::Groups::new');
 Router::add('/admin/groups/([0-9]+)/(edit|delete)', 'Admin::Groups::$2/$1');
+
+// Ticket types
 Router::add('/admin/tickets/types', 'Admin::TicketTypes::index');
 Router::add('/admin/tickets/types/new', 'Admin::TicketTypes::new');
 Router::add('/admin/tickets/types/([0-9]+)/(edit|delete)', 'Admin::TicketTypes::$2/$1');
+
+// Ticket statuses
+Router::add('/admin/tickets/statuses', 'Admin::TicketStatuses::index');
+Router::add('/admin/tickets/statuses/new', 'Admin::TicketStatuses::new');
+Router::add('/admin/tickets/statuses/([0-9]+)/(edit|delete)', 'Admin::TicketStatuses::$2/$1');

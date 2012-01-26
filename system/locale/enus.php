@@ -65,6 +65,8 @@ function enus_locale()
 		'edit_milestone' => "Edit Milestone",
 		'new_component' => "New Component",
 		'edit_component' => "Edit Component",
+		'open' => "Open",
+		'closed' => "Closed",
 		
 		// AdminCP
 		'users' => "Users",
@@ -89,6 +91,7 @@ function enus_locale()
 		'bullet' => "Bullet",
 		'show_on_changelog' => "Show on Changelog",
 		'template' => "Template",
+		'new_ticket_status' => "New Ticket Status",
 		
 		// Tickets
 		'summary' => "Summary",

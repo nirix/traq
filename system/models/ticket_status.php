@@ -23,6 +23,23 @@ class TicketStatus extends Model
 	protected static $_name = 'ticket_status';
 	protected static $_properties = array(
 		'id',
-		'name'
+		'name',
+		'status',
+		'changelog'
 	);
+
+	// Checks if the model data is valid
+	public function is_valid()
+	{
+		$errors = array();
+
+		// Make sure the name is set.
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('error:name_blank');
+		}
+
+		$this->errors = $errors;
+		return !count($errors) > 0;
+	}
 }
