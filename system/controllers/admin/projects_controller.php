@@ -30,6 +30,12 @@ require __DIR__ . '/base.php';
  */
 class AdminProjectsController extends AdminBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('projects'));
+	}
+
 	public function action_index()
 	{
 		// Fetch all projects and pass them to the view.
@@ -42,6 +48,8 @@ class AdminProjectsController extends AdminBase
 	 */
 	public function action_new()
 	{
+		$this->title(l('new'));
+		
 		$project = new Project;
 		
 		if (Request::$method == 'post')

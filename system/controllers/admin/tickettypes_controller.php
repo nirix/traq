@@ -30,6 +30,12 @@ require __DIR__ . '/base.php';
  */
 class AdminTicketTypesController extends AdminBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('ticket_types'));
+	}
+	
 	public function action_index()
 	{
 		$types = TicketType::fetch_all();

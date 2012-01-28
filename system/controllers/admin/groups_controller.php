@@ -30,6 +30,12 @@ require __DIR__ . '/base.php';
  */
 class AdminGroupsController extends AdminBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('groups'));
+	}
+
 	public function action_index()
 	{
 		$groups = Group::fetch_all();
@@ -41,6 +47,8 @@ class AdminGroupsController extends AdminBase
 	 */
 	public function action_new()
 	{
+		$this->title(l('new'));
+
 		// Create a new group object.
 		$group = new Group;
 		
@@ -70,6 +78,8 @@ class AdminGroupsController extends AdminBase
 	 */
 	public function action_edit($id)
 	{
+		$this->title(l('edit'));
+
 		// Find the group.
 		$group = Group::find($id);
 		

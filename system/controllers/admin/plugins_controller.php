@@ -32,6 +32,8 @@ class AdminPluginsController extends AdminBase
 {
 	public function action_index()
 	{
+		$this->title(l('plugins'));
+
 		// Array to hold plugins
 		$plugins = array('enabled' => array(), 'disabled' => array());
 		

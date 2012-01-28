@@ -34,6 +34,7 @@ class AdminBase extends AppController
 		
 		// Set the admin layout.
 		$this->_render['layout'] = 'admin';
+		$this->title(l('admincp'));
 		
 		// Check if the user is an admin before
 		// if not show the login page with this pages

@@ -30,6 +30,12 @@ require __DIR__ . '/base.php';
  */
 class AdminUsersController extends AdminBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('users'));
+	}
+
 	public function action_index()
 	{
 		$users = User::fetch_all();
@@ -41,6 +47,8 @@ class AdminUsersController extends AdminBase
 	 */
 	public function action_new()
 	{
+		$this->title(l('new'));
+
 		// Create a new user object
 		$user = new User(array('group_id' => 2));
 		
@@ -77,6 +85,8 @@ class AdminUsersController extends AdminBase
 	 */
 	public function action_edit($id)
 	{
+		$this->title(l('edit'));
+
 		// Fetch the user from the DB.
 		$user = User::find($id);
 		

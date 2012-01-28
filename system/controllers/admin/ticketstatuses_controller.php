@@ -30,6 +30,12 @@ require __DIR__ . '/base.php';
  */
 class AdminTicketStatusesController extends AdminBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('ticket_statuses'));
+	}
+
 	public function action_index()
 	{
 		$statuses = TicketStatus::fetch_all();
@@ -41,6 +47,8 @@ class AdminTicketStatusesController extends AdminBase
 	 */
 	public function action_new()
 	{
+		$this->title(l('new'));
+
 		// Create a new status object.
 		$status = new TicketStatus;
 
@@ -74,6 +82,8 @@ class AdminTicketStatusesController extends AdminBase
 	 */
 	public function action_edit($id)
 	{
+		$this->title(l('edit'));
+
 		// Fetch the status
 		$status = TicketStatus::find($id);
 
