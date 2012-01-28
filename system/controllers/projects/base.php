@@ -32,6 +32,8 @@ class ProjectSettingsBase extends AppController
 	{
 		parent::__construct();
 		
+		$this->title(l('settings'));
+
 		if (!$this->project
 		or (!$this->project->is_manager($this->user) and !$this->user->group->is_admin))
 		{

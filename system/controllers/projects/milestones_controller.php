@@ -30,6 +30,12 @@ require __DIR__ . "/base.php";
  */
 class ProjectsMilestonesController extends ProjectSettingsBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('milestones'));
+	}
+
 	public function action_index()
 	{
 		View::set('milestones', $this->project->milestones);
@@ -37,6 +43,8 @@ class ProjectsMilestonesController extends ProjectSettingsBase
 	
 	public function action_new()
 	{
+		$this->title(l('new'));
+
 		$milestone = new Milestone();
 		
 		if (Request::$method == 'post')
@@ -60,6 +68,8 @@ class ProjectsMilestonesController extends ProjectSettingsBase
 	
 	public function action_edit($id)
 	{
+		$this->title(l('edit'));
+
 		$milestone = Milestone::find($id);
 		
 		if (Request::$method == 'post')

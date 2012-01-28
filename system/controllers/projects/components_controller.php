@@ -30,6 +30,12 @@ require __DIR__ . "/base.php";
  */
 class ProjectsComponentsController extends ProjectSettingsBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('components'));
+	}
+
 	public function action_index()
 	{
 		View::set('components', $this->project->components);
@@ -37,6 +43,8 @@ class ProjectsComponentsController extends ProjectSettingsBase
 	
 	public function action_new()
 	{
+		$this->title(l('new'));
+
 		$component = new Component();
 		
 		if (Request::$method == 'post')
@@ -58,6 +66,8 @@ class ProjectsComponentsController extends ProjectSettingsBase
 	
 	public function action_edit($id)
 	{
+		$this->title(l('edit'));
+
 		$component = Component::find($id);
 		
 		if (Request::$method == 'post')
