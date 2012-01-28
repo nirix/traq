@@ -18,19 +18,23 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
+
 Router::add('root', 'Projects::index');
 Router::add('/(login|logout|register|usercp)', 'Users::$1');
 
 // ------------------------------------------------
 // Project routes
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/tickets', 'Tickets::index');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/(timeline|roadmap)', 'Projects::$2');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components)/([0-9]+)/(edit|delete)', 'Projects::$2::$4/$3');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components)/new', 'Projects::$2::new');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings/(milestones|components)', 'Projects::$2::index');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)/settings', 'Projects::Settings::index');
-Router::add('/(?P<project_slug>[a-zA-Z0-9\-\_]+)', 'Projects::view');
+Router::add('//tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
+Router::add('/' . RTR_PROJSLUG . '/tickets', 'Tickets::index');
+Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap)', 'Projects::$2');
+Router::add('/' . RTR_PROJSLUG, 'Projects::view');
+
+// Project settings routes
+Router::add('/' . RTR_PROJSLUG . '/settings', 'Projects::Settings::index');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components)', 'Projects::$2::index');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components)/new', 'Projects::$2::new');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components)/([0-9]+)/(edit|delete)', 'Projects::$2::$4/$3');
 
 // ------------------------------------------------
 // AdminCP routes
