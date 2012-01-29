@@ -1,7 +1,7 @@
 <?php
-/*
+/*!
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -33,7 +33,11 @@ class Project extends Model
 		'displayorder'
 	);
 	
-	protected static $_has_many = array('tickets', 'milestones', 'components');
+	// Has-many relationships with other models
+	protected static $_has_many = array(
+		'tickets', 'milestones', 'components',
+		'wiki_pages' => array('model' => 'WikiPage')
+	);
 	
 	protected static $_filters_after = array(
 		'construct' => array('process_managers')

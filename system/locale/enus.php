@@ -1,7 +1,7 @@
 <?php
-/*
+/*!
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -46,7 +46,7 @@ function enus_info()
 function enus_locale()
 {
 	return array(
-		'copyright' => "Powered by Traq " . TRAQ_VER . " &copy; 2009-" . date("Y"),
+		'copyright' => "Powered by Traq " . TRAQ_VER . " &copy; 2009-" . date("Y") . " Traq.io",
 		'projects' => "Projects",
 		'project_info' => "Project Info",
 		'tickets' => "Tickets",
@@ -61,14 +61,11 @@ function enus_locale()
 		'name' => "Name",
 		'slug' => "Slug",
 		'codename' => "Codename",
-		'new_milestone' => "New Milestone",
-		'edit_milestone' => "Edit Milestone",
-		'new_component' => "New Component",
-		'edit_component' => "Edit Component",
 		'open' => "Open",
 		'closed' => "Closed",
 		'cancel' => "Cancel",
 		'new' => "New",
+		'wiki' => "Wiki",
 		
 		// AdminCP
 		'users' => "Users",
@@ -95,6 +92,12 @@ function enus_locale()
 		'template' => "Template",
 		'new_ticket_status' => "New Ticket Status",
 		'edit_ticket_status' => "Edit Ticket Status",
+
+		// Project settings
+		'new_milestone' => "New Milestone",
+		'edit_milestone' => "Edit Milestone",
+		'new_component' => "New Component",
+		'edit_component' => "Edit Component",
 		
 		// Tickets
 		'summary' => "Summary",

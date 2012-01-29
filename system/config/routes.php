@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -28,6 +28,7 @@ Router::add('/(login|logout|register|usercp)', 'Users::$1');
 Router::add('//tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'Tickets::index');
 Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap)', 'Projects::$2');
+Router::add('/' . RTR_PROJSLUG . '/wiki', 'Wiki::index');
 Router::add('/' . RTR_PROJSLUG, 'Projects::view');
 
 // Project settings routes
