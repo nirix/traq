@@ -1,7 +1,7 @@
 <?php
 /*
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -185,4 +185,28 @@ function ticket_filters() {
 		'component',
 	);
 	return $filters;
+}
+
+/**
+ * Calculates the percent of two numbers,
+ * if both numbers are the same, 100(%) is returned.
+ *
+ * @param integer $min Lowest number
+ * @param integer $max Highest number
+ *
+ * @return integer
+ */
+function get_percent($min, $max)
+{
+	// Make sure we don't divide by zero
+	// and end the entire universe
+	if($min == $max) return 100;
+
+	// We're good, calcuate it like a boss,
+	// toss out the crap we dont want.
+	$calculate = ($min/$max*100);
+	$split = explode('.',$calculate);
+
+	// Return it like a pro.
+	return $split[0];
 }

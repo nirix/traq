@@ -1027,6 +1027,18 @@ hr {
       display: inline;
       margin-right: 4px; }
 
+/* ==========# Milestones #========= */
+.progress_bar {
+  width: 400px;
+  border: 1px solid #d7d7d7; }
+  .progress_bar td {
+    padding: 0; }
+  .progress_bar .closed {
+    background: #bae0ba; }
+  .progress_bar .open a, .progress_bar .closed a {
+    display: block;
+    padding: 6px 0; }
+
 /* ==========# Tickets #========== */
 #ticket_info {
   background: #ffffdd;

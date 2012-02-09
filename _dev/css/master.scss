@@ -194,6 +194,25 @@ hr {
 	}
 }
 
+/* ==========# Milestones #========= */
+.progress_bar {
+	width: 400px;
+	border: 1px solid #d7d7d7;
+
+	td {
+		padding: 0;
+	}
+
+	.closed {
+		background: #bae0ba;
+	}
+
+	.open a, .closed a {
+		display: block;
+		padding: 6px 0;
+	}
+}
+
 /* ==========# Tickets #========== */
 #ticket_info {
 	background: #ffffdd;

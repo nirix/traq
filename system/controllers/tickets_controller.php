@@ -1,7 +1,7 @@
 <?php
 /*
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -63,10 +63,20 @@ class TicketsController extends AppController
 			// Status filter
 			elseif ($filter == 'status')
 			{
-				foreach (explode(',', $value) as $name)
+				if ($value == 'open' or $value == 'closed')
 				{
-					$status = TicketStatus::find('name', urldecode($name));
-					$filter_sql[] = $status->id;
+					foreach (TicketStatus::select('id')->where('status', ($value == 'open' ? 1 : 0))->exec()->fetch_all() as $status)
+					{
+						$filter_sql[] = $status->id;
+					}
+				}
+				else
+				{
+					foreach (explode(',', $value) as $name)
+					{
+						$status = TicketStatus::find('name', urldecode($name));
+						$filter_sql[] = $status->id;
+					}
 				}
 				$sql[] = "status_id IN (" . implode(', ', $filter_sql) . ")";
 			}

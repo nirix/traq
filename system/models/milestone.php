@@ -1,7 +1,7 @@
 <?php
 /*
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -39,11 +39,51 @@ class Milestone extends Model
 	protected static $_has_many = array('tickets');
 	protected static $_belongs_to = array('project');
 	
+	/**
+	 * Easily get the URI to the milestone.
+	 *
+	 * @return string
+	 */
 	public function href()
 	{
 		return '/' . $this->project->slug . "/milestone/" . $this->slug;
 	}
+
+	/**
+	 * Returns the number of tickets for the specified status.
+	 *
+	 * @param string $status The status of the ticket:
+	 *     open, closed, total, open_percent, closed_percent
+	 *
+	 * @return integer
+	 */
+	public function ticket_count($status = 'total')
+	{
+		// Holder for the counts array.
+		static $counts = array();
+
+		// Check if we need to fetch
+		// the ticket counts.
+		if (!isset($counts[$this->id]))
+		{
+			$counts[$this->id] = array(
+				'open' => $this->tickets->where('is_closed', 0)->exec()->row_count(),
+				'closed' => $this->tickets->where('is_closed', 1)->exec()->row_count()
+			);
+			$counts[$this->id]['total'] = $counts[$this->id]['open'] + $counts[$this->id]['closed'];
+			$counts[$this->id]['open_percent'] = $counts[$this->id]['open'] ? get_percent($counts[$this->id]['open'], $counts[$this->id]['total']) : 0;
+			$counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'], $counts[$this->id]['total']);
+		}
+
+		// Return the requested count index.
+		return $counts[$this->id][$status];
+	}
 	
+	/**
+	 * Checks if the models data is valid.
+	 *
+	 * @return bool
+	 */
 	public function is_valid()
 	{
 		$errors = array();
