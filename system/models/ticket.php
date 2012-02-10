@@ -49,6 +49,22 @@ class Ticket extends Model
 		'type' => array('model' => 'tickettype'),
 	);
 	
+	/**
+	 * Returns the URI for the ticket.
+	 *
+	 * @return string
+	 */
+	public function href()
+	{
+		return "/{$this->project->slug}/tickets/{$this->ticket_id}";
+	}
+
+	/**
+	 * Custom save method for the ticket
+	 * so we can do what we need with the timeline and such.
+	 *
+	 * @return bool
+	 */
 	public function save()
 	{
 		if ($parent->save())

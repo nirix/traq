@@ -82,6 +82,57 @@ class ProjectsController extends AppController
 	 */
 	public function action_timeline()
 	{
-		
+		$rows = array();
+
+		// Fetch the different days with a nicely formatted
+		// query for everyone to read easily, unlike the one
+		// from 2.x and eariler.
+		$days_query = Database::driver()->query("
+			SELECT
+			DISTINCT
+				YEAR(timestamp) AS 'year',
+				MONTH(timestamp) AS 'month',
+				DAY(timestamp) AS 'day',
+				timestamp
+
+			FROM " . DB_PREFIX . "timeline
+			WHERE project_id = '{$this->project->id}'
+
+			GROUP BY
+				YEAR(timestamp),
+				MONTH(timestamp),
+				DAY(timestamp)
+
+			ORDER BY timestamp DESC
+		");
+
+		// Loop through the days and get their activity
+		foreach ($days_query as $info)
+		{
+			// Construct the array for the day
+			$day = array(
+				'timestamp' => $info['timestamp'],
+				'activity' => array()
+			);
+
+			// Get the date, without the time
+			$date = explode(' ', $info['timestamp']);
+			$date = $date[0];
+
+			// Fetch the activity for this day
+			$fetch_activity = Timeline::select()->where('timestamp', "{$date} %", "LIKE")->order_by('timestamp', 'DESC');
+			foreach ($fetch_activity->exec()->fetch_all() as $row)
+			{
+				// Push it to the days activity array.
+				$day['activity'][] = $row;
+			}
+
+			// Push the days data to the
+			// rows array,
+			$rows[] = $day;
+		}
+
+		// Send the days array to the view.
+		View::set('days', $rows);
 	}
 }

@@ -890,8 +890,8 @@ hr.space {
 
 /*
  * Traq
- * Copyright (c) 2009-2012 Jack P.
- * http://traqproject.org
+ * Copyright (c) 2009-2012 Traq.io
+ * http://traq.io
  *
  * Traq is released under the GNU GPL license, version 3 only.
  */
@@ -1038,6 +1038,14 @@ hr {
   .progress_bar .open a, .progress_bar .closed a {
     display: block;
     padding: 6px 0; }
+
+/* ==========# Timeline #========= */
+.timeline h3 {
+  margin-top: 15px; }
+.timeline dl dt {
+  font-weight: normal; }
+  .timeline dl dt .time {
+    color: #777; }
 
 /* ==========# Tickets #========== */
 #ticket_info {

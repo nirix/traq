@@ -38,6 +38,16 @@ class User extends Model
 	);
 	
 	/**
+	 * Returns the URI for the users profile.
+	 *
+	 * @return string
+	 */
+	public function href()
+	{
+		return "/users/{$this->id}";
+	}
+
+	/**
 	 * Checks the given password against the users password.
 	 *
 	 * @param string $password

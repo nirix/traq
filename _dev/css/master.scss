@@ -1,9 +1,9 @@
 @import "screen";
 @import "likeaboss";
-/*
+/*!
  * Traq
- * Copyright (c) 2009-2012 Jack P.
- * http://traqproject.org
+ * Copyright (c) 2009-2012 Traq.io
+ * http://traq.io
  *
  * Traq is released under the GNU GPL license, version 3 only.
  */
@@ -210,6 +210,23 @@ hr {
 	.open a, .closed a {
 		display: block;
 		padding: 6px 0;
+	}
+}
+
+/* ==========# Timeline #========= */
+.timeline {
+	h3 {
+		margin-top: 15px;
+	}
+	
+	dl {
+		dt {
+			font-weight: normal;
+
+			.time {
+				color: #777;
+			}
+		}
 	}
 }
 
