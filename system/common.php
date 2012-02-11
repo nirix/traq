@@ -65,17 +65,27 @@ function l() {
 		return func_get_arg(0);
 	}
 	
-	$string = $lang[func_get_arg(0)];
+	$string = func_get_arg(0);
 	$vars = array_slice(func_get_args(), 1);
+	
+	// Support for different forms
+	if ((substr($string, 0, 2) == 'x_') && count($vars) > 0) {
+		if ($vars[0] == 0) {
+			$string = '0_' . substr($string, 2);
+		} else if ($vars[0] == 1) {
+			$string = '1_' . substr($string, 2);
+		}
+	}
+	$translation = $lang[$string];
 	
 	// Loop through the vars and replace the the {x} stuff
 	$v = 0;
 	foreach ($vars as $var) {
 		++$v;
-		$string = str_replace('{'.$v.'}', $var, $string);
+		$translation = str_replace('{'.$v.'}', $var, $translation);
 	}
 	
-	return $string;
+	return $translation;
 }
 
 /**
