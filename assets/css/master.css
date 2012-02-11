@@ -1027,6 +1027,9 @@ hr {
       display: inline;
       margin-right: 4px; }
 
+.project_info {
+  margin-top: 10px; }
+
 /* ==========# Roadmap #========= */
 .roadmap #milestones {
   margin: 0;
