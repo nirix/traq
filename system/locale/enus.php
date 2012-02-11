@@ -66,6 +66,10 @@ function enus_locale()
 		'cancel' => "Cancel",
 		'new' => "New",
 		'wiki' => "Wiki",
+		'0_open' => "0 open",
+		'0_closed' => "0 closed",
+		'1_open' => "1 open",
+		'1_closed' => "1 closed",
 		'x_open' => "{1} open",
 		'x_closed' => "{1} closed",
 		
