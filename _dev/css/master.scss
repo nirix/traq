@@ -194,10 +194,31 @@ hr {
 	}
 }
 
+/* ==========# Roadmap #========= */
+.roadmap {
+	#milestones {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		margin-top: 15px;
+
+		h3 {
+			font-weight: bold;
+
+			a {
+				text-decoration: none;
+			}
+		}
+	}
+}
+
 /* ==========# Milestones #========= */
 .progress_bar {
 	width: 400px;
 	border: 1px solid #d7d7d7;
+	float: left;
+	margin: 2px 0;
+	margin-right: 5px;
 
 	td {
 		padding: 0;
@@ -210,6 +231,29 @@ hr {
 	.open a, .closed a {
 		display: block;
 		padding: 6px 0;
+	}
+}
+.progress {
+	margin-bottom: 5px;
+	
+	.percent_complete {
+		margin: 0 5px;
+		font-size: 12px;
+		display: block;
+	}
+
+	.progress_info {
+		font-style: italic;
+
+		a {
+			margin-right: 5px;
+			color: #aaa;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 }
 

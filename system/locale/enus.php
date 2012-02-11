@@ -66,6 +66,8 @@ function enus_locale()
 		'cancel' => "Cancel",
 		'new' => "New",
 		'wiki' => "Wiki",
+		'x_open' => "{1} open",
+		'x_closed' => "{1} closed",
 		
 		// AdminCP
 		'users' => "Users",
