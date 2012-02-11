@@ -200,7 +200,7 @@ function get_percent($min, $max)
 {
 	// Make sure we don't divide by zero
 	// and end the entire universe
-	if($min == $max) return 100;
+	if ($min == 0 and $max == 0) return 0;
 
 	// We're good, calcuate it like a boss,
 	// toss out the crap we dont want.
