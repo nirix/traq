@@ -15,7 +15,7 @@
 	</table>
 	<span class="percent_complete"><?php echo $milestone->ticket_count('closed_percent'); ?>%</span>
 	<div class="progress_info">
-		<?php echo HTML::link(l('x_closed', $milestone->ticket_count('closed')), $milestone->href() . '?status=closed'); ?>
-		<?php echo HTML::link(l('x_open', $milestone->ticket_count('open')), $milestone->href() . '?status=open'); ?>
+		<?php echo HTML::link(l('x_closed', $milestone->ticket_count('closed')), $project->href('tickets') . '?status=closed'); ?>
+		<?php echo HTML::link(l('x_open', $milestone->ticket_count('open')), $project->href('tickets') . '?status=open'); ?>
 	</div>
 </div>
