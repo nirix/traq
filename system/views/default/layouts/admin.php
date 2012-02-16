@@ -29,6 +29,7 @@
 				<?php } ?>
 				</ul>
 				<ul id="main_nav">
+					<li<?php echo iif(active_nav('/admin/settings?'), ' class="active"')?>><?php echo HTML::link(l('settings'), "/admin/settings"); ?></li>
 					<li<?php echo iif(active_nav('/admin(?:/projects(.*))?'), ' class="active"')?>><?php echo HTML::link(l('projects'), "/admin"); ?></li>
 					<li<?php echo iif(active_nav('/admin/users(.*)'), ' class="active"')?>><?php echo HTML::link(l('users'), "/admin/users"); ?></li>
 					<li<?php echo iif(active_nav('/admin/groups(.*)'), ' class="active"')?>><?php echo HTML::link(l('groups'), "/admin/groups"); ?></li>

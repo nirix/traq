@@ -173,6 +173,15 @@ hr {
   padding: 5px;
   margin-bottom: 0; }
 
+h3.box_title {
+  margin-top: 5px;
+  margin-bottom: 0; }
+
+.tabular.section.box {
+  margin-bottom: 10px; }
+  .tabular.section.box:last-child {
+    margin-bottom: 0; }
+
 /* ==========# Sexy boots #========== */
 #footer {
   color: #000;
@@ -343,14 +352,14 @@ h3.list_title {
 .tabular .group {
   margin: 0;
   padding: 5px 0;
-  padding-left: 125px;
+  padding-left: 130px;
   clear: left; }
 .tabular label {
   font-weight: bold;
   float: left;
-  margin-left: -125px;
+  margin-left: -130px;
   text-align: right;
-  width: 120px; }
+  width: 125px; }
 .tabular input {
   margin-top: 1px;
   vertical-align: middle; }

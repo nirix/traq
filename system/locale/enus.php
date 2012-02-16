@@ -46,6 +46,7 @@ function enus_info()
 function enus_locale()
 {
 	return array(
+		'traq' => "Traq",
 		'copyright' => "Powered by Traq " . TRAQ_VER . " &copy; 2009-" . date("Y") . " Traq.io",
 		'projects' => "Projects",
 		'project_info' => "Project Info",
@@ -72,8 +73,11 @@ function enus_locale()
 		'1_closed' => "1 closed",
 		'x_open' => "{1} open",
 		'x_closed' => "{1} closed",
+		'yes' => "Yes",
+		'no' => "No",
 		
 		// AdminCP
+		'traq_settings' => "Traq Settings",
 		'users' => "Users",
 		'groups' => "Groups",
 		'new_project' => "New Project",
@@ -98,6 +102,15 @@ function enus_locale()
 		'template' => "Template",
 		'new_ticket_status' => "New Ticket Status",
 		'edit_ticket_status' => "Edit Ticket Status",
+		'traq_title' => "Traq Title",
+		'default_language' => "Default Language",
+		'seo_urls' => "SEO URLs",
+		'theme' => "Theme",
+		'allow_registration' => "Allow Registration",
+		'date_and_time' => "Date and Time",
+		'date_time_format' => "Date/Time Format",
+		'timeline_day_format' => "Timeline Day Format",
+		'timeline_time_format' => "Timeline Time Format",
 
 		// Project settings
 		'new_milestone' => "New Milestone",

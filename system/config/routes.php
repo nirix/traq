@@ -40,6 +40,7 @@ Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components)/([0-9]+)/(ed
 // ------------------------------------------------
 // AdminCP routes
 Router::add('/admin', 'Admin::Projects::index');
+Router::add('/admin/settings', 'Admin::Settings::index');
 
 // Projects
 Router::add('/admin/projects/new', 'Admin::Projects::new');

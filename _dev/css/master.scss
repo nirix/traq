@@ -160,6 +160,19 @@ hr {
 	margin-bottom: 0;
 }
 
+h3.box_title {
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+
+.tabular.section.box {
+	margin-bottom: 10px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
 /* ==========# Sexy boots #========== */
 #footer {
 	color: #000;
