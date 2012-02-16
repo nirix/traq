@@ -75,6 +75,8 @@ function enus_locale()
 		'x_closed' => "{1} closed",
 		'yes' => "Yes",
 		'no' => "No",
+		'home' => "Home",
+		'pages' => "Pages",
 		
 		// AdminCP
 		'traq_settings' => "Traq Settings",
