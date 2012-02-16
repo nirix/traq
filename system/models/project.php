@@ -50,19 +50,6 @@ class Project extends Model
 	}
 	
 	/**
-	 * Checks if the specified group has access to the action.
-	 *
-	 * @param integer $group_id
-	 * @param string $action
-	 *
-	 * @return bool
-	 */
-	public function permission($group_id, $action)
-	{
-		return true;
-	}
-	
-	/**
 	 * Check if the specified user has permission to manage the project.
 	 *
 	 * @param object $user

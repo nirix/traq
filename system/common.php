@@ -123,6 +123,16 @@ function active_nav($uri)
 }
 
 /**
+ *
+ *
+ *
+ */
+function current_user()
+{
+	return Avalon::app()->user;
+}
+
+/**
  * Checks the condition and returns the respective value.
  *
  * @param bool $condition

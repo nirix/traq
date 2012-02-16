@@ -39,7 +39,7 @@ class ProjectsController extends AppController
 		foreach (Project::fetch_all() as $project)
 		{
 			// Check if the user has access to view the project...
-			if ($project->permission($this->user->group_id, 'view'))
+			if (current_user()->permission($project->id, 'view'))
 			{
 				$projects[] = $project;
 			}

@@ -48,6 +48,19 @@ class User extends Model
 	}
 
 	/**
+	 * Check if the user can perform the requested action.
+	 *
+	 * @param integer $proejct_id
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public function permission($project_id, $action)
+	{
+		return true;
+	}
+
+	/**
 	 * Checks the given password against the users password.
 	 *
 	 * @param string $password
