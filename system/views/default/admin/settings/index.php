@@ -5,15 +5,15 @@
 		<div class="tabular section box">
 			<div class="group">
 				<label><?php echo l('traq_title'); ?></label>
-				<?php echo Form::text('title', array('value' => settings('title'))); ?>
+				<?php echo Form::text('settings[title]', array('value' => settings('title'))); ?>
 			</div>
 			<div class="group">
 				<label><?php echo l('default_language'); ?></label>
-				<?php echo Form::select('theme', array(), array()); ?>
+				<?php echo Form::select('settings[theme]', array(), array()); ?>
 			</div>
 			<div class="group">
 				<label><?php echo l('seo_urls'); ?></label>
-				<?php echo Form::select('seo_urls',
+				<?php echo Form::select('settings[seo_urls]',
 					array(array('label' => l('yes'), 'value' => 1), array('label' => l('no'), 'value' => 0)),
 					array('value' => settings('seo_urls'))
 					);
@@ -21,7 +21,7 @@
 			</div>
 			<div class="group">
 				<label><?php echo l('theme'); ?></label>
-				<?php echo Form::select('theme', array(), array()); ?>
+				<?php echo Form::select('settings[theme]', array(), array()); ?>
 			</div>
 		</div>
 
@@ -29,7 +29,7 @@
 		<div class="tabular section box">
 			<div class="group">
 				<label><?php echo l('allow_registration'); ?></label>
-				<?php echo Form::select('allow_registration',
+				<?php echo Form::select('settings[allow_registration]',
 					array(array('label' => l('yes'), 'value' => 1), array('label' => l('no'), 'value' => 0)),
 					array('value' => settings('allow_registration'))
 					);
@@ -41,15 +41,15 @@
 		<div class="tabular section box">
 			<div class="group">
 				<label><?php echo l('date_time_format'); ?></label>
-				<?php echo Form::text('date_time_format', array('value' => settings('date_time_format'))); ?>
+				<?php echo Form::text('settings[date_time_format]', array('value' => settings('date_time_format'))); ?>
 			</div>
 			<div class="group">
 				<label><?php echo l('timeline_day_format'); ?></label>
-				<?php echo Form::text('timeline_day_format', array('value' => settings('timeline_day_format'))); ?>
+				<?php echo Form::text('settings[timeline_day_format]', array('value' => settings('timeline_day_format'))); ?>
 			</div>
 			<div class="group">
 				<label><?php echo l('timeline_time_format'); ?></label>
-				<?php echo Form::text('timeline_time_format', array('value' => settings('timeline_time_format'))); ?>
+				<?php echo Form::text('settings[timeline_time_format]', array('value' => settings('timeline_time_format'))); ?>
 			</div>
 		</div>
 		<div class="actions">
