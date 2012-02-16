@@ -6,7 +6,5 @@ be completed sooner rather than later.
 
 - Wiki pages
 - Repository browser
-- AdminCP
-  - Traq settings
 - Permission system
 - Tickets

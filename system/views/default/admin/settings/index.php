@@ -1,6 +1,7 @@
 <div class="traq_settings content">
 	<h2 id="page_title"><?php echo l('traq_settings'); ?></h2>
 	<form action="<?php echo Request::full_uri(); ?>" method="post">
+		<?php if (isset($errors)) { show_errors($errors); } ?>
 		<h3 class="box_title"><?php echo l('traq'); ?></h3>
 		<div class="tabular section box">
 			<div class="group">
@@ -9,15 +10,7 @@
 			</div>
 			<div class="group">
 				<label><?php echo l('default_language'); ?></label>
-				<?php echo Form::select('settings[theme]', array(), array()); ?>
-			</div>
-			<div class="group">
-				<label><?php echo l('seo_urls'); ?></label>
-				<?php echo Form::select('settings[seo_urls]',
-					array(array('label' => l('yes'), 'value' => 1), array('label' => l('no'), 'value' => 0)),
-					array('value' => settings('seo_urls'))
-					);
-				?>
+				<?php echo Form::select('settings[locale]', array(), array()); ?>
 			</div>
 			<div class="group">
 				<label><?php echo l('theme'); ?></label>

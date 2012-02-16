@@ -104,7 +104,6 @@ function enus_locale()
 		'edit_ticket_status' => "Edit Ticket Status",
 		'traq_title' => "Traq Title",
 		'default_language' => "Default Language",
-		'seo_urls' => "SEO URLs",
 		'theme' => "Theme",
 		'allow_registration' => "Allow Registration",
 		'date_and_time' => "Date and Time",
@@ -171,5 +170,11 @@ function enus_locale()
 		'error:user:username_in_use' => "That username is already registered",
 		'error:user:password_blank' => "Password cannot be blank",
 		'error:user:email_invalid' => "Invalid email address",
+
+		// Traq Settings errors
+		'error:settings:title_blank' => "Traq Title cannot be blank",
+		'error:settings:locale_blank' => "You must select a default language",
+		'error:settings:theme_blank' => "You must select a theme",
+		'error:settings:allow_registration_blank' => "Allow Registration must be set",
 	);
 }
