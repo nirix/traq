@@ -137,20 +137,39 @@ class Locale
 		}
 
 		// Match plural:n,{x, y}
-		if (preg_match("/{plural:(?<count>[0-9]+)(,|, ){(?<replacements>.*)}}/i", $translation, $matches))
+		if (preg_match_all("/{plural:(?<value>-{0,1}\d+),{(?<replacements>.*?)}}/i", $translation, $matches))
 		{
-			$replacements = explode('|', $matches['replacements']);
-			$count = $matches['count'] - 1;
+			foreach($matches[0] as $id => $match)
+			{
+				// Split the replacements into an array.
+				// There's an extra | at the start to allow for better matching
+				// with values.
+				$replacements = explode('|', '|' . $matches['replacements'][$id]);
+				unset($replacements[0]);
 
-			// Check if there is a specific value for the count variable.
-			if (isset($replacements[$count]))
-			{
-				$translation = str_replace($matches[0], $replacements[$count], $translation);
-			}
-			// Get the last value then
-			else
-			{
-				$translation = str_replace($matches[0], $replacements[count($replacements) - 1], $translation);
+				// Get the value
+				$value = $matches['value'][$id];
+
+				// If the value is 0 use the plural replacement
+				if (isset($replacements[2]) and $value == 0)
+				{
+					$translation = str_replace($match, $replacements[2], $translation);
+				}
+				// Check if the value is 1 or -1, if so use the singular replacement
+				if (isset($replacements[0]) and ($value == 1 or $value == -1))
+				{
+					$translation = str_replace($match, $replacements[1], $translation);
+				}
+				// Check if there is a specific value for the value variable.
+				elseif (isset($replacements[$value]))
+				{
+					$translation = str_replace($match, $replacements[$value], $translation);
+				}
+				// Get the last value then
+				else
+				{
+					$translation = str_replace($match, $replacements[count($replacements) - 1], $translation);
+				}
 			}
 		}
 
