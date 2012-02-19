@@ -65,9 +65,9 @@ class Locale
 	/**
 	 * Date localization method
 	 */
-	public static function date()
+	public static function date($format, $timestamp = null)
 	{
-		throw new Exception(get_class(new static) . "::date() not implemented");
+		return Time::date($format, $timestamp !== null ? $timestamp : time());
 	}
 
 	/**
