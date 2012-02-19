@@ -52,6 +52,7 @@
 			<footer id="footer">
 				<?php echo l('copyright'); ?>
 			</footer>
+			<!-- <?php echo round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3); ?>mb -->
 		</div>
 	</body>
 </html>

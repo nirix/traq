@@ -18,6 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+define('START_TIME', microtime(true));
+define('START_MEM',  memory_get_usage());
+
 require dirname(__FILE__) . '/system/bootstrap.php';
 
 Avalon::init();
