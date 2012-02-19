@@ -18,9 +18,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require APPPATH . '/common.php';
-require APPPATH . '/version.php';
-
 /**
  * App controller
  *

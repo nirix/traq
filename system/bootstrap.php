@@ -22,6 +22,10 @@ define("SYSPATH", dirname(__FILE__) . '/avalon');
 define("APPPATH", dirname(__FILE__));
 define("DOCROOT", dirname(dirname(__FILE__)));
 
+// Load common functions and version file
+require APPPATH . '/common.php';
+require APPPATH . '/version.php';
+
 require SYSPATH . '/base.php';
 require APPPATH . '/libraries/fishhook.php';
 
