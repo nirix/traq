@@ -33,7 +33,7 @@ class Locale_enUS extends Locale
 		'author' => 'Jack Polgar',
 		'version' => '3.0',
 
-		// Locale inforamtion
+		// Locale information
 		'language' => 'English',
 		'language_short' => 'en',
 		'locale' => "US"
@@ -62,7 +62,6 @@ class Locale_enUS extends Locale
 			'project_info' => "Project Info",
 			'tickets' => "Tickets",
 			'roadmap' => "Roadmap",
-			'timeline' => "Timeline",
 			'settings' => "Settings",
 			'managers' => "Managers",
 			'information' => "Information",
