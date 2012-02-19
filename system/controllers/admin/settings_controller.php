@@ -48,7 +48,7 @@ class AdminSettingsController extends AdminBase
 			// Check title
 			if (empty($_settings['title']))
 			{
-				$errors['title'] = l('error:settings:title_blank');
+				$errors['title'] = l('errors.settings.title_blank');
 			}
 
 			// Check select fields
@@ -56,7 +56,7 @@ class AdminSettingsController extends AdminBase
 			{
 				if (empty($_settings[$select]))
 				{
-					$errors[$select] = l("error:settings:{$select}_blank");
+					$errors[$select] = l("errors.settings.{$select}_blank");
 				}
 			}
 

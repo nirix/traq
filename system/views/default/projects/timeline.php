@@ -9,7 +9,7 @@
 		<dt>
 			<span class="time"><?php echo Time::date(settings('timeline_time_format'), $row->timestamp); ?></span>
 			<?php echo HTML::link(
-				l("timeline:{$row->action}",
+				l("timeline.{$row->action}",
 					$row->ticket()->summary,
 					$row->ticket()->ticket_id,
 					$row->ticket()->type->name,
@@ -19,7 +19,7 @@
 			); ?>
 		</dt>
 		<?php } ?>
-		<dd><?php echo l('timeline:by_x', HTML::link($row->user->username, $row->user->href())); ?></dd>
+		<dd><?php echo l('timeline.by_x', HTML::link($row->user->username, $row->user->href())); ?></dd>
 	<?php } ?>
 	</dl>
 	<?php } ?>

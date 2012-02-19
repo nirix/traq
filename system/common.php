@@ -51,41 +51,22 @@ function settings($setting) {
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function l() {
-	static $lang = null;
-	
-	if ($lang === null) {
-		$locale = settings('locale');
-		$locale_func = $locale . '_locale';
-		require APPPATH . '/locale/' . $locale . '.php';
-		$lang = $locale_func();
-	}
-	
-	if (!isset($lang[func_get_arg(0)])) {
-		return func_get_arg(0);
-	}
-	
-	$string = func_get_arg(0);
-	$vars = array_slice(func_get_args(), 1);
-	
-	// Support for different forms
-	if ((substr($string, 0, 2) == 'x_') && count($vars) > 0) {
-		if ($vars[0] == 0) {
-			$string = '0_' . substr($string, 2);
-		} else if ($vars[0] == 1) {
-			$string = '1_' . substr($string, 2);
-		}
-	}
-	$translation = $lang[$string];
-	
-	// Loop through the vars and replace the the {x} stuff
-	$v = 0;
-	foreach ($vars as $var) {
-		++$v;
-		$translation = str_replace('{'.$v.'}', $var, $translation);
-	}
-	
-	return $translation;
+function l()
+{
+	return call_user_func_array(array('Locale_' . settings('locale'), 'translate'), func_get_args());
+}
+
+/**
+ * Returns the localized date.
+ *
+ * @param string $format
+ * @param mixed $timestamo
+ *
+ * @return string
+ */
+function ldate()
+{
+	return call_user_func_array(array('Locale_' . settings('locale'), 'date'), func_get_args());
 }
 
 /**

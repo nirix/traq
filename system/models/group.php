@@ -60,7 +60,7 @@ class Group extends Model
 		// Make sure the name is set...
 		if (empty($this->_data['name']))
 		{
-			$errors['name'] = l('error:name_blank');
+			$errors['name'] = l('errors.name_blank');
 		}
 		
 		$this->errors = $errors;

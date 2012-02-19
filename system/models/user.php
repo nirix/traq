@@ -107,25 +107,25 @@ class User extends Model
 		// Check if the username is set
 		if (empty($this->_data['username']))
 		{
-			$errors['username'] = l('error:user:username_blank');
+			$errors['username'] = l('errors.users.username_blank');
 		}
 		
 		// Check if the username is taken
 		if ($this->_is_new() and static::find('username', $this->_data['username']))
 		{
-			$errors['username'] = l('error:user:username_in_use');
+			$errors['username'] = l('errors.users.username_in_use');
 		}
 		
 		// Check if the password is set
 		if (empty($this->_data['password']))
 		{
-			$errors['password'] = l('error:user:password_blank');
+			$errors['password'] = l('errors.users.password_blank');
 		}
 		
 		// Check if the email is set
 		if (empty($this->_data['email']))
 		{
-			$errors['email'] = l('error:user:email_invalid');
+			$errors['email'] = l('errors.users.email_invalid');
 		}
 		
 		// Check if we're valid or not...

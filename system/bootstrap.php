@@ -27,9 +27,17 @@ require APPPATH . '/common.php';
 require APPPATH . '/version.php';
 
 require SYSPATH . '/base.php';
+require APPPATH . '/libraries/locale.php';
 require APPPATH . '/libraries/fishhook.php';
 
 Database::init();
+
+// Load and initialize the localization file
+require APPPATH . "/locale/" . settings('locale') . ".php";
+
+$locale_file = "Locale_" . settings('locale');
+$locale_file::init();
+unset($locale_file);
 
 // Load the plugins
 $plugins = Database::driver()->select('file')->from('plugins')->exec()->fetch_all();

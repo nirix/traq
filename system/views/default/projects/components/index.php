@@ -19,7 +19,7 @@
 				<td><?php echo HTML::link($component->name, "{$project->slug}/settings/components/{$component->id}/edit", array('data-overlay' => true)); ?></td>
 				<td>
 					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", array('title' => l('edit'), 'class' => 'button_edit', 'data-overlay' => true)); ?>
-					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", array('title' => l('delete'), 'class' => 'button_delete', 'data-confirm' => l('confirm:delete_x', $component->name))); ?>
+					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", array('title' => l('delete'), 'class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $component->name))); ?>
 				</td>
 			</tr>
 		<?php } ?>

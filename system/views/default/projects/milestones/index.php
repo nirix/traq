@@ -21,7 +21,7 @@
 				<td><?php echo $milestone->codename; ?></td>
 				<td>
 					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", array('title' => l('edit'), 'class' => 'button_edit', 'data-overlay' => true)); ?>
-					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/milestones/{$milestone->id}/delete", array('title' => l('delete'), 'class' => 'button_delete', 'data-confirm' => l('confirm:delete_x', $milestone->name))); ?>
+					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/milestones/{$milestone->id}/delete", array('title' => l('delete'), 'class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $milestone->name))); ?>
 				</td>
 			</tr>
 		<?php } ?>

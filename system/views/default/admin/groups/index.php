@@ -13,7 +13,7 @@
 				<td><?php echo HTML::link($group->name, "/admin/groups/{$group->id}/edit", array('data-overlay' => true)); ?></td>
 				<td>
 					<?php echo HTML::link(l('edit'), "/admin/groups/{$group->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>
-					<?php echo HTML::link(l('delete'), "/admin/groups/{$group->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm:delete_x', $group->name))); ?>
+					<?php echo HTML::link(l('delete'), "/admin/groups/{$group->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $group->name))); ?>
 				</td>
 			</tr>
 		<?php } ?>

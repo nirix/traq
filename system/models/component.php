@@ -40,7 +40,7 @@ class Component extends Model
 		// Check if the name is empty
 		if (empty($this->_data['name']))
 		{
-			$errors['name'] = l('error:name_blank');
+			$errors['name'] = l('errors.name_blank');
 		}
 		
 		$this->errors = $errors;

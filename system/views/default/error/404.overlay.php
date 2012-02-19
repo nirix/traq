@@ -1,4 +1,4 @@
-<h3><?php echo l('error:404_title'); ?></h3>
+<h3><?php echo l('errors.404.title'); ?></h3>
 <div class="content" align="center">
-	<?php echo l('error:404_message', $request); ?>
+	<?php echo l('errors.404.message', $request); ?>
 </div>

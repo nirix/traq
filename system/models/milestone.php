@@ -91,19 +91,19 @@ class Milestone extends Model
 		// Check if the name is empty
 		if (empty($this->_data['name']))
 		{
-			$errors['name'] = l('error:name_blank');
+			$errors['name'] = l('errors.name_blank');
 		}
 		
 		// Check if the slug is empty
 		if (empty($this->_data['slug']))
 		{
-			$errors['slug'] = l('error:slug_blank');
+			$errors['slug'] = l('errors.slug_blank');
 		}
 		
 		// Check if the slug is in use
 		if (Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->project_id)->exec()->row_count())
 		{
-			$errors['slug'] = l('error:slug_in_use');
+			$errors['slug'] = l('errors.slug_in_use');
 		}
 		
 		$this->errors = $errors;

@@ -3,7 +3,7 @@
 		<h2 id="page_title"><?php echo l('login'); ?></h2>
 		<?php if (isset($error) and $error) { ?>
 		<div class="error">
-			<?php echo l('error:invalid_username_or_password'); ?>
+			<?php echo l('errors.invalid_username_or_password'); ?>
 		</div>
 		<?php } ?>
 		<form action="<?php echo Request::base('login'); ?>" method="post" class="box">
