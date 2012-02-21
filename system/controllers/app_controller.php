@@ -89,6 +89,15 @@ class AppController extends Controller
 		$this->_render['view'] = 'error/404';
 		$this->_render['action'] = false;
 	}
+
+	/**
+	 * Used to display the no permission page.
+	 */
+	public function show_no_permission()
+	{
+		$this->_render['view'] = 'error/no_permission';
+		$this->_render['action'] = false;
+	}
 	
 	/**
 	 * Does the checking for the session cookie and fetches the users info.

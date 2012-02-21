@@ -181,7 +181,14 @@ class Locale_enUS extends Locale
 				// 404 error page
 				'404' => array(
 					'title' => "Woops",
+					'title' => "He's dead, Jim!",
 					'message' => "The requested page '$1' couldn't be found."
+				),
+
+				// No Permnssion page
+				'no_permission' => array(
+					'title' => "Move along, move along",
+					'message' => "You don't have permission to access this page."
 				),
 				
 				'invalid_username_or_password' => "Invalid Username or Password.",
