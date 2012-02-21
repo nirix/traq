@@ -28,6 +28,12 @@
  */
 class WikiController extends AppController
 {
+	public $_before = array(
+		'new' => array('_check_permission'),
+		'edit' => array('_check_permission'),
+		'delete' => array('_check_permission')
+	);
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -47,7 +53,7 @@ class WikiController extends AppController
 
 		if (!$page->row_count())
 		{
-			$this->show_404();
+			return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show_404();
 		}
 
 		View::set('page', $page->fetch());
@@ -59,18 +65,51 @@ class WikiController extends AppController
 		View::set('pages', $pages);
 	}
 
-	public function action_new()
+	public function action_new($slug = null)
 	{
 		$this->title(l('new'));
+
+		$page = new WikiPage(array('slug' => $slug));
+
+		if (Request::$method == 'post')
+		{
+			$page->set(array(
+				'title' => Request::$post['title'],
+				'slug' => Request::$post['slug'],
+				'body' => Request::$post['body']
+			));
+		}
+
+		View::set('page', $page);
 	}
 
-	public function action_edit($id)
+	public function action_edit($slug)
 	{
 		$this->title(l('edit'));
+
+		$page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
+
+		View::set('page', $page);
 	}
 
 	public function action_delete($id)
 	{
 		
+	}
+
+	private function _new_page($slug)
+	{
+		$this->_render['view'] = 'wiki/new';
+		$this->action_new($slug);
+	}
+
+	public function _check_permission($action)
+	{
+		$action = ($action == 'new' ? 'create' : $action);
+
+		if (!current_user()->permission($this->project->id, "{$action}_wiki_page"))
+		{
+			$this->show_no_permission();
+		}
 	}
 }

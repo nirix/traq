@@ -146,6 +146,8 @@ class Locale_enUS extends Locale
 			'pages' => "Pages",
 			'new_page' => "New Page",
 			'edit_page' => "Edit Page",
+			'page_title' => "Page Title",
+			'page_content' => "Page Content",
 			
 			// Other
 			'actions' => "Actions",
@@ -180,7 +182,6 @@ class Locale_enUS extends Locale
 			'errors' => array(
 				// 404 error page
 				'404' => array(
-					'title' => "Woops",
 					'title' => "He's dead, Jim!",
 					'message' => "The requested page '$1' couldn't be found."
 				),
