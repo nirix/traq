@@ -34,12 +34,18 @@ class WikiController extends AppController
 		'delete' => array('_check_permission')
 	);
 
+	/**
+	 * Wiki controller constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->title(l('wiki'));
 	}
 
+	/**
+	 * Displays the main wiki page for the project.
+	 */
 	public function action_index()
 	{
 		$main = $this->project->wiki_pages->where('main', 1)->exec()->fetch();
@@ -47,32 +53,52 @@ class WikiController extends AppController
 		$this->_render['view'] = 'wiki/view';
 	}
 
+	/**
+	 * Displays the requested wiki page.
+	 *
+	 * @param string $slug Wiki page slug.
+	 */
 	public function action_view($slug)
 	{
 		$page = $this->project->wiki_pages->where('slug', $slug)->exec();
 
+		// Check if the page exists
 		if (!$page->row_count())
 		{
+			// it doesnt, show the new page form if the user has permission
+			// otherwise display the 404 page.
 			return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show_404();
 		}
 
 		View::set('page', $page->fetch());
 	}
 
+	/**
+	 * Displays all the wiki pages for the project.
+	 */
 	public function action_pages()
 	{
+		// Fetch all the projects wiki pages
 		$pages = $this->project->wiki_pages->exec()->fetch_all();
 		View::set('pages', $pages);
 	}
 
+	/**
+	 * Displays the new wiki page form.
+	 *
+	 * @param string $slug The slug for the wiki page.
+	 */
 	public function action_new($slug = null)
 	{
 		$this->title(l('new'));
 
+		// Fetch the page from the database
 		$page = new WikiPage(array('slug' => $slug));
 
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Update the page information
 			$page->set(array(
 				'title' => Request::$post['title'],
 				'slug' => Request::$post['slug'],
@@ -83,33 +109,59 @@ class WikiController extends AppController
 		View::set('page', $page);
 	}
 
+	/**
+	 * Displays the edit wiki page form.
+	 *
+	 * @param string $slug The slug for the wiki page.
+	 */
 	public function action_edit($slug)
 	{
 		$this->title(l('edit'));
 
+		// Fetch the page from the database
 		$page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
 
 		View::set('page', $page);
 	}
 
-	public function action_delete($id)
+	/**
+	 * Deletes the specified wiki page.
+	 *
+	 * @param string $slug The slug for the wiki page.
+	 */
+	public function action_delete($slug)
 	{
 		
 	}
 
+	/**
+	 * Used by the action_view method if the page
+	 * to display the new page form if the requested
+	 * page doesn't exist.
+	 *
+	 * @param string $slug The slug for the wiki page.
+	 */
 	private function _new_page($slug)
 	{
 		$this->_render['view'] = 'wiki/new';
 		$this->action_new($slug);
 	}
 
+	/**
+	 * Used to check the permission for the requested action.
+	 *
+	 * @param string $action Routed method.
+	 */
 	public function _check_permission($action)
 	{
 		$action = ($action == 'new' ? 'create' : $action);
 
+		// Check if the user has permission
 		if (!current_user()->permission($this->project->id, "{$action}_wiki_page"))
 		{
+			// oh noes! display the no permission page.
 			$this->show_no_permission();
+			return false;
 		}
 	}
 }
