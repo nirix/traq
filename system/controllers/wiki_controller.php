@@ -43,8 +43,14 @@ class WikiController extends AppController
 
 	public function action_view($slug)
 	{
-		$page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
-		View::set('page', $page);
+		$page = $this->project->wiki_pages->where('slug', $slug)->exec();
+
+		if (!$page->row_count())
+		{
+			$this->show_404();
+		}
+
+		View::set('page', $page->fetch());
 	}
 
 	public function action_pages()
