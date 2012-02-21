@@ -38,6 +38,20 @@ class Wikipage extends Model
 		'main'
 	);
 
+	protected static $_belongs_to = array('project');
+
+	/**
+	 * Returns the URI for the page.
+	 *
+	 * @param string $uri Extra segments to be appended to the URI.
+	 *
+	 * @return string
+	 */
+	public function href($uri = null)
+	{
+		return "/{$this->project->slug}/wiki/{$this->slug}" . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
+	}
+
 	/**
 	 * Checks if the pages data is valid.
 	 *

@@ -28,8 +28,13 @@ Router::add('/(login|logout|register|usercp)', 'Users::$1');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'Tickets::index');
 Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap)', 'Projects::$2');
-Router::add('/' . RTR_PROJSLUG . '/wiki', 'Wiki::index');
 Router::add('/' . RTR_PROJSLUG, 'Projects::view');
+
+// Wiki routes
+Router::add('/' . RTR_PROJSLUG . '/wiki', 'Wiki::index');
+Router::add('/' . RTR_PROJSLUG . '/wiki/_pages', 'Wiki::pages');
+Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)', 'Wiki::view/$2');
+Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_edit', 'Wiki::edit/$2');
 
 // Project settings routes
 Router::add('/' . RTR_PROJSLUG . '/settings', 'Projects::Settings::index');

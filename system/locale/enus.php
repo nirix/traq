@@ -80,9 +80,7 @@ class Locale_enUS extends Locale
 			'x_closed' => "$1 closed",
 			'yes' => "Yes",
 			'no' => "No",
-			'home' => "Home",
-			'pages' => "Pages",
-			
+
 			// AdminCP
 			'traq_settings' => "Traq Settings",
 			'users' => "Users",
@@ -143,6 +141,12 @@ class Locale_enUS extends Locale
 			'password' => "Password",
 			'email' => "Email",
 			
+			// Wiki
+			'home' => "Home",
+			'pages' => "Pages",
+			'new_page' => "New Page",
+			'edit_page' => "Edit Page",
+			
 			// Other
 			'actions' => "Actions",
 			'create' => "Create",
@@ -158,18 +162,18 @@ class Locale_enUS extends Locale
 				'ticket_created' => "$3 #$2 ($1) created",
 				'ticket_closed' => "$3 #$2 ($1) closed as $4",
 				'ticket_reopened' => "$3 #$2 ($1) reopened as $4",
-				'by_x' => "by $1",
+				'by_x' => "by $1"
 			),
 
 			// Help
 			'help' => array(
 				'slug' => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
-				'ticket_type_bullet' => "The bullet style used on the changelog list.",
+				'ticket_type_bullet' => "The bullet style used on the changelog list."
 			),
 			
 			// Confirmations
 			'confirm' => array(
-				'delete_x' => "Are you sure you want to delete '$1' ?",
+				'delete_x' => "Are you sure you want to delete '$1' ?"
 			),
 			
 			// Errors
@@ -177,7 +181,7 @@ class Locale_enUS extends Locale
 				// 404 error page
 				'404' => array(
 					'title' => "Woops",
-					'message' => "The requested page '$1' couldn't be found.",
+					'message' => "The requested page '$1' couldn't be found."
 				),
 				
 				'invalid_username_or_password' => "Invalid Username or Password.",
@@ -191,7 +195,7 @@ class Locale_enUS extends Locale
 					'username_blank' => "Username cannot be blank",
 					'username_in_use' => "That username is already registered",
 					'password_blank' => "Password cannot be blank",
-					'email_invalid' => "Invalid email address",
+					'email_invalid' => "Invalid email address"
 				),
 
 				// Traq Settings errors
@@ -199,9 +203,9 @@ class Locale_enUS extends Locale
 					'title_blank' => "Traq Title cannot be blank",
 					'locale_blank' => "You must select a default language",
 					'theme_blank' => "You must select a theme",
-					'allow_registration_blank' => "Allow Registration must be set",
-				),
-			),
+					'allow_registration_blank' => "Allow Registration must be set"
+				)
+			)
 		);
 	}
 }
