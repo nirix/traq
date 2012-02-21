@@ -337,15 +337,22 @@ h3.box_title {
 			a {
 				display: block;
 				text-decoration: none;
+				border: 1px solid transparent;
 				padding: 2px 10px;
-				border: 1px solid #ccc;
-				background: #f6f6f6;
 				border-radius: 2px 2px 0 0;
-				color: #a2a2a2;
+				color: #8c8c8c;
 				font-weight: bold;
+				
+				&:hover {
+					background: #f6f6f6;
+				}
 			}
 			
-			a:hover, &.active a {
+			&.active a, a:hover {
+				border: 1px solid #ccc;
+			}
+			
+			&.active a {
 				background: #fff;
 			}
 			
