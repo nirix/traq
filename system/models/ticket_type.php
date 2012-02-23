@@ -42,7 +42,7 @@ class TicketType extends Model
 		// Check if the bullet is set
 		if ($this->_data['changelog'] and empty($this->_data['bullet']))
 		{
-			$errors['bullet'] = l('errors.ticket_type:bullet_blank');
+			$errors['bullet'] = l('errors.ticket_type.bullet_blank');
 		}
 		
 		$this->errors = $errors;

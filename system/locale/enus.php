@@ -180,24 +180,28 @@ class Locale_enUS extends Locale
 			
 			// Errors
 			'errors' => array(
+				'invalid_username_or_password' => "Invalid Username or Password.",
+				'name_blank' => "Name cannot be blank",
+				'slug_blank' => "Slug cannot be blank",
+				'slug_in_use' => "That slug is already in use",
+				'page_title_blank' => "Page Title cannot be blank",
+
 				// 404 error page
 				'404' => array(
 					'title' => "He's dead, Jim!",
 					'message' => "The requested page '$1' couldn't be found."
 				),
 
-				// No Permnssion page
+				// No Permission page
 				'no_permission' => array(
 					'title' => "Move along, move along",
 					'message' => "You don't have permission to access this page."
 				),
 				
-				'invalid_username_or_password' => "Invalid Username or Password.",
-				'name_blank' => "Name cannot be blank",
-				'slug_blank' => "Slug cannot be blank",
-				'slug_in_use' => "That slug is already in use",
-				'ticket_type:bullet_blank' => "Bullet cannot be blank",
-				'page_title_blank' => "Page Title cannot be blank",
+				// Ticket types
+				'ticket_type' => array(
+					'bullet_blank' => "Bullet cannot be blank"
+				),
 				
 				// User errors
 				'users' => array(
