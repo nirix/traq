@@ -91,6 +91,12 @@ class Project extends Model
 		{
 			$errors['slug'] = l('errors.slug_blank');
 		}
+
+		// Make sure the slug isnt in use
+		if (Project::select('id')->where('id', ($this->_is_new() ? 0 : $this->id), '!=')->where('slug', $this->_data['slug'])->exec()->row_count())
+		{
+			$errors['slug'] = l('errors.slug_in_use');
+		}
 		
 		$this->errors = $errors;
 		return !count($errors) > 0;
