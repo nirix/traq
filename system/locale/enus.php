@@ -197,6 +197,7 @@ class Locale_enUS extends Locale
 				'slug_blank' => "Slug cannot be blank",
 				'slug_in_use' => "That slug is already in use",
 				'ticket_type:bullet_blank' => "Bullet cannot be blank",
+				'page_title_blank' => "Page Title cannot be blank",
 				
 				// User errors
 				'users' => array(

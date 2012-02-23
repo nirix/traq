@@ -102,8 +102,15 @@ class WikiController extends AppController
 			$page->set(array(
 				'title' => Request::$post['title'],
 				'slug' => Request::$post['slug'],
-				'body' => Request::$post['body']
+				'body' => Request::$post['body'],
+				'project_id' => $this->project->id
 			));
+
+			if ($page->is_valid())
+			{
+				$page->save();
+				Request::redirect(Request::base($page->href()));
+			}
 		}
 
 		View::set('page', $page);
@@ -120,6 +127,24 @@ class WikiController extends AppController
 
 		// Fetch the page from the database
 		$page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
+
+		// Check if the form has been submitted
+		if (Request::$method == 'post')
+		{
+			// Update the page information
+			$page->set(array(
+				'title' => Request::$post['title'],
+				'slug' => Request::$post['slug'],
+				'body' => Request::$post['body'],
+				'project_id' => $this->project->id
+			));
+
+			if ($page->is_valid())
+			{
+				$page->save();
+				Request::redirect(Request::base($page->href()));
+			}
+		}
 
 		View::set('page', $page);
 	}

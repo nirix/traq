@@ -62,9 +62,15 @@ class Wikipage extends Model
 		$errors = array();
 
 		// Check if the name is set
-		if (empty($this->_data['name']))
+		if (empty($this->_data['title']))
 		{
-			$errors['name'] = l('errors.name_blank');
+			$errors['name'] = l('errors.page_title_blank');
+		}
+
+		// Make sure the slug isnt in use..
+		if (WikiPage::select('id')->where('id', ($this->_is_new() ? 0 : $this->id), '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->_data['project_id'])->exec()->row_count())
+		{
+			$errors['slug'] = l('errors.slug_in_use');
 		}
 
 		// Check if the slug is set.
