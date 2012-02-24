@@ -30,16 +30,55 @@ require __DIR__ . "/base.php";
  */
 class ProjectsRepositoriesController extends ProjectSettingsBase
 {
-	public function action_index()
+	public function __construct()
 	{
-
+		parent::__construct();
+		View::set('scm_types', scm_types());
 	}
 
+	/**
+	 * Lists the projects repositories.
+	 */
+	public function action_index()
+	{
+		$repos = Repository::select()->where('project_id', $this->project->id);
+		View::set('repos', $repos);
+	}
+
+	/**
+	 * New repository page.
+	 */
 	public function action_new()
 	{
 		$repo = new Repository(array('type' => 'git'));
 
+		// Check if the form has been submitted.
+		if (Request::$method == 'post')
+		{
+			// Set the information
+			$repo->set(array(
+				'slug' => Request::$post['slug'],
+				'type' => Request::$post['type'],
+				'location' => Request::$post['location'],
+				'project_id' => $this->project->id
+			));
 
+			// Get the SCM class
+			$scm = SCM::factory($repo->type);
+
+			// Runs its before save info method
+			$scm->_before_save_info(&$repo, true);
+
+			// Check if data is good
+			if ($repo->is_valid())
+			{
+				// Save and redirect
+				$repo->save();
+				Request::redirect(Request::base($this->project->href('settings/repositories')));
+			}
+		}
+
+		// Pass the repo info to the view.
 		View::set('repo', $repo);
 	}
 }

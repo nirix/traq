@@ -53,6 +53,19 @@ class SCM
 		return false;
 	}
 
+	/**
+	 * Used when saving repository information.
+	 *
+	 * @param array $info Repository model object.
+	 * @param bool $is_new
+	 *
+	 * @return object
+	 */
+	public function _before_save_info(&$info, $is_new = false)
+	{
+		return $info;
+	}
+
 	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 *
 	 *  This is the base class for all SCM types.

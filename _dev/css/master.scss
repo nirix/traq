@@ -377,7 +377,7 @@ h3.list_title {
 			width:  200px;
 		}
 		
-		&.actions {
+		&.actions, &.fixed_repo_slug {
 			width: 120px;
 		}
 	}

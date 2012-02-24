@@ -123,6 +123,8 @@ class Locale_enUS extends Locale
 			'edit_component' => "Edit Component",
 			'private_key' => "Private Key",
 			'repositories' => "Repositories",
+			'new_repository' => "New Repository",
+			'edit_repository' => "Edit Repository",
 			'location' => "Location",
 			
 			// Tickets
@@ -227,6 +229,12 @@ class Locale_enUS extends Locale
 					'locale_blank' => "You must select a default language",
 					'theme_blank' => "You must select a theme",
 					'allow_registration_blank' => "Allow Registration must be set"
+				),
+
+				// Repository SCM errors
+				'scm' => array(
+					'location_blank' => "You must enter a location",
+					'location_invalid' => "Invalid location"
 				)
 			)
 		);

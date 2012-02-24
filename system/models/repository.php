@@ -37,7 +37,6 @@ class Repository extends Model
 		'location',
 		'username',
 		'password',
-		'path_encoding',
 		'extra',
 		'is_default'
 	);
@@ -45,4 +44,39 @@ class Repository extends Model
 	protected static $_has_many = array(
 		'changesets' => array('model' => 'RepoChangeset')
 	);
+
+	/**
+	 * Checks if the data is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid()
+	{
+		$errors = array();
+
+		// Check if slug is empty
+		if (empty($this->_data['slug']))
+		{
+			$errors['slug'] = l('errors.slug_blank');
+		}
+
+		// Make sure slug isn't in use
+		if (Repository::select('id')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->_data['project_id'])->exec()->row_count())
+		{
+			$errors['slug'] = l('errors.slug_in_use');
+		}
+
+		// Check if location empty
+		if (empty($this->_data['location']))
+		{
+			$errors['location'] = l('errors.scm.location_blank');
+		}
+
+		// This is different, here we're merging the local errors
+		// with the errors array of the class which may have been
+		// added via the SCM::_before_save_info() method.
+		$this->errors = array_merge($errors, $this->errors);
+
+		return !count($errors) > 0;
+	}
 }

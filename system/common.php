@@ -169,7 +169,7 @@ function scm_select_options()
 }
 
 /**
- * Checks if the specified field is a projet or not.
+ * Checks if the specified field is a project or not.
  *
  * @param mixed $find Value [or column] to search for.
  * @param mixed $field Column [or value].
