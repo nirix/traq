@@ -54,7 +54,7 @@ class GitSCM extends SCM
 			// Check if the location is a repository or not...
 			if (!$resp = $this->_shell('branch') or preg_match("/Not a git repository/i", $resp))
 			{
-				$repo->_add_error('location', l('errors.scm.laction_not_a_repository'));
+				$repo->_add_error('location', l('errors.scm.location_not_a_repository'));
 			}
 		}
 
