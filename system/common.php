@@ -104,9 +104,9 @@ function active_nav($uri)
 }
 
 /**
+ * Returns the logged in users model.
  *
- *
- *
+ * @return object
  */
 function current_user()
 {
@@ -125,6 +125,47 @@ function current_user()
 function iif($condition, $true, $false = null)
 {
 	return $condition ? $true : $false;
+}
+
+/**
+ * Returns an array of available SCMs.
+ *
+ * @return array
+ */
+function scm_types()
+{
+	static $scms = array();
+
+	if (count($scms) == 0)
+	{
+		foreach (scandir(APPPATH . "/libraries/scm/adapters") as $file)
+		{
+			if (substr($file, -3) == 'php')
+			{
+				$name = str_replace('.php', '', $file);
+				$scm = SCM::factory($name);
+				$scms[$name] = $scm->name();
+			}
+		}
+	}
+
+	FishHook::run('func_scm_types', &$scms);
+	return $scms;
+}
+
+/**
+ * Returns the available SCMS as form select options.
+ *
+ * @return array
+ */
+function scm_select_options()
+{
+	$options = array();
+	foreach (scm_types() as $scm => $name)
+	{
+		$options[] = array('label' => $name, 'value' => $scm);
+	}
+	return $options;
 }
 
 /**
