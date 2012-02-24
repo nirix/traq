@@ -122,6 +122,8 @@ class Locale_enUS extends Locale
 			'new_component' => "New Component",
 			'edit_component' => "Edit Component",
 			'private_key' => "Private Key",
+			'repositories' => "Repositories",
+			'location' => "Location",
 			
 			// Tickets
 			'summary' => "Summary",
@@ -171,7 +173,14 @@ class Locale_enUS extends Locale
 			// Help
 			'help' => array(
 				'slug' => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
-				'ticket_type_bullet' => "The bullet style used on the changelog list."
+				'ticket_type_bullet' => "The bullet style used on the changelog list.",
+
+				// Repository SCM stuff
+				'scm' => array(
+					'git' => array(
+						'location' => "Full file path to the repository. (/home/users/.../repos/myrepo.git)"
+					)
+				)
 			),
 			
 			// Confirmations
