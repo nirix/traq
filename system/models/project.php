@@ -28,9 +28,10 @@ class Project extends Model
 		'slug',
 		'info',
 		'managers',
-		'private',
+		'is_private',
 		'next_tid',
-		'displayorder'
+		'displayorder',
+		'private_key'
 	);
 	
 	// Has-many relationships with other models
@@ -38,9 +39,13 @@ class Project extends Model
 		'tickets', 'milestones', 'components',
 		'wiki_pages' => array('model' => 'WikiPage')
 	);
+
+	protected static $_filters_before = array(
+		'create' => array('_before_create')
+	);
 	
 	protected static $_filters_after = array(
-		'construct' => array('process_managers')
+		'construct' => array('_process_managers')
 	);
 	
 	
@@ -105,8 +110,16 @@ class Project extends Model
 	/**
 	 * Turns the managers value into an array.
 	 */
-	protected function process_managers()
+	protected function _process_managers()
 	{
 		$this->_managers = explode(',', $this->_data['managers']);
+	}
+
+	/**
+	 * Things required before creating the table row.
+	 */
+	protected function _before_create()
+	{
+		$this->_data['private_key'] = random_hash();
 	}
 }

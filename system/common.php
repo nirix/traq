@@ -189,6 +189,17 @@ function ticket_filters() {
 }
 
 /**
+ * Used to generate a random hash.
+ *
+ * @return string
+ */
+function random_hash()
+{
+	$chars = "qwertyuiopasdfghjklzxcvbnm[];',./{}|:<>?1234567890!@#$%^&*()";
+	return sha1(time() . rand(0, 1000) . $chars[rand(0, count($chars))] . microtime());
+}
+
+/**
  * Calculates the percent of two numbers,
  * if both numbers are the same, 100(%) is returned.
  *
