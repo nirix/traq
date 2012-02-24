@@ -1,7 +1,7 @@
 <?php
 /*
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
