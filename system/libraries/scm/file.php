@@ -31,9 +31,8 @@
 class SCMFile
 {
 	// This class should store the following information
-	public $name; // File or directory name, if not root.
 	public $path; // File path.
-	public $kind; // File kind (.rb, .php, .png, etc)
+	public $type; // Directory (dir) or file.
 	public $size; // File size (in bytes)
 	public $revision; // Last revision.
 
@@ -49,6 +48,46 @@ class SCMFile
 		{
 			$this->$key = $val;
 		}
+
+		if ($this->type == 'dir' and substr($this->path, -1) != '/')
+		{
+			$this->path = "{$this->path}/";
+		}
+	}
+
+	/**
+	 * Returns the file name without directories.
+	 *
+	 * @return string
+	 */
+	public function name()
+	{
+		$bits = explode("/", $this->path);
+		return end($bits);
+	}
+
+	/**
+	 * Returns the file extension from the path name.
+	 *
+	 * @return mixed
+	 */
+	public function ext()
+	{
+		if ($this->type == 'dir')
+		{
+			return false;
+		}
+
+		$bits = explode(".", $this->name());
+		unset($bits[0]);
+
+		// Check if this extension uses two dots. 
+		if (count($bits) > 1 and in_array(end($bits), array('gz')))
+		{
+			return implode(".", $bits);
+		}
+
+		return end($bits);
 	}
 
 	/**
@@ -60,5 +99,15 @@ class SCMFile
 	public function is_root()
 	{
 		return $this->type == 'dir' and ($this->path == '/' or $this->path == '');
+	}
+
+	/**
+	 * Checks if the file is a directory.
+	 *
+	 * @return bool
+	 */
+	public function is_dir()
+	{
+		return $this->type == 'dir';
 	}
 }
