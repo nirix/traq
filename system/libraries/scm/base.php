@@ -26,6 +26,7 @@
  * @copyright (C) Jack P.
  * @package Traq
  * @package SCM
+ * @version 0.1
  */
 class SCMBase
 {
@@ -55,6 +56,38 @@ class SCMBase
 	public function __construct(&$info)
 	{
 		$this->info = $info;
+	}
+
+	/**
+	 * Runs the specified command.
+	 *
+	 * @param string $cmd
+	 *
+	 * @return string
+	 */
+	protected function _shell($cmd)
+	{
+		return shell_exec("{$this->_binary} {$cmd}");
+	}
+
+	/**
+	 * Returns an array of branches.
+	 *
+	 * @return array
+	 */
+	public function branches()
+	{
+		throw new Exception("Method " . get_class($this) . "::" . __FUNCTION__ . "() not implemented");
+	}
+
+	/**
+	 * Returns an array of tags.
+	 *
+	 * @return array
+	 */
+	public function tags()
+	{
+		throw new Exception("Method " . get_class($this) . "::" . __FUNCTION__ . "() not implemented");
 	}
 
 	/**
