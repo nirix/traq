@@ -112,7 +112,7 @@ class SCM
 	 */
 	protected function _shell($cmd)
 	{
-		return shell_exec("{$this->_binary} {$cmd}");
+		return shell_exec("\"{$this->_binary}\" {$cmd}");
 	}
 
 	/**

@@ -70,7 +70,7 @@ class GitSCM extends SCM
 	 */
 	protected function _shell($cmd)
 	{
-		return shell_exec("{$this->_binary} --git-dir \"{$this->info->location}\" {$cmd}");
+		return parent::_shell("--git-dir \"{$this->info->location}\" {$cmd}");
 	}
 
 	/**
