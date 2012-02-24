@@ -34,6 +34,7 @@ class ProjectsRepositoriesController extends ProjectSettingsBase
 	{
 		parent::__construct();
 		View::set('scm_types', scm_types());
+		$this->title(l('repositories'));
 	}
 
 	/**
@@ -64,7 +65,7 @@ class ProjectsRepositoriesController extends ProjectSettingsBase
 			));
 
 			// Get the SCM class
-			$scm = SCM::factory($repo->type);
+			$scm = SCM::factory($repo->type, $repo);
 
 			// Runs its before save info method
 			$scm->_before_save_info(&$repo, true);

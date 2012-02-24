@@ -234,7 +234,8 @@ class Locale_enUS extends Locale
 				// Repository SCM errors
 				'scm' => array(
 					'location_blank' => "You must enter a location",
-					'location_invalid' => "Invalid location"
+					'location_invalid' => "Invalid location",
+					'laction_not_a_repository' => "Location is not a repository"
 				)
 			)
 		);

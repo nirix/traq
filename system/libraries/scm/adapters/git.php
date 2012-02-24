@@ -34,6 +34,34 @@ class GitSCM extends SCM
 	protected $_binary = 'git';
 
 	/**
+	 * Used when saving repository information.
+	 *
+	 * @param array $info Repository model object.
+	 * @param bool $is_new
+	 *
+	 * @return object
+	 */
+	public function _before_save_info(&$repo, $is_new = false)
+	{
+		// Check if the location is valid
+		if (!preg_match("#^([a-zA-Z0-9\-_\/]+[^&;]*).git$#", $repo->location))
+		{
+			$repo->_add_error('location', l('errors.scm.location_invalid'));
+		}
+		// Now it's safe to use the path for other stuff
+		else
+		{
+			// Check if the location is a repository or not...
+			if (!$resp = $this->_shell('branch') or preg_match("/Not a git repository/i", $resp))
+			{
+				$repo->_add_error('location', l('errors.scm.laction_not_a_repository'));
+			}
+		}
+
+		return $repo;
+	}
+
+	/**
 	 * Runs the specified command.
 	 *
 	 * @param string $cmd
@@ -42,7 +70,7 @@ class GitSCM extends SCM
 	 */
 	protected function _shell($cmd)
 	{
-		return shell_exec("{$this->_binary} --git-dir {$this->info->location} {$cmd}");
+		return shell_exec("{$this->_binary} --git-dir \"{$this->info->location}\" {$cmd}");
 	}
 
 	/**

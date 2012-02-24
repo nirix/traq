@@ -61,9 +61,9 @@ class SCM
 	 *
 	 * @return object
 	 */
-	public function _before_save_info(&$info, $is_new = false)
+	public function _before_save_info(&$repo, $is_new = false)
 	{
-		return $info;
+		throw new Exception("Method " . get_class($this) . "::" . __FUNCTION__ . "() not implemented");
 	}
 
 	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
