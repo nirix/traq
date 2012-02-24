@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+require __DIR__ . '/file.php';
+
 /**
  * SCM Base class.
  * Copyright (C) Jack Polgar
