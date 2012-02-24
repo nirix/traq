@@ -1,7 +1,7 @@
 <?php
 /*
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -18,6 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * User model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
 class User extends Model
 {
 	protected static $_name = 'users';
