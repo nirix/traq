@@ -45,6 +45,27 @@ class GitSCM extends SCMBase
 	}
 
 	/**
+	 * Returns the default/main branch of the repository.
+	 *
+	 * @return string
+	 */
+	public function default_branch()
+	{
+		$branches = $this->branches();
+
+		// Check if the master branch exists...
+		if (in_array('master', $branches))
+		{
+			return 'master';
+		}
+		// Use whatever the first branch in the list is.
+		else
+		{
+			return $branches[0];
+		}
+	}
+
+	/**
 	 * Returns an array of branches.
 	 *
 	 * @return array

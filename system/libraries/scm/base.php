@@ -82,6 +82,16 @@ class SCMBase
 	}
 
 	/**
+	 * Returns the default/main branch of the repository.
+	 *
+	 * @return string
+	 */
+	public function default_branch()
+	{
+		throw new Exception("Method " . get_class($this) . "::" . __FUNCTION__ . "() not implemented");
+	}
+
+	/**
 	 * Returns an array of branches.
 	 *
 	 * @return array
