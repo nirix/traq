@@ -28,8 +28,9 @@
  * @package SCM
  * @version 0.1
  */
-class GitSCM extends SCMBase
+class GitSCM extends SCM
 {
+	protected $_name = 'Git';
 	protected $_binary = 'git';
 
 	/**

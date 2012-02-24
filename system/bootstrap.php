@@ -1,7 +1,7 @@
 <?php
-/*
+/*!
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * This file is part of Traq.
  * 
@@ -25,6 +25,7 @@ define("DOCROOT", dirname(dirname(__FILE__)));
 // Load common functions and version file
 require APPPATH . '/common.php';
 require APPPATH . '/version.php';
+require APPPATH . '/libraries/scm.php';
 
 require SYSPATH . '/base.php';
 require APPPATH . '/libraries/locale.php';

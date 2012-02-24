@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require __DIR__ . '/file.php';
+require __DIR__ . '/scm/file.php';
 
 /**
  * SCM Base class.
@@ -30,8 +30,29 @@ require __DIR__ . '/file.php';
  * @package SCM
  * @version 0.1
  */
-class SCMBase
+class SCM
 {
+	/**
+	 * Used to load an SCM class.
+	 */
+	public static function factory($name, &$info = array())
+	{
+		$file_path = APPPATH . "/libraries/scm/adapters/{$name}.php";
+		if (file_exists($file_path))
+		{
+			$class = "{$name}SCM";
+
+			if (!class_exists($class))
+			{
+				require $file_path;
+			}
+			
+			return new $class($info);
+		}
+
+		return false;
+	}
+
 	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 *
 	 *  This is the base class for all SCM types.
@@ -66,7 +87,7 @@ class SCMBase
 	 */
 	public function name()
 	{
-		$this->info->type;
+		return $this->_name;
 	}
 
 	/**
