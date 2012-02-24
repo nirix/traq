@@ -104,16 +104,17 @@ hr {
     border-radius: 3px 3px 0 0;
     margin: 0; }
   #overlay .box {
-    border-radius: 0 0 3px 3px;
     border: 0;
-    background: transparent; }
+    background: transparent;
+    margin: 0 5px; }
   #overlay form {
     margin: 0;
     width: 600px; }
     #overlay form textarea {
       width: 95%; }
     #overlay form.overlay_thin {
-      width: 400px; }
+      width: 100%;
+      min-width: 300px; }
     #overlay form .actions {
       background-color: #f6f6f6;
       border-radius: 0 0 4px 4px; }

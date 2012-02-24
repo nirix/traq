@@ -61,9 +61,9 @@ hr {
 	}
 	
 	.box {
-		border-radius: 0 0 3px 3px;
 		border: 0;
 		background: transparent;
+		margin: 0 5px;
 	}
 	
 	form {
@@ -75,7 +75,8 @@ hr {
 		}
 		
 		&.overlay_thin {
-			width:  400px;
+			width: 100%;
+			min-width: 300px;
 		}
 		
 		.actions {
