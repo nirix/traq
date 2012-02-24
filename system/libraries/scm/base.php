@@ -47,7 +47,6 @@ class SCMBase
 	 *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 */
 
-
 	protected $info;
 
 	/**
@@ -58,6 +57,16 @@ class SCMBase
 	public function __construct(&$info)
 	{
 		$this->info = $info;
+	}
+
+	/**
+	 * Returns the name of the SCM.
+	 *
+	 * @return string
+	 */
+	public function name()
+	{
+		$this->info->type;
 	}
 
 	/**
@@ -88,6 +97,19 @@ class SCMBase
 	 * @return array
 	 */
 	public function tags()
+	{
+		throw new Exception("Method " . get_class($this) . "::" . __FUNCTION__ . "() not implemented");
+	}
+
+	/**
+	 * Returns the information about the given file path.
+	 *
+	 * @param string $path File/directory path
+	 * @param string $revision Revision identifier
+	 *
+	 * @return array
+	 */
+	public function file_info($path = null, $revision = null)
 	{
 		throw new Exception("Method " . get_class($this) . "::" . __FUNCTION__ . "() not implemented");
 	}
