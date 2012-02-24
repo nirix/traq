@@ -1,7 +1,7 @@
 <?php
 /*
  * FishHook
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  * 
  * FishHook is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
