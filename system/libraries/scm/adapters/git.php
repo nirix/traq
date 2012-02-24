@@ -28,9 +28,21 @@
  * @package SCM
  * @version 0.1
  */
-class GitScm extends SCMBase
+class GitSCM extends SCMBase
 {
 	protected $_binary = 'git';
+
+	/**
+	 * Runs the specified command.
+	 *
+	 * @param string $cmd
+	 *
+	 * @return string
+	 */
+	protected function _shell($cmd)
+	{
+		return shell_exec("{$this->_binary} --git-dir {$this->info->location} {$cmd}");
+	}
 
 	/**
 	 * Returns an array of branches.
