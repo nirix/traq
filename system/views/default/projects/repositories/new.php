@@ -3,6 +3,7 @@
 </div>
 <?php View::render('projects/settings/_nav'); ?>
 <div class="content">
+	<h3><?php echo l('new_repository'); ?></h3>
 	<form action="<?php echo Request::full_uri(); ?>" method="post">
 		<?php show_errors($repo->errors); ?>
 		<div class="tabular box">
