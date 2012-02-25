@@ -76,3 +76,7 @@ Router::add('/admin/tickets/types/([0-9]+)/(edit|delete)', 'Admin::TicketTypes::
 Router::add('/admin/tickets/statuses', 'Admin::TicketStatuses::index');
 Router::add('/admin/tickets/statuses/new', 'Admin::TicketStatuses::new');
 Router::add('/admin/tickets/statuses/([0-9]+)/(edit|delete)', 'Admin::TicketStatuses::$2/$1');
+
+// API
+Router::add('/api/([a-zA-Z0-9\-\_]+)', 'Api::$1');
+Router::add('/api/([a-zA-Z0-9\-\_]+)/([a-zA-Z0-9\-\_]+)', 'Api::$1/$2');
