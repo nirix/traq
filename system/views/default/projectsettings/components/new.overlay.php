@@ -2,7 +2,7 @@
 <form action="<?php echo Request::full_uri(); ?>" method="post" class="overlay_thin">
 	<?php show_errors($component->errors); ?>
 	<div class="tabular">
-		<?php View::render('projects/components/_form'); ?>
+		<?php View::render('projectsettings/components/_form'); ?>
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?php echo l('create'); ?>" />

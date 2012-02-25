@@ -39,10 +39,10 @@ Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_edit', 'Wiki::edit/$
 Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_delete', 'Wiki::delete/$2');
 
 // Project settings routes
-Router::add('/' . RTR_PROJSLUG . '/settings', 'Projects::Settings::index');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|repositories)', 'Projects::$2::index');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|repositories)/new', 'Projects::$2::new');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components)/([0-9]+)/(edit|delete)', 'Projects::$2::$4/$3');
+Router::add('/' . RTR_PROJSLUG . '/settings', 'ProjectSettings::Options::index');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|repositories)', 'ProjectSettings::$2::index');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|repositories)/new', 'ProjectSettings::$2::new');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components)/([0-9]+)/(edit|delete)', 'ProjectSettings::$2::$4/$3');
 
 // ------------------------------------------------
 // AdminCP routes

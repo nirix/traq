@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -26,18 +26,28 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsBase extends AppController
+class ProjectSettingsOptionsController extends ProjectSettingsAppController
 {
-	public function __construct()
+	public function action_index()
 	{
-		parent::__construct();
+		$project = clone $this->project;
 		
-		$this->title(l('settings'));
-
-		if (!$this->project
-		or (!$this->project->is_manager($this->user) and !$this->user->group->is_admin))
+		if (Request::$method == 'post')
 		{
-			$this->show_404();
+			$project->set(array(
+				'name' => Request::$post['name'],
+				'slug' => Request::$post['slug'],
+				'codename' => Request::$post['codename'],
+				'info' => Request::$post['info']
+			));
+			
+			if ($project->is_valid())
+			{
+				$project->save();
+				Request::redirect(Request::base($project->href('settings')));
+			}
 		}
+		
+		View::set('proj', $project);
 	}
 }

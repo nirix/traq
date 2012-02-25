@@ -1,16 +1,15 @@
 <div class="content">
 	<h2 id="page_title"><?php echo l('project_settings'); ?></h2>
 </div>
-<?php View::render('projects/settings/_nav'); ?>
+<?php View::render('projectsettings/_nav'); ?>
 <div class="content">
-	<h3><?php echo l('new_repository'); ?></h3>
 	<form action="<?php echo Request::full_uri(); ?>" method="post">
-		<?php show_errors($repo->errors); ?>
+		<?php show_errors($proj->errors); ?>
 		<div class="tabular box">
-			<?php View::render('projects/repositories/_form'); ?>
+			<?php View::render('projectsettings/options/_form', array('proj' => $proj)); ?>
 		</div>
 		<div class="actions">
-			<input type="submit" value="<?php echo l('create'); ?>" />
+			<input type="submit" value="<?php echo l('save'); ?>" />
 		</div>
 	</form>
 </div>

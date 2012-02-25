@@ -2,7 +2,7 @@
 <form  action="<?php echo Request::full_uri(); ?>" method="post">
 	<?php show_errors($milestone->errors); ?>
 	<div class="tabular box">
-		<?php View::render('projects/milestones/_form'); ?>
+		<?php View::render('projectsettings/milestones/_form'); ?>
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?php echo l('create'); ?>" />

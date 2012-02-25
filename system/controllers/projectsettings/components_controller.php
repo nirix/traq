@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -18,8 +18,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require __DIR__ . "/base.php";
-
 /**
  * Components controller
  *
@@ -28,7 +26,7 @@ require __DIR__ . "/base.php";
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectsComponentsController extends ProjectSettingsBase
+class ProjectSettingsComponentsController extends ProjectSettingsAppController
 {
 	public function __construct()
 	{

@@ -8,6 +8,6 @@
 </div>
 <?php
 foreach (scm_types() as $scm => $name) {
-	View::render("projects/repositories/adapters/_{$scm}");
+	View::render("projectsettings/repositories/adapters/_{$scm}");
 }
 ?>

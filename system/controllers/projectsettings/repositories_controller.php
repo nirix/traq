@@ -18,8 +18,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require __DIR__ . "/base.php";
-
 /**
  * Project repository settings controller
  *
@@ -28,7 +26,7 @@ require __DIR__ . "/base.php";
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectsRepositoriesController extends ProjectSettingsBase
+class ProjectSettingsRepositoriesController extends ProjectSettingsAppController
 {
 	public function __construct()
 	{

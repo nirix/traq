@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -18,8 +18,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require __DIR__ . "/base.php";
-
 /**
  * Project settings controller
  *
@@ -28,28 +26,18 @@ require __DIR__ . "/base.php";
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectsSettingsController extends ProjectSettingsBase
+class ProjectSettingsAppController extends AppController
 {
-	public function action_index()
+	public function __construct()
 	{
-		$project = clone $this->project;
+		parent::__construct();
 		
-		if (Request::$method == 'post')
+		$this->title(l('settings'));
+
+		if (!$this->project
+		or (!$this->project->is_manager($this->user) and !$this->user->group->is_admin))
 		{
-			$project->set(array(
-				'name' => Request::$post['name'],
-				'slug' => Request::$post['slug'],
-				'codename' => Request::$post['codename'],
-				'info' => Request::$post['info']
-			));
-			
-			if ($project->is_valid())
-			{
-				$project->save();
-				Request::redirect(Request::base($project->href('settings')));
-			}
+			$this->show_404();
 		}
-		
-		View::set('proj', $project);
 	}
 }
