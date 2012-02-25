@@ -81,7 +81,7 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
 	{
 		$this->title(l('edit'));
 
-		// Fetche the component
+		// Fetch the component
 		$component = Component::find($id);
 		
 		// Check if the form has been submitted
@@ -102,5 +102,20 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
 		}
 		
 		View::set('component', $component);
+	}
+
+	/**
+	 * Delete component.
+	 *
+	 * @param integer $id Component ID
+	 */
+	public function action_delete($id)
+	{
+		// Fetch the component
+		$component = Component::find($id);
+
+		// Delete and redirect
+		$component->delete();
+		Request::redirect(Request::base($this->project->href("settings/components")));
 	}
 }
