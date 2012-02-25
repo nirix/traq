@@ -18,6 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// MySQL connection
 $db = array(
 	'driver'   => 'PDO',       // Leave as is.
 	'type'     => 'MySQL',     // Database type.
@@ -27,3 +28,21 @@ $db = array(
 	'database' => 'traq',      // Database name.
 	'prefix'   => ''           // Table prefix.
 );
+
+// SQLite connection
+/*
+$db = array(
+	'driver' => 'PDO',
+	'type'   => 'SQLite',
+	'path'   => '/path/to/database.sqlite'
+);
+*/
+
+// Other database
+// See: http://php.net/manual/en/pdo.drivers.php
+/*
+$db = array(
+	'driver' => 'PDO',
+	'dsn'    => 'PDO DSN goes here'
+);
+*/
