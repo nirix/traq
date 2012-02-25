@@ -53,7 +53,8 @@ function settings($setting) {
  */
 function l()
 {
-	return call_user_func_array(array('Locale_' . settings('locale'), 'translate'), func_get_args());
+	global $locale;
+	return call_user_func_array(array($locale, 'translate'), func_get_args());
 }
 
 /**
@@ -66,7 +67,8 @@ function l()
  */
 function ldate()
 {
-	return call_user_func_array(array('Locale_' . settings('locale'), 'date'), func_get_args());
+	global $locale;
+	return call_user_func_array(array($locale, 'date'), func_get_args());
 }
 
 /**

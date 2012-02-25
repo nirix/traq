@@ -43,7 +43,7 @@ class Locale_enUS extends Locale
 	 * Initializes the class and pushes the
 	 * locale strings to the locale array.
 	 */
-	public static function init()
+	public function __construct()
 	{
 		static::$locale = static::locale();
 	}
@@ -237,6 +237,11 @@ class Locale_enUS extends Locale
 					'location_invalid' => "Invalid location",
 					'location_not_a_repository' => "Location is not a repository"
 				)
+			),
+
+			// Testing purposes only...
+			'test' => array(
+				'plurals' => 'There {plural:$1, {is $1 bottle|are $1 bottles}} of scotch on the shelf.'
 			)
 		);
 	}

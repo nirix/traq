@@ -33,12 +33,8 @@ require APPPATH . '/libraries/fishhook.php';
 
 Database::init();
 
-// Load and initialize the localization file
-require APPPATH . "/locale/" . settings('locale') . ".php";
-
-$locale_file = "Locale_" . settings('locale');
-$locale_file::init();
-unset($locale_file);
+// Load the localization class
+$locale = Locale::load(settings('locale'));
 
 // Load the plugins
 $plugins = Database::driver()->select('file')->from('plugins')->exec()->fetch_all();

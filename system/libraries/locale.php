@@ -33,10 +33,31 @@ class Locale
 	protected static $locale = array();
 
 	/**
-	 * Initializes the locale class.
+	 * Loads the specified locale.
+	 *
+	 * @param string $locale
+	 *
+	 * @return object
 	 */
-	public static function init()
+	public static function load($locale)
 	{
+		$file_path = APPPATH . "/locale/{$locale}.php";
+
+		// Check if the file exists..
+		if (file_exists($file_path))
+		{
+			$class = "Locale_{$locale}";
+
+			// Make sure the class isn't loaded already
+			if (!class_exists($class))
+			{
+				require $file_path;
+			}
+
+			return new $class();
+		}
+
+		return false;
 	}
 
 	/**
@@ -54,7 +75,7 @@ class Locale
 	 *
 	 * @return string
 	 */
-	public static function translate()
+	public function translate()
 	{
 		$string = func_get_arg(0);
 		$vars = array_slice(func_get_args(), 1);
@@ -65,7 +86,7 @@ class Locale
 	/**
 	 * Date localization method
 	 */
-	public static function date($format, $timestamp = null)
+	public function date($format, $timestamp = null)
 	{
 		return Time::date($format, $timestamp !== null ? $timestamp : time());
 	}
@@ -112,6 +133,18 @@ class Locale
 	}
 
 	/**
+	 * Determines which replacement to use for plurals.
+	 *
+	 * @param integer $numeral
+	 *
+	 * @return integer
+	 */
+	public static function calculate_numeral($numeral)
+	{
+		return ($numeral > 1 or $numeral < -1 or $numeral == 0) ? 1 : 0;
+	}
+
+	/**
 	 * Compiles the translated string with the variables.
 	 *
 	 * @example
@@ -137,38 +170,29 @@ class Locale
 		}
 
 		// Match plural:n,{x, y}
-		if (preg_match_all("/{plural:(?<value>-{0,1}\d+),{(?<replacements>.*?)}}/i", $translation, $matches))
+		if (preg_match_all("/{plural:(?<value>-{0,1}\d+)(,|, ){(?<replacements>.*?)}}/i", $translation, $matches))
 		{
 			foreach($matches[0] as $id => $match)
 			{
 				// Split the replacements into an array.
 				// There's an extra | at the start to allow for better matching
 				// with values.
-				$replacements = explode('|', '|' . $matches['replacements'][$id]);
-				unset($replacements[0]);
+				$replacements = explode('|', $matches['replacements'][$id]);
 
 				// Get the value
 				$value = $matches['value'][$id];
 
-				// If the value is 0 use the plural replacement
-				if (isset($replacements[2]) and $value == 0)
+				// Check what replacement to use...
+				$replacement_id = static::calculate_numeral($value);
+				//die(gettype($replacement_id));
+				if ($replacement_id !== false)
 				{
-					$translation = str_replace($match, $replacements[2], $translation);
-				}
-				// Check if the value is 1 or -1, if so use the singular replacement
-				if (isset($replacements[0]) and ($value == 1 or $value == -1))
-				{
-					$translation = str_replace($match, $replacements[1], $translation);
-				}
-				// Check if there is a specific value for the value variable.
-				elseif (isset($replacements[$value]))
-				{
-					$translation = str_replace($match, $replacements[$value], $translation);
+					$translation = str_replace($match, $replacements[$replacement_id], $translation);
 				}
 				// Get the last value then
 				else
 				{
-					$translation = str_replace($match, $replacements[count($replacements) - 1], $translation);
+					$translation = str_replace($match, end($replacements), $translation);
 				}
 			}
 		}
