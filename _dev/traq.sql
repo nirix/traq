@@ -499,6 +499,7 @@ CREATE TABLE `traq_users` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `group_id` bigint(20) NOT NULL DEFAULT '2',
   `login_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `api_key` varchar(40) COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -507,7 +508,7 @@ LOCK TABLES `traq_users` WRITE;
 
 INSERT INTO `traq_users` (`id`, `username`, `password`, `name`, `email`, `group_id`, `login_hash`)
 VALUES
-	(1,'admin','d033e22ae348aeb5660fc2140aec35850c4da997','admin','test@example.com',1,'abc123');
+	(1,'admin','d033e22ae348aeb5660fc2140aec35850c4da997','admin','test@example.com',1,'abc123', '7e240de74fb1ed08fa08d38063f6a6a91462a815');
 
 /*!40000 ALTER TABLE `traq_users` ENABLE KEYS */;
 UNLOCK TABLES;

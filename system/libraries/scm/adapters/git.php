@@ -31,7 +31,7 @@
 class GitSCM extends SCM
 {
 	protected $_name = 'Git';
-	protected $_binary = 'git';
+	protected $_binary = 'C:\Program Files (x86)\Git\bin\git.exe';
 
 	/**
 	 * Used when saving repository information.
