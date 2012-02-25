@@ -177,9 +177,9 @@ class WikiController extends AppController
 	 *
 	 * @param string $action Routed method.
 	 */
-	public function _check_permission($action)
+	public function _check_permission()
 	{
-		$action = ($action == 'new' ? 'create' : $action);
+		$action = (Router::$method == 'new' ? 'create' : Router::$method);
 
 		// Check if the user has permission
 		if (!current_user()->permission($this->project->id, "{$action}_wiki_page"))
