@@ -34,6 +34,8 @@ class ProjectSettingsAppController extends AppController
 		
 		$this->title(l('settings'));
 
+		// Make sure this is a project and the user
+		// has the correct permission to access the area.
 		if (!$this->project
 		or (!$this->project->is_manager($this->user) and !$this->user->group->is_admin))
 		{

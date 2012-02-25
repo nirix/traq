@@ -28,12 +28,20 @@
  */
 class ProjectSettingsOptionsController extends ProjectSettingsAppController
 {
+	/**
+	 * Project options / information page.
+	 */
 	public function action_index()
 	{
+		// Clone the project model so nothing
+		// funky happens when there are errors
+		// with the new information.
 		$project = clone $this->project;
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Update the information
 			$project->set(array(
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
@@ -41,8 +49,10 @@ class ProjectSettingsOptionsController extends ProjectSettingsAppController
 				'info' => Request::$post['info']
 			));
 			
+			// Check if the data is valid
 			if ($project->is_valid())
 			{
+				// Save and redirect
 				$project->save();
 				Request::redirect(Request::base($project->href('settings')));
 			}

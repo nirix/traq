@@ -34,26 +34,36 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
 		$this->title(l('components'));
 	}
 
+	/**
+	 * Components listing page.
+	 */
 	public function action_index()
 	{
 		View::set('components', $this->project->components);
 	}
 	
+	/**
+	 * New component page.
+	 */
 	public function action_new()
 	{
 		$this->title(l('new'));
 
 		$component = new Component();
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Set the information
 			$component->set(array(
 				'name' => Request::$post['name'],
 				'project_id' => $this->project->id
 			));
 			
+			// Check if the data is valid
 			if ($component->is_valid())
 			{
+				// Save and redirect
 				$component->save();
 				Request::redirect(Request::base("{$this->project->slug}/settings/components"));
 			}
@@ -62,20 +72,30 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
 		View::set('component', $component);
 	}
 	
+	/**
+	 * Edit component page.
+	 *
+	 * @param integer $id Component ID
+	 */
 	public function action_edit($id)
 	{
 		$this->title(l('edit'));
 
+		// Fetche the component
 		$component = Component::find($id);
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Update the information
 			$component->set(array(
 				'name' => Request::$post['name'],
 			));
 			
+			// Check if the data is valid
 			if ($component->is_valid())
 			{
+				// Save and redirect
 				$component->save();
 				Request::redirect(Request::base("{$this->project->slug}/settings/components"));
 			}

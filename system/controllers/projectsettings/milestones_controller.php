@@ -34,19 +34,27 @@ class ProjectSettingsMilestonesController extends ProjectSettingsAppController
 		$this->title(l('milestones'));
 	}
 
+	/**
+	 * Milestones listing page.
+	 */
 	public function action_index()
 	{
 		View::set('milestones', $this->project->milestones);
 	}
 	
+	/**
+	 * New milestone page.
+	 */
 	public function action_new()
 	{
 		$this->title(l('new'));
 
 		$milestone = new Milestone();
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Set the information
 			$milestone->set(array(
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
@@ -54,8 +62,10 @@ class ProjectSettingsMilestonesController extends ProjectSettingsAppController
 				'project_id' => $this->project->id
 			));
 			
+			// Check if the data is valid
 			if ($milestone->is_valid())
 			{
+				// Save and redirect
 				$milestone->save();
 				Request::redirect(Request::base("{$this->project->slug}/settings/milestones"));
 			}
@@ -64,22 +74,32 @@ class ProjectSettingsMilestonesController extends ProjectSettingsAppController
 		View::set('milestone', $milestone);
 	}
 	
+	/**
+	 * Edit milestone page.
+	 *
+	 * @param integer $id Milestone ID
+	 */
 	public function action_edit($id)
 	{
 		$this->title(l('edit'));
 
+		// Fetch the milestone
 		$milestone = Milestone::find($id);
 		
+		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
+			// Update the information
 			$milestone->set(array(
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
 				'info' => Request::$post['info']
 			));
 			
+			// Make sure the data is valid
 			if ($milestone->is_valid())
 			{
+				// Save and redirect
 				$milestone->save();
 				Request::redirect(Request::base("{$this->project->slug}/settings/milestones"));
 			}
