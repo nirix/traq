@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+Load::helper('array');
+
 /**
  * Returns the json encoded version of the passed data.
  *
@@ -51,6 +53,12 @@ function to_json($data, $options = array())
 		{
 			$bits[] = $bit;
 		}
+	}
+
+	// Remove the parts we don't want...
+	if (isset($options['hide']))
+	{
+		$bits = array_remove_keys($bits, $options['hide']);
 	}
 
 	return json_encode($bits);
