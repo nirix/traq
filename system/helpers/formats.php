@@ -63,45 +63,36 @@ function to_json($data, $options = array())
  */
 function mime_type_for($extension)
 {
-	switch ($extension) {
-		case '.json':
-			return 'application/json';
-			break;
+	// Remove the first dot from the extension
+	if ($extension[0] == '.')
+	{
+		$extension = substr($extension, 1);
+	}
 
-		// CSS, obviously..
-		case '.css':
-			return 'text/css';
-			break;
+	$mime_types = array(
+		'json' => 'application/json',
+		'css'  => 'text/css',
+		'js'   => 'text/javascript',
+		'rss'  => 'application/rss+xml',
+		'xml'  => 'application/xml',
+	);
 
-		// JavaScript
-		case '.js':
-			return 'text/javascript';
-			break;
-
-		// RSS
-		case '.rss':
-			return 'application/rss+xml';
-			break;
-
-		// XML *shudders*
-		case '.xml':
-			return 'application/xml';
-			break;
-
+	switch ($extension)
+	{
 		// Let's force these as plain text
-		case '.rb':  // Ruby
-		case '.php': // PHP
-		case '.pl':  // Perl
-		case '.py':  // Python
-		case '.h':   // Header file
-		case '.c':   // C file
-		case '.cpp': // C++ File
+		case 'rb':  // Ruby
+		case 'php': // PHP
+		case 'pl':  // Perl
+		case 'py':  // Python
+		case 'h':   // Header file
+		case 'c':   // C file
+		case 'cpp': // C++ File
 			return "text/plain";
 			break;
 		
-		// Unknown
+		// Other
 		default:
-			return false;
+			return isset($mime_types[$extension]) ? $mime_types[$extension] : false;
 			break;
 	}
 }
