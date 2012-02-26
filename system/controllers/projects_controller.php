@@ -87,7 +87,7 @@ class ProjectsController extends AppController
 		// Fetch the different days with a nicely formatted
 		// query for everyone to read easily, unlike the one
 		// from 2.x and eariler.
-		$days_query = Database::driver()->query("
+		$days_query = Database::connection()->query("
 			SELECT
 			DISTINCT
 				YEAR(timestamp) AS 'year',
