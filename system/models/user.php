@@ -144,4 +144,16 @@ class User extends Model
 		
 		return !count($errors) > 0;
 	}
+
+	/**
+	 * Returns an array of the users data.
+	 *
+	 * @return array
+	 */
+	public function __toArray()
+	{
+		$data = $this->_data;
+		unset($data['password'], $data['login_hash']);
+		return $data;
+	}
 }

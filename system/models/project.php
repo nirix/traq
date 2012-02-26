@@ -122,4 +122,16 @@ class Project extends Model
 	{
 		$this->_data['private_key'] = random_hash();
 	}
+
+	/**
+	 * Returns an array of the project data.
+	 *
+	 * @return array
+	 */
+	public function __toArray()
+	{
+		$data = $this->_data;
+		unset($data['private_key']);
+		return $data;
+	}
 }
