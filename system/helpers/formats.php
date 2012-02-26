@@ -19,29 +19,6 @@
  */
 
 /**
- * Returns the mime type for the specified extension.
- *
- * @param string $extension
- *
- * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
- * @subpackage Helpers
- */
-function mime_type_for($extension)
-{
-	switch ($extension) {
-		case '.json':
-			return 'application/json';
-			break;
-		
-		default:
-			return false;
-			break;
-	}
-}
-
-/**
  * Returns the json encoded version of the passed array.
  *
  * @param array $data
@@ -72,4 +49,59 @@ function to_json($data, $options = array())
 	}
 
 	return json_encode($bits);
+}
+
+/**
+ * Returns the mime type for the specified extension.
+ *
+ * @param string $extension
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
+ * @subpackage Helpers
+ */
+function mime_type_for($extension)
+{
+	switch ($extension) {
+		case '.json':
+			return 'application/json';
+			break;
+
+		// CSS, obviously..
+		case '.css':
+			return 'text/css';
+			break;
+
+		// JavaScript
+		case '.js':
+			return 'text/javascript';
+			break;
+
+		// RSS
+		case '.rss':
+			return 'application/rss+xml';
+			break;
+
+		// XML *shudders*
+		case '.xml':
+			return 'application/xml';
+			break;
+
+		// Let's force these as plain text
+		case '.rb':  // Ruby
+		case '.php': // PHP
+		case '.pl':  // Perl
+		case '.py':  // Python
+		case '.h':   // Header file
+		case '.c':   // C file
+		case '.cpp': // C++ File
+			return "text/plain";
+			break;
+		
+		// Unknown
+		default:
+			return false;
+			break;
+	}
 }
