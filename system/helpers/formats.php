@@ -19,9 +19,9 @@
  */
 
 /**
- * Returns the json encoded version of the passed array.
+ * Returns the json encoded version of the passed data.
  *
- * @param array $data
+ * @param mixed $data
  * @param array $options
  *
  * @author Jack P.
@@ -32,6 +32,11 @@
 function to_json($data, $options = array())
 {
 	$bits = array();
+
+	if (!is_array($data))
+	{
+		$data = array($data);
+	}
 
 	foreach ($data as $bit)
 	{
