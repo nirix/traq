@@ -34,18 +34,18 @@ class AppController extends Controller
 	
 	public function __construct()
 	{
+		View::$theme = 'default';
 		parent::__construct();
 		
 		$this->title(settings('title'));
 		
 		// Load helpers
-		Load::helper('html', 'errors', 'form', 'js');
+		Load::helper('html', 'errors', 'form', 'js', 'formats');
 		
 		// Get the user info
 		$this->_get_user();
 		
 		// Set the theme, title and pass the app object to the view.
-		View::$theme = 'default';
 		View::set('traq', $this);
 		
 		// Check if we're on a project page and get the project info
@@ -71,23 +71,6 @@ class AppController extends Controller
 		}
 		
 		$this->title[] = $add;
-	}
-	
-	/**
-	 * Used to display the 404 page.
-	 * 
-	 * @author Jack P.
-	 * @since 3.0
-	 */
-	public function show_404()
-	{
-		// Send the request to the view and
-		// change the view file to error/404.php
-		// and disable the calling of the routed
-		// controller method.
-		View::set('request', Request::url());
-		$this->_render['view'] = 'error/404';
-		$this->_render['action'] = false;
 	}
 
 	/**
@@ -134,7 +117,7 @@ class AppController extends Controller
 	{
 		if (Request::is_ajax())
 		{
-			$this->_render['layout'] = 'ajax';
+			$this->_render['layout'] = 'plain';
 			$this->_render['view'] = $this->_render['view'] . (isset(Request::$request['overlay']) ? '.overlay' : '.js');
 		}
 		
