@@ -49,7 +49,9 @@ class AppController extends Controller
 		View::set('traq', $this);
 		
 		// Check if we're on a project page and get the project info
-		if ($this->project = is_project(Request::seg(0)) and $this->user->permission($this->project->id, 'view'))
+		if (isset(Router::$params['project_slug'])
+		and $this->project = is_project(Router::$params['project_slug'])
+		and $this->user->permission($this->project->id, 'view'))
 		{
 			$this->title($this->project->name);
 			View::set('project', $this->project);
