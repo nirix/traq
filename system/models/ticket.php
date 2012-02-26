@@ -78,4 +78,25 @@ class Ticket extends Model
 			return false;
 		}
 	}
+
+	/**
+	 * Returns the ticket data as an array.
+	 *
+	 * @return array
+	 */
+	public function __toArray()
+	{
+		$data = $this->_data;
+		$data['project'] = $this->project->__toArray();
+		$data['user'] = $this->user->__toArray();
+		$data['milestone'] = $this->milestone->__toArray();
+		$data['component'] = $this->component->__toArray();
+		$data['status'] = $this->status->__toArray();
+		$data['type'] = $this->type->__toArray();
+
+		unset($data['project']['info']);
+		unset($data['milestone']['info']);
+
+		return $data;
+	}
 }
