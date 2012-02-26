@@ -69,6 +69,7 @@ function mime_type_for($extension)
 		$extension = substr($extension, 1);
 	}
 
+	// Mime Types, because, you know....
 	$mime_types = array(
 		'json' => 'application/json',
 		'css'  => 'text/css',
@@ -77,22 +78,31 @@ function mime_type_for($extension)
 		'xml'  => 'application/xml',
 	);
 
-	switch ($extension)
+	// Check if it's in the allowed mime types array
+	if (isset($mime_types[$extension]))
 	{
-		// Let's force these as plain text
-		case 'rb':  // Ruby
-		case 'php': // PHP
-		case 'pl':  // Perl
-		case 'py':  // Python
-		case 'h':   // Header file
-		case 'c':   // C file
-		case 'cpp': // C++ File
-			return "text/plain";
-			break;
-		
-		// Other
-		default:
-			return isset($mime_types[$extension]) ? $mime_types[$extension] : false;
-			break;
+		return $mime_types[$extension];
 	}
+
+	// These are the files we want to force to be
+	// plain text, we don't want them running on the server.
+	$plain_text = array(
+		'rb',  // Ruby, my favorite, so it's at the top
+		'php', // PHP, not my favorite, should be at the bottom
+		'pl',  // Perl
+		'py',  // Python
+		'h',   // Header file
+		'c',   // C file
+		'cpp'  // C++ file
+	);
+
+	// Check if its in the plain text array
+	if (isset($plain_text[$plain_text]))
+	{
+		return 'text/plain';
+	}
+
+	// Unknown extension, at least at this time,
+	// or as Leonard McCoy would say, "Damn it Jim, I'm a Doctor not a File extension!".
+	return false;
 }
