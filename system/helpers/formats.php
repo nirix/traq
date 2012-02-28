@@ -33,6 +33,10 @@ Load::helper('array');
  */
 function to_json($data, $options = array())
 {
+	// Merge options with defaults
+	$defaults = array('hide' => array('password', 'login_hash', 'api_key', 'private_key'));
+	$options = array_merge($defaults, $options);
+
 	$bits = array();
 
 	if (!is_array($data))
@@ -42,17 +46,7 @@ function to_json($data, $options = array())
 
 	foreach ($data as $bit)
 	{
-		// Check if the bit is an object and can be turned into an array
-		if (is_object($bit) and method_exists($bit, '__toArray'))
-		{
-			$bits[] = $bit->__toArray();
-		}
-		// Just throw it into the bits array and
-		// let the json_encode fuction handle it
-		else
-		{
-			$bits[] = $bit;
-		}
+		$bits[] = to_array($bit);
 	}
 
 	// Remove the parts we don't want...
