@@ -126,11 +126,13 @@ class Project extends Model
 	/**
 	 * Returns an array of the project data.
 	 *
+	 * @param array $fields Fields to return
+	 *
 	 * @return array
 	 */
-	public function __toArray()
+	public function __toArray($fields = null)
 	{
-		$data = $this->_data;
+		$data = parent::__toArray($fields);
 		unset($data['private_key']);
 		return $data;
 	}

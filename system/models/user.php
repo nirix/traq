@@ -148,11 +148,13 @@ class User extends Model
 	/**
 	 * Returns an array of the users data.
 	 *
+	 * @param array $fields Fields to return
+	 *
 	 * @return array
 	 */
-	public function __toArray()
+	public function __toArray($fields = null)
 	{
-		$data = $this->_data;
+		$data = parent::__toArray($fields);
 		unset($data['password'], $data['email'], $data['login_hash']);
 		return $data;
 	}

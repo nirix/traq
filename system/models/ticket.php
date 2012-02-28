@@ -82,32 +82,33 @@ class Ticket extends Model
 	/**
 	 * Returns the ticket data as an array.
 	 *
+	 * @param array $fields Fields to return
+	 *
 	 * @return array
 	 */
-	public function __toArray()
+	public function __toArray($fields = null)
 	{
-		$data = $this->_data;
+		$data = parent::__toArray($fields);
 
 		// Extra data to fetch
-		$extras = array(
-			'project', 'user', 'milestone',
-			'component', 'status', 'type'
+		$relations = array(
+			'project' => array('id', 'name'),
+			'user' => array('id', 'username', 'name'),
+			'milestone' => array('id', 'name', 'is_completed'),
+			'component' => array('id', 'name'),
+			'status' => array('id', 'name'),
+			'type' => array('id', 'name')
 		);
 
-		// Loop over the extra data array
-		foreach ($extras as $extra)
+		// Loop over the relations
+		foreach ($relations as $name => $fields)
 		{
-			// Add the extra data and remove its ID
+			// Add the relation data and remove its ID
 			// from the main array
-			$data[$extra] = $this->$extra->__toArray();
-			unset($data[$extra . '_id']);
+			$data[$name] = $this->$name->__toArray($fields);
+			unset($data[$name . '_id']);
 		}
-
-		// Unset the info fields for the
-		// project and milestone
-		unset($data['project']['info']);
-		unset($data['milestone']['info']);
-
+		
 		return $data;
 	}
 }
