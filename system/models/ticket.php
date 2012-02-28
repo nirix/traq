@@ -18,6 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Ticket model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
 class Ticket extends Model
 {
 	protected static $_name = 'tickets';
@@ -35,7 +43,7 @@ class Ticket extends Model
 		'status_id',
 		'priority_id',
 		'severity_id',
-		'assignee_id',
+		'assigned_to_id',
 		'is_closed',
 		'is_private',
 		'extra',
@@ -44,9 +52,11 @@ class Ticket extends Model
 	);
 	
 	protected static $_belongs_to = array(
-		'user', 'project', 'milestone', 'component',
-		'status' => array('model' => 'ticketstatus'),
-		'type' => array('model' => 'tickettype'),
+		'user', 'project', 'milestone', 'component', 'priority',
+		'assigned_to' => array('model' => 'user'),
+		'version'     => array('model' => 'milestone'),
+		'status'      => array('model' => 'ticketstatus'),
+		'type'        => array('model' => 'tickettype')
 	);
 	
 	/**
@@ -92,12 +102,15 @@ class Ticket extends Model
 
 		// Extra data to fetch
 		$relations = array(
-			'project' => array('id', 'name'),
-			'user' => array('id', 'username', 'name'),
-			'milestone' => array('id', 'name', 'is_completed'),
-			'component' => array('id', 'name'),
-			'status' => array('id', 'name'),
-			'type' => array('id', 'name')
+			'project'     => array('id', 'name'),
+			'user'        => array('id', 'username', 'name'),
+			'assigned_to' => array('id', 'username', 'name'),
+			'milestone'   => array('id', 'name'),
+			'version'     => array('id', 'name'),
+			'component'   => array('id', 'name'),
+			'status'      => array('id', 'name'),
+			'priority'    => null,
+			'type'        => array('id', 'name'),
 		);
 
 		// Loop over the relations
@@ -105,10 +118,10 @@ class Ticket extends Model
 		{
 			// Add the relation data and remove its ID
 			// from the main array
-			$data[$name] = $this->$name->__toArray($fields);
+			$data[$name] = $this->$name ? $this->$name->__toArray($fields) : null;
 			unset($data[$name . '_id']);
 		}
-		
+
 		return $data;
 	}
 }
