@@ -52,7 +52,10 @@ class Ticket extends Model
 	);
 	
 	protected static $_belongs_to = array(
-		'user', 'project', 'milestone', 'component', 'priority',
+		'user', 'project', 'milestone', 'component',
+		'priority', 'severity',
+
+		// Relations with different models and such
 		'assigned_to' => array('model' => 'user'),
 		'version'     => array('model' => 'milestone'),
 		'status'      => array('model' => 'ticketstatus'),
@@ -109,7 +112,8 @@ class Ticket extends Model
 			'version'     => array('id', 'name'),
 			'component'   => array('id', 'name'),
 			'status'      => array('id', 'name'),
-			'priority'    => null,
+			'priority'    => array('id', 'name'),
+			'severity'    => array('id', 'name'),
 			'type'        => array('id', 'name'),
 		);
 
