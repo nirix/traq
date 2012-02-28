@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -87,13 +87,24 @@ class Ticket extends Model
 	public function __toArray()
 	{
 		$data = $this->_data;
-		$data['project'] = $this->project->__toArray();
-		$data['user'] = $this->user->__toArray();
-		$data['milestone'] = $this->milestone->__toArray();
-		$data['component'] = $this->component->__toArray();
-		$data['status'] = $this->status->__toArray();
-		$data['type'] = $this->type->__toArray();
 
+		// Extra data to fetch
+		$extras = array(
+			'project', 'user', 'milestone',
+			'component', 'status', 'type'
+		);
+
+		// Loop over the extra data array
+		foreach ($extras as $extra)
+		{
+			// Add the extra data and remove its ID
+			// from the main array
+			$data[$extra] = $this->$extra->__toArray();
+			unset($data[$extra . '_id']);
+		}
+
+		// Unset the info fields for the
+		// project and milestone
 		unset($data['project']['info']);
 		unset($data['milestone']['info']);
 

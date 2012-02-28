@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -153,7 +153,7 @@ class User extends Model
 	public function __toArray()
 	{
 		$data = $this->_data;
-		unset($data['password'], $data['login_hash']);
+		unset($data['password'], $data['email'], $data['login_hash']);
 		return $data;
 	}
 }
