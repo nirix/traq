@@ -37,25 +37,19 @@ function to_json($data, $options = array())
 	$defaults = array('hide' => array('password', 'login_hash', 'api_key', 'private_key'));
 	$options = array_merge($defaults, $options);
 
-	$bits = array();
-
+	// Convert the data to an array, if possible..
 	if (!is_array($data))
 	{
-		$data = array($data);
-	}
-
-	foreach ($data as $bit)
-	{
-		$bits[] = to_array($bit);
+		$data = to_array($data);
 	}
 
 	// Remove the parts we don't want...
-	if (isset($options['hide']))
+	if (isset($options['hide']) and is_array($data))
 	{
-		$bits = array_remove_keys($bits, $options['hide']);
+		$data = array_remove_keys($data, $options['hide']);
 	}
 
-	return json_encode($bits);
+	return json_encode($data);
 }
 
 /**
