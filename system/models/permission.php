@@ -29,22 +29,13 @@
 class Permission extends Model
 {
 	protected static $_name = 'permissions';
-
-	/*
-	This is what the permission table may look like soon,
-	store each permission as its own row to allow for even more
-	permission inheritance.
-
-	Also to make it easier plugins to add permissions.
-
-	protected static $_properties => array(
+	protected static $_properties = array(
 		'id',
 		'group_id',
 		'project_id',
 		'action',
 		'value'
 	);
-	*/
 
 	/**
 	 * Returns the permissions for the group and project.
@@ -56,18 +47,51 @@ class Permission extends Model
 	 */
 	public static function get_permissions($group_id, $project_id = 0)
 	{
-		// Query the permissions table
-		$project_permissions = static::select()->where('group_id', $group_id)->where('project_id', $project_id)->exec();
+		// Fetch the permission rows and merge them with the defaults
+		$rows = static::select()->where('group_id', $group_id)->where('project_id', $project_id)->exec()->fetch_all();
+		$rows = array_merge(static::defaults($group_id), $rows);
 
-		// Check if theres a permission set for this project..
-		if ($project_permissions->row_count())
+		// Loop over the permissions and make it
+		// easy to access the permission values.
+		$permissions = array();
+		foreach ($rows as $permission)
 		{
-			return $project_permissions->fetch()->__toArray();
+			$permissions[$permission->action] = $permission->value;
 		}
-		// Nope, fetch default set
-		else
+
+		// And return them...
+		return $permissions;
+	}
+
+	/**
+	 * Returns the default permissions.
+	 *
+	 * @param integer $group_id
+	 *
+	 * @return array
+	 */
+	public static function defaults($group_id = 0)
+	{
+		// Fetch the defaults
+		$defaults = static::select()->where('group_id', $group_id)->exec()->fetch_all();
+
+		// If we're fetching a specific group,
+		// also fetch the defaults for all groups.
+		if ($group_id > 0)
 		{
-			return static::select()->where('group_id', $group_id)->where('project_id', 0)->exec()->fetch()->__toArray();
+			$defaults = array_merge(static::defaults(), $defaults);
 		}
+
+		// Loop over the defaults and push them to a new array
+		// this will stop duplicates from the overall defaults
+		// and the defaults for specific groups.
+		$permissions = array();
+		foreach ($defaults as $permission)
+		{
+			$permissions[$permission->action] = $permission;
+		}
+
+		// And return them...
+		return $defaults;
 	}
 }
