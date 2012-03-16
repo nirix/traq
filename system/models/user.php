@@ -44,6 +44,8 @@ class User extends Model
 	protected static $_filters_before = array(
 		'create' => array('_before_create')
 	);
+
+	protected $permissions = array();
 	
 	/**
 	 * Returns the URI for the users profile.
@@ -65,7 +67,15 @@ class User extends Model
 	 */
 	public function permission($project_id, $action)
 	{
-		return true;
+		// Check if the projects permissions has been fetched
+		// if not, fetch them.
+		if (!isset($this->permissions[$project_id]))
+		{
+			$this->permissions[$project_id] = Permission::get_permissions($this->_data['group_id'], $project_id);
+		}
+
+		// Return the permission for the specified action
+		return $this->permissions[$project_id][$action];
 	}
 
 	/**
