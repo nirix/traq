@@ -37,7 +37,8 @@ Database::init();
 $locale = Locale::load(settings('locale'));
 
 // Load the plugins
-$plugins = Database::connection()->select('file')->from('plugins')->exec()->fetch_all();
+require APPPATH . '/libraries/plugin_base.php';
+$plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
 foreach ($plugins as $plugin)
 {
 	$path = APPPATH . "/plugins/{$plugin['file']}.plugin.php";

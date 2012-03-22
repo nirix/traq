@@ -56,7 +56,7 @@ class FishHook
 	{
 		if (!is_array($params))
 		{
-			$data = array(&$params);
+			$params = array(&$params);
 		}
 		
 		// Make sure the hook index exists
@@ -68,7 +68,7 @@ class FishHook
 		// Run the hook
 		foreach (static::$_plugins[$hook] as $plugin)
 		{
-			call_user_func_array($plugin, &$data);
+			call_user_func_array($plugin, &$params);
 		}
 	}
 }

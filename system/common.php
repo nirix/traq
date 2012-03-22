@@ -83,7 +83,7 @@ function format_text($text, $strip_html = true)
 {
 	$text = $strip_html ? htmlspecialchars($text) : $text;
 	
-	FishHook::run('function:format_text', &$text);
+	FishHook::run('function:format_text', array(&$text, $strip_html));
 	
 	return $text;
 }
