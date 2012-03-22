@@ -34,17 +34,16 @@ class AdminPluginsController extends AdminBase
 	{
 		$this->title(l('plugins'));
 
-		// Array to hold plugins
-		$plugins = array('enabled' => array(), 'disabled' => array());
-		
-		// Fetch enabled plugins
-		$enabled_plugins = array();
-		$rows = $this->db->select('file')->from('plugins')->exec()->fetch_all();
-		foreach ($rows as $row)
+		$plugins = array(
+			'enabled' => array(),
+			'disabled' => array()
+		);
+
+		foreach ($this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all() as $plugin)
 		{
-			$enabled_plugins[] = $row['file'];
+			$plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, array('installed' => true));
 		}
-		
+
 		// Scan the plugin directory
 		$plugins_dir = APPPATH . '/plugins/';
 		if (is_dir($plugins_dir)) {
@@ -59,22 +58,29 @@ class AdminPluginsController extends AdminBase
 
 				// If the plugin isn't enabled, fetch the plugin
 				// file and then call the info() method.
-				if (!in_array($match[1], $enabled_plugins))
+				if (!isset($plugins['enabled'][$match[1]]))
 				{
 					require $plugins_dir . "{$match[1]}.plugin.php";
 					$class = "Plugin_{$match[1]}";
-					$plugins['disabled'][] = array_merge($class::info(), array('file' => $match[1]));
+					$plugins['disabled'][$match[1]] = array_merge(
+						$class::info(),
+						array(
+							'installed' => isset($plugins['disabled'][$match[1]]),
+							'enabled' => false,
+							'file' => $match[1]
+						)
+					);
 				}
 				// It's enabled, only call the info() method.
 				else
 				{
 					$class = "Plugin_{$match[1]}";
-					$plugins['enabled'][] = array_merge($class::info(), array('file' => $match[1]));
+					$key = isset($plugins['enabled'][$match[1]]) ? 'enabled' : 'disabled';
+					$plugins[$key][$match[1]] = array_merge($class::info(), $plugins[$key][$match[1]]);
 				}
 			}
 		}
-		
-		View::set('enabled_plugins', $enabled_plugins);
+
 		View::set('plugins', $plugins);
 	}
 	
@@ -85,8 +91,6 @@ class AdminPluginsController extends AdminBase
 	 */
 	public function action_enable($file)
 	{
-		$this->db->insert(array('file' => $file))->into('plugins')->exec();
-		Request::redirect(Request::base('/admin/plugins'));
 	}
 	
 	/**
@@ -96,7 +100,5 @@ class AdminPluginsController extends AdminBase
 	 */
 	public function action_disable($file)
 	{
-		$this->db->delete()->from('plugins')->where('file', $file)->exec();
-		Request::redirect(Request::base('/admin/plugins'));
 	}
 }

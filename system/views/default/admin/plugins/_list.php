@@ -12,10 +12,15 @@
 			<td><?php echo $plugin['author'] ? $plugin['author'] : ''; ?></td>
 			<td><?php echo $plugin['version']; ?></td>
 			<td>
-				<?php if (in_array($plugin['file'], $enabled_plugins)) {
+				<?php if ($plugin['installed'] and $plugin['enabled']) {
 					echo HTML::link(l('disable'), "/admin/plugins/disable/{$plugin['file']}", array('class' => 'button_disable'));
-				} else if (!in_array($plugin['file'], $enabled_plugins)) {
+				} elseif ($plugin['installed'] and !$plugin['enabled']) {
 					echo HTML::link(l('enable'), "/admin/plugins/enable/{$plugin['file']}", array('class' => 'button_enable'));
+				} ?>
+				<?php if ($plugin['installed']) {
+					echo HTML::link(l('uninstall'), "/admin/plugins/uninstall/{$plugin['file']}", array('class' => 'button_disable'));
+				} else {
+					echo HTML::link(l('install'), "/admin/plugins/install/{$plugin['file']}", array('class' => 'button_enable'));
 				} ?>
 			</td>
 		</tr>

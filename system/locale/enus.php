@@ -115,6 +115,8 @@ class Locale_enUS extends Locale
 			'date_time_format' => "Date/Time Format",
 			'timeline_day_format' => "Timeline Day Format",
 			'timeline_time_format' => "Timeline Time Format",
+			'install' => 'Install',
+			'uninstall' => 'Uninstall',
 
 			// Project settings
 			'new_milestone' => "New Milestone",
@@ -166,9 +168,9 @@ class Locale_enUS extends Locale
 				"Timeline", // used for l('timeline')
 				
 				// l('timeline.ticket_created') and so on
-				'ticket_created' => "$3 #$2 ($1) created",
-				'ticket_closed' => "$3 #$2 ($1) closed as $4",
-				'ticket_reopened' => "$3 #$2 ($1) reopened as $4",
+				'ticket_created' => '$3 #$2 ($1) created',
+				'ticket_closed' => '$3 #$2 ($1) closed as $4',
+				'ticket_reopened' => '$3 #$2 ($1) reopened as $4',
 				'by_x' => "by $1"
 			),
 
