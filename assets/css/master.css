@@ -323,7 +323,7 @@ h3.list_title {
 .list th.fixed_username, .list th.fixed_name {
   width: 200px; }
 .list th.actions, .list th.fixed_repo_slug {
-  width: 120px; }
+  width: 140px; }
 
 /* ==========# Sexy Buttons #========== */
 .button_new, .button_edit, .button_delete,
