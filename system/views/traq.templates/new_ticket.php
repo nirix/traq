@@ -130,7 +130,7 @@
 			<?php } ?>
 			
 			<p id="buttons">
-				<input type="submit" value="Create Ticket" />
+				<input type="submit" value="<?php echo l('create_ticket'); ?>" />
 			</p>
 		</form>
 		<script type="text/javascript">

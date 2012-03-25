@@ -38,8 +38,8 @@
 					<ul>
 					<?php foreach($ticket['attachments'] as $attachment) { ?>
 						<li>
-							<?php if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?><form action="<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>" method="post"><?php } ?>
-							<strong><a href="<?php echo $uri->anchor($project['slug'],'attachment-'.$attachment['id'])?>"><?php echo $attachment['name']?></a></strong> added by <?php echo $attachment['owner_name']?> <?php echo timesince($attachment['uploaded'])?> ago.
+							<?php if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?><form action="<?php echo $uri->anchor($project['slug'],'ticket-'.$ticket['ticket_id'])?>" method="post" onsubmit="if(confirm('<?php echo l('confirm_delete_attachment'); ?>')){return true;} else {return false;}"><?php } ?>
+							<strong><a href="<?php echo $uri->anchor($project['slug'],'attachment-'.$attachment['id'])?>"><?php echo $attachment['name']?></a></strong> <?php echo l('added_by_x_x_ago', $attachment['owner_name'], timesince($attachment['uploaded'])); ?>.
 							<?php if($user->group['is_admin'] or in_array($user->info['id'],$project['managers'])) { ?><input type="hidden" name="action" value="delete_attachment" /><input type="hidden" name="attach_id" value="<?php echo $attachment['id']?>" /><input type="submit" value="<?php echo l('delete')?>" /></form><?php } ?>
 						</li>
 					<?php } ?>

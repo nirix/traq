@@ -21,7 +21,7 @@
 					<?php if($milestone['due'] == 0 && $milestone['completed'] == 0) { ?>
 					
 					<?php } elseif($milestone['completed'] > 0) { ?>
-					<?php echo l('completed_on_x',date("d/m/Y",$project['completed']))?>
+					<?php echo l('completed_on_x',date("d/m/Y",$milestone['completed']))?>
 					<?php } elseif($milestone['due'] <= time()) { ?>
 					<?php echo l('x_late',timesince($milestone['due'],true))?>
 					<?php } elseif($milestone['due'] > time()) { ?>

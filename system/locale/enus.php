@@ -121,6 +121,9 @@ $lang['x_timeline'] = '{1} Timeline';
 $lang['x_tickets'] = '{1} Tickets';
 $lang['x_ago_by_x'] = '{1} ago by {2}';
 $lang['charts'] = 'Charts';
+$lang['added_by_x_x_ago'] = 'added by {1} {2} ago';
+$lang['create_ticket'] = 'Create Ticket';
+$lang['confirm_delete_attachment'] = 'Are you sure you want to delete this attachment?';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';
