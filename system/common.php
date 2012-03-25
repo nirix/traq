@@ -690,7 +690,8 @@ function send_notification($type,$data=array())
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
 					l('notification_'.$data['type'],$info['username'],$project['name'],$data['tid'],$data['summary'],$data['url']),
-					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">\r\n" .
+					"Content-type: text/html; charset=utf-8"
 				);
 			}
 		}
@@ -707,7 +708,8 @@ function send_notification($type,$data=array())
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
 					l('notification_'.$data['type'],$info['username'],$project['name'],$data['name'],$data['url']),
-					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">\r\n" .
+					"Content-type: text/html; charset=utf-8"
 				);
 			}
 		}
@@ -728,7 +730,8 @@ function send_notification($type,$data=array())
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
 					l('notification_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
-					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">\r\n" .
+					"Content-type: text/html; charset=utf-8"
 				);
 			}
 		}
@@ -749,7 +752,8 @@ function send_notification($type,$data=array())
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
 					l('notification_'.$data['type'],$info['username'],$project['name'],$data['id'],$data['summary'],$data['url']),
-					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">\r\n" .
+					"Content-type: text/html; charset=utf-8"
 				);
 			}
 		}
@@ -766,7 +770,8 @@ function send_notification($type,$data=array())
 				mail($info['email'],
 					l('x_x_notification',settings('title'),$project['name']),
 					l('notification_'.$data['type'],$info['username'],$project['name'],$data['name'],$data['url']),
-					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">"
+					"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">\r\n" .
+					"Content-type: text/html; charset=utf-8"
 				);
 			}
 		}
