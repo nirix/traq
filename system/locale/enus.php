@@ -108,9 +108,12 @@ $lang['Unwatch_this_milestone'] = 'Unwatch this milestone';
 $lang['Reset_Password'] = 'Reset Password';
 $lang['Reset'] = 'Reset';
 $lang['x_password_reset'] = '{1} Password Reset';
+$lang['passreset_instructions_sent'] = 'Reset instructions have been sent to accounts email address.';
 $lang['password_reset_message'] = 'Hello {1}, you or someone requested a password reset for your account.'."\r\n\r\n".
 	'Please follow the URL below to reset your password:'."\r\n".
 	'http://'.$_SERVER['HTTP_HOST'].$uri->anchor('user','resetpass?hash={2}');
+$lang['new_password_is_x_login_and_change_asap'] = 'Your new password is <code>{1}</code>.<br />
+	Login and change it immediately.';
 $lang['Wiki'] = 'Wiki';
 $lang['completed_on_x'] = 'Completed on {1}';
 $lang['All'] = 'All';

@@ -12,7 +12,7 @@
 		<h1><?php echo l('Reset_Password')?></h1>
 		
 		<?php if(isset($reset) and $reset) { ?>
-		<p align="center">Reset instructions have been sent to accounts email address.</p>
+		<p align="center"><?php echo l('passreset_instructions_sent'); ?></p>
 		<?php } ?>
 		
 		<form action="<?php echo $uri->anchor('user','resetpass')?>" method="post">

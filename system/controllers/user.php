@@ -137,7 +137,7 @@ elseif($uri->seg(1) == "usercp")
 	include(template('user/usercp'));
 }
 // Reset Password
-elseif($uri->seg(1) == 'resetpass')
+elseif($uri->seg(1) == 'resetpass' and !isset($_REQUEST['hash']))
 {
 	// Reset
 	if(isset($_REQUEST['action']) && $_POST['action'] == 'update')
@@ -167,7 +167,7 @@ elseif($uri->seg(1) == 'resetpass')
 			
 			// Send the email.
 			$userinfo = $db->fetcharray($fetchuser);
-			mail($userinfo['email'],l('x_password_reset',settings('title')),l('password_reset_message',$userinfo['name'],$reset),"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">");
+			mail($userinfo['email'],l('x_password_reset',settings('title')),l('password_reset_message',$userinfo['name'],$reset),"From: ".settings('title')." <noreply@".$_SERVER['HTTP_HOST'].">\r\nContent-type: text/html; charset=utf-8");
 			$sent = true;
 		}
 		else
@@ -178,4 +178,15 @@ elseif($uri->seg(1) == 'resetpass')
 	
 	include(template('user/resetpass'));
 }
-?>
+// Reset password part 2
+elseif($uri->seg(1) == 'resetpass' && isset($_REQUEST['hash']))
+{
+	// Check if the hash is valid..
+	$fetchuser = $db->query("SELECT id FROM ".DBPF."users WHERE sesshash='RESET:". $db->res($_REQUEST['hash']) . "' LIMIT 1");
+	if($db->numrows($fetchuser))
+	{
+		$newpass = substr(sha1(time() . rand(0, 1000) . microtime() . $_REQUEST['hash']), 12);
+		$db->query("UPDATE ".DBPF."users SET password='" . sha1($newpass) . "', sesshash='RESETCOMPLETE" . sha1(rand(0, 1000) . microtime()) . "' WHERE sesshash='RESET:" . $db->res($_REQUEST['hash']) . "' LIMIT 1");
+		include(template('user/resetpass_complete'));
+	}
+}
