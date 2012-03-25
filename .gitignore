@@ -3,3 +3,4 @@
 .project
 system/config.php
 *.esproj/*
+.DS_Store
