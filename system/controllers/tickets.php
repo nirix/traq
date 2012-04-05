@@ -171,7 +171,7 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 				if(empty($value))
 					continue;
 				
-				$values[] = $db->res($value);
+				$values[] = "'" . $db->res($value) . "'";
 			}
 			
 			switch($filter['type'])
@@ -186,7 +186,9 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			}
 			
 			if(count($values))
-				$query .= "AND ".$type." ".iif(isset($filter['mode']) && $filter['mode'] == '!','not ')."in (".implode(',',$values).") ";
+			{
+				$query .= "AND {$type} " . iif(isset($filter['mode']) && $filter['mode'] == '!','not ') . "in (" . implode(',', $values) . ") ";
+			}
 		}
 		// Status filter
 		elseif($filter['type'] == 'status')
