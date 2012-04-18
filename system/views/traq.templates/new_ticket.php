@@ -54,7 +54,7 @@
 						<select name="assign_to">
 							<option value="0"></option>
 							<?php foreach(project_managers() as $manager) { ?>
-							<option value="<?php echo $manager['id']?>"><?php echo $manager['name']?></option>
+							<option value="<?php echo $manager['id']?>"<?php echo option_is_selected('assign_to', $manager['id'])?>><?php echo $manager['name']?></option>
 							<?php } ?>
 						</select>
 					</div>
@@ -62,7 +62,7 @@
 						<span><?php echo l('priority')?></span>
 						<select name="priority">
 							<?php foreach(ticket_priorities() as $priority) { ?>
-							<option value="<?php echo $priority['id']?>"<?php echo ($priority['id']=='3' ? ' selected="selected"' : '')?>><?php echo $priority['name']?></option>
+							<option value="<?php echo $priority['id']?>"<?php echo option_is_selected('priority', $priority['id'], 3)?>><?php echo $priority['name']?></option>
 							<?php } ?>
 						</select>
 					</div>
@@ -70,7 +70,7 @@
 						<span><?php echo l('severity')?></span>
 						<select name="severity">
 							<?php foreach(ticket_severities() as $severity) { ?>
-							<option value="<?php echo $severity['id']?>"<?php echo $severity['id']?>"<?php echo ($severity['id']=='4' ? ' selected="selected"' : '')?>><?php echo $severity['name']?></option>
+							<option value="<?php echo $severity['id']?>"<?php echo $severity['id']?>"<?php echo option_is_selected('severity', $severity['id'], 4)?>><?php echo $severity['name']?></option>
 							<?php } ?>
 						</select>
 					</div>
@@ -79,7 +79,7 @@
 						<select name="milestone">
 							<?php foreach(project_milestones() as $milestone) { ?>
 							<?php if(!$milestone['locked']) { ?>
-							<option value="<?php echo $milestone['id']?>"><?php echo $milestone['milestone']?></option>
+							<option value="<?php echo $milestone['id']?>"<?php echo option_is_selected('milestone', $milestone['id'])?>><?php echo $milestone['milestone']?></option>
 							<?php } ?>
 							<?php } ?>
 						</select>
@@ -89,7 +89,7 @@
 						<select name="version">
 							<option value="0"></option>
 							<?php foreach(project_milestones() as $version) { ?>
-							<option value="<?php echo $version['id']?>"><?php echo $version['milestone']?></option>
+							<option value="<?php echo $version['id']?>"<?php echo option_is_selected('version', $version['id'])?>><?php echo $version['milestone']?></option>
 							<?php } ?>
 						</select>
 					</div>
@@ -98,13 +98,13 @@
 						<select name="component">
 							<option value="0"><?php echo l('none')?></option>
 							<?php foreach(project_components() as $component) { ?>
-							<option value="<?php echo $component['id']?>"><?php echo $component['name']?></option>
+							<option value="<?php echo $component['id']?>"<?php echo option_is_selected('component', $component['id'])?>><?php echo $component['name']?></option>
 							<?php } ?>
 						</select>
 					</div>
 					<div class="property <?php echo altbg()?>">
 						<span><?php echo l('private_ticket')?></span>
-						<input type="checkbox" name="private" value="1" />
+						<input type="checkbox" name="private" value="1"<?php echo (@$_POST['private'] ? ' checked="checked"' : '')?> />
 					</div>
 					<?php foreach(custom_fields() as $field) { ?>
 					<div class="property <?php echo altbg()?>">
@@ -134,7 +134,9 @@
 			</p>
 		</form>
 		<script type="text/javascript">
-			traq.ticket.getTemplate();
+			if ($('#ticket_body').val() == '') {
+				traq.ticket.getTemplate();
+			}
 		</script>
 		<?php require(template('footer')); ?>
 	</body>

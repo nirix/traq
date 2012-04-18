@@ -320,12 +320,39 @@ function iif($condition, $true, $false='')
 }
 
 /**
+ *
+ *
+ *
+ */
+function option_is_selected($property, $value, $default = NULL)
+{
+	if ((isset($_POST[$property]) and $_POST[$property] == $value)
+	or (!isset($_POST[$property]) and $value == $default))
+	{
+		return ' selected="selected"';
+	}
+	else
+	{
+		return '';
+	}
+}
+
+/**
  * Ticket Sort Link
  * Used to create the sort URL for the tickets listing.
  */
 function ticket_sort_url($field)
 {
-	$_SERVER['QUERY_STRING'] = str_replace(array('&sort='.@$_REQUEST['sort'],'&order='.@$_REQUEST['order'],'sort='.@$_REQUEST['sort'],'order='.@$_REQUEST['order']),'',$_SERVER['QUERY_STRING']);
+	$_SERVER['QUERY_STRING'] = str_replace(
+		array(
+			'&sort='.@$_REQUEST['sort'],
+			'&order='.@$_REQUEST['order'],
+			'sort='.@$_REQUEST['sort'],
+			'order='.@$_REQUEST['order']
+			),
+		'',
+		$_SERVER['QUERY_STRING']
+	);
 	return '?'.($_SERVER['QUERY_STRING'] != '' ? $_SERVER['QUERY_STRING'].'&' : '').'sort='.$field.'&order='.(@$_REQUEST['order'] == 'desc' ? 'asc' : 'desc');
 }
 
