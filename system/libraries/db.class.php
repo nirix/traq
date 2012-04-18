@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+ * Copyright (C) 2009-2012 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -16,8 +16,6 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- *
- * $Id$
  */
 
 class Database
@@ -101,16 +99,17 @@ class Database
 	 */
 	public function escapestring($string)
 	{
-		return mysql_escape_string($string);
+		return $this->res($string);
 	}
 	
 	/**
 	 * Escape String Shortcut
 	 * Shortcut for escapestring
+	 * @deprecated
 	 */
 	public function es($string)
 	{
-		return $this->escapestring($string);
+		return $this->res($string);
 	}
 	
 	/**
@@ -168,4 +167,3 @@ class Database
 		error('Database','#'.$this->errno().': '.$this->error()."<br />".($query !== null ? $query : ''));
 	}
 }
-?>
