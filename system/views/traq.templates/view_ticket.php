@@ -165,7 +165,7 @@
 					</div>
 					<div class="property <?php echo altbg() ?>">
 						<span><?php echo l('summary')?></span>
-						<input type="text" name="summary" value="<?php echo $ticket['summary']?>" />
+						<input type="text" name="summary" value="<?php echo htmlspecialchars($ticket['summary'])?>" />
 					</div>
 					<?php ($hook = FishHook::hook('template_update_ticket_properties')) ? eval($hook) : false; ?>
 					<?php foreach(custom_fields() as $field) { ?>
