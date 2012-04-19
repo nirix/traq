@@ -1,7 +1,6 @@
 # ************************************************************
-# Sequel Pro SQL dump
 # Database: traq
-# Generation Time: 2012-02-23 16:44:04 +0000
+# Generation Time: 2012-04-19 22:31:39 +0000
 # ************************************************************
 
 
@@ -56,7 +55,9 @@ VALUES
 	(1,'Core',1,1),
 	(2,'Settings',0,1),
 	(3,'Core',0,2),
-	(4,'Tickets',0,1);
+	(4,'Tickets',0,1),
+	(5,'Locale',0,1),
+	(6,'Plugins',0,1);
 
 /*!40000 ALTER TABLE `traq_components` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -113,6 +114,37 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table traq_permissions
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `traq_permissions`;
+
+CREATE TABLE `traq_permissions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(20) NOT NULL DEFAULT '0',
+  `project_id` bigint(20) NOT NULL DEFAULT '0',
+  `action` varchar(255) NOT NULL DEFAULT '',
+  `value` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `traq_permissions` WRITE;
+/*!40000 ALTER TABLE `traq_permissions` DISABLE KEYS */;
+
+INSERT INTO `traq_permissions` (`id`, `group_id`, `project_id`, `action`, `value`)
+VALUES
+	(1,0,0,'view',1),
+	(2,0,0,'create_wiki_page',0),
+	(3,0,0,'edit_wiki_page',0),
+	(4,0,0,'delete_wiki_page',0),
+	(5,1,0,'create_wiki_page',1),
+	(6,1,0,'edit_wiki_page',1),
+	(7,1,0,'delete_wiki_page',1);
+
+/*!40000 ALTER TABLE `traq_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # Dump of table traq_plugins
 # ------------------------------------------------------------
 
@@ -120,16 +152,17 @@ DROP TABLE IF EXISTS `traq_plugins`;
 
 CREATE TABLE `traq_plugins` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `file` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `traq_plugins` WRITE;
 /*!40000 ALTER TABLE `traq_plugins` DISABLE KEYS */;
 
-INSERT INTO `traq_plugins` (`id`, `file`)
+INSERT INTO `traq_plugins` (`id`, `file`, `enabled`)
 VALUES
-	(4,'markdown');
+	(4,'markdown',1);
 
 /*!40000 ALTER TABLE `traq_plugins` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -173,19 +206,20 @@ CREATE TABLE `traq_projects` (
   `codename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `info` longtext COLLATE utf8_unicode_ci NOT NULL,
   `managers` mediumtext COLLATE utf8_unicode_ci NOT NULL,
-  `private` smallint(6) NOT NULL,
+  `is_private` smallint(6) NOT NULL,
   `next_tid` bigint(20) NOT NULL,
   `displayorder` bigint(20) NOT NULL,
+  `private_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `traq_projects` WRITE;
 /*!40000 ALTER TABLE `traq_projects` DISABLE KEYS */;
 
-INSERT INTO `traq_projects` (`id`, `name`, `slug`, `codename`, `info`, `managers`, `private`, `next_tid`, `displayorder`)
+INSERT INTO `traq_projects` (`id`, `name`, `slug`, `codename`, `info`, `managers`, `is_private`, `next_tid`, `displayorder`, `private_key`)
 VALUES
-	(1,'Test','test','','_This_ is a **project**.\r\n\r\n    With _some_ code\r\n    and some more code.\r\n\r\n#### Lists!\r\n\r\n- And\r\n- Some\r\n   1. _Pretty_\r\n   2. **Awesome**\r\n- Lists','1',0,1,0),
-	(2,'Another test','another-test','','','1',0,1,0);
+	(1,'Test','test','','_This_ is a **project**.\r\n\r\n<strong>WOOT</strong>\r\n\r\n    With _some_ code\r\n    and some more code.\r\n    <strong>YEAH</strong>\r\n\r\n#### Lists!\r\n\r\n- And\r\n- Some\r\n   1. _Pretty_\r\n   2. **Awesome**\r\n- Lists','1',0,1,0,'asd123'),
+	(2,'Another test','another-test','','','1',0,1,0,'abc321');
 
 /*!40000 ALTER TABLE `traq_projects` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -250,11 +284,9 @@ CREATE TABLE `traq_repositories` (
   `project_id` bigint(20) NOT NULL,
   `slug` varchar(255) NOT NULL DEFAULT '',
   `type` varchar(255) NOT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `root_url` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `path_encoding` varchar(60) DEFAULT NULL,
   `extra` text,
   `is_default` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -427,7 +459,7 @@ CREATE TABLE `traq_tickets` (
   `status_id` bigint(20) NOT NULL DEFAULT '1',
   `priority_id` bigint(20) NOT NULL,
   `severity_id` bigint(20) NOT NULL,
-  `assignee_id` bigint(20) NOT NULL,
+  `assigned_to_id` bigint(20) NOT NULL,
   `is_closed` bigint(20) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -436,6 +468,15 @@ CREATE TABLE `traq_tickets` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+LOCK TABLES `traq_tickets` WRITE;
+/*!40000 ALTER TABLE `traq_tickets` DISABLE KEYS */;
+
+INSERT INTO `traq_tickets` (`id`, `ticket_id`, `summary`, `body`, `user_id`, `project_id`, `milestone_id`, `version_id`, `component_id`, `type_id`, `status_id`, `priority_id`, `severity_id`, `assigned_to_id`, `is_closed`, `created_at`, `updated_at`, `is_private`, `extra`)
+VALUES
+	(1,1,'Err0rz','This be an error...',1,1,1,1,1,1,1,1,1,1,0,'2012-02-02 12:01:22','2012-02-02 12:01:22',0,'');
+
+/*!40000 ALTER TABLE `traq_tickets` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table traq_timeline
@@ -454,6 +495,15 @@ CREATE TABLE `traq_timeline` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+LOCK TABLES `traq_timeline` WRITE;
+/*!40000 ALTER TABLE `traq_timeline` DISABLE KEYS */;
+
+INSERT INTO `traq_timeline` (`id`, `project_id`, `owner_id`, `action`, `data`, `user_id`, `timestamp`)
+VALUES
+	(1,1,1,'ticket_created','1',1,'2012-02-02 12:01:22');
+
+/*!40000 ALTER TABLE `traq_timeline` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table traq_usergroups
@@ -465,22 +515,17 @@ CREATE TABLE `traq_usergroups` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_admin` smallint(6) NOT NULL,
-  `create_tickets` smallint(6) NOT NULL,
-  `update_tickets` smallint(6) NOT NULL,
-  `comment_tickets` smallint(6) NOT NULL DEFAULT '1',
-  `delete_tickets` smallint(6) NOT NULL,
-  `add_attachments` smallint(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `traq_usergroups` WRITE;
 /*!40000 ALTER TABLE `traq_usergroups` DISABLE KEYS */;
 
-INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`, `create_tickets`, `update_tickets`, `comment_tickets`, `delete_tickets`, `add_attachments`)
+INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`)
 VALUES
-	(1,'Administrators',1,1,1,1,1,1),
-	(2,'Members',0,1,1,1,0,1),
-	(3,'Guests',0,0,0,0,0,0);
+	(1,'Administrators',1),
+	(2,'Members',0),
+	(3,'Guests',0);
 
 /*!40000 ALTER TABLE `traq_usergroups` ENABLE KEYS */;
 UNLOCK TABLES;
