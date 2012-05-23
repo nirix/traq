@@ -11,7 +11,7 @@
 					<li><?php echo HTML::link(l('timeline'), "{$project->slug}/timeline"); ?></li>
 				</ul>
 			</nav>
-			<div class="description box">
+			<div class="description">
 				<?php echo format_text($project->info); ?>
 			</div>
 		</li>
