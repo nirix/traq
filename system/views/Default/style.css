@@ -539,6 +539,7 @@ table.tickets tbody tr.even.priority1 {
 	text-align: right;
 	font-weight: bold;
 	padding-right: 2px;
+	min-width: 90px;
 }
 #ticket_filters td.value {
 	width: 100%;
