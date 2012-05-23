@@ -151,7 +151,7 @@ function scm_types()
 		}
 	}
 
-	FishHook::run('func_scm_types', &$scms);
+	FishHook::run('function:scm_types', array(&$scms));
 	return $scms;
 }
 
