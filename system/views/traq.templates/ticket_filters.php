@@ -5,7 +5,7 @@
 			<?php foreach($filters as $filter) {
 				$val = -1;
 			?>
-			<?php if(in_array($filter['type'],array('milestone','version','type','component','severity','priority','owner'))) { ?>
+			<?php if(in_array($filter['type'],array('milestone','version','type','component','severity','priority','owner', 'assigned_to'))) { ?>
 			<?php foreach($filter['values'] as $value) { $val++; ?>
 			<tr>
 				<td class="label"><?php echo iif($val == 0,l($filter['type']))?></td>
@@ -64,6 +64,13 @@
 					</select>
 					<?php } elseif($filter['type'] == 'owner') { ?>
 					<input type="text" name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]" value="<?php echo $value?>" />
+					<?php } elseif($filter['type'] == 'assigned_to') { ?>
+					<select name="filters[<?php echo $filter['type']?>][<?php echo $val?>][value]">
+						<option></option>
+						<?php foreach(project_managers() as $manager) { ?>
+						<option value="<?php echo $manager['id']?>"<?php echo iif($manager['id']==$value,' selected="selected"')?>><?php echo $manager['name']?></option>
+						<?php } ?>
+					</select>
 					<?php } ?>
 				</td>
 				<td class="remove">

@@ -40,7 +40,7 @@ if(isset($_POST['columns']) or isset($_POST['filter']))
 	{		
 		$val = -1;
 		// Milestone, Version, Type, Component, Severity, Priority, Owner, Summary, Description
-		if(in_array($filter,array('milestone','version','type','component','severity','priority','owner','summary','description')))
+		if(in_array($filter,array('milestone','version','type','component','severity','priority','owner','summary','description', 'assigned_to')))
 		{
 			// Loop through values
 			$bits = array();
@@ -235,6 +235,21 @@ foreach(explode('&',$_SERVER['QUERY_STRING']) as $filter)
 			}
 			
 			$query .= "AND (".implode(' OR ', $bits).") ";
+		}
+		// Assigned to filter
+		elseif($filter['type'] == 'assigned_to')
+		{
+			foreach($filter['values'] as $value)
+			{
+				// Make sure the value is not empty.
+				if(empty($value)) continue;
+				$values[] = "'{$value}'";
+			}
+
+			if(count($values))
+			{
+				$query .= "AND assigned_to " . iif(isset($filter['mode']) && $filter['mode'] == '!','not ') . "in (" . implode($values) . ")";
+			}
 		}
 	}
 }

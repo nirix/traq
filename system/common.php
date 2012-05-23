@@ -518,7 +518,8 @@ function ticket_filters()
 		'priority',
 		'owner',
 		'summary',
-		'description'
+		'description',
+		'assigned_to'
 	);
 	($hook = FishHook::hook('function_ticket_filters')) ? eval($hook) : false;
 	return $filters;
