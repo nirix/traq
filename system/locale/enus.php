@@ -124,6 +124,7 @@ $lang['charts'] = 'Charts';
 $lang['added_by_x_x_ago'] = 'added by {1} {2} ago';
 $lang['create_ticket'] = 'Create Ticket';
 $lang['confirm_delete_attachment'] = 'Are you sure you want to delete this attachment?';
+$lang['null'] = 'null';
 
 // Notifications
 $lang['x_x_notification'] = '{1}: {2} notification';

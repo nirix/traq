@@ -70,7 +70,13 @@
 				<?php if(count($change['changes']) > 0) { ?>
 				<ul class="ticket_change_list">
 					<?php foreach($change['changes'] as $row) { ?>
-					<li><?php echo l('ticket_history_'.$row->property.(isset($row->action) ? '_'.$row->action :''),$row->from,$row->to,@$row->name)?></li>
+					<li><?php
+						echo l('ticket_history_' . $row->property . (isset($row->action) ? '_' . $row->action :''),
+								($row->from == '' ? l('null') : $row->from),
+								($row->to == '' ? l('null') : $row->to),
+								@$row->name
+							);
+					?></li>
 					<?php } ?>
 				</ul>
 				<?php } ?>
