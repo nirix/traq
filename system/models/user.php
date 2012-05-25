@@ -41,6 +41,8 @@ class User extends Model
 	
 	protected static $_belongs_to = array('group');
 	
+	protected static $_has_many = array('tickets', 'ticket_updates' => array('model' => 'tickethistory'));
+	
 	protected static $_filters_before = array(
 		'create' => array('_before_create')
 	);
@@ -55,6 +57,16 @@ class User extends Model
 	public function href()
 	{
 		return "/users/{$this->id}";
+	}
+
+	/**
+	 * Shortcut for selecting the users assigned tickets.
+	 *
+	 * @return object
+	 */
+	public function assigned_tickets()
+	{
+		return Ticket::select()->where('assigned_to_id', $this->_data['id']);
 	}
 
 	/**

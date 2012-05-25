@@ -412,3 +412,22 @@ form textarea {
   text-decoration: none;
   font-size: 14px;
   font-weight: bold; }
+
+.profile.content .span-16 {
+  width: 665px; }
+.profile.content .sidebar .box {
+  margin-bottom: 5px; }
+  .profile.content .sidebar .box:last-child {
+    margin-bottom: 0; }
+.profile.content .sidebar .information dl {
+  margin: 0; }
+  .profile.content .sidebar .information dl dt {
+    width: 100px;
+    text-align: right;
+    margin: 0;
+    margin-right: 2px;
+    display: inline-block; }
+  .profile.content .sidebar .information dl dd {
+    width: 110px;
+    margin: 0;
+    display: inline-block; }

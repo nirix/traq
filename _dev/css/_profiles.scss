@@ -1,0 +1,36 @@
+.profile.content {
+	.span-16 {
+		width: 665px;
+	}
+	
+	.sidebar 
+	{
+		.box {
+			margin-bottom: 5px;
+			
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+		
+		.information {
+			dl {
+				margin: 0;
+				
+				dt {
+					width: 100px;
+					text-align: right;
+					margin: 0;
+					margin-right: 2px;
+					display: inline-block;
+				}
+				
+				dd {
+					width: 110px;
+					margin: 0;
+					display: inline-block;
+				}
+			}
+		}
+	}
+}

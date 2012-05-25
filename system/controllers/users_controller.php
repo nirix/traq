@@ -28,6 +28,24 @@
  */
 class UsersController extends AppController
 {
+	/**
+	 * User profile page.
+	 *
+	 * @param integer $user_id
+	 */
+	public function action_view($user_id)
+	{
+		if (!$user = User::find($user_id))
+		{
+			return $this->show_404();
+		}
+		
+		View::set('profile', $user);
+	}
+
+	/**
+	 * Handles the login page.
+	 */
 	public function action_login()
 	{
 		$this->title(l('login'));
@@ -52,6 +70,9 @@ class UsersController extends AppController
 		}
 	}
 	
+	/**
+	 * Handles the logout request.
+	 */
 	public function action_logout()
 	{
 		setcookie('_traq', sha1(time()), time() + 5, '/');

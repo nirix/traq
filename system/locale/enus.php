@@ -148,6 +148,11 @@ class Locale_enUS extends Locale
 			'username' => "Username",
 			'password' => "Password",
 			'email' => "Email",
+			'xs_profile' => '$1\'s Profile',
+			'member_of_projects' => 'Member of projects',
+			'assigned_tickets' => 'Assigned tickets',
+			'tickets_created' => 'Tickets created',
+			'ticket_updates' => 'Ticket updates',
 			
 			// Wiki
 			'home' => "Home",
