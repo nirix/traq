@@ -41,14 +41,19 @@ class Project extends Model
 	);
 
 	protected static $_filters_before = array(
-		'create' => array('_before_create')
+		'create' => array('_before_create'),
+		//'delete' => array('_before_delete')
 	);
 	
 	protected static $_filters_after = array(
 		'construct' => array('_process_managers')
 	);
 	
-	
+	/**
+	 * Returns the URI for the project.
+	 *
+	 * @param mixed $uri Extra URI segments to add after the project URI.
+	 */
 	public function href($uri = null)
 	{
 		return $this->_data['slug'] . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
@@ -121,6 +126,50 @@ class Project extends Model
 	protected function _before_create()
 	{
 		$this->_data['private_key'] = random_hash();
+	}
+	
+	/**
+	 * Things to do before deleting the project...
+	 */
+	public function _before_delete()
+	{
+		// Delete milestones
+		foreach ($this->milestones->fetch_all() as $milestone)
+		{
+			$milestone->delete();
+		}
+		
+		// Delete tickets
+		foreach ($this->tickets->fetch_all() as $ticket)
+		{
+			$ticket->delete();
+		}
+		
+		// Delete timeline
+		foreach (Timeline::select('id')->where('project_id', $this->_data['id']) as $timeline)
+		{
+			$timeline->delete();
+		}
+		
+		// Delete repositories
+		foreach ($this->repositories->fetch_all() as $repo)
+		{
+			$repo->delete();
+		}
+		
+		// Delete components
+		foreach ($this->components->fetch_all() as $component)
+		{
+			$component->delete();
+		}
+		
+		// Delete wiki pages
+		foreach ($this->wiki_pages->fetch_all() as $wiki)
+		{
+			$wiki->delete();
+		}
+		
+		// Leaving out permissions for now as they're not completed.
 	}
 
 	/**
