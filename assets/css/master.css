@@ -431,3 +431,11 @@ form textarea {
     width: 110px;
     margin: 0;
     display: inline-block; }
+.profile.content #assigned_to table.list th.project {
+  width: 90px; }
+.profile.content #assigned_to table.list th.owner {
+  width: 85px; }
+.profile.content #assigned_to table.list th.status {
+  width: 75px; }
+.profile.content #assigned_to table.list th.created, .profile.content #assigned_to table.list th.updated {
+  width: 90px; }

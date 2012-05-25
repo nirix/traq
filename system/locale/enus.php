@@ -82,6 +82,7 @@ class Locale_enUS extends Locale
 			'no' => "No",
 			'created' => "Created",
 			'updated' => "Updated",
+			'project' => "Project",
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",

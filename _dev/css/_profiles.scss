@@ -33,4 +33,21 @@
 			}
 		}
 	}
+	
+	#assigned_to {
+		table.list {
+			th.project {
+				width: 90px;
+			}
+			th.owner {
+				width: 85px;
+			}
+			th.status {
+				width: 75px;
+			}
+			th.created, th.updated {
+				width: 90px;
+			}
+		}
+	}
 }

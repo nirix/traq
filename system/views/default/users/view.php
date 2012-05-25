@@ -6,7 +6,7 @@
 			<h3><?php echo l('information'); ?></h3>
 			<dl>
 				<dt><?php echo l('group'); ?></dt>
-				<dd><?php echo $profile->group->name; ?>
+				<dd><?php echo $profile->group->name; ?></dd>
 				
 				<dt><?php echo l('assigned_tickets'); ?></dt>
 				<dd><?php echo $profile->assigned_tickets()->exec()->row_count(); ?></dd>
@@ -26,25 +26,27 @@
 		</div>
 	</div>
 	
-	<div class="span-16 last box">
+	<div id="assigned_to" class="span-16 last box">
 		<h3><?php echo l('assigned_tickets'); ?></h3>
 		
 		<table class="list">
 			<thead>
-				<th><?php echo l('summary'); ?></th>
-				<th><?php echo l('owner'); ?></th>
-				<th><?php echo l('status'); ?></th>
-				<th><?php echo l('created'); ?></th>
-				<th><?php echo l('updated'); ?></th>
+				<th class="summary"><?php echo l('summary'); ?></th>
+				<th class="project"><?php echo l('project'); ?></th>
+				<th class="owner"><?php echo l('owner'); ?></th>
+				<th class="status"><?php echo l('status'); ?></th>
+				<th class="created"><?php echo l('created'); ?></th>
+				<th class="updated"><?php echo l('updated'); ?></th>
 			</thead>
 			<tbody>
-			<?php foreach ($profile->assigned_tickets()->order_by('updated_at', 'DESC')->exec()->fetch_all() as $ticket) { ?>
+			<?php foreach ($profile->assigned_tickets()->order_by('is_closed', 'ASC')->exec()->fetch_all() as $ticket) { ?>
 				<tr>
 					<td><?php echo HTML::link($ticket->summary, $ticket->href()); ?></td>
+					<td><?php echo HTML::link($ticket->project->name, $ticket->project->href()); ?></td>
 					<td><?php echo HTML::link($ticket->user->username, $ticket->user->href()); ?></td>
 					<td><?php echo $ticket->status->name; ?></td>
-					<td><?php echo l('time.ago', Time::ago_in_words($ticket->created_at)); ?></td>
-					<td><?php echo l('time.ago', Time::ago_in_words($ticket->updated_at)); ?></td>
+					<td><?php echo l('time.ago', Time::ago_in_words($ticket->created_at, 0)); ?></td>
+					<td><?php echo l('time.ago', Time::ago_in_words($ticket->updated_at, 0)); ?></td>
 				</tr>
 			<?php } ?>
 			</tbody>
