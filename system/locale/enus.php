@@ -137,6 +137,7 @@ class Locale_enUS extends Locale
 			'component' => "Component",
 			'milestone' => "Milestone",
 			'description' => "Description",
+			'updates' => 'Updates',
 
 			// User stuff
 			'login' => "Login",

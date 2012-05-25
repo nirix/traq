@@ -51,6 +51,10 @@ class Ticket extends Model
 		'updated_at'
 	);
 	
+	protected static $_has_many = array(
+		'history' => array('model' => 'tickethistory')
+	);
+	
 	protected static $_belongs_to = array(
 		'user', 'project', 'milestone', 'component',
 		'priority', 'severity',

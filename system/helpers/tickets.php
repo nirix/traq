@@ -35,6 +35,7 @@ function ticketlist_header($column) {
 		case 'type':
 		case 'component':
 		case 'milestone':
+		case 'updates':
 			return l($column);
 		default:
 			return '';
@@ -80,6 +81,10 @@ function ticketlist_data($column, $ticket) {
 		// Milestone column
 		case 'milestone':
 			return $ticket->milestone ? $ticket->milestone->name : '';
+		
+		// Updates column
+		case 'updates':
+			return $ticket->history->exec()->row_count();
 		
 		// Unknown column...
 		default:
