@@ -80,6 +80,8 @@ class Locale_enUS extends Locale
 			'x_closed' => "$1 closed",
 			'yes' => "Yes",
 			'no' => "No",
+			'created' => "Created",
+			'updated' => "Updated",
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -149,7 +151,6 @@ class Locale_enUS extends Locale
 			'password' => "Password",
 			'email' => "Email",
 			'xs_profile' => '$1\'s Profile',
-			'member_of_projects' => 'Member of projects',
 			'assigned_tickets' => 'Assigned tickets',
 			'tickets_created' => 'Tickets created',
 			'ticket_updates' => 'Ticket updates',
@@ -168,6 +169,13 @@ class Locale_enUS extends Locale
 			'save' => "Save",
 			'edit' => "Edit",
 			'delete' => "Delete",
+			
+			// Time
+			'time' => array(
+				'Time',
+				
+				'ago' => '$1 ago',
+			),
 			
 			// Timeline
 			'timeline' => array(

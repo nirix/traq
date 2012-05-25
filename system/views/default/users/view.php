@@ -22,17 +22,33 @@
 		</div>
 		
 		<div class="box">
-			<h3><?php echo l('member_of_projects'); ?></h3>
+			<h3><?php echo l('projects'); ?></h3>
 		</div>
 	</div>
 	
 	<div class="span-16 last box">
 		<h3><?php echo l('assigned_tickets'); ?></h3>
-		<ul>
-		<?php foreach ($profile->assigned_tickets()->order_by('updated_at', 'DESC')->exec()->fetch_all() as $ticket) { ?>
-			<li><?php echo HTML::link($ticket->summary, $ticket->href()); ?></li>
-		<?php } ?>
-		</ul>
+		
+		<table class="list">
+			<thead>
+				<th><?php echo l('summary'); ?></th>
+				<th><?php echo l('owner'); ?></th>
+				<th><?php echo l('status'); ?></th>
+				<th><?php echo l('created'); ?></th>
+				<th><?php echo l('updated'); ?></th>
+			</thead>
+			<tbody>
+			<?php foreach ($profile->assigned_tickets()->order_by('updated_at', 'DESC')->exec()->fetch_all() as $ticket) { ?>
+				<tr>
+					<td><?php echo HTML::link($ticket->summary, $ticket->href()); ?></td>
+					<td><?php echo HTML::link($ticket->user->username, $ticket->user->href()); ?></td>
+					<td><?php echo $ticket->status->name; ?></td>
+					<td><?php echo l('time.ago', Time::ago_in_words($ticket->created_at)); ?></td>
+					<td><?php echo l('time.ago', Time::ago_in_words($ticket->updated_at)); ?></td>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
 	</div>
 	
 	<div class="clearfix"></div>

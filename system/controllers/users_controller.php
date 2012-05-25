@@ -40,6 +40,7 @@ class UsersController extends AppController
 			return $this->show_404();
 		}
 		
+		Load::helper('tickets');
 		View::set('profile', $user);
 	}
 
