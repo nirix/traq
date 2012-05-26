@@ -38,7 +38,7 @@
 					<li<?php echo iif(active_nav('/:slug/tickets(.*)'), ' class="active"')?>><?php echo HTML::link(l('tickets'), $project->href("tickets")); ?></li>
 					<li<?php echo iif(active_nav('/:slug/timeline'), ' class="active"')?>><?php echo HTML::link(l('timeline'), $project->href("timeline")); ?></li>
 					<li<?php echo iif(active_nav('/:slug/wiki(.*)'), ' class="active"')?>><?php echo HTML::link(l('wiki'), $project->href("wiki")); ?></li>
-					<?php if($project->is_manager($current_user) or $current_user->group->is_admin) { ?>
+					<?php if($current_user->permission($project->id, 'project_settings')) { ?>
 					<li<?php echo iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>><?php echo HTML::link(l('settings'), $project->href("settings")); ?></li>
 					<?php } ?>
 				<?php } else { ?>

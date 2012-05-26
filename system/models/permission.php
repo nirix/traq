@@ -31,8 +31,9 @@ class Permission extends Model
 	protected static $_name = 'permissions';
 	protected static $_properties = array(
 		'id',
-		'group_id',
 		'project_id',
+		'type',
+		'type_id',
 		'action',
 		'value'
 	);
@@ -41,15 +42,16 @@ class Permission extends Model
 	 * Returns the permissions for the group and project.
 	 *
 	 * @param integer $group_id
-	 * @param integer $project_id
+	 * @param integer $type_id
+	 * @param string $type
 	 *
 	 * @return array
 	 */
-	public static function get_permissions($group_id, $project_id = 0)
+	public static function get_permissions($project_id, $type_id = 0, $type = 'usergroup')
 	{
 		// Fetch the permission rows and merge them with the defaults
-		$rows = static::select()->where('group_id', $group_id)->where('project_id', $project_id)->exec()->fetch_all();
-		$rows = array_merge(static::defaults($group_id), $rows);
+		$rows = static::select()->where('project_id', $project_id)->where('type', $type)->where('type_id', $type_id)->exec()->fetch_all();
+		$rows = array_merge(static::defaults($type_id, $type), $rows);
 
 		// Loop over the permissions and make it
 		// easy to access the permission values.
@@ -67,19 +69,20 @@ class Permission extends Model
 	 * Returns the default permissions.
 	 *
 	 * @param integer $group_id
+	 * @param string $type
 	 *
 	 * @return array
 	 */
-	public static function defaults($group_id = 0)
+	public static function defaults($type_id = 0, $type = 'usergroup')
 	{
 		// Fetch the defaults
-		$defaults = static::select()->where('group_id', $group_id)->exec()->fetch_all();
+		$defaults = static::select()->where('type', $type)->where('type_id', $type_id)->exec()->fetch_all();
 
 		// If we're fetching a specific group,
 		// also fetch the defaults for all groups.
-		if ($group_id > 0)
+		if ($type_id > 0)
 		{
-			$defaults = array_merge(static::defaults(), $defaults);
+			$defaults = array_merge(static::defaults(0, $type), $defaults);
 		}
 
 		// Loop over the defaults and push them to a new array

@@ -47,7 +47,10 @@ class User extends Model
 		'create' => array('_before_create')
 	);
 
-	protected $permissions = array();
+	protected $permissions = array(
+		'project' => array(),
+		'role' => array()
+	);
 	
 	/**
 	 * Returns the URI for the users profile.
@@ -81,13 +84,47 @@ class User extends Model
 	{
 		// Check if the projects permissions has been fetched
 		// if not, fetch them.
-		if (!isset($this->permissions[$project_id]))
+		if (!isset($this->permissions['project'][$project_id]))
 		{
-			$this->permissions[$project_id] = Permission::get_permissions($this->_data['group_id'], $project_id);
+			$this->permissions['project'][$project_id] = Permission::get_permissions($project_id, $this->_data['group_id']);
+		}
+		
+		// Check if the user has a role for the project and
+		// fetch the permissions if not already done so...
+		if (!isset($this->permissions['role'][$project_id]))
+		{
+			$this->permissions['role'][$project_id] = Permission::get_permissions($project_id, $this->get_project_role($project_id), 'role');
 		}
 
-		// Return the permission for the specified action
-		return $this->permissions[$project_id][$action];
+		// Check if user is admin...
+		if ($this->group->is_admin)
+		{
+			return true;
+		}
+		
+		$perms = array_merge($this->permissions['project'][$project_id], $this->permissions['role'][$project_id]);
+		return $perms[$action];
+		
+	}
+	
+	/**
+	 * Fetches the users project role.
+	 *
+	 * @param integer $project_id
+	 *
+	 * @return integer
+	 */
+	public function get_project_role($project_id)
+	{
+		if ($role = UsersRole::select()->where('project_id', $project_id)->where('user_id', $this->_data['id'])->exec()
+		and $role->row_count() > 0)
+		{
+			return $role->fetch()->project_role_id;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**

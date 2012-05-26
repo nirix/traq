@@ -19,27 +19,20 @@
  */
 
 /**
- * Project settings controller
+ * Users<>Roles model.
  *
- * @author Jack P.
- * @since 3.0
  * @package Traq
- * @subpackage Controllers
+ * @subpackage Models
+ * @author Jack P.
+ * @copyright (c) Jack P.
  */
-class ProjectSettingsAppController extends AppController
+class UsersRole extends Model
 {
-	public function __construct()
-	{
-		parent::__construct();
-		
-		$this->title(l('settings'));
-
-		// Make sure this is a project and the user
-		// has the correct permission to access the area.
-		if (!$this->project
-		or (!$this->user->permission($this->project->id, 'project_settings') and !$this->user->group->is_admin))
-		{
-			$this->show_404();
-		}
-	}
+	protected static $_name = 'users_roles';
+	protected static $_properties = array(
+		'id',
+		'user_id',
+		'project_id',
+		'project_role_id'
+	);
 }
