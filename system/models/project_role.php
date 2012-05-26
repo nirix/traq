@@ -26,20 +26,11 @@
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class UsersRole extends Model
+class ProjectRole extends Model
 {
-	protected static $_name = 'users_roles';
+	protected static $_name = 'project_roles';
 	protected static $_properties = array(
 		'id',
-		'user_id',
-		'project_id',
-		'project_role_id'
-	);
-	
-	// Allow easy access to the project and role models
-	protected static $_belongs_to = array(
-		'project',
-		
-		'role' => array('model' => 'projectrole', 'column' => 'project_role_id')
+		'name'
 	);
 }

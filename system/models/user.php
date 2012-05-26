@@ -39,14 +39,23 @@ class User extends Model
 		'login_hash'
 	);
 	
+	// Things the user belongs to
 	protected static $_belongs_to = array('group');
 	
-	protected static $_has_many = array('tickets', 'ticket_updates' => array('model' => 'tickethistory'));
+	// Things the user has many of
+	protected static $_has_many = array(
+		'tickets',
+		
+		'ticket_updates' => array('model' => 'tickethistory'),
+		'assigned_tickets' => array('model' => 'ticket', 'foreign_key' => 'assigned_to_id')
+	);
 	
+	// Things to do before certain things
 	protected static $_filters_before = array(
 		'create' => array('_before_create')
 	);
 
+	// Users group and role ermissions
 	protected $permissions = array(
 		'project' => array(),
 		'role' => array()
@@ -63,13 +72,22 @@ class User extends Model
 	}
 
 	/**
-	 * Shortcut for selecting the users assigned tickets.
+	 * Returns an array containing an array of the project and role
+	 * the user belongs to.
 	 *
-	 * @return object
+	 * @return array
 	 */
-	public function assigned_tickets()
+	public function projects()
 	{
-		return Ticket::select()->where('assigned_to_id', $this->_data['id']);
+		$projects = array();
+		
+		foreach (UsersRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation)
+		{
+			$projects[] = array($relation->project, $relation->role);
+		}
+
+		
+		return $projects;
 	}
 
 	/**

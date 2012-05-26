@@ -9,7 +9,7 @@
 				<dd><?php echo $profile->group->name; ?></dd>
 				
 				<dt><?php echo l('assigned_tickets'); ?></dt>
-				<dd><?php echo $profile->assigned_tickets()->exec()->row_count(); ?></dd>
+				<dd><?php echo $profile->assigned_tickets->exec()->row_count(); ?></dd>
 				
 				<dt><?php echo l('tickets_created'); ?></dt>
 				<dd><?php echo $profile->tickets->exec()->row_count(); ?></dd>
@@ -23,6 +23,9 @@
 		
 		<div class="box">
 			<h3><?php echo l('projects'); ?></h3>
+			<?php foreach ($profile->projects() as $project) { ?>
+				<li><?php echo HTML::link($project[0]->name, $project[0]->href()); ?>, <?php echo $project[1]->name; ?></li>
+			<?php } ?>
 		</div>
 	</div>
 	
@@ -39,7 +42,7 @@
 				<th class="updated"><?php echo l('updated'); ?></th>
 			</thead>
 			<tbody>
-			<?php foreach ($profile->assigned_tickets()->order_by('is_closed', 'ASC')->exec()->fetch_all() as $ticket) { ?>
+			<?php foreach ($profile->assigned_tickets->order_by('is_closed', 'ASC')->exec()->fetch_all() as $ticket) { ?>
 				<tr>
 					<td><?php echo HTML::link($ticket->summary, $ticket->href()); ?></td>
 					<td><?php echo HTML::link($ticket->project->name, $ticket->project->href()); ?></td>
