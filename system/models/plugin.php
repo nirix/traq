@@ -19,54 +19,28 @@
  */
 
 /**
- * User group model.
+ * Plugin model.
  *
  * @package Traq
  * @subpackage Models
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class Group extends Model
+class Plugin extends Model
 {
-	protected static $_name = 'usergroups';
+	protected static $_name = 'plugins';
 	protected static $_properties = array(
 		'id',
-		'name',
-		'is_admin',
+		'file',
+		'enabled'
 	);
 	
-	/**
-	 * Returns an array of groups to be used
-	 * with the Form::select() method.
-	 *
-	 * @return array
-	 */
-	public function select_options()
-	{
-		$options = array();
-		foreach (static::fetch_all() as $group)
-		{
-			$options[] = array('value' => $group->id, 'label' => $group->name);
-		}
-		return $options;
-	}
-	
-	/**
-	 * Checks if the groups data is valid.
-	 *
-	 * @return bool
-	 */
 	public function is_valid()
 	{
-		$errors = array();
-		
-		// Make sure the name is set...
-		if (empty($this->_data['name']))
+		if (empty($this->_data['file']))
 		{
-			$errors['name'] = l('errors.name_blank');
+			return false;
 		}
-		
-		$this->errors = $errors;
-		return !count($errors) > 0;
+		return true;
 	}
 }

@@ -91,6 +91,17 @@ class AdminPluginsController extends AdminBase
 	 */
 	public function action_enable($file)
 	{
+		$file = htmlspecialchars($file);
+		require APPPATH . "/plugins/{$file}.plugin.php";
+		
+		$class_name = "Plugin_{$file}";
+		$class_name::__enable();
+		
+		$plugin = Plugin::find('file', $file);
+		$plugin->set('enabled', 1);
+		$plugin->save();
+		
+		Request::redirect(Request::base('/admin/plugins'));
 	}
 	
 	/**
@@ -99,6 +110,34 @@ class AdminPluginsController extends AdminBase
 	 * @param string $file The plugin filename (without .plugin.php)
 	 */
 	public function action_disable($file)
+	{
+		$file = htmlspecialchars($file);
+		
+		$class_name = "Plugin_{$file}";
+		$class_name::__disable();
+		
+		$plugin = Plugin::find('file', $file);
+		$plugin->set('enabled', 0);
+		$plugin->save();
+		
+		Request::redirect(Request::base('/admin/plugins'));
+	}
+	
+	/**
+	 * Installs the specified plugin.
+	 *
+	 * @param string $file The plugin filename (without .plugin.php)
+	 */
+	public function action_install($file)
+	{
+	}
+	
+	/**
+	 * Uninstalls the specified plugin.
+	 *
+	 * @param string $file The plugin filename (without .plugin.php)
+	 */
+	public function action_uninstall($file)
 	{
 	}
 }
