@@ -25,11 +25,6 @@ class Group extends Model
 		'id',
 		'name',
 		'is_admin',
-		'create_tickets',
-		'update_tickets',
-		'comment_tickets',
-		'delete_tickets',
-		'add_attachments'
 	);
 	
 	/**
