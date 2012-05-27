@@ -69,6 +69,11 @@ Router::add('/admin/groups', 'Admin::Groups::index');
 Router::add('/admin/groups/new', 'Admin::Groups::new');
 Router::add('/admin/groups/([0-9]+)/(edit|delete)', 'Admin::Groups::$2/$1');
 
+// Project roles
+Router::add('/admin/roles', 'Admin::ProjectRoles::index');
+Router::add('/admin/roles/new', 'Admin::ProjectRoles::new');
+Router::add('/admin/roles/([0-9]+)/(edit|delete)', 'Admin::ProjectRoles::$2/$1');
+
 // Ticket types
 Router::add('/admin/tickets/types', 'Admin::TicketTypes::index');
 Router::add('/admin/tickets/types/new', 'Admin::TicketTypes::new');

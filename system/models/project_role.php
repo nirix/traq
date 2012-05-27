@@ -33,4 +33,24 @@ class ProjectRole extends Model
 		'id',
 		'name'
 	);
+	
+	// Validates the model data
+	public function is_valid()
+	{
+		$errors = array();
+		
+		// Make sure the name is not empty...
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('errors.name_blank');
+		}
+		
+		// Set errors to be accessible
+		if (count($errors) > 0)
+		{
+			$this->errors = $errors;
+		}
+		
+		return !count($errors);
+	}
 }
