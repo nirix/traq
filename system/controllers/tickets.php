@@ -267,7 +267,7 @@ $tickets = array();
 $fetchtickets = $db->query("SELECT * FROM ".DBPF."tickets WHERE project_id='".$project['id']."' $query ORDER BY ".$db->res(($sort == 'updated' ? 'IF(updated < 1, created, updated)' : $sort))." ".$db->res($order));
 while($info = $db->fetcharray($fetchtickets))
 {
-	$info['summary'] = htmlentities($info['summary']);
+	$info['summary'] = htmlspecialchars($info['summary']);
 	$info['body'] = stripslashes($info['body']); // Strip the slahes from the body field
 	$info['component'] = $db->fetcharray($db->query("SELECT * FROM ".DBPF."components WHERE id='".$info['component_id']."' LIMIT 1")); // Get Component info
 	$info['owner'] = $user->getinfo($info['user_id']); // Get owner info
