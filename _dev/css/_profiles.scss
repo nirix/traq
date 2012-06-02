@@ -18,7 +18,7 @@
 				margin: 0;
 				
 				dt {
-					width: 100px;
+					min-width: 100px;
 					text-align: right;
 					margin: 0;
 					margin-right: 2px;
@@ -26,7 +26,7 @@
 				}
 				
 				dd {
-					width: 110px;
+					width: 50px;
 					margin: 0;
 					display: inline-block;
 				}
