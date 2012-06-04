@@ -137,6 +137,7 @@ class Locale_enUS extends Locale
 			'location' => "Location",
 			
 			// Tickets
+			'new_ticket' => 'New Ticket',
 			'summary' => "Summary",
 			'status' => "Status",
 			'owner' => "Owner",

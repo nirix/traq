@@ -27,6 +27,7 @@ Router::add('/users/([0-9]+)', 'Users::view/$1');
 // ------------------------------------------------
 // Project routes
 Router::add('/projects', 'Projects::index');
+Router::add('/' . RTR_PROJSLUG . '/tickets/new', 'Tickets::new');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'Tickets::index');
 Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap)', 'Projects::$2');

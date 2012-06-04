@@ -183,6 +183,9 @@ h3.box_title {
   .tabular.section.box:last-child {
     margin-bottom: 0; }
 
+.page_actions {
+  float: right; }
+
 /* ==========# Sexy boots #========== */
 #footer {
   color: #000;
@@ -327,12 +330,14 @@ h3.list_title {
 
 /* ==========# Sexy Buttons #========== */
 .button_new, .button_edit, .button_delete,
-.button_enable, .button_disable {
+.button_enable, .button_disable,
+.button_bug_new {
   padding: 1px 0 1px 20px;
   background-position: left center;
   background-repeat: no-repeat; }
   .button_new.small, .button_edit.small, .button_delete.small,
-  .button_enable.small, .button_disable.small {
+  .button_enable.small, .button_disable.small,
+  .button_bug_new.small {
     background-position: center;
     padding: 0;
     height: 18px;
@@ -355,6 +360,9 @@ h3.list_title {
 
 .button_disable {
   background-image: url(":baseuri:assets/images/plugin_delete.png"); }
+
+.button_bug_new {
+  background-image: url(":baseuri:assets/images/bug_add.png"); }
 
 .tabular .group {
   margin: 0;

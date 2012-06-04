@@ -29,6 +29,11 @@ class TicketType extends Model
 		'template'
 	);
 	
+	/**
+	 * Checks if the data is valid.
+	 *
+	 * @return bool
+	 */
 	public function is_valid()
 	{
 		$errors = array();
@@ -47,5 +52,20 @@ class TicketType extends Model
 		
 		$this->errors = $errors;
 		return !count($errors);
+	}
+
+	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$options = array();
+		foreach (static::fetch_all() as $type)
+		{
+			$options[] = array('label' => $type->name, 'value' => $type->id);
+		}
+		return $options;
 	}
 }

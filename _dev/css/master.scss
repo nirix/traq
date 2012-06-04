@@ -174,6 +174,10 @@ h3.box_title {
 	}
 }
 
+.page_actions {
+	float: right;
+}
+
 /* ==========# Sexy boots #========== */
 #footer {
 	color: #000;
@@ -386,7 +390,8 @@ h3.list_title {
 
 /* ==========# Sexy Buttons #========== */
 .button_new, .button_edit, .button_delete,
-.button_enable, .button_disable {
+.button_enable, .button_disable,
+.button_bug_new {
 	padding:  1px 0 1px 20px;
 	background-position: left center;
 	background-repeat: no-repeat;
@@ -420,6 +425,10 @@ h3.list_title {
 
 .button_disable {
 	background-image: url(':baseuri:assets/images/plugin_delete.png');
+}
+
+.button_bug_new {
+	background-image: url(':baseuri:assets/images/bug_add.png');
 }
 
 @import "forms";
