@@ -327,7 +327,7 @@ elseif(isset($_REQUEST['delete']))
 	$newmilestone = $db->queryfirst("SELECT id FROM ".DBPF."milestones WHERE locked='0' AND project_id='".$milestone['project_id']."' ORDER BY id ASC LIMIT 1");
 	$db->query("UPDATE ".DBPF."tickets SET milestone_id='".$newmilestone['id']."' WHERE milestone_id='".$milestone['id']."'");
 
-	header("Loaction: milestones.php?deleted");
+	header("Location: milestones.php?deleted");
 }
 // List Milestones
 else
