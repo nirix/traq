@@ -269,12 +269,14 @@ if(isset($_POST['update']))
 		if(count($changes) > 0 || $_POST['comment'] != '')
 		{
 			// Update the ticket
-			if(count($querybits) > 0)
+			if(count($querybits) > 0 && $user->group['update_tickets']) {
 				$db->query("UPDATE ".DBPF."tickets SET ".implode(', ',$querybits)." WHERE id='".$ticket['id']."' LIMIT 1");
+			}
 			
 			// Set guest name cookie
-			if(!$user->loggedin)
+			if(!$user->loggedin) {
 				setcookie('guestname',$_POST['name'],time()+50000,'/');
+			}
 			
 			// Insert row into ticket history
 			$db->query("INSERT INTO ".DBPF."ticket_history (user_id,user_name,timestamp,ticket_id,project_id,changes,comment) VALUES(
@@ -283,7 +285,7 @@ if(isset($_POST['update']))
 				'".time()."',
 				'".$ticket['id']."',
 				'".$project['id']."',
-				'".$db->res(json_encode($changes))."',
+				'".($user->group['update_tickets'] ? $db->res(json_encode($changes)) : '')."',
 				'".$db->res($_POST['comment'])."'
 			)");
 			
