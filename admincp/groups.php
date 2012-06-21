@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (C) 2009, 2010 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
  *
  * This file is part of Traq.
  * 
@@ -28,7 +28,8 @@ authenticate();
 if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 {
 	$errors = array();
-	
+	$fields = array('name', 'is_admin', 'create_tickets', 'update_tickets', 'comment_tickets', 'delete_tickets', 'add_attachments');
+
 	// Create
 	if(@$_POST['action'] == 'create')
 	{
@@ -39,15 +40,13 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 		if(!count($errors))
 		{
 			// Sort columns from values
-			$keys = array();
 			$values = array();
-			foreach($_POST['values'] as $key => $val)
+			foreach ($fields as $field)
 			{
-				$keys[] = $key;
-				$values[] = "'".$val."'";
+				$values[] = '"' . $db->res($_POST['values'][$field]) . '"';
 			}
-			
-			$db->query("INSERT INTO ".DBPF."usergroups (".implode(',',$keys).") VALUES(".implode(',',$values).")");
+
+			$db->query("INSERT INTO ".DBPF."usergroups (".$db->res(implode(',',$fields)).") VALUES(".implode(',',$values).")");
 			
 			header("Location: groups.php?created");
 		}
@@ -66,9 +65,12 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 		{
 			// Make the query.
 			$query = array();
-			foreach($_POST['values'] as $key => $val)
-				$query[] = $key."='".$val."'";
-			
+
+			foreach ($fields as $field)
+			{
+				$query[] = $field . "='" . $db->res($_POST['values'][$field]) . "'";
+			}
+
 			// Run the query.
 			$db->query("UPDATE ".DBPF."usergroups SET ".implode(', ',$query)." WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
 			
@@ -76,8 +78,9 @@ if(isset($_REQUEST['edit']) or isset($_REQUEST['new']))
 		}
 	}
 	
-	if(isset($_REQUEST['edit']))
+	if(isset($_REQUEST['edit'])) {
 		$group = $db->queryfirst("SELECT * FROM ".DBPF."usergroups WHERE id='".$db->res($_REQUEST['edit'])."' LIMIT 1");
+	}
 	
 	head(l((isset($_REQUEST['edit']) ? 'edit' : 'new').'_usergroup'),true,'users');
 	?>
