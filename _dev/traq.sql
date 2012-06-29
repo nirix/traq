@@ -1,9 +1,3 @@
-# ************************************************************
-# Database: traq
-# Generation Time: 2012-04-19 22:31:39 +0000
-# ************************************************************
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -540,6 +534,7 @@ CREATE TABLE `traq_users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password_ver` varchar(25) COLLATE utf8_unicode_ci DEFAULT 'crypt',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `group_id` bigint(20) NOT NULL DEFAULT '2',
@@ -552,7 +547,7 @@ LOCK TABLES `traq_users` WRITE;
 
 INSERT INTO `traq_users` (`id`, `username`, `password`, `name`, `email`, `group_id`, `login_hash`)
 VALUES
-	(1,'admin','d033e22ae348aeb5660fc2140aec35850c4da997','admin','test@example.com',1,'abc123');
+	(1,'admin','$2a$10$954b2ad8f0c2c913654abubpvDrbWuJPPJ6PO7fhbUxhIxBF/R3by','crypt','admin','test@example.com',1,'abc123');
 
 /*!40000 ALTER TABLE `traq_users` ENABLE KEYS */;
 UNLOCK TABLES;

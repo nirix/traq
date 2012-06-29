@@ -33,6 +33,7 @@ class User extends Model
 		'id',
 		'username',
 		'password',
+		'password_ver',
 		'name',
 		'email',
 		'group_id',
@@ -154,7 +155,18 @@ class User extends Model
 	 */ 
 	public function verify_password($password)
 	{
-		return sha1($password) == $this->_data['password'];
+		switch($this->_data['password_ver'])
+		{
+			// Passwords from Traq 0.1 to 2.3
+			case 'sha1':
+				return sha1($password) == $this->_data['password'];
+				break;
+
+			// Passwords from Traq 3+
+			case 'crypt':
+				return crypt($password, $this->_data['password']) == $this->_data['password'];
+				break;
+		}
 	}
 	
 	/**
@@ -177,7 +189,7 @@ class User extends Model
 	 */
 	public function prepare_password()
 	{
-		$this->_data['password'] = sha1($this->_data['password']);
+		$this->_data['password'] = crypt($this->_data['password'], '$2a$10$' . sha1(microtime() . $this->_data['username'] . $this->_data['email']) . '$');
 	}
 	
 	/**
