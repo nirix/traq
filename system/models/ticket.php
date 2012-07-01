@@ -84,16 +84,52 @@ class Ticket extends Model
 	 */
 	public function save()
 	{
-		if ($parent->save())
+		$this->ticket_id = $this->project->next_tid;
+
+		$this->project->next_tid++;
+		$this->project->save();
+
+		if (parent::save())
 		{
-			// code here to insert into timeline and such..
-			
+			$timeline = new Timeline(array(
+				'project_id' => $this->project_id,
+				'owner_id' => $this->id,
+				'action' => 'ticket_created',
+				'data' => $this->id,
+				'user_id' => $this->user_id
+			));
+
+			$timeline->save();
+
 			return true;
 		}
 		else
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Checks if the models data is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid()
+	{
+		$errors = array();
+
+		if (empty($this->_data['summary']))
+		{
+			$errors['summary'] = l('errors.tickets.summary_blank');
+		}
+
+		if (empty($this->_data['body']))
+		{
+			$errors['body'] = l('errors.tickets.description_blank');
+		}
+
+		$this->errors = $errors;
+		return !count($errors) > 0;
 	}
 
 	/**

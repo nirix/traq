@@ -46,4 +46,19 @@ class Component extends Model
 		$this->errors = $errors;
 		return !count($errors) > 0;
 	}
+
+	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$options = array();
+		foreach (static::fetch_all() as $component)
+		{
+			$options[] = array('label' => $component->name, 'value' => $component->id);
+		}
+		return $options;
+	}
 }

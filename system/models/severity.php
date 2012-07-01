@@ -33,4 +33,19 @@ class Severity extends Model
 		'id',
 		'name'
 	);
+
+	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$options = array();
+		foreach (static::fetch_all() as $severity)
+		{
+			$options[] = array('label' => $severity->name, 'value' => $severity->id);
+		}
+		return $options;
+	}
 }

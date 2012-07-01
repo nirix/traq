@@ -58,6 +58,34 @@ class Project extends Model
 	{
 		return $this->_data['slug'] . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
 	}
+
+	/**
+	 * Returns an array of milestones formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public function milestone_select_options($status = null, $sort = 'ASC')
+	{
+		$milestones = Milestone::select()->where('project_id', $this->id)->order_by('displayorder', $sort);
+
+		// Check if we're fetching uncompleted milestones
+		if ($status == 'open')
+		{
+			$milestones = $milestones->where('is_completed', 0);
+		}
+		// Or if we're fetching completed milestones
+		elseif ($status == 'closed')
+		{
+			$milestones = $milestones->where('is_completed', 1);
+		}
+
+		$options = array();
+		foreach ($milestones->exec()->fetch_all() as $milestone)
+		{
+			$options[] = array('label' => $milestone->name, 'value' => $milestone->id);
+		}
+		return $options;
+	}
 	
 	/**
 	 * Check if the specified user has permission to manage the project.

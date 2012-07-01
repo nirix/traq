@@ -141,16 +141,23 @@ class TicketsController extends AppController
 		{
 			// Set the ticket data
 			$data = array(
-				'summary' => Request::$post['summary']
+				'summary' => Request::$post['summary'],
+				'body' => Request::$post['description'],
+				'user_id' => $this->user->id,
+				'project_id' => $this->project->id,
+				'milestone_id' => Request::$post['milestone'],
+				'version_id' => Request::$post['version'],
+				'component_id' => Request::$post['component'],
+				'type_id' => Request::$post['type'],
+				'severity_id' => Request::$post['severity'],
 			);
 			$ticket->set($data);
 			
 			// Check if the ticket data is valid...
 			// if it is, save the ticket to the DB and
 			// redirect to the ticket page.
-			if ($ticket->is_valid())
+			if ($ticket->save())
 			{
-				$ticket->save();
 				Request::redirect(Request::base($ticket->href()));
 			}
 		}
