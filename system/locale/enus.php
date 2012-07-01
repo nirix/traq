@@ -130,11 +130,6 @@ class Locale_enUS extends Locale
 			'edit_milestone' => "Edit Milestone",
 			'new_component' => "New Component",
 			'edit_component' => "Edit Component",
-			'private_key' => "Private Key",
-			'repositories' => "Repositories",
-			'new_repository' => "New Repository",
-			'edit_repository' => "Edit Repository",
-			'location' => "Location",
 			
 			// Tickets
 			'new_ticket' => 'New Ticket',
@@ -146,6 +141,7 @@ class Locale_enUS extends Locale
 			'milestone' => "Milestone",
 			'description' => "Description",
 			'updates' => 'Updates',
+			'severity' => 'Severity',
 
 			// User stuff
 			'login' => "Login",
@@ -198,13 +194,6 @@ class Locale_enUS extends Locale
 			'help' => array(
 				'slug' => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
 				'ticket_type_bullet' => "The bullet style used on the changelog list.",
-
-				// Repository SCM stuff
-				'scm' => array(
-					'git' => array(
-						'location' => "Full file path to the repository. (/home/users/.../repos/myrepo.git)"
-					)
-				)
 			),
 			
 			// Confirmations
@@ -251,13 +240,6 @@ class Locale_enUS extends Locale
 					'locale_blank' => "You must select a default language",
 					'theme_blank' => "You must select a theme",
 					'allow_registration_blank' => "Allow Registration must be set"
-				),
-
-				// Repository SCM errors
-				'scm' => array(
-					'location_blank' => "You must enter a location",
-					'location_invalid' => "Invalid location",
-					'location_not_a_repository' => "Location is not a repository"
 				)
 			),
 
