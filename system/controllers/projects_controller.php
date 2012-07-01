@@ -90,20 +90,20 @@ class ProjectsController extends AppController
 		$days_query = Database::connection()->query("
 			SELECT
 			DISTINCT
-				YEAR(timestamp) AS 'year',
-				MONTH(timestamp) AS 'month',
-				DAY(timestamp) AS 'day',
-				timestamp
+				YEAR(created_at) AS 'year',
+				MONTH(created_at) AS 'month',
+				DAY(created_at) AS 'day',
+				created_at
 
 			FROM " . DB_PREFIX . "timeline
 			WHERE project_id = '{$this->project->id}'
 
 			GROUP BY
-				YEAR(timestamp),
-				MONTH(timestamp),
-				DAY(timestamp)
+				YEAR(created_at),
+				MONTH(created_at),
+				DAY(created_at)
 
-			ORDER BY timestamp DESC
+			ORDER BY created_at DESC
 		");
 
 		// Loop through the days and get their activity
@@ -111,16 +111,16 @@ class ProjectsController extends AppController
 		{
 			// Construct the array for the day
 			$day = array(
-				'timestamp' => $info['timestamp'],
+				'created_at' => $info['created_at'],
 				'activity' => array()
 			);
 
 			// Get the date, without the time
-			$date = explode(' ', $info['timestamp']);
+			$date = explode(' ', $info['created_at']);
 			$date = $date[0];
 
 			// Fetch the activity for this day
-			$fetch_activity = Timeline::select()->where('timestamp', "{$date} %", "LIKE")->order_by('timestamp', 'DESC');
+			$fetch_activity = Timeline::select()->where('created_at', "{$date} %", "LIKE")->order_by('created_at', 'DESC');
 			foreach ($fetch_activity->exec()->fetch_all() as $row)
 			{
 				// Push it to the days activity array.

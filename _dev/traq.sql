@@ -435,14 +435,14 @@ CREATE TABLE `traq_timeline` (
   `action` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `data` longtext COLLATE utf8_unicode_ci NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `timestamp` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `traq_timeline` WRITE;
 /*!40000 ALTER TABLE `traq_timeline` DISABLE KEYS */;
 
-INSERT INTO `traq_timeline` (`id`, `project_id`, `owner_id`, `action`, `data`, `user_id`, `timestamp`)
+INSERT INTO `traq_timeline` (`id`, `project_id`, `owner_id`, `action`, `data`, `user_id`, `created_at`)
 VALUES
 	(1,1,1,'ticket_created','1',1,'2012-02-02 12:01:22');
 

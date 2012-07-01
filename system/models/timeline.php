@@ -28,7 +28,7 @@
  		'action',
  		'data',
  		'user_id',
- 		'timestamp'
+ 		'created_at'
  	);
 
  	protected static $_belongs_to = array('user');
@@ -46,6 +46,11 @@
  			$this->_ticket = Ticket::find($this->owner_id);
  		}
  		return $this->_ticket;
+ 	}
+
+ 	public function is_valid()
+ 	{
+ 		return true;
  	}
 
  	/**
