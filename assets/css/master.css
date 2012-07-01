@@ -376,8 +376,10 @@ h3.list_title {
   text-align: right;
   width: 125px; }
 .tabular input {
-  margin-top: 1px;
+  margin-top: 0px;
   vertical-align: middle; }
+.tabular select {
+  margin-top: 0; }
 
 .error ul, .success ul, .notice ul, .info ul {
   margin-bottom: 0; }
@@ -397,6 +399,38 @@ form select {
 form textarea {
   height: 150px;
   width: 98%; }
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+textarea {
+  padding: 2px;
+  font-size: 12px; }
+  input[type=text]:focus,
+  input[type=password]:focus,
+  input[type=email]:focus,
+  input[type=url]:focus,
+  textarea:focus {
+    border-color: #3478AA; }
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url] {
+  width: 200px; }
+
+.overlay_thin input[type=text],
+.overlay_thin input[type=password],
+.overlay_thin input[type=email],
+.overlay_thin input[type=url] {
+  width: 120px; }
+
+.new_ticket .tabular .summary input {
+  width: 300px; }
+.new_ticket .tabular .properties .field {
+  float: left;
+  width: 300px; }
 
 .wiki.content #page_title {
   margin-bottom: 10px; }

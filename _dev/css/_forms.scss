@@ -15,8 +15,12 @@
 	}
 	
 	input {
-		margin-top: 1px;
+		margin-top: 0px;
 		vertical-align: middle;
+	}
+
+	select {
+		margin-top: 0;
 	}
 }
 
@@ -48,5 +52,51 @@ form {
 	textarea {
 		height: 150px;
 		width: 98%;
+	}
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+textarea {
+	padding: 2px;
+	font-size: 12px;
+
+	&:focus {
+		border-color: #3478AA;
+	}
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url] {
+	width: 200px;
+}
+
+.overlay_thin {
+	input[type=text],
+	input[type=password],
+	input[type=email],
+	input[type=url] {
+		width: 120px;
+	}
+}
+
+.new_ticket {
+	.tabular {
+		.summary {
+			input {
+				width: 300px;
+			}
+		}
+
+		.properties {
+			.field {
+				float: left;
+				width: 300px;
+			}
+		}
 	}
 }
