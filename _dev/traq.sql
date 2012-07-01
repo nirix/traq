@@ -203,69 +203,19 @@ CREATE TABLE `traq_projects` (
   `is_private` smallint(6) NOT NULL,
   `next_tid` bigint(20) NOT NULL,
   `displayorder` bigint(20) NOT NULL,
-  `private_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `traq_projects` WRITE;
 /*!40000 ALTER TABLE `traq_projects` DISABLE KEYS */;
 
-INSERT INTO `traq_projects` (`id`, `name`, `slug`, `codename`, `info`, `managers`, `is_private`, `next_tid`, `displayorder`, `private_key`)
+INSERT INTO `traq_projects` (`id`, `name`, `slug`, `codename`, `info`, `managers`, `is_private`, `next_tid`, `displayorder`)
 VALUES
-	(1,'Test','test','','_This_ is a **project**.\r\n\r\n<strong>WOOT</strong>\r\n\r\n    With _some_ code\r\n    and some more code.\r\n    <strong>YEAH</strong>\r\n\r\n#### Lists!\r\n\r\n- And\r\n- Some\r\n   1. _Pretty_\r\n   2. **Awesome**\r\n- Lists','1',0,1,0,'asd123'),
-	(2,'Another test','another-test','','','1',0,1,0,'abc321');
+	(1,'Test','test','','_This_ is a **project**.\r\n\r\n<strong>WOOT</strong>\r\n\r\n    With _some_ code\r\n    and some more code.\r\n    <strong>YEAH</strong>\r\n\r\n#### Lists!\r\n\r\n- And\r\n- Some\r\n   1. _Pretty_\r\n   2. **Awesome**\r\n- Lists','1',0,1,0),
+	(2,'Another test','another-test','','','1',0,1,0);
 
 /*!40000 ALTER TABLE `traq_projects` ENABLE KEYS */;
 UNLOCK TABLES;
-
-
-# Dump of table traq_repo_changes
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `traq_repo_changes`;
-
-CREATE TABLE `traq_repo_changes` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `changeset_id` bigint(20) NOT NULL,
-  `action` varchar(1) NOT NULL DEFAULT '',
-  `path` text NOT NULL,
-  `from_path` text,
-  `revision` varchar(255) DEFAULT NULL,
-  `branch` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table traq_repo_changeset_parents
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `traq_repo_changeset_parents`;
-
-CREATE TABLE `traq_repo_changeset_parents` (
-  `changeset_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`changeset_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table traq_repo_changesets
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `traq_repo_changesets`;
-
-CREATE TABLE `traq_repo_changesets` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `repository_id` bigint(20) NOT NULL,
-  `revision` varchar(255) NOT NULL DEFAULT '',
-  `commiter` varchar(255) DEFAULT '',
-  `committed_on` datetime NOT NULL,
-  `comment` text,
-  `user_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 # Dump of table traq_repositories
