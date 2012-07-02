@@ -304,6 +304,49 @@ h3.box_title {
 	background: #ffffdd;
 	border-bottom: 2px solid #dddd99;
 	padding: 5px;
+
+	.properties {
+		.property {
+			width: 227px;
+			margin-right: 10px;
+			float: left;
+			border-bottom: 1px solid #dd9;
+
+			label {
+				color: #663;
+			}
+
+			div.value, span.value {
+				float: right;
+			}
+
+			&:nth-child(4n) {
+				margin-right: 0px;
+			}
+		}
+	}
+
+	#description {
+		margin-top: 5px;
+
+		h3 {
+			display: block;
+			font-weight: bold;
+			color: #663;
+			border-bottom: 1px solid #dd9;
+			padding-bottom: 2px;
+		}
+
+		.body {
+			p {
+				margin-bottom: 4px;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
 }
 #ticket_summary {
 	margin: 0;

@@ -267,6 +267,29 @@ h3.box_title {
   background: #ffffdd;
   border-bottom: 2px solid #dddd99;
   padding: 5px; }
+  #ticket_info .properties .property {
+    width: 227px;
+    margin-right: 10px;
+    float: left;
+    border-bottom: 1px solid #dd9; }
+    #ticket_info .properties .property label {
+      color: #663; }
+    #ticket_info .properties .property div.value, #ticket_info .properties .property span.value {
+      float: right; }
+    #ticket_info .properties .property:nth-child(4n) {
+      margin-right: 0px; }
+  #ticket_info #description {
+    margin-top: 5px; }
+    #ticket_info #description h3 {
+      display: block;
+      font-weight: bold;
+      color: #663;
+      border-bottom: 1px solid #dd9;
+      padding-bottom: 2px; }
+    #ticket_info #description .body p {
+      margin-bottom: 4px; }
+      #ticket_info #description .body p:last-child {
+        margin-bottom: 0; }
 
 #ticket_summary {
   margin: 0;

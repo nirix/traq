@@ -83,6 +83,8 @@ class Locale_enUS extends Locale
 			'created' => "Created",
 			'updated' => "Updated",
 			'project' => "Project",
+			'never' => 'Never',
+			'x_ago' => '{1} ago',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -142,6 +144,9 @@ class Locale_enUS extends Locale
 			'description' => "Description",
 			'updates' => 'Updates',
 			'severity' => 'Severity',
+			'assigned_to' => 'Assigned to',
+			'reported' => 'Reported',
+			'priority' => 'Priority',
 
 			// User stuff
 			'login' => "Login",
