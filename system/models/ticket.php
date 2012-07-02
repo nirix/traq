@@ -95,7 +95,7 @@ class Ticket extends Model
 				'project_id' => $this->project_id,
 				'owner_id' => $this->id,
 				'action' => 'ticket_created',
-				'data' => $this->id,
+				'data' => $this->status_id || 1,
 				'user_id' => $this->user_id
 			));
 

@@ -88,7 +88,7 @@ class Locale
 	 */
 	public function date($format, $timestamp = null)
 	{
-		return Time::date($format, $timestamp !== null ? $timestamp : time());
+		return Time::date($format, $timestamp);
 	}
 
 	/**
