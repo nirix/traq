@@ -117,7 +117,7 @@ class AppController extends Controller
 	
 	public function __shutdown()
 	{
-		if (Request::is_ajax())
+		if (Request::is_ajax() and Router::$extension == null)
 		{
 			$this->_render['layout'] = 'plain';
 			$this->_render['view'] = $this->_render['view'] . (isset(Request::$request['overlay']) ? '.overlay' : '.js');

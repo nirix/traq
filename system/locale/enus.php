@@ -147,6 +147,7 @@ class Locale_enUS extends Locale
 			'assigned_to' => 'Assigned to',
 			'reported' => 'Reported',
 			'priority' => 'Priority',
+			'edit_ticket' => 'Edit Ticket',
 
 			// User stuff
 			'login' => "Login",
@@ -224,6 +225,11 @@ class Locale_enUS extends Locale
 				'no_permission' => array(
 					'title' => "Move along, move along",
 					'message' => "You don't have permission to access this page."
+				),
+
+				// Tickets
+				'tickets' => array(
+					'description_blank' => 'Desription cannot be blank'
 				),
 				
 				// Ticket types

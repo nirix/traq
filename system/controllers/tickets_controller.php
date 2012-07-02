@@ -162,4 +162,24 @@ class TicketsController extends AppController
 			}
 		}
 	}
+
+	/**
+	 * Handles the editing of the ticket description.
+	 */
+	public function action_edit($ticket_id)
+	{
+		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+		if (Request::$method == 'post')
+		{
+			$ticket->body = Request::$post['body'];
+
+			if ($ticket->save())
+			{
+				Request::redirect(Request::base($ticket->href()));
+			}
+		}
+
+		View::set('ticket', $ticket);
+	}
 }

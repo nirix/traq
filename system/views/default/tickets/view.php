@@ -1,4 +1,4 @@
-<div id="ticket_info">
+<div id="ticket_info" data-url="<?php echo Request::base($ticket->href()) . '.json'; ?>">
 	<h2 id="ticket_summary"><?php echo $ticket->summary; ?></h2>
 	<section class="properties">
 		<div class="property">
@@ -45,7 +45,12 @@
 		<div class="clearfix"></div>
 	</section>
 	<section id="description">
-		<h3><?php echo l('description'); ?></h3>
+		<h3>
+			<?php echo l('description'); ?>
+			<?php if ($current_user->permission($project->id, 'edit_ticket_description')) {
+				echo HTML::link('', $ticket->href() . '/edit', array('data-overlay' => true, 'class' => 'button_edit'));
+			} ?>
+		</h3>
 		<div class="body">
 			<?php echo format_text($ticket->body, true); ?>
 		</div>

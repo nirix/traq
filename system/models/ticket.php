@@ -84,10 +84,12 @@ class Ticket extends Model
 	 */
 	public function save()
 	{
-		$this->ticket_id = $this->project->next_tid;
-
-		$this->project->next_tid++;
-		$this->project->save();
+		if ($this->_is_new())
+		{
+			$this->ticket_id = $this->project->next_tid;
+			$this->project->next_tid++;
+			$this->project->save();
+		}
 
 		if (parent::save())
 		{
