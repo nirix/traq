@@ -116,17 +116,17 @@ function activepage($pages,$query=NULL)
 function check4update()
 {
 	global $traq_version_code;
-	
-	if($contents = @file_get_contents("http://traqproject.org/version_check.php?version=".urlencode(TRAQVER)."&versioncode=".$traq_version_code))
+	libxml_use_internal_errors(true);
+	if($contents = @file_get_contents("http://traq.io/version_check.php?version=".urlencode(TRAQVER)."&versioncode=".$traq_version_code)
+	and $xml = simplexml_load_string($contents))
 	{
-		$xml = simplexml_load_string($contents);
-		
-		if($xml->version['code'] > $traq_version_code)
+		if($xml->version and $xml->version['code'] > $traq_version_code)
 		{
 			return $xml;
 		}
 		return false;
 	}
+	return false;
 }
 
 /**
