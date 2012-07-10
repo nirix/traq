@@ -31,12 +31,17 @@ abstract class PluginBase
 	/**
 	 * Returns an array of the plugins info
 	 */
-	abstract protected static function info();
+	protected static function info()
+	{
+		die(get_called_class() . " " . __FUNCTION__ . " not implemented");
+	}
 
 	/**
 	 * Called when the plugin is loaded
 	 */
-	abstract protected static function init();
+	protected static function init()
+	{
+	}
 
 	/**
 	 * Called when the plugin is installed
