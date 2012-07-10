@@ -48,6 +48,9 @@ Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|repositories)
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|repositories)/new', 'ProjectSettings::$2::new');
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components)/([0-9]+)/(edit|delete)', 'ProjectSettings::$2::$4/$3');
 
+// Project permission routes
+Router::add('/' . RTR_PROJSLUG . '/settings/permissions/group', 'ProjectSettings::Permissions::index');
+
 // ------------------------------------------------
 // AdminCP routes
 Router::add('/admin', 'Admin::Projects::index');

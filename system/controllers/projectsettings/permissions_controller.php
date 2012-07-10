@@ -1,0 +1,83 @@
+<?php
+/*
+ * Traq
+ * Copyright (C) 2009-2012 Traq.io
+ * 
+ * This file is part of Traq.
+ * 
+ * Traq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3 only.
+ * 
+ * Traq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+class ProjectSettingsPermissionsController extends ProjectSettingsAppController
+{
+	public function __construct()
+	{
+		parent::__construct();
+
+		// Set Form::select() options
+		View::set('options', array(
+			'defaults' => array(
+				array('label' => l('allow'), 'value' => 1),
+				array('label' => l('deny'), 'value' => 0),
+			),
+			'all' => array(
+				array('label' => l('defaults'), 'value' => -1),
+				array('label' => l('allow'), 'value' => 1),
+				array('label' => l('deny'), 'value' => 0),
+			)
+		));
+	}
+
+	/**
+	 * Handles the group permissions page.
+	 */
+	public function action_index()
+	{
+		// Fetch groups, set permissions and actions arrays
+		$groups = Group::fetch_all();
+		$permissions = array();
+		$actions = array();
+
+		// Add a 'defaults' group, so as to not have two tables,
+		// one for defaults, one for groups.
+		$groups = array_merge(array(new Group(array('id' => 0, 'name' => l('defaults')))), $groups);
+
+		// Loop over the groups
+		foreach ($groups as $group)
+		{
+			// Set the group array in the permissions array
+			if (!isset($permissions[$group->id]))
+			{
+				$permissions[$group->id] = array();
+			}
+
+			// Loop over the permissions for the group
+			foreach (Permission::get_permissions($this->project->id, $group->id) as $action => $perm)
+			{
+				// Add the action to the actions array
+				if (!in_array($action, $actions))
+				{
+					$actions[] = $action;
+				}
+
+				// Add the permission object to the permissions array
+				$permissions[$group->id][$action] = $perm;
+			}
+		}
+
+		// Send it all the to view.
+		View::set('groups', $groups);
+		View::set('permissions', $permissions);
+		View::set('actions', $actions);
+	}
+}

@@ -177,6 +177,20 @@ class Locale_enUS extends Locale
 			'save' => "Save",
 			'edit' => "Edit",
 			'delete' => "Delete",
+
+			// Permissions
+			'action' => 'Action',
+			'defaults' => 'Defaults',
+			'allow' => 'Allow',
+			'deny' => 'Deny',
+			'permissions' => array(
+				'Permissions',
+
+				'view' => 'View',
+				'create_wiki_page' => 'Create wiki page',
+				'edit_wiki_page' => 'Edit wiki page',
+				'delete_wiki_page' => 'Delete wiki page'
+			),
 			
 			// Time
 			'time' => array(
