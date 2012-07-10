@@ -58,7 +58,7 @@ class Permission extends Model
 		$permissions = array();
 		foreach ($rows as $permission)
 		{
-			$permissions[$permission->action] = $permission->value;
+			$permissions[$permission->action] = $permission;
 		}
 
 		// And return them...
