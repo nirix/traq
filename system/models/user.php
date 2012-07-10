@@ -82,7 +82,7 @@ class User extends Model
 	{
 		$projects = array();
 		
-		foreach (UsersRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation)
+		foreach (UserRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation)
 		{
 			$projects[] = array($relation->project, $relation->role);
 		}
@@ -122,7 +122,7 @@ class User extends Model
 		}
 		
 		$perms = array_merge($this->permissions['project'][$project_id], $this->permissions['role'][$project_id]);
-		return $perms[$action];
+		return $perms[$action]->value;
 		
 	}
 	
@@ -135,7 +135,7 @@ class User extends Model
 	 */
 	public function get_project_role($project_id)
 	{
-		if ($role = UsersRole::select()->where('project_id', $project_id)->where('user_id', $this->_data['id'])->exec()
+		if ($role = UserRole::select()->where('project_id', $project_id)->where('user_id', $this->_data['id'])->exec()
 		and $role->row_count() > 0)
 		{
 			return $role->fetch()->project_role_id;

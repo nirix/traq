@@ -26,9 +26,9 @@
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class UsersRole extends Model
+class UserRole extends Model
 {
-	protected static $_name = 'users_roles';
+	protected static $_name = 'user_roles';
 	protected static $_properties = array(
 		'id',
 		'user_id',
