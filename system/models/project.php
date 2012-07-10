@@ -30,8 +30,7 @@ class Project extends Model
 		'managers',
 		'is_private',
 		'next_tid',
-		'displayorder',
-		'private_key'
+		'displayorder'
 	);
 	
 	// Has-many relationships with other models
