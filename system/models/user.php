@@ -122,8 +122,13 @@ class User extends Model
 		}
 		
 		$perms = array_merge($this->permissions['project'][$project_id], $this->permissions['role'][$project_id]);
-		return $perms[$action]->value;
-		
+
+		if (!isset($perms[$action]))
+		{
+			return false;
+		}
+
+		return $perms[$action]->value;		
 	}
 	
 	/**

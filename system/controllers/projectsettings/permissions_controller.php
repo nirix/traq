@@ -18,6 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Project permissions controller
+ *
+ * @author Jack P.
+ * @since 3.0
+ * @package Traq
+ * @subpackage Controllers
+ */
 class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 {
 	public function __construct()

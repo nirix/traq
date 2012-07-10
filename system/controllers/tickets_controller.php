@@ -168,6 +168,11 @@ class TicketsController extends AppController
 	 */
 	public function action_edit($ticket_id)
 	{
+		if (!$this->user->permission($this->project->id, 'edit_ticket_description'))
+		{
+			$this->show_no_permission();
+		}
+
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
 		if (Request::$method == 'post')
