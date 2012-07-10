@@ -39,7 +39,7 @@ class ProjectSettingsAppController extends AppController
 		if (!$this->project
 		or (!$this->user->permission($this->project->id, 'project_settings') and !$this->user->group->is_admin))
 		{
-			$this->show_404();
+			$this->show_no_permission();
 		}
 	}
 }
