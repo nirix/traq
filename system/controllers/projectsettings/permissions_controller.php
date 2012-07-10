@@ -39,12 +39,35 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 	}
 
 	/**
-	 * Handles the group permissions page.
+	 * Handles the permissions listing and saving...
+	 * 
+	 * Nice sexy DRY code right here, eh?
 	 */
-	public function action_index()
+	public function action_index($type)
+	{
+		// If the type of permissions is 'groups', set it to 'usergroups'.
+		$type = $type == 'groups' ? 'usergroup' : $type;
+
+		// Has the form been submitted?
+		if (Request::$method == 'post')
+		{
+			// Long and complex code goes here for
+			// either creating, updating or deleting permissions
+
+			Request::redirect(Request::full_uri());
+		}
+
+		// Setup the page
+		$this->permissions_for($type);
+	}
+
+	/**
+	 * Fetches all the data for the permission listing page.
+	 */
+	private function permissions_for($type)
 	{
 		// Fetch groups, set permissions and actions arrays
-		$groups = Group::fetch_all();
+		$groups = Group::select()->where('is_admin', 1, '!=')->exec()->fetch_all();
 		$permissions = array();
 		$actions = array();
 
@@ -62,7 +85,7 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 			}
 
 			// Loop over the permissions for the group
-			foreach (Permission::get_permissions($this->project->id, $group->id) as $action => $perm)
+			foreach (Permission::get_permissions($this->project->id, $group->id, $type) as $action => $perm)
 			{
 				// Add the action to the actions array
 				if (!in_array($action, $actions))

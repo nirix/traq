@@ -179,13 +179,13 @@ class Locale_enUS extends Locale
 			'delete' => "Delete",
 
 			// Permissions
+			'group_permissions' => 'Group Permissions',
+			'role_permissions' => 'Role Permissions',
 			'action' => 'Action',
 			'defaults' => 'Defaults',
 			'allow' => 'Allow',
 			'deny' => 'Deny',
 			'permissions' => array(
-				'Permissions',
-
 				'view' => 'View',
 				'create_wiki_page' => 'Create wiki page',
 				'edit_wiki_page' => 'Edit wiki page',
