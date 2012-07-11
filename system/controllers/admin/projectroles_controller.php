@@ -51,6 +51,7 @@ class AdminProjectRolesController extends AdminBase
 		{
 			// Set the role name
 			$role->name = Request::$post['name'];
+			$role->project_id = Request::$post['project'];
 			
 			// Validate the data
 			if ($role->is_valid())
@@ -77,6 +78,7 @@ class AdminProjectRolesController extends AdminBase
 		{
 			// Update the role name
 			$role->name = Request::$post['name'];
+			$role->project_id = Request::$post['project'];
 			
 			// Validate the data
 			if ($role->is_valid())

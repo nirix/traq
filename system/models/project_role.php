@@ -31,8 +31,11 @@ class ProjectRole extends Model
 	protected static $_name = 'project_roles';
 	protected static $_properties = array(
 		'id',
-		'name'
+		'name',
+		'project_id'
 	);
+
+	protected static $_belongs_to = array('project');
 	
 	// Validates the model data
 	public function is_valid()
