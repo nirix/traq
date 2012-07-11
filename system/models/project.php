@@ -59,6 +59,24 @@ class Project extends Model
 	}
 
 	/**
+	 * Returns an array formatted for the Form::select() options.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$rows = static::fetch_all();
+
+		$options = array();
+		foreach ($rows as $row)
+		{
+			$options[] = array('label' => $row->name, 'value' => $row->id);
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Returns an array of milestones formatted for the Form::select() method.
 	 *
 	 * @return array

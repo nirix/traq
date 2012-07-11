@@ -126,6 +126,7 @@ class Locale_enUS extends Locale
 			'roles' => 'Roles',
 			'new_role' => 'New Role',
 			'edit_role' => 'Edit Role',
+			'all' => 'All',
 
 			// Project settings
 			'new_milestone' => "New Milestone",
@@ -189,7 +190,8 @@ class Locale_enUS extends Locale
 				'view' => 'View',
 				'create_wiki_page' => 'Create wiki page',
 				'edit_wiki_page' => 'Edit wiki page',
-				'delete_wiki_page' => 'Delete wiki page'
+				'delete_wiki_page' => 'Delete wiki page',
+				'project_settings' => 'Project Settings'
 			),
 			
 			// Time

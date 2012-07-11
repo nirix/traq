@@ -54,7 +54,7 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 	public function action_index($type)
 	{
 		// If the type of permissions is 'groups', set it to 'usergroups'.
-		$type = $type == 'groups' ? 'usergroup' : $type;
+		$type = $type == 'groups' ? 'usergroup' : 'role';
 
 		// Has the form been submitted?
 		if (Request::$method == 'post')
@@ -75,13 +75,17 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 	private function permissions_for($type)
 	{
 		// Fetch groups, set permissions and actions arrays
-		$groups = Group::select()->where('is_admin', 1, '!=')->exec()->fetch_all();
+		if ($type == 'usergroup') {
+			$groups = Group::select()->where('is_admin', 1, '!=')->exec()->fetch_all();
+			$groups = array_merge(array(new Group(array('id' => 0, 'name' => l('defaults')))), $groups);
+		}
+		elseif ($type == 'role')
+		{
+			$groups = ProjectRole::select()->custom_sql("WHERE project_id = 0 OR project_id = {$this->project->id}")->exec()->fetch_all();
+			$groups = array_merge(array(new ProjectRole(array('id' => 0, 'name' => l('defaults'), 'project_id' => 0))), $groups);
+		}
 		$permissions = array();
 		$actions = array();
-
-		// Add a 'defaults' group, so as to not have two tables,
-		// one for defaults, one for groups.
-		$groups = array_merge(array(new Group(array('id' => 0, 'name' => l('defaults')))), $groups);
 
 		// Loop over the groups
 		foreach ($groups as $group)
