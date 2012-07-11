@@ -43,6 +43,13 @@ p {
 	margin-bottom: 5px;
 }
 
+ol, ul {
+	margin-bottom: 5px;
+}
+ol li, ul li {
+	margin-bottom: 0;
+}
+
 #wrapper {
 	width: 1000px;
 	margin: 0 auto;
