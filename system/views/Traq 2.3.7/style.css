@@ -19,7 +19,12 @@ td {
 }
 
 h1 {
+	font-size: 26px;
 	margin-bottom: 5px;
+}
+
+h2 {
+	font-size: 20px;
 }
 
 h2, h3 {
@@ -245,6 +250,9 @@ ul.projects .quick_nav {
 #timeline .day h3 {
 	margin: 0px;
 }
+.day ul {
+	margin-bottom: 12px;
+}
 
 /* ==== Ticket Filters ==== */
 #ticket_filters {
@@ -261,7 +269,8 @@ ul.projects .quick_nav {
 	font-size: 12px;
 	text-align: right;
 	font-weight: bold;
-	padding-right: 2px;
+	padding-right: 5px;
+	padding-top: 5px;
 	min-width: 90px;
 }
 #ticket_filters td.value {
@@ -272,6 +281,7 @@ ul.projects .quick_nav {
 }
 #ticket_filters td.mode {
 	width: 50px;
+	padding-right: 5px;
 }
 #ticket_filters .remove {
 	width: 20px;
@@ -361,6 +371,9 @@ ul.projects .quick_nav {
 }
 
 /* ==== Forms ==== */
+table.form td {
+	padding: 2px;
+}
 form {
 	margin: 0;
 }
