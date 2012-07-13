@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `traq_wiki` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
-('theme', 'Default'),
+('theme', 'Traq 2.3.7'),
 ('locale', 'enus.php'),
 ('seo_urls','0'),
 ('recaptcha_enabled','0'),
