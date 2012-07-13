@@ -415,8 +415,8 @@ fieldset.properties .property span {
 	padding: 4px 10px 0 0;
 	font-size: 12px;
 }
-fieldset.properties div.properties {
-	width: 612px;
+fieldset.properties .property table {
+	width: 50%;
 }
 fieldset.properties table.actions {
 	width: 550px;
