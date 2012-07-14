@@ -191,7 +191,8 @@ class Locale_enUS extends Locale
 				'create_wiki_page' => 'Create wiki page',
 				'edit_wiki_page' => 'Edit wiki page',
 				'delete_wiki_page' => 'Delete wiki page',
-				'project_settings' => 'Project Settings'
+				'project_settings' => 'Project Settings',
+				'edit_ticket_description' => 'Edit ticket description'
 			),
 			
 			// Time
