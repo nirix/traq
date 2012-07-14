@@ -59,8 +59,44 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 		// Has the form been submitted?
 		if (Request::$method == 'post')
 		{
-			// Long and complex code goes here for
-			// either creating, updating or deleting permissions
+			// Loop over group/role and get id and permissions
+			foreach (Request::$post['perm'] as $type_id => $permissions)
+			{
+				// Loop over permissions for id and value
+				foreach ($permissions as $permission_id => $value)
+				{
+					// Fetch permission
+					$perm = Permission::find($permission_id);
+
+					// Use default
+					if ($perm and $perm->type_id == $type_id and $value == -1 and $type_id > 0)
+					{
+						$perm->delete();
+					}
+					// Allow / Deny
+					elseif ($value == 0 or $value == 1)
+					{
+						// Update
+						if ($perm and $perm->type_id == $type_id)
+						{
+							$perm->value = $value;
+							$perm->save();
+						}
+						// Create
+						else
+						{
+							$perm = new Permission(array(
+								'project_id' => $this->project->id,
+								'type' => $type,
+								'type_id' => $type_id,
+								'action' => $perm->action,
+								'value' => $value
+							));
+							$perm->save();
+						}
+					}
+				}
+			}
 
 			Request::redirect(Request::full_uri());
 		}
