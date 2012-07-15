@@ -39,7 +39,14 @@
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('updated')); ?>
-			<span class="value"><?php echo $ticket->updated_at > $ticket->created_at ? l('x_ago', Time::ago_in_words($ticket->updated_at)) : l('never'); ?></span>
+			<span class="value" id="updated_at"><?php echo $ticket->updated_at > $ticket->created_at ? l('x_ago', Time::ago_in_words($ticket->updated_at)) : l('never'); ?></span>
+		</div>
+		<div class="property">
+			<?php echo Form::label(l('votes')); ?>
+			<span class="value" id="votes"><?php echo $ticket->votes; ?></span>
+			<?php if ($current_user->permission($project->id, 'vote_on_tickets')) {
+				echo HTML::link('+', $ticket->href() . '/vote', array('data-ajax' => true));
+			} ?>
 		</div>
 
 		<div class="clearfix"></div>

@@ -85,6 +85,7 @@ class Locale_enUS extends Locale
 			'project' => "Project",
 			'never' => 'Never',
 			'x_ago' => '{1} ago',
+			'votes' => 'Votes',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -231,6 +232,8 @@ class Locale_enUS extends Locale
 				'slug_blank' => "Slug cannot be blank",
 				'slug_in_use' => "That slug is already in use",
 				'page_title_blank' => "Page Title cannot be blank",
+				'already_voted' => 'You have already voted.',
+				'must_be_logged_in' => 'You must be logged in to do that.',
 
 				// 404 error page
 				'404' => array(

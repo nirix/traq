@@ -46,6 +46,7 @@ class Ticket extends Model
 		'assigned_to_id',
 		'is_closed',
 		'is_private',
+		'votes',
 		'extra',
 		'created_at',
 		'updated_at'
@@ -65,6 +66,15 @@ class Ticket extends Model
 		'status'      => array('model' => 'ticketstatus'),
 		'type'        => array('model' => 'tickettype')
 	);
+
+	protected static $_filters_after = array(
+		'construct' => array('process_data_read')
+	);
+
+	protected static $_filters_before = array(
+		'create' => array('process_data_write'),
+		'save' => array('process_data_write')
+	);
 	
 	/**
 	 * Returns the URI for the ticket.
@@ -74,6 +84,33 @@ class Ticket extends Model
 	public function href()
 	{
 		return "/{$this->project->slug}/tickets/{$this->ticket_id}";
+	}
+
+	/**
+	 * Adds a vote to the ticket.
+	 *
+	 * @param object $user
+	 *
+	 * @return bool
+	 */
+	public function add_vote($user_id)
+	{
+		if (!is_array($this->_data['extra']['voted']))
+		{
+			$this->_data['extra']['voted'] = array();
+		}
+
+		if (!in_array($user_id, $this->_data['extra']['voted']))
+		{
+			$this->votes++;
+			$this->_data['extra']['voted'][] = $user_id;
+			$this->_set_changed('extra');
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -169,5 +206,28 @@ class Ticket extends Model
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Processes the data when reading from the database.
+	 *
+	 * @access private
+	 */
+	protected function process_data_read()
+	{
+		$this->extra = json_decode(isset($this->_data['extra']) ? $this->_data['extra'] : '', true);
+	}
+
+	/**
+	 * Processes the data when saving to the database.
+	 *
+	 * @access private
+	 */
+	protected function process_data_write()
+	{
+		if (isset($this->_data['extra']) and is_array($this->_data['extra']))
+		{
+			$this->extra = json_encode($this->_data['extra']);
+		}
 	}
 }

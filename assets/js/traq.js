@@ -38,6 +38,7 @@ $(document).ready(function(){
 		e.click(function(){
 			$.ajax({
 				url: e.attr('href'),
+				dataType: 'script',
 				error: function(a,b,c){ alert(c); }
 			});
 			return false;

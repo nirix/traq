@@ -127,6 +127,31 @@ class TicketsController extends AppController
 		$this->title($ticket->summary);
 		View::set('ticket', $ticket);
 	}
+
+	/**
+	 * Handles the add vote page.
+	 *
+	 * @param integer $ticket_id
+	 */
+	public function action_vote($ticket_id)
+	{
+		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+		if (!$this->user->permission($this->project->id, 'vote_on_tickets'))
+		{
+			View::set('error', l('errors.must_be_logged_in'));
+		}
+		elseif ($ticket->add_vote($this->user->id))
+		{
+			$ticket->save();
+			View::set('ticket', $ticket);
+			View::set('error', false);
+		}
+		else
+		{
+			View::set('error', l('errors.already_voted'));
+		}
+	}
 	
 	/**
 	 * Handles the new ticket page and ticket creation.
