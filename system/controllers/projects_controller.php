@@ -76,6 +76,19 @@ class ProjectsController extends AppController
 		$milestones = Milestone::select()->where('project_id', $this->project->id)->order_by('displayorder', 'ASC')->exec()->fetch_all();
 		View::set('milestones', $milestones);
 	}
+
+	/**
+	 * Handles the milestone page.
+	 */
+	public function action_milestone($milestone_slug)
+	{
+		$milestone = Milestone::select()->where(array(
+			array('project_id', $this->project->id),
+			array('slug', $milestone_slug)
+		))->exec()->fetch();
+
+		View::set('milestone', $milestone);
+	}
 	
 	/**
 	 * Handles the timeline page.

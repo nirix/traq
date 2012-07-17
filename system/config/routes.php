@@ -27,6 +27,7 @@ Router::add('/users/([0-9]+)', 'Users::view/$1');
 // ------------------------------------------------
 // Project routes
 Router::add('/projects', 'Projects::index');
+Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+)', 'Projects::milestone/$2');
 Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap)', 'Projects::$2');
 Router::add('/' . RTR_PROJSLUG, 'Projects::view');
 
