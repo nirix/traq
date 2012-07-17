@@ -117,13 +117,28 @@ class Project extends Model
 	}
 	
 	/**
-	 * Returns a the project managers as an array.
+	 * Returns the project managers as an array.
 	 *
 	 * @return array
 	 */
 	public function managers()
 	{
 		return $this->_managers;
+	}
+
+	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public function member_select_options()
+	{
+		$options = array();
+		foreach (UserRole::project_members($this->id) as $user)
+		{
+			$options[] = array('label' => $user->name, 'value' => $user->id);
+		}
+		return $options;
 	}
 	
 	/**
