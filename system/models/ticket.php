@@ -132,16 +132,19 @@ class Ticket extends Model
 
 		if (parent::save())
 		{
-			// Timeline entry
-			$timeline = new Timeline(array(
-				'project_id' => $this->project_id,
-				'owner_id' => $this->id,
-				'action' => 'ticket_created',
-				'data' => $this->status_id || 1,
-				'user_id' => $this->user_id
-			));
+			if ($this->_is_new())
+			{
+				// Timeline entry
+				$timeline = new Timeline(array(
+					'project_id' => $this->project_id,
+					'owner_id' => $this->id,
+					'action' => 'ticket_created',
+					'data' => $this->status_id || 1,
+					'user_id' => $this->user_id
+				));
 
-			$timeline->save();
+				$timeline->save();
+			}
 
 			return true;
 		}
