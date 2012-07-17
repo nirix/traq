@@ -190,6 +190,11 @@ class Ticket extends Model
 					$to = $to_values[$field]->name;
 				break;
 
+				case 'summary':
+					$from = $this->summary;
+					$to = $value;
+				break;
+
 				default:
 					$class = str_replace('_id', '', $field);
 					$to_values[$field] = $class::find($value);
@@ -197,6 +202,12 @@ class Ticket extends Model
 					$from = $this->$class->name;
 					$to = $to_values[$field]->name;
 				break;
+			}
+
+			// One last value check...
+			if ($from == $to)
+			{
+				continue;
 			}
 
 			// Change data
@@ -220,7 +231,7 @@ class Ticket extends Model
 			$this->set($field, $value);
 			$changes[] = $change;
 		}
-		
+
 		// Any changes, or perhaps a comment?
 		if (count($changes) > 0 or !empty(Request::$post['comment']))
 		{
