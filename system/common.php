@@ -130,6 +130,28 @@ function iif($condition, $true, $false = null)
 }
 
 /**
+ * Returns an array of the available permissions.
+ *
+ * @return array
+ */
+function permission_actions()
+{
+	global $locale;
+
+	// Fetch the locale strings
+	$locale_strings = $locale->locale();
+
+	// Loop over them and get the permissions...
+	$actions = array();
+	foreach ($locale_strings['permissions'] as $action => $string)
+	{
+		$actions[] = $action;
+	}
+
+	return $actions;
+}
+
+/**
  * Returns an array of available SCMs.
  *
  * @return array
