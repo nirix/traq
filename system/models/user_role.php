@@ -38,8 +38,19 @@ class UserRole extends Model
 	
 	// Allow easy access to the project and role models
 	protected static $_belongs_to = array(
-		'project',
-		
+		'project', 'user',
+
 		'role' => array('model' => 'projectrole', 'column' => 'project_role_id')
 	);
+
+	public static function project_members($project_id)
+	{
+		$members = array();
+		foreach (static::select()->where('project_id', $project_id)->exec()->fetch_all() as $relation)
+		{
+			$members[] = $relation->user;
+		}
+
+		return $members;
+	}
 }
