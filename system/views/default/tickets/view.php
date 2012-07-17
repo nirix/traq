@@ -127,7 +127,7 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('summary'), 'summary'); ?>
-					<?php echo Form::text('summary', array('value' => $ticket->summary)); ?>
+					<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
 				</div>
 			</div>
 			<div class="clear"></div>

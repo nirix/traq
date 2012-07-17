@@ -13,7 +13,7 @@ if (!function_exists('_mklocale')) {
 }
 
 if (isset($change['action'])) {
-	echo l("ticket_history.{$change->action}_ticket", $change['from'], $change['to']);
+	echo l("ticket_history.{$change['action']}_ticket", $change['from'], $change['to']);
 } elseif ($change['property'] == 'assigned_to') {
 	echo _mklocale($change, 'assignee');
 } else {
