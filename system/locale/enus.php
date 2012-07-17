@@ -86,6 +86,10 @@ class Locale_enUS extends Locale
 			'never' => 'Never',
 			'x_ago' => '{1} ago',
 			'votes' => 'Votes',
+			'update_ticket' => 'Update Ticket',
+			'comment' => 'Comment',
+			'update' => 'Update',
+			'x_ago_by_x' => '{1} ago by {2}',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -152,7 +156,22 @@ class Locale_enUS extends Locale
 			'priority' => 'Priority',
 			'edit_ticket' => 'Edit Ticket',
 
-			// User stuff
+			// Ticket history
+			'ticket_history' => array(
+				'Ticket History',
+
+				// Most fields
+				'x_from_x_to_x' => 'Changed {1} from {2} to {3}',
+				'x_from_null_to_x' => 'Set {1} to {3}',
+				'x_from_x_to_null' => 'Cleared {1}, was {2}',
+
+				// Assignee field
+				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
+				'assignee_from_null_to_x' => 'Assigned ticket to {3}',
+				'assignee_from_x_to_null' => 'Unassigned ticket from {2}'
+			),
+
+			// Users
 			'login' => "Login",
 			'logout' => "Logout",
 			'usercp' => "UserCP",
@@ -194,7 +213,9 @@ class Locale_enUS extends Locale
 				'edit_wiki_page' => 'Edit wiki page',
 				'delete_wiki_page' => 'Delete wiki page',
 				'project_settings' => 'Project Settings',
-				'edit_ticket_description' => 'Edit ticket description'
+				'edit_ticket_description' => 'Edit ticket description',
+				'update_ticket' => 'Update Ticket',
+				'vote_on_tickets' => 'Vote on tickets'
 			),
 			
 			// Time

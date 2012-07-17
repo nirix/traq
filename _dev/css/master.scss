@@ -361,6 +361,55 @@ h3.box_title {
 	font-weight: normal;
 }
 
+#ticket_history {
+	border-bottom: 1px solid #3478AA;
+	margin-bottom: 5px;
+
+	h3 {
+		margin-top: 5px;
+		padding: 10px;
+		padding-bottom: 0;
+	}
+
+	.update {
+		h4 {
+			background: #3478AA;
+			color: #fff;
+			padding: 4px 15px;
+			margin: 0;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			font-weight: bold;
+
+			a {
+				color: #fff;
+			}
+		}
+
+		.changes {
+			margin: 4px 0px 4px 15px;
+		}
+
+		.comment {
+			padding: 0 10px 0px 15px;
+
+			p:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		&:first-child {
+			h4 {
+				margin-top: 0;
+			}
+		}
+
+		&:last-child {
+			padding-bottom: 10px;
+		}
+	}
+}
+
 /* ==========# Tabs #========== */
 .tabs {
 	height: 24px;

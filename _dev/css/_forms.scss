@@ -84,19 +84,17 @@ input[type=url] {
 	}
 }
 
-.new_ticket {
-	.tabular {
-		.summary {
-			input {
-				width: 300px;
-			}
+.tabular {
+	.summary {
+		input {
+			width: 300px;
 		}
+	}
 
-		.properties {
-			.field {
-				float: left;
-				width: 300px;
-			}
+	.properties {
+		.field {
+			float: left;
+			width: 300px;
 		}
 	}
 }

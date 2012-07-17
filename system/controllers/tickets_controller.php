@@ -189,6 +189,36 @@ class TicketsController extends AppController
 	}
 
 	/**
+	 * Handles the updating of the ticket.
+	 */
+	public function action_update($ticket_id)
+	{
+		if (!$this->user->permission($this->project->id, 'update_ticket'))
+		{
+			return $this->show_no_permission();
+		}
+
+		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+		$data = array(
+			'summary' => Request::$post['summary'],
+			'milestone_id' => Request::$post['milestone'],
+			'version_id' => Request::$post['version'],
+			'component_id' => Request::$post['component'],
+			'type_id' => Request::$post['type'],
+			//'status_id' => Request::$post['status'],
+			'severity_id' => Request::$post['severity'],
+			'priority_id' => Request::$post['priority'],
+			'assigned_to_id' => Request::$post['assigned_to']
+		);
+
+		if ($ticket->update_data($data))
+		{
+			Request::redirect(Request::base($ticket->href()));
+		}
+	}
+
+	/**
 	 * Handles the editing of the ticket description.
 	 */
 	public function action_edit($ticket_id)

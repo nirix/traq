@@ -51,6 +51,8 @@ class Ticket extends Model
 		'created_at',
 		'updated_at'
 	);
+
+	protected $_original_data = array();
 	
 	protected static $_has_many = array(
 		'history' => array('model' => 'tickethistory')
@@ -130,6 +132,7 @@ class Ticket extends Model
 
 		if (parent::save())
 		{
+			// Timeline entry
 			$timeline = new Timeline(array(
 				'project_id' => $this->project_id,
 				'owner_id' => $this->id,
@@ -146,6 +149,93 @@ class Ticket extends Model
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Used to update the ticket properties.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function update_data($data)
+	{
+		$to_values = array();
+		$changes = array();
+
+		// Loop over the data
+		foreach ($data as $field => $value)
+		{
+			// Check if the value is different
+			if ($this->_data[$field] == $value)
+			{
+				continue;
+			}
+
+			// Get the to and from values for different fields
+			switch($field)
+			{
+				case 'assigned_to_id':
+					$from = $this->assigned_to_id == 0 ? null : $this->assigned_to->username;
+					$user = User::find($value);
+					$to = $user ? $user->username : null;
+				break;
+
+				case 'status_id':
+				case 'type_id':
+					$class = 'Ticket' . ucfirst(str_replace('_id', '', $field));
+					$to_values[$field] = $class::find($value);
+
+					$from = $this->$class->name;
+					$to = $to_values[$field]->name;
+				break;
+
+				default:
+					$class = str_replace('_id', '', $field);
+					$to_values[$field] = $class::find($value);
+
+					$from = $this->$class->name;
+					$to = $to_values[$field]->name;
+				break;
+			}
+
+			// Change data
+			$change = array(
+				'property' => str_replace('_id', '', $field),
+				'from' => $from,
+				'to' => $to
+			);
+
+			// Has the status changed?
+			if ($field == 'status_id' and $this->status_id != $value)
+			{
+				if ($this->status->status != $to_values[$field]->status)
+				{
+					$this->status = $to_status->status;
+					$change['action'] = $to_status->status == 1 ? 'open' : 'close';
+				}
+			}
+
+			// Set value
+			$this->set($field, $value);
+			$changes[] = $change;
+		}
+		
+		// Any changes, or perhaps a comment?
+		if (count($changes) > 0 or !empty(Request::$post['comment']))
+		{
+			$history = new TicketHistory(array(
+				'user_id' => Avalon::app()->user->id,
+				'ticket_id' => $this->id,
+				'changes' => count($changes) > 0 ? json_encode($changes) : '',
+				'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
+			));
+			
+			$history->save();
+		}
+		
+		// Save
+		return $this->save();
 	}
 
 	/**

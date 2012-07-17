@@ -33,11 +33,25 @@ class TicketHistory extends Model
 		'id',
 		'user_id',
 		'ticket_id',
-		'project_id',
 		'changes',
 		'comment',
-		'timestamp'
+		'created_at'
 	);
 	
-	protected static $_belongs_to = array('ticket');
+	protected static $_belongs_to = array('ticket', 'user');
+
+	protected static $_filters_after = array('construct' => array('read_changes'));
+
+	protected function read_changes()
+	{
+		if (!$this->_is_new())
+		{
+			$this->_data['changes'] = json_decode($this->_data['changes'], true);
+		}
+	}
+
+	public function is_valid()
+	{
+		return true;
+	}
 }
