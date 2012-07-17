@@ -121,7 +121,6 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 			$groups = array_merge(array(new ProjectRole(array('id' => 0, 'name' => l('defaults'), 'project_id' => 0))), $groups);
 		}
 		$permissions = array();
-		$actions = array();
 
 		// Loop over the groups
 		foreach ($groups as $group)
@@ -135,12 +134,6 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 			// Loop over the permissions for the group
 			foreach (Permission::get_permissions($this->project->id, $group->id, $type) as $action => $perm)
 			{
-				// Add the action to the actions array
-				if (!in_array($action, $actions))
-				{
-					$actions[] = $action;
-				}
-
 				// Add the permission object to the permissions array
 				$permissions[$group->id][$action] = $perm;
 			}
@@ -149,6 +142,6 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 		// Send it all the to view.
 		View::set('groups', $groups);
 		View::set('permissions', $permissions);
-		View::set('actions', $actions);
+		View::set('actions', permission_actions());
 	}
 }
