@@ -33,4 +33,19 @@ class Priority extends Model
 		'id',
 		'name'
 	);
+
+	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$options = array();
+		foreach (static::fetch_all() as $priority)
+		{
+			$options[] = array('label' => $priority->name, 'value' => $priority->id);
+		}
+		return $options;
+	}
 }
