@@ -240,6 +240,21 @@ class User extends Model
 	}
 
 	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$options = array();
+		foreach (static::fetch_all() as $user)
+		{
+			$options[] = array('label' => $user->name, 'value' => $user->id);
+		}
+		return $options;
+	}
+
+	/**
 	 * Returns an array of the users data.
 	 *
 	 * @param array $fields Fields to return
