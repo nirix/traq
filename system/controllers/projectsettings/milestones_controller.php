@@ -58,8 +58,10 @@ class ProjectSettingsMilestonesController extends ProjectSettingsAppController
 			$milestone->set(array(
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
+				'codename' => Request::$post['codename'],
 				'info' => Request::$post['info'],
-				'project_id' => $this->project->id
+				'project_id' => $this->project->id,
+				'displayorder' => Request::$post['displayorder']
 			));
 			
 			// Check if the data is valid
@@ -93,7 +95,9 @@ class ProjectSettingsMilestonesController extends ProjectSettingsAppController
 			$milestone->set(array(
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
-				'info' => Request::$post['info']
+				'codename' => Request::$post['codename'],
+				'info' => Request::$post['info'],
+				'displayorder' => Request::$post['displayorder']
 			));
 			
 			// Make sure the data is valid

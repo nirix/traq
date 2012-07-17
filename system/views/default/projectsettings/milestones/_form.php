@@ -7,6 +7,14 @@
 	<?php echo Form::text('slug', array('value' => $milestone->slug)); ?> <abbr title="<?php echo l('help.slug'); ?>">?</abbr>
 </div>
 <div class="group">
+	<label><?php echo l('codename'); ?></label>
+	<?php echo Form::text('codename', array('value' => $milestone->codename)); ?>
+</div>
+<div class="group">
 	<label><?php echo l('Description'); ?></label>
 	<?php echo Form::textarea('info', array('value' => $milestone->info, 'class' => 'editor')); ?>
+</div>
+<div class="group">
+	<label><?php echo l('display_order'); ?></label>
+	<?php echo Form::text('displayorder', array('value' => $milestone->displayorder)); ?>
 </div>

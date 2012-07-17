@@ -134,6 +134,7 @@ class Locale_enUS extends Locale
 			'edit_milestone' => "Edit Milestone",
 			'new_component' => "New Component",
 			'edit_component' => "Edit Component",
+			'display_order' => 'Display Order',
 			
 			// Tickets
 			'new_ticket' => 'New Ticket',
