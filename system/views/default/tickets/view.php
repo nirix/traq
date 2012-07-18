@@ -87,15 +87,18 @@
 	</div>
 <?php } ?>
 </div>
-<?php if ($current_user->permission($project->id, 'update_ticket')) { ?>
+<?php if ($current_user->permission($project->id, 'update_ticket') or $current_user->permission($project->id, 'comment_on_tickets')) { ?>
 <div class="content">
 	<h3><?php echo l('update_ticket'); ?></h3>
 	<form action="<?php echo Request::full_uri(); ?>/update" method="post" id="update_tickets">
 		<div class="tabular box">
+			<?php if ($current_user->permission($project->id, 'comment_on_tickets')) { ?>
 			<div class="group">
 				<?php echo Form::label(l('comment'), 'comment'); ?>
 				<?php echo Form::textarea('comment'); ?>
 			</div>
+			<?php } ?>
+			<?php if ($current_user->permission($project->id, 'update_ticket')) { ?>
 			<div class="properties group">
 				<div class="field">
 					<?php echo Form::label(l('type'), 'type'); ?>
@@ -134,6 +137,7 @@
 					<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
 				</div>
 			</div>
+			<?php } ?>
 			<div class="clear"></div>
 		</div>
 		<div class="actions">
