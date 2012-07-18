@@ -24,7 +24,6 @@ class Component extends Model
 	protected static $_properties = array(
 		'id',
 		'name',
-		'default',
 		'project_id'
 	);
 	
