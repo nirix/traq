@@ -28,6 +28,21 @@ class TicketStatus extends Model
 		'changelog'
 	);
 
+	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$options = array(l('open') => array(), l('closed') => array());
+		foreach (static::fetch_all() as $status)
+		{
+			$options[$status->status ? l('open') : l('closed')][] = array('label' => $status->name, 'value' => $status->id);
+		}
+		return $options;
+	}
+
 	// Checks if the model data is valid
 	public function is_valid()
 	{

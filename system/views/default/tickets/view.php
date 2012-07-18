@@ -126,6 +126,10 @@
 					<?php echo Form::select('priority', Priority::select_options(), array('value' => $ticket->priority_id)); ?>
 				</div>
 				<div class="field">
+					<?php echo Form::label(l('status'), 'status'); ?>
+					<?php echo Form::select('status', TicketStatus::select_options(), array('value' => $ticket->status_id)); ?>
+				</div>
+				<div class="field">
 					<?php echo Form::label(l('summary'), 'summary'); ?>
 					<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
 				</div>

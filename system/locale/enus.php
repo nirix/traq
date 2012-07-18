@@ -168,7 +168,11 @@ class Locale_enUS extends Locale
 				// Assignee field
 				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
 				'assignee_from_null_to_x' => 'Assigned ticket to {3}',
-				'assignee_from_x_to_null' => 'Unassigned ticket from {2}'
+				'assignee_from_x_to_null' => 'Unassigned ticket from {2}',
+
+				// Actions
+				'close_ticket' => 'Closed ticket as {2}',
+				'reopen_ticket' => 'Reopened ticket as {2}'
 			),
 
 			// Users

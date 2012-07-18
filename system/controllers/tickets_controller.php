@@ -206,7 +206,7 @@ class TicketsController extends AppController
 			'version_id' => Request::$post['version'],
 			'component_id' => Request::$post['component'],
 			'type_id' => Request::$post['type'],
-			//'status_id' => Request::$post['status'],
+			'status_id' => Request::$post['status'],
 			'severity_id' => Request::$post['severity'],
 			'priority_id' => Request::$post['priority'],
 			'assigned_to_id' => Request::$post['assigned_to']

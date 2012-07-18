@@ -163,6 +163,8 @@ class Ticket extends Model
 	 */
 	public function update_data($data)
 	{
+		$user_id = Avalon::app()->user->id;
+
 		$to_values = array();
 		$changes = array();
 
@@ -186,10 +188,11 @@ class Ticket extends Model
 
 				case 'status_id':
 				case 'type_id':
-					$class = 'Ticket' . ucfirst(str_replace('_id', '', $field));
+					$accessor = str_replace('_id', '', $field);
+					$class = 'Ticket' . ucfirst($accessor);
 					$to_values[$field] = $class::find($value);
 
-					$from = $this->$class->name;
+					$from = $this->$accessor->name;
 					$to = $to_values[$field]->name;
 				break;
 
@@ -225,8 +228,16 @@ class Ticket extends Model
 			{
 				if ($this->status->status != $to_values[$field]->status)
 				{
-					$this->status = $to_status->status;
-					$change['action'] = $to_status->status == 1 ? 'open' : 'close';
+					$change['action'] = $to_values[$field]->status == 1 ? 'reopen' : 'close';
+
+					$timeline = new Timeline(array(
+						'project_id' => $this->project_id,
+						'owner_id' => $this->id,
+						'action' => $change['action'] == 'close' ? 'ticket_closed' : 'ticket_reopened',
+						'data' => $to_values[$field]->id,
+						'user_id' => $user_id
+					));
+					$timeline->save();
 				}
 			}
 
@@ -239,7 +250,7 @@ class Ticket extends Model
 		if (count($changes) > 0 or !empty(Request::$post['comment']))
 		{
 			$history = new TicketHistory(array(
-				'user_id' => Avalon::app()->user->id,
+				'user_id' => $user_id,
 				'ticket_id' => $this->id,
 				'changes' => count($changes) > 0 ? json_encode($changes) : '',
 				'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
