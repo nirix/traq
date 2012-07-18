@@ -141,7 +141,7 @@
 			<div class="clear"></div>
 		</div>
 		<div class="actions">
-			<?php echo Form::submit(l('update')); ?>
+			<?php echo Form::submit(l('submit')); ?>
 		</div>
 	</form>
 </div>

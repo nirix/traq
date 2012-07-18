@@ -110,9 +110,14 @@ class User extends Model
 		
 		// Check if the user has a role for the project and
 		// fetch the permissions if not already done so...
-		if (!isset($this->permissions['role'][$project_id]))
+		$role_id = $this->get_project_role($project_id);
+		if ($role_id and !isset($this->permissions['role'][$project_id]))
 		{
-			$this->permissions['role'][$project_id] = Permission::get_permissions($project_id, $this->get_project_role($project_id), 'role');
+			$this->permissions['role'][$project_id] = Permission::get_permissions($project_id, $role_id, 'role');
+		}
+		else
+		{
+			$this->permissions['role'][$project_id] = array();
 		}
 
 		// Check if user is admin...

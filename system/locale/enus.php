@@ -90,6 +90,7 @@ class Locale_enUS extends Locale
 			'comment' => 'Comment',
 			'update' => 'Update',
 			'x_ago_by_x' => '{1} ago by {2}',
+			'submit' => 'Submit',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -219,7 +220,8 @@ class Locale_enUS extends Locale
 				'project_settings' => 'Project Settings',
 				'edit_ticket_description' => 'Edit ticket description',
 				'update_ticket' => 'Update Ticket',
-				'vote_on_tickets' => 'Vote on tickets'
+				'vote_on_tickets' => 'Vote on tickets',
+				'comment_on_tickets' => 'Comment on tickets'
 			),
 			
 			// Time
