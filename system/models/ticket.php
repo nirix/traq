@@ -228,6 +228,7 @@ class Ticket extends Model
 			{
 				if ($this->status->status != $to_values[$field]->status)
 				{
+					$this->is_closed = $to_values[$field]->status ? 0 : 1;
 					$change['action'] = $to_values[$field]->status == 1 ? 'reopen' : 'close';
 
 					$timeline = new Timeline(array(
