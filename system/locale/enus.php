@@ -277,6 +277,7 @@ class Locale_enUS extends Locale
 
 				// Tickets
 				'tickets' => array(
+					'summary_blank' => 'Summary cannot be blank',
 					'description_blank' => 'Desription cannot be blank'
 				),
 				
