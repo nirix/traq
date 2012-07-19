@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo implode(' / ', $traq->title); ?></title>
+		<title><?php echo implode(' - ', array_reverse($traq->title)); ?></title>
 		<meta charset="UTF-8" />
 		<?php echo HTML::css_link(Request::base() . 'css.php?css=screen,master'); ?>
 		<?php echo HTML::css_link(Request::base() . 'css.php?css=print', 'print'); ?>
