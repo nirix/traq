@@ -47,10 +47,12 @@
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('votes')); ?>
-			<span class="value"><?php echo HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover' => Request::base($ticket->href('/voters')))); ?></span>
-			<?php if ($current_user->permission($project->id, 'vote_on_tickets')) {
-				echo HTML::link('+', $ticket->href('/vote'), array('data-ajax' => true));
-			} ?>
+			<span class="value">
+				<?php echo HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover' => Request::base($ticket->href('/voters')))); ?>
+				<?php if ($current_user->permission($project->id, 'vote_on_tickets')) {
+					echo HTML::link('+', $ticket->href('/vote'), array('data-ajax' => true));
+				} ?>
+			</span>
 		</div>
 
 		<div class="clearfix"></div>
