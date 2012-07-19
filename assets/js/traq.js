@@ -63,6 +63,7 @@ $(document).ready(function(){
 		var e = $(this);
 		e.click(function(){
 			popover(e.attr('data-popover') + '?popover=true', e);
+			return false;
 		});
 	});
 });
