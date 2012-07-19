@@ -253,6 +253,18 @@ class Locale_enUS extends Locale
 			'confirm' => array(
 				'delete_x' => "Are you sure you want to delete '$1' ?"
 			),
+
+			// Editor
+			'editor' => array(
+				// Intentionally left empty to use the default
+				// strings from the editor.
+				//
+				// Enter your localisation strings here.
+				// example:
+				// 'h2' => 'My custom string',
+				// 'h3' => 'Another custom string',
+				// and so on...
+			),
 			
 			// Errors
 			'errors' => array(

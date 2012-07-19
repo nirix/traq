@@ -97,7 +97,7 @@
 			<?php if ($current_user->permission($project->id, 'comment_on_tickets')) { ?>
 			<div class="group">
 				<?php echo Form::label(l('comment'), 'comment'); ?>
-				<?php echo Form::textarea('comment'); ?>
+				<?php echo Form::textarea('comment', array('class' => 'editor')); ?>
 			</div>
 			<?php } ?>
 			<?php if ($current_user->permission($project->id, 'update_ticket')) { ?>
