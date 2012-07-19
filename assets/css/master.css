@@ -179,9 +179,11 @@ hr {
     #overlay form.overlay_thin {
       width: 100%;
       min-width: 300px; }
-    #overlay form .actions {
-      background-color: #f6f6f6;
-      border-radius: 0 0 4px 4px; }
+  #overlay form .actions, #overlay .overlay-actions {
+    text-align: center;
+    padding: 4px 0;
+    background-color: #f6f6f6;
+    border-radius: 0 0 4px 4px; }
 
 #page_title {
   line-height: 1; }

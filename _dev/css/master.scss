@@ -80,11 +80,13 @@ hr {
 			width: 100%;
 			min-width: 300px;
 		}
-		
-		.actions {
-			background-color: #f6f6f6;
-			border-radius: 0 0 4px 4px;
-		}
+	}
+
+	form .actions, .overlay-actions {
+		text-align: center;
+		padding: 4px 0;
+		background-color: #f6f6f6;
+		border-radius: 0 0 4px 4px;
 	}
 }
 

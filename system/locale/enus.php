@@ -92,6 +92,7 @@ class Locale_enUS extends Locale
 			'x_by_x' => '{1} by {2}',
 			'submit' => 'Submit',
 			'see_all' => 'See all',
+			'close' => 'Close',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
