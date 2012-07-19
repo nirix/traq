@@ -45,11 +45,10 @@ $(document).ready(function(){
 	// the overlay.
 	$(document).on('click', '[data-overlay=1]', function(){
 		var path = $(this).attr('href').split('?');
+		var uri = path[0] + '?overlay=true';
 
 		if (path.length > 1) {
-			var uri = path[0] + '?overlay=true&' + path[1];
-		} else {
-			var uri = path[0];
+			var uri = uri + '&' + path[1];
 		}
 
 		$('#overlay').load(uri, function(){ $('#overlay textarea').likeaboss(); $('#overlay').overlay(); });
