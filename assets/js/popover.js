@@ -14,6 +14,11 @@ function popover(url, parent, event)
 	if (!$('#popover').length > 0) {
 		$('body').append('<div id="popover"></div>');
 	}
+	// Reset the popover element
+	else {
+		$('#popover').stop(true, true).hide().unbind('hover').unbind('click');
+		parent.stop(true, true).unbind('mouseleave');
+	}
 
 	// Load in the popover content
 	$('#popover').load(url, function(){
@@ -41,14 +46,19 @@ function popover(url, parent, event)
 					e.stopPropagation();
 				});
 			} else if (event == 'hover') {
-				parent.mouseleave(function(){
-					$('#popover').fadeOut('fast');
-				});
+				// Delay the mouse leave event binding for the parent
+				setInterval(function(){
+					parent.mouseleave(function(){
+						$('#popover').stop(true, true).fadeOut('fast');
+					});
+				}, 3000);
+
+				// Handle the entry/leaving of the popover
 				$('#popover').hover(
 					function(){
-						$(this).stop(true, true).slideDown('fast');
+						$(this).stop(true, true).show();
 					},
-					function(e){
+					function(){
 						$(this).stop(true, true).fadeOut('fast');
 					}
 				);
