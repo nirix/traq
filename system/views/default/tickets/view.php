@@ -48,7 +48,7 @@
 		<div class="property">
 			<?php echo Form::label(l('votes')); ?>
 			<span class="value">
-				<?php echo HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover' => Request::base($ticket->href('/voters')))); ?>
+				<?php echo HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover-hover' => Request::base($ticket->href('/voters')))); ?>
 				<?php if ($current_user->permission($project->id, 'vote_on_tickets') and !in_array($current_user->id, $ticket->extra['voted'])) {
 					echo HTML::link('+', $ticket->href('/vote'), array('data-ajax' => true));
 				} ?>
@@ -112,11 +112,11 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('milestone'), 'milestone'); ?>
-					<?php echo Form::select('milestone', $project->milestone_select_options('open')); ?>
+					<?php echo Form::select('milestone', $project->milestone_select_options('open'), array('value' => $ticket->milestone_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
-					<?php echo Form::select('version', array_merge(array(array('value' => '0', 'label' => '')), $project->milestone_select_options('closed', 'DESC'))); ?>
+					<?php echo Form::select('version', array_merge(array(array('value' => '0', 'label' => '')), $project->milestone_select_options('closed', 'DESC')), array('value' => $ticket->version_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
