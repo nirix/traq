@@ -119,8 +119,20 @@ class AppController extends Controller
 	{
 		if (Request::is_ajax() and Router::$extension == null)
 		{
+			if (isset(Request::$request['overlay']))
+			{
+				$extension = '.overlay';
+			}
+			elseif (isset(Request::$request['popover']))
+			{
+				$extension = '.popover';
+			}
+			else
+			{
+				$extension = '.js';
+			}
 			$this->_render['layout'] = 'plain';
-			$this->_render['view'] = $this->_render['view'] . (isset(Request::$request['overlay']) ? '.overlay' : '.js');
+			$this->_render['view'] = $this->_render['view'] . $extension;
 		}
 		
 		parent::__shutdown();

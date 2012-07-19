@@ -83,9 +83,9 @@ class Ticket extends Model
 	 *
 	 * @return string
 	 */
-	public function href()
+	public function href($extra = '')
 	{
-		return "/{$this->project->slug}/tickets/{$this->ticket_id}";
+		return "/{$this->project->slug}/tickets/{$this->ticket_id}{$extra}";
 	}
 
 	/**

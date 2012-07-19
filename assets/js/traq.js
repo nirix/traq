@@ -56,12 +56,23 @@ $(document).ready(function(){
 			return false;
 		});
 	});
+
+	// Add a click event to all elements with
+	// a data-popover attribute.
+	$('[data-popover]').each(function(){
+		var e = $(this);
+		e.click(function(){
+			popover(e.attr('data-popover') + '?popover=true', e);
+		});
+	});
 });
 
-// Overlay function for jQuery
-// Copyright (c) 2011-2012 Jack Polgar
-// All Rights Reserved
-// Released under the BSD 3-clause license.
+/*
+ * jQuery Overlay
+ * Copyright (c) 2011-2012 Jack Polgar
+ * All Rights Reserved
+ * Released under the BSD 3-clause license.
+ */
 (function($){
 	$.fn.overlay = function() {
 		var element = $(this);
@@ -76,6 +87,33 @@ $(document).ready(function(){
 		});
 	};
 })(jQuery);
+
+/*!
+ * Popover
+ * Copyright (c) 2012 Jack Polgar
+ * All Rights Reserved
+ * Released under the BSD 3-clause license
+ */
+function popover(url, parent)
+{
+	// Make sure the popover container exists...
+	if (!$('#popover').length > 0) {
+		$('body').append('<div id="popover"></div>');
+	}
+
+	$('#popover').load(url, function(){
+		var e = $(this);
+		e.css({
+			left: (parent.position().left - (e.width() / 2)) + 'px',
+			top: (parent.position().top + parent.height()) + 'px'
+		});
+		e.slideDown('fast');
+
+		$('html').click(function(){
+			$('#popover').fadeOut('fast');
+		});
+	});
+}
 
 // Function to close overlay
 function close_overlay()

@@ -156,6 +156,7 @@ class Locale_enUS extends Locale
 			'reported' => 'Reported',
 			'priority' => 'Priority',
 			'edit_ticket' => 'Edit Ticket',
+			'no_votes' => 'No votes',
 
 			// Ticket history
 			'ticket_history' => array(

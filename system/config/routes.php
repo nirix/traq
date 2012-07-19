@@ -34,7 +34,7 @@ Router::add('/' . RTR_PROJSLUG, 'Projects::view');
 // Ticket routes
 Router::add('/' . RTR_PROJSLUG . '/tickets/new', 'Tickets::new');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote)', 'Tickets::$3/$2');
+Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote|voters)', 'Tickets::$3/$2');
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'Tickets::index');
 
 // Wiki routes

@@ -152,6 +152,28 @@ class TicketsController extends AppController
 			View::set('error', l('errors.already_voted'));
 		}
 	}
+
+	/**
+	 * Handles the voters page.
+	 *
+	 * @param integer $ticket_id
+	 */
+	public function action_voters($ticket_id)
+	{
+		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+		$voters = array();
+
+		if (isset($ticket->extra['voted']) and is_array($ticket->extra['voted']))
+		{
+			foreach ($ticket->extra['voted'] as $voter)
+			{
+				$voters[] = User::find($voter);
+			}
+		}
+		
+		View::set('voters', $voters);
+	}
 	
 	/**
 	 * Handles the new ticket page and ticket creation.

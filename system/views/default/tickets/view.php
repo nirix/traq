@@ -1,4 +1,4 @@
-<div id="ticket_info" data-url="<?php echo Request::base($ticket->href()) . '.json'; ?>">
+<div id="ticket_info">
 	<h2 id="ticket_summary"><?php echo $ticket->summary; ?></h2>
 	<section class="properties">
 		<div class="property">
@@ -47,9 +47,9 @@
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('votes')); ?>
-			<span class="value" id="votes"><?php echo $ticket->votes; ?></span>
+			<span class="value"><?php echo HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover' => Request::base($ticket->href('/voters')))); ?></span>
 			<?php if ($current_user->permission($project->id, 'vote_on_tickets')) {
-				echo HTML::link('+', $ticket->href() . '/vote', array('data-ajax' => true));
+				echo HTML::link('+', $ticket->href('/vote'), array('data-ajax' => true));
 			} ?>
 		</div>
 
