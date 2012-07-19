@@ -332,6 +332,12 @@ class Ticket extends Model
 	protected function process_data_read()
 	{
 		$this->extra = json_decode(isset($this->_data['extra']) ? $this->_data['extra'] : '', true);
+
+		// Set the voted array
+		if (!isset($this->extra['voted']) or !is_array($this->extra['voted']))
+		{
+			$this->_data['extra']['voted'] = array();
+		}
 	}
 
 	/**
