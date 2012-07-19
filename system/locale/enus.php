@@ -84,7 +84,6 @@ class Locale_enUS extends Locale
 			'updated' => "Updated",
 			'project' => "Project",
 			'never' => 'Never',
-			'x_ago' => '{1} ago',
 			'votes' => 'Votes',
 			'update_ticket' => 'Update Ticket',
 			'comment' => 'Comment',
@@ -161,25 +160,6 @@ class Locale_enUS extends Locale
 			'no_votes' => 'No votes',
 			'people_who_have_voted_on_this_ticket' => 'People who have voted on this ticket ({1})',
 
-			// Ticket history
-			'ticket_history' => array(
-				'Ticket History',
-
-				// Most fields
-				'x_from_x_to_x' => 'Changed {1} from {2} to {3}',
-				'x_from_null_to_x' => 'Set {1} to {3}',
-				'x_from_x_to_null' => 'Cleared {1}, was {2}',
-
-				// Assignee field
-				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
-				'assignee_from_null_to_x' => 'Assigned ticket to {3}',
-				'assignee_from_x_to_null' => 'Unassigned ticket from {2}',
-
-				// Actions
-				'close_ticket' => 'Closed ticket as {2}',
-				'reopen_ticket' => 'Reopened ticket as {2}'
-			),
-
 			// Users
 			'login' => "Login",
 			'logout' => "Logout",
@@ -232,7 +212,15 @@ class Locale_enUS extends Locale
 			'time' => array(
 				'Time',
 				
-				'ago' => '$1 ago',
+				'ago' => '{1} ago',
+				'x_and_x' => '{1} and {2}',
+				'x_second' => '{1} {plural:{1}, {second|seconds}}',
+				'x_minute' => '{1} {plural:{1}, {minute|minutes}}',
+				'x_hour' => '{1} {plural:{1}, {hour|hours}}',
+				'x_day' => '{1} {plural:{1}, {day|days}}',
+				'x_week' => '{1} {plural:{1}, {week|weeks}}',
+				'x_month' => '{1} {plural:{1}, {month|months}}',
+				'x_year' => '{1} {plural:{1}, {year|years}}'
 			),
 			
 			// Timeline
@@ -267,6 +255,25 @@ class Locale_enUS extends Locale
 				// 'h2' => 'My custom string',
 				// 'h3' => 'Another custom string',
 				// and so on...
+			),
+
+			// Ticket history
+			'ticket_history' => array(
+				'Ticket History',
+
+				// Most fields
+				'x_from_x_to_x' => 'Changed {1} from {2} to {3}',
+				'x_from_null_to_x' => 'Set {1} to {3}',
+				'x_from_x_to_null' => 'Cleared {1}, was {2}',
+
+				// Assignee field
+				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
+				'assignee_from_null_to_x' => 'Assigned ticket to {3}',
+				'assignee_from_x_to_null' => 'Unassigned ticket from {2}',
+
+				// Actions
+				'close_ticket' => 'Closed ticket as {2}',
+				'reopen_ticket' => 'Reopened ticket as {2}'
 			),
 			
 			// Errors

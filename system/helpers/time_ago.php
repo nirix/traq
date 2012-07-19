@@ -31,7 +31,7 @@
 function time_ago($original, $detailed = true, $include_ago = true)
 {
 	$datetime = Time::date('Y-m-d H:i:s', $original);
-	$time_ago = $include_ago ? l('x_ago', time_ago_in_words($original, $detailed)) : time_ago_in_words($original, $detailed);
+	$time_ago = $include_ago ? l('time.ago', time_ago_in_words($original, $detailed)) : time_ago_in_words($original, $detailed);
 	return "<span title=\"{$datetime}\">{$time_ago}</span>";
 }
 
@@ -76,7 +76,8 @@ function time_ago_in_words($original, $detailed = true)
 		}
 
 		// Format the time from
-		$from = $count . " " . (1 == $count ? $name : $names);
+		//$from = $count . " " . (1 == $count ? $name : $names);
+		$from = l("time.x_{$name}", $count);
 
 		// Get the detailed time from if the detaile variable is true
 		if ($detailed && $i + 1 < $c) {
@@ -84,7 +85,8 @@ function time_ago_in_words($original, $detailed = true)
 			$name2 = $chunks[$i + 1][1];
 			$names2 = $chunks[$i + 1][2];
 			if (0 != $count2 = floor(($difference - $seconds * $count) / $seconds2)) {
-				$from = $from . " and " . $count2 . " " . (1 == $count2 ? $name2 : $names2);
+				//$from = $from . " and " . $count2 . " " . (1 == $count2 ? $name2 : $names2);
+				$from = l('time.x_and_x', $from, l("time.x_{$name2}", $count2));
 			}
 		}
 
