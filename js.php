@@ -35,13 +35,27 @@ if (!isset($_REQUEST['js']))
 }
 
 $output = array();
-foreach (explode(',', $_REQUEST['js']) as $file)
+
+if ($_REQUEST['js'] == 'all')
 {
-	// Make sure the file exists...
-	if (file_exists(__DIR__ . "/assets/js/{$file}.js"))
+	foreach (scandir(__DIR__ . '/assets/js') as $file)
 	{
-		// Add it to the output array.
-		$output[] = file_get_contents(__DIR__ . "/assets/js/{$file}.js");
+		if (substr($file, -3) == '.js')
+		{
+			$output[] = file_get_contents(__DIR__ . "/assets/js/{$file}");
+		}
+	}
+}
+else
+{
+	foreach (explode(',', $_REQUEST['js']) as $file)
+	{
+		// Make sure the file exists...
+		if (file_exists(__DIR__ . "/assets/js/{$file}.js"))
+		{
+			// Add it to the output array.
+			$output[] = file_get_contents(__DIR__ . "/assets/js/{$file}.js");
+		}
 	}
 }
 
