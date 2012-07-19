@@ -23,59 +23,46 @@ $(document).ready(function(){
 	
 	// Add a confirm-on-click event to call elements
 	// with the data-confirm attribute.
-	$('[data-confirm]').each(function(){
-		var e = $(this);
-		e.click(function(){
-			return confirm(e.attr('data-confirm'));
-		});
+	$(document).on('click', '[data-confirm]', function(){
+		return confirm($(this).attr('data-confirm'));
 	});
 	
 	// Add a click event to all elements with
 	// the data-ajax attribute and send an ajax
 	// call to the href attrib value.
-	$('[data-ajax=1]').each(function(){
+	$(document).on('click', '[data-ajax=1]', function(){
 		var e = $(this);
-		e.click(function(){
-			$.ajax({
-				url: e.attr('href'),
-				dataType: 'script',
-				error: function(a,b,c){ alert(c); }
-			});
-			return false;
+		$.ajax({
+			url: e.attr('href'),
+			dataType: 'script'
 		});
+		return false;
 	});
 	
 	// Add a click even to all elements with the
 	// data-overlay attribute and load the elements
 	// href value into the overlay container then show
 	// the overlay.
-	$('[data-overlay=1]').each(function(){
-		var e = $(this);
-		e.click(function(){
-			$('#overlay').load(e.attr('href') + '?overlay=true', function(){ $('#overlay textarea').likeaboss(); $('#overlay').overlay(); });
-			return false;
-		});
+	$(document).on('click', '[data-overlay=1]', function(){
+		$('#overlay').load($(this).attr('href') + '?overlay=true', function(){ $('#overlay textarea').likeaboss(); $('#overlay').overlay(); });
+		return false;
 	});
 
 	// Add a click event to all elements with
 	// a data-popover attribute.
-	$('[data-popover]').each(function(){
+	$(document).on('click', '[data-popover]', function(){
 		var e = $(this);
-		e.click(function(){
-			popover(e.attr('data-popover') + '?popover=true', e);
-			return false;
-		});
+		popover(e.attr('data-popover') + '?popover=true', e);
+		return false;
 	});
 
 	// Add a click event to all elements with
 	// a data-popover-hover attribute.
-	$('[data-popover-hover]').each(function(){
+	$('body').on('mouseenter', '[data-popover-hover]', function(){
 		var e = $(this);
-		e.mouseenter(function(){
-			popover(e.attr('data-popover-hover') + '?popover=true', e, 'hover');
-			return false;
-		});
+		popover(e.attr('data-popover-hover') + '?popover=true', e, 'hover');
 	});
+
 });
 
 /*
