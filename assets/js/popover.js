@@ -22,11 +22,12 @@ function popover(url, parent, event)
 		// Set the position
 		e.css({
 			left: (parent.position().left - (e.width() / 2)) + 'px',
-			top: (parent.position().top + parent.height()) + 'px'
+			top: (parent.position().top + parent.height()) + 'px',
+			height: 'auto'
 		});
 
 		// Slide it down
-		e.slideDown('fast', function(){
+		e.stop(true, true).slideDown('fast', function(){
 			if (event == 'click') {
 				// Bind a click to the document
 				$(document).click(function(){
@@ -45,10 +46,10 @@ function popover(url, parent, event)
 				});
 				$('#popover').hover(
 					function(){
-						$(this).stop();
+						$(this).stop(true, true).slideDown('fast');
 					},
 					function(e){
-						$(this).fadeOut('fast');
+						$(this).stop(true, true).fadeOut('fast');
 					}
 				);
 			}
