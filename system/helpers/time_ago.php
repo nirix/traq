@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -18,6 +18,31 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Returns the time ago in words wrapped in a span
+ * with the full date as the hover title.
+ *
+ * @param mixed $original
+ * @param bool $detailed Include "and seconds/minutes/etc"
+ * @param bool $include_ago Appends the word "ago" to the end
+ *
+ * @return string
+ */
+function time_ago($original, $detailed = true, $include_ago = true)
+{
+	$datetime = Time::date('Y-m-d H:i:s', $original);
+	$time_ago = $include_ago ? l('x_ago', time_ago_in_words($original, $detailed)) : time_ago_in_words($original, $detailed);
+	return "<span title=\"{$datetime}\">{$time_ago}</span>";
+}
+
+/**
+ * Returns the time ago in words.
+ *
+ * @param mixed $original
+ * @param bool $detailed Include "and seconds/minutes/etc"
+ *
+ * @return string
+ */
 function time_ago_in_words($original, $detailed = true)
 	{
 		// Check what kind of format we're dealing with, timestamp or datetime

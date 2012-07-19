@@ -89,7 +89,7 @@ class Locale_enUS extends Locale
 			'update_ticket' => 'Update Ticket',
 			'comment' => 'Comment',
 			'update' => 'Update',
-			'x_ago_by_x' => '{1} ago by {2}',
+			'x_by_x' => '{1} by {2}',
 			'submit' => 'Submit',
 
 			// AdminCP

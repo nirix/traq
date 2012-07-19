@@ -39,11 +39,11 @@
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('reported')); ?>
-			<span class="value"><?php echo l('x_ago', Time::ago_in_words($ticket->created_at)); ?></span>
+			<span class="value"><?php echo time_ago($ticket->created_at, false, true); ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('updated')); ?>
-			<span class="value" id="updated_at"><?php echo $ticket->updated_at > $ticket->created_at ? l('x_ago', Time::ago_in_words($ticket->updated_at)) : l('never'); ?></span>
+			<span class="value" id="updated_at"><?php echo $ticket->updated_at > $ticket->created_at ? time_ago($ticket->updated_at, false, true) : l('never'); ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('votes')); ?>
@@ -73,7 +73,7 @@
 	<h3><?php echo l('ticket_history'); ?></h3>
 <?php foreach ($ticket->history->order_by('id', 'DESC')->exec()->fetch_all() as $update) { ?>
 	<div class="update">
-		<h4><?php echo l('x_ago_by_x', time_ago_in_words($update->created_at), HTML::link($update->user->username, $update->user->href())); ?></h4>
+		<h4><?php echo l('x_by_x', time_ago($update->created_at), HTML::link($update->user->username, $update->user->href())); ?></h4>
 		<?php if (is_array($update->changes)) { ?>
 		<ul class="changes">
 			<?php foreach ($update->changes as $change) { ?>
