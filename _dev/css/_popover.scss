@@ -6,8 +6,19 @@
 	z-index: 2100;
 	background: #fff;
 	color: #000;
-	padding: 4px;
+	padding: 0;
 	margin-top: 5px;
+
+	.popover-content {
+		padding: 4px;
+	}
+
+	.popover-footer {
+		background: #f4f4f4;
+		padding: 2px;
+		text-align: center;
+		border-radius: 0 0 4px 4px;
+	}
 
 	ul, ol {
 		margin-bottom: 0;

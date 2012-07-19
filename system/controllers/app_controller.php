@@ -131,6 +131,7 @@ class AppController extends Controller
 			{
 				$extension = '.js';
 			}
+
 			$this->_render['layout'] = 'plain';
 			$this->_render['view'] = $this->_render['view'] . $extension;
 		}

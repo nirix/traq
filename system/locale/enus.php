@@ -91,6 +91,7 @@ class Locale_enUS extends Locale
 			'update' => 'Update',
 			'x_by_x' => '{1} by {2}',
 			'submit' => 'Submit',
+			'see_all' => 'See all',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -157,6 +158,7 @@ class Locale_enUS extends Locale
 			'priority' => 'Priority',
 			'edit_ticket' => 'Edit Ticket',
 			'no_votes' => 'No votes',
+			'people_who_have_voted_on_this_ticket' => 'People who have voted on this ticket ({1})',
 
 			// Ticket history
 			'ticket_history' => array(

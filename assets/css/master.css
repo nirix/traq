@@ -63,8 +63,15 @@
   z-index: 2100;
   background: #fff;
   color: #000;
-  padding: 4px;
+  padding: 0;
   margin-top: 5px; }
+  #popover .popover-content {
+    padding: 4px; }
+  #popover .popover-footer {
+    background: #f4f4f4;
+    padding: 2px;
+    text-align: center;
+    border-radius: 0 0 4px 4px; }
   #popover ul, #popover ol {
     margin-bottom: 0; }
   #popover:before, #popover:after {
@@ -362,6 +369,19 @@ h3.box_title {
     margin-top: 0; }
   #ticket_history .update:last-child {
     padding-bottom: 10px; }
+
+#popover .voters {
+  list-style: none;
+  padding-left: 5px; }
+
+#voters_list {
+  width: 500px;
+  max-height: 300px;
+  overflow: scroll;
+  padding: 5px;
+  margin: 5px; }
+  #voters_list li {
+    display: inline; }
 
 /* ==========# Tabs #========== */
 .tabs {
