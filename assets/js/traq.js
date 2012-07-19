@@ -101,16 +101,29 @@ function popover(url, parent)
 		$('body').append('<div id="popover"></div>');
 	}
 
+	// Load in the popover content
 	$('#popover').load(url, function(){
 		var e = $(this);
+
+		// Set the position
 		e.css({
 			left: (parent.position().left - (e.width() / 2)) + 'px',
 			top: (parent.position().top + parent.height()) + 'px'
 		});
-		e.slideDown('fast');
 
-		$('html').click(function(){
-			$('#popover').fadeOut('fast');
+		// Slide it down
+		e.slideDown('fast', function(){
+			// Bind a click to the document
+			$(document).click(function(){
+				// Fade it out
+				$('#popover').fadeOut('fast');
+			});
+
+			// Bind a click to the popover
+			$('#popover').click(function(e){
+				// Stop it from fading out
+				e.stopPropagation();
+			});
 		});
 	});
 }
