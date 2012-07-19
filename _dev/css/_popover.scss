@@ -7,8 +7,34 @@
 	background: #fff;
 	color: #000;
 	padding: 4px;
+	margin-top: 5px;
 
 	ul, ol {
 		margin-bottom: 0;
+	}
+
+	&:before, &:after {
+		bottom: 100%;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	&:before {
+		border-bottom-color: #444;
+		opacity: 0.3;
+		border-width: 6px;
+		left: 50%;
+		margin-left: -6px;
+	}
+
+	&:after {
+		border-bottom-color: #fff;
+		border-width: 5px;
+		left: 50%;
+		margin-left: -5px;
 	}
 }
