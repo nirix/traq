@@ -26,8 +26,8 @@ function popover(url, parent, event)
 
 		// Set the position
 		e.css({
-			left: (parent.position().left - (e.width() / 2)) + 'px',
-			top: (parent.position().top + parent.height()) + 'px',
+			left: (parent.offset().left - (e.width() / 2)) + 'px',
+			top: (parent.offset().top + parent.height()) + 'px',
 			height: 'auto'
 		});
 
