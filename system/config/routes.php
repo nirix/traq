@@ -25,7 +25,7 @@ Router::add('/(login|logout|register|usercp)', 'Users::$1');
 Router::add('/users/([0-9]+)', 'Users::view/$1');
 
 // Editor locale
-Router::add('/editor_locale.js', 'Misc::editor_locale');
+Router::add('/_js.js', 'Misc::javascript');
 
 // ------------------------------------------------
 // Project routes

@@ -37,7 +37,7 @@ class MiscController extends Controller
 	/**
 	 * Outputs the javascript to localize the editor.
 	 */
-	public function action_editor_locale()
+	public function action_javascript()
 	{
 		global $locale;
 		header("Content-type: text/javascript");

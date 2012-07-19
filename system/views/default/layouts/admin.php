@@ -10,7 +10,7 @@
 		<![endif]-->
 		<?php echo HTML::js_inc('//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'); ?>
 		<?php echo HTML::js_inc(Request::base() . 'js.php?js=all'); ?>
-		<?php echo HTML::js_inc(Request::base('editor_locale.js')); ?>
+		<?php echo HTML::js_inc(Request::base('_js.js')); ?>
 	</head>
 	<body>
 		<div id="overlay_blackout"></div>
