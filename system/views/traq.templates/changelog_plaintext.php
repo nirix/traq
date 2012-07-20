@@ -1,12 +1,5 @@
-<?php foreach($milestones as $milestone) { ?>
-<?php echo l('milestone_x',$milestone['milestone'])?>
-	<?php foreach($milestone['changes'] as $change) { ?>
-	<span class="type_bullet"><?php echo $types[$change['type']]['bullet']?></span> <?php echo $change['summary']?><br />
-	<?php } ?>
-	<?php echo $milestone['changelog']?>
-<?php } ?>
-
 <?php
+header("Content-type: text/plain");
 foreach ($milestones as $milestone) {
 	echo l('milestone_x', $milestone['milestone']) . PHP_EOL;
 	foreach ($milestone['changes'] as $change) {
@@ -14,3 +7,4 @@ foreach ($milestones as $milestone) {
 	}
 	echo $milestone['changelog_plaintext'];
 }
+echo PHP_EOL;
