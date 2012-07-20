@@ -43,6 +43,7 @@ while($info = $db->fetcharray($fetchmilestones))
 	
 	// Format the changelog text.
 	$info['changelog'] = formattext($info['changelog']);
+	$info['changelog_plaintext'] = $info['changelog'];
 	
 	// Fetch changes
 	$fetchchanges = $db->query("SELECT id,summary,status,type FROM ".DBPF."tickets WHERE milestone_id='".$info['id']."' ORDER BY summary ASC");
@@ -55,5 +56,5 @@ while($info = $db->fetcharray($fetchmilestones))
 
 ($hook = FishHook::hook('handler_changelog')) ? eval($hook) : false;
 
-include(template('changelog'));
+include(template('changelog' . (isset($_REQUEST['plaintext']) ? '_plaintext' : '')));
 ?>
