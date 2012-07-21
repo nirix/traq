@@ -1,6 +1,6 @@
 /*!
  * Sexy tooltips
- * Copyright (c) 2012 Nirix
+ * Copyright (c) 2012 Jack P.
  * All Rights Reserved
  * https://github.com/nirix
  *

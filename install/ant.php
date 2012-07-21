@@ -1,7 +1,8 @@
 <?php
 /*!
  * Ant
- * Copyright (C) 2012 Nirix
+ * Copyright (C) 2012 Jack P.
+ * https://github.com/nirix
  * 
  * Ant is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -41,7 +42,8 @@ function post($route, $function)
 /**
  * Ant is a tiny PHP router.
  *
- * @copyright Copyright (c) 2012 Nirix
+ * @copyright Copyright (c) 2012 Jack P.
+ * @license GNU Lesser General Public License
  * @version 3.0
  */
 class Ant
@@ -101,7 +103,6 @@ class Ant
 		if (preg_match("#^{$route}$#", static::_request_uri(), $matches))
 		{
 			unset($matches[0]);
-			//$function($matches);
 			call_user_func_array($function, $matches);
 		}
 	}

@@ -1,6 +1,8 @@
 /*!
  * Traq
- * Copyright (C) 2009-2012 Jack Polgar
+ * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2012 Jack P.
+ * https://github.com/nirix
  * 
  * This file is part of Traq.
  * 
