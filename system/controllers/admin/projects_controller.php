@@ -57,6 +57,7 @@ class AdminProjectsController extends AdminBase
 			$project->set(array(
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
+				'codename' => Request::$post['codename'],
 				'info' => Request::$post['info']
 			));
 			
