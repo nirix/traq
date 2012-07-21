@@ -207,6 +207,8 @@ class Locale_enUS extends Locale
 				'project_settings' => 'Project Settings',
 				'edit_ticket_description' => 'Edit ticket description',
 				'update_ticket' => 'Update Ticket',
+				'edit_ticket_history' => 'Edit ticket history',
+				'delete_ticket_history' => 'Delete ticket_history',
 				'vote_on_tickets' => 'Vote on tickets',
 				'comment_on_tickets' => 'Comment on tickets',
 				'add_attachments' => 'Add attachments',
