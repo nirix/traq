@@ -62,6 +62,14 @@ class TicketHistoryController extends AppController
 		}
 
 		$history->delete();
-		Request::redirect(Request::base($history->ticket->href()));
+
+		if (Request::is_ajax())
+		{
+			View::set('history', $history);
+		}
+		else
+		{
+			Request::redirect(Request::base($history->ticket->href()));
+		}
 	}
 }

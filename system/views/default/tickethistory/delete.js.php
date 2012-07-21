@@ -1,0 +1,1 @@
+$('#ticket_update_<?php echo $history->id; ?>').slideUp('fast');

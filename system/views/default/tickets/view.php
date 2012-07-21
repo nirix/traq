@@ -87,7 +87,7 @@
 <div id="ticket_history">
 	<h3><?php echo l('ticket_history'); ?></h3>
 <?php foreach ($ticket->history->order_by('id', 'DESC')->exec()->fetch_all() as $update) { ?>
-	<div class="update">
+	<div class="update" id="ticket_update_<?php echo $update->id; ?>">
 		<h4>
 			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link($update->user->username, $update->user->href())); ?>
 			<?php
@@ -95,7 +95,7 @@
 				echo HTML::link('', $ticket->href("/history/{$update->id}/edit"), array('class' => 'button_edit', 'data-overlay' => true));
 			}
 			if ($current_user->permission($ticket->project_id, 'delete_ticket_history')) {
-				echo HTML::link('', $ticket->href("/history/{$update->id}/delete"), array('class' => 'button_delete'));
+				echo HTML::link('', $ticket->href("/history/{$update->id}/delete"), array('class' => 'button_delete', 'data-ajax' => true));
 			}
 			?>
 		</h4>
