@@ -23,9 +23,10 @@ define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
 Router::add('root', 'Projects::index');
 Router::add('/(login|logout|register|usercp)', 'Users::$1');
 Router::add('/users/([0-9]+)', 'Users::view/$1');
-
-// Editor locale
 Router::add('/_js.js', 'Misc::javascript');
+
+// Attachment routes
+Router::add('/attachments/(?P<attachment_id>[0-9]+)/(.*)', 'Attachments::view/$1');
 
 // ------------------------------------------------
 // Project routes

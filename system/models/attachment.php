@@ -40,7 +40,7 @@ class Attachment extends Model
 		'created_at'
 	);
 
-	protected static $_belongs_to = array('user');
+	protected static $_belongs_to = array('user', 'ticket');
 
 	/**
 	 * Returns the URL for the attachment.
