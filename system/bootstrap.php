@@ -22,6 +22,11 @@ define("SYSPATH", dirname(__FILE__) . '/avalon');
 define("APPPATH", dirname(__FILE__));
 define("DOCROOT", dirname(dirname(__FILE__)));
 
+if (!file_exists(APPPATH . '/config/database.php'))
+{
+	header("Location: ./install");
+}
+
 // Load common functions and version file
 require APPPATH . '/common.php';
 require APPPATH . '/version.php';
