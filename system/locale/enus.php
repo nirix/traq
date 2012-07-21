@@ -246,8 +246,8 @@ class Locale_enUS extends Locale
 				'ticket_created' => '$3 #$2 ($1) created',
 				'ticket_closed' => '$3 #$2 ($1) closed as $4',
 				'ticket_reopened' => '$3 #$2 ($1) reopened as $4',
-				'milestone_completed' => 'Marked milestone {1} as completed',
-				'milestone_cancelled' => 'Marked milestone {1} as cancelled',
+				'milestone_completed' => 'Milestone {1} completed',
+				'milestone_cancelled' => 'Milestone {1} cancelled',
 				'by_x' => "by $1"
 			),
 
