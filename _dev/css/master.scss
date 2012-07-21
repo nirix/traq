@@ -46,7 +46,7 @@ hr {
 
 #overlay {
 	display: none;
-	position: absolute;
+	position: fixed;
 	border-radius: 4px;
 	box-shadow: 0 0 5px #444;
 	z-index: 2100;

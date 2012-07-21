@@ -38,11 +38,17 @@ class TicketHistoryController extends AppController
 			return $this->show_no_permission();
 		}
 
-		if (Request::$action == 'post')
+		if (Request::$method == 'post')
 		{
-			
-			Request::redirect(Request::base($history->ticket->href()));
+			$history->comment = Request::$post['comment'];
+
+			if ($history->save())
+			{
+				Request::redirect(Request::base($history->ticket->href()));
+			}
 		}
+
+		View::set('history', $history);
 	}
 
 	public function action_delete($id)

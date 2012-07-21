@@ -40,6 +40,7 @@ Router::add('/' . RTR_PROJSLUG, 'Projects::view');
 Router::add('/' . RTR_PROJSLUG . '/tickets/new', 'Tickets::new');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'Tickets::view/$2');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote|voters)', 'Tickets::$3/$2');
+Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/edit', 'TicketHistory::edit/$3');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/delete', 'TicketHistory::delete/$3');
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'Tickets::index');
 
