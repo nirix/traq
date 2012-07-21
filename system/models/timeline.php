@@ -48,6 +48,21 @@
  		return $this->_ticket;
  	}
 
+ 	/**
+ 	 * If the row is a milestone event, the milestone
+ 	 * object is returned.
+ 	 *
+ 	 * @return object
+ 	 */
+ 	public function milestone()
+ 	{
+ 		if (!isset($this->_milestone))
+ 		{
+ 			$this->_milestone = Milestone::find($this->owner_id);
+ 		}
+ 		return $this->_milestone;
+ 	}
+
  	public function is_valid()
  	{
  		return true;

@@ -27,8 +27,6 @@ class Project extends Model
 		'codename',
 		'slug',
 		'info',
-		'managers',
-		'is_private',
 		'next_tid',
 		'displayorder'
 	);
@@ -39,13 +37,10 @@ class Project extends Model
 		'wiki_pages' => array('model' => 'WikiPage')
 	);
 
+	// Filters
 	protected static $_filters_before = array(
 		'create' => array('_before_create'),
 		//'delete' => array('_before_delete')
-	);
-	
-	protected static $_filters_after = array(
-		'construct' => array('_process_managers')
 	);
 	
 	/**
@@ -88,12 +83,17 @@ class Project extends Model
 		// Check if we're fetching uncompleted milestones
 		if ($status == 'open')
 		{
-			$milestones = $milestones->where('is_completed', 0);
+			$milestones = $milestones->where('status', 1);
 		}
 		// Or if we're fetching completed milestones
 		elseif ($status == 'closed')
 		{
-			$milestones = $milestones->where('is_completed', 1);
+			$milestones = $milestones->where('status', 2);
+		}
+		// or even cancelled milestones
+		elseif ($status == 'cancelled')
+		{
+			$milestones = $milestones->where('status', 0);
 		}
 
 		$options = array();
@@ -102,28 +102,6 @@ class Project extends Model
 			$options[] = array('label' => $milestone->name, 'value' => $milestone->id);
 		}
 		return $options;
-	}
-	
-	/**
-	 * Check if the specified user has permission to manage the project.
-	 *
-	 * @param object $user
-	 *
-	 * @return bool
-	 */
-	public function is_manager($user)
-	{
-		return in_array($user->id, $this->_managers);
-	}
-	
-	/**
-	 * Returns the project managers as an array.
-	 *
-	 * @return array
-	 */
-	public function managers()
-	{
-		return $this->_managers;
 	}
 
 	/**
@@ -172,14 +150,6 @@ class Project extends Model
 		return !count($errors) > 0;
 	}
 	
-	/**
-	 * Turns the managers value into an array.
-	 */
-	protected function _process_managers()
-	{
-		$this->_managers = explode(',', $this->_data['managers']);
-	}
-
 	/**
 	 * Things required before creating the table row.
 	 */

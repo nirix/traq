@@ -92,6 +92,10 @@ class Locale_enUS extends Locale
 			'submit' => 'Submit',
 			'see_all' => 'See all',
 			'close' => 'Close',
+			'all' => 'All',
+			'active' => 'Active',
+			'completed' => 'Completed',
+			'cancelled' => 'Cancelled',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -133,7 +137,7 @@ class Locale_enUS extends Locale
 			'roles' => 'Roles',
 			'new_role' => 'New Role',
 			'edit_role' => 'Edit Role',
-			'all' => 'All',
+			'due' => 'Due',
 
 			// Project settings
 			'new_milestone' => "New Milestone",
@@ -240,6 +244,8 @@ class Locale_enUS extends Locale
 				'ticket_created' => '$3 #$2 ($1) created',
 				'ticket_closed' => '$3 #$2 ($1) closed as $4',
 				'ticket_reopened' => '$3 #$2 ($1) reopened as $4',
+				'milestone_completed' => 'Marked milestone {1} as completed',
+				'milestone_cancelled' => 'Marked milestone {1} as cancelled',
 				'by_x' => "by $1"
 			),
 

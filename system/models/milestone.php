@@ -37,15 +37,18 @@ class Milestone extends Model
 		'info',
 		'changelog',
 		'due',
-		'is_completed',
-		'is_cancelled',
+		'status',
 		'is_locked',
 		'project_id',
 		'displayorder'
 	);
 	
+	// Relations
 	protected static $_has_many = array('tickets');
 	protected static $_belongs_to = array('project');
+
+	// Filters
+	protected static $_filters_after = array('construct' => array('after_construct'));
 	
 	/**
 	 * Easily get the URI to the milestone.
@@ -86,6 +89,19 @@ class Milestone extends Model
 		// Return the requested count index.
 		return $counts[$this->id][$status];
 	}
+
+	/**
+	 * Returns an array of milestone statuses
+	 * formatted for the Form::select() helper.
+	 */
+	public static function status_select_options()
+	{
+		return array(
+			array('label' => l('active'), 'value' => 1),
+			array('label' => l('completed'), 'value' => 2),
+			array('label' => l('cancelled'), 'value' => 0),
+		);
+	}
 	
 	/**
 	 * Checks if the models data is valid.
@@ -116,5 +132,38 @@ class Milestone extends Model
 		
 		$this->errors = $errors;
 		return !count($errors) > 0;
+	}
+
+	/**
+	 * Custom save method.
+	 */
+	public function save()
+	{
+		if (parent::save())
+		{
+			// Check if the status has been changed, if it has, is it completed or cancelled?
+			if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1)
+			{
+				$timeline = new Timeline(array(
+					'project_id' => $this->project_id,
+					'owner_id' => $this->id,
+					'action' => $this->_data['status'] == 2 ? 'milestone_completed' : 'milestone_cancelled',
+					'user_id' => Avalon::app()->user->id
+				));
+				$timeline->save();
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Clones the status for use in the save method.
+	 */
+	protected function after_construct()
+	{
+		$this->original_status = $this->_data['status'];
 	}
 }

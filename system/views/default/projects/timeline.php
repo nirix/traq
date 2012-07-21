@@ -5,9 +5,9 @@
 	<h3><?php echo ldate(settings('timeline_day_format'), $day['created_at']); ?></h3>
 	<dl>
 	<?php foreach ($day['activity'] as $row) { ?>
-		<?php if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened'))) { ?>
 		<dt>
 			<span class="time"><?php echo ldate(settings('timeline_time_format'), $row->created_at); ?></span>
+		<?php if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened'))) { ?>
 			<?php echo HTML::link(
 				l("timeline.{$row->action}",
 					$row->ticket()->summary,
@@ -17,8 +17,10 @@
 				),
 				$row->ticket()->href()
 			); ?>
-		</dt>
+		<?php } elseif (in_array($row->action, array('milestone_completed', 'milestone_cancelled'))) { ?>
+			<?php echo l("timeline.{$row->action}", $row->milestone()->name); ?>
 		<?php } ?>
+		</dt>
 		<dd><?php echo l('timeline.by_x', HTML::link($row->user->username, $row->user->href())); ?></dd>
 	<?php } ?>
 	</dl>

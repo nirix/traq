@@ -11,6 +11,14 @@
 	<?php echo Form::text('codename', array('value' => $milestone->codename)); ?>
 </div>
 <div class="group">
+	<label><?php echo l('due'); ?></label>
+	<?php echo Form::text('due', array('value' => $milestone->due != '0000-00-00' ? $milestone->due : '', 'placeholder' => 'YYYY-MM-DD')); ?>
+</div>
+<div class="group">
+	<?php echo Form::label(l('status'), 'status'); ?>
+	<?php echo Form::select('status', Milestone::status_select_options(), array('value' => $milestone->status)); ?>
+</div>
+<div class="group">
 	<label><?php echo l('Description'); ?></label>
 	<?php echo Form::textarea('info', array('value' => $milestone->info, 'class' => 'editor')); ?>
 </div>
