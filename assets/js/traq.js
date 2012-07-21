@@ -60,11 +60,14 @@ $(document).ready(function(){
 	$(document).on({
 		mouseenter: function(){
 			$(this).sexyTooltip();
-		},
-		mouseleave: function(){
-			$('#sexytooltip').stop(true, true).fadeOut('fast');
 		}
 	}, 'form abbr');
+
+	$(document).on({
+		mouseenter: function(){
+			$(this).sexyTooltip('top');
+		}
+	}, '[title]:not(form abbr),[data-tooltip]:not(form abbr)');
 
 	// Add a click event to all elements with
 	// a data-popover attribute.
@@ -81,42 +84,6 @@ $(document).ready(function(){
 		popover(e.attr('data-popover-hover') + '?popover=true', e, 'hover');
 	});
 });
-
-/*!
- * Sexy tooltips
- * Copyright (c) 2012 Jack Polgar
- * All Rights Reserved
- * Released under the BSD 3-clause lisence.
- */
-(function($){
-	$.fn.sexyTooltip = function() {
-		var e = $(this);
-
-		// Check if the tooltip container exists...
-		if (!$('#sexytooltip').length) {
-			$('body').append('<div id="sexytooltip"></div>');
-		}
-		else
-		{
-			$('#sexytooltip').hide();
-		}
-
-		// Shortcut for the tooltip container
-		var tip = $('#sexytooltip');
-
-		if (e.attr('title')) {
-			e.attr('data-tooltip', e.attr('title'));
-			e.attr('title', null);
-		}
-
-		tip.html(e.attr('data-tooltip'))
-			.css({
-				left: (e.offset().left + e.width()) + 'px',
-				top: (e.offset().top - (tip.height() / 2) + (e.height() / 2) - 2) + 'px',
-			})
-			.fadeIn('fast');
-	}
-})(jQuery);
 
 /*!
  * jQuery Overlay

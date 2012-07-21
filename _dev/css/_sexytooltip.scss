@@ -3,27 +3,47 @@
 	position: absolute;
 	border-radius: 4px;
 	z-index: 2100;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.7);
 	color: #fff;
 	padding: 4px;
 	font-size: 11px;
-	margin-left: 20px;
 	max-width: 300px;
 
-	&:before, &:after {
-		right: 100%;
-		border: solid transparent;
-		content: " ";
-		height: 0;
-		width: 0;
-		position: absolute;
-		pointer-events: none;
+	&.sexytooltip-right {
+		&:before, &:after {
+			right: 100%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+
+		&:before {
+			border-right-color: rgba(0, 0, 0, 0.7);
+			border-width: 6px;
+			top: 50%;
+			margin-top: -6px;
+		}
 	}
 
-	&:before {
-		border-right-color: rgba(0, 0, 0, 0.6);
-		border-width: 6px;
-		top: 50%;
-		margin-top: -6px;
+	&.sexytooltip-top {
+		&:before, &:after {
+			top: 100%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+
+		&:before {
+			border-top-color: rgba(0, 0, 0, 0.7);
+			border-width: 6px;
+			left: 10px;
+			margin-left: -6px;
+		}
 	}
 }
