@@ -32,7 +32,8 @@ class AttachmentsController extends AppController
 	{
 		$attachment = Attachment::find($attachment_id);
 
-		if (!$this->user->permission($attachment->ticket->project_id, 'view'))
+		// Check permission
+		if (!$this->user->permission($attachment->ticket->project_id, 'view_attachments'))
 		{
 			return $this->show_no_permission();
 		}
@@ -59,5 +60,19 @@ class AttachmentsController extends AppController
 
 		print(base64_decode($attachment->contents));
 		exit;
+	}
+
+	public function action_delete($attachment_id)
+	{
+		$attachment = Attachment::find($attachment_id);
+
+		// Check permission
+		if (!$this->user->permission($attachment->ticket->project_id, 'delete_attachments'))
+		{
+			return $this->show_no_permission();
+		}
+
+		$attachment->delete();
+		Request::redirect(Request::base($attachment->ticket->href()));
 	}
 }

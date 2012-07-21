@@ -26,7 +26,8 @@ Router::add('/users/([0-9]+)', 'Users::view/$1');
 Router::add('/_js.js', 'Misc::javascript');
 
 // Attachment routes
-Router::add('/attachments/(?P<attachment_id>[0-9]+)/(.*)', 'Attachments::view/$1');
+Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'Attachments::view/$1');
+Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)/delete', 'Attachments::delete/$1');
 
 // ------------------------------------------------
 // Project routes

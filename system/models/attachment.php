@@ -45,9 +45,9 @@ class Attachment extends Model
 	/**
 	 * Returns the URL for the attachment.
 	 */
-	public function href()
+	public function href($extra = '')
 	{
-		return "/attachments/{$this->id}/{$this->name}";
+		return "/attachments/{$this->id}/{$this->name}" . $extra;
 	}
 
 	public function is_valid()

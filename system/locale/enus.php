@@ -209,7 +209,9 @@ class Locale_enUS extends Locale
 				'update_ticket' => 'Update Ticket',
 				'vote_on_tickets' => 'Vote on tickets',
 				'comment_on_tickets' => 'Comment on tickets',
-				'add_attachments' => 'Add attachments'
+				'add_attachments' => 'Add attachments',
+				'view_attachments' => 'View attachments',
+				'delete_attachments' => 'Delete attachments'
 			),
 			
 			// Time
