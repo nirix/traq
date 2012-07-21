@@ -270,9 +270,9 @@ class Locale_enUS extends Locale
 				'Ticket History',
 
 				// Most fields
-				'x_from_x_to_x' => 'Changed <span class="ticket_history_property">{1}</span> from <span class="ticket_history_from">{2}</span> to <span class="ticket_history_to">{3}</span>',
-				'x_from_null_to_x' => 'Set <span class="ticket_history_property">{1}</span> to <span class="ticket_history_to">{3}</span>',
-				'x_from_x_to_null' => 'Cleared <span class="ticket_history_property">{1}</span>, was <span class="ticket_history_to">{2}</span>',
+				'x_from_x_to_x' => 'Changed {1} from {2} to {3}',
+				'x_from_null_to_x' => 'Set {1} to {3}',
+				'x_from_x_to_null' => 'Cleared {1}, was {2}',
 
 				// Assignee field
 				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
@@ -280,9 +280,9 @@ class Locale_enUS extends Locale
 				'assignee_from_x_to_null' => 'Unassigned ticket from {2}',
 
 				// Actions
-				'close' => 'Closed ticket as <span class="ticket_history_to">{2}</span>',
-				'reopen' => 'Reopened ticket as <span class="ticket_history_top">{2}</span>',
-				'add_attachment' => 'Added attachment <span class="ticket_history_to">{2}</span>',
+				'close' => 'Closed ticket as {2}',
+				'reopen' => 'Reopened ticket as {2}',
+				'add_attachment' => 'Added attachment {2}',
 			),
 			
 			// Errors
