@@ -1,4 +1,4 @@
-<h3><?php echo l('comment'); ?></h3>
+<h3><?php echo l('edit_ticket_history'); ?></h3>
 <form action="<?php echo Request::full_uri(); ?>" method="post">
 	<?php show_errors($history->errors); ?>
 	<div class="tabular">

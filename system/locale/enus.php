@@ -160,6 +160,7 @@ class Locale_enUS extends Locale
 			'no_votes' => 'No votes',
 			'attachment' => 'Attachment',
 			'attachments' => 'Attachments',
+			'edit_ticket_history' => 'Edit Ticket History',
 			'x_uploaded_by_x_x_ago' => '<span class="attachment_filename">{1}</span> uploaded by {2}, {3}',
 			'people_who_have_voted_on_this_ticket' => 'People who have voted on this ticket ({1})',
 
