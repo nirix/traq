@@ -158,6 +158,8 @@ class Locale_enUS extends Locale
 			'priority' => 'Priority',
 			'edit_ticket' => 'Edit Ticket',
 			'no_votes' => 'No votes',
+			'attachment' => 'Attachment',
+			'attachments' => 'Attachments',
 			'people_who_have_voted_on_this_ticket' => 'People who have voted on this ticket ({1})',
 
 			// Users
@@ -205,7 +207,8 @@ class Locale_enUS extends Locale
 				'edit_ticket_description' => 'Edit ticket description',
 				'update_ticket' => 'Update Ticket',
 				'vote_on_tickets' => 'Vote on tickets',
-				'comment_on_tickets' => 'Comment on tickets'
+				'comment_on_tickets' => 'Comment on tickets',
+				'add_attachments' => 'Add attachments'
 			),
 			
 			// Time
@@ -262,18 +265,19 @@ class Locale_enUS extends Locale
 				'Ticket History',
 
 				// Most fields
-				'x_from_x_to_x' => 'Changed {1} from {2} to {3}',
-				'x_from_null_to_x' => 'Set {1} to {3}',
-				'x_from_x_to_null' => 'Cleared {1}, was {2}',
+				'x_from_x_to_x' => 'Changed <span class="ticket_history_property">{1}</span> from <span class="ticket_history_from">{2}</span> to <span class="ticket_history_to">{3}</span>',
+				'x_from_null_to_x' => 'Set <span class="ticket_history_property">{1}</span> to <span class="ticket_history_to">{3}</span>',
+				'x_from_x_to_null' => 'Cleared <span class="ticket_history_property">{1}</span>, was <span class="ticket_history_to">{2}</span>',
 
 				// Assignee field
-				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
-				'assignee_from_null_to_x' => 'Assigned ticket to {3}',
-				'assignee_from_x_to_null' => 'Unassigned ticket from {2}',
+				'assignee_from_x_to_x' => 'Reassigned ticket from <span class="ticket_history_from">{2}</span> to <span class="ticket_history_to">{3}</span>',
+				'assignee_from_null_to_x' => 'Assigned ticket to <span class="ticket_history_to">{3}</span>',
+				'assignee_from_x_to_null' => 'Unassigned ticket from <span class="ticket_history_from">{2}</span>',
 
 				// Actions
-				'close_ticket' => 'Closed ticket as {2}',
-				'reopen_ticket' => 'Reopened ticket as {2}'
+				'close' => 'Closed ticket as <span class="ticket_history_to">{2}</span>',
+				'reopen' => 'Reopened ticket as <span class="ticket_history_to">{2}</span>',
+				'add_attachment' => 'Added attachment <span class="ticket_history_to">{2}</span>',
 			),
 			
 			// Errors
