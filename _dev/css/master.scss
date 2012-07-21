@@ -330,9 +330,7 @@ h3.box_title {
 		}
 	}
 
-	#description {
-		margin-top: 5px;
-
+	#description, #attachments {
 		h3 {
 			display: block;
 			font-weight: bold;
@@ -340,6 +338,10 @@ h3.box_title {
 			border-bottom: 1px solid #dd9;
 			padding-bottom: 2px;
 		}
+	}
+
+	#description {
+		margin-top: 5px;
 
 		.body {
 			p {
@@ -349,6 +351,14 @@ h3.box_title {
 					margin-bottom: 0;
 				}
 			}
+		}
+	}
+
+	#attachments {
+		margin-top: 5px;
+
+		ul {
+			margin: 0;
 		}
 	}
 }
@@ -392,16 +402,6 @@ h3.box_title {
 
 		.changes {
 			margin: 4px 0px 4px 15px;
-
-			.ticket_history_property,
-			.ticket_history_to,
-			.ticket_history_from
-			 {
-				font-family: Courier, "Courier New", monospace;
-				background: #F6F6F6;
-				border: 1px solid #e4e4e4;
-				padding: 0 2px;
-			}
 		}
 
 		.comment {
@@ -422,6 +422,19 @@ h3.box_title {
 			padding-bottom: 10px;
 		}
 	}
+}
+
+#ticket_history	.ticket_history_to,
+#ticket_history .ticket_history_from,
+{
+	font-family: Courier, "Courier New", monospace;
+	background: #F6F6F6;
+	border: 1px solid #e4e4e4;
+	padding: 0 2px;
+}
+
+.attachment_filename {
+	font-family: Courier, "Courier New", monospace;
 }
 
 #popover .voters {

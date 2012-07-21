@@ -52,9 +52,9 @@ class Ticket extends Model
 		'updated_at'
 	);
 
-	protected $_original_data = array();
-	
 	protected static $_has_many = array(
+		'attachments',
+
 		'history' => array('model' => 'tickethistory')
 	);
 	
@@ -173,7 +173,7 @@ class Ticket extends Model
 		foreach ($data as $field => $value)
 		{
 			// Check if the value is different
-			if ($this->_data[$field] == $value)
+			if (isset($this->_data[$field]) and $this->_data[$field] == $value)
 			{
 				continue;
 			}

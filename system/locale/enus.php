@@ -160,6 +160,7 @@ class Locale_enUS extends Locale
 			'no_votes' => 'No votes',
 			'attachment' => 'Attachment',
 			'attachments' => 'Attachments',
+			'x_uploaded_by_x_x_ago' => '<span class="attachment_filename">{1}</span> uploaded by {2}, {3}',
 			'people_who_have_voted_on_this_ticket' => 'People who have voted on this ticket ({1})',
 
 			// Users
@@ -270,13 +271,13 @@ class Locale_enUS extends Locale
 				'x_from_x_to_null' => 'Cleared <span class="ticket_history_property">{1}</span>, was <span class="ticket_history_to">{2}</span>',
 
 				// Assignee field
-				'assignee_from_x_to_x' => 'Reassigned ticket from <span class="ticket_history_from">{2}</span> to <span class="ticket_history_to">{3}</span>',
-				'assignee_from_null_to_x' => 'Assigned ticket to <span class="ticket_history_to">{3}</span>',
-				'assignee_from_x_to_null' => 'Unassigned ticket from <span class="ticket_history_from">{2}</span>',
+				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
+				'assignee_from_null_to_x' => 'Assigned ticket to {3}',
+				'assignee_from_x_to_null' => 'Unassigned ticket from {2}',
 
 				// Actions
 				'close' => 'Closed ticket as <span class="ticket_history_to">{2}</span>',
-				'reopen' => 'Reopened ticket as <span class="ticket_history_to">{2}</span>',
+				'reopen' => 'Reopened ticket as <span class="ticket_history_top">{2}</span>',
 				'add_attachment' => 'Added attachment <span class="ticket_history_to">{2}</span>',
 			),
 			

@@ -356,18 +356,22 @@ h3.box_title {
       float: right; }
     #ticket_info .properties .property:nth-child(4n) {
       margin-right: 0px; }
+  #ticket_info #description h3, #ticket_info #attachments h3 {
+    display: block;
+    font-weight: bold;
+    color: #663;
+    border-bottom: 1px solid #dd9;
+    padding-bottom: 2px; }
   #ticket_info #description {
     margin-top: 5px; }
-    #ticket_info #description h3 {
-      display: block;
-      font-weight: bold;
-      color: #663;
-      border-bottom: 1px solid #dd9;
-      padding-bottom: 2px; }
     #ticket_info #description .body p {
       margin-bottom: 4px; }
       #ticket_info #description .body p:last-child {
         margin-bottom: 0; }
+  #ticket_info #attachments {
+    margin-top: 5px; }
+    #ticket_info #attachments ul {
+      margin: 0; }
 
 #ticket_summary {
   margin: 0;
@@ -400,13 +404,6 @@ h3.box_title {
       color: #fff; }
   #ticket_history .update .changes {
     margin: 4px 0px 4px 15px; }
-    #ticket_history .update .changes .ticket_history_property,
-    #ticket_history .update .changes .ticket_history_to,
-    #ticket_history .update .changes .ticket_history_from {
-      font-family: Courier, "Courier New", monospace;
-      background: #F6F6F6;
-      border: 1px solid #e4e4e4;
-      padding: 0 2px; }
   #ticket_history .update .comment {
     padding: 0 10px 0px 15px; }
     #ticket_history .update .comment p:last-child {
@@ -415,6 +412,16 @@ h3.box_title {
     margin-top: 0; }
   #ticket_history .update:last-child {
     padding-bottom: 10px; }
+
+#ticket_history .ticket_history_to,
+#ticket_history .ticket_history_from {
+  font-family: Courier, "Courier New", monospace;
+  background: #F6F6F6;
+  border: 1px solid #e4e4e4;
+  padding: 0 2px; }
+
+.attachment_filename {
+  font-family: Courier, "Courier New", monospace; }
 
 #popover .voters {
   list-style: none;
