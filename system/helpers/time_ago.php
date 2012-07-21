@@ -18,6 +18,18 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+function time_from_now_ago($original, $detailed = true, $include_from_now_ago = true)
+{
+	if (Time::to_unix($original) > time())
+	{
+		return time_from_now($original, $detailed, $include_from_now_ago);
+	}
+	else
+	{
+		return time_ago($original, $detailed, $include_from_now_ago);
+	}
+}
+
 /**
  * Returns the time ago in words wrapped in a span
  * with the full date as the hover title.
@@ -31,7 +43,24 @@
 function time_ago($original, $detailed = true, $include_ago = true)
 {
 	$datetime = Time::date('Y-m-d H:i:s', $original);
-	$time_ago = $include_ago ? l('time.ago', time_ago_in_words($original, $detailed)) : time_ago_in_words($original, $detailed);
+	$time_ago = $include_ago ? l('time.ago', time_difference_in_words($original, $detailed)) : time_difference_in_words($original, $detailed);
+	return "<span title=\"{$datetime}\">{$time_ago}</span>";
+}
+
+/**
+ * Returns the time from now in words wrapped in a span
+ * with the full date as the hover title.
+ *
+ * @param mixed $original
+ * @param bool $detailed Include "and seconds/minutes/etc"
+ * @param bool $include_ago Appends the word "ago" to the end
+ *
+ * @return string
+ */
+function time_from_now($original, $detailed = true, $include_from_now = true)
+{
+	$datetime = Time::date('Y-m-d H:i:s', $original);
+	$time_ago = $include_from_now ? l('time.from_now', time_difference_in_words($original, $detailed)) : time_difference_in_words($original, $detailed);
 	return "<span title=\"{$datetime}\">{$time_ago}</span>";
 }
 
@@ -43,7 +72,7 @@ function time_ago($original, $detailed = true, $include_ago = true)
  *
  * @return string
  */
-function time_ago_in_words($original, $detailed = true)
+function time_difference_in_words($original, $detailed = true)
 	{
 		// Check what kind of format we're dealing with, timestamp or datetime
 		// and convert it to a timestamp if it is in datetime form.
@@ -65,7 +94,7 @@ function time_ago_in_words($original, $detailed = true)
 		);
 
 		// Get the difference
-		$difference = ($now - $original);
+		$difference = $now > $original ? ($now - $original) : ($original - $now);
 
 		// Loop around, get the time from
 		for ($i = 0, $c = count($chunks); $i < $c; $i++) {

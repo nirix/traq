@@ -96,6 +96,7 @@ class Locale_enUS extends Locale
 			'active' => 'Active',
 			'completed' => 'Completed',
 			'cancelled' => 'Cancelled',
+			'due_x' => 'Due {1}',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -226,6 +227,7 @@ class Locale_enUS extends Locale
 				'Time',
 				
 				'ago' => '{1} ago',
+				'from_now' => '{1} from now',
 				'x_and_x' => '{1} and {2}',
 				'x_second' => '{1} {plural:{1}, {second|seconds}}',
 				'x_minute' => '{1} {plural:{1}, {minute|minutes}}',
