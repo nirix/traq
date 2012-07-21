@@ -92,7 +92,7 @@
 <?php if ($current_user->permission($project->id, 'update_ticket') or $current_user->permission($project->id, 'comment_on_tickets')) { ?>
 <div class="content">
 	<h3><?php echo l('update_ticket'); ?></h3>
-	<form action="<?php echo Request::full_uri(); ?>/update" method="post" id="update_tickets">
+	<form action="<?php echo Request::full_uri(); ?>/update" method="post" id="update_tickets" enctype="multipart/form-data">
 		<div class="tabular box">
 			<?php if ($current_user->permission($project->id, 'comment_on_tickets')) { ?>
 			<div class="group">
@@ -138,6 +138,12 @@
 					<?php echo Form::label(l('summary'), 'summary'); ?>
 					<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
 				</div>
+				<?php if ($current_user->permission($project->id, 'add_attachments')) { ?>
+				<div class="field">
+					<?php echo Form::label(l('attachment'), 'attachment'); ?>
+					<input type="file" id="attachment" name="attachment" />
+				</div>
+				<?php } ?>
 			</div>
 			<?php } ?>
 			<div class="clear"></div>

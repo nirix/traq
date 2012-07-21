@@ -234,6 +234,11 @@ class TicketsController extends AppController
 			'assigned_to_id' => Request::$post['assigned_to']
 		);
 
+		if ($this->user->permission($this->project->id, 'add_attachments') and isset($_FILES['attachment']) and isset($_FILES['attachment']['name']))
+		{
+			$data['attachment'] = $_FILES['attachment']['name'];
+		}
+
 		if ($ticket->update_data($data))
 		{
 			Request::redirect(Request::base($ticket->href()));

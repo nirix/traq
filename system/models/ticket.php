@@ -163,10 +163,11 @@ class Ticket extends Model
 	 */
 	public function update_data($data)
 	{
-		$user_id = Avalon::app()->user->id;
+		$user = Avalon::app()->user;
 
 		$to_values = array();
 		$changes = array();
+		$save_queue = array();
 
 		// Loop over the data
 		foreach ($data as $field => $value)
@@ -177,13 +178,19 @@ class Ticket extends Model
 				continue;
 			}
 
+			// If this field is an attachment, check permissions
+			if ($field == 'attachment' and !$user->permission($this->project_id, 'add_attachments'))
+			{
+				continue;
+			}
+
 			// Get the to and from values for different fields
 			switch($field)
 			{
 				case 'assigned_to_id':
 					$from = $this->assigned_to_id == 0 ? null : $this->assigned_to->username;
-					$user = User::find($value);
-					$to = $user ? $user->username : null;
+					$to_user = User::find($value);
+					$to = $to_user ? $to_user->username : null;
 				break;
 
 				case 'status_id':
@@ -198,6 +205,11 @@ class Ticket extends Model
 
 				case 'summary':
 					$from = $this->summary;
+					$to = $value;
+				break;
+
+				case 'attachment':
+					$from = null;
 					$to = $value;
 				break;
 
@@ -231,37 +243,62 @@ class Ticket extends Model
 					$this->is_closed = $to_values[$field]->status ? 0 : 1;
 					$change['action'] = $to_values[$field]->status == 1 ? 'reopen' : 'close';
 
-					$timeline = new Timeline(array(
+					$save_queue[] = new Timeline(array(
 						'project_id' => $this->project_id,
 						'owner_id' => $this->id,
 						'action' => $change['action'] == 'close' ? 'ticket_closed' : 'ticket_reopened',
 						'data' => $to_values[$field]->id,
-						'user_id' => $user_id
+						'user_id' => $user->id
 					));
-					$timeline->save();
 				}
+			}
+			// Attaching a file?
+			elseif ($field == 'attachment' and isset($_FILES['attachment']) and isset($_FILES['attachment']['name']))
+			{
+				$save_queue[] = new Attachment(array(
+					'name' => $_FILES['attachment']['name'],
+					'contents' => base64_encode(file_get_contents($_FILES['attachment']['tmp_name'])),
+					'type' => $_FILES['attachment']['type'],
+					'size' => $_FILES['attachment']['size'],
+					'user_id' => $user->id,
+					'ticket_id' => $this->id
+				));
+				$change['action'] = 'add_attachment';
 			}
 
 			// Set value
-			$this->set($field, $value);
+			if (in_array($field, static::$_properties))
+			{
+				$this->set($field, $value);
+			}
+
 			$changes[] = $change;
 		}
 
 		// Any changes, or perhaps a comment?
 		if (count($changes) > 0 or !empty(Request::$post['comment']))
 		{
-			$history = new TicketHistory(array(
-				'user_id' => $user_id,
+			$save_queue[] = new TicketHistory(array(
+				'user_id' => $user->id,
 				'ticket_id' => $this->id,
 				'changes' => count($changes) > 0 ? json_encode($changes) : '',
 				'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
 			));
-			
-			$history->save();
 		}
 		
 		// Save
-		return $this->save();
+		if ($this->save())
+		{
+			foreach ($save_queue as $model)
+			{
+				$model->save();
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
