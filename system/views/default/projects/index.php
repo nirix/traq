@@ -3,7 +3,7 @@
 	<ul id="project_list">
 		<?php foreach($projects as $project) { ?>
 		<li>
-			<h3><?php echo HTML::link($project->name, $project->slug); ?></h3>
+			<h3><?php echo HTML::link($project->name, $project->slug); ?><?php echo ($project->codename ? " <em>\"{$project->codename}\"</em>" : ''); ?></h3>
 			<nav>
 				<ul>
 					<li><?php echo HTML::link(l('roadmap'), "{$project->slug}/roadmap"); ?></li>

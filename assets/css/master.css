@@ -1,7 +1,8 @@
 /*
  * Like a Boss
- * Copyright (C) 2012 Jack P.
+ * Copyright (c) 2012 Jack P.
  * All Rights Reserved
+ * https://github.com/nirix
  *
  * Credits to famfamfam.com for the pretty imagess.
  */
@@ -55,6 +56,12 @@
 .likeaboss_toolbar .likeaboss_code {
   background-image: url(":baseuri:assets/images/script_code.png"); }
 
+/*
+ * Popover
+ * Copyright (c) 2012 Jack P.
+ * All Rights Reserved
+ * https://github.com/nirix
+ */
 #popover {
   display: none;
   position: absolute;
@@ -94,6 +101,12 @@
     left: 50%;
     margin-left: -5px; }
 
+/*
+ * SexyTooltips
+ * Copyright (c) 2012 Jack P.
+ * All Rights Reserved
+ * https://github.com/nirix
+ */
 #sexytooltip {
   display: none;
   position: absolute;
@@ -277,6 +290,8 @@ h3.box_title {
   #project_list li h3 {
     margin: 0;
     margin-top: 10px; }
+    #project_list li h3 em {
+      font-size: 14px; }
   #project_list li nav ul {
     list-style: none;
     padding: 0;
