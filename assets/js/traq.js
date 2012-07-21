@@ -72,16 +72,21 @@ $(document).ready(function(){
 	// Add a click event to all elements with
 	// a data-popover attribute.
 	$(document).on('click', '[data-popover]', function(){
-		var e = $(this);
-		popover(e.attr('data-popover') + '?popover=true', e);
+		var parent = $(this);
+		$("#popover").stop(true, true).hide().load($(this).attr('data-popover') + '?popover=true', function(){
+			$("#popover").popover(parent);
+		});
 		return false;
 	});
 
 	// Add a click event to all elements with
 	// a data-popover-hover attribute.
 	$(document).on('mouseenter', '[data-popover-hover]', function(){
-		var e = $(this);
-		popover(e.attr('data-popover-hover') + '?popover=true', e, 'hover');
+		var parent = $(this);
+		$("#popover").stop(true, true).hide().load($(this).attr('data-popover-hover') + '?popover=true', function(){
+			$("#popover").popover(parent, 'hover');
+		});
+		parent.off('click').click(function(){ return false; });
 	});
 });
 

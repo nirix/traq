@@ -15,6 +15,7 @@
 	<body>
 		<div id="overlay_blackout"></div>
 		<div id="overlay"></div>
+		<div id="popover"></div>
 		<div id="wrapper" class="container">
 			<header id="header">
 				<h1><?php echo HTML::link(settings('title'), null); ?><?php if (isset($project)) { ?> / <?php echo HTML::link($project->name, $project->slug); ?><?php } ?></h1>

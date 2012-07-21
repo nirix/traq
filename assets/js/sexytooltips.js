@@ -1,7 +1,9 @@
 /*!
  * Sexy tooltips
- * Copyright (c) 2012 Jack Polgar
+ * Copyright (c) 2012 Nirix
  * All Rights Reserved
+ * https://github.com/nirix
+ *
  * Released under the BSD 3-clause lisence.
  */
 (function($){
