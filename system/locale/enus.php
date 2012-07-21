@@ -206,20 +206,27 @@ class Locale_enUS extends Locale
 			'allow' => 'Allow',
 			'deny' => 'Deny',
 			'permissions' => array(
+				// Projects
 				'view' => 'View',
-				'create_wiki_page' => 'Create wiki page',
-				'edit_wiki_page' => 'Edit wiki page',
-				'delete_wiki_page' => 'Delete wiki page',
 				'project_settings' => 'Project Settings',
-				'edit_ticket_description' => 'Edit ticket description',
-				'update_ticket' => 'Update Ticket',
-				'edit_ticket_history' => 'Edit ticket history',
-				'delete_ticket_history' => 'Delete ticket_history',
-				'vote_on_tickets' => 'Vote on tickets',
+
+				// Tickets
 				'comment_on_tickets' => 'Comment on tickets',
+				'update_tickets' => 'Update tickets',
+				'edit_ticket_description' => 'Edit ticket description',
+				'vote_on_tickets' => 'Vote on tickets',
 				'add_attachments' => 'Add attachments',
 				'view_attachments' => 'View attachments',
-				'delete_attachments' => 'Delete attachments'
+				'delete_attachments' => 'Delete attachments',
+
+				// Ticket History
+				'edit_ticket_history' => 'Edit ticket history',
+				'delete_ticket_history' => 'Delete ticket_history',
+
+				// Wiki
+				'create_wiki_page' => 'Create wiki page',
+				'edit_wiki_page' => 'Edit wiki page',
+				'delete_wiki_page' => 'Delete wiki page'
 			),
 			
 			// Time

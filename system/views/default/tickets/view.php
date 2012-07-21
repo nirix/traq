@@ -114,7 +114,7 @@
 	</div>
 <?php } ?>
 </div>
-<?php if ($current_user->permission($project->id, 'update_ticket') or $current_user->permission($project->id, 'comment_on_tickets')) { ?>
+<?php if ($current_user->permission($project->id, 'update_tickets') or $current_user->permission($project->id, 'comment_on_tickets')) { ?>
 <div class="content">
 	<h3><?php echo l('update_ticket'); ?></h3>
 	<form action="<?php echo Request::full_uri(); ?>/update" method="post" id="update_tickets" enctype="multipart/form-data">
@@ -125,7 +125,7 @@
 				<?php echo Form::textarea('comment', array('class' => 'editor')); ?>
 			</div>
 			<?php } ?>
-			<?php if ($current_user->permission($project->id, 'update_ticket')) { ?>
+			<?php if ($current_user->permission($project->id, 'update_tickets')) { ?>
 			<div class="properties group">
 				<div class="field">
 					<?php echo Form::label(l('type'), 'type'); ?>

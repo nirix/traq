@@ -215,7 +215,7 @@ class TicketsController extends AppController
 	 */
 	public function action_update($ticket_id)
 	{
-		if (!$this->user->permission($this->project->id, 'update_ticket'))
+		if (!$this->user->permission($this->project->id, 'update_tickets'))
 		{
 			return $this->show_no_permission();
 		}
