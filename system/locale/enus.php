@@ -97,6 +97,7 @@ class Locale_enUS extends Locale
 			'completed' => 'Completed',
 			'cancelled' => 'Cancelled',
 			'due_x' => 'Due {1}',
+			'members' => 'Members',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -139,6 +140,8 @@ class Locale_enUS extends Locale
 			'new_role' => 'New Role',
 			'edit_role' => 'Edit Role',
 			'due' => 'Due',
+			'role' => 'Role',
+			'add' => 'Add',
 
 			// Project settings
 			'new_milestone' => "New Milestone",
@@ -266,7 +269,8 @@ class Locale_enUS extends Locale
 			
 			// Confirmations
 			'confirm' => array(
-				'delete_x' => "Are you sure you want to delete '$1' ?"
+				'delete_x' => 'Are you sure you want to delete \'{1}\' ?',
+				'remove_x' => 'Are you sure you want to remove \'{1}\' ?'
 			),
 
 			// Editor
@@ -339,7 +343,9 @@ class Locale_enUS extends Locale
 					'username_blank' => "Username cannot be blank",
 					'username_in_use' => "That username is already registered",
 					'password_blank' => "Password cannot be blank",
-					'email_invalid' => "Invalid email address"
+					'email_invalid' => "Invalid email address",
+					'doesnt_exist' => "User doesn't exist",
+					'already_a_project_member' => "User is already a project member"
 				),
 
 				// Traq Settings errors

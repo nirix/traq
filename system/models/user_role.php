@@ -43,6 +43,11 @@ class UserRole extends Model
 		'role' => array('model' => 'projectrole', 'column' => 'project_role_id')
 	);
 
+	/**
+	 * Returns an array of the project members.
+	 *
+	 * @return array
+	 */
 	public static function project_members($project_id)
 	{
 		$members = array();
@@ -52,5 +57,10 @@ class UserRole extends Model
 		}
 
 		return $members;
+	}
+
+	public function is_valid()
+	{
+		return true;
 	}
 }
