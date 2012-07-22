@@ -142,6 +142,7 @@ class Locale_enUS extends Locale
 			'due' => 'Due',
 			'role' => 'Role',
 			'add' => 'Add',
+			'enable_wiki' => 'Enable Wiki',
 
 			// Project settings
 			'new_milestone' => "New Milestone",

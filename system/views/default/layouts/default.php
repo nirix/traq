@@ -39,7 +39,9 @@
 					<li<?php echo iif(active_nav('/:slug/(roadmap|milestone/(.*))'), ' class="active"')?>><?php echo HTML::link(l('roadmap'), $project->href("roadmap")); ?></li>
 					<li<?php echo iif(active_nav('/:slug/tickets(.*)'), ' class="active"')?>><?php echo HTML::link(l('tickets'), $project->href("tickets")); ?></li>
 					<li<?php echo iif(active_nav('/:slug/timeline'), ' class="active"')?>><?php echo HTML::link(l('timeline'), $project->href("timeline")); ?></li>
+					<?php if ($project->enable_wiki) { ?>
 					<li<?php echo iif(active_nav('/:slug/wiki(.*)'), ' class="active"')?>><?php echo HTML::link(l('wiki'), $project->href("wiki")); ?></li>
+					<?php } ?>
 					<?php if($current_user->permission($project->id, 'project_settings')) { ?>
 					<li<?php echo iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>><?php echo HTML::link(l('settings'), $project->href("settings")); ?></li>
 					<?php } ?>

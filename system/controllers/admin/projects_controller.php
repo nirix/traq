@@ -58,12 +58,12 @@ class AdminProjectsController extends AdminBase
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
 				'codename' => Request::$post['codename'],
-				'info' => Request::$post['info']
+				'info' => Request::$post['info'],
+				'enable_wiki' => Request::$post['enable_wiki']
 			));
 			
-			if ($project->is_valid())
+			if ($project->save())
 			{
-				$project->save();
 				Request::redirect(Request::base('admin'));
 			}
 		}

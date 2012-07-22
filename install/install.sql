@@ -218,6 +218,7 @@ CREATE TABLE `traq_projects` (
   `codename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `info` longtext COLLATE utf8_unicode_ci NOT NULL,
   `next_tid` bigint(20) NOT NULL DEFAULT '1',
+  `enable_wiki` tinyint(1) NOT NULL DEFAULT '0',
   `displayorder` bigint(20) NOT NULL,
   `private_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)

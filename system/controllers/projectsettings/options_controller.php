@@ -46,7 +46,8 @@ class ProjectSettingsOptionsController extends ProjectSettingsAppController
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
 				'codename' => Request::$post['codename'],
-				'info' => Request::$post['info']
+				'info' => Request::$post['info'],
+				'enable_wiki' => Request::$post['enable_wiki']
 			));
 			
 			// Check if the data is valid

@@ -28,7 +28,9 @@ class Project extends Model
 		'slug',
 		'info',
 		'next_tid',
-		'displayorder'
+		'enable_wiki',
+		'displayorder',
+		'private_key'
 	);
 	
 	// Has-many relationships with other models
