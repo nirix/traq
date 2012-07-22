@@ -54,7 +54,7 @@ class Component extends Model
 	public static function select_options($project_id)
 	{
 		$options = array();
-		foreach (static::select()->where('project_id', $project_id)->exec()->fetch_all() as $component)
+		foreach (static::select()->where('project_id', $project_id)->order_by('name', 'ASC')->exec()->fetch_all() as $component)
 		{
 			$options[] = array('label' => $component->name, 'value' => $component->id);
 		}
