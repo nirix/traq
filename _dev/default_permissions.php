@@ -42,6 +42,7 @@ $permissions = array(
 		array(0, 'add_attachments', 1),
 		array(0, 'view_attachments', 1),
 		array(0, 'delete_attachments', 0),
+		array(0, 'set_all_ticket_properties', 0),
 		
 		// Ticket History
 		array(0, 'edit_ticket_history', 0),
@@ -78,6 +79,7 @@ $permissions = array(
 		array(0, 'add_attachments', 1),
 		array(0, 'view_attachments', 1),
 		array(0, 'delete_attachments', 0),
+		array(0, 'set_all_ticket_properties', 1),
 		
 		// Ticket History
 		array(0, 'edit_ticket_history', 0),

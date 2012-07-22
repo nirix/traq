@@ -33,6 +33,20 @@
 					<?php echo Form::label(l('severity'), 'severity'); ?>
 					<?php echo Form::select('severity', Severity::select_options(), array('value' => 4)); ?>
 				</div>
+				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
+				<div class="field">
+					<?php echo Form::label(l('priority'), 'priority'); ?>
+					<?php echo Form::select('priority', Priority::select_options(), array('value' => 3)); ?>
+				</div>
+				<div class="field">
+					<?php echo Form::label(l('status'), 'status'); ?>
+					<?php echo Form::select('status', TicketStatus::select_options(), array('value' => 1)); ?>
+				</div>
+				<div class="field">
+					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>
+					<?php echo Form::select('assigned_to', array_merge(array(array('value' => '', 'label' => '')), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
+				</div>
+				<?php } ?>
 				<div class="clearfix"></div>
 			</div>
 		</div>

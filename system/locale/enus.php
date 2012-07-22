@@ -170,7 +170,7 @@ class Locale_enUS extends Locale
 			'attachment' => 'Attachment',
 			'attachments' => 'Attachments',
 			'edit_ticket_history' => 'Edit Ticket History',
-			'x_uploaded_by_x_x_ago' => '<span class="attachment_filename">{1}</span> uploaded by {2}, {3}',
+			'x_uploaded_by_x_x_ago' => '{1} uploaded by {2}, {3}',
 			'people_who_have_voted_on_this_ticket' => 'People who have voted on this ticket ({1})',
 
 			// Users
@@ -222,6 +222,7 @@ class Locale_enUS extends Locale
 				'add_attachments' => 'Add attachments',
 				'view_attachments' => 'View attachments',
 				'delete_attachments' => 'Delete attachments',
+				'set_all_ticket_properties' => 'Set all ticket properties',
 
 				// Ticket History
 				'edit_ticket_history' => 'Edit ticket history',

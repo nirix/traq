@@ -131,10 +131,12 @@
 					<?php echo Form::label(l('type'), 'type'); ?>
 					<?php echo Form::select('type', TicketType::select_options(), array('value' => $ticket->type_id)); ?>
 				</div>
+				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>
 					<?php echo Form::select('assigned_to', array_merge(array(array('value' => '', 'label' => '')), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
+				<?php } ?>
 				<div class="field">
 					<?php echo Form::label(l('milestone'), 'milestone'); ?>
 					<?php echo Form::select('milestone', $project->milestone_select_options('open'), array('value' => $ticket->milestone_id)); ?>
@@ -151,6 +153,7 @@
 					<?php echo Form::label(l('severity'), 'severity'); ?>
 					<?php echo Form::select('severity', Severity::select_options(), array('value' => $ticket->severity_id)); ?>
 				</div>
+				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('priority'), 'priority'); ?>
 					<?php echo Form::select('priority', Priority::select_options(), array('value' => $ticket->priority_id)); ?>
@@ -159,6 +162,7 @@
 					<?php echo Form::label(l('status'), 'status'); ?>
 					<?php echo Form::select('status', TicketStatus::select_options(), array('value' => $ticket->status_id)); ?>
 				</div>
+				<?php } ?>
 				<div class="field">
 					<?php echo Form::label(l('summary'), 'summary'); ?>
 					<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
