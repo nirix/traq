@@ -12,7 +12,7 @@
 </div>
 <div class="group">
 	<label><?php echo l('due'); ?></label>
-	<?php echo Form::text('due', array('value' => $milestone->due > 0 ? $milestone->due : '', 'placeholder' => 'YYYY-MM-DD')); ?>
+	<?php echo Form::text('due', array('value' => $milestone->due > 0 ? $milestone->due : '', 'placeholder' => 'YYYY-MM-DD HH:MM:SS')); ?>
 </div>
 <div class="group">
 	<?php echo Form::label(l('status'), 'status'); ?>
