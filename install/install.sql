@@ -201,8 +201,8 @@ LOCK TABLES `traq_project_roles` WRITE;
 INSERT INTO `traq_project_roles` (`id`, `name`, `project_id`)
 VALUES
 	(1,'Manager',0),
-	(2,'Member',0),
-	(3,'Reporter',0);
+	(2,'Developer',0),
+	(3,'Tester',0);
 
 UNLOCK TABLES;
 
