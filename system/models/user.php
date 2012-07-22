@@ -101,6 +101,13 @@ class User extends Model
 	 */
 	public function permission($project_id, $action)
 	{
+		// Check if user is admin and return true
+		// as admins have the right to do anything.
+		if ($this->group->is_admin)
+		{
+			return true;
+		}
+
 		// Check if the projects permissions has been fetched
 		// if not, fetch them.
 		if (!isset($this->permissions['project'][$project_id]))
@@ -120,12 +127,6 @@ class User extends Model
 			$this->permissions['role'][$project_id] = array();
 		}
 
-		// Check if user is admin...
-		if ($this->group->is_admin)
-		{
-			return true;
-		}
-		
 		$perms = array_merge($this->permissions['project'][$project_id], $this->permissions['role'][$project_id]);
 
 		if (!isset($perms[$action]))
