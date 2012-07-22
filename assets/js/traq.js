@@ -40,6 +40,22 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+
+	// Add a click event to ajax-confirm elements
+	// that will confirm with the specified message
+	// then send an ajax request if accepted.
+	$(document).on('click', '[data-ajax-confirm]', function(){
+		var e = $(this);
+
+		if (confirm(e.attr('data-ajax-confirm'))) {
+			$.ajax({
+				url: e.attr('href'),
+				dataType: 'script'
+			});
+		}
+
+		return false;
+	});
 	
 	// Add a click even to all elements with the
 	// data-overlay attribute and load the elements

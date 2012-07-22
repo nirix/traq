@@ -61,7 +61,7 @@
 		<h3>
 			<?php echo l('description'); ?>
 			<?php if ($current_user->permission($project->id, 'edit_ticket_description')) {
-				echo HTML::link('', $ticket->href() . '/edit', array('data-overlay' => true, 'class' => 'button_edit'));
+				echo HTML::link('', $ticket->href() . '/edit', array('title' => l('edit_ticket'), 'data-overlay' => true, 'class' => 'button_edit'));
 			} ?>
 		</h3>
 		<div class="body">
@@ -76,7 +76,7 @@
 			<li>
 				<?php echo l('x_uploaded_by_x_x_ago', HTML::link($attachment->name, $attachment->href()), HTML::link($attachment->user->username, $attachment->user->href()), time_ago($attachment->created_at, false)); ?>
 				<?php if ($current_user->permission($ticket->project_id, 'delete_attachments')) {
-					echo HTML::link('', $attachment->href('/delete'), array('class' => 'button_delete'));
+					echo HTML::link('', $attachment->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $attachment->name)));
 				} ?>
 			</li>
 		<?php } ?>
@@ -92,10 +92,10 @@
 			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link($update->user->username, $update->user->href())); ?>
 			<?php
 			if ($current_user->permission($ticket->project_id, 'edit_ticket_history')) {
-				echo HTML::link('', $ticket->href("/history/{$update->id}/edit"), array('class' => 'button_edit', 'data-overlay' => true));
+				echo HTML::link('', $ticket->href("/history/{$update->id}/edit"), array('title' => l('edit'), 'class' => 'button_edit', 'data-overlay' => true));
 			}
 			if ($current_user->permission($ticket->project_id, 'delete_ticket_history')) {
-				echo HTML::link('', $ticket->href("/history/{$update->id}/delete"), array('class' => 'button_delete', 'data-ajax' => true));
+				echo HTML::link('', $ticket->href("/history/{$update->id}/delete"), array('title' => l('delete'), 'class' => 'button_delete', 'data-ajax-confirm' => l('confirm.delete')));
 			}
 			?>
 		</h4>

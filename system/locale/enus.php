@@ -269,6 +269,7 @@ class Locale_enUS extends Locale
 			
 			// Confirmations
 			'confirm' => array(
+				'delete' => 'Are you sure you want to delete that?',
 				'delete_x' => 'Are you sure you want to delete \'{1}\' ?',
 				'remove_x' => 'Are you sure you want to remove \'{1}\' ?'
 			),
