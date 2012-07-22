@@ -552,6 +552,14 @@ h3.list_title {
 .tabular select {
   margin-top: 0; }
 
+form.horizontal .group {
+  width: auto;
+  padding: 0 4px;
+  display: table-cell;
+  padding-right: 15px; }
+form.horizontal label {
+  margin-right: 5px; }
+
 .error ul, .success ul, .notice ul, .info ul {
   margin-bottom: 0; }
 

@@ -24,6 +24,19 @@
 	}
 }
 
+form.horizontal {
+	.group {
+		width: auto;
+		padding: 0 4px;
+		display: table-cell;
+		padding-right: 15px;
+	}
+
+	label {
+		margin-right: 5px;
+	}
+}
+
 .error, .success, .notice, .info {
 	ul {
 		margin-bottom: 0;
