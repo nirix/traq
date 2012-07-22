@@ -56,4 +56,19 @@ class ProjectRole extends Model
 		
 		return !count($errors);
 	}
+
+	/**
+	 * Returns an array formatted for the Form::select() method.
+	 *
+	 * @return array
+	 */
+	public static function select_options()
+	{
+		$options = array();
+		foreach (static::fetch_all() as $role)
+		{
+			$options[] = array('label' => $role->name, 'value' => $role->id);
+		}
+		return $options;
+	}
 }
