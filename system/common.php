@@ -72,6 +72,75 @@ function ldate()
 }
 
 /**
+ * Returns a list of available localisations formatted
+ * for the Form::select() helper.
+ *
+ * @return array
+ */
+function locale_select_options()
+{
+	$options = array();
+
+	foreach (scandir(APPPATH . '/locale') as $file)
+	{
+		
+		if (substr($file, -4) == '.php')
+		{
+			// Clean the name and set the class
+			$name = substr($file, 0, 4);
+			$class = "Locale_{$name}";
+
+			// Make sure the locale class
+			// isn't already loaded
+			if (!class_exists($class))
+			{
+				require APPPATH . '/locale/' . $file;
+			}
+			
+			// Get the info
+			$info = $class::info();
+
+			// Add it to the options
+			$options[] = array(
+				'label' => "{$info['name']} ({$info['language_short']}{$info['locale']})",
+				'value' => substr($file, 0, 4)
+			);
+		}
+	}
+
+	return $options;
+}
+
+/**
+ * Returns a list of available themes formatted
+ * for the Form::select() helper.
+ *
+ * @return array
+ */
+function theme_select_options()
+{
+	$options = array();
+
+	foreach (scandir(APPPATH . '/views') as $file)
+	{
+		$path = APPPATH . '/views/' . $file;
+
+		// Make sure this is a directory
+		// and theres an _theme.php file
+		if (is_dir($path) and file_exists($path . '/_theme.php'))
+		{
+			$info = require ($path . '/_theme.php');
+			$options[] = array(
+				'label' => "{$info['name']} (v{$info['version']})",
+				'value' => $file
+			);
+		}
+	}
+
+	return $options;
+}
+
+/**
  * Formats the supplied text.
  *
  * @param string $text

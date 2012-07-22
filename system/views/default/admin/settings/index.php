@@ -10,11 +10,11 @@
 			</div>
 			<div class="group">
 				<label><?php echo l('default_language'); ?></label>
-				<?php echo Form::select('settings[locale]', array(), array()); ?>
+				<?php echo Form::select('settings[locale]', locale_select_options(), array('value' => settings('locale'))); ?>
 			</div>
 			<div class="group">
 				<label><?php echo l('theme'); ?></label>
-				<?php echo Form::select('settings[theme]', array(), array()); ?>
+				<?php echo Form::select('settings[theme]', theme_select_options(), array('value' => settings('theme'))); ?>
 			</div>
 		</div>
 

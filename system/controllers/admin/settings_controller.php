@@ -64,7 +64,7 @@ class AdminSettingsController extends AdminBase
 			{
 				foreach ($_settings as $_setting => $_value)
 				{
-					Database::driver()->update('settings')->set(array('value' => $_value))->where('setting', $_setting)->exec();
+					Database::connection()->update('settings')->set(array('value' => $_value))->where('setting', $_setting)->exec();
 				}
 
 				Request::redirect(Request::full_uri());
