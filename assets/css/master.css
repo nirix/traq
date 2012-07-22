@@ -540,12 +540,12 @@ h3.list_title {
   padding: 5px 0;
   padding-left: 130px;
   clear: left; }
-.tabular label {
-  font-weight: bold;
-  float: left;
-  margin-left: -130px;
-  text-align: right;
-  width: 125px; }
+  .tabular .group label:first-child {
+    font-weight: bold;
+    float: left;
+    margin-left: -130px;
+    text-align: right;
+    width: 125px; }
 .tabular input {
   margin-top: 0px;
   vertical-align: middle; }
