@@ -151,7 +151,7 @@ post('/step/3', function(){
 			$handle = fopen('../system/config/database.php', 'w+');
 			fwrite($handle, $config);
 			fclose($handle);
-			$config_created = false;
+			$config_created = true;
 		}
 		// Tell the user how to create the config file
 		else
