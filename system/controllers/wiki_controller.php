@@ -48,9 +48,8 @@ class WikiController extends AppController
 	 */
 	public function action_index()
 	{
-		$main = $this->project->wiki_pages->where('main', 1)->exec()->fetch();
-		View::set('page', $main);
 		$this->_render['view'] = 'wiki/view';
+		$this->action_view('main');
 	}
 
 	/**
