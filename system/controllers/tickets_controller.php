@@ -198,6 +198,14 @@ class TicketsController extends AppController
 				'type_id' => Request::$post['type'],
 				'severity_id' => Request::$post['severity'],
 			);
+
+			if ($this->user->permission($project->id, 'set_all_ticket_properties'))
+			{
+				$data['priority_id'] = Request::$post['priority'];
+				$data['status_id'] = Request::$post['status'];
+				$data['assigned_to_id'] = Request::$post['assigned_to'];
+			}
+
 			$ticket->set($data);
 			
 			// Check if the ticket data is valid...
@@ -215,30 +223,40 @@ class TicketsController extends AppController
 	 */
 	public function action_update($ticket_id)
 	{
+		// Check users permission
 		if (!$this->user->permission($this->project->id, 'update_tickets'))
 		{
 			return $this->show_no_permission();
 		}
 
+		// Get the ticket
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
+		// Collect the new data
 		$data = array(
 			'summary' => Request::$post['summary'],
 			'milestone_id' => Request::$post['milestone'],
 			'version_id' => Request::$post['version'],
 			'component_id' => Request::$post['component'],
 			'type_id' => Request::$post['type'],
-			'status_id' => Request::$post['status'],
-			'severity_id' => Request::$post['severity'],
-			'priority_id' => Request::$post['priority'],
-			'assigned_to_id' => Request::$post['assigned_to']
+			'severity_id' => Request::$post['severity']
 		);
 
+		// Check the users permission to set the restricted data
+		if ($this->user->permission($project->id, 'set_all_ticket_properties'))
+		{
+			$data['priority_id'] = Request::$post['priority'];
+			$data['status_id'] = Request::$post['status'];
+			$data['assigned_to_id'] = Request::$post['assigned_to'];
+		}
+
+		// Check if we're adding an attachment and that the user has permission to do so
 		if ($this->user->permission($this->project->id, 'add_attachments') and isset($_FILES['attachment']) and isset($_FILES['attachment']['name']))
 		{
 			$data['attachment'] = $_FILES['attachment']['name'];
 		}
 
+		// Update the ticket
 		if ($ticket->update_data($data))
 		{
 			Request::redirect(Request::base($ticket->href()));

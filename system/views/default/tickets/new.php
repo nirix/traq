@@ -54,4 +54,12 @@
 			<input type="submit" value="<?php echo l('create'); ?>" />
 		</div>
 	</form>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			traq.load_ticket_template();
+			$('#type').change(function() {
+				traq.load_ticket_template();
+			});
+		});
+	</script>
 </div>

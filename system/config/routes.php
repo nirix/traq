@@ -23,7 +23,10 @@ define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
 Router::add('root', 'Projects::index');
 Router::add('/(login|logout|register|usercp)', 'Users::$1');
 Router::add('/users/([0-9]+)', 'Users::view/$1');
+
+// Misc
 Router::add('/_js.js', 'Misc::javascript');
+Router::add('/_ajax/ticket_template/([0-9]+)', 'Misc::ticket_template/$1');
 
 // Attachment routes
 Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'Attachments::view/$1');

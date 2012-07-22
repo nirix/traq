@@ -19,6 +19,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// The main Traq object
+var traq = {
+	base: '/',
+	load_ticket_template: function(){
+		$("#description").load(traq.base + '_ajax/ticket_template/' + $("#type option:selected").val());
+	}
+};
+
 $(document).ready(function(){
 	// Add the editor interface to all text areas, like a boss.
 	$('textarea.editor').likeaboss();

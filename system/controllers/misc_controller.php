@@ -41,8 +41,19 @@ class MiscController extends Controller
 	{
 		global $locale;
 		header("Content-type: text/javascript");
-		$this->_render['view'] = 'editor_locale';
+		$this->_render['view'] = 'javascript';
 		$strings = $locale->locale();
 		View::set('strings', $strings['editor']);
+	}
+
+	/**
+	 * Used to get the ticket template.
+	 *
+	 * @param integer $type_id
+	 */
+	public function action_ticket_template($type_id)
+	{
+		$this->_render['view'] = false;
+		echo TicketType::find($type_id)->template;
 	}
 }
