@@ -38,10 +38,15 @@ class TicketHistory extends Model
 		'created_at'
 	);
 	
+	// Relations
 	protected static $_belongs_to = array('ticket', 'user');
 
+	// Filters
 	protected static $_filters_after = array('construct' => array('read_changes'));
 
+	/**
+	 * Converts the changes data from json to an array.
+	 */
 	protected function read_changes()
 	{
 		if (!$this->_is_new())
@@ -50,8 +55,12 @@ class TicketHistory extends Model
 		}
 	}
 
+	/**
+	 * Checks that the data is valid.
+	 */
 	public function is_valid()
 	{
+		// Just return true.
 		return true;
 	}
 }

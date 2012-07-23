@@ -18,10 +18,22 @@ if (!function_exists('_mklocale')) {
 	}
 }
 
+// Was an action performed?
 if (isset($change['action'])) {
 	echo l("ticket_history.{$change['action']}", $change['from'], $change['to']);
-} elseif ($change['property'] == 'assigned_to') {
+}
+// Is this the assigned_to property?
+elseif ($change['property'] == 'assigned_to') {
+	foreach (array('to', 'from') as $key) {
+		// Is the to/from values a user id?
+		if (is_numeric($change[$key])) {
+			// Set it to the users name
+			$change[$key] = User::find($change[$key])->name;
+		}
+	}
 	echo _mklocale($change, 'assignee');
-} else {
+}
+// For everything else
+else {
 	echo _mklocale($change);
 }

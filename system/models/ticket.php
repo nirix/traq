@@ -196,9 +196,8 @@ class Ticket extends Model
 			switch($field)
 			{
 				case 'assigned_to_id':
-					$from = $this->assigned_to_id == 0 ? null : $this->assigned_to->username;
-					$to_user = User::find($value);
-					$to = $to_user ? $to_user->username : null;
+					$from = $this->assigned_to_id == 0 ? null : $this->assigned_to->id;
+					$to = $value;
 				break;
 
 				case 'status_id':
