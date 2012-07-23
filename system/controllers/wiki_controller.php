@@ -28,6 +28,7 @@
  */
 class WikiController extends AppController
 {
+	// Before filters
 	public $_before = array(
 		'new' => array('_check_permission'),
 		'edit' => array('_check_permission'),
@@ -40,6 +41,8 @@ class WikiController extends AppController
 	public function __construct()
 	{
 		parent::__construct();
+
+		// Set the title
 		$this->title(l('wiki'));
 	}
 
@@ -59,6 +62,7 @@ class WikiController extends AppController
 	 */
 	public function action_view($slug)
 	{
+		// Get the page
 		$page = $this->project->wiki_pages->where('slug', $slug)->exec();
 
 		// Check if the page exists
@@ -79,6 +83,8 @@ class WikiController extends AppController
 	{
 		// Fetch all the projects wiki pages
 		$pages = $this->project->wiki_pages->exec()->fetch_all();
+
+		$this->title(l('pages'));
 		View::set('pages', $pages);
 	}
 
@@ -105,9 +111,9 @@ class WikiController extends AppController
 				'project_id' => $this->project->id
 			));
 
-			if ($page->is_valid())
+			// Save and redirect
+			if ($page->save())
 			{
-				$page->save();
 				Request::redirect(Request::base($page->href()));
 			}
 		}
@@ -138,9 +144,9 @@ class WikiController extends AppController
 				'project_id' => $this->project->id
 			));
 
-			if ($page->is_valid())
+			// Save and redirect
+			if ($page->save())
 			{
-				$page->save();
 				Request::redirect(Request::base($page->href()));
 			}
 		}
@@ -155,7 +161,14 @@ class WikiController extends AppController
 	 */
 	public function action_delete($slug)
 	{
-		
+		// Get the page
+		$page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
+
+		// Delete the page
+		$page->delete();
+
+		// Redirect to main page
+		Request::redirect(Request::base($this->project->href('wiki')));
 	}
 
 	/**
@@ -173,8 +186,6 @@ class WikiController extends AppController
 
 	/**
 	 * Used to check the permission for the requested action.
-	 *
-	 * @param string $action Routed method.
 	 */
 	public function _check_permission()
 	{

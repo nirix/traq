@@ -9,6 +9,9 @@
 		<?php if (current_user()->permission($project->id, 'edit_wiki_page')) { ?>
 			<li><?php echo HTML::link(l('edit_page'), $page->href('_edit'), array('class' => 'button_edit')); ?></li>
 		<?php } ?>
+		<?php if (current_user()->permission($project->id, 'delete_wiki_page')) { ?>
+			<li><?php echo HTML::link(l('delete_page'), $page->href('_delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $page->title))); ?></li>
+		<?php } ?>
 		</ul>
 	</div>
 	<?php echo format_text($page->body); ?>
