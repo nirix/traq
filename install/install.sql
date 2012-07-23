@@ -178,11 +178,11 @@ LOCK TABLES `traq_priorities` WRITE;
 
 INSERT INTO `traq_priorities` (`id`, `name`)
 VALUES
-	(1,'Lowest'),
-	(2,'Low'),
+	(1,'Highest'),
+	(2,'High'),
 	(3,'Normal'),
-	(4,'High'),
-	(5,'Highest');
+	(4,'Low'),
+	(5,'Lowest');
 
 UNLOCK TABLES;
 
