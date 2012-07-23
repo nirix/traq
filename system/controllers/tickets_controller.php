@@ -135,18 +135,28 @@ class TicketsController extends AppController
 	 */
 	public function action_vote($ticket_id)
 	{
+		// Get the ticket
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
+		// Don't let the owner vote on their own ticket
+		if ($this->user->id == $ticket->user_id)
+		{
+			return false;
+		}
+
+		// Does the user have permission to vote on tickets?
 		if (!$this->user->permission($this->project->id, 'vote_on_tickets'))
 		{
 			View::set('error', l('errors.must_be_logged_in'));
 		}
+		// Cast the vote
 		elseif ($ticket->add_vote($this->user->id))
 		{
 			$ticket->save();
 			View::set('ticket', $ticket);
 			View::set('error', false);
 		}
+		// They've already voted...
 		else
 		{
 			View::set('error', l('errors.already_voted'));
@@ -160,12 +170,15 @@ class TicketsController extends AppController
 	 */
 	public function action_voters($ticket_id)
 	{
+		// Get the ticket
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
 		$voters = array();
 
+		// Have there been any votes?
 		if (isset($ticket->extra['voted']) and is_array($ticket->extra['voted']))
 		{
+			// Populate the voters array
 			foreach ($ticket->extra['voted'] as $voter)
 			{
 				$voters[] = User::find($voter);
