@@ -16,6 +16,5 @@
 </div>
 <div class="group">
 	<label><?php echo l('enable_wiki'); ?></label>
-	<?php echo Form::radio('enable_wiki', 1, array('checked' => $proj->enable_wiki == 1 ? true : false)); ?> <?php echo Form::label(l('yes'), 'enable_wiki'); ?>
-	<?php echo Form::radio('enable_wiki', 0, array('checked' => $proj->enable_wiki == 0 ? true : false, 'id' => 'disable_wiki')); ?> <?php echo Form::label(l('no'), 'disable_wiki'); ?>
+	<?php echo Form::checkbox('enable_wiki', 1, array('checked' => $proj->enable_wiki == 1 ? true : false)); ?> <?php echo Form::label(l('yes'), 'enable_wiki'); ?>
 </div>

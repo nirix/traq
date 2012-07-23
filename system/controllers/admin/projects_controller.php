@@ -59,7 +59,7 @@ class AdminProjectsController extends AdminBase
 				'slug' => Request::$post['slug'],
 				'codename' => Request::$post['codename'],
 				'info' => Request::$post['info'],
-				'enable_wiki' => Request::$post['enable_wiki']
+				'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
 			));
 			
 			if ($project->save())
