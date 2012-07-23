@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -35,10 +35,16 @@ class UsersController extends AppController
 	 */
 	public function action_view($user_id)
 	{
+		// If the user doesn't exist
+		// display the 404 page.
 		if (!$user = User::find($user_id))
 		{
 			return $this->show_404();
 		}
+
+		// Set the title
+		$this->title(l('users'));
+		$this->title(l('xs_profile', $user->name));
 		
 		Load::helper('tickets');
 		View::set('profile', $user);
@@ -49,6 +55,7 @@ class UsersController extends AppController
 	 */
 	public function action_login()
 	{
+		// Set the title
 		$this->title(l('login'));
 		
 		// Check if the form has been submitted
