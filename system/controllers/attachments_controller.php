@@ -28,8 +28,14 @@
  */
 class AttachmentsController extends AppController
 {
+	/**
+	 * View attachment page
+	 *
+	 * @param integer $attachment_id
+	 */
 	public function action_view($attachment_id)
 	{
+		// Get the attachment
 		$attachment = Attachment::find($attachment_id);
 
 		// Check permission
@@ -47,23 +53,33 @@ class AttachmentsController extends AppController
 		// Check what type of file we're dealing with.
 		if($content_type[0] == 'text' or $content_type[0] == 'image')
 		{
+			// If the mime-type is text, we can just display it
+			// as plain text. I hate having to download files.
 			if ($content_type[0] == 'text')
 			{
 				header("Content-type: text/plain");
 			}
 			header("Content-Disposition: filename=\"{$attachment->name}\"");
 		}
+		// Anything else should be downloaded
 		else
 		{
 			header("Content-Disposition: attachment; filename=\"{$attachment->name}\"");
 		}
 
+		// Decode the contents and display it
 		print(base64_decode($attachment->contents));
 		exit;
 	}
 
+	/**
+	 * Delete attachment
+	 *
+	 * @param integer $attachment_id
+	 */
 	public function action_delete($attachment_id)
 	{
+		// Get the attachment
 		$attachment = Attachment::find($attachment_id);
 
 		// Check permission
@@ -72,6 +88,7 @@ class AttachmentsController extends AppController
 			return $this->show_no_permission();
 		}
 
+		// Delete and redirect
 		$attachment->delete();
 		Request::redirect(Request::base($attachment->ticket->href()));
 	}
