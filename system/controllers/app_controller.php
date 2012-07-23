@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -34,9 +34,13 @@ class AppController extends Controller
 	
 	public function __construct()
 	{
+		// Set the theme
 		View::$theme = 'default';
+
+		// Call the controller class constructor
 		parent::__construct();
 		
+		// Set the title
 		$this->title(settings('title'));
 		
 		// Load helpers
@@ -67,11 +71,14 @@ class AppController extends Controller
 	 */
 	public function title($add = null)
 	{
+		// Check if we're adding or returning
 		if ($add === null)
 		{
+			// We're returning
 			return $this->title;
 		}
 		
+		// Add the title
 		$this->title[] = $add;
 	}
 
@@ -117,25 +124,31 @@ class AppController extends Controller
 	
 	public function __shutdown()
 	{
+		// Was the page requested via ajax?
 		if (Request::is_ajax() and Router::$extension == null)
 		{
+			// Is this page being used as an overlay?
 			if (isset(Request::$request['overlay']))
 			{
 				$extension = '.overlay';
 			}
+			// a popover?
 			elseif (isset(Request::$request['popover']))
 			{
 				$extension = '.popover';
 			}
+			// Neither, just regular javascript
 			else
 			{
 				$extension = '.js';
 			}
 
+			// Set the layout and view extension
 			$this->_render['layout'] = 'plain';
 			$this->_render['view'] = $this->_render['view'] . $extension;
 		}
 		
+		// Call the controllers shutdown method.
 		parent::__shutdown();
 	}
 }
