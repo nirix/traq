@@ -74,7 +74,7 @@
 		<ul>
 		<?php foreach ($attachments->fetch_all() as $attachment) { ?>
 			<li>
-				<?php echo l('x_uploaded_by_x_x_ago', HTML::link("<span class=\"attachment_filename\">{$attachment->name}</span>", $attachment->href()), HTML::link($attachment->user->username, $attachment->user->href()), time_ago($attachment->created_at, false)); ?>
+				<?php echo l('x_uploaded_by_x_x_ago', HTML::link("<span class=\"attachment_filename\">{$attachment->name}</span>", $attachment->href()), HTML::link($attachment->user->name, $attachment->user->href()), time_ago($attachment->created_at, false)); ?>
 				<?php if ($current_user->permission($ticket->project_id, 'delete_attachments')) {
 					echo HTML::link('', $attachment->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $attachment->name)));
 				} ?>
