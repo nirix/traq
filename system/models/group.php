@@ -34,6 +34,9 @@ class Group extends Model
 		'name',
 		'is_admin',
 	);
+
+	// Relations
+	protected static $_has_many = array('users' => array('foreign_key' => 'group_id'));
 	
 	/**
 	 * Returns an array of groups to be used
