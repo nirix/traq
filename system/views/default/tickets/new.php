@@ -23,11 +23,11 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
-					<?php echo Form::select('version', array_merge(array(array('value' => '', 'label' => '')), $project->milestone_select_options('closed', 'DESC'))); ?>
+					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('closed', 'DESC'))); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
-					<?php echo Form::select('component', array_merge(array(array('value' => '', 'label' => '')), Component::select_options($project->id))); ?>
+					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), Component::select_options($project->id))); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('severity'), 'severity'); ?>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>
-					<?php echo Form::select('assigned_to', array_merge(array(array('value' => '', 'label' => '')), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
+					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
 				<?php } ?>
 				<div class="clearfix"></div>

@@ -98,6 +98,7 @@ class Locale_enUS extends Locale
 			'cancelled' => 'Cancelled',
 			'due_x' => 'Due {1}',
 			'members' => 'Members',
+			'none' => 'None',
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",

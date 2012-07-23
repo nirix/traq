@@ -134,7 +134,7 @@
 				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>
-					<?php echo Form::select('assigned_to', array_merge(array(array('value' => '', 'label' => '')), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
+					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
 				<?php } ?>
 				<div class="field">
@@ -143,11 +143,11 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
-					<?php echo Form::select('version', array_merge(array(array('value' => '0', 'label' => '')), $project->milestone_select_options('closed', 'DESC')), array('value' => $ticket->version_id)); ?>
+					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('closed', 'DESC')), array('value' => $ticket->version_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
-					<?php echo Form::select('component', array_merge(array(array('value' => '0', 'label' => '')), Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
+					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('severity'), 'severity'); ?>
