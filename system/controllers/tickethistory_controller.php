@@ -28,6 +28,12 @@
  */
 class TicketHistoryController extends AppController
 {
+	// Before filters
+	public $_before = array(
+		'edit' => array('_check_permission'),
+		'delete' => array('_check_permission')
+	);
+
 	/**
 	 * Edit ticket update
 	 *
@@ -37,12 +43,6 @@ class TicketHistoryController extends AppController
 	{
 		// Get the ticket update
 		$history = TicketHistory::find($id);
-
-		// Check permission
-		if (!$this->user->permission($history->ticket->project_id, 'edit_ticket_history'))
-		{
-			return $this->show_no_permission();
-		}
 
 		// Has the form been submitted?
 		if (Request::$method == 'post')
@@ -70,12 +70,6 @@ class TicketHistoryController extends AppController
 		// Get the ticket update
 		$history = TicketHistory::find($id);
 
-		// Check permission
-		if (!$this->user->permission($history->ticket->project_id, 'delete_ticket_history'))
-		{
-			return $this->show_no_permission();
-		}
-
 		// Delete the update
 		$history->delete();
 
@@ -89,6 +83,20 @@ class TicketHistoryController extends AppController
 		{
 			// Just redirect back to the ticket
 			Request::redirect(Request::base($history->ticket->href()));
+		}
+	}
+
+	/**
+	 * Used to check the permission for the requested action.
+	 */
+	public function _check_permission($action)
+	{
+		// Check if the user has permission
+		if (!current_user()->permission($this->project->id, "{$action}_ticket_history"))
+		{
+			// oh noes! display the no permission page.
+			$this->show_no_permission();
+			return false;
 		}
 	}
 }
