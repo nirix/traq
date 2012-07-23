@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -75,22 +75,27 @@ class ProjectsController extends AppController
 		// Get the projects milestones and send them to the view.
 		$milestones = Milestone::select()->where('project_id', $this->project->id);
 
+		// Are we displaying all milestones?
 		if (isset(Request::$request['all']))
 		{
 		}
+		// Just the completed ones?
 		else if (isset(Request::$request['completed']))
 		{
 			$milestones = $milestones->where('status', 2);
 		}
+		// Just the cancelled ones?
 		else if (isset(Request::$request['cancelled']))
 		{
 			$milestones = $milestones->where('status', 0);
 		}
+		// Looks like just the active ones
 		else
 		{
 			$milestones = $milestones->where('status', 1);
 		}
 
+		// Get the milestones and send them to the view
 		$milestones = $milestones->order_by('displayorder', 'ASC')->exec()->fetch_all();
 		View::set('milestones', $milestones);
 	}
@@ -100,11 +105,13 @@ class ProjectsController extends AppController
 	 */
 	public function action_milestone($milestone_slug)
 	{
+		// Get the milestone
 		$milestone = Milestone::select()->where(array(
 			array('project_id', $this->project->id),
 			array('slug', $milestone_slug)
 		))->exec()->fetch();
 
+		// And send it to the view
 		View::set('milestone', $milestone);
 	}
 	
