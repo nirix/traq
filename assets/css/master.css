@@ -245,6 +245,24 @@ hr {
     color: #000; }
 
 #meta_nav {
+  font-size: 11px;
+  height: 16px;
+  padding: 2px 5px;
+  background: #265f98; }
+  #meta_nav ul {
+    margin: 0; }
+    #meta_nav ul li {
+      display: inline;
+      margin-right: 5px; }
+      #meta_nav ul li:last-child {
+        margin-right: 0; }
+  #meta_nav a {
+    color: #fff;
+    text-decoration: none; }
+  #meta_nav li.active, #meta_nav a:hover {
+    text-decoration: underline; }
+
+#user_nav {
   float: right; }
 
 /* ==========# The Suit #========== */

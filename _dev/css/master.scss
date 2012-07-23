@@ -140,6 +140,34 @@ hr {
 }
 
 #meta_nav {
+	font-size: 11px;
+	height: 16px;
+	padding: 2px 5px;
+	background: #265f98;
+
+	ul {
+		margin: 0;
+		li {
+			display: inline;
+			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+
+	a {
+		color: #fff;
+		text-decoration: none;
+	}
+
+	li.active, a:hover {
+		text-decoration: underline;
+	}
+}
+
+#user_nav {
 	float: right;
 }
 

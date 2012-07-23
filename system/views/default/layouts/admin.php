@@ -17,19 +17,11 @@
 		<div id="overlay"></div>
 		<div id="popover"></div>
 		<div id="wrapper" class="container">
+			<?php echo View::render('layouts/_meta_nav'); ?>
 			<header id="header">
 				<h1><?php echo HTML::link(settings('title'), null); ?> / <?php echo HTML::link(l('admincp'), '/admin'); ?></h1>
 			</header>
 			<nav id="nav">
-				<ul id="meta_nav">
-				<?php if (LOGGEDIN) { ?>
-					<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
-					<li><?php echo HTML::link(l('logout'), '/logout'); ?></li>
-				<?php } else { ?>
-					<li<?php echo iif(active_nav('/login'), ' class="active"')?>><?php echo HTML::link(l('login'), '/login'); ?></li>
-					<li<?php echo iif(active_nav('/register'), ' class="active"')?>><?php echo HTML::link(l('register'), '/register'); ?></li>
-				<?php } ?>
-				</ul>
 				<ul id="main_nav">
 					<li<?php echo iif(active_nav('/admin/settings?'), ' class="active"')?>><?php echo HTML::link(l('settings'), "/admin/settings"); ?></li>
 					<li<?php echo iif(active_nav('/admin(?:/projects(.*))?'), ' class="active"')?>><?php echo HTML::link(l('projects'), "/admin"); ?></li>
