@@ -229,7 +229,7 @@ class Locale_enUS extends Locale
 
 				// Ticket History
 				'edit_ticket_history' => "Edit ticket history",
-				'delete_ticket_history' => "Delete ticket_history",
+				'delete_ticket_history' => "Delete ticket history",
 
 				// Wiki
 				'create_wiki_page' => "Create wiki page",
