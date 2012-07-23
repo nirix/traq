@@ -29,13 +29,13 @@
 class Locale_enUS extends Locale
 {
 	protected static $info = array(
-		'name' => 'English',
-		'author' => 'Jack Polgar',
-		'version' => '3.0',
+		'name' => "English",
+		'author' => "Jack Polgar",
+		'version' => "3.0",
 
 		// Locale information
-		'language' => 'English',
-		'language_short' => 'en',
+		'language' => "English",
+		'language_short' => "en",
 		'locale' => "US"
 	);
 
@@ -63,7 +63,6 @@ class Locale_enUS extends Locale
 			'tickets' => "Tickets",
 			'roadmap' => "Roadmap",
 			'settings' => "Settings",
-			'managers' => "Managers",
 			'information' => "Information",
 			'milestones' => "Milestones",
 			'components' => "Components",
@@ -76,29 +75,29 @@ class Locale_enUS extends Locale
 			'cancel' => "Cancel",
 			'new' => "New",
 			'wiki' => "Wiki",
-			'x_open' => "$1 open",
-			'x_closed' => "$1 closed",
+			'x_open' => "{1} open",
+			'x_closed' => "{1} closed",
 			'yes' => "Yes",
 			'no' => "No",
 			'created' => "Created",
 			'updated' => "Updated",
 			'project' => "Project",
-			'never' => 'Never',
-			'votes' => 'Votes',
-			'update_ticket' => 'Update Ticket',
-			'comment' => 'Comment',
-			'update' => 'Update',
-			'x_by_x' => '{1} by {2}',
-			'submit' => 'Submit',
-			'see_all' => 'See all',
-			'close' => 'Close',
-			'all' => 'All',
-			'active' => 'Active',
-			'completed' => 'Completed',
-			'cancelled' => 'Cancelled',
-			'due_x' => 'Due {1}',
-			'members' => 'Members',
-			'none' => 'None',
+			'never' => "Never",
+			'votes' => "Votes",
+			'update_ticket' => "Update Ticket",
+			'comment' => "Comment",
+			'update' => "Update",
+			'x_by_x' => "{1} by {2}",
+			'submit' => "Submit",
+			'see_all' => "See all",
+			'close' => "Close",
+			'all' => "All",
+			'active' => "Active",
+			'completed' => "Completed",
+			'cancelled' => "Cancelled",
+			'due_x' => "Due {1}",
+			'members' => "Members",
+			'none' => "None",
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
@@ -134,26 +133,26 @@ class Locale_enUS extends Locale
 			'date_time_format' => "Date/Time Format",
 			'timeline_day_format' => "Timeline Day Format",
 			'timeline_time_format' => "Timeline Time Format",
-			'install' => 'Install',
-			'uninstall' => 'Uninstall',
-			'project_roles' => 'Project Roles',
-			'roles' => 'Roles',
-			'new_role' => 'New Role',
-			'edit_role' => 'Edit Role',
-			'due' => 'Due',
-			'role' => 'Role',
-			'add' => 'Add',
-			'enable_wiki' => 'Enable Wiki',
+			'install' => "Install",
+			'uninstall' => "Uninstall",
+			'project_roles' => "Project Roles",
+			'roles' => "Roles",
+			'new_role' => "New Role",
+			'edit_role' => "Edit Role",
+			'due' => "Due",
+			'role' => "Role",
+			'add' => "Add",
+			'enable_wiki' => "Enable Wiki",
 
 			// Project settings
 			'new_milestone' => "New Milestone",
 			'edit_milestone' => "Edit Milestone",
 			'new_component' => "New Component",
 			'edit_component' => "Edit Component",
-			'display_order' => 'Display Order',
+			'display_order' => "Display Order",
 			
 			// Tickets
-			'new_ticket' => 'New Ticket',
+			'new_ticket' => "New Ticket",
 			'summary' => "Summary",
 			'status' => "Status",
 			'owner' => "Owner",
@@ -161,18 +160,18 @@ class Locale_enUS extends Locale
 			'component' => "Component",
 			'milestone' => "Milestone",
 			'description' => "Description",
-			'updates' => 'Updates',
-			'severity' => 'Severity',
-			'assigned_to' => 'Assigned to',
-			'reported' => 'Reported',
-			'priority' => 'Priority',
-			'edit_ticket' => 'Edit Ticket',
-			'no_votes' => 'No votes',
-			'attachment' => 'Attachment',
-			'attachments' => 'Attachments',
-			'edit_ticket_history' => 'Edit Ticket History',
-			'x_uploaded_by_x_x_ago' => '{1} uploaded by {2}, {3}',
-			'people_who_have_voted_on_this_ticket' => 'People who have voted on this ticket ({1})',
+			'updates' => "Updates",
+			'severity' => "Severity",
+			'assigned_to' => "Assigned to",
+			'reported' => "Reported",
+			'priority' => "Priority",
+			'edit_ticket' => "Edit Ticket",
+			'no_votes' => "No votes",
+			'attachment' => "Attachment",
+			'attachments' => "Attachments",
+			'edit_ticket_history' => "Edit Ticket History",
+			'x_uploaded_by_x_x_ago' => "{1} uploaded by {2}, {3}",
+			'people_who_have_voted_on_this_ticket' => "People who have voted on this ticket ({1})",
 
 			// Users
 			'login' => "Login",
@@ -182,11 +181,14 @@ class Locale_enUS extends Locale
 			'register' => "Register",
 			'username' => "Username",
 			'password' => "Password",
+			'new_password' => "New Password",
 			'email' => "Email",
-			'xs_profile' => '$1\'s Profile',
-			'assigned_tickets' => 'Assigned tickets',
-			'tickets_created' => 'Tickets created',
-			'ticket_updates' => 'Ticket updates',
+			'xs_profile' => "{1}'s Profile",
+			'assigned_tickets' => "Assigned tickets",
+			'tickets_created' => "Tickets created",
+			'ticket_updates' => "Ticket updates",
+			'information' => "Information",
+			'options' => "Options",
 			
 			// Wiki
 			'home' => "Home",
@@ -204,51 +206,51 @@ class Locale_enUS extends Locale
 			'delete' => "Delete",
 
 			// Permissions
-			'group_permissions' => 'Group Permissions',
-			'role_permissions' => 'Role Permissions',
-			'action' => 'Action',
-			'defaults' => 'Defaults',
-			'allow' => 'Allow',
-			'deny' => 'Deny',
+			'group_permissions' => "Group Permissions",
+			'role_permissions' => "Role Permissions",
+			'action' => "Action",
+			'defaults' => "Defaults",
+			'allow' => "Allow",
+			'deny' => "Deny",
 			'permissions' => array(
 				// Projects
-				'view' => 'View',
-				'project_settings' => 'Project Settings',
+				'view' => "View",
+				'project_settings' => "Project Settings",
 
 				// Tickets
-				'comment_on_tickets' => 'Comment on tickets',
-				'update_tickets' => 'Update tickets',
-				'edit_ticket_description' => 'Edit ticket description',
-				'vote_on_tickets' => 'Vote on tickets',
-				'add_attachments' => 'Add attachments',
-				'view_attachments' => 'View attachments',
-				'delete_attachments' => 'Delete attachments',
-				'set_all_ticket_properties' => 'Set all ticket properties',
+				'comment_on_tickets' => "Comment on tickets",
+				'update_tickets' => "Update tickets",
+				'edit_ticket_description' => "Edit ticket description",
+				'vote_on_tickets' => "Vote on tickets",
+				'add_attachments' => "Add attachments",
+				'view_attachments' => "View attachments",
+				'delete_attachments' => "Delete attachments",
+				'set_all_ticket_properties' => "Set all ticket properties",
 
 				// Ticket History
-				'edit_ticket_history' => 'Edit ticket history',
-				'delete_ticket_history' => 'Delete ticket_history',
+				'edit_ticket_history' => "Edit ticket history",
+				'delete_ticket_history' => "Delete ticket_history",
 
 				// Wiki
-				'create_wiki_page' => 'Create wiki page',
-				'edit_wiki_page' => 'Edit wiki page',
-				'delete_wiki_page' => 'Delete wiki page'
+				'create_wiki_page' => "Create wiki page",
+				'edit_wiki_page' => "Edit wiki page",
+				'delete_wiki_page' => "Delete wiki page"
 			),
 			
 			// Time
 			'time' => array(
 				'Time',
 				
-				'ago' => '{1} ago',
-				'from_now' => '{1} from now',
-				'x_and_x' => '{1} and {2}',
-				'x_second' => '{1} {plural:{1}, {second|seconds}}',
-				'x_minute' => '{1} {plural:{1}, {minute|minutes}}',
-				'x_hour' => '{1} {plural:{1}, {hour|hours}}',
-				'x_day' => '{1} {plural:{1}, {day|days}}',
-				'x_week' => '{1} {plural:{1}, {week|weeks}}',
-				'x_month' => '{1} {plural:{1}, {month|months}}',
-				'x_year' => '{1} {plural:{1}, {year|years}}'
+				'ago' => "{1} ago",
+				'from_now' => "{1} from now",
+				'x_and_x' => "{1} and {2}",
+				'x_second' => "{1} {plural:{1}, {second|seconds}}",
+				'x_minute' => "{1} {plural:{1}, {minute|minutes}}",
+				'x_hour' => "{1} {plural:{1}, {hour|hours}}",
+				'x_day' => "{1} {plural:{1}, {day|days}}",
+				'x_week' => "{1} {plural:{1}, {week|weeks}}",
+				'x_month' => "{1} {plural:{1}, {month|months}}",
+				'x_year' => "{1} {plural:{1}, {year|years}}"
 			),
 			
 			// Timeline
@@ -256,12 +258,12 @@ class Locale_enUS extends Locale
 				"Timeline", // used for l('timeline')
 				
 				// l('timeline.ticket_created') and so on
-				'ticket_created' => '$3 #$2 ($1) created',
-				'ticket_closed' => '$3 #$2 ($1) closed as $4',
-				'ticket_reopened' => '$3 #$2 ($1) reopened as $4',
-				'milestone_completed' => 'Milestone {1} completed',
-				'milestone_cancelled' => 'Milestone {1} cancelled',
-				'by_x' => "by $1"
+				'ticket_created' => "{3} #{2} ({1}) created",
+				'ticket_closed' => "{3} #{2} ({1}) closed as {4}",
+				'ticket_reopened' => "{3} #{2} ({1}) reopened as {4}",
+				'milestone_completed' => "Milestone {1} completed",
+				'milestone_cancelled' => "Milestone {1} cancelled",
+				'by_x' => "by {1}"
 			),
 
 			// Help
@@ -272,9 +274,9 @@ class Locale_enUS extends Locale
 			
 			// Confirmations
 			'confirm' => array(
-				'delete' => 'Are you sure you want to delete that?',
-				'delete_x' => 'Are you sure you want to delete \'{1}\' ?',
-				'remove_x' => 'Are you sure you want to remove \'{1}\' ?'
+				'delete' => "Are you sure you want to delete that?",
+				'delete_x' => "Are you sure you want to delete '{1}' ?",
+				'remove_x' => "Are you sure you want to remove '{1}' ?"
 			),
 
 			// Editor
@@ -284,8 +286,8 @@ class Locale_enUS extends Locale
 				//
 				// Enter your localisation strings here.
 				// example:
-				// 'h2' => 'My custom string',
-				// 'h3' => 'Another custom string',
+				// 'h2' => "My custom string",
+				// 'h3' => "Another custom string",
 				// and so on...
 			),
 
@@ -294,19 +296,19 @@ class Locale_enUS extends Locale
 				'Ticket History',
 
 				// Most fields
-				'x_from_x_to_x' => 'Changed {1} from {2} to {3}',
-				'x_from_null_to_x' => 'Set {1} to {3}',
-				'x_from_x_to_null' => 'Cleared {1}, was {2}',
+				'x_from_x_to_x' => "Changed {1} from {2} to {3}",
+				'x_from_null_to_x' => "Set {1} to {3}",
+				'x_from_x_to_null' => "Cleared {1}, was {2}",
 
 				// Assignee field
-				'assignee_from_x_to_x' => 'Reassigned ticket from {2} to {3}',
-				'assignee_from_null_to_x' => 'Assigned ticket to {3}',
-				'assignee_from_x_to_null' => 'Unassigned ticket from {2}',
+				'assignee_from_x_to_x' => "Reassigned ticket from {2} to {3}",
+				'assignee_from_null_to_x' => "Assigned ticket to {3}",
+				'assignee_from_x_to_null' => "Unassigned ticket from {2}",
 
 				// Actions
-				'close' => 'Closed ticket as {2}',
-				'reopen' => 'Reopened ticket as {2}',
-				'add_attachment' => 'Added attachment {2}',
+				'close' => "Closed ticket as {2}",
+				'reopen' => "Reopened ticket as {2}",
+				'add_attachment' => "Added attachment {2}",
 			),
 			
 			// Errors
@@ -316,13 +318,13 @@ class Locale_enUS extends Locale
 				'slug_blank' => "Slug cannot be blank",
 				'slug_in_use' => "That slug is already in use",
 				'page_title_blank' => "Page Title cannot be blank",
-				'already_voted' => 'You have already voted.',
-				'must_be_logged_in' => 'You must be logged in to do that.',
+				'already_voted' => "You have already voted.",
+				'must_be_logged_in' => "You must be logged in to do that.",
 
 				// 404 error page
 				'404' => array(
 					'title' => "He's dead, Jim!",
-					'message' => "The requested page '$1' couldn't be found."
+					'message' => "The requested page '{1}' couldn't be found."
 				),
 
 				// No Permission page
@@ -333,8 +335,8 @@ class Locale_enUS extends Locale
 
 				// Tickets
 				'tickets' => array(
-					'summary_blank' => 'Summary cannot be blank',
-					'description_blank' => 'Desription cannot be blank'
+					'summary_blank' => "Summary cannot be blank",
+					'description_blank' => "Desription cannot be blank"
 				),
 				
 				// Ticket types
@@ -363,7 +365,7 @@ class Locale_enUS extends Locale
 
 			// Testing purposes only...
 			'test' => array(
-				'plurals' => 'There {plural:$1, {is $1 bottle|are $1 bottles}} of scotch on the shelf.'
+				'plurals' => "There {plural:{1}, {is {1} bottle|are {1} bottles}} of scotch on the shelf."
 			)
 		);
 	}
