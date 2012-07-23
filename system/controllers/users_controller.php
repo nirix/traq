@@ -124,6 +124,13 @@ class UsersController extends AppController
 	 */
 	public function action_usercp()
 	{
+		// Make sure the user is logged in
+		if (!LOGGEDIN)
+		{
+			$this->show_no_permission();
+		}
+
+		// Clone the logged in user object
 		$user = clone $this->user;
 
 		// Has the form been submitted?
