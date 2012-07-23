@@ -28,6 +28,12 @@
  */
 class AttachmentsController extends AppController
 {
+	// Before filters
+	public $_before = array(
+		'view' => array('_check_permission'),
+		'delete' => array('_check_permission')
+	);
+
 	/**
 	 * View attachment page
 	 *
@@ -37,12 +43,6 @@ class AttachmentsController extends AppController
 	{
 		// Get the attachment
 		$attachment = Attachment::find($attachment_id);
-
-		// Check permission
-		if (!$this->user->permission($attachment->ticket->project_id, 'view_attachments'))
-		{
-			return $this->show_no_permission();
-		}
 
 		// Don't try to load a view
 		$this->_render['view'] = false;
@@ -79,17 +79,25 @@ class AttachmentsController extends AppController
 	 */
 	public function action_delete($attachment_id)
 	{
-		// Get the attachment
-		$attachment = Attachment::find($attachment_id);
-
-		// Check permission
-		if (!$this->user->permission($attachment->ticket->project_id, 'delete_attachments'))
-		{
-			return $this->show_no_permission();
-		}
-
 		// Delete and redirect
 		$attachment->delete();
 		Request::redirect(Request::base($attachment->ticket->href()));
+	}
+
+	/**
+	 * Used to check the permission for the requested action.
+	 */
+	public function _check_permission($action)
+	{
+		// Get the attachment
+		$this->attachment = Attachment::find(Router::$params[0]);
+
+		// Check if the user has permission
+		if (!current_user()->permission($this->attachment->ticket->project_id, "{$action}_attachments"))
+		{
+			// oh noes! display the no permission page.
+			$this->show_no_permission();
+			return false;
+		}
 	}
 }
