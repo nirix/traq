@@ -28,6 +28,13 @@
  */
 class TicketsController extends AppController
 {
+	// Before filters
+	public $_before = array(
+		'edit' => array('_check_permission'),
+		'update' => array('_check_permission'),
+		'delete' => array('_check_permission')
+	);
+
 	/**
 	 * Custom constructor, we need to do extra stuff.
 	 */
@@ -254,12 +261,6 @@ class TicketsController extends AppController
 	 */
 	public function action_update($ticket_id)
 	{
-		// Check users permission
-		if (!$this->user->permission($this->project->id, 'update_tickets'))
-		{
-			return $this->show_no_permission();
-		}
-
 		// Get the ticket
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
@@ -303,12 +304,6 @@ class TicketsController extends AppController
 	 */
 	public function action_edit($ticket_id)
 	{
-		// Check if the user has permission
-		if (!$this->user->permission($this->project->id, 'edit_ticket_description'))
-		{
-			$this->show_no_permission();
-		}
-
 		// Get the ticket
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
@@ -330,5 +325,38 @@ class TicketsController extends AppController
 		}
 
 		View::set('ticket', $ticket);
+	}
+
+	/**
+	 * Used to check the permission for the requested action.
+	 */
+	public function _check_permission($method)
+	{
+		// Set the proper action depending on the method
+		switch($method)
+		{
+			// Edit ticket description
+			case 'edit':
+				$action = 'edit_ticket_description';
+			break;
+
+			// Update ticket properties
+			case 'update':
+				$action = 'update_tickets';
+			break;
+
+			// Delete tickets
+			case 'delete':
+				$action = 'delete_tickets';
+			break;
+		}
+
+		// Check if the user has permission
+		if (!current_user()->permission($this->project->id, $action))
+		{
+			// oh noes! display the no permission page.
+			$this->show_no_permission();
+			return false;
+		}
 	}
 }
