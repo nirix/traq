@@ -24,6 +24,17 @@
 	}
 }
 
+.usercp.content fieldset .tabular {
+	.group {
+		padding-left: 200px;
+
+		label:first-child {
+			margin-left: -200px;
+			width: 195px;
+		}
+	}
+}
+
 form.horizontal {
 	.group {
 		width: auto;

@@ -517,6 +517,15 @@ h3.list_title {
 .list th.actions, .list th.fixed_repo_slug {
   width: 140px; }
 
+/* ==========# UserCP #========== */
+.usercp.content #options, .usercp.content #info {
+  padding: 5px;
+  width: 48%; }
+.usercp.content #info {
+  float: left; }
+.usercp.content #options {
+  float: right; }
+
 /* ==========# Sexy Buttons #========== */
 .button_new, .button_edit, .button_delete,
 .button_enable, .button_disable,
@@ -569,6 +578,12 @@ h3.list_title {
   vertical-align: middle; }
 .tabular select {
   margin-top: 0; }
+
+.usercp.content fieldset .tabular .group {
+  padding-left: 200px; }
+  .usercp.content fieldset .tabular .group label:first-child {
+    margin-left: -200px;
+    width: 195px; }
 
 form.horizontal .group {
   width: auto;

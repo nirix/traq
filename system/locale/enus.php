@@ -189,6 +189,7 @@ class Locale_enUS extends Locale
 			'ticket_updates' => "Ticket updates",
 			'information' => "Information",
 			'options' => "Options",
+			'watch_my_new_tickets' => "Watch my new tickets",
 			
 			// Wiki
 			'home' => "Home",
@@ -347,8 +348,10 @@ class Locale_enUS extends Locale
 				// User errors
 				'users' => array(
 					'username_blank' => "Username cannot be blank",
+					'name_blank' => "Name cannot be blank",
 					'username_in_use' => "That username is already registered",
 					'password_blank' => "Password cannot be blank",
+					'invalid_password' => "Invalid password",
 					'email_invalid' => "Invalid email address",
 					'doesnt_exist' => "User doesn't exist",
 					'already_a_project_member' => "User is already a project member"

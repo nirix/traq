@@ -179,6 +179,17 @@ class User extends Model
 				break;
 		}
 	}
+
+	/**
+	 * Sets the users password.
+	 *
+	 * @param string $new_password
+	 */
+	public function set_password($new_password)
+	{
+		$this->password = $new_password;
+		$this->prepare_password();
+	}
 	
 	/**
 	 * Handles all the required stuff before creating
@@ -222,6 +233,12 @@ class User extends Model
 		if ($this->_is_new() and static::find('username', $this->_data['username']))
 		{
 			$errors['username'] = l('errors.users.username_in_use');
+		}
+
+		// Make sure the users name is set
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('errors.users.name_blank');
 		}
 		
 		// Check if the password is set

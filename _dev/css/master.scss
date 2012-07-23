@@ -556,6 +556,22 @@ h3.list_title {
 	}
 }
 
+/* ==========# UserCP #========== */
+.usercp.content {
+	#options, #info {
+		padding: 5px;
+		width: 48%;
+	}
+
+	#info {
+		float: left;
+	}
+
+	#options {
+		float: right;
+	}
+}
+
 /* ==========# Sexy Buttons #========== */
 .button_new, .button_edit, .button_delete,
 .button_enable, .button_disable,

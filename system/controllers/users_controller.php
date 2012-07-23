@@ -111,4 +111,52 @@ class UsersController extends AppController
 			View::set('user', $user);
 		}
 	}
+
+	/**
+	 * The UserCP page.
+	 */
+	public function action_usercp()
+	{
+		$user = clone $this->user;
+
+		// Has the form been submitted?
+		if (Request::$method == 'post')
+		{
+			// Are we updating the users information?
+			if (Request::$post['name'] != $user->name or Request::$post['email'] != $user->email or Request::$post['new_password'] != '')
+			{
+				// Verify password
+				if ($user->verify_password(Request::$post['password']))
+				{
+					// Set the info
+					$user->set(array(
+						'name' => Request::$post['name'],
+						'email' => Request::$post['email']
+					));
+
+					// Are we setting a new password?
+					if (Request::$post['new_password'] != '')
+					{
+						// Set the new password
+						$user->set_password(Request::$post['new_password']);
+					}
+
+					// Save the user
+					if ($user->save())
+					{
+						// Redirect if successfull
+						Request::redirect(Request::full_uri());
+					}
+				}
+				// Invalid password
+				else
+				{
+					// Add the error so the user knows what went wrong
+					$user->_add_error('username', l('errors.users.invalid_password'));
+				}
+			}
+		}
+
+		View::set('user', $user);
+	}
 }
