@@ -29,13 +29,23 @@
 class TicketsController extends AppController
 {
 	/**
+	 * Custom constructor, we need to do extra stuff.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+
+		// Set the title and load the helper
+		$this->title(l('tickets'));
+		Load::helper('tickets');
+	}
+
+	/**
 	 * Handles the ticket listing index page.
 	 */
 	public function action_index()
 	{
-		$this->title(l('tickets'));
-		Load::helper('tickets');
-		
+		// Start the filter SQL query
 		$sql = array();
 		$sql[] = "`project_id` = '{$this->project->id}'";
 		
@@ -63,6 +73,7 @@ class TicketsController extends AppController
 			// Status filter
 			elseif ($filter == 'status')
 			{
+				// All open, or all closed statuses
 				if ($value == 'open' or $value == 'closed')
 				{
 					foreach (TicketStatus::select('id')->where('status', ($value == 'open' ? 1 : 0))->exec()->fetch_all() as $status)
@@ -70,6 +81,7 @@ class TicketsController extends AppController
 						$filter_sql[] = $status->id;
 					}
 				}
+				// Get each status by name
 				else
 				{
 					foreach (explode(',', $value) as $name)
@@ -123,7 +135,6 @@ class TicketsController extends AppController
 	{
 		// Fetch the ticket from the database and send it to the view.
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
-		$this->title(l('tickets'));
 		$this->title($ticket->summary);
 		View::set('ticket', $ticket);
 	}
@@ -193,8 +204,11 @@ class TicketsController extends AppController
 	 */
 	public function action_new()
 	{
+		// Set the title
+		$this->title(l('new_ticket'));
+
+		// Create a new ticket object
 		$ticket = new Ticket;
-		View::set('ticket', $ticket);
 		
 		// Check if the form has been submitted
 		if (Request::$method == 'post')
@@ -212,6 +226,7 @@ class TicketsController extends AppController
 				'severity_id' => Request::$post['severity'],
 			);
 
+			// Does the user have permission to set all properties?
 			if ($this->user->permission($project->id, 'set_all_ticket_properties'))
 			{
 				$data['priority_id'] = Request::$post['priority'];
@@ -219,6 +234,7 @@ class TicketsController extends AppController
 				$data['assigned_to_id'] = Request::$post['assigned_to'];
 			}
 
+			// Set the ticket data
 			$ticket->set($data);
 			
 			// Check if the ticket data is valid...
@@ -229,6 +245,8 @@ class TicketsController extends AppController
 				Request::redirect(Request::base($ticket->href()));
 			}
 		}
+
+		View::set('ticket', $ticket);
 	}
 
 	/**
@@ -244,6 +262,10 @@ class TicketsController extends AppController
 
 		// Get the ticket
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+		// Set the title
+		$this->title($ticket->summary);
+		$this->title(l('update_ticket'));
 
 		// Collect the new data
 		$data = array(
@@ -281,17 +303,26 @@ class TicketsController extends AppController
 	 */
 	public function action_edit($ticket_id)
 	{
+		// Check if the user has permission
 		if (!$this->user->permission($this->project->id, 'edit_ticket_description'))
 		{
 			$this->show_no_permission();
 		}
 
+		// Get the ticket
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
+		// Set the title
+		$this->title($ticket->summary);
+		$this->title(l('edit_ticket'));
+
+		// Has the form been submitted?
 		if (Request::$method == 'post')
 		{
+			// Set the ticket body
 			$ticket->body = Request::$post['body'];
 
+			// Save and redirect
 			if ($ticket->save())
 			{
 				Request::redirect(Request::base($ticket->href()));
