@@ -28,8 +28,14 @@
  */
 class TicketHistoryController extends AppController
 {
+	/**
+	 * Edit ticket update
+	 *
+	 * @param integer $id
+	 */
 	public function action_edit($id)
 	{
+		// Get the ticket update
 		$history = TicketHistory::find($id);
 
 		// Check permission
@@ -38,10 +44,13 @@ class TicketHistoryController extends AppController
 			return $this->show_no_permission();
 		}
 
+		// Has the form been submitted?
 		if (Request::$method == 'post')
 		{
-			$history->comment = Request::$post['comment'];
+			// Update the comment
+			$history->set('comment', Request::$post['comment']);
 
+			// Save and redirect
 			if ($history->save())
 			{
 				Request::redirect(Request::base($history->ticket->href()));
@@ -51,8 +60,14 @@ class TicketHistoryController extends AppController
 		View::set('history', $history);
 	}
 
+	/**
+	 * Delete ticket update
+	 *
+	 * @param integer $id
+	 */
 	public function action_delete($id)
 	{
+		// Get the ticket update
 		$history = TicketHistory::find($id);
 
 		// Check permission
@@ -61,14 +76,18 @@ class TicketHistoryController extends AppController
 			return $this->show_no_permission();
 		}
 
+		// Delete the update
 		$history->delete();
 
+		// Is this an ajax request?
 		if (Request::is_ajax())
 		{
+			// Render the view
 			View::set('history', $history);
 		}
 		else
 		{
+			// Just redirect back to the ticket
 			Request::redirect(Request::base($history->ticket->href()));
 		}
 	}
