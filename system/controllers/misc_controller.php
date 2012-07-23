@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -28,10 +28,15 @@
  */
 class MiscController extends Controller
 {
+	/**
+	 * Custom constructor, we need to do extra stuff.
+	 */
 	public function __construct()
 	{
-		parent::__construct();
+		// Set the theme
 		View::$theme = '_misc';
+
+		parent::__construct();
 	}
 
 	/**
@@ -40,10 +45,16 @@ class MiscController extends Controller
 	public function action_javascript()
 	{
 		global $locale;
+
+		// Set the content type to javascript
 		header("Content-type: text/javascript");
+
+		// Set the view without the controller namespace
 		$this->_render['view'] = 'javascript';
+
+		// Get the locale strings and set the editor strings
 		$strings = $locale->locale();
-		View::set('strings', $strings['editor']);
+		View::set('editor_strings', $strings['editor']);
 	}
 
 	/**
@@ -53,6 +64,7 @@ class MiscController extends Controller
 	 */
 	public function action_ticket_template($type_id)
 	{
+		// No view, just print the ticket template
 		$this->_render['view'] = false;
 		echo TicketType::find($type_id)->template;
 	}
