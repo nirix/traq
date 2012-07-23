@@ -49,7 +49,7 @@
 					<td><?php echo HTML::link($ticket->user->name, $ticket->user->href()); ?></td>
 					<td><?php echo $ticket->status->name; ?></td>
 					<td><?php echo l('time.ago', Time::ago_in_words($ticket->created_at, 0)); ?></td>
-					<td><?php echo l('time.ago', Time::ago_in_words($ticket->updated_at, 0)); ?></td>
+					<td><?php echo $ticket->updated_at > $ticket->created_at ? l('time.ago', Time::ago_in_words($ticket->updated_at, 0)) : l('never'); ?></td>
 				</tr>
 			<?php } ?>
 			</tbody>
