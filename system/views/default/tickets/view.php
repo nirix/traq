@@ -7,11 +7,11 @@
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('owner')); ?>
-			<span class="value"><?php echo HTML::link($ticket->user->username, $ticket->user->href()); ?></span>
+			<span class="value"><?php echo HTML::link($ticket->user->name, $ticket->user->href()); ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('assigned_to')); ?>
-			<span class="value"><?php echo $ticket->assigned_to ? HTML::link($ticket->assigned_to->username, $ticket->assigned_to->href()) : ''; ?></span>
+			<span class="value"><?php echo $ticket->assigned_to ? HTML::link($ticket->assigned_to->name, $ticket->assigned_to->href()) : ''; ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('milestone')); ?>
@@ -89,7 +89,7 @@
 <?php foreach ($ticket->history->order_by('id', 'DESC')->exec()->fetch_all() as $update) { ?>
 	<div class="update" id="ticket_update_<?php echo $update->id; ?>">
 		<h4>
-			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link($update->user->username, $update->user->href())); ?>
+			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link($update->user->name, $update->user->href())); ?>
 			<?php
 			if ($current_user->permission($ticket->project_id, 'edit_ticket_history')) {
 				echo HTML::link('', $ticket->href("/history/{$update->id}/edit"), array('title' => l('edit'), 'class' => 'button_edit', 'data-overlay' => true));

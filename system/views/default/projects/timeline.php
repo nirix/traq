@@ -21,7 +21,7 @@
 			<?php echo l("timeline.{$row->action}", $row->milestone()->name); ?>
 		<?php } ?>
 		</dt>
-		<dd><?php echo l('timeline.by_x', HTML::link($row->user->username, $row->user->href())); ?></dd>
+		<dd><?php echo l('timeline.by_x', HTML::link($row->user->name, $row->user->href())); ?></dd>
 	<?php } ?>
 	</dl>
 	<?php } ?>

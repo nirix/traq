@@ -1,5 +1,5 @@
 <div class="profile content">
-	<h2><?php echo l('xs_profile', $profile->username); ?></h2>
+	<h2><?php echo l('xs_profile', $profile->name); ?></h2>
 	
 	<div class="sidebar span-6">
 		<div class="information box">
@@ -46,7 +46,7 @@
 				<tr>
 					<td><?php echo HTML::link($ticket->summary, $ticket->href()); ?></td>
 					<td><?php echo HTML::link($ticket->project->name, $ticket->project->href()); ?></td>
-					<td><?php echo HTML::link($ticket->user->username, $ticket->user->href()); ?></td>
+					<td><?php echo HTML::link($ticket->user->name, $ticket->user->href()); ?></td>
 					<td><?php echo $ticket->status->name; ?></td>
 					<td><?php echo l('time.ago', Time::ago_in_words($ticket->created_at, 0)); ?></td>
 					<td><?php echo l('time.ago', Time::ago_in_words($ticket->updated_at, 0)); ?></td>
