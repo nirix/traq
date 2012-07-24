@@ -556,6 +556,18 @@ h3.list_title {
 	}
 }
 
+/* ==========# Permissions #========== */
+.permissions.list {
+	.permission_section {
+		background: #265F98;
+		color: #fff;
+
+		&:nth-child(even) td {
+			background: inherit;
+		}
+	}
+}
+
 /* ==========# UserCP #========== */
 .usercp.content {
 	#options, #info {

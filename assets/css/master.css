@@ -517,6 +517,13 @@ h3.list_title {
 .list th.actions, .list th.fixed_repo_slug {
   width: 140px; }
 
+/* ==========# Permissions #========== */
+.permissions.list .permission_section {
+  background: #265F98;
+  color: #fff; }
+  .permissions.list .permission_section:nth-child(even) td {
+    background: inherit; }
+
 /* ==========# UserCP #========== */
 .usercp.content #options, .usercp.content #info {
   padding: 5px;

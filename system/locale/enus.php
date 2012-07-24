@@ -220,23 +220,27 @@ class Locale_enUS extends Locale
 				'project_settings' => "Project Settings",
 
 				// Tickets
-				'comment_on_tickets' => "Comment on tickets",
-				'update_tickets' => "Update tickets",
-				'edit_ticket_description' => "Edit ticket description",
-				'vote_on_tickets' => "Vote on tickets",
-				'add_attachments' => "Add attachments",
-				'view_attachments' => "View attachments",
-				'delete_attachments' => "Delete attachments",
-				'set_all_ticket_properties' => "Set all ticket properties",
+				'tickets' => array(
+					'vote_on_tickets' => "Vote",
+					'comment_on_tickets' => "Comment",
+					'update_tickets' => "Update",
+					'edit_ticket_description' => "Edit description",
+					'set_all_ticket_properties' => "Set all properties",
+					'add_attachments' => "Add attachments",
+					'view_attachments' => "View attachments",
+					'delete_attachments' => "Delete attachments",
 
-				// Ticket History
-				'edit_ticket_history' => "Edit ticket history",
-				'delete_ticket_history' => "Delete ticket history",
+					// Ticket History
+					'edit_ticket_history' => "Edit history",
+					'delete_ticket_history' => "Delete history",
+				),
 
 				// Wiki
-				'create_wiki_page' => "Create wiki page",
-				'edit_wiki_page' => "Edit wiki page",
-				'delete_wiki_page' => "Delete wiki page"
+				'wiki' => array(
+					'create_wiki_page' => "Create page",
+					'edit_wiki_page' => "Edit page",
+					'delete_wiki_page' => "Delete page"
+				)
 			),
 			
 			// Time

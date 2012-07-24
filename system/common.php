@@ -214,7 +214,20 @@ function permission_actions()
 	$actions = array();
 	foreach ($locale_strings['permissions'] as $action => $string)
 	{
-		$actions[] = $action;
+		// Is this a grouped set of permissions?
+		if (is_array($string))
+		{
+			// Add them to the actions array
+			foreach ($string as $act => $str)
+			{
+				$actions[$action][] = $act;
+			}
+		}
+		// Non group permission
+		else
+		{
+			$actions[] = $action;
+		}
 	}
 
 	return $actions;

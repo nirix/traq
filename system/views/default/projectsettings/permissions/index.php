@@ -2,9 +2,8 @@
 	<h2 id="page_title"><?php echo l('project_settings'); ?></h2>
 </div>
 <?php View::render('projectsettings/_nav'); ?>
-
 <form action="<?php echo Request::full_uri(); ?>" method="post">
-	<table class="list">
+	<table class="permissions list">
 		<thead>
 			<tr>
 				<th><?php echo l('action'); ?></th>
@@ -14,25 +13,18 @@
 			</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($actions as $action) { ?>
-			<tr>
-				<td><strong><?php echo l("permissions.{$action}"); ?></strong></td>
-			<?php foreach ($groups as $group) {
-				$perm = $permissions[$group->id][$action];
-				?>
-				<td>
-					<?php
-						echo Form::select("perm[{$group->id}][{$perm->id}]",
-							($group->id == 0 ? $options['defaults'] : $options['all']),
-							array(
-								'value' => ($group->id == 0 ? $perm->value : ($perm->type_id == 0 ? -1 : $perm->value))
-							)
-						);
-					?>
-				</td>
-			<?php } ?>
+		<?php foreach ($actions as $key => $action) { ?>
+			<?php if (is_array($action)) { ?>
+			<tr class="permission_section">
+				<td colspan="<?php echo count($groups) + 1; ?>"><strong><?php echo l($key); ?></strong></td>
 			</tr>
-		<?php } ?>
+			<?php foreach ($action as $act) {
+				echo View::render('projectsettings/permissions/_permission_row', array('key' => $key, 'action' => $act));
+				}
+			} else {
+				echo View::render('projectsettings/permissions/_permission_row', array('action' => $action));
+			}
+		} ?>
 		</tbody>
 	</table>
 	<div class="actions">
