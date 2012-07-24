@@ -280,7 +280,8 @@ hr {
   padding: 2px 5px;
   background: #265f98; }
   #meta_nav ul {
-    margin: 0; }
+    margin: 0;
+    padding: 0; }
     #meta_nav ul li {
       display: inline;
       margin-right: 5px; }

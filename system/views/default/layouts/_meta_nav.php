@@ -11,4 +11,7 @@
 		<li<?php echo iif(active_nav('/register'), ' class="active"')?>><?php echo HTML::link(l('register'), '/register'); ?></li>
 	<?php } ?>
 	</ul>
+	<ul>
+		<?php if (Request::seg(0)) { ?><li><?php echo HTML::link(settings('title'), '/'); ?></li><?php } ?>
+	</ul>
 </div>

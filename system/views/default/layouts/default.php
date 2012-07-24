@@ -20,7 +20,8 @@
 		<div id="wrapper" class="container">
 			<?php echo View::render('layouts/_meta_nav'); ?>
 			<header id="header">
-				<h1><?php echo HTML::link(settings('title'), null); ?><?php if (isset($project)) { ?> / <?php echo HTML::link($project->name, $project->slug); ?><?php } ?></h1>
+				<h1>
+					<?php if (isset($project)) { echo HTML::link($project->name, $project->slug); ?><?php } else { echo HTML::link(settings('title'), null); } ?></h1>
 			</header>
 			<nav id="nav">
 				<ul id="main_nav">
