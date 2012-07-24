@@ -30,7 +30,9 @@
 					<li<?php echo iif(active_nav('/:slug/timeline'), ' class="active"')?>><?php echo HTML::link(l('timeline'), $project->href("timeline")); ?></li>
 					<li<?php echo iif(active_nav('/:slug/(roadmap|milestone/(.*))'), ' class="active"')?>><?php echo HTML::link(l('roadmap'), $project->href("roadmap")); ?></li>
 					<li<?php echo iif(active_nav('/:slug/tickets(?:/[0-9]+)?'), ' class="active"')?>><?php echo HTML::link(l('tickets'), $project->href("tickets")); ?></li>
+					<?php if($current_user->permission($project->id, 'create_tickets')) { ?>
 					<li<?php echo iif(active_nav('/:slug/tickets/new(.*)'), ' class="active"')?>><?php echo HTML::link(l('new_ticket'), $project->href('tickets/new')); ?></li>
+					<?php } ?>
 					<?php if ($project->enable_wiki) { ?>
 					<li<?php echo iif(active_nav('/:slug/wiki(.*)'), ' class="active"')?>><?php echo HTML::link(l('wiki'), $project->href("wiki")); ?></li>
 					<?php } ?>

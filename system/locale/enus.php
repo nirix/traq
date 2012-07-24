@@ -221,9 +221,10 @@ class Locale_enUS extends Locale
 
 				// Tickets
 				'tickets' => array(
+					'create_tickets' => "Create",
+					'update_tickets' => "Update",
 					'vote_on_tickets' => "Vote",
 					'comment_on_tickets' => "Comment",
-					'update_tickets' => "Update",
 					'edit_ticket_description' => "Edit description",
 					'set_all_ticket_properties' => "Set all properties",
 					'add_attachments' => "Add attachments",

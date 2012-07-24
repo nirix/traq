@@ -30,6 +30,7 @@ class TicketsController extends AppController
 {
 	// Before filters
 	public $_before = array(
+		'new' => array('_check_permission'),
 		'edit' => array('_check_permission'),
 		'update' => array('_check_permission'),
 		'delete' => array('_check_permission')
@@ -335,6 +336,11 @@ class TicketsController extends AppController
 		// Set the proper action depending on the method
 		switch($method)
 		{
+			// Create ticket
+			case 'new':
+				$action = 'create_tickets';
+			break;
+			
 			// Edit ticket description
 			case 'edit':
 				$action = 'edit_ticket_description';

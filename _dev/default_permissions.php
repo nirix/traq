@@ -35,8 +35,9 @@ $permissions = array(
 		array(0, 'project_settings', 0),
 
 		// Tickets
-		array(0, 'comment_on_tickets', 1),
+		array(0, 'create_tickets', 1),
 		array(0, 'update_tickets', 1),
+		array(0, 'comment_on_tickets', 1),
 		array(0, 'edit_ticket_description', 0),
 		array(0, 'vote_on_tickets', 1),
 		array(0, 'add_attachments', 1),
@@ -57,6 +58,7 @@ $permissions = array(
 		// Guests
 
 		// Tickets
+		array(0, 'create_tickets', 0),
 		array(3, 'comment_on_tickets', 0),
 		array(3, 'update_tickets', 0),
 		array(3, 'vote_on_tickets', 0),
@@ -72,8 +74,9 @@ $permissions = array(
 		array(0, 'project_settings', 0),
 
 		// Tickets
-		array(0, 'comment_on_tickets', 1),
+		array(0, 'create_tickets', 1),
 		array(0, 'update_tickets', 1),
+		array(0, 'comment_on_tickets', 1),
 		array(0, 'edit_ticket_description', 0),
 		array(0, 'vote_on_tickets', 1),
 		array(0, 'add_attachments', 1),
