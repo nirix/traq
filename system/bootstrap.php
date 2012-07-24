@@ -22,19 +22,20 @@ define("SYSPATH", dirname(__FILE__) . '/avalon');
 define("APPPATH", dirname(__FILE__));
 define("DOCROOT", dirname(dirname(__FILE__)));
 
-if (!file_exists(APPPATH . '/config/database.php'))
-{
-	header("Location: ./install");
-}
-
 // Load common functions and version file
 require APPPATH . '/common.php';
 require APPPATH . '/version.php';
-require APPPATH . '/libraries/scm.php';
 
 require SYSPATH . '/base.php';
 require APPPATH . '/libraries/locale.php';
 require APPPATH . '/libraries/fishhook.php';
+
+// Check for the config file
+if (!file_exists(APPPATH . '/config/database.php'))
+{
+	// No config file, redirect to installer
+	header("Location: " . Request::base() . "install");
+}
 
 Database::init();
 
