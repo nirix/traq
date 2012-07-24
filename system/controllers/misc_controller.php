@@ -79,14 +79,18 @@ class MiscController extends Controller
 		header("Content-type: application/json");
 
 		// Get the users, and loop over them
-		$users = User::select('username')->where('username', Request::$request['term'] . "%", 'LIKE')->exec()->fetch_all();
+		$users = User::select('username')->where('username', str_replace('*', '%', Request::$request['term']) . "%", 'LIKE')->exec()->fetch_all();
 		$options = array();
 		foreach ($users as $user) {
 			// Add the user to the optionls array
 			$options[] = $user->username;
 		}
 
-		// Output in javascript array format
-		echo '["' . implode('","', $options) . '"]';
+		// Make sure there are some options
+		if (count($options))
+		{
+			// Output in javascript array format
+			echo '["' . implode('","', $options) . '"]';
+		}
 	}
 }
