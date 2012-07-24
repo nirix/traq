@@ -123,7 +123,7 @@ class TicketsController extends AppController
 		
 		// Fetch tickets
 		$tickets = array();
-		$rows = $this->db->select()->from('tickets')->custom_sql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->exec()->fetch_all();
+		$rows = $this->db->select()->from('tickets')->custom_sql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->order_by('priority_id', 'ASC')->exec()->fetch_all();
 		foreach($rows as $row)
 		{
 			$tickets[] = new Ticket($row, false);
