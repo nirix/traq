@@ -33,12 +33,13 @@
 				$(document).on('click', function(){
 					// Fade it out
 					popover.fadeOut('fast');
-				});
+				}).not(popover);
 
 				// Bind a click to the popover
-				popover.on('click', function(){
+				popover.on('click', function(e){
+					e.stopPropagation();
 					// Stop it from fading out
-					$(this).stopPropagation();
+					popover.stop(true, true).show();
 				});
 			}
 			// Hover
