@@ -1,0 +1,40 @@
+.ui-autocomplete {
+	position: absolute;
+	cursor: default;
+	border: 1px solid #3478AA;
+	background: #fff;
+	box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.5);
+}
+
+.ui-menu {
+	list-style:none;
+	padding: 0px;
+	margin: 0;
+	display:block;
+	float: left;
+
+	.ui-menu {
+		margin-top: -3px;
+	}
+
+	.ui-menu-item {
+		margin: 0;
+		padding: 0;
+		float: left;
+		clear: left;
+		width: 100%;
+
+		a {
+			text-decoration: none;
+			display: block;
+			padding: 4px;
+			line-height: 1;
+			color: #000;
+
+			&.ui-state-hover,
+			&.ui-state-active {
+				background: #eee;
+			}
+		}
+	}
+}
