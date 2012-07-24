@@ -720,7 +720,7 @@ input[type=url] {
     margin-right: 2px;
     display: inline-block; }
   .profile.content .sidebar .information dl dd {
-    width: 50px;
+    width: auto;
     margin: 0;
     display: inline-block; }
 .profile.content #assigned_to table.list th.project {
