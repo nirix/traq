@@ -1,5 +1,8 @@
 <?php if ($config_created) { ?>
-<div align="center">Installation Completed</div>
+<div align="center">
+	<strong>Installation Completed</strong><br />
+	You may now <a href="<?php echo str_replace('/install', '/login', Ant::base_uri()); ?>">login</a>.
+</div>
 <?php } else { ?>
 <div align="center">
 	The installer was unable to create the config file,
