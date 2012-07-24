@@ -46,8 +46,8 @@
 					<td><?php echo HTML::link($ticket->summary, $ticket->href()); ?></td>
 					<td><?php echo HTML::link($ticket->project->name, $ticket->project->href()); ?></td>
 					<td><?php echo $ticket->status->name; ?></td>
-					<td><?php echo l('time.ago', Time::ago_in_words($ticket->created_at, 0)); ?></td>
-					<td><?php echo $ticket->updated_at > $ticket->created_at ? l('time.ago', Time::ago_in_words($ticket->updated_at, 0)) : l('never'); ?></td>
+					<td><?php echo time_ago($ticket->created_at, 0); ?></td>
+					<td><?php echo $ticket->updated_at > $ticket->created_at ? time_ago($ticket->updated_at, 0) : l('never'); ?></td>
 				</tr>
 			<?php } ?>
 			</tbody>
