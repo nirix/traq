@@ -37,6 +37,10 @@
 				<?php echo Form::text('settings[date_time_format]', array('value' => settings('date_time_format'))); ?>
 			</div>
 			<div class="group">
+				<label><?php echo l('date_format'); ?></label>
+				<?php echo Form::text('settings[date_format]', array('value' => settings('date_format'))); ?>
+			</div>
+			<div class="group">
 				<label><?php echo l('timeline_day_format'); ?></label>
 				<?php echo Form::text('settings[timeline_day_format]', array('value' => settings('timeline_day_format'))); ?>
 			</div>

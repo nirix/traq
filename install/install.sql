@@ -308,6 +308,7 @@ VALUES
 	('allow_registration','1'),
 	('check_for_update','1'),
 	('date_time_format','g:iA d/m/Y'),
+  ('date_format','d/m/Y'),
 	('db_revision','22'),
 	('locale','enus'),
 	('theme','Default'),

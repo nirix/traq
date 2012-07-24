@@ -131,6 +131,7 @@ class Locale_enUS extends Locale
 			'allow_registration' => "Allow Registration",
 			'date_and_time' => "Date and Time",
 			'date_time_format' => "Date/Time Format",
+			'date_format' => "Date Format",
 			'timeline_day_format' => "Timeline Day Format",
 			'timeline_time_format' => "Timeline Time Format",
 			'install' => "Install",
