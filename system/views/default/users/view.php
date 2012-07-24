@@ -16,6 +16,9 @@
 				
 				<dt><?php echo l('ticket_updates'); ?></dt>
 				<dd><?php echo $profile->ticket_updates->exec()->row_count(); ?></dd>
+
+				<dt><?php echo l('member_since'); ?></dt>
+				<dd><?php echo ($profile->created_at ? ldate(settings('date_format')) : l('unknown')); ?></dd>
 			</dl>
 			
 			<div class="clearfix"></div>

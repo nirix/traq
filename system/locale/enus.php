@@ -98,6 +98,8 @@ class Locale_enUS extends Locale
 			'due_x' => "Due {1}",
 			'members' => "Members",
 			'none' => "None",
+			'member_since' => "Member since",
+			'unknown' => "Unkown",
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
