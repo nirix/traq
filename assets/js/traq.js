@@ -114,6 +114,12 @@ $(document).ready(function(){
 		});
 		parent.off('click').click(function(){ return false; });
 	});
+
+	// Loopover all the inputs with an autocomplete attribute
+	// and set them up with the source as the attribute value.
+	$("input[data-autocomplete]").each(function(){
+		$(this).autocomplete({ source: $(this).attr('data-autocomplete') });
+	});
 });
 
 /*!

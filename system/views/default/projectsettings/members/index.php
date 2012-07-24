@@ -7,7 +7,7 @@
 	<form action="<?php echo Request::base($project->href("settings/members/new")); ?>" method="post" class="horizontal">
 		<div class="group">
 			<?php echo Form::label(l('username'), 'username'); ?>
-			<?php echo Form::text('username'); ?>
+			<?php echo Form::text('username', array('data-autocomplete' => Request::base('/_ajax/autocomplete/username'))); ?>
 		</div>
 		<div class="group">
 			<?php echo Form::label(l('role'), 'role'); ?>
