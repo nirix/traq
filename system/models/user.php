@@ -37,7 +37,8 @@ class User extends Model
 		'name',
 		'email',
 		'group_id',
-		'login_hash'
+		'login_hash',
+		'created_at'
 	);
 	
 	// Things the user belongs to

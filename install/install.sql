@@ -514,6 +514,7 @@ CREATE TABLE `traq_users` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `group_id` bigint(20) NOT NULL DEFAULT '2',
   `login_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
