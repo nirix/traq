@@ -90,6 +90,15 @@ class AppController extends Controller
 		$this->_render['view'] = 'error/no_permission';
 		$this->_render['action'] = false;
 	}
+
+	/**
+	 * Used to display the login page.
+	 */
+	public function show_login()
+	{
+		$this->_render['action'] = false;
+		$this->_render['view'] = 'users/login';
+	}
 	
 	/**
 	 * Does the checking for the session cookie and fetches the users info.
