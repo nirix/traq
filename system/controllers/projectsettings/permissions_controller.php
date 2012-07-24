@@ -59,6 +59,8 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 		// Has the form been submitted?
 		if (Request::$method == 'post')
 		{
+			$global_defaults = Permission::defaults(0, 0, $type);
+
 			// Loop over group/role and get id and permissions
 			foreach (Request::$post['perm'] as $type_id => $permissions)
 			{
@@ -68,8 +70,44 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
 					// Fetch permission
 					$perm = Permission::find($permission_id);
 
+					// Are we dealing with a default?
+					if ($type_id == 0)
+					{
+						// Does it exist?
+						if ($perm->project_id > 0)
+						{
+							// We we need to delete it?
+							if ($global_defaults[$perm->action]->value == $value)
+							{
+								$perm->delete();
+							}
+							// or update it?
+							elseif ($perm->value != $value)
+							{
+								$perm->set('value', $value);
+								$perm->save();
+							}
+						}
+						// It doesn't exist
+						else
+						{
+							// Should we create it?
+							if ($perm->value != $value)
+							{
+								// Create the permission
+								$perm = new Permission(array(
+									'project_id' => $this->project->id,
+									'type' => $type,
+									'type_id' => $type_id,
+									'action' => $perm->action,
+									'value' => $value
+								));
+								$perm->save();
+							}
+						}
+					}
 					// Use default
-					if ($perm and $perm->type_id == $type_id and $value == -1 and $type_id > 0)
+					elseif ($perm and $perm->type_id == $type_id and $value == -1 and $type_id > 0)
 					{
 						$perm->delete();
 					}
