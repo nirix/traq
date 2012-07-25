@@ -77,7 +77,7 @@ Router::add('/admin/projects/([0-9]+)/delete', 'Admin::Projects::delete/$1');
 
 // Plugins
 Router::add('/admin/plugins', 'Admin::Plugins::index');
-Router::add('/admin/plugins/(enable|disable)/([a-zA-Z0-9\-\_]+)', 'Admin::Plugins::$1/$2');
+Router::add('/admin/plugins/(install|enable|disable|uninstall)/([a-zA-Z0-9\-\_]+)', 'Admin::Plugins::$1/$2');
 
 // Users
 Router::add('/admin/users', 'Admin::Users::index');

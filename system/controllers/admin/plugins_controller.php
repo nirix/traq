@@ -130,6 +130,17 @@ class AdminPluginsController extends AdminBase
 	 */
 	public function action_install($file)
 	{
+		$file = htmlspecialchars($file);
+		require APPPATH . "/plugins/{$file}.plugin.php";
+		
+		$class_name = "Plugin_{$file}";
+		$class_name::__install();
+		
+		$plugin = new Plugin(array('file' => $file));
+		$plugin->set('enabled', 1);
+		$plugin->save();
+		
+		Request::redirect(Request::base('/admin/plugins'));
 	}
 	
 	/**
@@ -139,5 +150,14 @@ class AdminPluginsController extends AdminBase
 	 */
 	public function action_uninstall($file)
 	{
+		$file = htmlspecialchars($file);
+		
+		$class_name = "Plugin_{$file}";
+		$class_name::__uninstall();
+		
+		$plugin = Plugin::find('file', $file);
+		$plugin->delete();
+		
+		Request::redirect(Request::base('/admin/plugins'));
 	}
 }
