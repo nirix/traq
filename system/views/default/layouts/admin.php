@@ -20,7 +20,7 @@
 		<div id="wrapper" class="container">
 			<?php echo View::render('layouts/_meta_nav'); ?>
 			<header id="header">
-				<h1><?php echo HTML::link(settings('title'), null); ?> / <?php echo HTML::link(l('admincp'), '/admin'); ?></h1>
+				<h1><?php echo HTML::link(l('admincp'), '/admin'); ?></h1>
 			</header>
 			<nav id="nav">
 				<ul id="main_nav">
