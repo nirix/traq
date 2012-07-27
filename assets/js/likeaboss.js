@@ -1,8 +1,7 @@
-/*!!
+/*
  * Like a Boss
- * Copyright (C) 2012 Jack P.
+ * Copyright (C) 2012 Jack Polgar
  * All Rights Reserved
- * https://github.com/nirix
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -11,7 +10,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of Jack P. nor the
+ *     * Neither the name of Jack Polgar nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  * 
@@ -64,8 +63,31 @@ var likeABoss = {
 		'bold': {open: '**', close: '**'},
 		'italic': {open: '_', close: '_'},
 		//
-		'bullet_list': {open: '- '},
-		'number_list': {open: '1. '},
+		'bullet_list': {open: '- ',
+			func: function(tag, selection) {
+				if (selection.indexOf('\n') != -1) {
+					selection = selection.replace(/\n/g, '\n' + tag.open);
+				}
+				
+				return tag.open + selection;
+			}
+		},
+		'number_list': {open: '1. ',
+			func: function(tag, selection) {
+				if (selection.indexOf('\n') != -1) {
+					var list = selection.split('\n');
+					selection = '';
+					
+					for (var i = 1; i <= list.length; ++i) {
+						selection += i + '. ' + list[i-1] + (i < list.length ? '\n' : '');
+					}
+					
+					return selection;
+				}	
+							
+				return tag.open + selection;
+			}
+		},
 		//
 		'link': {open: '[', middle: '](', close: ')',
 			func: function(tag, selection) {
@@ -96,7 +118,15 @@ var likeABoss = {
 				return tag.open + val + tag.close;
 			}
 		},
-		'code': {open: "\n    "},
+		'code': {open: '    ',
+			func: function(tag, selection) {
+				if (selection.indexOf('\n') != -1) {
+					selection = selection.replace(/\n/g, '\n' + tag.open);
+				}
+				
+				return tag.open + selection;
+			}
+		},
 	},
 	
 	/**
