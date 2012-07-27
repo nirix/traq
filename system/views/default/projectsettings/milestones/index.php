@@ -21,7 +21,11 @@
 			<tr>
 				<td><?php echo HTML::link($milestone->name, "{$project->slug}/settings/milestones/{$milestone->id}/edit", array('data-overlay' => true)); ?></td>
 				<td><?php echo $milestone->codename; ?></td>
-				<td><?php echo $milestone->due > 0 ? time_from_now($milestone->due, true) : ''; ?></td>
+				<td><?php if($milestone->due and $milestone->status == 1) {
+						echo time_from_now_ago($milestone->due);
+					} elseif ($milestone->due and $milestone->status == 2) {
+						echo l('completed');
+					} ?></td>
 				<td><?php echo $milestone->status == 0 ? l('cancelled') : ($milestone->status == 1 ? l('active') : l('completed')); ?></td>
 				<td>
 					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>

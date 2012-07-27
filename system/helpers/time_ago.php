@@ -42,6 +42,10 @@ function time_from_now_ago($original, $detailed = true, $include_from_now_ago = 
  */
 function time_ago($original, $detailed = true, $include_ago = true)
 {
+	if (!is_numeric($original))
+	{
+		$original == Time::to_unix($original);
+	}
 	$datetime = ldate("l, jS F Y @ g:ia P", $original); //Time::date('Y-m-d H:i:s', $original);
 	$time_ago = $include_ago ? l('time.ago', time_difference_in_words($original, $detailed)) : time_difference_in_words($original, $detailed);
 	return "<span title=\"{$datetime}\">{$time_ago}</span>";
@@ -59,7 +63,11 @@ function time_ago($original, $detailed = true, $include_ago = true)
  */
 function time_from_now($original, $detailed = true, $include_from_now = true)
 {
-	$datetime = Time::date('Y-m-d H:i:s', $original);
+	if (!is_numeric($original))
+	{
+		$original == Time::to_unix($original);
+	}
+	$datetime = Time::date('l, jS F Y @ g:ia P', $original);
 	$time_ago = $include_from_now ? l('time.from_now', time_difference_in_words($original, $detailed)) : time_difference_in_words($original, $detailed);
 	return "<span title=\"{$datetime}\">{$time_ago}</span>";
 }
