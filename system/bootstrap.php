@@ -28,7 +28,6 @@ require APPPATH . '/version.php';
 
 require SYSPATH . '/base.php';
 require APPPATH . '/libraries/locale.php';
-require APPPATH . '/libraries/fishhook.php';
 
 // Check for the config file
 if (!file_exists(APPPATH . '/config/database.php'))
