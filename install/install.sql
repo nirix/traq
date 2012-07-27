@@ -71,7 +71,7 @@ CREATE TABLE `traq_milestones` (
   `codename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `info` longtext COLLATE utf8_unicode_ci NOT NULL,
   `changelog` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `due` datetime NOT NULL,
+  `due` datetime DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `is_locked` smallint(6) NOT NULL DEFAULT '0',
   `project_id` bigint(20) NOT NULL,
