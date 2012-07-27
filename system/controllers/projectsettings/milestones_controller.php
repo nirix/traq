@@ -60,7 +60,7 @@ class ProjectSettingsMilestonesController extends ProjectSettingsAppController
 				'slug' => Request::$post['slug'],
 				'codename' => Request::$post['codename'],
 				'info' => Request::$post['info'],
-				'due' => Request::$post['due'],
+				'due' => Request::$post['due'] != '' ? Request::$post['due'] : 'NULL',
 				'project_id' => $this->project->id,
 				'displayorder' => Request::$post['displayorder']
 			));
@@ -98,7 +98,7 @@ class ProjectSettingsMilestonesController extends ProjectSettingsAppController
 				'slug' => Request::$post['slug'],
 				'codename' => Request::$post['codename'],
 				'info' => Request::$post['info'],
-				'due' => Request::$post['due'],
+				'due' => Request::$post['due'] != '' ? Request::$post['due'] : 'NULL',
 				'status' => Request::$post['status'],
 				'displayorder' => Request::$post['displayorder']
 			));
