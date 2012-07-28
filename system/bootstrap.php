@@ -47,8 +47,16 @@ $plugins = Database::connection()->select('file')->from('plugins')->where('enabl
 foreach ($plugins as $plugin)
 {
 	$path = APPPATH . "/plugins/{$plugin['file']}.plugin.php";
-	if (file_exists($path)) {
+	
+	// Check if the file exists
+	if (file_exists($path))
+	{
 		require $path;
+
+		// Register the path to check for controllers and views
+		Load::register_path(APPPATH . "/plugins/{$plugin['file']}");
+
+		// Initiate the plugin
 		$plugin = 'Plugin_' . $plugin['file'];
 		$plugin = $plugin::init();
 	}
