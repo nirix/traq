@@ -153,9 +153,19 @@ class AdminPluginsController extends AdminBase
 		$file = htmlspecialchars($file);
 		
 		$class_name = "Plugin_{$file}";
+
+		// Check if the plugin file exists
+		if (file_exists(APPPATH . "/plugins/{$file}.plugin.php") and !class_exists($class_name))
+		{
+			require APPPATH . "/plugins/{$file}.plugin.php";
+		}
+
+		// Check if the class exists
 		if (class_exists($class_name))
+		{
 			$class_name::__uninstall();
-		
+		}
+
 		$plugin = Plugin::find('file', $file);
 		$plugin->delete();
 		
