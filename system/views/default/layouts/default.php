@@ -12,8 +12,8 @@
 		<?php echo HTML::js_inc('//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js'); ?>
 		<?php echo HTML::js_inc(Request::base() . 'js.php?js=all'); ?>
 		<?php echo HTML::js_inc(Request::base('_js.js')); ?>
-		<?php FishHook::run('template:layouts:global'); ?>
-		<?php FishHook::run('template:layouts:default'); ?>
+		<?php FishHook::run('template:layouts/global/head'); ?>
+		<?php FishHook::run('template:layouts/default/head'); ?>
 	</head>
 	<body>
 		<div id="overlay_blackout"></div>
@@ -44,6 +44,7 @@
 				<?php } else { ?>
 					<li<?php echo iif(active_nav('/'), ' class="active"')?>><?php echo HTML::link(l('projects'), null); ?></li>
 				<?php } ?>
+				<?php FishHook::run('template:layouts/default/main_nav'); ?>
 				</ul>
 			</nav>
 			<div id="page">

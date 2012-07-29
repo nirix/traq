@@ -1,5 +1,6 @@
 <div id="meta_nav">
 	<ul id="user_nav">
+		<?php FishHook::run('template:layouts/_meta_nav/user_nav'); ?>
 	<?php if (LOGGEDIN) { ?>
 		<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
 		<li><?php echo HTML::link(l('logout'), '/logout'); ?></li>
