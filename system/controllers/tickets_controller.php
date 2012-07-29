@@ -84,7 +84,7 @@ class TicketsController extends AppController
 				// All open, or all closed statuses
 				if ($value == 'open' or $value == 'closed')
 				{
-					foreach (TicketStatus::select('id')->where('status', ($value == 'open' ? 1 : 0))->exec()->fetch_all() as $status)
+					foreach (Status::select('id')->where('status', ($value == 'open' ? 1 : 0))->exec()->fetch_all() as $status)
 					{
 						$filter_sql[] = $status->id;
 					}
@@ -94,7 +94,7 @@ class TicketsController extends AppController
 				{
 					foreach (explode(',', $value) as $name)
 					{
-						$status = TicketStatus::find('name', urldecode($name));
+						$status = Status::find('name', urldecode($name));
 						$filter_sql[] = $status->id;
 					}
 				}
@@ -105,7 +105,7 @@ class TicketsController extends AppController
 			{
 				foreach (explode(',', $value) as $name)
 				{
-					$type = TicketType::find('name', urldecode($name));
+					$type = Type::find('name', urldecode($name));
 					$filter_sql[] = $type->id;
 				}
 				$sql[] = "type_id IN (" . implode(', ', $filter_sql) . ")";
