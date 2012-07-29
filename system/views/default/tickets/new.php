@@ -56,7 +56,9 @@
 	</form>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			traq.load_ticket_template();
+			if ($('#description').val() == '') {
+				traq.load_ticket_template();
+			}
 			$('#type').change(function() {
 				traq.load_ticket_template();
 			});
