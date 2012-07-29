@@ -66,7 +66,7 @@ class MiscController extends Controller
 	{
 		// No view, just print the ticket template
 		$this->_render['view'] = false;
-		echo TicketType::find($type_id)->template;
+		echo Type::find($type_id)->template;
 	}
 
 	/**

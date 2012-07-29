@@ -6,7 +6,7 @@
 		<div class="tabular box">
 			<div class="group">
 				<?php echo Form::label(l('type')); ?>
-				<?php echo Form::select('type', TicketType::select_options()); ?>
+				<?php echo Form::select('type', Type::select_options()); ?>
 			</div>
 			<div class="summary group">
 				<?php echo Form::label(l('summary'), 'summary'); ?>
@@ -40,7 +40,7 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('status'), 'status'); ?>
-					<?php echo Form::select('status', TicketStatus::select_options(), array('value' => 1)); ?>
+					<?php echo Form::select('status', Status::select_options(), array('value' => 1)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>

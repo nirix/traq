@@ -60,13 +60,11 @@ class Ticket extends Model
 	
 	protected static $_belongs_to = array(
 		'user', 'project', 'milestone', 'component',
-		'priority', 'severity',
+		'priority', 'severity', 'type', 'status',
 
 		// Relations with different models and such
 		'assigned_to' => array('model' => 'user'),
 		'version'     => array('model' => 'milestone'),
-		'status'      => array('model' => 'ticketstatus'),
-		'type'        => array('model' => 'tickettype')
 	);
 
 	protected static $_filters_after = array(
@@ -131,7 +129,7 @@ class Ticket extends Model
 		}
 
 		// Update ticket open/closed state if ticket status has changed.
-		$status = TicketStatus::find($this->_data['status_id']);
+		$status = Status::find($this->_data['status_id']);
 		if (isset($this->_data['is_closed']))
 		{
 			if (($this->_data['is_closed'] == 1 and $status->status == 1)

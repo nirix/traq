@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class tatus extends Model
+class Status extends Model
 {
 	protected static $_name = 'statuses';
 	protected static $_properties = array(

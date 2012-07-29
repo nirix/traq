@@ -129,7 +129,7 @@
 			<div class="properties group">
 				<div class="field">
 					<?php echo Form::label(l('type'), 'type'); ?>
-					<?php echo Form::select('type', TicketType::select_options(), array('value' => $ticket->type_id)); ?>
+					<?php echo Form::select('type', Type::select_options(), array('value' => $ticket->type_id)); ?>
 				</div>
 				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
 				<div class="field">
@@ -160,7 +160,7 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('status'), 'status'); ?>
-					<?php echo Form::select('status', TicketStatus::select_options(), array('value' => $ticket->status_id)); ?>
+					<?php echo Form::select('status', Status::select_options(), array('value' => $ticket->status_id)); ?>
 				</div>
 				<?php } ?>
 				<div class="field">
