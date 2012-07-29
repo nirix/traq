@@ -108,3 +108,8 @@ Router::add('/admin/tickets/statuses/([0-9]+)/(edit|delete)', 'Admin::TicketStat
 Router::add('/admin/severities', 'Admin::Severities::index');
 Router::add('/admin/severities/new', 'Admin::Severities::new');
 Router::add('/admin/severities/([0-9]+)/(edit|delete)', 'Admin::Severities::$2/$1');
+
+// Priorities
+Router::add('/admin/priorities', 'Admin::Priorities::index');
+Router::add('/admin/priorities/new', 'Admin::Priorities::new');
+Router::add('/admin/priorities/([0-9]+)/(edit|delete)', 'Admin::Priorities::$2/$1');
