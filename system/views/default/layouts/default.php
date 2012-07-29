@@ -44,7 +44,7 @@
 				<?php } else { ?>
 					<li<?php echo iif(active_nav('/'), ' class="active"')?>><?php echo HTML::link(l('projects'), null); ?></li>
 				<?php } ?>
-				<?php FishHook::run('template:layouts/default/main_nav', array($project)); ?>
+				<?php FishHook::run('template:layouts/default/main_nav', array(isset($project) ? $project : false)); ?>
 				</ul>
 			</nav>
 			<div id="page">
