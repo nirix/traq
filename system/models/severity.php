@@ -48,4 +48,23 @@ class Severity extends Model
 		}
 		return $options;
 	}
+
+	/**
+	 * Checks if the groups data is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid()
+	{
+		$errors = array();
+		
+		// Make sure the name is set...
+		if (empty($this->_data['name']))
+		{
+			$errors['name'] = l('errors.name_blank');
+		}
+		
+		$this->errors = $errors;
+		return !count($errors) > 0;
+	}
 }

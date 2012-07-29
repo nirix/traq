@@ -34,6 +34,7 @@
 					<li<?php echo iif(active_nav('/admin/plugins(.*)'), ' class="active"')?>><?php echo HTML::link(l('plugins'), "/admin/plugins"); ?></li>
 					<li<?php echo iif(active_nav('/admin/tickets/types(.*)'), ' class="active"')?>><?php echo HTML::link(l('ticket_types'), "/admin/tickets/types"); ?></li>
 					<li<?php echo iif(active_nav('/admin/tickets/statuses(.*)'), ' class="active"')?>><?php echo HTML::link(l('ticket_statuses'), "/admin/tickets/statuses"); ?></li>
+					<li<?php echo iif(active_nav('/admin/severities(.*)'), ' class="active"')?>><?php echo HTML::link(l('severities'), "/admin/severities"); ?></li>
 				</ul>
 			</nav>
 			<div id="page">

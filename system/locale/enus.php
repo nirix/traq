@@ -146,6 +146,9 @@ class Locale_enUS extends Locale
 			'role' => "Role",
 			'add' => "Add",
 			'enable_wiki' => "Enable Wiki",
+			'severities' => 'Severities',
+			'new_severity' => 'New Severity',
+			'edit_severity' => 'Edit Severity',
 
 			// Project settings
 			'new_milestone' => "New Milestone",
