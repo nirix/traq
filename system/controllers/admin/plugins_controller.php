@@ -61,22 +61,28 @@ class AdminPluginsController extends AdminBase
 				if (!isset($plugins['enabled'][$match[1]]))
 				{
 					require $plugins_dir . "{$match[1]}.plugin.php";
-					$class = "Plugin_{$match[1]}";
-					$plugins['disabled'][$match[1]] = array_merge(
-						$class::info(),
-						array(
-							'installed' => isset($plugins['disabled'][$match[1]]),
-							'enabled' => false,
-							'file' => $match[1]
-						)
-					);
+					$class_name = "Plugin_{$match[1]}";
+					if (class_exists($class_name))
+					{
+						$plugins['disabled'][$match[1]] = array_merge(
+							$class_name::info(),
+							array(
+								'installed' => isset($plugins['disabled'][$match[1]]),
+								'enabled' => false,
+								'file' => $match[1]
+							)
+						);
+					}
 				}
 				// It's enabled, only call the info() method.
 				else
 				{
-					$class = "Plugin_{$match[1]}";
-					$key = isset($plugins['enabled'][$match[1]]) ? 'enabled' : 'disabled';
-					$plugins[$key][$match[1]] = array_merge($class::info(), $plugins[$key][$match[1]]);
+					$class_name = "Plugin_{$match[1]}";
+					if (class_exists($class_name))
+					{
+						$key = isset($plugins['enabled'][$match[1]]) ? 'enabled' : 'disabled';
+						$plugins[$key][$match[1]] = array_merge($class_name::info(), $plugins[$key][$match[1]]);
+					}
 				}
 			}
 		}
@@ -95,12 +101,14 @@ class AdminPluginsController extends AdminBase
 		require APPPATH . "/plugins/{$file}.plugin.php";
 		
 		$class_name = "Plugin_{$file}";
-		$class_name::__enable();
-		
-		$plugin = Plugin::find('file', $file);
-		$plugin->set('enabled', 1);
-		$plugin->save();
-		
+		if (class_exists($class_name))
+		{
+			$class_name::__enable();
+			$plugin = Plugin::find('file', $file);
+			$plugin->set('enabled', 1);
+			$plugin->save();
+		}
+
 		Request::redirect(Request::base('/admin/plugins'));
 	}
 	
@@ -114,12 +122,14 @@ class AdminPluginsController extends AdminBase
 		$file = htmlspecialchars($file);
 		
 		$class_name = "Plugin_{$file}";
-		$class_name::__disable();
-		
-		$plugin = Plugin::find('file', $file);
-		$plugin->set('enabled', 0);
-		$plugin->save();
-		
+		if (class_exists($class_name))
+		{
+			$class_name::__disable();
+			$plugin = Plugin::find('file', $file);
+			$plugin->set('enabled', 0);
+			$plugin->save();
+		}
+
 		Request::redirect(Request::base('/admin/plugins'));
 	}
 	
@@ -134,12 +144,14 @@ class AdminPluginsController extends AdminBase
 		require APPPATH . "/plugins/{$file}.plugin.php";
 		
 		$class_name = "Plugin_{$file}";
-		$class_name::__install();
-		
-		$plugin = new Plugin(array('file' => $file));
-		$plugin->set('enabled', 1);
-		$plugin->save();
-		
+		if (class_exists($class_name))
+		{
+			$class_name::__install();
+			$plugin = new Plugin(array('file' => $file));
+			$plugin->set('enabled', 1);
+			$plugin->save();
+		}
+
 		Request::redirect(Request::base('/admin/plugins'));
 	}
 	
