@@ -1,5 +1,5 @@
 <div class="content">
-	<?php echo HTML::link(l('new_ticket_status'), '/admin/tickets/statuses/new', array('class' => 'button_new', 'data-overlay' => true)); ?>
+	<?php echo HTML::link(l('new_status'), '/admin/tickets/statuses/new', array('class' => 'button_new', 'data-overlay' => true)); ?>
 </div>
 <div>
 	<table class="list">

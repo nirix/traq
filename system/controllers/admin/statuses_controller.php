@@ -21,24 +21,24 @@
 require __DIR__ . '/base.php';
 
 /**
- * Admin Ticket Statuses controller
+ * Admin Statuses controller
  *
  * @author Jack P.
  * @since 3.0
  * @package Traq
  * @subpackage Controllers
  */
-class AdminTicketStatusesController extends AdminBase
+class AdminStatusesController extends AdminBase
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->title(l('ticket_statuses'));
+		$this->title(l('statuses'));
 	}
 
 	public function action_index()
 	{
-		$statuses = TicketStatus::fetch_all();
+		$statuses = Status::fetch_all();
 		View::set('statuses', $statuses);
 	}
 
@@ -50,7 +50,7 @@ class AdminTicketStatusesController extends AdminBase
 		$this->title(l('new'));
 
 		// Create a new status object.
-		$status = new TicketStatus;
+		$status = new Status;
 
 		// Check if the form has been submitted.
 		if (Request::$method == 'post')
@@ -85,7 +85,7 @@ class AdminTicketStatusesController extends AdminBase
 		$this->title(l('edit'));
 
 		// Fetch the status
-		$status = TicketStatus::find($id);
+		$status = Status::find($id);
 
 		// Check if the form has been submitted.
 		if (Request::$method == 'post')
@@ -118,7 +118,7 @@ class AdminTicketStatusesController extends AdminBase
 	public function action_delete($id)
 	{
 		// Fetch the status, delete it and redirect.
-		$status = TicketStatus::find($id);
+		$status = Status::find($id);
 		$status->delete();
 		Request::redirect(Request::base('/admin/tickets/statuses'));
 	}

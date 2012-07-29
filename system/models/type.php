@@ -18,9 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class TicketType extends Model
+class Type extends Model
 {
-	protected static $_name = 'ticket_types';
+	protected static $_name = 'types';
 	protected static $_properties = array(
 		'id',
 		'name',
@@ -47,7 +47,7 @@ class TicketType extends Model
 		// Check if the bullet is set
 		if ($this->_data['changelog'] and empty($this->_data['bullet']))
 		{
-			$errors['bullet'] = l('errors.ticket_type.bullet_blank');
+			$errors['bullet'] = l('errors.type.bullet_blank');
 		}
 		
 		$this->errors = $errors;

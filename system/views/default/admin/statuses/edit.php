@@ -1,9 +1,9 @@
 <div class="content">
-	<h3><?php echo l('edit_ticket_status'); ?></h3>
+	<h3><?php echo l('edit_status'); ?></h3>
 	<form action="<?php echo Request::full_uri(); ?>" method="post">
 		<?php show_errors($status->errors); ?>
 		<div class="tabular box">
-			<?php View::render('admin/ticketstatuses/_form'); ?>
+			<?php View::render('admin/statuses/_form'); ?>
 		</div>
 		<div class="actions">
 			<input type="submit" value="<?php echo l('save'); ?>" />

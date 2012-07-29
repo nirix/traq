@@ -371,12 +371,12 @@ CREATE TABLE `traq_ticket_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_ticket_status
+# Dump of table traq_statuses
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_ticket_status`;
+DROP TABLE IF EXISTS `traq_statuses`;
 
-CREATE TABLE `traq_ticket_status` (
+CREATE TABLE `traq_statuses` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` smallint(6) NOT NULL,
@@ -384,9 +384,9 @@ CREATE TABLE `traq_ticket_status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_ticket_status` WRITE;
+LOCK TABLES `traq_statuses` WRITE;
 
-INSERT INTO `traq_ticket_status` (`id`, `name`, `status`, `changelog`)
+INSERT INTO `traq_statuses` (`id`, `name`, `status`, `changelog`)
 VALUES
 	(1,'New',1,0),
 	(2,'Accepted',1,0),
@@ -395,12 +395,12 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_ticket_types
+# Dump of table traq_types
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_ticket_types`;
+DROP TABLE IF EXISTS `traq_types`;
 
-CREATE TABLE `traq_ticket_types` (
+CREATE TABLE `traq_types` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bullet` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
@@ -409,9 +409,9 @@ CREATE TABLE `traq_ticket_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_ticket_types` WRITE;
+LOCK TABLES `traq_types` WRITE;
 
-INSERT INTO `traq_ticket_types` (`id`, `name`, `bullet`, `changelog`, `template`)
+INSERT INTO `traq_types` (`id`, `name`, `bullet`, `changelog`, `template`)
 VALUES
 	(1,'Defect','-',1,''),
 	(2,'Feature Request','+',1,''),

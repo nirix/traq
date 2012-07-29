@@ -21,34 +21,34 @@
 require __DIR__ . '/base.php';
 
 /**
- * Admin Ticket Types controller
+ * Admin Types controller
  *
  * @author Jack P.
  * @since 3.0
  * @package Traq
  * @subpackage Controllers
  */
-class AdminTicketTypesController extends AdminBase
+class AdminTypesController extends AdminBase
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->title(l('ticket_types'));
+		$this->title(l('types'));
 	}
 	
 	public function action_index()
 	{
-		$types = TicketType::fetch_all();
+		$types = Type::fetch_all();
 		View::set('types', $types);
 	}
 	
 	/**
-	 * New ticket type page.
+	 * New type page.
 	 */
 	public function action_new()
 	{
-		// Create a new ticket type object
-		$type = new TicketType();
+		// Create a new type object
+		$type = new Type();
 		
 		// Check if the form has been submitted
 		if (Request::$method == 'post')
@@ -75,14 +75,14 @@ class AdminTicketTypesController extends AdminBase
 	}
 	
 	/**
-	 * Edit ticket type.
+	 * Edit type.
 	 *
 	 * @param integer $id
 	 */
 	public function action_edit($id)
 	{
-		// Find the ticket type
-		$type = TicketType::find($id);
+		// Find the type
+		$type = Type::find($id);
 		
 		// Check if the form has been submitted
 		if (Request::$method == 'post')
@@ -109,14 +109,14 @@ class AdminTicketTypesController extends AdminBase
 	}
 	
 	/**
-	 * Delete ticket type.
+	 * Delete type.
 	 *
 	 * @param integer $id
 	 */
 	public function action_delete($id)
 	{
-		// Find the ticket type, delete and redirect.
-		$type = TicketType::find($id);
+		// Find the type, delete and redirect.
+		$type = Type::find($id);
 		$type->delete();
 		Request::redirect(Request::base('/admin/tickets/types'));
 	}

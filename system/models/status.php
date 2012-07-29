@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -18,9 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class TicketStatus extends Model
+class tatus extends Model
 {
-	protected static $_name = 'ticket_status';
+	protected static $_name = 'statuses';
 	protected static $_properties = array(
 		'id',
 		'name',
