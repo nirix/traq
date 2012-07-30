@@ -78,7 +78,7 @@
  	{
  		if (!isset($this->_ticket_status))
  		{
- 			$this->_ticket_status = TicketStatus::find($this->data);
+ 			$this->_ticket_status = Status::find($this->data);
  		}
  		return $this->_ticket_status;
  	}
