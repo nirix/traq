@@ -142,11 +142,15 @@ class UsersController extends AppController
 				// Verify password
 				if ($user->verify_password(Request::$post['password']))
 				{
-					// Set the info
-					$user->set(array(
+					$data = array(
 						'name' => Request::$post['name'],
 						'email' => Request::$post['email']
-					));
+					);
+
+					FishHook::add('controller:users::usercp/save');
+
+					// Set the info
+					$user->set($data);
 
 					// Are we setting a new password?
 					if (Request::$post['new_password'] != '')
