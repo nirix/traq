@@ -139,7 +139,6 @@ class Locale_enUS extends Locale
 			'install' => "Install",
 			'uninstall' => "Uninstall",
 			'roles' => "Roles",
-			'roles' => "Roles",
 			'new_role' => "New Role",
 			'edit_role' => "Edit Role",
 			'due' => "Due",
