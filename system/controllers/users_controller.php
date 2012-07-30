@@ -147,7 +147,7 @@ class UsersController extends AppController
 						'email' => Request::$post['email']
 					);
 
-					FishHook::add('controller:users::usercp/save');
+					FishHook::add('controller:users::usercp/save', array(&$data));
 
 					// Set the info
 					$user->set($data);
