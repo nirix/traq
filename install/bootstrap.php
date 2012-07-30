@@ -22,6 +22,7 @@ define("APPPATH", dirname(__FILE__));
 define("SYSPATH", dirname(__DIR__) . '/system/avalon');
 
 require 'ant.php';
+require SYSPATH . '/core/load.php';
 require SYSPATH . '/libs/view.php';
 require SYSPATH . '/core/database.php';
 require SYSPATH . '/database/driver.php';
