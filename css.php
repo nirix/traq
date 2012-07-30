@@ -25,6 +25,7 @@ header("content-type: text/css; charset: UTF-8;");
 if (extension_loaded('zlib'))
 {
 	// We can!
+	ob_end_clean();
 	ob_start('ob_gzhandler');
 }
 
