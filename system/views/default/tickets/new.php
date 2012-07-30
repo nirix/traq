@@ -10,7 +10,7 @@
 			</div>
 			<div class="summary group">
 				<?php echo Form::label(l('summary'), 'summary'); ?>
-				<?php echo Form::text('summary'); ?>
+				<?php echo Form::text('summary', array('value' => isset(Request::$post['summary']) ? Request::$post['summary'] : '')); ?>
 			</div>
 			<div class="description group">
 				<?php echo Form::label(l('description'), 'description'); ?>
