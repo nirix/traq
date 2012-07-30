@@ -11,7 +11,7 @@
 		<?php echo HTML::js_inc('//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js'); ?>
 		<?php echo HTML::js_inc('//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js'); ?>
 		<?php echo HTML::js_inc(Request::base() . 'js.php?js=all'); ?>
-		<?php echo HTML::js_inc(Request::base('_js.js')); ?>
+		<?php echo HTML::js_inc(Request::base('_js')); ?>
 		<?php FishHook::run('template:layouts/global/head'); ?>
 		<?php FishHook::run('template:layouts/default/head'); ?>
 	</head>

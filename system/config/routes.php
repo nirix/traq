@@ -25,7 +25,7 @@ Router::add('/(login|logout|register|usercp)', 'Users::$1');
 Router::add('/users/([0-9]+)', 'Users::view/$1');
 
 // Misc
-Router::add('/_js.js', 'Misc::javascript');
+Router::add('/_js(?:.js)?', 'Misc::javascript');
 Router::add('/_ajax/ticket_template/([0-9]+)', 'Misc::ticket_template/$1');
 Router::add('/_ajax/autocomplete/(username)', 'Misc::autocomplete_$1');
 
