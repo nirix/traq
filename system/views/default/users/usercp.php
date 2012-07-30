@@ -23,6 +23,7 @@
 					<?php echo Form::label(l('new_password'), 'new_password'); ?>
 					<?php echo Form::password('new_password'); ?>
 				</div>
+				<?php FishHook::run('template:users/usercp/info'); ?>
 			</div>
 		</fieldset>
 
@@ -35,6 +36,8 @@
 				</div>
 			</div>
 		</fieldset>
+
+		<?php FishHook::run('template:users/usercp'); ?>
 
 		<div class="clearfix"></div>
 		<div class="actions">
