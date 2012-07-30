@@ -138,7 +138,7 @@ class Locale_enUS extends Locale
 			'timeline_time_format' => "Timeline Time Format",
 			'install' => "Install",
 			'uninstall' => "Uninstall",
-			'project_roles' => "Project Roles",
+			'roles' => "Roles",
 			'roles' => "Roles",
 			'new_role' => "New Role",
 			'edit_role' => "Edit Role",

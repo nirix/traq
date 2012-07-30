@@ -30,6 +30,12 @@ require __DIR__ . '/base.php';
  */
 class AdminProjectRolesController extends AdminBase
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->title(l('roles'));
+	}
+
 	/**
 	 * Role listing page.
 	 */
