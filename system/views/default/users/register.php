@@ -8,6 +8,10 @@
 				<?php echo Form::text('username'); ?>
 			</div>
 			<div class="group">
+				<label><?php echo l('name'); ?></label>
+				<?php echo Form::text('name'); ?>
+			</div>
+			<div class="group">
 				<label><?php echo l('password'); ?></label>
 				<?php echo Form::password('password'); ?>
 			</div>
