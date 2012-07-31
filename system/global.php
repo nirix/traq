@@ -46,6 +46,11 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
     $stripslashes_deep($_REQUEST, $stripslashes_deep);
 }
 
+// Query string crap
+if (!isset($_SERVER['QUERY_STRING'])) {
+    $_SERVER['QUERY_STRING'] = '';
+}
+
 // Fetch core files.
 require(TRAQPATH.'system/libraries/db.class.php');
 require(TRAQPATH.'system/libraries/user.class.php');
@@ -72,4 +77,3 @@ $uri->style = file_exists(TRAQPATH . '.htaccess') ? settings('seo_urls') : 0;
 require('locale/'.settings('locale'));
 
 ($hook = FishHook::hook('global')) ? eval($hook) : false;
-?>

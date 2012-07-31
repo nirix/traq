@@ -102,8 +102,8 @@ if (isset($_REQUEST['sort']) and in_array($_REQUEST['sort'], $sorting)) {
 	$sort = 'priority';
 }
 
-if (isset($_REQUEST['order']) and in_array($_REQUEST['order'], $ordering)) {
-	$order = $_REQUEST['order'];
+if (isset($_REQUEST['order']) and isset($ordering[$_REQUEST['order']])) {
+	$order = $ordering[$_REQUEST['order']];
 } else {
 	$order = 'DESC';
 }
