@@ -721,6 +721,7 @@ input[type=url] {
     display: inline-block; }
   .profile.content .sidebar .information dl dd {
     width: auto;
+    min-width: 50px;
     margin: 0;
     display: inline-block; }
 .profile.content #assigned_to table.list th.project {
