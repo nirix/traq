@@ -21,7 +21,8 @@
 define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
 
 Router::add('root', 'Projects::index');
-Router::add('/(login|logout|register|usercp)', 'Users::$1');
+Router::add('/(login|logout|register)', 'Users::$1');
+Router::add('/usercp', 'Usercp::index');
 Router::add('/users/([0-9]+)', 'Users::view/$1');
 
 // Misc
