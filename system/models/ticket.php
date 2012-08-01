@@ -342,6 +342,8 @@ class Ticket extends Model
 	public function __toArray($fields = null)
 	{
 		$data = parent::__toArray($fields);
+		$data['id'] = $data['ticket_id'];
+		unset($data['ticket_id']);
 
 		// Extra data to fetch
 		$relations = array(
