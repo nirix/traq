@@ -1,6 +1,12 @@
 <div id="wrapper">
 	<div id="head">
-			<span><a href="<?php echo $uri->anchor()?>"><?php echo settings('title')?></a> <?php if(isset($project) && is_project($project['slug'])) { ?>/ <?php echo $project['name']?><?php } ?></span>
+			<span>
+				<?php if (isset($project) and is_project($project['slug'])) { ?>
+					<a href="<?php echo $uri->anchor($project['slug']); ?>"><?php echo $project['name']?></a>
+				<?php } else { ?>
+					<a href="<?php echo $uri->anchor()?>"><?php echo settings('title')?></a>
+				<?php } ?>
+			</span>
 			<div id="nav">
 				<div id="meta_nav">
 					<ul>
