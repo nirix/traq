@@ -43,6 +43,12 @@ function to_json($data, $options = array())
 		$data = to_array($data);
 	}
 
+	$new_data = array();
+	foreach ($data as $k => $v)
+	{
+		$data[$k] = to_array($v);
+	}
+
 	// Remove the parts we don't want...
 	if (isset($options['hide']) and is_array($data))
 	{
