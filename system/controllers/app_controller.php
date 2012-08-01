@@ -157,7 +157,7 @@ class AppController extends Controller
 			$this->_render['view'] = $this->_render['view'] . $extension;
 		}
 
-		if (Router::$extension == '.json')
+		if (Router::$extension == '.json' and View::exists(str_replace('.json', '', $this->_render['view']) . '.json'))
 		{
 			header('Content-type: application/json');
 		}

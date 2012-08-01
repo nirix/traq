@@ -214,7 +214,7 @@ class Project extends Model
 	public function __toArray($fields = null)
 	{
 		$data = parent::__toArray($fields);
-		unset($data['private_key']);
+		unset($data['private_key'], $data['next_tid']);
 		return $data;
 	}
 }
