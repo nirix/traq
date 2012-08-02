@@ -280,7 +280,7 @@ class TicketsController extends AppController
 		);
 
 		// Check the users permission to set the restricted data
-		if ($this->user->permission($project->id, 'set_all_ticket_properties'))
+		if ($this->user->permission($this->project->id, 'set_all_ticket_properties'))
 		{
 			$data['priority_id'] = Request::$post['priority'];
 			$data['status_id'] = Request::$post['status'];
