@@ -292,6 +292,16 @@ class Ticket extends Model
 				'changes' => count($changes) > 0 ? json_encode($changes) : '',
 				'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
 			));
+
+			if (!empty(Request::$post['comment']))
+			{
+				$save_queue[] = new Timeline(array(
+					'project_id' => $this->project_id,
+					'owner_id' => $this->id,
+					'action' => 'ticket_comment',
+					'user_id' => $user->id
+				));
+			}
 		}
 		
 		// Save
