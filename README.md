@@ -30,4 +30,5 @@ Licenses
 Credits
 -------
 
+- Most icons by [famfamfam.com](http://famfamfam.com). All rights reserved.
 - Some icons by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com). All rights reserved.
