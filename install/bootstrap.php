@@ -23,13 +23,15 @@ define("SYSPATH", dirname(__DIR__) . '/system/avalon');
 
 require 'ant.php';
 require SYSPATH . '/core/load.php';
-require SYSPATH . '/libs/view.php';
+require SYSPATH . '/output/view.php';
 require SYSPATH . '/libs/fishhook.php';
-require SYSPATH . '/core/database.php';
+require SYSPATH . '/database.php';
 require SYSPATH . '/database/driver.php';
 require SYSPATH . '/database/model.php';
 require '../system/models/user.php';
 require 'common.php';
+
+use avalon\output\View;
 
 session_start();
 
