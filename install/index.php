@@ -20,6 +20,8 @@
 
 require './bootstrap.php';
 
+use avalon\output\View;
+
 // Make sure the config file doesn't exist...
 if (file_exists('../system/config/database.php'))
 {
