@@ -55,7 +55,7 @@ class AdminSettingsController extends AdminBase
 
 			// Check select fields
 			foreach (array('locale', 'theme', 'allow_registration') as $select) {
-				if (empty($_settings[$select])) {
+				if (!array_key_exists($select, $_settings)) {
 					$errors[$select] = l("errors.settings.{$select}_blank");
 				}
 			}
