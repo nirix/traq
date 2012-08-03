@@ -30,7 +30,7 @@ if (extension_loaded('zlib'))
 }
 
 // Check for the CSS index in the request array..
-if (!isset($_REQUEST['css']))
+if (!isset($_REQUEST['css']) and !isset($_REQUEST['theme']))
 {
 	exit;
 }
@@ -40,13 +40,27 @@ require "./system/avalon/http/request.php";
 use avalon\http\Request;
 
 $output = array();
-foreach (explode(',', $_REQUEST['css']) as $file)
-{
-	// Check if the file exists...
-	if (file_exists(__DIR__ . "/assets/css/{$file}.css"))
-	{
-		// Add it to the output array.
-		$output[] = file_get_contents(__DIR__ . "/assets/css/{$file}.css");
+
+// assets/css files
+if (isset($_REQUEST['css'])) {
+	foreach (explode(',', $_REQUEST['css']) as $file) {
+		// Check if the file exists...
+		if (file_exists(__DIR__ . "/assets/css/{$file}.css")) {
+			// Add it to the output array.
+			$output[] = file_get_contents(__DIR__ . "/assets/css/{$file}.css");
+		}
+	}
+}
+
+// Theme css files
+if (isset($_REQUEST['theme'])) {
+	$theme = htmlspecialchars($_REQUEST['theme']);
+	foreach (explode(',', $_REQUEST['theme']) as $file) {
+		// Check if the file exists...
+		if (file_exists(__DIR__ . "/system/views/{$theme}/css/{$file}.css")) {
+			// Add it to the output array.
+			$output[] = file_get_contents(__DIR__ . "/system/views/{$theme}/css/{$file}.css");
+		}
 	}
 }
 

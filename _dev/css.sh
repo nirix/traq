@@ -1,1 +1,1 @@
-sass --watch _dev/css:assets/css
+sass --watch _dev/css:system/views/default/css
