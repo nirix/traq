@@ -27,34 +27,34 @@
   background-color: #f1f1f1; }
 
 .likeaboss_toolbar .likeaboss_h2 {
-  background-image: url(":baseuri:assets/images/text_heading_2.png"); }
+  background-image: url(":baseuri:assets/images/edit-heading-2.png"); }
 
 .likeaboss_toolbar .likeaboss_h3 {
-  background-image: url(":baseuri:assets/images/text_heading_3.png"); }
+  background-image: url(":baseuri:assets/images/edit-heading-3.png"); }
 
 .likeaboss_toolbar .likeaboss_h4 {
-  background-image: url(":baseuri:assets/images/text_heading_4.png"); }
+  background-image: url(":baseuri:assets/images/edit-heading-4.png"); }
 
 .likeaboss_toolbar .likeaboss_bold {
-  background-image: url(":baseuri:assets/images/text_bold.png"); }
+  background-image: url(":baseuri:assets/images/edit-bold.png"); }
 
 .likeaboss_toolbar .likeaboss_italic {
-  background-image: url(":baseuri:assets/images/text_italic.png"); }
+  background-image: url(":baseuri:assets/images/edit-italic.png"); }
 
 .likeaboss_toolbar .likeaboss_bullet_list {
-  background-image: url(":baseuri:assets/images/text_list_bullets.png"); }
+  background-image: url(":baseuri:assets/images/edit-list.png"); }
 
 .likeaboss_toolbar .likeaboss_number_list {
-  background-image: url(":baseuri:assets/images/text_list_numbers.png"); }
+  background-image: url(":baseuri:assets/images/edit-list-order.png"); }
 
 .likeaboss_toolbar .likeaboss_link {
-  background-image: url(":baseuri:assets/images/link.png"); }
+  background-image: url(":baseuri:assets/images/chain.png"); }
 
 .likeaboss_toolbar .likeaboss_image {
-  background-image: url(":baseuri:assets/images/picture.png"); }
+  background-image: url(":baseuri:assets/images/image.png"); }
 
 .likeaboss_toolbar .likeaboss_code {
-  background-image: url(":baseuri:assets/images/script_code.png"); }
+  background-image: url(":baseuri:assets/images/script-code.png"); }
 
 /*
  * Popover
@@ -566,13 +566,15 @@ h3.list_title {
 
 /* ==========# Sexy Buttons #========== */
 .button_new, .button_edit, .button_delete,
-.button_enable, .button_disable,
+.btn_plugin_enable, .btn_plugin_disable,
+.btn_plugin_install, .btn_plugin_uninstall,
 .button_bug_new {
   padding: 1px 0 1px 20px;
   background-position: left center;
   background-repeat: no-repeat; }
   .button_new.small, .button_edit.small, .button_delete.small,
-  .button_enable.small, .button_disable.small,
+  .btn_plugin_enable.small, .btn_plugin_disable.small,
+  .btn_plugin_install.small, .btn_plugin_uninstall.small,
   .button_bug_new.small {
     background-position: center;
     padding: 0;
@@ -583,19 +585,25 @@ h3.list_title {
     margin: 0; }
 
 .button_new {
-  background-image: url(":baseuri:assets/images/add.png"); }
+  background-image: url(":baseuri:assets/images/plus-circle.png"); }
 
 .button_edit {
   background-image: url(":baseuri:assets/images/pencil.png"); }
 
 .button_delete {
-  background-image: url(":baseuri:assets/images/delete.png"); }
+  background-image: url(":baseuri:assets/images/minus-circle.png"); }
 
-.button_enable {
-  background-image: url(":baseuri:assets/images/plugin_add.png"); }
+.btn_plugin_enable {
+  background-image: url(":baseuri:assets/images/plug-connect.png"); }
 
-.button_disable {
-  background-image: url(":baseuri:assets/images/plugin_delete.png"); }
+.btn_plugin_disable {
+  background-image: url(":baseuri:assets/images/plug-disconnect.png"); }
+
+.btn_plugin_install {
+  background-image: url(":baseuri:assets/images/plug-plus.png"); }
+
+.btn_plugin_uninstall {
+  background-image: url(":baseuri:assets/images/plug-minus.png"); }
 
 .button_bug_new {
   background-image: url(":baseuri:assets/images/bug_add.png"); }
