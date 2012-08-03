@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Users<>Roles model.
  *
@@ -43,14 +45,12 @@ class ProjectRole extends Model
 		$errors = array();
 		
 		// Make sure the name is not empty...
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 		
 		// Set errors to be accessible
-		if (count($errors) > 0)
-		{
+		if (count($errors) > 0) {
 			$this->errors = $errors;
 		}
 		
@@ -65,8 +65,7 @@ class ProjectRole extends Model
 	public static function select_options()
 	{
 		$options = array();
-		foreach (static::fetch_all() as $role)
-		{
+		foreach (static::fetch_all() as $role) {
 			$options[] = array('label' => $role->name, 'value' => $role->id);
 		}
 		return $options;

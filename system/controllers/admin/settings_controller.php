@@ -18,6 +18,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\Database;
+use avalon\http\Request;
+use avalon\output\View;
+
 require __DIR__ . '/base.php';
 
 /**
@@ -38,32 +42,26 @@ class AdminSettingsController extends AdminBase
 		$this->title(l('settings'));
 
 		// Check if the form has been submitted.
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			$_settings = Request::$post['settings'];
 
 			// Check for errors
 			$errors = array();
 
 			// Check title
-			if (empty($_settings['title']))
-			{
+			if (empty($_settings['title'])) {
 				$errors['title'] = l('errors.settings.title_blank');
 			}
 
 			// Check select fields
-			foreach (array('locale', 'theme', 'allow_registration') as $select)
-			{
-				if (empty($_settings[$select]))
-				{
+			foreach (array('locale', 'theme', 'allow_registration') as $select) {
+				if (empty($_settings[$select])) {
 					$errors[$select] = l("errors.settings.{$select}_blank");
 				}
 			}
 
-			if (!count($errors))
-			{
-				foreach ($_settings as $_setting => $_value)
-				{
+			if (!count($errors)) {
+				foreach ($_settings as $_setting => $_value) {
 					Database::connection()->update('settings')->set(array('value' => $_value))->where('setting', $_setting)->exec();
 				}
 

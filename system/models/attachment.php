@@ -18,11 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Attachment model.
  *
  * @package Traq
  * @subpackage Models
+ * @since 3.0
  * @author Jack P.
  * @copyright (c) Jack P.
  */

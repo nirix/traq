@@ -23,5 +23,7 @@ define('START_MEM',  memory_get_usage());
 
 require dirname(__FILE__) . '/system/bootstrap.php';
 
+use avalon\core\Kernel as Avalon;
+
 Avalon::init();
 Avalon::run();

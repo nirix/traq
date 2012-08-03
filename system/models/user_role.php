@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Users<>Roles model.
  *
@@ -51,8 +53,9 @@ class UserRole extends Model
 	public static function project_members($project_id)
 	{
 		$members = array();
-		foreach (static::select()->where('project_id', $project_id)->exec()->fetch_all() as $relation)
-		{
+
+		// Loop over the relations and add the user to the array
+		foreach (static::select()->where('project_id', $project_id)->exec()->fetch_all() as $relation) {
 			$members[] = $relation->user;
 		}
 

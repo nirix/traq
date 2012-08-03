@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Priorities model.
  *
@@ -42,8 +44,9 @@ class Priority extends Model
 	public static function select_options()
 	{
 		$options = array();
-		foreach (static::fetch_all() as $priority)
-		{
+
+		// Get all rows and make a Form::select() friendly arrray
+		foreach (static::fetch_all() as $priority) {
 			$options[] = array('label' => $priority->name, 'value' => $priority->id);
 		}
 		return $options;
@@ -59,8 +62,7 @@ class Priority extends Model
 		$errors = array();
 		
 		// Make sure the name is set...
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 		

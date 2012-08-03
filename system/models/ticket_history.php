@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Ticket history model.
  *
@@ -49,8 +51,7 @@ class TicketHistory extends Model
 	 */
 	protected function read_changes()
 	{
-		if (!$this->_is_new())
-		{
+		if (!$this->_is_new()) {
 			$this->_data['changes'] = json_decode($this->_data['changes'], true);
 		}
 	}

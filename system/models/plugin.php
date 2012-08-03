@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Plugin model.
  *
@@ -37,8 +39,8 @@ class Plugin extends Model
 	
 	public function is_valid()
 	{
-		if (empty($this->_data['file']))
-		{
+		// Make sure the file field isnt blank
+		if (empty($this->_data['file'])) {
 			return false;
 		}
 		return true;

@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\core\Load;
+
 /**
  * Ticket controller.
  *
@@ -58,42 +60,33 @@ class TicketsController extends AppController
 		$sql[] = "`project_id` = '{$this->project->id}'";
 		
 		// Filters
-		foreach (Request::$request as $filter => $value)
-		{
+		foreach (Request::$request as $filter => $value) {
 			// Check if the filter exists...
-			if (!in_array($filter, ticket_filters()))
-			{
+			if (!in_array($filter, ticket_filters())) {
 				continue;
 			}
 			
 			$filter_sql = array();
 			
 			// Milestone filter
-			if ($filter == 'milestone')
-			{
-				foreach (explode(',', $value) as $name)
-				{
+			if ($filter == 'milestone') {
+				foreach (explode(',', $value) as $name) {
 					$milestone = Milestone::find('slug', $name);
 					$filter_sql[] = $milestone->id;
 				}
 				$sql[] = "milestone_id IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Status filter
-			elseif ($filter == 'status')
-			{
+			elseif ($filter == 'status') {
 				// All open, or all closed statuses
-				if ($value == 'open' or $value == 'closed')
-				{
-					foreach (Status::select('id')->where('status', ($value == 'open' ? 1 : 0))->exec()->fetch_all() as $status)
-					{
+				if ($value == 'open' or $value == 'closed') {
+					foreach (Status::select('id')->where('status', ($value == 'open' ? 1 : 0))->exec()->fetch_all() as $status) {
 						$filter_sql[] = $status->id;
 					}
 				}
 				// Get each status by name
-				else
-				{
-					foreach (explode(',', $value) as $name)
-					{
+				else {
+					foreach (explode(',', $value) as $name) {
 						$status = Status::find('name', urldecode($name));
 						$filter_sql[] = $status->id;
 					}
@@ -101,20 +94,16 @@ class TicketsController extends AppController
 				$sql[] = "status_id IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Type filter
-			elseif ($filter == 'type')
-			{
-				foreach (explode(',', $value) as $name)
-				{
+			elseif ($filter == 'type') {
+				foreach (explode(',', $value) as $name) {
 					$type = Type::find('name', urldecode($name));
 					$filter_sql[] = $type->id;
 				}
 				$sql[] = "type_id IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Component filter
-			elseif ($filter == 'component')
-			{
-				foreach (explode(',', $value) as $name)
-				{
+			elseif ($filter == 'component') {
+				foreach (explode(',', $value) as $name){
 					$component = Component::find('name', urldecode($name));
 					$filter_sql[] = $component->id;
 				}
@@ -125,8 +114,7 @@ class TicketsController extends AppController
 		// Fetch tickets
 		$tickets = array();
 		$rows = $this->db->select()->from('tickets')->custom_sql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->order_by('priority_id', 'ASC')->exec()->fetch_all();
-		foreach($rows as $row)
-		{
+		foreach($rows as $row) {
 			$tickets[] = new Ticket($row, false);
 		}
 		
@@ -158,26 +146,22 @@ class TicketsController extends AppController
 		$ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
 		// Don't let the owner vote on their own ticket
-		if ($this->user->id == $ticket->user_id)
-		{
+		if ($this->user->id == $ticket->user_id) {
 			return false;
 		}
 
 		// Does the user have permission to vote on tickets?
-		if (!$this->user->permission($this->project->id, 'vote_on_tickets'))
-		{
+		if (!$this->user->permission($this->project->id, 'vote_on_tickets')) {
 			View::set('error', l('errors.must_be_logged_in'));
 		}
 		// Cast the vote
-		elseif ($ticket->add_vote($this->user->id))
-		{
+		elseif ($ticket->add_vote($this->user->id)) {
 			$ticket->save();
 			View::set('ticket', $ticket);
 			View::set('error', false);
 		}
 		// They've already voted...
-		else
-		{
+		else {
 			View::set('error', l('errors.already_voted'));
 		}
 	}
@@ -195,11 +179,9 @@ class TicketsController extends AppController
 		$voters = array();
 
 		// Have there been any votes?
-		if (isset($ticket->extra['voted']) and is_array($ticket->extra['voted']))
-		{
+		if (isset($ticket->extra['voted']) and is_array($ticket->extra['voted'])) {
 			// Populate the voters array
-			foreach ($ticket->extra['voted'] as $voter)
-			{
+			foreach ($ticket->extra['voted'] as $voter) {
 				$voters[] = User::find($voter);
 			}
 		}
@@ -219,8 +201,7 @@ class TicketsController extends AppController
 		$ticket = new Ticket;
 		
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the ticket data
 			$data = array(
 				'summary' => Request::$post['summary'],
@@ -235,8 +216,7 @@ class TicketsController extends AppController
 			);
 
 			// Does the user have permission to set all properties?
-			if ($this->user->permission($this->project->id, 'set_all_ticket_properties'))
-			{
+			if ($this->user->permission($this->project->id, 'set_all_ticket_properties')) {
 				$data['priority_id'] = Request::$post['priority'];
 				$data['status_id'] = Request::$post['status'];
 				$data['assigned_to_id'] = Request::$post['assigned_to'];
@@ -248,8 +228,7 @@ class TicketsController extends AppController
 			// Check if the ticket data is valid...
 			// if it is, save the ticket to the DB and
 			// redirect to the ticket page.
-			if ($ticket->save())
-			{
+			if ($ticket->save()) {
 				Request::redirect(Request::base($ticket->href()));
 			}
 		}
@@ -280,22 +259,19 @@ class TicketsController extends AppController
 		);
 
 		// Check the users permission to set the restricted data
-		if ($this->user->permission($this->project->id, 'set_all_ticket_properties'))
-		{
+		if ($this->user->permission($this->project->id, 'set_all_ticket_properties')) {
 			$data['priority_id'] = Request::$post['priority'];
 			$data['status_id'] = Request::$post['status'];
 			$data['assigned_to_id'] = Request::$post['assigned_to'];
 		}
 
 		// Check if we're adding an attachment and that the user has permission to do so
-		if ($this->user->permission($this->project->id, 'add_attachments') and isset($_FILES['attachment']) and isset($_FILES['attachment']['name']))
-		{
+		if ($this->user->permission($this->project->id, 'add_attachments') and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
 			$data['attachment'] = $_FILES['attachment']['name'];
 		}
 
 		// Update the ticket
-		if ($ticket->update_data($data))
-		{
+		if ($ticket->update_data($data)) {
 			Request::redirect(Request::base($ticket->href()));
 		}
 	}
@@ -313,14 +289,12 @@ class TicketsController extends AppController
 		$this->title(l('edit_ticket'));
 
 		// Has the form been submitted?
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the ticket body
 			$ticket->body = Request::$post['body'];
 
 			// Save and redirect
-			if ($ticket->save())
-			{
+			if ($ticket->save()) {
 				Request::redirect(Request::base($ticket->href()));
 			}
 		}
@@ -334,32 +308,30 @@ class TicketsController extends AppController
 	public function _check_permission($method)
 	{
 		// Set the proper action depending on the method
-		switch($method)
-		{
+		switch($method) {
 			// Create ticket
 			case 'new':
 				$action = 'create_tickets';
-			break;
+				break;
 			
 			// Edit ticket description
 			case 'edit':
 				$action = 'edit_ticket_description';
-			break;
+				break;
 
 			// Update ticket properties
 			case 'update':
 				$action = 'update_tickets';
-			break;
+				break;
 
 			// Delete tickets
 			case 'delete':
 				$action = 'delete_tickets';
-			break;
+				break;
 		}
 
 		// Check if the user has permission
-		if (!current_user()->permission($this->project->id, $action))
-		{
+		if (!current_user()->permission($this->project->id, $action)) {
 			// oh noes! display the no permission page.
 			$this->show_no_permission();
 			return false;

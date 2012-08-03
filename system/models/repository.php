@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -17,6 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
+
+use avalon\database\Model;
 
 /**
  * Repository model.
@@ -55,20 +57,18 @@ class Repository extends Model
 		$errors = array();
 
 		// Check if slug is empty
-		if (empty($this->_data['slug']))
-		{
+		if (empty($this->_data['slug'])) {
 			$errors['slug'] = l('errors.slug_blank');
 		}
 
 		// Make sure slug isn't in use
-		if (Repository::select('id')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->_data['project_id'])->exec()->row_count())
-		{
+		$repo = Repository::select('id')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->_data['project_id']);
+		if ($repo->exec()->row_count()) {
 			$errors['slug'] = l('errors.slug_in_use');
 		}
 
 		// Check if location empty
-		if (empty($this->_data['location']))
-		{
+		if (empty($this->_data['location'])) {
 			$errors['location'] = l('errors.scm.location_blank');
 		}
 

@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -18,6 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
+/**
+ * Component model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @since 3.0
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
 class Component extends Model
 {
 	protected static $_name = 'components';
@@ -37,8 +48,7 @@ class Component extends Model
 		$errors = array();
 		
 		// Check if the name is empty
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 		
@@ -54,8 +64,7 @@ class Component extends Model
 	public static function select_options($project_id)
 	{
 		$options = array();
-		foreach (static::select()->where('project_id', $project_id)->order_by('name', 'ASC')->exec()->fetch_all() as $component)
-		{
+		foreach (static::select()->where('project_id', $project_id)->order_by('name', 'ASC')->exec()->fetch_all() as $component) {
 			$options[] = array('label' => $component->name, 'value' => $component->id);
 		}
 		return $options;

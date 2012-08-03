@@ -18,6 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
+/**
+ * Project model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @since 3.0
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
 class Project extends Model
 {
 	protected static $_name = 'projects';
@@ -62,11 +73,10 @@ class Project extends Model
 	 */
 	public static function select_options()
 	{
-		$rows = static::fetch_all();
-
 		$options = array();
-		foreach ($rows as $row)
-		{
+
+		// Get all the rows and make a Form::select() friendly array
+		foreach (static::fetch_all() as $row) {
 			$options[] = array('label' => $row->name, 'value' => $row->id);
 		}
 
@@ -83,24 +93,20 @@ class Project extends Model
 		$milestones = Milestone::select()->where('project_id', $this->id)->order_by('displayorder', $sort);
 
 		// Check if we're fetching uncompleted milestones
-		if ($status == 'open')
-		{
+		if ($status == 'open') {
 			$milestones = $milestones->where('status', 1);
 		}
 		// Or if we're fetching completed milestones
-		elseif ($status == 'closed')
-		{
+		elseif ($status == 'closed') {
 			$milestones = $milestones->where('status', 2);
 		}
 		// or even cancelled milestones
-		elseif ($status == 'cancelled')
-		{
+		elseif ($status == 'cancelled') {
 			$milestones = $milestones->where('status', 0);
 		}
 
 		$options = array();
-		foreach ($milestones->exec()->fetch_all() as $milestone)
-		{
+		foreach ($milestones->exec()->fetch_all() as $milestone) {
 			$options[] = array('label' => $milestone->name, 'value' => $milestone->id);
 		}
 		return $options;
@@ -114,8 +120,7 @@ class Project extends Model
 	public function member_select_options()
 	{
 		$options = array();
-		foreach (UserRole::project_members($this->id) as $user)
-		{
+		foreach (UserRole::project_members($this->id) as $user) {
 			$options[] = array('label' => $user->name, 'value' => $user->id);
 		}
 		return $options;
@@ -131,20 +136,18 @@ class Project extends Model
 		$errors = array();
 		
 		// Check if the name is empty
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 		
 		// Check if the slug is empty
-		if (empty($this->_data['slug']))
-		{
+		if (empty($this->_data['slug'])) {
 			$errors['slug'] = l('errors.slug_blank');
 		}
 
 		// Make sure the slug isnt in use
-		if (Project::select('id')->where('id', ($this->_is_new() ? 0 : $this->id), '!=')->where('slug', $this->_data['slug'])->exec()->row_count())
-		{
+		$project_slug = Project::select('id')->where('id', ($this->_is_new() ? 0 : $this->id), '!=')->where('slug', $this->_data['slug']);
+		if ($project_slug->exec()->row_count()) {
 			$errors['slug'] = l('errors.slug_in_use');
 		}
 		
@@ -166,38 +169,32 @@ class Project extends Model
 	public function _before_delete()
 	{
 		// Delete milestones
-		foreach ($this->milestones->fetch_all() as $milestone)
-		{
+		foreach ($this->milestones->fetch_all() as $milestone) {
 			$milestone->delete();
 		}
 		
 		// Delete tickets
-		foreach ($this->tickets->fetch_all() as $ticket)
-		{
+		foreach ($this->tickets->fetch_all() as $ticket) {
 			$ticket->delete();
 		}
 		
 		// Delete timeline
-		foreach (Timeline::select('id')->where('project_id', $this->_data['id']) as $timeline)
-		{
+		foreach (Timeline::select('id')->where('project_id', $this->_data['id']) as $timeline) {
 			$timeline->delete();
 		}
 		
 		// Delete repositories
-		foreach ($this->repositories->fetch_all() as $repo)
-		{
+		foreach ($this->repositories->fetch_all() as $repo) {
 			$repo->delete();
 		}
 		
 		// Delete components
-		foreach ($this->components->fetch_all() as $component)
-		{
+		foreach ($this->components->fetch_all() as $component) {
 			$component->delete();
 		}
 		
 		// Delete wiki pages
-		foreach ($this->wiki_pages->fetch_all() as $wiki)
-		{
+		foreach ($this->wiki_pages->fetch_all() as $wiki) {
 			$wiki->delete();
 		}
 		

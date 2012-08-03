@@ -36,7 +36,8 @@ if (!isset($_REQUEST['css']))
 }
 
 // Fetch the request class.
-require "./system/avalon/libs/request.php";
+require "./system/avalon/http/request.php";
+use avalon\http\Request;
 
 $output = array();
 foreach (explode(',', $_REQUEST['css']) as $file)

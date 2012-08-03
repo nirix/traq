@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -18,6 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
+/**
+ * Type model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @since 3.0
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
 class Type extends Model
 {
 	protected static $_name = 'types';
@@ -39,14 +50,12 @@ class Type extends Model
 		$errors = array();
 		
 		// Check if the name is set
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 		
 		// Check if the bullet is set
-		if ($this->_data['changelog'] and empty($this->_data['bullet']))
-		{
+		if ($this->_data['changelog'] and empty($this->_data['bullet'])) {
 			$errors['bullet'] = l('errors.type.bullet_blank');
 		}
 		
@@ -62,10 +71,12 @@ class Type extends Model
 	public static function select_options()
 	{
 		$options = array();
-		foreach (static::fetch_all() as $type)
-		{
+
+		// Get all rows and make a Form::select friendly array
+		foreach (static::fetch_all() as $type) {
 			$options[] = array('label' => $type->name, 'value' => $type->id);
 		}
+		
 		return $options;
 	}
 }

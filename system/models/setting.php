@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  * 
@@ -18,6 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
+/**
+ * Setting model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @since 3.0
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
 class Setting extends Model
 {
 	protected static $_name = 'settings';

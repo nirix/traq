@@ -18,6 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+use avalon\core\Kernel as Avalon;
+
 /**
  * Ticket model.
  *
@@ -95,11 +98,12 @@ class Ticket extends Model
 	 */
 	public function add_vote($user_id)
 	{
-		if (!is_array($this->_data['extra']['voted']))
-		{
+		// Make sure the voted array exists
+		if (!is_array($this->_data['extra']['voted'])) {
 			$this->_data['extra']['voted'] = array();
 		}
 
+		// Make sure they havent voted before
 		if (!in_array($user_id, $this->_data['extra']['voted']))
 		{
 			$this->votes++;
@@ -121,8 +125,10 @@ class Ticket extends Model
 	 */
 	public function save()
 	{
-		if ($this->_is_new())
-		{
+		// Is this a new ticket?
+		if ($this->_is_new()) {
+			// Get the next ticket id and update
+			// the value for the next ticket.
 			$this->ticket_id = $this->project->next_tid;
 			$this->project->next_tid++;
 			$this->project->save();
@@ -130,19 +136,17 @@ class Ticket extends Model
 
 		// Update ticket open/closed state if ticket status has changed.
 		$status = Status::find($this->_data['status_id']);
-		if (isset($this->_data['is_closed']))
-		{
+		if (isset($this->_data['is_closed'])) {
 			if (($this->_data['is_closed'] == 1 and $status->status == 1)
-			or ($this->_data['is_closed'] == 0 and $status->status == 0))
-			{
+			or ($this->_data['is_closed'] == 0 and $status->status == 0)) {
 				$this->is_closed = ($status->status == 1 ? 0 : 1);
 			}
 		}
 
 		if (parent::save())
 		{
-			if ($this->_is_new())
-			{
+			// New ticket?
+			if ($this->_is_new()) {
 				// Timeline entry
 				$timeline = new Timeline(array(
 					'project_id' => $this->project_id,
@@ -156,9 +160,7 @@ class Ticket extends Model
 			}
 
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -179,27 +181,23 @@ class Ticket extends Model
 		$save_queue = array();
 
 		// Loop over the data
-		foreach ($data as $field => $value)
-		{
+		foreach ($data as $field => $value) {
 			// Check if the value is different
-			if (isset($this->_data[$field]) and $this->_data[$field] == $value)
-			{
+			if (isset($this->_data[$field]) and $this->_data[$field] == $value) {
 				continue;
 			}
 
 			// If this field is an attachment, check permissions
-			if ($field == 'attachment' and !$user->permission($this->project_id, 'add_attachments'))
-			{
+			if ($field == 'attachment' and !$user->permission($this->project_id, 'add_attachments')) {
 				continue;
 			}
 
 			// Get the to and from values for different fields
-			switch($field)
-			{
+			switch($field) {
 				case 'assigned_to_id':
 					$from = $this->assigned_to_id == 0 ? null : $this->assigned_to->id;
 					$to = $value;
-				break;
+					break;
 
 				case 'status_id':
 				case 'type_id':
@@ -209,17 +207,17 @@ class Ticket extends Model
 
 					$from = $this->$accessor->name;
 					$to = $to_values[$field]->name;
-				break;
+					break;
 
 				case 'summary':
 					$from = $this->summary;
 					$to = $value;
-				break;
+					break;
 
 				case 'attachment':
 					$from = null;
 					$to = $value;
-				break;
+					break;
 
 				default:
 					$class = str_replace('_id', '', $field);
@@ -227,12 +225,11 @@ class Ticket extends Model
 
 					$from = $this->$class->name;
 					$to = $to_values[$field]->name;
-				break;
+					break;
 			}
 
 			// One last value check...
-			if ($from == $to)
-			{
+			if ($from == $to) {
 				continue;
 			}
 
@@ -244,10 +241,8 @@ class Ticket extends Model
 			);
 
 			// Has the status changed?
-			if ($field == 'status_id' and $this->status_id != $value)
-			{
-				if ($this->status->status != $to_values[$field]->status)
-				{
+			if ($field == 'status_id' and $this->status_id != $value) {
+				if ($this->status->status != $to_values[$field]->status) {
 					$this->is_closed = $to_values[$field]->status ? 0 : 1;
 					$change['action'] = $to_values[$field]->status == 1 ? 'reopen' : 'close';
 
@@ -261,8 +256,7 @@ class Ticket extends Model
 				}
 			}
 			// Attaching a file?
-			elseif ($field == 'attachment' and isset($_FILES['attachment']) and isset($_FILES['attachment']['name']))
-			{
+			elseif ($field == 'attachment' and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
 				$save_queue[] = new Attachment(array(
 					'name' => $_FILES['attachment']['name'],
 					'contents' => base64_encode(file_get_contents($_FILES['attachment']['tmp_name'])),
@@ -275,8 +269,7 @@ class Ticket extends Model
 			}
 
 			// Set value
-			if (in_array($field, static::$_properties))
-			{
+			if (in_array($field, static::$_properties)) {
 				$this->set($field, $value);
 			}
 
@@ -284,8 +277,7 @@ class Ticket extends Model
 		}
 
 		// Any changes, or perhaps a comment?
-		if (count($changes) > 0 or !empty(Request::$post['comment']))
-		{
+		if (count($changes) > 0 or !empty(Request::$post['comment'])) {
 			$save_queue[] = new TicketHistory(array(
 				'user_id' => $user->id,
 				'ticket_id' => $this->id,
@@ -293,8 +285,7 @@ class Ticket extends Model
 				'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
 			));
 
-			if (!empty(Request::$post['comment']))
-			{
+			if (!empty(Request::$post['comment'])) {
 				$save_queue[] = new Timeline(array(
 					'project_id' => $this->project_id,
 					'owner_id' => $this->id,
@@ -305,16 +296,16 @@ class Ticket extends Model
 		}
 		
 		// Save
-		if ($this->save())
-		{
-			foreach ($save_queue as $model)
-			{
+		if ($this->save()) {
+			// Loop over the save queue and save
+			// each object
+			foreach ($save_queue as $model) {
 				$model->save();
 			}
 			return true;
 		}
-		else
-		{
+		// Error saving
+		else {
 			return false;
 		}
 	}
@@ -328,13 +319,13 @@ class Ticket extends Model
 	{
 		$errors = array();
 
-		if (empty($this->_data['summary']))
-		{
+		// Check the summary
+		if (empty($this->_data['summary'])) {
 			$errors['summary'] = l('errors.tickets.summary_blank');
 		}
 
-		if (empty($this->_data['body']))
-		{
+		// Check the body
+		if (empty($this->_data['body'])) {
 			$errors['body'] = l('errors.tickets.description_blank');
 		}
 
@@ -370,8 +361,7 @@ class Ticket extends Model
 		);
 
 		// Loop over the relations
-		foreach ($relations as $name => $fields)
-		{
+		foreach ($relations as $name => $fields) {
 			// Add the relation data and remove its ID
 			// from the main array
 			$data[$name] = $this->$name ? $this->$name->__toArray($fields) : null;
@@ -391,8 +381,7 @@ class Ticket extends Model
 		$this->extra = json_decode(isset($this->_data['extra']) ? $this->_data['extra'] : '', true);
 
 		// Set the voted array
-		if (!isset($this->extra['voted']) or !is_array($this->extra['voted']))
-		{
+		if (!isset($this->extra['voted']) or !is_array($this->extra['voted'])) {
 			$this->_data['extra']['voted'] = array();
 		}
 	}
@@ -404,8 +393,7 @@ class Ticket extends Model
 	 */
 	protected function process_data_write()
 	{
-		if (isset($this->_data['extra']) and is_array($this->_data['extra']))
-		{
+		if (isset($this->_data['extra']) and is_array($this->_data['extra'])) {
 			$this->extra = json_encode($this->_data['extra']);
 		}
 	}

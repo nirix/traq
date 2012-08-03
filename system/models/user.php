@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * User model.
  *
@@ -83,8 +85,8 @@ class User extends Model
 	{
 		$projects = array();
 		
-		foreach (UserRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation)
-		{
+		// Loop over the relations and add the project and role to the array
+		foreach (UserRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation) {
 			$projects[] = array($relation->project, $relation->role);
 		}
 
@@ -104,34 +106,28 @@ class User extends Model
 	{
 		// Check if user is admin and return true
 		// as admins have the right to do anything.
-		if ($this->group->is_admin)
-		{
+		if ($this->group->is_admin) {
 			return true;
 		}
 
 		// Check if the projects permissions has been fetched
 		// if not, fetch them.
-		if (!isset($this->permissions['project'][$project_id]))
-		{
+		if (!isset($this->permissions['project'][$project_id])) {
 			$this->permissions['project'][$project_id] = Permission::get_permissions($project_id, $this->_data['group_id']);
 		}
 		
 		// Check if the user has a role for the project and
 		// fetch the permissions if not already done so...
 		$role_id = $this->get_project_role($project_id);
-		if ($role_id and !isset($this->permissions['role'][$project_id]))
-		{
+		if ($role_id and !isset($this->permissions['role'][$project_id])) {
 			$this->permissions['role'][$project_id] = Permission::get_permissions($project_id, $role_id, 'role');
-		}
-		else
-		{
+		} else {
 			$this->permissions['role'][$project_id] = array();
 		}
 
 		$perms = array_merge($this->permissions['project'][$project_id], $this->permissions['role'][$project_id]);
 
-		if (!isset($perms[$action]))
-		{
+		if (!isset($perms[$action])) {
 			return false;
 		}
 
@@ -148,12 +144,9 @@ class User extends Model
 	public function get_project_role($project_id)
 	{
 		if ($role = UserRole::select()->where('project_id', $project_id)->where('user_id', $this->_data['id'])->exec()
-		and $role->row_count() > 0)
-		{
+		and $role->row_count() > 0) {
 			return $role->fetch()->project_role_id;
-		}
-		else
-		{
+		} else {
 			return 0;
 		}
 	}
@@ -167,8 +160,7 @@ class User extends Model
 	 */ 
 	public function verify_password($password)
 	{
-		switch($this->_data['password_ver'])
-		{
+		switch($this->_data['password_ver']) {
 			// Passwords from Traq 0.1 to 2.3
 			case 'sha1':
 				return sha1($password) == $this->_data['password'];
@@ -201,8 +193,7 @@ class User extends Model
 		$this->prepare_password();
 		$this->_data['login_hash'] = sha1(time() . $this->_data['username'] . rand(0, 1000));
 		
-		if (!isset($this->_data['name']))
-		{
+		if (!isset($this->_data['name'])) {
 			$this->_data['name'] = $this->_data['username'];
 		}
 	}
@@ -225,38 +216,32 @@ class User extends Model
 		$errors = array();
 		
 		// Check if the username is set
-		if (empty($this->_data['username']))
-		{
+		if (empty($this->_data['username'])) {
 			$errors['username'] = l('errors.users.username_blank');
 		}
 		
 		// Check if the username is taken
-		if ($this->_is_new() and static::find('username', $this->_data['username']))
-		{
+		if ($this->_is_new() and static::find('username', $this->_data['username'])) {
 			$errors['username'] = l('errors.users.username_in_use');
 		}
 
 		// Make sure the users name is set
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.users.name_blank');
 		}
 		
 		// Check if the password is set
-		if (empty($this->_data['password']))
-		{
+		if (empty($this->_data['password'])) {
 			$errors['password'] = l('errors.users.password_blank');
 		}
 		
 		// Check if the email is set
-		if (empty($this->_data['email']))
-		{
+		if (empty($this->_data['email'])) {
 			$errors['email'] = l('errors.users.email_invalid');
 		}
 		
 		// Check if we're valid or not...
-		if (count($errors) > 0)
-		{
+		if (count($errors) > 0) {
 			$this->errors = $errors;
 		}
 		
@@ -271,10 +256,12 @@ class User extends Model
 	public static function select_options()
 	{
 		$options = array();
-		foreach (static::fetch_all() as $user)
-		{
+
+		// Get all users and make a Form::select() friendly array
+		foreach (static::fetch_all() as $user) {
 			$options[] = array('label' => $user->name, 'value' => $user->id);
 		}
+		
 		return $options;
 	}
 

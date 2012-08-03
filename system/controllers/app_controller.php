@@ -18,6 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\core\Controller;
+use avalon\core\Load;
+
 /**
  * App controller
  *
@@ -55,8 +58,7 @@ class AppController extends Controller
 		// Check if we're on a project page and get the project info
 		if (isset(Router::$params['project_slug'])
 		and $this->project = is_project(Router::$params['project_slug'])
-		and $this->user->permission($this->project->id, 'view'))
-		{
+		and $this->user->permission($this->project->id, 'view')) {
 			$this->title($this->project->name);
 			View::set('project', $this->project);
 		}
@@ -72,8 +74,7 @@ class AppController extends Controller
 	public function title($add = null)
 	{
 		// Check if we're adding or returning
-		if ($add === null)
-		{
+		if ($add === null) {
 			// We're returning
 			return $this->title;
 		}
@@ -111,14 +112,12 @@ class AppController extends Controller
 	{
 		// Check if the session cookie is set, if so, check if it matches a user
 		// and set set the user info.
-		if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq']))
-		{
+		if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq'])) {
 			$this->user = $user;
 			define("LOGGEDIN", true);
 		}
 		// Otherwise just set the user info to guest.
-		else
-		{
+		else {
 			$this->user = new User(array(
 				'id' => -1,
 				'username' => l('guest'),
@@ -134,8 +133,7 @@ class AppController extends Controller
 	public function __shutdown()
 	{
 		// Was the page requested via ajax?
-		if (Request::is_ajax() and Router::$extension == null)
-		{
+		if (Request::is_ajax() and Router::$extension == null) {
 			// Is this page being used as an overlay?
 			if (isset(Request::$request['overlay']))
 			{
@@ -157,8 +155,7 @@ class AppController extends Controller
 			$this->_render['view'] = $this->_render['view'] . $extension;
 		}
 
-		if (Router::$extension == '.json' and View::exists(str_replace('.json', '', $this->_render['view']) . '.json'))
-		{
+		if (Router::$extension == '.json' and View::exists(str_replace('.json', '', $this->_render['view']) . '.json')) {
 			header('Content-type: application/json');
 		}
 		

@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Severities model.
  *
@@ -42,10 +44,12 @@ class Severity extends Model
 	public static function select_options()
 	{
 		$options = array();
-		foreach (static::fetch_all() as $severity)
-		{
+
+		// Get all rows and make a Form::select() friendly array
+		foreach (static::fetch_all() as $severity) {
 			$options[] = array('label' => $severity->name, 'value' => $severity->id);
 		}
+
 		return $options;
 	}
 
@@ -59,8 +63,7 @@ class Severity extends Model
 		$errors = array();
 		
 		// Make sure the name is set...
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 		

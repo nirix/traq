@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Permission model.
  *
@@ -56,8 +58,7 @@ class Permission extends Model
 		// Loop over the permissions and make it
 		// easy to access the permission values.
 		$permissions = array();
-		foreach ($rows as $permission)
-		{
+		foreach ($rows as $permission) {
 			$permissions[$permission->action] = $permission;
 		}
 
@@ -81,8 +82,7 @@ class Permission extends Model
 
 		// If we're fetching a specific group,
 		// also fetch the defaults for all groups.
-		if ($type_id > 0)
-		{
+		if ($type_id > 0) {
 			$defaults = array_merge(static::defaults($project_id, 0, $type), $defaults);
 		}
 
@@ -90,15 +90,8 @@ class Permission extends Model
 		// this will stop duplicates from the overall defaults
 		// and the defaults for specific groups.
 		$permissions = array();
-		foreach ($defaults as $permission)
-		{
+		foreach ($defaults as $permission) {
 			$permissions[$permission->action] = $permission;
-		}
-
-		if ($project_id > 0)
-		{
-			//print_r($permissions);
-			//exit;
 		}
 
 		// And return them...

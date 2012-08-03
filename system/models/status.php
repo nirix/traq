@@ -18,6 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
+/**
+ * Status model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @since 3.0
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
 class Status extends Model
 {
 	protected static $_name = 'statuses';
@@ -36,8 +47,7 @@ class Status extends Model
 	public static function select_options()
 	{
 		$options = array(l('open') => array(), l('closed') => array());
-		foreach (static::fetch_all() as $status)
-		{
+		foreach (static::fetch_all() as $status) {
 			$options[$status->status ? l('open') : l('closed')][] = array('label' => $status->name, 'value' => $status->id);
 		}
 		return $options;
@@ -49,8 +59,7 @@ class Status extends Model
 		$errors = array();
 
 		// Make sure the name is set.
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 

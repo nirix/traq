@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\Database;
+
 /**
  * Project controller.
  *
@@ -36,8 +38,7 @@ class ProjectsController extends AppController
 		// Fetch all projects and make sure the user has permission
 		// to access the project then pass them to the view.
 		$projects = array();
-		foreach (Project::fetch_all() as $project)
-		{
+		foreach (Project::fetch_all() as $project) {
 			// Check if the user has access to view the project...
 			if (current_user()->permission($project->id, 'view'))
 			{
@@ -55,8 +56,7 @@ class ProjectsController extends AppController
 	public function action_view()
 	{
 		// Make sure this is a project
-		if (!$this->project)
-		{
+		if (!$this->project) {
 			return $this->show_404();
 		}
 		
@@ -76,22 +76,18 @@ class ProjectsController extends AppController
 		$milestones = Milestone::select()->where('project_id', $this->project->id);
 
 		// Are we displaying all milestones?
-		if (isset(Request::$request['all']))
-		{
+		if (isset(Request::$request['all'])) {
 		}
 		// Just the completed ones?
-		else if (isset(Request::$request['completed']))
-		{
+		else if (isset(Request::$request['completed'])) {
 			$milestones = $milestones->where('status', 2);
 		}
 		// Just the cancelled ones?
-		else if (isset(Request::$request['cancelled']))
-		{
+		else if (isset(Request::$request['cancelled'])) {
 			$milestones = $milestones->where('status', 0);
 		}
 		// Looks like just the active ones
-		else
-		{
+		else {
 			$milestones = $milestones->where('status', 1);
 		}
 
@@ -145,8 +141,7 @@ class ProjectsController extends AppController
 		");
 
 		// Loop through the days and get their activity
-		foreach ($days_query as $info)
-		{
+		foreach ($days_query as $info) {
 			// Construct the array for the day
 			$day = array(
 				'created_at' => $info['created_at'],
@@ -159,8 +154,7 @@ class ProjectsController extends AppController
 
 			// Fetch the activity for this day
 			$fetch_activity = Timeline::select()->where('created_at', "{$date} %", "LIKE")->order_by('created_at', 'DESC');
-			foreach ($fetch_activity->exec()->fetch_all() as $row)
-			{
+			foreach ($fetch_activity->exec()->fetch_all() as $row) {
 				// Push it to the days activity array.
 				$day['activity'][] = $row;
 			}

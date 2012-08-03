@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\core\Load;
+
 Load::helper('array');
 
 /**
@@ -38,19 +40,16 @@ function to_json($data, $options = array())
 	$options = array_merge($defaults, $options);
 
 	// Convert the data to an array, if possible..
-	if (!is_array($data))
-	{
+	if (!is_array($data)) {
 		$data = to_array($data);
 	}
 
-	foreach ($data as $k => $v)
-	{
+	foreach ($data as $k => $v) {
 		$data[$k] = to_array($v);
 	}
 
 	// Remove the parts we don't want...
-	if (isset($options['hide']) and is_array($data))
-	{
+	if (isset($options['hide']) and is_array($data)) {
 		$data = array_remove_keys($data, $options['hide']);
 	}
 
@@ -70,8 +69,7 @@ function to_json($data, $options = array())
 function mime_type_for($extension)
 {
 	// Remove the first dot from the extension
-	if ($extension[0] == '.')
-	{
+	if ($extension[0] == '.') {
 		$extension = substr($extension, 1);
 	}
 
@@ -103,8 +101,7 @@ function mime_type_for($extension)
 	);
 
 	// Check if its in the plain text array
-	if (isset($plain_text[$plain_text]))
-	{
+	if (isset($plain_text[$plain_text])) {
 		return 'text/plain';
 	}
 

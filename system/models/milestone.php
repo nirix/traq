@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\database\Model;
+
 /**
  * Milestone model.
  *
@@ -75,8 +77,7 @@ class Milestone extends Model
 
 		// Check if we need to fetch
 		// the ticket counts.
-		if (!isset($counts[$this->id]))
-		{
+		if (!isset($counts[$this->id])) {
 			$counts[$this->id] = array(
 				'open' => $this->tickets->where('is_closed', 0)->exec()->row_count(),
 				'closed' => $this->tickets->where('is_closed', 1)->exec()->row_count()
@@ -113,20 +114,18 @@ class Milestone extends Model
 		$errors = array();
 		
 		// Check if the name is empty
-		if (empty($this->_data['name']))
-		{
+		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
 		
 		// Check if the slug is empty
-		if (empty($this->_data['slug']))
-		{
+		if (empty($this->_data['slug'])) {
 			$errors['slug'] = l('errors.slug_blank');
 		}
 		
 		// Check if the slug is in use
-		if (Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->project_id)->exec()->row_count())
-		{
+		$milestone_slug = Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->project_id);
+		if ($milestone_slug->exec()->row_count()) {
 			$errors['slug'] = l('errors.slug_in_use');
 		}
 		
@@ -139,11 +138,9 @@ class Milestone extends Model
 	 */
 	public function save()
 	{
-		if (parent::save())
-		{
+		if (parent::save()) {
 			// Check if the status has been changed, if it has, is it completed or cancelled?
-			if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1)
-			{
+			if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1) {
 				$timeline = new Timeline(array(
 					'project_id' => $this->project_id,
 					'owner_id' => $this->id,

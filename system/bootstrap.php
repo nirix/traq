@@ -18,25 +18,57 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Define the paths needed
 define("SYSPATH", dirname(__FILE__) . '/avalon');
 define("APPPATH", dirname(__FILE__));
 define("DOCROOT", dirname(dirname(__FILE__)));
 
+// Load the framework
+require SYSPATH . '/base.php';
+use avalon\Database;
+use avalon\core\Load;
+
+// Setup the autoloader
+use avalon\Autoloader;
+Autoloader::vendor_path(__DIR__ . '/vendor');
+
+// Register the Avalon and Traq namespaces
+// to directories outside the vendor directory.
+Autoloader::register_namespaces(array(
+	'avalon' => SYSPATH,
+	'traq' => APPPATH
+));
+
+// Alias classes so we dont need to
+// have "use ...." in all files.
+Autoloader::alias_classes(array(
+	'avalon\http\Router' => 'Router',
+	'avalon\output\View' => 'View',
+	'avalon\http\Request' => 'Request',
+
+	// Helpers
+	'avalon\helpers\Time' => 'Time'
+));
+
+// Register the autoloader
+Autoloader::register();
+
 // Load common functions and version file
 require APPPATH . '/common.php';
 require APPPATH . '/version.php';
-
-require SYSPATH . '/base.php';
 require APPPATH . '/libraries/locale.php';
 
-// Check for the config file
-if (!file_exists(APPPATH . '/config/database.php'))
-{
+
+// Check for the database config file
+if (!file_exists(APPPATH . '/config/database.php')) {
 	// No config file, redirect to installer
 	header("Location: " . Request::base() . "install");
 }
-
-Database::init();
+// Include config and connect
+else {
+	require APPPATH . '/config/database.php';
+	Database::init($db);
+}
 
 // Load the localization class
 $locale = Locale::load(settings('locale'));
@@ -44,13 +76,12 @@ $locale = Locale::load(settings('locale'));
 // Load the plugins
 require APPPATH . '/libraries/plugin_base.php';
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
-foreach ($plugins as $plugin)
-{
+foreach ($plugins as $plugin) {
+	// Plugin file plath
 	$path = APPPATH . "/plugins/{$plugin['file']}.plugin.php";
 	
 	// Check if the file exists
-	if (file_exists($path))
-	{
+	if (file_exists($path)) {
 		require $path;
 
 		// Register the path to check for controllers and views

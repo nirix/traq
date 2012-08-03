@@ -18,68 +18,76 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
- class Timeline extends Model
- {
- 	protected static $_name = 'timeline';
- 	protected static $_properties = array(
- 		'id',
- 		'project_id',
- 		'owner_id',
- 		'action',
- 		'data',
- 		'user_id',
- 		'created_at'
- 	);
+use avalon\database\Model;
 
- 	protected static $_belongs_to = array('user');
+/**
+ * Timeline model.
+ *
+ * @package Traq
+ * @subpackage Models
+ * @since 3.0
+ * @author Jack P.
+ * @copyright (c) Jack P.
+ */
+class Timeline extends Model
+{
+	protected static $_name = 'timeline';
+	protected static $_properties = array(
+		'id',
+		'project_id',
+		'owner_id',
+		'action',
+		'data',
+		'user_id',
+		'created_at'
+	);
 
- 	/**
- 	 * If the row is a ticket change, the ticket
- 	 * object is returned.
- 	 *
- 	 * @return object
- 	 */
- 	public function ticket()
- 	{
- 		if (!isset($this->_ticket))
- 		{
- 			$this->_ticket = Ticket::find($this->owner_id);
- 		}
- 		return $this->_ticket;
- 	}
+	protected static $_belongs_to = array('user');
 
- 	/**
- 	 * If the row is a milestone event, the milestone
- 	 * object is returned.
- 	 *
- 	 * @return object
- 	 */
- 	public function milestone()
- 	{
- 		if (!isset($this->_milestone))
- 		{
- 			$this->_milestone = Milestone::find($this->owner_id);
- 		}
- 		return $this->_milestone;
- 	}
+	/**
+	 * If the row is a ticket change, the ticket
+	 * object is returned.
+	 *
+	 * @return object
+	 */
+	public function ticket()
+	{
+		if (!isset($this->_ticket)) {
+			$this->_ticket = Ticket::find($this->owner_id);
+		}
+		return $this->_ticket;
+	}
 
- 	public function is_valid()
- 	{
- 		return true;
- 	}
+	/**
+	 * If the row is a milestone event, the milestone
+	 * object is returned.
+	 *
+	 * @return object
+	 */
+	public function milestone()
+	{
+		if (!isset($this->_milestone)) {
+			$this->_milestone = Milestone::find($this->owner_id);
+		}
+		return $this->_milestone;
+	}
 
- 	/**
- 	 * If the row is a ticket change, the new status
- 	 * object is returned.
- 	 *
- 	 * @return object
- 	 */
- 	public function ticket_status()
- 	{
- 		if (!isset($this->_ticket_status))
- 		{
- 			$this->_ticket_status = Status::find($this->data);
- 		}
- 		return $this->_ticket_status;
- 	}
- }
+	public function is_valid()
+	{
+		return true;
+	}
+
+	/**
+	 * If the row is a ticket change, the new status
+	 * object is returned.
+	 *
+	 * @return object
+	 */
+	public function ticket_status()
+	{
+		if (!isset($this->_ticket_status)) {
+			$this->_ticket_status = Status::find($this->data);
+		}
+		return $this->_ticket_status;
+	}
+}
