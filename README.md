@@ -30,4 +30,4 @@ Licenses
 Credits
 -------
 
-- famfamfam.com for the sexy icons
+- Some icons by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com). All rights reserved.
