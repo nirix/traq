@@ -13,14 +13,14 @@
 			<td><?php echo $plugin['version']; ?></td>
 			<td>
 				<?php if ($plugin['installed'] and $plugin['enabled']) {
-					echo HTML::link(l('disable'), "/admin/plugins/disable/{$plugin['file']}", array('class' => 'button_disable'));
+					echo HTML::link(l('disable'), "/admin/plugins/disable/{$plugin['file']}", array('class' => 'btn_plugin_disable'));
 				} elseif ($plugin['installed'] and !$plugin['enabled']) {
-					echo HTML::link(l('enable'), "/admin/plugins/enable/{$plugin['file']}", array('class' => 'button_enable'));
+					echo HTML::link(l('enable'), "/admin/plugins/enable/{$plugin['file']}", array('class' => 'btn_plugin_enable'));
 				} ?>
 				<?php if ($plugin['installed']) {
-					echo HTML::link(l('uninstall'), "/admin/plugins/uninstall/{$plugin['file']}", array('class' => 'button_disable'));
+					echo HTML::link(l('uninstall'), "/admin/plugins/uninstall/{$plugin['file']}", array('class' => 'btn_plugin_uninstall'));
 				} else {
-					echo HTML::link(l('install'), "/admin/plugins/install/{$plugin['file']}", array('class' => 'button_enable'));
+					echo HTML::link(l('install'), "/admin/plugins/install/{$plugin['file']}", array('class' => 'btn_plugin_install'));
 				} ?>
 			</td>
 		</tr>
