@@ -17,6 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+ use avalon\output\View;
 
 /**
  * Utilises Avalon's view class to render the specified view.
