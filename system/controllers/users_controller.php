@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\core\Load;
+
 /**
  * User controller
  *
