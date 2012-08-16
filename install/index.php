@@ -20,6 +20,7 @@
 
 require './bootstrap.php';
 
+use avalon\Database;
 use avalon\output\View;
 
 // Make sure the config file doesn't exist...
@@ -62,7 +63,7 @@ post('/step/2', function(){
 		render('database_config');
 	}
 	// Make sure there's no Traq installed here with the same table prefix
-	else if (is_installed(array_merge(array('driver' => 'pdo'), $_POST)))
+	else if (false and is_installed(array_merge(array('driver' => 'pdo'), $_POST)))
 	{
 		Error::halt('Error', 'Traq is already installed.');
 	}

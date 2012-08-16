@@ -18,7 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
  
- use avalon\output\View;
+use avalon\output\View;
+use avalon\Database;
 
 /**
  * Utilises Avalon's view class to render the specified view.
@@ -41,7 +42,7 @@ function render($view)
  */
 function form($url)
 {
-	echo '<form action="' . Ant::base_uri() . 'index.php' . $url . '" method="post">';
+	echo '<form action="' . Ant::base_uri() . 'index.php?' . $url . '" method="post">';
 }
 
 /**
@@ -57,8 +58,7 @@ function is_installed(array $config)
 	$conn = Database::factory($config, 'main');
 
 	// Check if the settings table exists...
-	if ($conn->select('value')->from('settings')->exec())
-	{
+	if ($conn->select('value')->from('settings')->exec()) {
 		return true;
 	}
 
