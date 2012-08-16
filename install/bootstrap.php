@@ -21,13 +21,14 @@
 define("APPPATH", dirname(__FILE__));
 define("SYSPATH", dirname(__DIR__) . '/system/avalon');
 
+require SYSPATH . '/autoloader.php';
+
+use avalon\Autoloader;
+Autoloader::register_namespace('avalon', SYSPATH);
+Autoloader::register();
+
 require 'ant.php';
-require SYSPATH . '/core/load.php';
-require SYSPATH . '/output/view.php';
 require SYSPATH . '/libs/fishhook.php';
-require SYSPATH . '/database.php';
-require SYSPATH . '/database/driver.php';
-require SYSPATH . '/database/model.php';
 require '../system/models/user.php';
 require 'common.php';
 
