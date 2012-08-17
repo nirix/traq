@@ -311,7 +311,7 @@ VALUES
   ('date_format','d/m/Y'),
 	('db_revision','22'),
 	('locale','enus'),
-	('theme','Default'),
+	('theme','default'),
 	('timeline_day_format','l, jS F Y'),
 	('timeline_time_format','h:iA'),
 	('title','Traq');
