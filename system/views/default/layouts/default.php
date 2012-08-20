@@ -24,6 +24,7 @@
 					<?php if($current_user->permission($project->id, 'create_tickets')) { ?>
 					<li<?php echo iif(active_nav('/:slug/tickets/new(.*)'), ' class="active"')?>><?php echo HTML::link(l('new_ticket'), $project->href('tickets/new')); ?></li>
 					<?php } ?>
+					<li<?php echo iif(active_nav('/:slug/changelog'), ' class="active"')?>><?php echo HTML::link(l('changelog'), $project->href('changelog')); ?></li>
 					<?php if ($project->enable_wiki) { ?>
 					<li<?php echo iif(active_nav('/:slug/wiki(.*)'), ' class="active"')?>><?php echo HTML::link(l('wiki'), $project->href("wiki")); ?></li>
 					<?php } ?>

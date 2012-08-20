@@ -110,6 +110,14 @@ class ProjectsController extends AppController
 		// And send it to the view
 		View::set('milestone', $milestone);
 	}
+
+	/**
+	 * Handles the changelog page.
+	 */
+	public function action_changelog()
+	{
+		
+	}
 	
 	/**
 	 * Handles the timeline page.

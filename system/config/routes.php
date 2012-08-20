@@ -38,7 +38,7 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)/delete', 
 // Project routes
 Router::add('/projects', 'Projects::index');
 Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'Projects::milestone/$2');
-Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap)', 'Projects::$2');
+Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap|changelog)', 'Projects::$2');
 Router::add('/' . RTR_PROJSLUG, 'Projects::view');
 
 // Ticket routes

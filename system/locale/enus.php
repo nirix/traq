@@ -100,6 +100,7 @@ class Locale_enUS extends Locale
 			'none' => "None",
 			'member_since' => "Member since",
 			'unknown' => "Unkown",
+			'changelog' => "Changelog",
 
 			// AdminCP
 			'traq_settings' => "Traq Settings",
