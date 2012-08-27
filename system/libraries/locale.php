@@ -103,30 +103,30 @@ class Locale
 		$locale = &static::$locale;
 		$indexes = explode('.', $string);
 
+		// Exact match?
+		if (array_key_exists($string, $locale)) {
+			return $locale[$string];
+		}
+
 		// Loop over the indexes and find the string
-		foreach ($indexes as $index)
-		{
+		foreach ($indexes as $index) {
 			// If this is a single string, but is also an array
 			// like "timeline" and "timeline.by_x", check if
 			// timeline[0] exists.
-			if (isset($locale[$index]) and is_array($locale[$index]) and count($indexes) === 1)
-			{
+			if (isset($locale[$index]) and is_array($locale[$index]) and count($indexes) === 1) {
 				return $locale[$index][0];
 			}
 			// Check if it's a single index.
-			elseif (isset($locale[$index]) and !is_array($locale[$index]))
-			{
+			elseif (isset($locale[$index]) and !is_array($locale[$index])) {
 				return $locale[$index];
 			}
 			// If this is an array, set it to be
 			// searched by the next index in the string.
-			elseif (isset($locale[$index]) and is_array($locale[$index]))
-			{
+			elseif (isset($locale[$index]) and is_array($locale[$index])) {
 				$locale = &$locale[$index];
 			}
 			// We didnt find it, return the original.
-			else
-			{
+			else {
 				return $string;
 			}
 		}
@@ -163,17 +163,14 @@ class Locale
 		// Loop through and replace {x}, ${x} or $x
 		// with the values from the $vars array.
 		$v = 1;
-		foreach ($vars as $var)
-		{
+		foreach ($vars as $var) {
 			$translation = str_replace(array("{{$v}}", "\${{$v}}", "\${$v}"), $vars[$v - 1], $translation);
 			$v++;
 		}
 
 		// Match plural:n,{x, y}
-		if (preg_match_all("/{plural:(?<value>-{0,1}\d+)(,|, ){(?<replacements>.*?)}}/i", $translation, $matches))
-		{
-			foreach($matches[0] as $id => $match)
-			{
+		if (preg_match_all("/{plural:(?<value>-{0,1}\d+)(,|, ){(?<replacements>.*?)}}/i", $translation, $matches)) {
+			foreach($matches[0] as $id => $match) {
 				// Split the replacements into an array.
 				// There's an extra | at the start to allow for better matching
 				// with values.
@@ -184,14 +181,11 @@ class Locale
 
 				// Check what replacement to use...
 				$replacement_id = static::calculate_numeral($value);
-				//die(gettype($replacement_id));
-				if ($replacement_id !== false)
-				{
+				if ($replacement_id !== false) {
 					$translation = str_replace($match, $replacements[$replacement_id], $translation);
 				}
 				// Get the last value then
-				else
-				{
+				else {
 					$translation = str_replace($match, end($replacements), $translation);
 				}
 			}
