@@ -103,6 +103,7 @@ class Locale_enUS extends Locale
 			'changelog' => "Changelog",
 
 			// AdminCP
+			'admin.theme_select_option' => "{1} (v{2} by {3})",
 			'traq_settings' => "Traq Settings",
 			'users' => "Users",
 			'groups' => "Groups",
