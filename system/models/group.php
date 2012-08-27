@@ -46,7 +46,7 @@ class Group extends Model
 	 *
 	 * @return array
 	 */
-	public function select_options()
+	public static function select_options()
 	{
 		$options = array();
 		foreach (static::fetch_all() as $group)
