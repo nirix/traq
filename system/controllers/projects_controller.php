@@ -40,8 +40,7 @@ class ProjectsController extends AppController
 		$projects = array();
 		foreach (Project::fetch_all() as $project) {
 			// Check if the user has access to view the project...
-			if (current_user()->permission($project->id, 'view'))
-			{
+			if (current_user()->permission($project->id, 'view')) {
 				$projects[] = $project;
 			}
 		}
@@ -77,6 +76,7 @@ class ProjectsController extends AppController
 
 		// Are we displaying all milestones?
 		if (isset(Request::$request['all'])) {
+			// We do NOTHING!
 		}
 		// Just the completed ones?
 		else if (isset(Request::$request['completed'])) {
@@ -116,7 +116,14 @@ class ProjectsController extends AppController
 	 */
 	public function action_changelog()
 	{
-		
+		// Fetch ticket types
+		$types = array();
+		foreach (Type::fetch_all() as $type) {
+			$types[$type->id] = $type;
+		}
+
+		View::set('milestones', $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all());
+		View::set('types', $types);
 	}
 	
 	/**
@@ -128,7 +135,8 @@ class ProjectsController extends AppController
 
 		// Fetch the different days with a nicely formatted
 		// query for everyone to read easily, unlike the one
-		// from 2.x and eariler.
+		// from 2.x and eariler, that were, well, you know,
+		// completely ugly and looked hackish.
 		$days_query = Database::connection()->query("
 			SELECT
 			DISTINCT

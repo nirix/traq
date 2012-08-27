@@ -564,6 +564,18 @@ h3.list_title {
 .usercp.content #options {
   float: right; }
 
+/* ==========# Changelog #========== */
+.changelog.content #changeset {
+  margin-top: 10px; }
+  .changelog.content #changeset ul {
+    list-style: none;
+    padding-left: 5px; }
+    .changelog.content #changeset ul li:before {
+      margin-right: 8px;
+      width: 5px;
+      text-align: center;
+      display: inline-block; }
+
 /* ==========# Sexy Buttons #========== */
 .button_new, .button_edit, .button_delete,
 .btn_plugin_enable, .btn_plugin_disable,
