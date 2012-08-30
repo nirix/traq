@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -46,14 +46,14 @@ post('/step/1', function(){
 post('/step/2', function(){
 	// Check for form errors
 	$errors = array();
-	foreach (array('type', 'host', 'username', 'password', 'database') as $field)
+	foreach (array('type', 'host', 'username', 'database') as $field)
 	{
 		if ($_POST[$field] == '')
 		{
 			$errors[$field] = true;
 		}
 	}
-	
+
 	View::set('errors', $errors);
 
 	// Fix the errors
@@ -143,7 +143,7 @@ post('/step/3', function(){
 		foreach (array('driver', 'type', 'host', 'username', 'password', 'database', 'prefix') as $key)
 		{
 			$config[] = '	\'' . $key . '\' => "' . $_SESSION['db'][$key] . '",';
-		
+
 		}
 		$config[] = ');';
 		$config = implode(PHP_EOL, $config);
