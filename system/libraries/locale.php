@@ -105,7 +105,12 @@ class Locale
 
 		// Exact match?
 		if (array_key_exists($string, $locale)) {
-			return $locale[$string];
+			if(is_array($locale[$string]) && isset($locale[$string][0]))
+			{
+				return $locale[$string][0];
+			} else {
+				return $locale[$string];
+			}
 		}
 
 		// Loop over the indexes and find the string
