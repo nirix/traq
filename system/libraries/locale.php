@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -73,7 +73,7 @@ class Locale
 	}
 
 	/**
-	 * Translates the specified string. 
+	 * Translates the specified string.
 	 *
 	 * @return string
 	 */
@@ -90,7 +90,7 @@ class Locale
 	 */
 	public function date($format, $timestamp = null)
 	{
-		return Time::date($format, $timestamp);
+		return \Time::date($format, $timestamp);
 	}
 
 	/**
@@ -107,12 +107,13 @@ class Locale
 
 		// Exact match?
 		if (array_key_exists($string, $locale)) {
-			if(is_array($locale[$string]) && isset($locale[$string][0]))
-			{
-				return $locale[$string][0];
-			} else {
-				return $locale[$string];
-			}
+
+		    if(is_array($locale[$string]) && isset($locale[$string][0]))
+		    {
+		        return $locale[$string][0];
+		    } else {
+			    return $locale[$string];
+		    }
 		}
 
 		// Loop over the indexes and find the string
