@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Library;
+
 /**
  * Traq Localization System
  * Copyright (C) Jack Polgar
