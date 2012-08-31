@@ -133,7 +133,6 @@ function theme_select_options()
 		{
 			$info = require ($path . '/_theme.php');
 			$options[] = array(
-				'label' => "{$info['name']} (v{$info['version']})",
 				'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
 				'value' => $file
 			);
