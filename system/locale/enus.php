@@ -26,7 +26,7 @@
  * @package Traq
  * @subpackage Locale
  */
-class Locale_enUS extends Locale
+class Locale_enUS extends Library\Locale
 {
 	protected static $info = array(
 		'name' => "English",

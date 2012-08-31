@@ -71,7 +71,7 @@ else {
 }
 
 // Load the localization class
-$locale = Locale::load(settings('locale'));
+$locale = Library\Locale::load(settings('locale'));
 
 // Load the plugins
 require APPPATH . '/libraries/plugin_base.php';
