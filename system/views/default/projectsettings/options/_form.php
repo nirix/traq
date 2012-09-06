@@ -18,3 +18,4 @@
 	<label><?php echo l('enable_wiki'); ?></label>
 	<?php echo Form::checkbox('enable_wiki', 1, array('checked' => $proj->enable_wiki == 1 ? true : false)); ?> <?php echo Form::label(l('yes'), 'enable_wiki'); ?>
 </div>
+<?php FishHook::run('template:projectsettings/options/_form', array($proj)); ?>
