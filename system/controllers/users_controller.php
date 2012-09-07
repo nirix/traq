@@ -102,6 +102,7 @@ class UsersController extends AppController
 			// Build the data array
 			$data = array(
 				'username' => Request::$post['username'],
+				'name' => Request::$post['name'],
 				'password' => Request::$post['password'],
 				'email' => Request::$post['email']
 			);
