@@ -91,6 +91,7 @@ function mime_type_for($extension)
 	// These are the files we want to force to be
 	// plain text, we don't want them running on the server.
 	$plain_text = array(
+		'txt', // Do I really need to explain this?
 		'rb',  // Ruby, my favorite, so it's at the top
 		'php', // PHP, not my favorite, should be at the bottom
 		'pl',  // Perl
@@ -101,7 +102,7 @@ function mime_type_for($extension)
 	);
 
 	// Check if its in the plain text array
-	if (isset($plain_text[$plain_text])) {
+	if (isset($plain_text[$extention])) {
 		return 'text/plain';
 	}
 
