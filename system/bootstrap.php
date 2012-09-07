@@ -53,6 +53,9 @@ Autoloader::alias_classes(array(
 // Register the autoloader
 Autoloader::register();
 
+// Fetch the routes
+require_once APPPATH . '/config/routes.php';
+
 // Load common functions and version file
 require APPPATH . '/common.php';
 require APPPATH . '/version.php';

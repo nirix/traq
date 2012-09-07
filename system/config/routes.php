@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\http\Router;
+
 define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
 
 Router::add('root', 'Projects::index');
