@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -160,7 +160,7 @@ class Locale_enUS extends \traq\libraries\Locale
 			'new_component' => "New Component",
 			'edit_component' => "Edit Component",
 			'display_order' => "Display Order",
-			
+
 			// Tickets
 			'new_ticket' => "New Ticket",
 			'summary' => "Summary",
@@ -191,7 +191,9 @@ class Locale_enUS extends \traq\libraries\Locale
 			'register' => "Register",
 			'username' => "Username",
 			'password' => "Password",
+		    'old_password' => "Old Password",
 			'new_password' => "New Password",
+		    'confirm_password' => "Confirm Password",
 			'email' => "Email",
 			'xs_profile' => "{1}'s Profile",
 			'assigned_tickets' => "Assigned tickets",
@@ -200,7 +202,7 @@ class Locale_enUS extends \traq\libraries\Locale
 			'information' => "Information",
 			'options' => "Options",
 			'watch_my_new_tickets' => "Watch my new tickets",
-			
+
 			// Wiki
 			'home' => "Home",
 			'pages' => "Pages",
@@ -209,7 +211,7 @@ class Locale_enUS extends \traq\libraries\Locale
 			'delete_page' => "Delete Page",
 			'page_title' => "Page Title",
 			'page_content' => "Page Content",
-			
+
 			// Other
 			'actions' => "Actions",
 			'create' => "Create",
@@ -253,11 +255,11 @@ class Locale_enUS extends \traq\libraries\Locale
 					'delete_wiki_page' => "Delete page"
 				)
 			),
-			
+
 			// Time
 			'time' => array(
 				'Time',
-				
+
 				'ago' => "{1} ago",
 				'from_now' => "{1} from now",
 				'x_and_x' => "{1} and {2}",
@@ -269,11 +271,11 @@ class Locale_enUS extends \traq\libraries\Locale
 				'x_month' => "{1} {plural:{1}, {month|months}}",
 				'x_year' => "{1} {plural:{1}, {year|years}}"
 			),
-			
+
 			// Timeline
 			'timeline' => array(
 				"Timeline", // used for l('timeline')
-				
+
 				// l('timeline.ticket_created') and so on
 				'ticket_created' => "{3} #{2} ({1}) created",
 				'ticket_closed' => "{3} #{2} ({1}) closed as {4}",
@@ -289,7 +291,7 @@ class Locale_enUS extends \traq\libraries\Locale
 				'slug' => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
 				'ticket_type_bullet' => "The bullet style used on the changelog list.",
 			),
-			
+
 			// Confirmations
 			'confirm' => array(
 				'delete' => "Are you sure you want to delete that?",
@@ -328,7 +330,7 @@ class Locale_enUS extends \traq\libraries\Locale
 				'reopen' => "Reopened ticket as {2}",
 				'add_attachment' => "Added attachment {2}",
 			),
-			
+
 			// Errors
 			'errors' => array(
 				'invalid_username_or_password' => "Invalid Username or Password.",
@@ -356,22 +358,26 @@ class Locale_enUS extends \traq\libraries\Locale
 					'summary_blank' => "Summary cannot be blank",
 					'description_blank' => "Description cannot be blank"
 				),
-				
+
 				// Ticket types
 				'ticket_type' => array(
 					'bullet_blank' => "Bullet cannot be blank"
 				),
-				
+
 				// User errors
 				'users' => array(
 					'username_blank' => "Username cannot be blank",
 					'name_blank' => "Name cannot be blank",
 					'username_in_use' => "That username is already registered",
 					'password_blank' => "Password cannot be blank",
+				    'new_password_blank' => "Your new password cannot be blank",
+				    'confirm_password_blank' => "You must confirm your password",
+				    'invalid_confirm_password' => "Your confirmation password doesn't match your new password",
 					'invalid_password' => "Invalid password",
 					'email_invalid' => "Invalid email address",
 					'doesnt_exist' => "User doesn't exist",
-					'already_a_project_member' => "User is already a project member"
+					'already_a_project_member' => "User is already a project member",
+				    'password_same' => "Your new password cannot be the same as your current password"
 				),
 
 				// Traq Settings errors
