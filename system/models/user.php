@@ -121,7 +121,7 @@ class User extends Model
 		$role_id = $this->get_project_role($project_id);
 		if ($role_id and !isset($this->permissions['role'][$project_id])) {
 			$this->permissions['role'][$project_id] = Permission::get_permissions($project_id, $role_id, 'role');
-		} else {
+		} elseif (!isset($this->permissions['role'][$project_id])) {
 			$this->permissions['role'][$project_id] = array();
 		}
 
