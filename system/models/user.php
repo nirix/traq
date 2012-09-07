@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,18 +42,18 @@ class User extends Model
 		'login_hash',
 		'created_at'
 	);
-	
+
 	// Things the user belongs to
 	protected static $_belongs_to = array('group');
-	
+
 	// Things the user has many of
 	protected static $_has_many = array(
 		'tickets',
-		
+
 		'ticket_updates' => array('model' => 'tickethistory'),
 		'assigned_tickets' => array('model' => 'ticket', 'foreign_key' => 'assigned_to_id')
 	);
-	
+
 	// Things to do before certain things
 	protected static $_filters_before = array(
 		'create' => array('_before_create')
@@ -64,7 +64,7 @@ class User extends Model
 		'project' => array(),
 		'role' => array()
 	);
-	
+
 	/**
 	 * Returns the URI for the users profile.
 	 *
@@ -84,13 +84,13 @@ class User extends Model
 	public function projects()
 	{
 		$projects = array();
-		
+
 		// Loop over the relations and add the project and role to the array
 		foreach (UserRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation) {
 			$projects[] = array($relation->project, $relation->role);
 		}
 
-		
+
 		return $projects;
 	}
 
@@ -115,7 +115,7 @@ class User extends Model
 		if (!isset($this->permissions['project'][$project_id])) {
 			$this->permissions['project'][$project_id] = Permission::get_permissions($project_id, $this->_data['group_id']);
 		}
-		
+
 		// Check if the user has a role for the project and
 		// fetch the permissions if not already done so...
 		$role_id = $this->get_project_role($project_id);
@@ -131,9 +131,9 @@ class User extends Model
 			return false;
 		}
 
-		return $perms[$action]->value;		
+		return $perms[$action]->value;
 	}
-	
+
 	/**
 	 * Fetches the users project role.
 	 *
@@ -157,7 +157,7 @@ class User extends Model
 	 * @param string $password
 	 *
 	 * @return bool
-	 */ 
+	 */
 	public function verify_password($password)
 	{
 		switch($this->_data['password_ver']) {
@@ -183,7 +183,7 @@ class User extends Model
 		$this->password = $new_password;
 		$this->prepare_password();
 	}
-	
+
 	/**
 	 * Handles all the required stuff before creating
 	 * the user, such as hashing the password.
@@ -192,12 +192,12 @@ class User extends Model
 	{
 		$this->prepare_password();
 		$this->_data['login_hash'] = sha1(time() . $this->_data['username'] . rand(0, 1000));
-		
+
 		if (!isset($this->_data['name'])) {
 			$this->_data['name'] = $this->_data['username'];
 		}
 	}
-	
+
 	/**
 	 * Hashes the users password.
 	 */
@@ -205,7 +205,7 @@ class User extends Model
 	{
 		$this->_data['password'] = crypt($this->_data['password'], '$2a$10$' . sha1(microtime() . $this->_data['username'] . $this->_data['email']) . '$');
 	}
-	
+
 	/**
 	 * Checks if the users data is valid or not.
 	 *
@@ -214,12 +214,12 @@ class User extends Model
 	public function is_valid()
 	{
 		$errors = array();
-		
+
 		// Check if the username is set
 		if (empty($this->_data['username'])) {
 			$errors['username'] = l('errors.users.username_blank');
 		}
-		
+
 		// Check if the username is taken
 		if ($this->_is_new() and static::find('username', $this->_data['username'])) {
 			$errors['username'] = l('errors.users.username_in_use');
@@ -229,22 +229,47 @@ class User extends Model
 		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.users.name_blank');
 		}
-		
+
 		// Check if the password is set
 		if (empty($this->_data['password'])) {
 			$errors['password'] = l('errors.users.password_blank');
 		}
-		
+
+		// check if user changed password
+		if (isset($this->_data['old_password']) && (isset($this->_data['new_password']) || isset($this->_data['confirm_password']))) {
+			if (empty($this->_data['old_password'])) {
+				$errors['old_password'] = l('errors.users.password_blank');
+			} elseif (empty($this->_data['new_password']))
+			{
+				$errors['new_password'] = l('errors.users.new_password_blank');
+			} elseif (empty($this->_data['confirm_password'])) {
+				$errors['cofirm_password'] = l('errors.users.confirm_password_blank');
+			} elseif ($this->_data['new_password'] !== $this->_data['confirm_password'])
+			{
+				$errors['new_password'] = l('errors.users.invalid_confirm_password');
+			} elseif(!$this->verify_password($this->_data['old_password']))
+			{
+				$errors['old_password'] = l('errors.users.invalid_password');
+			} elseif($this->_data['new_password'] === $this->_data['old_password'])
+			{
+				$errors['old_password'] = l('errors.users.password_same');
+			} else {
+				// password should be valid at this point
+				unset($this->_data['old_password'], $this->_data['new_password'], $this->_data['confirm_password']);
+			}
+		}
+
+
 		// Check if the email is set
 		if (empty($this->_data['email'])) {
 			$errors['email'] = l('errors.users.email_invalid');
 		}
-		
+
 		// Check if we're valid or not...
 		if (count($errors) > 0) {
 			$this->errors = $errors;
 		}
-		
+
 		return !count($errors) > 0;
 	}
 
@@ -261,7 +286,7 @@ class User extends Model
 		foreach (static::fetch_all() as $user) {
 			$options[] = array('label' => $user->name, 'value' => $user->id);
 		}
-		
+
 		return $options;
 	}
 
