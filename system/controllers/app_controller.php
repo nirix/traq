@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,27 +34,27 @@ class AppController extends Controller
 	public $project;
 	public $user;
 	public $title = array();
-	
+
 	public function __construct()
 	{
-		// Set the theme
-		View::$theme = 'default';
-
 		// Call the controller class constructor
 		parent::__construct();
-		
+
+		// Set the theme
+		View::$theme = settings('theme');
+
 		// Set the title
 		$this->title(settings('title'));
-		
+
 		// Load helpers
 		Load::helper('html', 'errors', 'form', 'js', 'formats', 'time_ago');
-		
+
 		// Get the user info
 		$this->_get_user();
-		
+
 		// Set the theme, title and pass the app object to the view.
 		View::set('traq', $this);
-		
+
 		// Check if we're on a project page and get the project info
 		if (isset(Router::$params['project_slug'])
 		and $this->project = is_project(Router::$params['project_slug'])
@@ -63,7 +63,7 @@ class AppController extends Controller
 			View::set('project', $this->project);
 		}
 	}
-	
+
 	/**
 	 * Adds to or returns the page title array.
 	 *
@@ -78,7 +78,7 @@ class AppController extends Controller
 			// We're returning
 			return $this->title;
 		}
-		
+
 		// Add the title
 		$this->title[] = $add;
 	}
@@ -100,10 +100,10 @@ class AppController extends Controller
 		$this->_render['action'] = false;
 		$this->_render['view'] = 'users/login';
 	}
-	
+
 	/**
 	 * Does the checking for the session cookie and fetches the users info.
-	 * 
+	 *
 	 * @author Jack P.
 	 * @since 3.0
 	 * @access private
@@ -125,11 +125,11 @@ class AppController extends Controller
 			));
 			define("LOGGEDIN", false);
 		}
-		
+
 		// Set the current_user variable in the views.
 		View::set('current_user', $this->user);
 	}
-	
+
 	public function __shutdown()
 	{
 		// Was the page requested via ajax?
@@ -158,7 +158,7 @@ class AppController extends Controller
 		if (Router::$extension == '.json' and View::exists(str_replace('.json', '', $this->_render['view']) . '.json')) {
 			header('Content-type: application/json');
 		}
-		
+
 		// Call the controllers shutdown method.
 		parent::__shutdown();
 	}
