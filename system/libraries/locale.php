@@ -18,6 +18,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\libraries;
+use \Time;
+
 /**
  * Traq Localization System
  * Copyright (C) Jack Polgar

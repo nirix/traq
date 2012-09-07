@@ -56,8 +56,6 @@ Autoloader::register();
 // Load common functions and version file
 require APPPATH . '/common.php';
 require APPPATH . '/version.php';
-require APPPATH . '/libraries/locale.php';
-
 
 // Check for the database config file
 if (!file_exists(APPPATH . '/config/database.php')) {
@@ -70,8 +68,8 @@ else {
 	Database::init($db);
 }
 
-// Load the localization class
-$locale = Locale::load(settings('locale'));
+// Load the localization file
+$locale = traq\libraries\Locale::load(settings('locale'));
 
 // Load the plugins
 require APPPATH . '/libraries/plugin_base.php';
