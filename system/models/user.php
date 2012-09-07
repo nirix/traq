@@ -237,26 +237,26 @@ class User extends Model
 
 		// check if user changed password
 		if (isset($this->_data['old_password']) && (isset($this->_data['new_password']) || isset($this->_data['confirm_password']))) {
-		    if (empty($this->_data['old_password'])) {
-		        $errors['old_password'] = l('errors.users.password_blank');
-		    } elseif (empty($this->_data['new_password']))
-		    {
-		        $errors['new_password'] = l('errors.users.new_password_blank');
-		    } elseif (empty($this->_data['confirm_password'])) {
-		        $errors['cofirm_password'] = l('errors.users.confirm_password_blank');
-		    } elseif ($this->_data['new_password'] !== $this->_data['confirm_password'])
-		    {
-		        $errors['new_password'] = l('errors.users.invalid_confirm_password');
-		    } elseif(!$this->verify_password($this->_data['old_password']))
-		    {
-		        $errors['old_password'] = l('errors.users.invalid_password');
-		    } elseif($this->_data['new_password'] === $this->_data['old_password'])
-		    {
-		        $errors['old_password'] = l('errors.users.password_same');
-		    } else {
-		        // password should be valid at this point
-		        unset($this->_data['old_password'], $this->_data['new_password'], $this->_data['confirm_password']);
-		    }
+			if (empty($this->_data['old_password'])) {
+				$errors['old_password'] = l('errors.users.password_blank');
+			} elseif (empty($this->_data['new_password']))
+			{
+				$errors['new_password'] = l('errors.users.new_password_blank');
+			} elseif (empty($this->_data['confirm_password'])) {
+				$errors['cofirm_password'] = l('errors.users.confirm_password_blank');
+			} elseif ($this->_data['new_password'] !== $this->_data['confirm_password'])
+			{
+				$errors['new_password'] = l('errors.users.invalid_confirm_password');
+			} elseif(!$this->verify_password($this->_data['old_password']))
+			{
+				$errors['old_password'] = l('errors.users.invalid_password');
+			} elseif($this->_data['new_password'] === $this->_data['old_password'])
+			{
+				$errors['old_password'] = l('errors.users.password_same');
+			} else {
+				// password should be valid at this point
+				unset($this->_data['old_password'], $this->_data['new_password'], $this->_data['confirm_password']);
+			}
 		}
 
 

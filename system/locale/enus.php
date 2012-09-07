@@ -191,9 +191,9 @@ class Locale_enUS extends \traq\libraries\Locale
 			'register' => "Register",
 			'username' => "Username",
 			'password' => "Password",
-		    'old_password' => "Old Password",
+			'old_password' => "Old Password",
 			'new_password' => "New Password",
-		    'confirm_password' => "Confirm Password",
+			'confirm_password' => "Confirm Password",
 			'email' => "Email",
 			'xs_profile' => "{1}'s Profile",
 			'assigned_tickets' => "Assigned tickets",
@@ -370,14 +370,14 @@ class Locale_enUS extends \traq\libraries\Locale
 					'name_blank' => "Name cannot be blank",
 					'username_in_use' => "That username is already registered",
 					'password_blank' => "Password cannot be blank",
-				    'new_password_blank' => "Your new password cannot be blank",
-				    'confirm_password_blank' => "You must confirm your password",
-				    'invalid_confirm_password' => "Your confirmation password doesn't match your new password",
+					'new_password_blank' => "Your new password cannot be blank",
+					'confirm_password_blank' => "You must confirm your password",
+					'invalid_confirm_password' => "Your confirmation password doesn't match your new password",
 					'invalid_password' => "Invalid password",
 					'email_invalid' => "Invalid email address",
 					'doesnt_exist' => "User doesn't exist",
 					'already_a_project_member' => "User is already a project member",
-				    'password_same' => "Your new password cannot be the same as your current password"
+					'password_same' => "Your new password cannot be the same as your current password"
 				),
 
 				// Traq Settings errors
