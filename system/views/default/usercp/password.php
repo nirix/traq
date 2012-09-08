@@ -5,7 +5,7 @@
 <div class="usercp content">
 	<?php show_errors($user->errors); ?>
 	<form action="<?php echo Request::full_uri(); ?>" method="post">
-		<fieldset id="info" class="box">
+		<fieldset class="box push-6 span-11">
 			<legend><?php echo l('password'); ?></legend>
 
 			<div class="tabular">
@@ -24,8 +24,6 @@
 				<?php FishHook::run('template:users/usercp/password'); ?>
 			</div>
 		</fieldset>
-
-		<?php FishHook::run('template:users/usercp'); ?>
 
 		<div class="clearfix"></div>
 		<div class="actions">
