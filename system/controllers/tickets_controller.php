@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -58,23 +58,29 @@ class TicketsController extends AppController
 		// Start the filter SQL query
 		$sql = array();
 		$sql[] = "`project_id` = '{$this->project->id}'";
-		
+
 		// Filters
+		$filters = array();
 		foreach (Request::$request as $filter => $value) {
 			// Check if the filter exists...
 			if (!in_array($filter, ticket_filters())) {
 				continue;
 			}
-			
+
 			$filter_sql = array();
-			
+			$prefix = '';
+			if ($value[0] == '!') {
+				$prefix = '!';
+				$value = substr($value, 1);
+			}
+
 			// Milestone filter
 			if ($filter == 'milestone') {
 				foreach (explode(',', $value) as $name) {
 					$milestone = Milestone::find('slug', $name);
 					$filter_sql[] = $milestone->id;
 				}
-				$sql[] = "milestone_id IN (" . implode(', ', $filter_sql) . ")";
+				$sql[] = "milestone_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Status filter
 			elseif ($filter == 'status') {
@@ -91,7 +97,7 @@ class TicketsController extends AppController
 						$filter_sql[] = $status->id;
 					}
 				}
-				$sql[] = "status_id IN (" . implode(', ', $filter_sql) . ")";
+				$sql[] = "status_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Type filter
 			elseif ($filter == 'type') {
@@ -99,7 +105,7 @@ class TicketsController extends AppController
 					$type = Type::find('name', urldecode($name));
 					$filter_sql[] = $type->id;
 				}
-				$sql[] = "type_id IN (" . implode(', ', $filter_sql) . ")";
+				$sql[] = "type_id IN " . ($prefix == '!' ? 'NOT' :'') . " (" . implode(', ', $filter_sql) . ")";
 			}
 			// Component filter
 			elseif ($filter == 'component') {
@@ -107,21 +113,25 @@ class TicketsController extends AppController
 					$component = Component::find('name', urldecode($name));
 					$filter_sql[] = $component->id;
 				}
-				$sql[] = "component_id IN (" . implode(', ', $filter_sql) . ")";
+				$sql[] = "component_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
 			}
+
+			$filters['milestone'] = array('prefix' => $prefix, 'values' => $filter_sql);
 		}
-		
+
+		View::set('filters', $filters);
+
 		// Fetch tickets
 		$tickets = array();
 		$rows = $this->db->select()->from('tickets')->custom_sql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->order_by('priority_id', 'ASC')->exec()->fetch_all();
 		foreach($rows as $row) {
 			$tickets[] = new Ticket($row, false);
 		}
-		
+
 		// Send the tickets array to the view..
 		View::set('tickets', $tickets);
 	}
-	
+
 	/**
 	 * Handles the view ticket page.
 	 *
@@ -185,10 +195,10 @@ class TicketsController extends AppController
 				$voters[] = User::find($voter);
 			}
 		}
-		
+
 		View::set('voters', $voters);
 	}
-	
+
 	/**
 	 * Handles the new ticket page and ticket creation.
 	 */
@@ -199,7 +209,7 @@ class TicketsController extends AppController
 
 		// Create a new ticket object
 		$ticket = new Ticket;
-		
+
 		// Check if the form has been submitted
 		if (Request::$method == 'post') {
 			// Set the ticket data
@@ -224,7 +234,7 @@ class TicketsController extends AppController
 
 			// Set the ticket data
 			$ticket->set($data);
-			
+
 			// Check if the ticket data is valid...
 			// if it is, save the ticket to the DB and
 			// redirect to the ticket page.
@@ -313,7 +323,7 @@ class TicketsController extends AppController
 			case 'new':
 				$action = 'create_tickets';
 				break;
-			
+
 			// Edit ticket description
 			case 'edit':
 				$action = 'edit_ticket_description';

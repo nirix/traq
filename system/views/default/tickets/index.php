@@ -1,5 +1,6 @@
 <div class="content">
 	<h2 id="page_title"><?php echo l('tickets')?></h2>
+	<?php View::render('tickets/_filters'); ?>
 </div>
 <table class="list">
 	<thead>
