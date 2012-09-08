@@ -2,23 +2,21 @@
 /*
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
-
-require __DIR__ . '/base.php';
 
 /**
  * Admin Projects controller
@@ -28,7 +26,7 @@ require __DIR__ . '/base.php';
  * @package Traq
  * @subpackage Controllers
  */
-class AdminProjectsController extends AdminBase
+class AdminProjectsController extends AdminAppController
 {
 	public function __construct()
 	{
@@ -42,16 +40,16 @@ class AdminProjectsController extends AdminBase
 		$projects = Project::fetch_all();
 		View::set('projects', $projects);
 	}
-	
+
 	/**
 	 * Create a new project page.
 	 */
 	public function action_new()
 	{
 		$this->title(l('new'));
-		
+
 		$project = new Project;
-		
+
 		if (Request::$method == 'post')
 		{
 			$project->set(array(
@@ -61,16 +59,16 @@ class AdminProjectsController extends AdminBase
 				'info' => Request::$post['info'],
 				'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
 			));
-			
+
 			if ($project->save())
 			{
 				Request::redirect(Request::base('admin'));
 			}
 		}
-		
+
 		View::set('proj', $project);
 	}
-	
+
 	/**
 	 * Delete a project.
 	 *
