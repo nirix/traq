@@ -51,14 +51,12 @@ class AdminSeveritiesController extends AdminAppController
 		$severity = new Severity();
 
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the name
 			$severity->set('name', Request::$post['name']);
 
 			// Save and redirect
-			if ($severity->save())
-			{
+			if ($severity->save()) {
 				Request::redirect(Request::base('/admin/severities'));
 			}
 		}
@@ -77,14 +75,12 @@ class AdminSeveritiesController extends AdminAppController
 		$severity = Severity::find($id);
 
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the name
 			$severity->set('name', Request::$post['name']);
 
 			// Save and redirect
-			if ($severity->save())
-			{
+			if ($severity->save()) {
 				Request::redirect(Request::base('/admin/severities'));
 			}
 		}

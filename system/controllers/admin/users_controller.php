@@ -51,8 +51,7 @@ class AdminUsersController extends AdminAppController
 		$user = new User(array('group_id' => 2));
 
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the users information
 			$user->set(array(
 				'username' => Request::$post['username'],
@@ -63,8 +62,7 @@ class AdminUsersController extends AdminAppController
 			));
 
 			// Check if the data is valid
-			if ($user->is_valid())
-			{
+			if ($user->is_valid()) {
 				// Save the users data and redirect
 				// to the user listing page.
 				$user->save();
@@ -89,8 +87,7 @@ class AdminUsersController extends AdminAppController
 		$user = User::find($id);
 
 		// Check if the form has been submitted.
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Update the users information.
 			$user->set(array(
 				'username' => Request::$post['username'],
@@ -100,18 +97,15 @@ class AdminUsersController extends AdminAppController
 			));
 
 			// Check if we're changing their password.
-			if (!empty(Request::$post['password']))
-			{
+			if (!empty(Request::$post['password'])) {
 				// Update their password.
 				$user->set('password', Request::$post['password']);
 			}
 
 			// Check if the users data is valid.
-			if ($user->is_valid())
-			{
+			if ($user->is_valid()) {
 				// Again check if we're changin their password.
-				if (!empty(Request::$post['password']))
-				{
+				if (!empty(Request::$post['password'])) {
 					// Process the password.
 					$user->prepare_password();
 				}

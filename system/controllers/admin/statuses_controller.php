@@ -51,8 +51,7 @@ class AdminStatusesController extends AdminAppController
 		$status = new Status;
 
 		// Check if the form has been submitted.
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the information.
 			$status->set(array(
 				'name' => Request::$post['name'],
@@ -61,8 +60,7 @@ class AdminStatusesController extends AdminAppController
 			));
 
 			// Check if the data is valid.
-			if ($status->is_valid())
-			{
+			if ($status->is_valid()) {
 				// Save and redirect.
 				$status->save();
 				Request::redirect(Request::base('/admin/tickets/statuses'));
@@ -86,8 +84,7 @@ class AdminStatusesController extends AdminAppController
 		$status = Status::find($id);
 
 		// Check if the form has been submitted.
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the information.
 			$status->set(array(
 				'name' => Request::$post['name'],
@@ -96,8 +93,7 @@ class AdminStatusesController extends AdminAppController
 			));
 
 			// Check if the data is valid.
-			if ($status->is_valid())
-			{
+			if ($status->is_valid()) {
 				// Save and redirect.
 				$status->save();
 				Request::redirect(Request::base('/admin/tickets/statuses'));

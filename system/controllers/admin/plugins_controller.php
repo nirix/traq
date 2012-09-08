@@ -37,31 +37,26 @@ class AdminPluginsController extends AdminAppController
 			'disabled' => array()
 		);
 
-		foreach ($this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all() as $plugin)
-		{
+		foreach ($this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all() as $plugin) {
 			$plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, array('installed' => true));
 		}
 
 		// Scan the plugin directory
 		$plugins_dir = APPPATH . '/plugins/';
 		if (is_dir($plugins_dir)) {
-			foreach (scandir($plugins_dir) as $file)
-			{
+			foreach (scandir($plugins_dir) as $file) {
 				// Make sure its a plugin, not some weird
 				// or unwanted file or directory.
-				if (!preg_match('#^([a-zA-Z0-9\-_]+).plugin.php$#', $file, $match))
-				{
+				if (!preg_match('#^([a-zA-Z0-9\-_]+).plugin.php$#', $file, $match)) {
 					continue;
 				}
 
 				// If the plugin isn't enabled, fetch the plugin
 				// file and then call the info() method.
-				if (!isset($plugins['enabled'][$match[1]]))
-				{
+				if (!isset($plugins['enabled'][$match[1]])) {
 					require $plugins_dir . "{$match[1]}.plugin.php";
 					$class_name = "Plugin_{$match[1]}";
-					if (class_exists($class_name))
-					{
+					if (class_exists($class_name)) {
 						$plugins['disabled'][$match[1]] = array_merge(
 							$class_name::info(),
 							array(
@@ -76,8 +71,7 @@ class AdminPluginsController extends AdminAppController
 				else
 				{
 					$class_name = "Plugin_{$match[1]}";
-					if (class_exists($class_name))
-					{
+					if (class_exists($class_name)) {
 						$key = isset($plugins['enabled'][$match[1]]) ? 'enabled' : 'disabled';
 						$plugins[$key][$match[1]] = array_merge($class_name::info(), $plugins[$key][$match[1]]);
 					}
@@ -99,8 +93,7 @@ class AdminPluginsController extends AdminAppController
 		require APPPATH . "/plugins/{$file}.plugin.php";
 
 		$class_name = "Plugin_{$file}";
-		if (class_exists($class_name))
-		{
+		if (class_exists($class_name)) {
 			$class_name::__enable();
 			$plugin = Plugin::find('file', $file);
 			$plugin->set('enabled', 1);
@@ -120,8 +113,7 @@ class AdminPluginsController extends AdminAppController
 		$file = htmlspecialchars($file);
 
 		$class_name = "Plugin_{$file}";
-		if (class_exists($class_name))
-		{
+		if (class_exists($class_name)) {
 			$class_name::__disable();
 			$plugin = Plugin::find('file', $file);
 			$plugin->set('enabled', 0);
@@ -142,8 +134,7 @@ class AdminPluginsController extends AdminAppController
 		require APPPATH . "/plugins/{$file}.plugin.php";
 
 		$class_name = "Plugin_{$file}";
-		if (class_exists($class_name))
-		{
+		if (class_exists($class_name)) {
 			$class_name::__install();
 			$plugin = new Plugin(array('file' => $file));
 			$plugin->set('enabled', 1);
@@ -165,14 +156,12 @@ class AdminPluginsController extends AdminAppController
 		$class_name = "Plugin_{$file}";
 
 		// Check if the plugin file exists
-		if (file_exists(APPPATH . "/plugins/{$file}.plugin.php") and !class_exists($class_name))
-		{
+		if (file_exists(APPPATH . "/plugins/{$file}.plugin.php") and !class_exists($class_name)) {
 			require APPPATH . "/plugins/{$file}.plugin.php";
 		}
 
 		// Check if the class exists
-		if (class_exists($class_name))
-		{
+		if (class_exists($class_name)) {
 			$class_name::__uninstall();
 		}
 

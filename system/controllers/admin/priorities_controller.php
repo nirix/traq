@@ -51,14 +51,12 @@ class AdminPrioritiesController extends AdminAppController
 		$priority = new Priority();
 
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the name
 			$priority->set('name', Request::$post['name']);
 
 			// Save and redirect
-			if ($priority->save())
-			{
+			if ($priority->save()) {
 				Request::redirect(Request::base('/admin/priorities'));
 			}
 		}
@@ -77,14 +75,12 @@ class AdminPrioritiesController extends AdminAppController
 		$priority = Priority::find($id);
 
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the name
 			$priority->set('name', Request::$post['name']);
 
 			// Save and redirect
-			if ($priority->save())
-			{
+			if ($priority->save()) {
 				Request::redirect(Request::base('/admin/priorities'));
 			}
 		}

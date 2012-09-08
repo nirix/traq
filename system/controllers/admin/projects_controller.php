@@ -50,8 +50,7 @@ class AdminProjectsController extends AdminAppController
 
 		$project = new Project;
 
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			$project->set(array(
 				'name' => Request::$post['name'],
 				'slug' => Request::$post['slug'],
@@ -60,8 +59,7 @@ class AdminProjectsController extends AdminAppController
 				'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
 			));
 
-			if ($project->save())
-			{
+			if ($project->save()) {
 				Request::redirect(Request::base('admin'));
 			}
 		}

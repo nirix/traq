@@ -49,8 +49,7 @@ class AdminTypesController extends AdminAppController
 		$type = new Type();
 
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the information
 			$type->set(array(
 				'name' => Request::$post['name'],
@@ -60,8 +59,7 @@ class AdminTypesController extends AdminAppController
 			));
 
 			// Check if the data is valid
-			if ($type->is_valid())
-			{
+			if ($type->is_valid()) {
 				// Save and redirect
 				$type->save();
 				Request::redirect(Request::base('/admin/tickets/types'));
@@ -83,8 +81,7 @@ class AdminTypesController extends AdminAppController
 		$type = Type::find($id);
 
 		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Update the information
 			$type->set(array(
 				'name' => Request::$post['name'],
@@ -94,8 +91,7 @@ class AdminTypesController extends AdminAppController
 			));
 
 			// Check if the data is valid
-			if ($type->is_valid())
-			{
+			if ($type->is_valid()) {
 				// Save and redirect.
 				$type->save();
 				Request::redirect(Request::base('/admin/tickets/types'));

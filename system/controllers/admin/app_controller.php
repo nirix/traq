@@ -40,8 +40,7 @@ class AdminAppController extends AppController
 		// if not show the login page with this pages
 		// URI so we can redirect them back to this page
 		// after they login.
-		if (!$this->user->group->is_admin)
-		{
+		if (!$this->user->group->is_admin) {
 			$this->show_login(Request::full_uri());
 		}
 	}

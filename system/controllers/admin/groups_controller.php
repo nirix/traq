@@ -51,14 +51,12 @@ class AdminGroupsController extends AdminAppController
 		$group = new Group;
 
 		// Check if the form has been submitted.
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the groups name.
 			$group->set('name', Request::$post['name']);
 
 			// Make sure the data is valid.
-			if ($group->is_valid())
-			{
+			if ($group->is_valid()) {
 				// Save and redirect.
 				$group->save();
 				Request::redirect(Request::base('/admin/groups'));
@@ -82,14 +80,12 @@ class AdminGroupsController extends AdminAppController
 		$group = Group::find($id);
 
 		// Check if the form has been submitted.
-		if (Request::$method == 'post')
-		{
+		if (Request::$method == 'post') {
 			// Set the groups name
 			$group->set('name', Request::$post['name']);
 
 			// Make sure the data is valid.
-			if ($group->is_valid())
-			{
+			if ($group->is_valid()) {
 				// Save and redirect.
 				$group->save();
 				Request::redirect(Request::base('/admin/groups'));
