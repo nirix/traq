@@ -1,8 +1,8 @@
-<div class="usercp password">
+<div class="usercp password content">
 	<h2 id="page_title"><?php echo l('usercp'); ?></h2>
 </div>
 <?php View::render('usercp/_nav'); ?>
-<div class="usercp content">
+<div class="usercp password content">
 	<?php show_errors($user->errors); ?>
 	<form action="<?php echo Request::full_uri(); ?>" method="post">
 		<fieldset class="box push-6 span-11">
