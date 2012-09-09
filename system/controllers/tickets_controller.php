@@ -85,8 +85,8 @@ class TicketsController extends AppController
 			// Status filter
 			elseif ($filter == 'status') {
 				// All open, or all closed statuses
-				if ($value == 'open' or $value == 'closed') {
-					foreach (Status::select('id')->where('status', ($value == 'open' ? 1 : 0))->exec()->fetch_all() as $status) {
+				if ($value == 'allopen' or $value == 'allclosed') {
+					foreach (Status::select('id')->where('status', ($value == 'allopen' ? 1 : 0))->exec()->fetch_all() as $status) {
 						$filter_sql[] = $status->id;
 					}
 				}
@@ -116,7 +116,7 @@ class TicketsController extends AppController
 				$sql[] = "component_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
 			}
 
-			$filters['milestone'] = array('prefix' => $prefix, 'values' => $filter_sql);
+			$filters[$filter] = array('prefix' => $prefix, 'values' => $filter_sql);
 		}
 
 		View::set('filters', $filters);

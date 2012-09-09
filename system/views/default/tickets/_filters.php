@@ -2,13 +2,7 @@
 	<fieldset>
 		<legend><?php echo l('filters'); ?></legend>
 		<table>
-		<?php foreach ($filters as $filter => $info) {
-			switch($filter) {
-				case 'milestone':
-					$options = $project->milestone_select_options();
-					break;
-			}
-			?>
+		<?php foreach ($filters as $filter => $info) { ?>
 			<?php foreach ($info['values'] as $k => $value) { ?>
 			<tr>
 				<td><?php echo $k == 0 ? l($filter) :''; ?></td>
@@ -22,10 +16,12 @@
 					) :''; ?>
 				</td>
 				<td>
-					<?php echo Form::select("filters[{$filter}][values][]",
-						$options,
-						array('value' => $value)
-					); ?>
+					<?php if (in_array($filter, array('milestone', 'status'))) {
+						echo Form::select("filters[{$filter}][values][]",
+							ticket_filter_options_for($filter),
+							array('value' => $value)
+						);
+					} ?>
 				</td>
 			</tr>
 			<?php } ?>
