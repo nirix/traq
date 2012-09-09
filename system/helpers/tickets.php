@@ -21,6 +21,48 @@
 use avalon\core\Kernel as Avalon;
 
 /**
+ * Ticket columns
+ *
+ * @return array
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
+ */
+function ticket_columns() {
+	$columns = array(
+		'ticket_id',
+		'summary',
+		'status',
+		'owner',
+		'type',
+		'component',
+		'milestone'
+	);
+	return $columns;
+}
+
+/**
+ * Ticket filters
+ *
+ * @return array
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
+ */
+function ticket_filters() {
+	$filters = array(
+		'milestone',
+		'version',
+		'status',
+		'type',
+		'component',
+	);
+	return $filters;
+}
+
+/**
  * Returns the content for the ticket listing headers.
  *
  * @param string $column The column to get the content for.
@@ -114,6 +156,16 @@ function ticket_filter_options_for($filter) {
 		// Milestone options
 		case 'milestone':
 			return Avalon::app()->project->milestone_select_options();
+			break;
+
+		// Version options
+		case 'version':
+			return Avalon::app()->project->milestone_select_options('completed');
+			break;
+
+		// Type options
+		case 'type':
+			return Type::select_options();
 			break;
 
 		// Status options

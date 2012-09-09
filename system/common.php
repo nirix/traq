@@ -2,18 +2,18 @@
 /*
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,13 +33,13 @@ use avalon\core\Kernel as Avalon;
  */
 function settings($setting) {
 	static $CACHE = array();
-	
+
 	if (isset($CACHE[$setting])) {
 		return $CACHE[$setting];
 	}
-	
+
 	$data = Setting::find($setting);
-	
+
 	$CACHE[$setting] = $data->value;
 	return $CACHE[$setting];
 }
@@ -85,7 +85,7 @@ function locale_select_options()
 
 	foreach (scandir(APPPATH . '/locale') as $file)
 	{
-		
+
 		if (substr($file, -4) == '.php')
 		{
 			// Clean the name and set the class
@@ -98,7 +98,7 @@ function locale_select_options()
 			{
 				require APPPATH . '/locale/' . $file;
 			}
-			
+
 			// Get the info
 			$info = $class::info();
 
@@ -153,9 +153,9 @@ function theme_select_options()
 function format_text($text, $strip_html = true)
 {
 	$text = $strip_html ? htmlspecialchars($text) : $text;
-	
+
 	FishHook::run('function:format_text', array(&$text, $strip_html));
-	
+
 	return $text;
 }
 
@@ -294,47 +294,6 @@ function is_project($find, $field = 'slug') {
 	} else {
 		return false;
 	}
-}
-
-/**
- * Ticket columns
- *
- * @return array
- *
- * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
- */
-function ticket_columns() {
-	$columns = array(
-		'ticket_id',
-		'summary',
-		'status',
-		'owner',
-		'type',
-		'component',
-		'milestone'
-	);
-	return $columns;
-}
-
-/**
- * Ticket filters
- *
- * @return array
- *
- * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
- */
-function ticket_filters() {
-	$filters = array(
-		'milestone',
-		'status',
-		'type',
-		'component',
-	);
-	return $filters;
 }
 
 /**
