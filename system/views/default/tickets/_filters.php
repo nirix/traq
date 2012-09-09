@@ -16,7 +16,7 @@
 					) :''; ?>
 				</td>
 				<td>
-					<?php if (in_array($filter, array('milestone', 'status'))) {
+					<?php if (in_array($filter, array('milestone', 'status', 'version', 'type'))) {
 						echo Form::select("filters[{$filter}][values][]",
 							ticket_filter_options_for($filter),
 							array('value' => $value)

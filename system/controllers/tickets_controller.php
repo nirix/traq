@@ -74,13 +74,13 @@ class TicketsController extends AppController
 				$value = substr($value, 1);
 			}
 
-			// Milestone filter
-			if ($filter == 'milestone') {
+			// Milestone and Version filter
+			if ($filter == 'milestone' or $filter == 'version') {
 				foreach (explode(',', $value) as $name) {
 					$milestone = Milestone::find('slug', $name);
 					$filter_sql[] = $milestone->id;
 				}
-				$sql[] = "milestone_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
+				$sql[] = "{$filter}_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
 			}
 			// Status filter
 			elseif ($filter == 'status') {
