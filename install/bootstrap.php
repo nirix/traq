@@ -27,7 +27,7 @@ use avalon\Autoloader;
 Autoloader::register_namespace('avalon', SYSPATH);
 Autoloader::register();
 
-require 'ant.php';
+require 'nanite.php';
 require SYSPATH . '/libs/fishhook.php';
 require '../system/models/user.php';
 require 'common.php';

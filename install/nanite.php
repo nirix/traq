@@ -18,35 +18,35 @@
  */
 
 /**
- * Shortcut to the Ant::get() method.
+ * Shortcut to the Nanite::get() method.
  *
  * @param string $route
  * @param function $function
  */
 function get($route, $function)
 {
-	Ant::get($route, $function);
+	Nanite::get($route, $function);
 }
 
 /**
- * Shortcut to the Ant::post() method.
+ * Shortcut to the Nanite::post() method.
  *
  * @param string $route
  * @param function $function
  */
 function post($route, $function)
 {
-	Ant::post($route, $function);
+	Nanite::post($route, $function);
 }
 
 /**
- * Ant is a tiny PHP router.
+ * Nanite is a tiny PHP router.
  *
  * @copyright Copyright (c) 2012 Jack P.
  * @license GNU Lesser General Public License
  * @version 3.0
  */
-class Ant
+class Nanite
 {
 	private static $request_uri;
 
