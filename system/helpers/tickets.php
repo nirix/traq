@@ -103,16 +103,20 @@ function ticketlist_data($column, $ticket) {
 }
 
 /**
+ * Returns options for the specific ticket filter.
  *
+ * @param string $filter
  *
- *
+ * @return array
  */
 function ticket_filter_options_for($filter) {
 	switch ($filter) {
+		// Milestone options
 		case 'milestone':
 			return Avalon::app()->project->milestone_select_options();
 			break;
 
+		// Status options
 		case 'status':
 			return Status::select_options();
 			break;
