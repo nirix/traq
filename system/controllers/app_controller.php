@@ -135,18 +135,15 @@ class AppController extends Controller
 		// Was the page requested via ajax?
 		if (Request::is_ajax() and Router::$extension == null) {
 			// Is this page being used as an overlay?
-			if (isset(Request::$request['overlay']))
-			{
+			if (isset(Request::$request['overlay'])) {
 				$extension = '.overlay';
 			}
 			// a popover?
-			elseif (isset(Request::$request['popover']))
-			{
+			elseif (isset(Request::$request['popover'])) {
 				$extension = '.popover';
 			}
 			// Neither, just regular javascript
-			else
-			{
+			else {
 				$extension = '.js';
 			}
 
