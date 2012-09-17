@@ -101,6 +101,7 @@ class Locale_enUS extends \traq\libraries\Locale
 			'member_since' => "Member since",
 			'unknown' => "Unkown",
 			'changelog' => "Changelog",
+			'or' => "or",
 
 			// AdminCP
 			'admin.theme_select_option' => "{1} (v{2} by {3})",

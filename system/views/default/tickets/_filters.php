@@ -13,7 +13,7 @@
 							array('label' => 'is not', 'value' => '!')
 						),
 						array('value' => $info['prefix'])
-					) :''; ?>
+					) : l('or'); ?>
 				</td>
 				<td>
 					<?php if (in_array($filter, array('milestone', 'status', 'version', 'type'))) {
