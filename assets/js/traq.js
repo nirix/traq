@@ -34,7 +34,24 @@ $(document).ready(function(){
 	// Add a confirm-on-click event to call elements
 	// with the data-confirm attribute.
 	$(document).on('click', '[data-confirm]', function(){
-		return confirm($(this).attr('data-confirm'));
+		var parent = $(this);
+		
+		var outerDiv = $('<div/>');
+		outerDiv.css('padding', '5px');
+		
+		var innerDiv = $('<div/>');
+		innerDiv.css('text-align', 'center');
+		innerDiv.append($('<button/>', { 'text' : 'Yes' }).click(function() { window.location.href = parent.attr('href'); }));
+		innerDiv.append($('<button/>', { 'text' : 'No' }).click(function() { $("#popover").hide(); return false; }));
+
+		outerDiv.append(parent.attr('data-confirm'));
+		outerDiv.append(innerDiv);
+		
+		$("#popover").stop(true, true).hide().empty().append(outerDiv);
+		$("#popover").popover(parent);
+		
+		return false;
+		//return confirm($(this).attr('data-confirm'));
 	});
 	
 	// Add a click event to all elements with

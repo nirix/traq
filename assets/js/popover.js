@@ -20,7 +20,7 @@
 
 		// Set the position
 		popover.css({
-			left: (parent.offset().left - (popover.width() / 2)) + 'px',
+			left: ((parent.offset().left + parent.width()) - (popover.width() / 2)) + 'px',
 			top: (parent.offset().top + parent.height()) + 'px',
 			height: 'auto'
 		});
