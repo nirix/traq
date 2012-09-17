@@ -103,7 +103,7 @@ class Locale
 	 */
 	public function merge($vars)
 	{
-		$this->locale = array_merge($this->locale, $vars);
+		$this->locale = array_merge_recursive($this->locale, $vars);
 	}
 
 	/**
