@@ -9,13 +9,13 @@
 					<li><?php echo HTML::link(l('roadmap'), "{$project->slug}/roadmap"); ?></li>
 					<li><?php echo HTML::link(l('tickets'), "{$project->slug}/tickets"); ?></li>
 					<li><?php echo HTML::link(l('timeline'), "{$project->slug}/timeline"); ?></li>
-					<?php FishHook::run('template:projects/index/project/nav'); ?>
+					<?php FishHook::run('template:projects/index/project/nav', array($project)); ?>
 				</ul>
 			</nav>
 			<div class="description">
 				<?php echo format_text($project->info); ?>
 			</div>
-			<?php FishHook::run('template:projects/index/project'); ?>
+			<?php FishHook::run('template:projects/index/project', array($project)); ?>
 		</li>
 		<?php } ?>
 	</ul>
