@@ -59,7 +59,10 @@ class AppController extends Controller
 		if (isset(Router::$params['project_slug'])
 		and $this->project = is_project(Router::$params['project_slug'])
 		and $this->user->permission($this->project->id, 'view')) {
+			// Add project name to page title
 			$this->title($this->project->name);
+
+			// Send the project object to the view
 			View::set('project', $this->project);
 		}
 	}

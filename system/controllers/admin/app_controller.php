@@ -28,6 +28,9 @@
  */
 class AdminAppController extends AppController
 {
+	/**
+	 * Constructor!
+	 */
 	public function __construct()
 	{
 		parent::__construct();

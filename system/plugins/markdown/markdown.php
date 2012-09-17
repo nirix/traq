@@ -55,8 +55,8 @@ class Plugin_markdown extends PluginBase
 	 */
 	public static function format_text(&$text, $strip_html)
 	{
-		if ($strip_html)
-		{
+		// If HTML is being converted to text, undo it.
+		if ($strip_html) {
 			$text = htmlspecialchars_decode($text);
 		}
 
