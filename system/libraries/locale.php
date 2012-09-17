@@ -32,8 +32,8 @@ use \Time;
  */
 class Locale
 {
-	protected static $info = array();
-	protected static $locale = array();
+	protected $info = array();
+	protected $locale = array();
 
 	/**
 	 * Loads the specified locale.
@@ -59,7 +59,6 @@ class Locale
 
 			return new $class();
 		}
-
 		return false;
 	}
 
@@ -68,10 +67,20 @@ class Locale
 	 *
 	 * @return array
 	 */
-	public static function info()
+	public function info()
 	{
-		return static::$info;
+		return $this->info;
 	}
+	
+	/**
+	 * Returns the locale strings.
+	 *
+	 * @return array
+	 */
+	 public function locale()
+	 {
+		return $this->locale;
+	 }
 
 	/**
 	 * Translates the specified string. 
@@ -83,7 +92,18 @@ class Locale
 		$string = func_get_arg(0);
 		$vars = array_slice(func_get_args(), 1);
 
-		return static::_compile_string(static::get_string($string), $vars);
+		return $this->_compile_string($this->get_string($string), $vars);
+	}
+	
+	/**
+	 * Adds extra locale strings
+	 * If collisions occur, the new string will overwrite the old one.
+	 * 
+	 * @param array $vars
+	 */
+	public function merge($vars)
+	{
+		$this->locale = array_merge($this->locale, $vars);
 	}
 
 	/**
@@ -101,9 +121,9 @@ class Locale
 	 *
 	 * @return string
 	 */
-	public static function get_string($string)
+	public function get_string($string)
 	{
-		$locale = &static::$locale;
+		$locale = &$this->locale;
 		$indexes = explode('.', $string);
 
 		// Exact match?
@@ -147,7 +167,7 @@ class Locale
 	 *
 	 * @return integer
 	 */
-	public static function calculate_numeral($numeral)
+	public function calculate_numeral($numeral)
 	{
 		return ($numeral > 1 or $numeral < -1 or $numeral == 0) ? 1 : 0;
 	}
@@ -164,7 +184,7 @@ class Locale
 	 *
 	 * @return string
 	 */
-	protected static function _compile_string($string, $vars)
+	protected function _compile_string($string, $vars)
 	{
 		$translation = $string;
 
@@ -188,7 +208,7 @@ class Locale
 				$value = $matches['value'][$id];
 
 				// Check what replacement to use...
-				$replacement_id = static::calculate_numeral($value);
+				$replacement_id = $this->calculate_numeral($value);
 				if ($replacement_id !== false) {
 					$translation = str_replace($match, $replacements[$replacement_id], $translation);
 				}
