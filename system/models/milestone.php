@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,14 +44,18 @@ class Milestone extends Model
 		'project_id',
 		'displayorder'
 	);
-	
+
 	// Relations
 	protected static $_has_many = array('tickets');
 	protected static $_belongs_to = array('project');
 
 	// Filters
-	protected static $_filters_after = array('construct' => array('after_construct'));
-	
+	protected static $_filters_before = array(
+		'create' => array('_before_create'),
+		'save' => array('_before_save')
+	);
+	protected static $_filters_after = array('construct' => array('_after_construct'));
+
 	/**
 	 * Easily get the URI to the milestone.
 	 *
@@ -103,7 +107,7 @@ class Milestone extends Model
 			array('label' => l('cancelled'), 'value' => 0),
 		);
 	}
-	
+
 	/**
 	 * Checks if the models data is valid.
 	 *
@@ -112,23 +116,23 @@ class Milestone extends Model
 	public function is_valid()
 	{
 		$errors = array();
-		
+
 		// Check if the name is empty
 		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
-		
+
 		// Check if the slug is empty
 		if (empty($this->_data['slug'])) {
 			$errors['slug'] = l('errors.slug_blank');
 		}
-		
+
 		// Check if the slug is in use
 		$milestone_slug = Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->project_id);
 		if ($milestone_slug->exec()->row_count()) {
 			$errors['slug'] = l('errors.slug_in_use');
 		}
-		
+
 		$this->errors = $errors;
 		return !count($errors) > 0;
 	}
@@ -157,9 +161,33 @@ class Milestone extends Model
 	}
 
 	/**
+	 * Converts the slug to be URI safe.
+	 */
+	protected function create_slug()
+	{
+		$this->slug = create_slug($this->slug);
+	}
+
+	/**
+	 * Does required things before creating the row.
+	 */
+	protected function _before_create()
+	{
+		$this->create_slug();
+	}
+
+	/**
+	 * Does required things before saving the data.
+	 */
+	protected function _before_save()
+	{
+		$this->create_slug();
+	}
+
+	/**
 	 * Clones the status for use in the save method.
 	 */
-	protected function after_construct()
+	protected function _after_construct()
 	{
 		$this->original_status = $this->_data['status'];
 	}

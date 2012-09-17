@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -43,7 +43,7 @@ class Project extends Model
 		'displayorder',
 		'private_key'
 	);
-	
+
 	// Has-many relationships with other models
 	protected static $_has_many = array(
 		'tickets', 'milestones', 'components',
@@ -53,9 +53,10 @@ class Project extends Model
 	// Filters
 	protected static $_filters_before = array(
 		'create' => array('_before_create'),
+		'csave' => array('_before_save'),
 		//'delete' => array('_before_delete')
 	);
-	
+
 	/**
 	 * Returns the URI for the project.
 	 *
@@ -125,7 +126,7 @@ class Project extends Model
 		}
 		return $options;
 	}
-	
+
 	/**
 	 * Checks if the model data is valid.
 	 *
@@ -134,12 +135,12 @@ class Project extends Model
 	public function is_valid()
 	{
 		$errors = array();
-		
+
 		// Check if the name is empty
 		if (empty($this->_data['name'])) {
 			$errors['name'] = l('errors.name_blank');
 		}
-		
+
 		// Check if the slug is empty
 		if (empty($this->_data['slug'])) {
 			$errors['slug'] = l('errors.slug_blank');
@@ -150,54 +151,71 @@ class Project extends Model
 		if ($project_slug->exec()->row_count()) {
 			$errors['slug'] = l('errors.slug_in_use');
 		}
-		
+
 		$this->errors = $errors;
 		return !count($errors) > 0;
 	}
-	
+
+	/**
+	 * Converts the slug to be URI safe.
+	 */
+	protected function create_slug()
+	{
+		$this->slug = create_slug($this->slug);
+	}
+
 	/**
 	 * Things required before creating the table row.
 	 */
 	protected function _before_create()
 	{
 		$this->_data['private_key'] = random_hash();
+		$this->_create_slug();
 	}
-	
+
+	/**
+	 * Do required stuff before saving.
+	 */
+	protected function _before_save()
+	{
+		$this->_create_slug();
+	}
+
 	/**
 	 * Things to do before deleting the project...
 	 */
-	public function _before_delete()
+	protected function _before_delete()
 	{
 		// Delete milestones
 		foreach ($this->milestones->fetch_all() as $milestone) {
 			$milestone->delete();
 		}
-		
+
 		// Delete tickets
 		foreach ($this->tickets->fetch_all() as $ticket) {
 			$ticket->delete();
 		}
-		
+
 		// Delete timeline
 		foreach (Timeline::select('id')->where('project_id', $this->_data['id']) as $timeline) {
 			$timeline->delete();
 		}
-		
+
 		// Delete repositories
 		foreach ($this->repositories->fetch_all() as $repo) {
 			$repo->delete();
 		}
-		
+
 		// Delete components
 		foreach ($this->components->fetch_all() as $component) {
 			$component->delete();
 		}
-		
+
 		// Delete wiki pages
 		foreach ($this->wiki_pages->fetch_all() as $wiki) {
 			$wiki->delete();
 		}
-		
+
 		// Leaving out permissions for now as they're not completed.
 	}
 
