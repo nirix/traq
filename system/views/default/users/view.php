@@ -19,6 +19,7 @@
 
 				<dt><?php echo l('member_since'); ?></dt>
 				<dd><?php echo ($profile->created_at ? ldate(settings('date_format')) : l('unknown')); ?></dd>
+				<?php FishHook::run('template:users/users/view', array($profile)); ?>
 			</dl>
 			
 			<div class="clearfix"></div>
