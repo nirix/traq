@@ -100,7 +100,9 @@ function locale_select_options()
 			}
 
 			// Get the info
-			$info = $class::info();
+			$obj = new $class();
+			$info = $obj->info();
+			unset($obj);
 
 			// Add it to the options
 			$options[] = array(
