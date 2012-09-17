@@ -19,7 +19,10 @@
  */
 
 namespace traq\libraries;
+use \avalon\core\Load;
 use \Time;
+
+Load::helper('array');
 
 /**
  * Traq Localization System
@@ -56,8 +59,19 @@ class Locale
 			{
 				require $file_path;
 			}
+			
+			$obj = new $class();
+			
+			//load plugin locales (if they exist)
+			foreach(Load::$search_paths as $path) {
+				$plugin_path = $path . "/locale/{$locale}.php";
+				if (file_exists($plugin_path)) {
+					$vars = include($plugin_path);
+					$obj->merge($vars);
+				}
+			}
 
-			return new $class();
+			return $obj;
 		}
 		return false;
 	}
@@ -103,7 +117,7 @@ class Locale
 	 */
 	public function merge($vars)
 	{
-		$this->locale = array_merge_recursive($this->locale, $vars);
+		$this->locale = array_merge_recursive2($this->locale, $vars);
 	}
 
 	/**
