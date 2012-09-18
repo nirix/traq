@@ -1,6 +1,6 @@
 <title><?php echo implode(' - ', array_reverse($traq->title)); ?></title>
 		<meta charset="UTF-8" />
-		<?php echo HTML::css_link(Request::base() . 'css.php?css=screen&theme=' . settings('theme')); ?>
+		<?php echo HTML::css_link(Request::base() . 'css.php?css=screen&amp;theme=' . settings('theme')); ?>
 		<?php echo HTML::css_link(Request::base() . 'css.php?css=print', 'print'); ?>
 		<!--[if lt IE 8]>
 		<?php echo HTML::css_link(Request::base() . 'css.php?css=ie'); ?>
