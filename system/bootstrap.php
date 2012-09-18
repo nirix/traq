@@ -71,6 +71,9 @@ else {
 	Database::init($db);
 }
 
+// Load the localization file
+$locale = traq\libraries\Locale::load(settings('locale'));
+
 // Load the plugins
 require APPPATH . '/libraries/plugin_base.php';
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
@@ -86,9 +89,6 @@ foreach ($plugins as $plugin) {
 		Load::register_path(APPPATH . "/plugins/{$plugin['file']}");
 	}
 }
-
-// Load the localization file
-$locale = traq\libraries\Locale::load(settings('locale'));
 
 // Initiate the plugins
 foreach ($plugins as $plugin) {
