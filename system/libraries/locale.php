@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,8 +35,21 @@ Load::helper('array');
  */
 class Locale
 {
-	protected $info = array();
+	protected static $info = array();
 	protected $locale = array();
+
+	/**
+	 * Constructor!
+	 */
+	public function __construct()
+	{
+		// If localization strings are stored in
+		// the Locale_x->locale() method, push them
+		// to the Locale_x->$locale array.
+		if (method_exists($this, 'locale')) {
+			$this->locale = $this->locale();
+		}
+	}
 
 	/**
 	 * Loads the specified locale.
@@ -50,29 +63,27 @@ class Locale
 		$file_path = APPPATH . "/locale/{$locale}.php";
 
 		// Check if the file exists..
-		if (file_exists($file_path))
-		{
+		if (file_exists($file_path)) {
 			$class = "Locale_{$locale}";
 
 			// Make sure the class isn't loaded already
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				require $file_path;
 			}
-			
-			$obj = new $class();
-			
-			//load plugin locales (if they exist)
-			foreach(Load::$search_paths as $path) {
-				$plugin_path = $path . "/locale/{$locale}.php";
-				if (file_exists($plugin_path)) {
-					$vars = include($plugin_path);
-					$obj->merge($vars);
+
+			$localization = new $class();
+
+			// Load plugin translation files
+			foreach (Load::$search_paths as $path) {
+				$locale_file = "{$path}/locale/{$locale}.php";
+				if (file_exists($locale_file)) {
+					$localization->add(include($locale_file));
 				}
 			}
 
-			return $obj;
+			return $localization;
 		}
+
 		return false;
 	}
 
@@ -81,23 +92,13 @@ class Locale
 	 *
 	 * @return array
 	 */
-	public function info()
+	public static function info()
 	{
-		return $this->info;
+		return static::$info;
 	}
-	
-	/**
-	 * Returns the locale strings.
-	 *
-	 * @return array
-	 */
-	 public function locale()
-	 {
-		return $this->locale;
-	 }
 
 	/**
-	 * Translates the specified string. 
+	 * Translates the specified string.
 	 *
 	 * @return string
 	 */
@@ -107,17 +108,6 @@ class Locale
 		$vars = array_slice(func_get_args(), 1);
 
 		return $this->_compile_string($this->get_string($string), $vars);
-	}
-	
-	/**
-	 * Adds extra locale strings
-	 * If collisions occur, the new string will overwrite the old one.
-	 * 
-	 * @param array $vars
-	 */
-	public function merge($vars)
-	{
-		$this->locale = array_merge_recursive2($this->locale, $vars);
 	}
 
 	/**
@@ -142,8 +132,7 @@ class Locale
 
 		// Exact match?
 		if (array_key_exists($string, $locale)) {
-			if(is_array($locale[$string]) && isset($locale[$string][0]))
-			{
+			if(is_array($locale[$string]) && isset($locale[$string][0])) {
 				return $locale[$string][0];
 			} else {
 				return $locale[$string];
@@ -184,6 +173,17 @@ class Locale
 	public function calculate_numeral($numeral)
 	{
 		return ($numeral > 1 or $numeral < -1 or $numeral == 0) ? 1 : 0;
+	}
+
+	/**
+	 * Adds extra locale strings
+	 * If collisions occur, the new string will overwrite the old one.
+	 *
+	 * @param array $vars
+	 */
+	public function add($vars)
+	{
+		$this->locale = array_merge_recursive2($this->locale, $vars);
 	}
 
 	/**
