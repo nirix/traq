@@ -88,7 +88,8 @@ class UsercpController extends AppController
 		{
 			$data = array(
 				'name' => Request::$post['name'],
-				'email' => Request::$post['email']
+				'email' => Request::$post['email'],
+				'locale' => Request::$post['locale']
 			);
 
 			FishHook::add('controller:users::usercp/save', array(&$data));

@@ -110,6 +110,7 @@ class Locale_enUS extends \traq\libraries\Locale
 		'new_type' => "New Type",
 		'edit_type' => "Edit Type",
 		'bullet' => "Bullet",
+		'language' => "Language",
 		'show_on_changelog' => "Show on Changelog",
 		'template' => "Template",
 		'new_status' => "New Status",
