@@ -113,10 +113,20 @@ class AppController extends Controller
 	 */
 	private function _get_user()
 	{
+		global $locale;
 		// Check if the session cookie is set, if so, check if it matches a user
 		// and set set the user info.
 		if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq'])) {
 			$this->user = $user;
+			
+			//load user's locale
+			if ($this->user->locale != '') {
+				$user_locale = traq\libraries\Locale::load($this->user->locale);
+				if ($user_locale) {
+					$locale = $user_locale;
+				}
+			}
+			
 			define("LOGGEDIN", true);
 		}
 		// Otherwise just set the user info to guest.
