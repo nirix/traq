@@ -163,7 +163,7 @@ class Milestone extends Model
 	/**
 	 * Converts the slug to be URI safe.
 	 */
-	protected function create_slug()
+	protected function _create_slug()
 	{
 		$this->slug = create_slug($this->slug);
 	}
@@ -173,7 +173,7 @@ class Milestone extends Model
 	 */
 	protected function _before_create()
 	{
-		$this->create_slug();
+		$this->_create_slug();
 	}
 
 	/**
@@ -181,7 +181,7 @@ class Milestone extends Model
 	 */
 	protected function _before_save()
 	{
-		$this->create_slug();
+		$this->_create_slug();
 	}
 
 	/**
