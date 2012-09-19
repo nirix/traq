@@ -7,6 +7,9 @@
 		</div>
 		<?php } ?>
 		<form action="<?php echo Request::base('login'); ?>" method="post" class="box">
+			<?php if (!empty($_SERVER['HTTP_REFERER']) or isset(Request::$post['redirect'])) { ?>
+			<input type="hidden" name="redirect" value="<?php echo (isset(Request::$post['redirect'])) ? Request::$post['redirect'] : $_SERVER['HTTP_REFERER']; ?>" />
+			<?php } ?>
 			<div class="group">
 				<label><?php echo l('username'); ?></label>
 				<?php echo Form::text('username'); ?>

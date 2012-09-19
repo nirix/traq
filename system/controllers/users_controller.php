@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -47,7 +47,7 @@ class UsersController extends AppController
 		// Set the title
 		$this->title(l('users'));
 		$this->title(l('xs_profile', $user->name));
-		
+
 		Load::helper('tickets');
 		View::set('profile', $user);
 	}
@@ -59,7 +59,7 @@ class UsersController extends AppController
 	{
 		// Set the title
 		$this->title(l('login'));
-		
+
 		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
@@ -68,9 +68,9 @@ class UsersController extends AppController
 			and $user->verify_password(Request::$post['password']))
 			{
 				// User found and verified, set the cookie and redirect them
-				// to the index page if no "goto" page was set.
+				// to the index page if no "redirect" page was set.
 				setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-				Request::redirect(isset(Request::$post['goto']) ? Request::$post['goto'] : Request::base());
+				Request::redirect(isset(Request::$post['redirect']) ? Request::$post['redirect'] : Request::base());
 			}
 			// No user found
 			else
@@ -79,7 +79,7 @@ class UsersController extends AppController
 			}
 		}
 	}
-	
+
 	/**
 	 * Handles the logout request.
 	 */
@@ -88,14 +88,14 @@ class UsersController extends AppController
 		setcookie('_traq', sha1(time()), time() + 5, '/');
 		Request::redirect(Request::base());
 	}
-	
+
 	/**
 	 * Handles the register page and account creation.
 	 */
 	public function action_register()
 	{
 		$this->title(l('register'));
-		
+
 		// Check if the form has been submitted
 		if (Request::$method == 'post')
 		{
@@ -106,10 +106,10 @@ class UsersController extends AppController
 				'password' => Request::$post['password'],
 				'email' => Request::$post['email']
 			);
-			
+
 			// Create a model with the data
 			$user = new User($data);
-			
+
 			// Check if the model is valid
 			if ($user->is_valid())
 			{
@@ -117,7 +117,7 @@ class UsersController extends AppController
 				$user->save();
 				Request::redirect(Request::base('login'));
 			}
-			
+
 			View::set('user', $user);
 		}
 	}
