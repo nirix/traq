@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 	<head>
 		<title>Traq Installation<?php echo isset($title) ? " / {$title}" :''; ?></title>
-		<link rel="stylesheet" href="<?php echo Ant::base_uri(); ?>install.css" />
+		<link rel="stylesheet" href="<?php echo Nanite::base_uri(); ?>install.css" />
 	</head>
 	<body>
 		<div id="wrapper">

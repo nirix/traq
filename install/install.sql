@@ -1,18 +1,18 @@
 #
 # Traq
 # Copyright (C) 2009-2012 Traq.io
-# 
+#
 # This file is part of Traq.
-# 
+#
 # Traq is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; version 3 only.
-# 
+#
 # Traq is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with Traq. If not, see <http://www.gnu.org/licenses/>.
 #
@@ -513,6 +513,7 @@ CREATE TABLE `traq_users` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `group_id` bigint(20) NOT NULL DEFAULT '2',
+  `locale` varchar(255) COLLATE utf8_unicode_ci,
   `login_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
