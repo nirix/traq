@@ -88,6 +88,7 @@ class Locale_enUS extends \traq\libraries\Locale
 			'unknown'          => "Unkown",
 			'changelog'        => "Changelog",
 			'or'               => "or",
+			'language'         => "Language",
 
 			// AdminCP
 			'admin.theme_select_option' => "{1} (v{2} by {3})",

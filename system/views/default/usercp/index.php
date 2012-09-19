@@ -28,6 +28,10 @@
 					<?php echo Form::label(l('watch_my_new_tickets'), 'watch_my_new_tickets'); ?>
 					<?php echo Form::checkbox('watch_my_new_tickets', 1); ?>
 				</div>
+				<div class="group">
+					<label><?php echo l('language'); ?></label>
+					<?php echo Form::select('locale', locale_select_options(), array('value' => ($user->locale != '') ? $user->locale : settings('locale'))); ?>
+				</div>
 			</div>
 		</fieldset>
 

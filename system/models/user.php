@@ -39,6 +39,7 @@ class User extends Model
 		'name',
 		'email',
 		'group_id',
+		'locale',
 		'login_hash',
 		'created_at'
 	);
