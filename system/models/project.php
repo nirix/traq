@@ -53,7 +53,7 @@ class Project extends Model
 	// Filters
 	protected static $_filters_before = array(
 		'create' => array('_before_create'),
-		'csave' => array('_before_save'),
+		'save' => array('_before_save'),
 		//'delete' => array('_before_delete')
 	);
 
@@ -159,7 +159,7 @@ class Project extends Model
 	/**
 	 * Converts the slug to be URI safe.
 	 */
-	protected function create_slug()
+	protected function _create_slug()
 	{
 		$this->slug = create_slug($this->slug);
 	}
