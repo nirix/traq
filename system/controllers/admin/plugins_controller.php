@@ -55,7 +55,7 @@ class AdminPluginsController extends AdminAppController
 				// file and then call the info() method.
 				if (!isset($plugins['enabled'][$file])) {
 					require $plugins_dir . "{$file}/{$file}.php";
-					$class_name = "Plugin_{$file}";
+					$class_name = "\\traq\plugins\\{$file}";
 					if (class_exists($class_name)) {
 						$plugins['disabled'][$file] = array_merge(
 							$class_name::info(),
@@ -70,7 +70,7 @@ class AdminPluginsController extends AdminAppController
 				// It's enabled, only call the info() method.
 				else
 				{
-					$class_name = "Plugin_{$file}";
+					$class_name = "\\traq\plugins\\{$file}";
 					if (class_exists($class_name)) {
 						$key = isset($plugins['enabled'][$file]) ? 'enabled' : 'disabled';
 						$plugins[$key][$file] = array_merge($class_name::info(), $plugins[$key][$file]);
@@ -92,7 +92,7 @@ class AdminPluginsController extends AdminAppController
 		$file = htmlspecialchars($file);
 		require APPPATH . "/plugins/{$file}/{$file}.php";
 
-		$class_name = "Plugin_{$file}";
+		$class_name = "\\traq\plugins\\{$file}";
 		if (class_exists($class_name)) {
 			$class_name::__enable();
 			$plugin = Plugin::find('file', $file);
@@ -112,7 +112,7 @@ class AdminPluginsController extends AdminAppController
 	{
 		$file = htmlspecialchars($file);
 
-		$class_name = "Plugin_{$file}";
+		$class_name = "\\traq\plugins\\{$file}";
 		if (class_exists($class_name)) {
 			$class_name::__disable();
 			$plugin = Plugin::find('file', $file);
@@ -133,7 +133,7 @@ class AdminPluginsController extends AdminAppController
 		$file = htmlspecialchars($file);
 		require APPPATH . "/plugins/{$file}/{$file}.php";
 
-		$class_name = "Plugin_{$file}";
+		$class_name = "\\traq\plugins\\{$file}";
 		if (class_exists($class_name)) {
 			$class_name::__install();
 			$plugin = new Plugin(array('file' => $file));
@@ -153,7 +153,7 @@ class AdminPluginsController extends AdminAppController
 	{
 		$file = htmlspecialchars($file);
 
-		$class_name = "Plugin_{$file}";
+		$class_name = "\\traq\plugins\\{$file}";
 
 		// Check if the plugin file exists
 		if (file_exists(APPPATH . "/plugins/{$file}.plugin.php") and !class_exists($class_name)) {

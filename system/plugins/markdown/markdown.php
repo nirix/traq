@@ -18,6 +18,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\plugins;
+
+use \FishHook;
+
 /**
  * Markdown Plugin.
  *
@@ -26,28 +30,22 @@
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class Plugin_markdown extends PluginBase
+class Markdown extends \traq\libraries\Plugin
 {
-	private static $parser;
+	protected static $info = array(
+		'name'    => 'Markdown',
+		'version' => '0.1',
+		'author'  => 'Jack P.'
+	);
 
-	/**
-	 * Returns the plugin info.
-	 */
-	public static function info()
-	{
-		return array(
-			'name' => 'Markdown',
-			'version' => '0.1',
-			'author' => 'Jack P.'
-		);
-	}
+	private static $parser;
 
 	/**
 	 * Handles the startup of the plugin.
 	 */
 	public static function init()
 	{
-		FishHook::add('function:format_text', array('Plugin_markdown', 'format_text'));
+		FishHook::add('function:format_text', array('Markdown', 'format_text'));
 	}
 
 	/**
