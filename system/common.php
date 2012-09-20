@@ -90,7 +90,7 @@ function locale_select_options()
 		{
 			// Clean the name and set the class
 			$name = substr($file, 0, 4);
-			$class = "Locale_{$name}";
+			$class = "\\traq\locale\\{$name}";
 
 			// Make sure the locale class
 			// isn't already loaded

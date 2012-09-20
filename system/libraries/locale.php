@@ -19,6 +19,7 @@
  */
 
 namespace traq\libraries;
+
 use \avalon\core\Load;
 use \Time;
 
@@ -64,7 +65,7 @@ class Locale
 
 		// Check if the file exists..
 		if (file_exists($file_path)) {
-			$class = "Locale_{$locale}";
+			$class = "\\traq\locale\\{$locale}";
 
 			// Make sure the class isn't loaded already
 			if (!class_exists($class)) {
