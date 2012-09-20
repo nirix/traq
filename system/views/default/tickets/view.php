@@ -11,19 +11,19 @@
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('assigned_to')); ?>
-			<span class="value"><?php echo $ticket->assigned_to ? HTML::link($ticket->assigned_to->name, $ticket->assigned_to->href()) : ''; ?></span>
+			<span class="value"><?php echo $ticket->assigned_to ? HTML::link($ticket->assigned_to->name, $ticket->assigned_to->href()) : '-'; ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('milestone')); ?>
-			<span class="value"><?php echo $ticket->milestone->name; ?></span>
+			<span class="value"><?php echo $ticket->milestone ? HTML::link($ticket->milestone->name, $ticket->milestone->href()) : '-'; ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('version')); ?>
-			<span class="value"><?php echo $ticket->version ? $ticket->version->name :''; ?></span>
+			<span class="value"><?php echo $ticket->version ? $ticket->version->name : '-'; ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('component')); ?>
-			<span class="value"><?php echo $ticket->component ? $ticket->component->name :''; ?></span>
+			<span class="value"><?php echo $ticket->component ? $ticket->component->name : '-'; ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('status')); ?>
