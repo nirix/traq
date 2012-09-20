@@ -79,6 +79,9 @@ class AttachmentsController extends AppController
 	 */
 	public function action_delete($attachment_id)
 	{
+		// Get the attachment
+		$attachment = Attachment::find($attachment_id);
+		
 		// Delete and redirect
 		$this->attachment->delete();
 		Request::redirect(Request::base($this->attachment->ticket->href()));
