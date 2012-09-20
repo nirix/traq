@@ -35,7 +35,7 @@ Router::add('/_ajax/autocomplete/(username)', 'Misc::autocomplete_$1');
 
 // Attachment routes
 Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'Attachments::view/$1');
-Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)/delete', 'Attachments::delete/$1');
+Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', 'Attachments::delete/$1');
 
 // ------------------------------------------------
 // Project routes
