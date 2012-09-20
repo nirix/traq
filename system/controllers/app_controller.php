@@ -32,6 +32,7 @@ use avalon\core\Load;
 class AppController extends Controller
 {
 	public $project;
+	public $projects;
 	public $user;
 	public $title = array();
 
@@ -65,6 +66,17 @@ class AppController extends Controller
 			// Send the project object to the view
 			View::set('project', $this->project);
 		}
+
+		// Fetch all projects and make sure the user has permission
+		// to access the project then pass them to the view.
+		$this->projects = array();
+		foreach (Project::fetch_all() as $project) {
+			// Check if the user has access to view the project...
+			if ($this->user->permission($project->id, 'view')) {
+				$this->projects[] = $project;
+			}
+		}
+		View::set('projects', $this->projects);
 	}
 
 	/**
@@ -114,19 +126,20 @@ class AppController extends Controller
 	private function _get_user()
 	{
 		global $locale;
+
 		// Check if the session cookie is set, if so, check if it matches a user
 		// and set set the user info.
 		if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq'])) {
 			$this->user = $user;
-			
-			//load user's locale
+
+			// Load user's locale
 			if ($this->user->locale != '') {
 				$user_locale = traq\libraries\Locale::load($this->user->locale);
 				if ($user_locale) {
 					$locale = $user_locale;
 				}
 			}
-			
+
 			define("LOGGEDIN", true);
 		}
 		// Otherwise just set the user info to guest.

@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,20 +35,11 @@ class ProjectsController extends AppController
 	 */
 	public function action_index()
 	{
-		// Fetch all projects and make sure the user has permission
-		// to access the project then pass them to the view.
-		$projects = array();
-		foreach (Project::fetch_all() as $project) {
-			// Check if the user has access to view the project...
-			if (current_user()->permission($project->id, 'view')) {
-				$projects[] = $project;
-			}
-		}
-		
-		// Send the projects array to the view.
-		View::set('projects', $projects);
+		// No need to do anything here as the
+		// AppController fetches the projects
+		// for use with the project switcher.
 	}
-	
+
 	/**
 	 * Handles the project info page.
 	 */
@@ -58,14 +49,14 @@ class ProjectsController extends AppController
 		if (!$this->project) {
 			return $this->show_404();
 		}
-		
+
 		// Get open and closed ticket counts.
 		View::set('ticket_count', array(
 			'open' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->exec()->row_count(),
 			'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->exec()->row_count()
 		));
 	}
-	
+
 	/**
 	 * Handles the roadmap page.
 	 */
@@ -125,7 +116,7 @@ class ProjectsController extends AppController
 		View::set('milestones', $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all());
 		View::set('types', $types);
 	}
-	
+
 	/**
 	 * Handles the timeline page.
 	 */

@@ -249,11 +249,32 @@ hr {
   color: #fff;
   padding: 10px; }
   #header h1 {
+    display: inline-block;
     color: #fff;
     margin: 0; }
     #header h1 a {
       color: #fff;
       text-decoration: none; }
+  #header #project_switcher_btn {
+    display: none;
+    position: absolute;
+    margin-top: 14px;
+    margin-left: 5px;
+    height: 10px;
+    width: 10px; }
+    #header #project_switcher_btn .arrow {
+      display: inline-block;
+      background: #fff;
+      padding: 5px;
+      border-radius: 4px; }
+      #header #project_switcher_btn .arrow em {
+        display: block;
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+        border-top: 5px solid #3478AA; }
+  #header .project_switcher {
+    margin-top: 12px;
+    margin-left: 2px; }
 
 #nav {
   background: #3478AA;

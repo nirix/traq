@@ -11,8 +11,17 @@
 		<div id="wrapper" class="container">
 			<?php echo View::render('layouts/_meta_nav'); ?>
 			<header id="header">
-				<h1>
-					<?php if (isset($project)) { echo HTML::link($project->name, $project->slug); ?><?php } else { echo HTML::link(settings('title'), null); } ?></h1>
+				<h1><?php echo (isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null); ?></h1>
+				<span id="project_switcher_btn">
+					<a href="#" class="arrow"><em></em></a>
+				</span>
+				<div id="popover" class="project_switcher">
+					<ul>
+					<?php foreach ($projects as $p) { ?>
+						<li><?php echo HTML::link($p->name, $p->href()); ?>
+					<?php } ?>
+					</ul>
+				</div>
 			</header>
 			<nav id="nav">
 				<ul id="main_nav">

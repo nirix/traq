@@ -54,7 +54,7 @@ hr {
 	background: #fff;
 	color: #000;
 	padding: 0;
-	
+
 	h3 {
 		background: #3478AA;
 		color: #fff;
@@ -62,21 +62,21 @@ hr {
 		border-radius: 3px 3px 0 0;
 		margin: 0;
 	}
-	
+
 	.box {
 		border: 0;
 		background: transparent;
 		margin: 0 5px;
 	}
-	
+
 	form {
 		margin: 0;
 		width: 600px;
-		
+
 		textarea {
 			width:  95%;
 		}
-		
+
 		&.overlay_thin {
 			width: 100%;
 			min-width: 300px;
@@ -100,15 +100,44 @@ hr {
 	background: #3478AA;
 	color: #fff;
 	padding: 10px;
-	
+
 	h1 {
+		display: inline-block;
 		color: #fff;
 		margin: 0;
-		
+
 		a {
 			color: #fff;
 			text-decoration: none;
 		}
+	}
+
+	#project_switcher_btn {
+		display: none;
+		position: absolute;
+		margin-top: 14px;
+		margin-left: 5px;
+		height: 10px;
+		width: 10px;
+
+		.arrow {
+			display: inline-block;
+			background: #fff;
+			padding: 5px;
+			border-radius: 4px;
+
+			em {
+				display: block;
+				border-left: 3px solid transparent;
+				border-right: 3px solid transparent;
+				border-top: 5px solid #3478AA;
+			}
+		}
+	}
+
+	.project_switcher {
+		margin-top: 12px;
+		margin-left: 2px;
 	}
 }
 
@@ -117,23 +146,23 @@ hr {
 	color: #000;
 	height: 20px;
 	padding: 0 5px;
-	
+
 	ul {
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
-	
+
 	li {
 		display: inline;
 	}
-	
+
 	a {
 		color: #fff;
 		padding: 4px 10px;
 		text-decoration: none;
 	}
-	
+
 	a:hover, a:focus, a:active, li.active a {
 		background: #fff;
 		color: #000;
@@ -224,7 +253,7 @@ h3.box_title {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	
+
 	li {
 		h3 {
 			margin: 0;
@@ -234,13 +263,13 @@ h3.box_title {
 				font-size: 14px;
 			}
 		}
-		
+
 		nav {
 			ul {
 				list-style: none;
 				padding: 0;
 				margin: 0;
-				
+
 				li {
 					display: inline;
 					margin-right: 4px;
@@ -326,7 +355,7 @@ h3.box_title {
 	h3 {
 		margin-top: 15px;
 	}
-	
+
 	dl {
 		dt {
 			font-weight: normal;
@@ -494,7 +523,7 @@ h3.box_title {
 	height: 24px;
 	position: relative;
 	overflow: hidden;
-	
+
 	ul {
 		margin: 0;
 		position: absolute;
@@ -502,14 +531,14 @@ h3.box_title {
 		width: 2000px;
 		border-bottom: 1px solid #bbb;
 		list-style: none;
-		
+
 		li {
 			float: left;
 			white-space: nowrap;
 			margin-right: 4px;
 			position: relative;
 			margin-bottom: -1px;
-			
+
 			a {
 				display: block;
 				text-decoration: none;
@@ -518,20 +547,20 @@ h3.box_title {
 				border-radius: 2px 2px 0 0;
 				color: #8c8c8c;
 				font-weight: bold;
-				
+
 				&:hover {
 					background: #f6f6f6;
 				}
 			}
-			
+
 			&.active a, a:hover {
 				border: 1px solid #ccc;
 			}
-			
+
 			&.active a {
 				background: #fff;
 			}
-			
+
 			&.active a {
 				color: #000;
 				border-bottom-color: #fff;
@@ -552,7 +581,7 @@ h3.list_title {
 		&.fixed_username, &.fixed_name {
 			width:  200px;
 		}
-		
+
 		&.actions, &.fixed_repo_slug {
 			width: 140px;
 		}

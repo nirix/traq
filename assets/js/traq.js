@@ -3,18 +3,18 @@
  * Copyright (C) 2009-2012 Traq.io
  * Copyright (C) 2009-2012 Jack P.
  * https://github.com/nirix
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,17 +28,41 @@ var traq = {
 };
 
 $(document).ready(function(){
+	$("#header h1").on('mouseenter', function(){
+		$("#project_switcher_btn").stop(true, true).fadeIn('fast');
+		$(this).off('mouseleave').on('mouseleave', function(){
+			$("#project_switcher_btn").stop(true, true).fadeOut('fast');
+		});
+	});
+
+	$("#project_switcher_btn").on('mouseenter', function(){
+		$(this).stop(true, true).show();
+		$(this).off('mouseleave').on('mouseleave', function(){
+			$(this).stop(true, true).fadeOut('fast');
+		});
+	});
+
+	$("#project_switcher_btn").on('click', function(){
+		$(this).off('mouseleave');
+		$(".project_switcher").popover($(this));
+		return false;
+	});
+
+	$(document).on('click', function(){
+		$("#project_switcher_btn").stop(true, true).fadeOut('fast');
+	});
+
 	// Add the editor interface to all text areas, like a boss.
 	$('textarea.editor').likeaboss();
-	
+
 	// Add a confirm-on-click event to call elements
 	// with the data-confirm attribute.
 	$(document).on('click', '[data-confirm]', function(){
 		var parent = $(this);
-		
+
 		var outerDiv = $('<div/>');
 		outerDiv.css('padding', '5px');
-		
+
 		var innerDiv = $('<div/>');
 		innerDiv.css('text-align', 'center');
 		innerDiv.append($('<button/>', { 'text' : 'Yes' }).click(function() { window.location.href = parent.attr('href'); }));
@@ -46,14 +70,14 @@ $(document).ready(function(){
 
 		outerDiv.append(parent.attr('data-confirm'));
 		outerDiv.append(innerDiv);
-		
+
 		$("#popover").stop(true, true).hide().empty().append(outerDiv);
 		$("#popover").popover(parent);
-		
+
 		return false;
 		//return confirm($(this).attr('data-confirm'));
 	});
-	
+
 	// Add a click event to all elements with
 	// the data-ajax attribute and send an ajax
 	// call to the href attrib value.
@@ -81,7 +105,7 @@ $(document).ready(function(){
 
 		return false;
 	});
-	
+
 	// Add a click even to all elements with the
 	// data-overlay attribute and load the elements
 	// href value into the overlay container then show
