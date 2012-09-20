@@ -20,7 +20,7 @@
 
 		// Set the position
 		popover.css({
-			left: ((parent.offset().left + (parent.width() / 2)) + parseInt(parent.css('padding-left')) + parseInt(parent.css('padding-right')) - (popover.width() / 2)) + 'px',
+			left: ((parent.offset().left + (parent.outerWidth() / 2)) - (popover.outerWidth() / 2)) + 'px',
 			top: (parent.offset().top + parent.height()) + 'px',
 			height: 'auto'
 		});
