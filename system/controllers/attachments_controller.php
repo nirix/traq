@@ -2,18 +2,18 @@
 /*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
- * 
+ *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -41,14 +41,11 @@ class AttachmentsController extends AppController
 	 */
 	public function action_view($attachment_id)
 	{
-		// Get the attachment
-		$attachment = Attachment::find($attachment_id);
-
 		// Don't try to load a view
 		$this->_render['view'] = false;
 
-		header("Content-type: {$attachment->type}");
-		$content_type = explode('/', $attachment->type);
+		header("Content-type: {$this->attachment->type}");
+		$content_type = explode('/', $this->attachment->type);
 
 		// Check what type of file we're dealing with.
 		if($content_type[0] == 'text' or $content_type[0] == 'image')
@@ -59,16 +56,16 @@ class AttachmentsController extends AppController
 			{
 				header("Content-type: text/plain");
 			}
-			header("Content-Disposition: filename=\"{$attachment->name}\"");
+			header("Content-Disposition: filename=\"{$this->attachment->name}\"");
 		}
 		// Anything else should be downloaded
 		else
 		{
-			header("Content-Disposition: attachment; filename=\"{$attachment->name}\"");
+			header("Content-Disposition: attachment; filename=\"{$this->attachment->name}\"");
 		}
 
 		// Decode the contents and display it
-		print(base64_decode($attachment->contents));
+		print(base64_decode($this->attachment->contents));
 		exit;
 	}
 
