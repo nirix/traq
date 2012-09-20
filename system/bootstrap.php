@@ -75,7 +75,6 @@ else {
 $locale = traq\libraries\Locale::load(settings('locale'));
 
 // Load the plugins
-require APPPATH . '/libraries/plugin_base.php';
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
 foreach ($plugins as $plugin) {
 	// Plugin file plath
@@ -92,7 +91,7 @@ foreach ($plugins as $plugin) {
 
 // Initiate the plugins
 foreach ($plugins as $plugin) {
-	$plugin = 'Plugin_' . $plugin['file'];
+	$plugin = "\\traq\plugins\\{$plugin['file']}";
 	$plugin = $plugin::init();
 }
 unset($plugins, $plugin);

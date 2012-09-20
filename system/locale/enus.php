@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\locale;
+
 /**
  * enUS localization class.
  *
@@ -26,7 +28,7 @@
  * @package Traq
  * @subpackage Locale
  */
-class Locale_enUS extends \traq\libraries\Locale
+class enUS extends \traq\libraries\Locale
 {
 	protected static $info = array(
 		'name'    => "English",
