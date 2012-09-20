@@ -12,16 +12,7 @@
 			<?php echo View::render('layouts/_meta_nav'); ?>
 			<header id="header">
 				<h1><?php echo (isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null); ?></h1>
-				<span id="project_switcher_btn">
-					<a href="#" class="arrow"><em></em></a>
-				</span>
-				<div id="popover" class="project_switcher">
-					<ul>
-					<?php foreach ($projects as $p) { ?>
-						<li><?php echo HTML::link($p->name, $p->href()); ?>
-					<?php } ?>
-					</ul>
-				</div>
+				<?php View::render('layouts/_project_switcher'); ?>
 			</header>
 			<nav id="nav">
 				<ul id="main_nav">
