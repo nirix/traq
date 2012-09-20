@@ -45,7 +45,7 @@ class Markdown extends \traq\libraries\Plugin
 	 */
 	public static function init()
 	{
-		FishHook::add('function:format_text', array('Markdown', 'format_text'));
+		FishHook::add('function:format_text', array(get_called_class(), 'format_text'));
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Markdown extends \traq\libraries\Plugin
 		{
 			// Load the parser
 			require __DIR__ . '/libraries/markdown.php';
-			static::$parser = new Markdown_Parser;
+			static::$parser = new \Markdown_Parser;
 		}
 
 		// Parse the text
