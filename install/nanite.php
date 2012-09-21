@@ -1,20 +1,20 @@
 <?php
 /*!
- * Ant
+ * Nanite
  * Copyright (C) 2012 Jack P.
  * https://github.com/nirix
- * 
- * Ant is free software: you can redistribute it and/or modify
+ *
+ * Nanite is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
- * Ant is distributed in the hope that it will be useful,
+ *
+ * Nanite is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Ant. If not, see <http://www.gnu.org/licenses/>.
+ * along with Nanite. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -58,8 +58,8 @@ class Nanite
 	 */
 	public static function get($route, $function)
 	{
-		if (strtolower($_SERVER['REQUEST_METHOD']) == 'get')
-		{
+		// Check if the request method type
+		if (strtolower($_SERVER['REQUEST_METHOD']) == 'get') {
 			static::_process_route($route, $function);
 		}
 	}
@@ -72,8 +72,8 @@ class Nanite
 	 */
 	public static function post($route, $function)
 	{
-		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post')
-		{
+		// Check the request method type
+		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
 			static::_process_route($route, $function);
 		}
 	}
@@ -95,13 +95,13 @@ class Nanite
 	 */
 	private static function _process_route($route, $function)
 	{
-		if (static::_request_uri() == '')
-		{
+		// Check if the request is empty
+		if (static::_request_uri() == '') {
 			static::$request_uri = '/';
 		}
 
-		if (preg_match("#^{$route}$#", static::_request_uri(), $matches))
-		{
+		// Match the route
+		if (preg_match("#^{$route}$#", static::_request_uri(), $matches)) {
 			unset($matches[0]);
 			call_user_func_array($function, $matches);
 		}
@@ -115,8 +115,8 @@ class Nanite
 	 */
 	private static function _request_uri()
 	{
-		if (static::$request_uri === null)
-		{
+		// Check ff this is the first time getting the request uri
+		if (static::$request_uri === null) {
 			// Check if there is a PATH_INFO variable
 			// Note: some servers seem to have trouble with getenv()
 			$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
