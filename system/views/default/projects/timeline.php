@@ -23,7 +23,7 @@
 			<?php echo l('timeline.ticket_comment', HTML::link($row->ticket()->summary, $row->ticket()->href()), $row->ticket()->ticket_id); ?>
 		<?php } ?>
 		</dt>
-		<dd><?php echo l('timeline.by_x', HTML::link($row->user->name, $row->user->href())); ?></dd>
+		<dd><?php echo l('timeline.by_x', HTML::link(strshorten($row->user->name, 20), $row->user->href())); ?></dd>
 	<?php } ?>
 	</dl>
 	<?php } ?>

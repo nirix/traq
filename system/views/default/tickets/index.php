@@ -15,7 +15,7 @@
 				<?php if ($column == 'summary') { ?>
 				<td><?php echo HTML::link($ticket->summary, "{$project->slug}/tickets/{$ticket->ticket_id}"); ?></td>
 				<?php } elseif ($column == 'owner') { ?>
-				<td><?php echo HTML::link($ticket->user->name, $ticket->user->href()); ?></td>
+				<td><?php echo HTML::link(strshorten($ticket->user->name, 20), $ticket->user->href()); ?></td>
 				<?php } else { ?>
 				<td><?php echo ticketlist_data($column, $ticket); ?></td>
 				<?php } ?>
