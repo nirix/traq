@@ -221,6 +221,11 @@ class User extends Model
 			$errors['username'] = l('errors.users.username_blank');
 		}
 
+		// Check username length
+		if (isset($this->_data['username'][25])) {
+			$errors['username'] = l('errors.users.username_too_long');
+		}
+
 		// Check if the username is taken
 		if ($this->_is_new() and static::find('username', $this->_data['username'])) {
 			$errors['username'] = l('errors.users.username_in_use');

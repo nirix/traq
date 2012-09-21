@@ -7,11 +7,11 @@
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('owner')); ?>
-			<span class="value"><?php echo HTML::link($ticket->user->name, $ticket->user->href()); ?></span>
+			<span class="value"><?php echo HTML::link(strshorten($ticket->user->name, 20), $ticket->user->href()); ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('assigned_to')); ?>
-			<span class="value"><?php echo $ticket->assigned_to ? HTML::link($ticket->assigned_to->name, $ticket->assigned_to->href()) : '-'; ?></span>
+			<span class="value"><?php echo $ticket->assigned_to ? HTML::link(strshorten($ticket->assigned_to->name, 20), $ticket->assigned_to->href()) : '-'; ?></span>
 		</div>
 		<div class="property">
 			<?php echo Form::label(l('milestone')); ?>
@@ -74,7 +74,7 @@
 		<ul>
 		<?php foreach ($attachments->fetch_all() as $attachment) { ?>
 			<li>
-				<?php echo l('x_uploaded_by_x_x_ago', HTML::link("<span class=\"attachment_filename\">{$attachment->name}</span>", $attachment->href()), HTML::link($attachment->user->name, $attachment->user->href()), time_ago($attachment->created_at, false)); ?>
+				<?php echo l('x_uploaded_by_x_x_ago', HTML::link("<span class=\"attachment_filename\">{$attachment->name}</span>", $attachment->href()), HTML::link(strshorten($attachment->user->name, 20), $attachment->user->href()), time_ago($attachment->created_at, false)); ?>
 				<?php if ($current_user->permission($ticket->project_id, 'delete_attachments')) {
 					echo HTML::link('', $attachment->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $attachment->name)));
 				} ?>
@@ -89,7 +89,7 @@
 <?php foreach ($ticket->history->order_by('id', 'DESC')->exec()->fetch_all() as $update) { ?>
 	<div class="update" id="ticket_update_<?php echo $update->id; ?>">
 		<h4>
-			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link($update->user->name, $update->user->href())); ?>
+			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link(strshorten($update->user->name, 20), $update->user->href())); ?>
 			<?php
 			if ($current_user->permission($ticket->project_id, 'edit_ticket_history')) {
 				echo HTML::link('', $ticket->href("/history/{$update->id}/edit"), array('title' => l('edit'), 'class' => 'button_edit', 'data-overlay' => true));
