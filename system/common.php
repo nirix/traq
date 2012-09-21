@@ -83,31 +83,25 @@ function locale_select_options()
 {
 	$options = array();
 
-	foreach (scandir(APPPATH . '/locale') as $file)
-	{
-
-		if (substr($file, -4) == '.php')
-		{
+	foreach (scandir(APPPATH . '/locale') as $file) {
+		if (substr($file, -4) == '.php') {
 			// Clean the name and set the class
-			$name = substr($file, 0, 4);
+			$name = substr($file, 0, -4);
 			$class = "\\traq\locale\\{$name}";
 
 			// Make sure the locale class
 			// isn't already loaded
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				require APPPATH . '/locale/' . $file;
 			}
 
 			// Get the info
-			$obj = new $class();
-			$info = $obj->info();
-			unset($obj);
+			$info = $class::info();
 
 			// Add it to the options
 			$options[] = array(
 				'label' => "{$info['name']} ({$info['language_short']}{$info['locale']})",
-				'value' => substr($file, 0, 4)
+				'value' => substr($file, 0, -4)
 			);
 		}
 	}
