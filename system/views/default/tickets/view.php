@@ -48,7 +48,7 @@
 		<div class="property">
 			<?php echo Form::label(l('votes')); ?>
 			<span class="value">
-				<?php echo HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover-hover' => Request::base($ticket->href('/voters')))); ?>
+				<?php echo ($ticket->votes == 0) ? $ticket->votes : HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover-hover' => Request::base($ticket->href('/voters')))); ?>
 				<?php if ($current_user->permission($project->id, 'vote_on_tickets') and !in_array($current_user->id, $ticket->extra['voted']) and $current_user->id != $ticket->user_id) {
 					echo HTML::link('+', $ticket->href('/vote'), array('data-ajax' => true));
 				} ?>
