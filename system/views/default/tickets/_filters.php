@@ -7,13 +7,29 @@
 			<tr>
 				<td class="label"><?php echo $k == 0 ? l($filter) :''; ?></td>
 				<td class="condition">
-					<?php echo $k == 0 ? Form::select("filters[{$filter}][prefix]",
-						array(
-							array('label' => 'is', 'value' => ''),
-							array('label' => 'is not', 'value' => '!')
-						),
-						array('value' => $info['prefix'])
-					) : l('or'); ?>
+				<?php
+					if ($k == 0) {
+						if (in_array($filter, array('summary', 'description'))) {
+							echo Form::select("filters[{$filter}][prefix]",
+								array(
+									array('label' => l('contains'), 'value' => ''),
+									array('label' => l('doesnt_contain'), 'value' => '!')
+								),
+								array('value' => $info['prefix'])
+							);
+						} else {
+							echo Form::select("filters[{$filter}][prefix]",
+								array(
+									array('label' => l('is'), 'value' => ''),
+									array('label' => l('is_not'), 'value' => '!')
+								),
+								array('value' => $info['prefix'])
+							);
+						}
+					} else {
+						echo l('or');
+					}
+				?>
 				</td>
 				<td class="value">
 					<?php if (in_array($filter, array('milestone', 'status', 'version', 'type'))) {

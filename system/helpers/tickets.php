@@ -58,6 +58,7 @@ function ticket_filters() {
 		'status',
 		'type',
 		'component',
+		'summary'
 	);
 	return $filters;
 }

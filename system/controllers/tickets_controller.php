@@ -77,6 +77,9 @@ class TicketsController extends AppController
 			// Milestone and Version filter
 			if ($filter == 'milestone' or $filter == 'version') {
 				foreach (explode(',', $value) as $name) {
+					if (empty($name)) {
+						continue;
+					}
 					$milestone = Milestone::find('slug', $name);
 					$filter_sql[] = $milestone->id;
 				}
@@ -116,7 +119,7 @@ class TicketsController extends AppController
 				$sql[] = "component_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
 			}
 
-			$filters[$filter] = array('prefix' => $prefix, 'values' => $filter_sql);
+			$filters[$filter] = array('prefix' => $prefix, 'values' => explode(',', $value));
 		}
 
 		View::set('filters', $filters);
