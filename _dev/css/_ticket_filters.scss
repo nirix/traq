@@ -1,0 +1,24 @@
+#ticket_filters {
+  padding: 0;
+  margin: 0;
+
+  legend {
+    color: #999;
+    margin: 0 5px;
+    padding: 0 2px;
+  }
+
+  table {
+    margin: 0;
+
+    td.label {
+      font-weight: bold;
+      text-align: right;
+      width: 100px;
+    }
+
+    td.condition {
+      width: 80px;
+    }
+  }
+}

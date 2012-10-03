@@ -773,3 +773,19 @@ input[type=url] {
   width: 75px; }
 .profile.content #assigned_to table.list th.created, .profile.content #assigned_to table.list th.updated {
   width: 90px; }
+
+#ticket_filters {
+  padding: 0;
+  margin: 0; }
+  #ticket_filters legend {
+    color: #999;
+    margin: 0 5px;
+    padding: 0 2px; }
+  #ticket_filters table {
+    margin: 0; }
+    #ticket_filters table td.label {
+      font-weight: bold;
+      text-align: right;
+      width: 100px; }
+    #ticket_filters table td.condition {
+      width: 80px; }

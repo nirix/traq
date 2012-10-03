@@ -91,6 +91,7 @@ class enUS extends \traq\libraries\Locale
 			'changelog'        => "Changelog",
 			'or'               => "or",
 			'language'         => "Language",
+			'filters'          => "Filters",
 
 			// AdminCP
 			'admin.theme_select_option' => "{1} (v{2} by {3})",
