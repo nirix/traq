@@ -2,7 +2,7 @@
 	Traq 2
 	Copyright (c) 2009-2011 Jack Polgar
 	All Rights Reserved
-	
+
 	http://traqproject.org
 */
 
@@ -19,6 +19,10 @@ body {
 table td,
 table th {
 	vertical-align: top;
+}
+
+#search {
+	float: right;
 }
 
 #page {
@@ -115,7 +119,7 @@ h3,h4 {
 
 /* Project listing */
 ul.projects {
-	
+
 }
 ul.projects li.project {
 	margin: 10px 0;
@@ -141,7 +145,7 @@ ul.projects .quick_nav {
 	border: 1px solid #000;
 }
 .milestone .progress td {
-	
+
 }
 .milestone .progress .closed {
 	background: #317b2c;
@@ -254,7 +258,7 @@ fieldset.properties .property {
 	padding-top: 4px;
 	padding-bottom: 4px;
 	vertical-align: top;
-	
+
 }
 fieldset.properties .property.odd {
 	border-right: 1px dotted #d7d7d7;
@@ -395,7 +399,7 @@ form.new_ticket textarea.body {
 	font-size: 100%;
 	font-weight: normal;
 }
-#ticket .inlinebuttons, #history .inlinebuttons { 
+#ticket .inlinebuttons, #history .inlinebuttons {
 	float: right;
 }
 

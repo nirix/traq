@@ -7,6 +7,14 @@
 					<a href="<?php echo $uri->anchor()?>"><?php echo settings('title')?></a>
 				<?php } ?>
 			</span>
+			<?php if (isset($project)) { ?>
+			<div id="search">
+				<form onsubmit="do_search();return false;">
+					<input type="hidden" name="project_slug" class="project_slug" value="<?php echo $project['slug']; ?>" />
+					<input type="search" name="search" placeholder="<?php echo l('search'); ?>" />
+				</form>
+			</div>
+			<?php } ?>
 			<div id="nav">
 				<div id="meta_nav">
 					<ul>

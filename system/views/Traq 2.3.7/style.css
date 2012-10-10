@@ -18,6 +18,11 @@ td {
 	padding: 0;
 }
 
+#search {
+	float: right;
+	margin-top: -23px;
+}
+
 h1 {
 	font-size: 26px;
 	margin-bottom: 5px;
@@ -358,7 +363,7 @@ ul.projects .quick_nav {
 	font-size: 100%;
 	font-weight: normal;
 }
-#ticket .inlinebuttons, #history .inlinebuttons { 
+#ticket .inlinebuttons, #history .inlinebuttons {
 	float: right;
 }
 
@@ -403,7 +408,7 @@ fieldset.properties .property {
 	padding-top: 4px;
 	padding-bottom: 4px;
 	vertical-align: top;
-	
+
 }
 fieldset.properties .property.odd {
 	border-right: 1px dotted #d7d7d7;
