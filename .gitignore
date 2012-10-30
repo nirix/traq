@@ -1,4 +1,4 @@
-system/config/database.php
+vendor/traq/config/database.php
 .sass-cache
 .DS_Store
 .project

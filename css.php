@@ -36,7 +36,7 @@ if (!isset($_REQUEST['css']) and !isset($_REQUEST['theme']))
 }
 
 // Fetch the request class.
-require "./system/avalon/http/request.php";
+require "./vendor/avalon/http/request.php";
 use avalon\http\Request;
 
 $output = array();
@@ -57,9 +57,9 @@ if (isset($_REQUEST['theme'])) {
 	$theme = htmlspecialchars($_REQUEST['theme']);
 	foreach (explode(',', $_REQUEST['theme']) as $file) {
 		// Check if the file exists...
-		if (file_exists(__DIR__ . "/system/views/{$theme}/css/{$file}.css")) {
+		if (file_exists(__DIR__ . "/vendor/traq/views/{$theme}/css/{$file}.css")) {
 			// Add it to the output array.
-			$output[] = file_get_contents(__DIR__ . "/system/views/{$theme}/css/{$file}.css");
+			$output[] = file_get_contents(__DIR__ . "/vendor/traq/views/{$theme}/css/{$file}.css");
 		}
 	}
 }

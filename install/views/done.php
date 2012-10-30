@@ -6,7 +6,7 @@
 <?php } else { ?>
 <div align="center">
 	The installer was unable to create the config file,
-	You will need to save the code below to: <code>system/config/database.php</code>
+	You will need to save the code below to: <code>vendor/traq/config/database.php</code>
 </div>
 <br />
 <pre id="config_code">

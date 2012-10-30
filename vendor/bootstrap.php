@@ -20,7 +20,7 @@
 
 // Define the paths needed
 define("SYSPATH", dirname(__FILE__) . '/avalon');
-define("APPPATH", dirname(__FILE__));
+define("APPPATH", dirname(__FILE__) . '/traq');
 define("DOCROOT", dirname(dirname(__FILE__)));
 
 // Load the framework

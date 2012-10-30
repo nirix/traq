@@ -1,3 +1,3 @@
-[submodule "system/avalon"]
-	path = system/avalon
+[submodule "vendor/avalon"]
+	path = vendor/avalon
 	url = git://github.com/nirix/avalon.git

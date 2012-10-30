@@ -24,8 +24,7 @@ use avalon\Database;
 use avalon\output\View;
 
 // Make sure the config file doesn't exist...
-if (file_exists('../system/config/database.php'))
-{
+if (file_exists('../vendor/traq/config/database.php')) {
 	Error::halt('Error', 'Config file already exists.');
 }
 
@@ -46,10 +45,8 @@ post('/step/1', function(){
 post('/step/2', function(){
 	// Check for form errors
 	$errors = array();
-	foreach (array('type', 'host', 'username', 'database') as $field)
-	{
-		if ($_POST[$field] == '')
-		{
+	foreach (array('type', 'host', 'username', 'database') as $field) {
+		if ($_POST[$field] == '') {
 			$errors[$field] = true;
 		}
 	}
@@ -57,19 +54,16 @@ post('/step/2', function(){
 	View::set('errors', $errors);
 
 	// Fix the errors
-	if (count($errors))
-	{
+	if (count($errors)) {
 		View::set('title', 'Step 1 - Database Details');
 		render('database_config');
 	}
 	// Make sure there's no Traq installed here with the same table prefix
-	else if (false and is_installed(array_merge(array('driver' => 'pdo'), $_POST)))
-	{
+	else if (false and is_installed(array_merge(array('driver' => 'pdo'), $_POST))) {
 		Error::halt('Error', 'Traq is already installed.');
 	}
 	// Confirm details
-	else
-	{
+	else {
 		// Store DB info in the session
 		$_SESSION['db'] = array(
 			'driver' => 'pdo',
@@ -94,24 +88,20 @@ post('/step/2', function(){
 post('/step/3', function(){
 	// Check for form errors
 	$errors = array();
-	foreach (array('username', 'name', 'password', 'email') as $field)
-	{
-		if ($_POST[$field] == '')
-		{
+	foreach (array('username', 'name', 'password', 'email') as $field) {
+		if ($_POST[$field] == '') {
 			$errors[$field] = true;
 		}
 	}
 
 	// Fix the errors
-	if (count($errors))
-	{
+	if (count($errors)) {
 		View::set('title', 'Step 2 - Admin Account');
 		View::set('errors', $errors);
 		render('admin_account');
 	}
 	// Setup the database
-	else
-	{
+	else {
 		$conn = Database::factory($_SESSION['db'], 'main');
 
 		// Fetch the install SQL.
@@ -140,25 +130,21 @@ post('/step/3', function(){
 		$config = array();
 		$config[] = '<?php';
 		$config[] = '$db = array(';
-		foreach (array('driver', 'type', 'host', 'username', 'password', 'database', 'prefix') as $key)
-		{
+		foreach (array('driver', 'type', 'host', 'username', 'password', 'database', 'prefix') as $key) {
 			$config[] = '	\'' . $key . '\' => "' . $_SESSION['db'][$key] . '",';
-
 		}
 		$config[] = ');';
 		$config = implode(PHP_EOL, $config);
 
 		// Write the config to file
-		if(!file_exists('../system/config/database.php') and is_writable('../system/config'))
-		{
-			$handle = fopen('../system/config/database.php', 'w+');
+		if(!file_exists('../vendor/traq/config/database.php') and is_writable('../vendor/traq/config')) {
+			$handle = fopen('../vendor/traq/config/database.php', 'w+');
 			fwrite($handle, $config);
 			fclose($handle);
 			$config_created = true;
 		}
 		// Tell the user how to create the config file
-		else
-		{
+		else {
 			View::set('config_code', $config);
 			$config_created = false;
 		}
