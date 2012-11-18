@@ -30,165 +30,167 @@ use avalon\database\Model;
  */
 class Milestone extends Model
 {
-	protected static $_name = 'milestones';
-	protected static $_properties = array(
-		'id',
-		'name',
-		'slug',
-		'codename',
-		'info',
-		'changelog',
-		'due',
-		'status',
-		'is_locked',
-		'project_id',
-		'displayorder'
-	);
+    protected static $_name = 'milestones';
+    protected static $_properties = array(
+        'id',
+        'name',
+        'slug',
+        'codename',
+        'info',
+        'changelog',
+        'due',
+        'status',
+        'is_locked',
+        'project_id',
+        'displayorder'
+    );
 
-	// Relations
-	protected static $_has_many = array('tickets');
-	protected static $_belongs_to = array('project');
+    // Relations
+    protected static $_has_many = array('tickets');
+    protected static $_belongs_to = array('project');
 
-	// Filters
-	protected static $_filters_before = array(
-		'create' => array('_before_create'),
-		'save' => array('_before_save')
-	);
-	protected static $_filters_after = array('construct' => array('_after_construct'));
+    // Filters
+    protected static $_filters_before = array(
+        'create' => array('_before_create'),
+        'save' => array('_before_save')
+    );
+    protected static $_filters_after = array('construct' => array('_after_construct'));
 
-	/**
-	 * Easily get the URI to the milestone.
-	 *
-	 * @return string
-	 */
-	public function href()
-	{
-		return '/' . $this->project->slug . "/milestone/" . $this->slug;
-	}
+    /**
+     * Easily get the URI to the milestone.
+     *
+     * @return string
+     */
+    public function href()
+    {
+        return '/' . $this->project->slug . "/milestone/" . $this->slug;
+    }
 
-	/**
-	 * Returns the number of tickets for the specified status.
-	 *
-	 * @param string $status The status of the ticket:
-	 *     open, closed, total, open_percent, closed_percent
-	 *
-	 * @return integer
-	 */
-	public function ticket_count($status = 'total')
-	{
-		// Holder for the counts array.
-		static $counts = array();
+    /**
+     * Returns the number of tickets for the specified status.
+     *
+     * @param string $status The status of the ticket:
+     *     open, closed, total, open_percent, closed_percent
+     *
+     * @return integer
+     */
+    public function ticket_count($status = 'total')
+    {
+        // Holder for the counts array.
+        static $counts = array();
 
-		// Check if we need to fetch
-		// the ticket counts.
-		if (!isset($counts[$this->id])) {
-			$counts[$this->id] = array(
-				'open' => $this->tickets->where('is_closed', 0)->exec()->row_count(),
-				'closed' => $this->tickets->where('is_closed', 1)->exec()->row_count()
-			);
-			$counts[$this->id]['total'] = $counts[$this->id]['open'] + $counts[$this->id]['closed'];
-			$counts[$this->id]['open_percent'] = $counts[$this->id]['open'] ? get_percent($counts[$this->id]['open'], $counts[$this->id]['total']) : 0;
-			$counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'], $counts[$this->id]['total']);
-		}
+        // Check if we need to fetch
+        // the ticket counts.
+        if (!isset($counts[$this->id])) {
+            $counts[$this->id] = array(
+                'open' => $this->tickets->where('is_closed', 0)->exec()->row_count(),
+                'closed' => $this->tickets->where('is_closed', 1)->exec()->row_count()
+            );
+            $counts[$this->id]['total'] = $counts[$this->id]['open'] + $counts[$this->id]['closed'];
+            $counts[$this->id]['open_percent'] = $counts[$this->id]['open'] ? get_percent($counts[$this->id]['open'], $counts[$this->id]['total']) : 0;
+            $counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'], $counts[$this->id]['total']);
+        }
 
-		// Return the requested count index.
-		return $counts[$this->id][$status];
-	}
+        // Return the requested count index.
+        return $counts[$this->id][$status];
+    }
 
-	/**
-	 * Returns an array of milestone statuses
-	 * formatted for the Form::select() helper.
-	 */
-	public static function status_select_options()
-	{
-		return array(
-			array('label' => l('active'), 'value' => 1),
-			array('label' => l('completed'), 'value' => 2),
-			array('label' => l('cancelled'), 'value' => 0),
-		);
-	}
+    /**
+     * Returns an array of milestone statuses
+     * formatted for the Form::select() helper.
+     */
+    public static function status_select_options()
+    {
+        return array(
+            array('label' => l('active'), 'value' => 1),
+            array('label' => l('completed'), 'value' => 2),
+            array('label' => l('cancelled'), 'value' => 0),
+        );
+    }
 
-	/**
-	 * Checks if the models data is valid.
-	 *
-	 * @return bool
-	 */
-	public function is_valid()
-	{
-		$errors = array();
+    /**
+     * Checks if the models data is valid.
+     *
+     * @return bool
+     */
+    public function is_valid()
+    {
+        $errors = array();
 
-		// Check if the name is empty
-		if (empty($this->_data['name'])) {
-			$errors['name'] = l('errors.name_blank');
-		}
+        // Check if the name is empty
+        if (empty($this->_data['name'])) {
+            $errors['name'] = l('errors.name_blank');
+        }
 
-		// Check if the slug is empty
-		if (empty($this->_data['slug'])) {
-			$errors['slug'] = l('errors.slug_blank');
-		}
+        // Check if the slug is empty
+        if (empty($this->_data['slug'])) {
+            $errors['slug'] = l('errors.slug_blank');
+        }
 
-		// Check if the slug is in use
-		$milestone_slug = Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->project_id);
-		if ($milestone_slug->exec()->row_count()) {
-			$errors['slug'] = l('errors.slug_in_use');
-		}
+        // Check if the slug is in use
+        $milestone_slug = Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')
+            ->where('slug', $this->_data['slug'])->where('project_id', $this->project_id);
 
-		$this->errors = $errors;
-		return !count($errors) > 0;
-	}
+        if ($milestone_slug->exec()->row_count()) {
+            $errors['slug'] = l('errors.slug_in_use');
+        }
 
-	/**
-	 * Custom save method.
-	 */
-	public function save()
-	{
-		if (parent::save()) {
-			// Check if the status has been changed, if it has, is it completed or cancelled?
-			if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1) {
-				$timeline = new Timeline(array(
-					'project_id' => $this->project_id,
-					'owner_id' => $this->id,
-					'action' => $this->_data['status'] == 2 ? 'milestone_completed' : 'milestone_cancelled',
-					'user_id' => Avalon::app()->user->id
-				));
-				$timeline->save();
-			}
+        $this->errors = $errors;
+        return !count($errors) > 0;
+    }
 
-			return true;
-		}
+    /**
+     * Custom save method.
+     */
+    public function save()
+    {
+        if (parent::save()) {
+            // Check if the status has been changed, if it has, is it completed or cancelled?
+            if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1) {
+                $timeline = new Timeline(array(
+                    'project_id' => $this->project_id,
+                    'owner_id' => $this->id,
+                    'action' => $this->_data['status'] == 2 ? 'milestone_completed' : 'milestone_cancelled',
+                    'user_id' => Avalon::app()->user->id
+                ));
+                $timeline->save();
+            }
 
-		return false;
-	}
+            return true;
+        }
 
-	/**
-	 * Converts the slug to be URI safe.
-	 */
-	protected function _create_slug()
-	{
-		$this->slug = create_slug($this->slug);
-	}
+        return false;
+    }
 
-	/**
-	 * Does required things before creating the row.
-	 */
-	protected function _before_create()
-	{
-		$this->_create_slug();
-	}
+    /**
+     * Converts the slug to be URI safe.
+     */
+    protected function _create_slug()
+    {
+        $this->slug = create_slug($this->slug);
+    }
 
-	/**
-	 * Does required things before saving the data.
-	 */
-	protected function _before_save()
-	{
-		$this->_create_slug();
-	}
+    /**
+     * Does required things before creating the row.
+     */
+    protected function _before_create()
+    {
+        $this->_create_slug();
+    }
 
-	/**
-	 * Clones the status for use in the save method.
-	 */
-	protected function _after_construct()
-	{
-		$this->original_status = $this->_data['status'];
-	}
+    /**
+     * Does required things before saving the data.
+     */
+    protected function _before_save()
+    {
+        $this->_create_slug();
+    }
+
+    /**
+     * Clones the status for use in the save method.
+     */
+    protected function _after_construct()
+    {
+        $this->original_status = $this->_data['status'];
+    }
 }
