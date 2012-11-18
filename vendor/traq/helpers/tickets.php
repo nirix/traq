@@ -30,16 +30,16 @@ use avalon\core\Kernel as Avalon;
  * @package Traq
  */
 function ticket_columns() {
-	$columns = array(
-		'ticket_id',
-		'summary',
-		'status',
-		'owner',
-		'type',
-		'component',
-		'milestone'
-	);
-	return $columns;
+    $columns = array(
+        'ticket_id',
+        'summary',
+        'status',
+        'owner',
+        'type',
+        'component',
+        'milestone'
+    );
+    return $columns;
 }
 
 /**
@@ -52,15 +52,15 @@ function ticket_columns() {
  * @package Traq
  */
 function ticket_filters() {
-	$filters = array(
-		'milestone',
-		'version',
-		'status',
-		'type',
-		'component',
-		'summary'
-	);
-	return $filters;
+    $filters = array(
+        'milestone',
+        'version',
+        'status',
+        'type',
+        'component',
+        'summary'
+    );
+    return $filters;
 }
 
 /**
@@ -71,21 +71,21 @@ function ticket_filters() {
  * @return mixed
  */
 function ticketlist_header($column) {
-	switch ($column) {
-		case 'ticket_id':
-			return '';
-		case 'summary':
-		case 'status':
-		case 'owner':
-		case 'type':
-		case 'component':
-		case 'milestone':
-		case 'updates':
-			return l($column);
-		default:
-			return '';
-		break;
-	}
+    switch ($column) {
+        case 'ticket_id':
+            return '';
+        case 'summary':
+        case 'status':
+        case 'owner':
+        case 'type':
+        case 'component':
+        case 'milestone':
+        case 'updates':
+            return l($column);
+        default:
+            return '';
+        break;
+    }
 }
 
 /**
@@ -97,52 +97,52 @@ function ticketlist_header($column) {
  * @return mixed
  */
 function ticketlist_data($column, $ticket) {
-	switch ($column) {
-		// Ticket ID column
-		case 'ticket_id':
-			return $ticket->ticket_id;
-			break;
+    switch ($column) {
+        // Ticket ID column
+        case 'ticket_id':
+            return $ticket->ticket_id;
+            break;
 
-		// Summary column
-		case 'summary':
-			return $ticket->summary;
-			break;
+        // Summary column
+        case 'summary':
+            return $ticket->summary;
+            break;
 
-		// Status column
-		case 'status':
-			return $ticket->status->name;
-			break;
+        // Status column
+        case 'status':
+            return $ticket->status->name;
+            break;
 
-		// Owner / author column
-		case 'owner':
-			return $ticket->user->username;
-			break;
+        // Owner / author column
+        case 'owner':
+            return $ticket->user->username;
+            break;
 
-		// Ticket type column
-		case 'type':
-			return $ticket->type->name;
-			break;
+        // Ticket type column
+        case 'type':
+            return $ticket->type->name;
+            break;
 
-		// Component column
-		case 'component':
-			return $ticket->component ? $ticket->component->name : '';
-			break;
+        // Component column
+        case 'component':
+            return $ticket->component ? $ticket->component->name : '';
+            break;
 
-		// Milestone column
-		case 'milestone':
-			return $ticket->milestone ? $ticket->milestone->name : '';
-			break;
+        // Milestone column
+        case 'milestone':
+            return $ticket->milestone ? $ticket->milestone->name : '';
+            break;
 
-		// Updates column
-		case 'updates':
-			return $ticket->history->exec()->row_count();
-			break;
+        // Updates column
+        case 'updates':
+            return $ticket->history->exec()->row_count();
+            break;
 
-		// Unknown column...
-		default:
-			return '';
-			break;
-	}
+        // Unknown column...
+        default:
+            return '';
+            break;
+    }
 }
 
 /**
@@ -153,25 +153,25 @@ function ticketlist_data($column, $ticket) {
  * @return array
  */
 function ticket_filter_options_for($filter) {
-	switch ($filter) {
-		// Milestone options
-		case 'milestone':
-			return Avalon::app()->project->milestone_select_options();
-			break;
+    switch ($filter) {
+        // Milestone options
+        case 'milestone':
+            return Avalon::app()->project->milestone_select_options();
+            break;
 
-		// Version options
-		case 'version':
-			return Avalon::app()->project->milestone_select_options('completed');
-			break;
+        // Version options
+        case 'version':
+            return Avalon::app()->project->milestone_select_options('completed');
+            break;
 
-		// Type options
-		case 'type':
-			return Type::select_options();
-			break;
+        // Type options
+        case 'type':
+            return Type::select_options();
+            break;
 
-		// Status options
-		case 'status':
-			return Status::select_options();
-			break;
-	}
+        // Status options
+        case 'status':
+            return Status::select_options();
+            break;
+    }
 }
