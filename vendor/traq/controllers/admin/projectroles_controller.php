@@ -28,78 +28,78 @@
  */
 class AdminProjectRolesController extends AdminAppController
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->title(l('roles'));
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title(l('roles'));
+    }
 
-	/**
-	 * Role listing page.
-	 */
-	public function action_index()
-	{
-		View::set('roles', ProjectRole::fetch_all());
-	}
+    /**
+     * Role listing page.
+     */
+    public function action_index()
+    {
+        View::set('roles', ProjectRole::fetch_all());
+    }
 
-	/**
-	 * New role page.
-	 */
-	public function action_new()
-	{
-		// Create a new role object
-		$role = new ProjectRole;
+    /**
+     * New role page.
+     */
+    public function action_new()
+    {
+        // Create a new role object
+        $role = new ProjectRole;
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post') {
-			// Set the role name
-			$role->name = Request::$post['name'];
-			$role->project_id = Request::$post['project'];
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Set the role name
+            $role->name = Request::$post['name'];
+            $role->project_id = Request::$post['project'];
 
-			// Validate the data
-			if ($role->is_valid()) {
-				// Create and redirect
-				$role->save();
-				Request::redirect(Request::base('/admin/roles'));
-			}
-		}
+            // Validate the data
+            if ($role->is_valid()) {
+                // Create and redirect
+                $role->save();
+                Request::redirect(Request::base('/admin/roles'));
+            }
+        }
 
-		View::set('role', $role);
-	}
+        View::set('role', $role);
+    }
 
-	/**
-	 * Edit role page.
-	 */
-	public function action_edit($id)
-	{
-		// Fetch the role
-		$role = ProjectRole::find($id);
+    /**
+     * Edit role page.
+     */
+    public function action_edit($id)
+    {
+        // Fetch the role
+        $role = ProjectRole::find($id);
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post') {
-			// Update the role name
-			$role->name = Request::$post['name'];
-			$role->project_id = Request::$post['project'];
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Update the role name
+            $role->name = Request::$post['name'];
+            $role->project_id = Request::$post['project'];
 
-			// Validate the data
-			if ($role->is_valid()) {
-				// Save and redirect
-				$role->save();
-				Request::redirect(Request::base('/admin/roles'));
-			}
-		}
+            // Validate the data
+            if ($role->is_valid()) {
+                // Save and redirect
+                $role->save();
+                Request::redirect(Request::base('/admin/roles'));
+            }
+        }
 
-		View::set('role', $role);
-	}
+        View::set('role', $role);
+    }
 
-	/**
-	 * Delete role page.
-	 */
-	public function action_delete($id)
-	{
-		// Fetch and delete the role, then redirect
-		$role = ProjectRole::find($id);
-		$role->delete();
-		Request::redirect(Request::base('/admin/roles'));
-	}
+    /**
+     * Delete role page.
+     */
+    public function action_delete($id)
+    {
+        // Fetch and delete the role, then redirect
+        $role = ProjectRole::find($id);
+        $role->delete();
+        Request::redirect(Request::base('/admin/roles'));
+    }
 }

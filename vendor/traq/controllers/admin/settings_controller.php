@@ -32,41 +32,41 @@ use avalon\output\View;
  */
 class AdminSettingsController extends AdminAppController
 {
-	/**
-	 * Traq Settings page
-	 */
-	public function action_index()
-	{
-		$this->title(l('settings'));
+    /**
+     * Traq Settings page
+     */
+    public function action_index()
+    {
+        $this->title(l('settings'));
 
-		// Check if the form has been submitted.
-		if (Request::$method == 'post') {
-			$_settings = Request::$post['settings'];
+        // Check if the form has been submitted.
+        if (Request::$method == 'post') {
+            $_settings = Request::$post['settings'];
 
-			// Check for errors
-			$errors = array();
+            $errors = array();
 
-			// Check title
-			if (empty($_settings['title'])) {
-				$errors['title'] = l('errors.settings.title_blank');
-			}
+            // Check title
+            if (empty($_settings['title'])) {
+                $errors['title'] = l('errors.settings.title_blank');
+            }
 
-			// Check select fields
-			foreach (array('locale', 'theme', 'allow_registration') as $select) {
-				if (!array_key_exists($select, $_settings)) {
-					$errors[$select] = l("errors.settings.{$select}_blank");
-				}
-			}
+            // Check select fields
+            foreach (array('locale', 'theme', 'allow_registration') as $select) {
+                if (!array_key_exists($select, $_settings)) {
+                    $errors[$select] = l("errors.settings.{$select}_blank");
+                }
+            }
 
-			if (!count($errors)) {
-				foreach ($_settings as $_setting => $_value) {
-					Database::connection()->update('settings')->set(array('value' => $_value))->where('setting', $_setting)->exec();
-				}
+            // Check for errors
+            if (!count($errors)) {
+                foreach ($_settings as $_setting => $_value) {
+                    Database::connection()->update('settings')->set(array('value' => $_value))->where('setting', $_setting)->exec();
+                }
 
-				Request::redirect(Request::full_uri());
-			}
+                Request::redirect(Request::full_uri());
+            }
 
-			View::set('errors', $errors);
-		}
-	}
+            View::set('errors', $errors);
+        }
+    }
 }

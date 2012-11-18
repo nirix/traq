@@ -28,92 +28,92 @@
  */
 class AdminStatusesController extends AdminAppController
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->title(l('statuses'));
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title(l('statuses'));
+    }
 
-	public function action_index()
-	{
-		$statuses = Status::fetch_all();
-		View::set('statuses', $statuses);
-	}
+    public function action_index()
+    {
+        $statuses = Status::fetch_all();
+        View::set('statuses', $statuses);
+    }
 
-	/**
-	 * New status page.
-	 */
-	public function action_new()
-	{
-		$this->title(l('new'));
+    /**
+     * New status page.
+     */
+    public function action_new()
+    {
+        $this->title(l('new'));
 
-		// Create a new status object.
-		$status = new Status;
+        // Create a new status object.
+        $status = new Status;
 
-		// Check if the form has been submitted.
-		if (Request::$method == 'post') {
-			// Set the information.
-			$status->set(array(
-				'name' => Request::$post['name'],
-				'status' => Request::$post['status'],
-				'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0
-			));
+        // Check if the form has been submitted.
+        if (Request::$method == 'post') {
+            // Set the information.
+            $status->set(array(
+                'name' => Request::$post['name'],
+                'status' => Request::$post['status'],
+                'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0
+            ));
 
-			// Check if the data is valid.
-			if ($status->is_valid()) {
-				// Save and redirect.
-				$status->save();
-				Request::redirect(Request::base('/admin/tickets/statuses'));
-			}
-		}
+            // Check if the data is valid.
+            if ($status->is_valid()) {
+                // Save and redirect.
+                $status->save();
+                Request::redirect(Request::base('/admin/tickets/statuses'));
+            }
+        }
 
-		// Send the data to the view.
-		View::set('status', $status);
-	}
+        // Send the data to the view.
+        View::set('status', $status);
+    }
 
-	/**
-	 * Edit status page.
-	 *
-	 * @param integer $id
-	 */
-	public function action_edit($id)
-	{
-		$this->title(l('edit'));
+    /**
+     * Edit status page.
+     *
+     * @param integer $id
+     */
+    public function action_edit($id)
+    {
+        $this->title(l('edit'));
 
-		// Fetch the status
-		$status = Status::find($id);
+        // Fetch the status
+        $status = Status::find($id);
 
-		// Check if the form has been submitted.
-		if (Request::$method == 'post') {
-			// Set the information.
-			$status->set(array(
-				'name' => Request::$post['name'],
-				'status' => Request::$post['status'],
-				'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0
-			));
+        // Check if the form has been submitted.
+        if (Request::$method == 'post') {
+            // Set the information.
+            $status->set(array(
+                'name' => Request::$post['name'],
+                'status' => Request::$post['status'],
+                'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0
+            ));
 
-			// Check if the data is valid.
-			if ($status->is_valid()) {
-				// Save and redirect.
-				$status->save();
-				Request::redirect(Request::base('/admin/tickets/statuses'));
-			}
-		}
+            // Check if the data is valid.
+            if ($status->is_valid()) {
+                // Save and redirect.
+                $status->save();
+                Request::redirect(Request::base('/admin/tickets/statuses'));
+            }
+        }
 
-		// Send the data to the view.
-		View::set('status', $status);
-	}
+        // Send the data to the view.
+        View::set('status', $status);
+    }
 
-	/**
-	 * Delete status page.
-	 *
-	 * @param integer $id
-	 */
-	public function action_delete($id)
-	{
-		// Fetch the status, delete it and redirect.
-		$status = Status::find($id);
-		$status->delete();
-		Request::redirect(Request::base('/admin/tickets/statuses'));
-	}
+    /**
+     * Delete status page.
+     *
+     * @param integer $id
+     */
+    public function action_delete($id)
+    {
+        // Fetch the status, delete it and redirect.
+        $status = Status::find($id);
+        $status->delete();
+        Request::redirect(Request::base('/admin/tickets/statuses'));
+    }
 }

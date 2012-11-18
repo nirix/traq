@@ -28,23 +28,23 @@
  */
 class AdminAppController extends AppController
 {
-	/**
-	 * Constructor!
-	 */
-	public function __construct()
-	{
-		parent::__construct();
+    /**
+     * Constructor!
+     */
+    public function __construct()
+    {
+        parent::__construct();
 
-		// Set the admin layout.
-		$this->_render['layout'] = 'admin';
-		$this->title(l('admincp'));
+        // Set the admin layout.
+        $this->_render['layout'] = 'admin';
+        $this->title(l('admincp'));
 
-		// Check if the user is an admin before
-		// if not show the login page with this pages
-		// URI so we can redirect them back to this page
-		// after they login.
-		if (!$this->user->group->is_admin) {
-			$this->show_login(Request::full_uri());
-		}
-	}
+        // Check if the user is an admin before
+        // if not show the login page with this pages
+        // URI so we can redirect them back to this page
+        // after they login.
+        if (!$this->user->group->is_admin) {
+            $this->show_login(Request::full_uri());
+        }
+    }
 }

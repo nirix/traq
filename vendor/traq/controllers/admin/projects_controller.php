@@ -28,54 +28,54 @@
  */
 class AdminProjectsController extends AdminAppController
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->title(l('projects'));
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title(l('projects'));
+    }
 
-	public function action_index()
-	{
-		// Fetch all projects and pass them to the view.
-		$projects = Project::fetch_all();
-		View::set('projects', $projects);
-	}
+    public function action_index()
+    {
+        // Fetch all projects and pass them to the view.
+        $projects = Project::fetch_all();
+        View::set('projects', $projects);
+    }
 
-	/**
-	 * Create a new project page.
-	 */
-	public function action_new()
-	{
-		$this->title(l('new'));
+    /**
+     * Create a new project page.
+     */
+    public function action_new()
+    {
+        $this->title(l('new'));
 
-		$project = new Project;
+        $project = new Project;
 
-		if (Request::$method == 'post') {
-			$project->set(array(
-				'name' => Request::$post['name'],
-				'slug' => Request::$post['slug'],
-				'codename' => Request::$post['codename'],
-				'info' => Request::$post['info'],
-				'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
-			));
+        if (Request::$method == 'post') {
+            $project->set(array(
+                'name' => Request::$post['name'],
+                'slug' => Request::$post['slug'],
+                'codename' => Request::$post['codename'],
+                'info' => Request::$post['info'],
+                'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
+            ));
 
-			if ($project->save()) {
-				Request::redirect(Request::base('admin'));
-			}
-		}
+            if ($project->save()) {
+                Request::redirect(Request::base('admin'));
+            }
+        }
 
-		View::set('proj', $project);
-	}
+        View::set('proj', $project);
+    }
 
-	/**
-	 * Delete a project.
-	 *
-	 * @param integer $id Project ID.
-	 */
-	public function action_delete($id)
-	{
-		$project = Project::find('id', $id);
-		$project->delete();
-		Request::redirect(Request::base('admin'));
-	}
+    /**
+     * Delete a project.
+     *
+     * @param integer $id Project ID.
+     */
+    public function action_delete($id)
+    {
+        $project = Project::find('id', $id);
+        $project->delete();
+        Request::redirect(Request::base('admin'));
+    }
 }

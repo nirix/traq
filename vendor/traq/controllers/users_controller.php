@@ -30,95 +30,89 @@ use avalon\core\Load;
  */
 class UsersController extends AppController
 {
-	/**
-	 * User profile page.
-	 *
-	 * @param integer $user_id
-	 */
-	public function action_view($user_id)
-	{
-		// If the user doesn't exist
-		// display the 404 page.
-		if (!$user = User::find($user_id))
-		{
-			return $this->show_404();
-		}
+    /**
+     * User profile page.
+     *
+     * @param integer $user_id
+     */
+    public function action_view($user_id)
+    {
+        // If the user doesn't exist
+        // display the 404 page.
+        if (!$user = User::find($user_id)) {
+            return $this->show_404();
+        }
 
-		// Set the title
-		$this->title(l('users'));
-		$this->title(l('xs_profile', $user->name));
+        // Set the title
+        $this->title(l('users'));
+        $this->title(l('xs_profile', $user->name));
 
-		Load::helper('tickets');
-		View::set('profile', $user);
-	}
+        Load::helper('tickets');
+        View::set('profile', $user);
+    }
 
-	/**
-	 * Handles the login page.
-	 */
-	public function action_login()
-	{
-		// Set the title
-		$this->title(l('login'));
+    /**
+     * Handles the login page.
+     */
+    public function action_login()
+    {
+        // Set the title
+        $this->title(l('login'));
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
-			// Try to find the user in the database and verify their password
-			if ($user = User::find('username', Request::$post['username'])
-			and $user->verify_password(Request::$post['password']))
-			{
-				// User found and verified, set the cookie and redirect them
-				// to the index page if no "redirect" page was set.
-				setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-				Request::redirect(isset(Request::$post['redirect']) ? Request::$post['redirect'] : Request::base());
-			}
-			// No user found
-			else
-			{
-				View::set('error', true);
-			}
-		}
-	}
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Try to find the user in the database and verify their password
+            if ($user = User::find('username', Request::$post['username'])
+            and $user->verify_password(Request::$post['password'])) {
+                // User found and verified, set the cookie and redirect them
+                // to the index page if no "redirect" page was set.
+                setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+                Request::redirect(isset(Request::$post['redirect']) ? Request::$post['redirect'] : Request::base());
+            }
+            // No user found
+            else {
+                View::set('error', true);
+            }
+        }
+    }
 
-	/**
-	 * Handles the logout request.
-	 */
-	public function action_logout()
-	{
-		setcookie('_traq', sha1(time()), time() + 5, '/');
-		Request::redirect(Request::base());
-	}
+    /**
+     * Handles the logout request.
+     */
+    public function action_logout()
+    {
+        setcookie('_traq', sha1(time()), time() + 5, '/');
+        Request::redirect(Request::base());
+    }
 
-	/**
-	 * Handles the register page and account creation.
-	 */
-	public function action_register()
-	{
-		$this->title(l('register'));
+    /**
+     * Handles the register page and account creation.
+     */
+    public function action_register()
+    {
+        $this->title(l('register'));
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post')
-		{
-			// Build the data array
-			$data = array(
-				'username' => Request::$post['username'],
-				'name' => Request::$post['name'],
-				'password' => Request::$post['password'],
-				'email' => Request::$post['email']
-			);
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Build the data array
+            $data = array(
+                'username' => Request::$post['username'],
+                'name' => Request::$post['name'],
+                'password' => Request::$post['password'],
+                'email' => Request::$post['email']
+            );
 
-			// Create a model with the data
-			$user = new User($data);
+            // Create a model with the data
+            $user = new User($data);
 
-			// Check if the model is valid
-			if ($user->is_valid())
-			{
-				// Save the model and redirect to the login page.
-				$user->save();
-				Request::redirect(Request::base('login'));
-			}
+            // Check if the model is valid
+            if ($user->is_valid()) {
+                // Save the model and redirect to the login page.
+                $user->save();
+                Request::redirect(Request::base('login'));
+            }
 
-			View::set('user', $user);
-		}
-	}
+            View::set('user', $user);
+        }
+    }
 }

@@ -28,73 +28,69 @@
  */
 class AttachmentsController extends AppController
 {
-	// Before filters
-	public $_before = array(
-		'view' => array('_check_permission'),
-		'delete' => array('_check_permission')
-	);
+    // Before filters
+    public $_before = array(
+        'view' => array('_check_permission'),
+        'delete' => array('_check_permission')
+    );
 
-	/**
-	 * View attachment page
-	 *
-	 * @param integer $attachment_id
-	 */
-	public function action_view($attachment_id)
-	{
-		// Don't try to load a view
-		$this->_render['view'] = false;
+    /**
+     * View attachment page
+     *
+     * @param integer $attachment_id
+     */
+    public function action_view($attachment_id)
+    {
+        // Don't try to load a view
+        $this->_render['view'] = false;
 
-		header("Content-type: {$this->attachment->type}");
-		$content_type = explode('/', $this->attachment->type);
+        header("Content-type: {$this->attachment->type}");
+        $content_type = explode('/', $this->attachment->type);
 
-		// Check what type of file we're dealing with.
-		if($content_type[0] == 'text' or $content_type[0] == 'image')
-		{
-			// If the mime-type is text, we can just display it
-			// as plain text. I hate having to download files.
-			if ($content_type[0] == 'text')
-			{
-				header("Content-type: text/plain");
-			}
-			header("Content-Disposition: filename=\"{$this->attachment->name}\"");
-		}
-		// Anything else should be downloaded
-		else
-		{
-			header("Content-Disposition: attachment; filename=\"{$this->attachment->name}\"");
-		}
+        // Check what type of file we're dealing with.
+        if($content_type[0] == 'text' or $content_type[0] == 'image') {
+            // If the mime-type is text, we can just display it
+            // as plain text. I hate having to download files.
+            if ($content_type[0] == 'text') {
+                header("Content-type: text/plain");
+            }
+            header("Content-Disposition: filename=\"{$this->attachment->name}\"");
+        }
+        // Anything else should be downloaded
+        else {
+            header("Content-Disposition: attachment; filename=\"{$this->attachment->name}\"");
+        }
 
-		// Decode the contents and display it
-		print(base64_decode($this->attachment->contents));
-		exit;
-	}
+        // Decode the contents and display it
+        print(base64_decode($this->attachment->contents));
+        exit;
+    }
 
-	/**
-	 * Delete attachment
-	 *
-	 * @param integer $attachment_id
-	 */
-	public function action_delete($attachment_id)
-	{
-		// Delete and redirect
-		$this->attachment->delete();
-		Request::redirect(Request::base($this->attachment->ticket->href()));
-	}
+    /**
+     * Delete attachment
+     *
+     * @param integer $attachment_id
+     */
+    public function action_delete($attachment_id)
+    {
+        // Delete and redirect
+        $this->attachment->delete();
+        Request::redirect(Request::base($this->attachment->ticket->href()));
+    }
 
-	/**
-	 * Used to check the permission for the requested action.
-	 */
-	public function _check_permission($action)
-	{
-		// Get the attachment
-		$this->attachment = Attachment::find(Router::$params[0]);
+    /**
+     * Used to check the permission for the requested action.
+     */
+    public function _check_permission($action)
+    {
+        // Get the attachment
+        $this->attachment = Attachment::find(Router::$params[0]);
 
-		// Check if the user has permission
-		if (!current_user()->permission($this->attachment->ticket->project_id, "{$action}_attachments"))
-		{
-			// oh noes! display the no permission page.
-			$this->show_no_permission();
-			return false;
-		}
-	}
+        // Check if the user has permission
+        if (!current_user()->permission($this->attachment->ticket->project_id, "{$action}_attachments")) {
+            // oh noes! display the no permission page.
+            $this->show_no_permission();
+            return false;
+        }
+    }
 }

@@ -28,21 +28,21 @@
  */
 class ProjectSettingsAppController extends AppController
 {
-	/**
-	 * Constructor!
-	 */
-	public function __construct()
-	{
-		parent::__construct();
+    /**
+     * Constructor!
+     */
+    public function __construct()
+    {
+        parent::__construct();
 
-		// Add 'Settings' to the page title
-		$this->title(l('settings'));
+        // Add 'Settings' to the page title
+        $this->title(l('settings'));
 
-		// Make sure this is a project and the user
-		// has the correct permission to access the area.
-		if (!$this->project
-		or (!$this->user->permission($this->project->id, 'project_settings') and !$this->user->group->is_admin)) {
-			$this->show_no_permission();
-		}
-	}
+        // Make sure this is a project and the user
+        // has the correct permission to access the area.
+        if (!$this->project
+        or (!$this->user->permission($this->project->id, 'project_settings') and !$this->user->group->is_admin)) {
+            $this->show_no_permission();
+        }
+    }
 }

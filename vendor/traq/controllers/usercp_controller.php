@@ -29,82 +29,75 @@
 class UsercpController extends AppController
 {
 
-	public function action_password()
-	{
-		// Make sure the user is logged in
-		if (!LOGGEDIN)
-		{
-			$this->show_no_permission();
-		}
+    public function action_password()
+    {
+        // Make sure the user is logged in
+        if (!LOGGEDIN) {
+            $this->show_no_permission();
+        }
 
-		// Clone the logged in user object
-		$user = clone $this->user;
+        // Clone the logged in user object
+        $user = clone $this->user;
 
-		if (Request::$method == 'post')
-		{
-			$data = array(
-					'old_password' => Request::$post['password'],
-					'new_password' => Request::$post['new_password'],
-					'confirm_password' => Request::$post['confirm_password']
-			);
+        if (Request::$method == 'post') {
+            $data = array(
+                    'old_password' => Request::$post['password'],
+                    'new_password' => Request::$post['new_password'],
+                    'confirm_password' => Request::$post['confirm_password']
+            );
 
-			FishHook::add('controller:users::usercp/password/save', array(&$data));
+            FishHook::add('controller:users::usercp/password/save', array(&$data));
 
-			// Set the info
-			$user->set($data);
+            // Set the info
+            $user->set($data);
 
-			if($user->is_valid())
-			{
-				$user->set_password($data['new_password']);
+            if($user->is_valid()) {
+                $user->set_password($data['new_password']);
 
-				// Save the user
-				if ($user->save())
-				{
-					// Redirect if successfull
-					Request::redirect(Request::full_uri());
-				}
-			}
-		}
+                // Save the user
+                if ($user->save()) {
+                    // Redirect if successfull
+                    Request::redirect(Request::full_uri());
+                }
+            }
+        }
 
-		View::set('user', $user);
-	}
+        View::set('user', $user);
+    }
 
-	/**
-	 * The index page.
-	 */
-	public function action_index()
-	{
-		// Make sure the user is logged in
-		if (!LOGGEDIN)
-		{
-			$this->show_no_permission();
-		}
+    /**
+     * The index page.
+     */
+    public function action_index()
+    {
+        // Make sure the user is logged in
+        if (!LOGGEDIN) {
+            $this->show_no_permission();
+        }
 
-		// Clone the logged in user object
-		$user = clone $this->user;
+        // Clone the logged in user object
+        $user = clone $this->user;
 
-		// Has the form been submitted?
-		if (Request::$method == 'post')
-		{
-			$data = array(
-				'name' => Request::$post['name'],
-				'email' => Request::$post['email'],
-				'locale' => Request::$post['locale']
-			);
+        // Has the form been submitted?
+        if (Request::$method == 'post') {
+            $data = array(
+                'name' => Request::$post['name'],
+                'email' => Request::$post['email'],
+                'locale' => Request::$post['locale']
+            );
 
-			FishHook::add('controller:users::usercp/save', array(&$data));
+            FishHook::add('controller:users::usercp/save', array(&$data));
 
-			// Set the info
-			$user->set($data);
+            // Set the info
+            $user->set($data);
 
-			// Save the user
-			if ($user->save())
-			{
-				// Redirect if successfull
-				Request::redirect(Request::full_uri());
-			}
-		}
+            // Save the user
+            if ($user->save()) {
+                // Redirect if successfull
+                Request::redirect(Request::full_uri());
+            }
+        }
 
-		View::set('user', $user);
-	}
+        View::set('user', $user);
+    }
 }

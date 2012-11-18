@@ -28,78 +28,78 @@
  */
 class AdminSeveritiesController extends AdminAppController
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->title(l('severities'));
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title(l('severities'));
+    }
 
-	/**
-	 * Severity listing.
-	 */
-	public function action_index()
-	{
-		View::set('severities', Severity::fetch_all());
-	}
+    /**
+     * Severity listing.
+     */
+    public function action_index()
+    {
+        View::set('severities', Severity::fetch_all());
+    }
 
-	/**
-	 * New severity.
-	 */
-	public function action_new()
-	{
-		// Create the severity
-		$severity = new Severity();
+    /**
+     * New severity.
+     */
+    public function action_new()
+    {
+        // Create the severity
+        $severity = new Severity();
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post') {
-			// Set the name
-			$severity->set('name', Request::$post['name']);
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Set the name
+            $severity->set('name', Request::$post['name']);
 
-			// Save and redirect
-			if ($severity->save()) {
-				Request::redirect(Request::base('/admin/severities'));
-			}
-		}
+            // Save and redirect
+            if ($severity->save()) {
+                Request::redirect(Request::base('/admin/severities'));
+            }
+        }
 
-		View::set('severity', $severity);
-	}
+        View::set('severity', $severity);
+    }
 
-	/**
-	 * Edit severity.
-	 *
-	 * @param integer $id
-	 */
-	public function action_edit($id)
-	{
-		// Get the severity
-		$severity = Severity::find($id);
+    /**
+     * Edit severity.
+     *
+     * @param integer $id
+     */
+    public function action_edit($id)
+    {
+        // Get the severity
+        $severity = Severity::find($id);
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post') {
-			// Set the name
-			$severity->set('name', Request::$post['name']);
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Set the name
+            $severity->set('name', Request::$post['name']);
 
-			// Save and redirect
-			if ($severity->save()) {
-				Request::redirect(Request::base('/admin/severities'));
-			}
-		}
+            // Save and redirect
+            if ($severity->save()) {
+                Request::redirect(Request::base('/admin/severities'));
+            }
+        }
 
-		View::set('severity', $severity);
-	}
+        View::set('severity', $severity);
+    }
 
-	/**
-	 * Delete severity.
-	 *
-	 * @param integer $id
-	 */
-	public function action_delete($id)
-	{
-		// Get the severity
-		$severity = Severity::find($id);
+    /**
+     * Delete severity.
+     *
+     * @param integer $id
+     */
+    public function action_delete($id)
+    {
+        // Get the severity
+        $severity = Severity::find($id);
 
-		// Delete and redirect
-		$severity->delete();
-		Request::redirect(Request::base('/admin/severities'));
-	}
+        // Delete and redirect
+        $severity->delete();
+        Request::redirect(Request::base('/admin/severities'));
+    }
 }

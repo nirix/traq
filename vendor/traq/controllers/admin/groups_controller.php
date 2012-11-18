@@ -28,84 +28,84 @@
  */
 class AdminGroupsController extends AdminAppController
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->title(l('groups'));
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title(l('groups'));
+    }
 
-	public function action_index()
-	{
-		$groups = Group::fetch_all();
-		View::set('groups', $groups);
-	}
+    public function action_index()
+    {
+        $groups = Group::fetch_all();
+        View::set('groups', $groups);
+    }
 
-	/**
-	 * New group page.
-	 */
-	public function action_new()
-	{
-		$this->title(l('new'));
+    /**
+     * New group page.
+     */
+    public function action_new()
+    {
+        $this->title(l('new'));
 
-		// Create a new group object.
-		$group = new Group;
+        // Create a new group object.
+        $group = new Group;
 
-		// Check if the form has been submitted.
-		if (Request::$method == 'post') {
-			// Set the groups name.
-			$group->set('name', Request::$post['name']);
+        // Check if the form has been submitted.
+        if (Request::$method == 'post') {
+            // Set the groups name.
+            $group->set('name', Request::$post['name']);
 
-			// Make sure the data is valid.
-			if ($group->is_valid()) {
-				// Save and redirect.
-				$group->save();
-				Request::redirect(Request::base('/admin/groups'));
-			}
-		}
+            // Make sure the data is valid.
+            if ($group->is_valid()) {
+                // Save and redirect.
+                $group->save();
+                Request::redirect(Request::base('/admin/groups'));
+            }
+        }
 
-		// Send the group object to the view.
-		View::set('group', $group);
-	}
+        // Send the group object to the view.
+        View::set('group', $group);
+    }
 
-	/**
-	 * Edit group page.
-	 *
-	 * @param integer $id Group ID.
-	 */
-	public function action_edit($id)
-	{
-		$this->title(l('edit'));
+    /**
+     * Edit group page.
+     *
+     * @param integer $id Group ID.
+     */
+    public function action_edit($id)
+    {
+        $this->title(l('edit'));
 
-		// Find the group.
-		$group = Group::find($id);
+        // Find the group.
+        $group = Group::find($id);
 
-		// Check if the form has been submitted.
-		if (Request::$method == 'post') {
-			// Set the groups name
-			$group->set('name', Request::$post['name']);
+        // Check if the form has been submitted.
+        if (Request::$method == 'post') {
+            // Set the groups name
+            $group->set('name', Request::$post['name']);
 
-			// Make sure the data is valid.
-			if ($group->is_valid()) {
-				// Save and redirect.
-				$group->save();
-				Request::redirect(Request::base('/admin/groups'));
-			}
-		}
+            // Make sure the data is valid.
+            if ($group->is_valid()) {
+                // Save and redirect.
+                $group->save();
+                Request::redirect(Request::base('/admin/groups'));
+            }
+        }
 
-		// Send the group object to the view.
-		View::set('group', $group);
-	}
+        // Send the group object to the view.
+        View::set('group', $group);
+    }
 
-	/**
-	 * Delete group page.
-	 *
-	 * @param integer $id Group ID.
-	 */
-	public function action_delete($id)
-	{
-		// Find the group, delete it and redirect
-		$group = Group::find($id);
-		$group->delete();
-		Request::redirect(Request::base('/admin/groups'));
-	}
+    /**
+     * Delete group page.
+     *
+     * @param integer $id Group ID.
+     */
+    public function action_delete($id)
+    {
+        // Find the group, delete it and redirect
+        $group = Group::find($id);
+        $group->delete();
+        Request::redirect(Request::base('/admin/groups'));
+    }
 }

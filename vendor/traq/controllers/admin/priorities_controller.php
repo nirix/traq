@@ -28,78 +28,78 @@
  */
 class AdminPrioritiesController extends AdminAppController
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->title(l('priorities'));
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title(l('priorities'));
+    }
 
-	/**
-	 * priority listing.
-	 */
-	public function action_index()
-	{
-		View::set('priorities', priority::fetch_all());
-	}
+    /**
+     * priority listing.
+     */
+    public function action_index()
+    {
+        View::set('priorities', priority::fetch_all());
+    }
 
-	/**
-	 * New priority.
-	 */
-	public function action_new()
-	{
-		// Create the priority
-		$priority = new Priority();
+    /**
+     * New priority.
+     */
+    public function action_new()
+    {
+        // Create the priority
+        $priority = new Priority();
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post') {
-			// Set the name
-			$priority->set('name', Request::$post['name']);
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Set the name
+            $priority->set('name', Request::$post['name']);
 
-			// Save and redirect
-			if ($priority->save()) {
-				Request::redirect(Request::base('/admin/priorities'));
-			}
-		}
+            // Save and redirect
+            if ($priority->save()) {
+                Request::redirect(Request::base('/admin/priorities'));
+            }
+        }
 
-		View::set('priority', $priority);
-	}
+        View::set('priority', $priority);
+    }
 
-	/**
-	 * Edit priority.
-	 *
-	 * @param integer $id
-	 */
-	public function action_edit($id)
-	{
-		// Get the priority
-		$priority = Priority::find($id);
+    /**
+     * Edit priority.
+     *
+     * @param integer $id
+     */
+    public function action_edit($id)
+    {
+        // Get the priority
+        $priority = Priority::find($id);
 
-		// Check if the form has been submitted
-		if (Request::$method == 'post') {
-			// Set the name
-			$priority->set('name', Request::$post['name']);
+        // Check if the form has been submitted
+        if (Request::$method == 'post') {
+            // Set the name
+            $priority->set('name', Request::$post['name']);
 
-			// Save and redirect
-			if ($priority->save()) {
-				Request::redirect(Request::base('/admin/priorities'));
-			}
-		}
+            // Save and redirect
+            if ($priority->save()) {
+                Request::redirect(Request::base('/admin/priorities'));
+            }
+        }
 
-		View::set('priority', $priority);
-	}
+        View::set('priority', $priority);
+    }
 
-	/**
-	 * Delete priority.
-	 *
-	 * @param integer $id
-	 */
-	public function action_delete($id)
-	{
-		// Get the priority
-		$priority = Priority::find($id);
+    /**
+     * Delete priority.
+     *
+     * @param integer $id
+     */
+    public function action_delete($id)
+    {
+        // Get the priority
+        $priority = Priority::find($id);
 
-		// Delete and redirect
-		$priority->delete();
-		Request::redirect(Request::base('/admin/priorities'));
-	}
+        // Delete and redirect
+        $priority->delete();
+        Request::redirect(Request::base('/admin/priorities'));
+    }
 }
