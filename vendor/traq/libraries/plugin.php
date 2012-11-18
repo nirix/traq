@@ -30,56 +30,56 @@ namespace traq\libraries;
  */
 abstract class Plugin
 {
-	protected static $info = array();
+    protected static $info = array();
 
-	/**
-	 * Returns an array of the plugins info
-	 */
-	public static function info()
-	{
-		return static::$info;
-	}
+    /**
+     * Returns an array of the plugins info
+     */
+    public static function info()
+    {
+        return static::$info;
+    }
 
-	/**
-	 * Called when the plugin is loaded
-	 */
-	protected static function init()
-	{
-	}
+    /**
+     * Called when the plugin is loaded
+     */
+    protected static function init()
+    {
+    }
 
-	/**
-	 * Called when the plugin is installed
-	 *
-	 * @return bool
-	 */
-	public static function __install()
-	{
-	}
+    /**
+     * Called when the plugin is installed
+     *
+     * @return bool
+     */
+    public static function __install()
+    {
+    }
 
-	/**
-	 * Called when the enable plugin link is clicked.
-	 *
-	 * @return bool
-	 */
-	public static function __enable()
-	{
-	}
+    /**
+     * Called when the enable plugin link is clicked.
+     *
+     * @return bool
+     */
+    public static function __enable()
+    {
+    }
 
-	/**
-	 * Called when the disable plugin link is clicked.
-	 *
-	 * @return bool
-	 */
-	public static function __disable()
-	{
-	}
+    /**
+     * Called when the disable plugin link is clicked.
+     *
+     * @return bool
+     */
+    public static function __disable()
+    {
+    }
 
-	/**
-	 * Called when the plugin is uninstalled
-	 *
-	 * @return bool
-	 */
-	public static function __uninstall()
-	{
-	}
+    /**
+     * Called when the plugin is uninstalled
+     *
+     * @return bool
+     */
+    public static function __uninstall()
+    {
+    }
 }
