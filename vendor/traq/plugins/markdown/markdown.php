@@ -32,41 +32,40 @@ use \FishHook;
  */
 class Markdown extends \traq\libraries\Plugin
 {
-	protected static $info = array(
-		'name'    => 'Markdown',
-		'version' => '0.1',
-		'author'  => 'Jack P.'
-	);
+    protected static $info = array(
+        'name'    => 'Markdown',
+        'version' => '0.1',
+        'author'  => 'Jack P.'
+    );
 
-	private static $parser;
+    private static $parser;
 
-	/**
-	 * Handles the startup of the plugin.
-	 */
-	public static function init()
-	{
-		FishHook::add('function:format_text', array(get_called_class(), 'format_text'));
-	}
+    /**
+     * Handles the startup of the plugin.
+     */
+    public static function init()
+    {
+        FishHook::add('function:format_text', array(get_called_class(), 'format_text'));
+    }
 
-	/**
-	 * Handles the format_text function hook.
-	 */
-	public static function format_text(&$text, $strip_html)
-	{
-		// If HTML is being converted to text, undo it.
-		if ($strip_html) {
-			$text = htmlspecialchars_decode($text);
-		}
+    /**
+     * Handles the format_text function hook.
+     */
+    public static function format_text(&$text, $strip_html)
+    {
+        // If HTML is being converted to text, undo it.
+        if ($strip_html) {
+            $text = htmlspecialchars_decode($text);
+        }
 
-		// Check if the parser has been loaded...
-		if (static::$parser === null)
-		{
-			// Load the parser
-			require __DIR__ . '/libraries/markdown.php';
-			static::$parser = new \Markdown_Parser;
-		}
+        // Check if the parser has been loaded...
+        if (static::$parser === null) {
+            // Load the parser
+            require __DIR__ . '/libraries/markdown.php';
+            static::$parser = new \Markdown_Parser;
+        }
 
-		// Parse the text
-		$text = static::$parser->transform($text);
-	}
+        // Parse the text
+        $text = static::$parser->transform($text);
+    }
 }
