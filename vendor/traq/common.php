@@ -32,16 +32,16 @@ use avalon\core\Kernel as Avalon;
  * @package Traq
  */
 function settings($setting) {
-	static $CACHE = array();
+    static $CACHE = array();
 
-	if (isset($CACHE[$setting])) {
-		return $CACHE[$setting];
-	}
+    if (isset($CACHE[$setting])) {
+        return $CACHE[$setting];
+    }
 
-	$data = Setting::find($setting);
+    $data = Setting::find($setting);
 
-	$CACHE[$setting] = $data->value;
-	return $CACHE[$setting];
+    $CACHE[$setting] = $data->value;
+    return $CACHE[$setting];
 }
 
 /**
@@ -55,8 +55,8 @@ function settings($setting) {
  */
 function l()
 {
-	global $locale;
-	return call_user_func_array(array($locale, 'translate'), func_get_args());
+    global $locale;
+    return call_user_func_array(array($locale, 'translate'), func_get_args());
 }
 
 /**
@@ -69,8 +69,8 @@ function l()
  */
 function ldate()
 {
-	global $locale;
-	return call_user_func_array(array($locale, 'date'), func_get_args());
+    global $locale;
+    return call_user_func_array(array($locale, 'date'), func_get_args());
 }
 
 /**
@@ -81,32 +81,32 @@ function ldate()
  */
 function locale_select_options()
 {
-	$options = array();
+    $options = array();
 
-	foreach (scandir(APPPATH . '/locale') as $file) {
-		if (substr($file, -4) == '.php') {
-			// Clean the name and set the class
-			$name = substr($file, 0, -4);
-			$class = "\\traq\locale\\{$name}";
+    foreach (scandir(APPPATH . '/locale') as $file) {
+        if (substr($file, -4) == '.php') {
+            // Clean the name and set the class
+            $name = substr($file, 0, -4);
+            $class = "\\traq\locale\\{$name}";
 
-			// Make sure the locale class
-			// isn't already loaded
-			if (!class_exists($class)) {
-				require APPPATH . '/locale/' . $file;
-			}
+            // Make sure the locale class
+            // isn't already loaded
+            if (!class_exists($class)) {
+                require APPPATH . '/locale/' . $file;
+            }
 
-			// Get the info
-			$info = $class::info();
+            // Get the info
+            $info = $class::info();
 
-			// Add it to the options
-			$options[] = array(
-				'label' => "{$info['name']} ({$info['language_short']}{$info['locale']})",
-				'value' => substr($file, 0, -4)
-			);
-		}
-	}
+            // Add it to the options
+            $options[] = array(
+                'label' => "{$info['name']} ({$info['language_short']}{$info['locale']})",
+                'value' => substr($file, 0, -4)
+            );
+        }
+    }
 
-	return $options;
+    return $options;
 }
 
 /**
@@ -117,25 +117,23 @@ function locale_select_options()
  */
 function theme_select_options()
 {
-	$options = array();
+    $options = array();
 
-	foreach (scandir(APPPATH . '/views') as $file)
-	{
-		$path = APPPATH . '/views/' . $file;
+    foreach (scandir(APPPATH . '/views') as $file) {
+        $path = APPPATH . '/views/' . $file;
 
-		// Make sure this is a directory
-		// and theres an _theme.php file
-		if (is_dir($path) and file_exists($path . '/_theme.php'))
-		{
-			$info = require ($path . '/_theme.php');
-			$options[] = array(
-				'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
-				'value' => $file
-			);
-		}
-	}
+        // Make sure this is a directory
+        // and theres an _theme.php file
+        if (is_dir($path) and file_exists($path . '/_theme.php')) {
+            $info = require ($path . '/_theme.php');
+            $options[] = array(
+                'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
+                'value' => $file
+            );
+        }
+    }
 
-	return $options;
+    return $options;
 }
 
 /**
@@ -148,11 +146,11 @@ function theme_select_options()
  */
 function format_text($text, $strip_html = true)
 {
-	$text = $strip_html ? htmlspecialchars($text) : $text;
+    $text = $strip_html ? htmlspecialchars($text) : $text;
 
-	FishHook::run('function:format_text', array(&$text, $strip_html));
+    FishHook::run('function:format_text', array(&$text, $strip_html));
 
-	return $text;
+    return $text;
 }
 
 /**
@@ -164,12 +162,12 @@ function format_text($text, $strip_html = true)
  */
 function active_nav($uri)
 {
-	$uri = str_replace(
-		array(':slug', ':any', ':num'),
-		array('([a-zA-Z0-9\-\_]+)', '(.*)', '([0-9]+)'),
-		$uri
-	);
-	return preg_match("#^{$uri}$#", Request::url());
+    $uri = str_replace(
+        array(':slug', ':any', ':num'),
+        array('([a-zA-Z0-9\-\_]+)', '(.*)', '([0-9]+)'),
+        $uri
+    );
+    return preg_match("#^{$uri}$#", Request::url());
 }
 
 /**
@@ -179,7 +177,7 @@ function active_nav($uri)
  */
 function current_user()
 {
-	return Avalon::app()->user;
+    return Avalon::app()->user;
 }
 
 /**
@@ -193,7 +191,7 @@ function current_user()
  */
 function iif($condition, $true, $false = null)
 {
-	return $condition ? $true : $false;
+    return $condition ? $true : $false;
 }
 
 /**
@@ -203,32 +201,28 @@ function iif($condition, $true, $false = null)
  */
 function permission_actions()
 {
-	global $locale;
+    global $locale;
 
-	// Fetch the locale strings
-	$locale_strings = $locale->locale();
+    // Fetch the locale strings
+    $locale_strings = $locale->locale();
 
-	// Loop over them and get the permissions...
-	$actions = array();
-	foreach ($locale_strings['permissions'] as $action => $string)
-	{
-		// Is this a grouped set of permissions?
-		if (is_array($string))
-		{
-			// Add them to the actions array
-			foreach ($string as $act => $str)
-			{
-				$actions[$action][] = $act;
-			}
-		}
-		// Non group permission
-		else
-		{
-			$actions[] = $action;
-		}
-	}
+    // Loop over them and get the permissions...
+    $actions = array();
+    foreach ($locale_strings['permissions'] as $action => $string) {
+        // Is this a grouped set of permissions?
+        if (is_array($string)) {
+            // Add them to the actions array
+            foreach ($string as $act => $str) {
+                $actions[$action][] = $act;
+            }
+        }
+        // Non group permission
+        else {
+            $actions[] = $action;
+        }
+    }
 
-	return $actions;
+    return $actions;
 }
 
 /**
@@ -238,23 +232,20 @@ function permission_actions()
  */
 function scm_types()
 {
-	static $scms = array();
+    static $scms = array();
 
-	if (count($scms) == 0)
-	{
-		foreach (scandir(APPPATH . "/libraries/scm/adapters") as $file)
-		{
-			if (substr($file, -3) == 'php')
-			{
-				$name = str_replace('.php', '', $file);
-				$scm = SCM::factory($name);
-				$scms[$name] = $scm->name();
-			}
-		}
-	}
+    if (count($scms) == 0) {
+        foreach (scandir(APPPATH . "/libraries/scm/adapters") as $file) {
+            if (substr($file, -3) == 'php') {
+                $name = str_replace('.php', '', $file);
+                $scm = SCM::factory($name);
+                $scms[$name] = $scm->name();
+            }
+        }
+    }
 
-	FishHook::run('function:scm_types', array(&$scms));
-	return $scms;
+    FishHook::run('function:scm_types', array(&$scms));
+    return $scms;
 }
 
 /**
@@ -264,12 +255,11 @@ function scm_types()
  */
 function scm_select_options()
 {
-	$options = array();
-	foreach (scm_types() as $scm => $name)
-	{
-		$options[] = array('label' => $name, 'value' => $scm);
-	}
-	return $options;
+    $options = array();
+    foreach (scm_types() as $scm => $name) {
+        $options[] = array('label' => $name, 'value' => $scm);
+    }
+    return $options;
 }
 
 /**
@@ -285,11 +275,11 @@ function scm_select_options()
  * @package Traq
  */
 function is_project($find, $field = 'slug') {
-	if ($project = Project::find($field, $find)) {
-		return $project;
-	} else {
-		return false;
-	}
+    if ($project = Project::find($field, $find)) {
+        return $project;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -299,8 +289,8 @@ function is_project($find, $field = 'slug') {
  */
 function random_hash()
 {
-	$chars = "qwertyuiopasdfghjklzxcvbnm[];',./{}|:<>?1234567890!@#$%^&*()";
-	return sha1(time() . rand(0, 1000) . $chars[rand(0, count($chars))] . microtime());
+    $chars = "qwertyuiopasdfghjklzxcvbnm[];',./{}|:<>?1234567890!@#$%^&*()";
+    return sha1(time() . rand(0, 1000) . $chars[rand(0, count($chars))] . microtime());
 }
 
 /**
@@ -314,15 +304,15 @@ function random_hash()
  */
 function get_percent($min, $max)
 {
-	// Make sure we don't divide by zero
-	// and end the entire universe
-	if ($min == 0 and $max == 0) return 0;
+    // Make sure we don't divide by zero
+    // and end the entire universe
+    if ($min == 0 and $max == 0) return 0;
 
-	// We're good, calcuate it like a boss,
-	// toss out the crap we dont want.
-	$calculate = ($min/$max*100);
-	$split = explode('.',$calculate);
+    // We're good, calcuate it like a boss,
+    // toss out the crap we dont want.
+    $calculate = ($min/$max*100);
+    $split = explode('.',$calculate);
 
-	// Return it like a pro.
-	return $split[0];
+    // Return it like a pro.
+    return $split[0];
 }

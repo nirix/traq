@@ -35,19 +35,19 @@ Autoloader::vendor_path(__DIR__ . '/vendor');
 // Register the Avalon and Traq namespaces
 // to directories outside the vendor directory.
 Autoloader::register_namespaces(array(
-	'avalon' => SYSPATH,
-	'traq' => APPPATH
+    'avalon' => SYSPATH,
+    'traq' => APPPATH
 ));
 
 // Alias classes so we dont need to
 // have "use ...." in all files.
 Autoloader::alias_classes(array(
-	'avalon\http\Router' => 'Router',
-	'avalon\output\View' => 'View',
-	'avalon\http\Request' => 'Request',
+    'avalon\http\Router' => 'Router',
+    'avalon\output\View' => 'View',
+    'avalon\http\Request' => 'Request',
 
-	// Helpers
-	'avalon\helpers\Time' => 'Time'
+    // Helpers
+    'avalon\helpers\Time' => 'Time'
 ));
 
 // Register the autoloader
@@ -62,13 +62,13 @@ require APPPATH . '/version.php';
 
 // Check for the database config file
 if (!file_exists(APPPATH . '/config/database.php')) {
-	// No config file, redirect to installer
-	header("Location: " . Request::base() . "install");
+    // No config file, redirect to installer
+    header("Location: " . Request::base() . "install");
 }
 // Include config and connect
 else {
-	require APPPATH . '/config/database.php';
-	Database::init($db);
+    require APPPATH . '/config/database.php';
+    Database::init($db);
 }
 
 // Load the localization file
@@ -77,21 +77,21 @@ $locale = traq\libraries\Locale::load(settings('locale'));
 // Load the plugins
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
 foreach ($plugins as $plugin) {
-	// Plugin file plath
-	$path = APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php";
+    // Plugin file plath
+    $path = APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php";
 
-	// Check if the file exists
-	if (file_exists($path)) {
-		require $path;
+    // Check if the file exists
+    if (file_exists($path)) {
+        require $path;
 
-		// Register the path to check for controllers and views
-		Load::register_path(APPPATH . "/plugins/{$plugin['file']}");
-	}
+        // Register the path to check for controllers and views
+        Load::register_path(APPPATH . "/plugins/{$plugin['file']}");
+    }
 }
 
 // Initiate the plugins
 foreach ($plugins as $plugin) {
-	$plugin = "\\traq\plugins\\{$plugin['file']}";
-	$plugin = $plugin::init();
+    $plugin = "\\traq\plugins\\{$plugin['file']}";
+    $plugin = $plugin::init();
 }
 unset($plugins, $plugin);
