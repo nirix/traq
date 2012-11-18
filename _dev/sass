@@ -1,0 +1,1 @@
+sass --watch _dev/css:vendor/traq/views/default/css --style compressed
