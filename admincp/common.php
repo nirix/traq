@@ -4,16 +4,16 @@
  * Copyright (C) 2009, 2010 Jack Polgar
  *
  * This file is part of Traq.
- * 
+ *
  * Traq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 only.
- * 
+ *
  * Traq is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  *
@@ -27,7 +27,7 @@
 function authenticate()
 {
 	global $user;
-	
+
 	if(!$user->group['is_admin']) {
 		header("Location: login.php");
 		exit;
@@ -42,12 +42,12 @@ function authenticate()
 function getprojects()
 {
 	global $db;
-	
+
 	$projects = array();
 	$fetch = $db->query("SELECT id,name FROM ".DBPF."projects ORDER BY name ASC");
 	while($info = $db->fetcharray($fetch))
 		$projects[] = $info;
-	
+
 	return $projects;
 }
 
@@ -59,12 +59,12 @@ function getprojects()
 function getgroups()
 {
 	global $db;
-	
+
 	$groups = array();
 	$fetch = $db->query("SELECT id,name FROM ".DBPF."usergroups ORDER BY name ASC");
 	while($info = $db->fetcharray($fetch))
 		$groups[] = $info;
-	
+
 	return $groups;
 }
 
@@ -100,13 +100,13 @@ function activepage($pages,$query=NULL)
 {
 	// check if $pages is an array or not.
 	if(!is_array($pages)) $pages = array($pages);
-	
+
 	// check if $query is an array or not, if not make it an array.
 	if(!is_array($query)) $query = array_slice(func_get_args(),1);
 
 	// check if $query is empty and set it to _SERVER[QUERY_STRING]
 	if(!count($query)) $query = array($_SERVER['QUERY_STRING']);
-	
+
 	return (in_array(THISPAGE,$pages) && in_array($_SERVER['QUERY_STRING'],$query) ? true : false);
 }
 
@@ -147,6 +147,15 @@ function head($title='',$sidebar=false,$links=array())
 		<title><?php echo l('traq_admincp')?><?php echo iif($title != '',' / '.$title)?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="style.css" type="text/css" />
+		<link rel="stylesheet" href="../js/likeaboss/css/editor.css" type="text/css" />
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/likeaboss/likeaboss.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				// Add the editor interface to all text areas, like a boss.
+				$('textarea').likeaboss();
+			});
+		</script>
 		<?php ($hook = FishHook::hook('admin_headerinc')) ? eval($hook) : false; ?>
 	</head>
 	<body>

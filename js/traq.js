@@ -22,12 +22,16 @@ var traq = {
 	editing_wiki: false,
 	ticket: {
 		getTemplate: function() {
-			var type_id = $("#ticket_type option:selected").val()
+			var type_id = $("#ticket_type option:selected").val();
 			$("#ticket_body").load(BASE_URL + '_ajax/ticket_template/' + type_id);
 		}
 	}
-}
+};
+
 $(document).ready(function(){
+	// Add the editor interface to all text areas, like a boss.
+	$('textarea').likeaboss();
+
 	// Ticket Type Template
 	$('#ticket_type').change(function() {
 		traq.ticket.getTemplate();
