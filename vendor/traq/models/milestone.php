@@ -18,6 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use avalon\core\Kernel as Avalon;
 use avalon\database\Model;
 
 /**
