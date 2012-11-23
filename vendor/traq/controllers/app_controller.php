@@ -18,8 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
 use avalon\core\Controller;
 use avalon\core\Load;
+use avalon\Database;
+use avalon\http\Request;
+use avalon\http\Router;
+use avalon\output\View;
+
+use traq\models\User;
+use traq\models\Project;
 
 /**
  * App controller
@@ -40,6 +49,8 @@ class AppController extends Controller
     {
         // Call the controller class constructor
         parent::__construct();
+
+        $this->db = Database::connection();
 
         // Set the theme
         View::$theme = settings('theme');
@@ -159,7 +170,7 @@ class AppController extends Controller
     public function __shutdown()
     {
         // Was the page requested via ajax?
-        if (Request::is_ajax() and Router::$extension == null) {
+        if (Request::isAjax() and Router::$extension == null) {
             // Is this page being used as an overlay?
             if (isset(Request::$request['overlay'])) {
                 $extension = '.overlay';
