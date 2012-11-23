@@ -20,6 +20,9 @@
 
 use avalon\core\Kernel as Avalon;
 
+use traq\models\Setting;
+use traq\models\Project;
+
 /**
  * Returns the value of the requested setting.
  *
@@ -167,7 +170,7 @@ function active_nav($uri)
         array('([a-zA-Z0-9\-\_]+)', '(.*)', '([0-9]+)'),
         $uri
     );
-    return preg_match("#^{$uri}$#", Request::url());
+    return preg_match("#^{$uri}$#", Request::requestUri());
 }
 
 /**
