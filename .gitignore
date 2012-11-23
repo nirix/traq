@@ -1,4 +1,5 @@
 vendor/traq/config/database.php
+vendor/traq/plugins/better_php_errors
 .sass-cache
 .DS_Store
 .project
