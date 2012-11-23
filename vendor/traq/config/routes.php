@@ -27,6 +27,7 @@ Router::add('/(login|logout|register)', 'Users::$1');
 Router::add('/usercp', 'Usercp::index');
 Router::add('/usercp/password', 'Usercp::password');
 Router::add('/users/([0-9]+)', 'Users::view/$1');
+Router::add('404', 'traq::controllers::Error.404');
 
 // Misc
 Router::add('/_js(?:.js)?', 'Misc::javascript');

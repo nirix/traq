@@ -18,6 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
+use avalon\http\Request;
+use avalon\output\View;
+
 /**
  * Error controller.
  *
@@ -26,11 +31,11 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ErrorController extends AppController
+class Error extends AppController
 {
     public function action_404()
     {
         // Send the request URL to the view.
-        View::set('request', Request::url());
+        View::set('request', Request::requestUri());
     }
 }
