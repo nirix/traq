@@ -22,6 +22,7 @@ namespace traq\models;
 
 use avalon\database\Model;
 use avalon\core\Kernel as Avalon;
+use avalon\http\Request;
 
 /**
  * Ticket model.
@@ -191,6 +192,7 @@ class Ticket extends Model
             }
 
             // Get the to and from values for different fields
+            $from = $to = null;
             switch($field) {
                 case 'assigned_to_id':
                     $from = $this->assigned_to_id == 0 ? null : $this->assigned_to->id;
@@ -200,7 +202,7 @@ class Ticket extends Model
                 case 'status_id':
                 case 'type_id':
                     $accessor = str_replace('_id', '', $field);
-                    $class = ucfirst($accessor);
+                    $class = '\\traq\\models\\' . ucfirst($accessor);
                     $to_values[$field] = $class::find($value);
 
                     $from = $this->$accessor->name;
@@ -217,12 +219,31 @@ class Ticket extends Model
                     $to = $value;
                     break;
 
+                case 'milestone_id':
+                case 'version_id':
+                    $to_values[$field] = Milestone::find($value);
+
+                    if ($this->milestone) {
+                        $from = $this->milestone->name;
+                    }
+
+                    if ($to_values[$field]) {
+                        $to = $to_values[$field]->name;
+                    }
+                    break;
+
                 default:
-                    $class = str_replace('_id', '', $field);
+                    $accessor = str_replace('_id', '', $field);
+                    $class = '\\traq\models\\' . ucfirst($accessor);
                     $to_values[$field] = $class::find($value);
 
-                    $from = $this->$class->name;
-                    $to = $to_values[$field]->name;
+                    if ($this->$accessor) {
+                        $from = $this->$accessor->name;
+                    }
+
+                    if ($to_values[$field]) {
+                        $to = $to_values[$field]->name;
+                    }
                     break;
             }
 
