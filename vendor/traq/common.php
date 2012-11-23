@@ -170,7 +170,7 @@ function active_nav($uri)
         array('([a-zA-Z0-9\-\_]+)', '(.*)', '([0-9]+)'),
         $uri
     );
-    return preg_match("#^{$uri}$#", Request::requestUri());
+    return preg_match("#^{$uri}$#", Request::uri());
 }
 
 /**
