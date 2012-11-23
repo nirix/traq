@@ -22,11 +22,11 @@ use avalon\http\Router;
 
 define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
 
-Router::add('root', 'Projects::index');
 Router::add('/(login|logout|register)', 'Users::$1');
 Router::add('/usercp', 'Usercp::index');
 Router::add('/usercp/password', 'Usercp::password');
 Router::add('/users/([0-9]+)', 'Users::view/$1');
+Router::add('root', 'traq::controllers::Projects.index');
 Router::add('404', 'traq::controllers::Error.404');
 
 // Misc
@@ -40,10 +40,10 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete'
 
 // ------------------------------------------------
 // Project routes
-Router::add('/projects', 'Projects::index');
-Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'Projects::milestone/$2');
-Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap|changelog)', 'Projects::$2');
-Router::add('/' . RTR_PROJSLUG, 'Projects::view');
+Router::add('/projects', 'traq::controllers::Projects.index');
+Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
+Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap|changelog)', 'traq::controllers::Projects.$2');
+Router::add('/' . RTR_PROJSLUG, 'traq::controllers::Projects.view');
 
 // Ticket routes
 Router::add('/' . RTR_PROJSLUG . '/tickets/new', 'Tickets::new');

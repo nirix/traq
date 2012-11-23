@@ -18,7 +18,17 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
+use avalon\http\Request;
+use avalon\output\View;
 use avalon\Database;
+
+use traq\models\Ticket;
+use traq\models\Timeline;
+use traq\models\Milestone;
+use traq\models\Type;
+use traq\models\Status;
 
 /**
  * Project controller.
@@ -28,7 +38,7 @@ use avalon\Database;
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectsController extends AppController
+class Projects extends AppController
 {
     /**
      * Project listing page.
