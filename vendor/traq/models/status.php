@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\models;
+
 use avalon\database\Model;
 
 /**
