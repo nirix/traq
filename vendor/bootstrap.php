@@ -30,18 +30,11 @@ use avalon\core\Load;
 
 // Setup the autoloader
 use avalon\Autoloader;
-Autoloader::vendor_path(__DIR__ . '/vendor');
-
-// Register the Avalon and Traq namespaces
-// to directories outside the vendor directory.
-Autoloader::register_namespaces(array(
-    'avalon' => SYSPATH,
-    'traq' => APPPATH
-));
+Autoloader::vendorLocation(__DIR__);
 
 // Alias classes so we dont need to
 // have "use ...." in all files.
-Autoloader::alias_classes(array(
+Autoloader::aliasClasses(array(
     'avalon\http\Router' => 'Router',
     'avalon\output\View' => 'View',
     'avalon\http\Request' => 'Request',
