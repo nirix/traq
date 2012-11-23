@@ -215,7 +215,6 @@ class Ticket extends Model
                     break;
 
                 case 'attachment':
-                    $from = null;
                     $to = $value;
                     break;
 
