@@ -18,7 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
+use avalon\http\Request;
+use avalon\output\View;
 use avalon\core\Load;
+
+use traq\models\Ticket;
 
 /**
  * Ticket controller.
@@ -28,7 +34,7 @@ use avalon\core\Load;
  * @package Traq
  * @subpackage Controllers
  */
-class TicketsController extends AppController
+class Tickets extends AppController
 {
     // Before filters
     public $_before = array(
