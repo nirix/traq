@@ -60,7 +60,7 @@ class Ticket extends Model
     protected static $_has_many = array(
         'attachments',
 
-        'history' => array('model' => 'tickethistory')
+        'history' => array('model' => 'TicketHistory')
     );
 
     protected static $_belongs_to = array(
@@ -68,8 +68,8 @@ class Ticket extends Model
         'priority', 'severity', 'type', 'status',
 
         // Relations with different models and such
-        'assigned_to' => array('model' => 'user'),
-        'version'     => array('model' => 'milestone'),
+        'assigned_to' => array('model' => 'User'),
+        'version'     => array('model' => 'Milestone'),
     );
 
     protected static $_filters_after = array(
