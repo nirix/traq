@@ -117,7 +117,7 @@
 <?php if ($current_user->permission($project->id, 'update_tickets') or $current_user->permission($project->id, 'comment_on_tickets')) { ?>
 <div class="content">
 	<h3><?php echo l('update_ticket'); ?></h3>
-	<form action="<?php echo Request::full_uri(); ?>/update" method="post" id="update_tickets" enctype="multipart/form-data">
+	<form action="<?php echo Request::requestUri(); ?>/update" method="post" id="update_tickets" enctype="multipart/form-data">
 		<div class="tabular box">
 			<?php if ($current_user->permission($project->id, 'comment_on_tickets')) { ?>
 			<div class="group">
@@ -129,7 +129,7 @@
 			<div class="properties group">
 				<div class="field">
 					<?php echo Form::label(l('type'), 'type'); ?>
-					<?php echo Form::select('type', Type::select_options(), array('value' => $ticket->type_id)); ?>
+					<?php echo Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
 				</div>
 				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
 				<div class="field">
@@ -147,20 +147,20 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
-					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
+					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('severity'), 'severity'); ?>
-					<?php echo Form::select('severity', Severity::select_options(), array('value' => $ticket->severity_id)); ?>
+					<?php echo Form::select('severity', traq\models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
 				</div>
 				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('priority'), 'priority'); ?>
-					<?php echo Form::select('priority', Priority::select_options(), array('value' => $ticket->priority_id)); ?>
+					<?php echo Form::select('priority', traq\models\Priority::select_options(), array('value' => $ticket->priority_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('status'), 'status'); ?>
-					<?php echo Form::select('status', Status::select_options(), array('value' => $ticket->status_id)); ?>
+					<?php echo Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
 				</div>
 				<?php } ?>
 				<div class="field">

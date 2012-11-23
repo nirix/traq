@@ -28,7 +28,7 @@ elseif ($change['property'] == 'assigned_to') {
 		// Is the to/from values a user id?
 		if (is_numeric($change[$key])) {
 			// Set it to the users name
-			$change[$key] = User::find($change[$key])->name;
+			$change[$key] = traq\models\User::find($change[$key])->name;
 		}
 	}
 	echo _mklocale($change, 'assignee');
