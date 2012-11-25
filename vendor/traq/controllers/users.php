@@ -18,7 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
 use avalon\core\Load;
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\User;
 
 /**
  * User controller
@@ -28,7 +34,7 @@ use avalon\core\Load;
  * @package Traq
  * @subpackage Controllers
  */
-class UsersController extends AppController
+class Users extends AppController
 {
     /**
      * User profile page.
@@ -60,7 +66,7 @@ class UsersController extends AppController
         $this->title(l('login'));
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Try to find the user in the database and verify their password
             if ($user = User::find('username', Request::$post['username'])
             and $user->verify_password(Request::$post['password'])) {
@@ -82,7 +88,7 @@ class UsersController extends AppController
     public function action_logout()
     {
         setcookie('_traq', sha1(time()), time() + 5, '/');
-        Request::redirect(Request::base());
+        Request::redirectTo();
     }
 
     /**
@@ -93,13 +99,13 @@ class UsersController extends AppController
         $this->title(l('register'));
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Build the data array
             $data = array(
                 'username' => Request::$post['username'],
-                'name' => Request::$post['name'],
+                'name'     => Request::$post['name'],
                 'password' => Request::$post['password'],
-                'email' => Request::$post['email']
+                'email'    => Request::$post['email']
             );
 
             // Create a model with the data
@@ -109,7 +115,7 @@ class UsersController extends AppController
             if ($user->is_valid()) {
                 // Save the model and redirect to the login page.
                 $user->save();
-                Request::redirect(Request::base('login'));
+                Request::redirectTo('login');
             }
 
             View::set('user', $user);

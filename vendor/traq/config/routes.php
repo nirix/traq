@@ -22,12 +22,12 @@ use avalon\http\Router;
 
 define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
 
-Router::add('/(login|logout|register)', 'Users::$1');
-Router::add('/usercp', 'Usercp::index');
-Router::add('/usercp/password', 'Usercp::password');
-Router::add('/users/([0-9]+)', 'Users::view/$1');
 Router::add('root', 'traq::controllers::Projects.index');
 Router::add('404', 'traq::controllers::Error.404');
+Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
+Router::add('/usercp', 'traq::controllers::Usercp.index');
+Router::add('/usercp/password', 'traq::controllers::Usercp.password');
+Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
 
 // Misc
 Router::add('/_js(?:.js)?', 'Misc::javascript');
