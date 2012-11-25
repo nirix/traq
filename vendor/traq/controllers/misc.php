@@ -18,7 +18,15 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
 use avalon\core\Controller;
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Type;
+use traq\models\User;
+
 
 /**
  * Misc controller
@@ -28,7 +36,7 @@ use avalon\core\Controller;
  * @package Traq
  * @subpackage Controllers
  */
-class MiscController extends Controller
+class Misc extends Controller
 {
     /**
      * Custom constructor, we need to do extra stuff.
@@ -68,7 +76,7 @@ class MiscController extends Controller
     {
         // No view, just print the ticket template
         $this->_render['view'] = false;
-        echo Type::find($type_id)->template;
+        return Type::find($type_id)->template;
     }
 
     /**
@@ -91,7 +99,7 @@ class MiscController extends Controller
         // Make sure there are some options
         if (count($options)) {
             // Output in javascript array format
-            echo '["' . implode('","', $options) . '"]';
+            return '["' . implode('","', $options) . '"]';
         }
     }
 }
