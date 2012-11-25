@@ -29,6 +29,7 @@ use avalon\output\View;
 
 use traq\models\User;
 use traq\models\Project;
+use traq\libraries\Locale;
 
 /**
  * App controller
@@ -145,7 +146,7 @@ class AppController extends Controller
 
             // Load user's locale
             if ($this->user->locale != '') {
-                $user_locale = traq\libraries\Locale::load($this->user->locale);
+                $user_locale = Locale::load($this->user->locale);
                 if ($user_locale) {
                     $locale = $user_locale;
                 }
