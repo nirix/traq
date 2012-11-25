@@ -53,7 +53,7 @@ class User extends Model
     protected static $_has_many = array(
         'tickets',
 
-        'ticket_updates' => array('model' => 'tickethistory'),
+        'ticket_updates' => array('model' => 'TicketHistory'),
         'assigned_tickets' => array('model' => 'ticket', 'foreign_key' => 'assigned_to_id')
     );
 

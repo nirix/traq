@@ -44,7 +44,7 @@ class UserRole extends Model
     protected static $_belongs_to = array(
         'project', 'user',
 
-        'role' => array('model' => 'projectrole', 'column' => 'project_role_id')
+        'role' => array('model' => 'ProjectRole', 'column' => 'project_role_id')
     );
 
     /**
