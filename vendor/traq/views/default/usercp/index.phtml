@@ -4,7 +4,7 @@
 <?php View::render('usercp/_nav'); ?>
 <div class="usercp content">
 	<?php show_errors($user->errors); ?>
-	<form action="<?php echo Request::full_uri(); ?>" method="post">
+	<form action="<?php echo Request::requestUri(); ?>" method="post">
 		<fieldset id="info" class="box">
 			<legend><?php echo l('information'); ?></legend>
 

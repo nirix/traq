@@ -18,6 +18,12 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
+use avalon\http\Request;
+use avalon\output\View;
+use \FishHook;
+
 /**
  * UserCP controller
  *
@@ -26,7 +32,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class UsercpController extends AppController
+class Usercp extends AppController
 {
 
     public function action_password()
@@ -39,11 +45,11 @@ class UsercpController extends AppController
         // Clone the logged in user object
         $user = clone $this->user;
 
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             $data = array(
-                    'old_password' => Request::$post['password'],
-                    'new_password' => Request::$post['new_password'],
-                    'confirm_password' => Request::$post['confirm_password']
+                'old_password'     => Request::$post['password'],
+                'new_password'     => Request::$post['new_password'],
+                'confirm_password' => Request::$post['confirm_password']
             );
 
             FishHook::add('controller:users::usercp/password/save', array(&$data));
@@ -57,7 +63,7 @@ class UsercpController extends AppController
                 // Save the user
                 if ($user->save()) {
                     // Redirect if successfull
-                    Request::redirect(Request::full_uri());
+                    Request::redirect(Request::requestUri());
                 }
             }
         }
@@ -79,10 +85,10 @@ class UsercpController extends AppController
         $user = clone $this->user;
 
         // Has the form been submitted?
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             $data = array(
-                'name' => Request::$post['name'],
-                'email' => Request::$post['email'],
+                'name'   => Request::$post['name'],
+                'email'  => Request::$post['email'],
                 'locale' => Request::$post['locale']
             );
 
@@ -94,7 +100,7 @@ class UsercpController extends AppController
             // Save the user
             if ($user->save()) {
                 // Redirect if successfull
-                Request::redirect(Request::full_uri());
+                Request::redirect(Request::requestUri());
             }
         }
 
