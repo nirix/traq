@@ -18,6 +18,12 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
+use avalon\http\Request;
+use avalon\http\Router;
+use traq\models\Attachment;
+
 /**
  * Attachments controller
  *
@@ -26,7 +32,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AttachmentsController extends AppController
+class Attachments extends AppController
 {
     // Before filters
     public $_before = array(
@@ -75,7 +81,7 @@ class AttachmentsController extends AppController
     {
         // Delete and redirect
         $this->attachment->delete();
-        Request::redirect(Request::base($this->attachment->ticket->href()));
+        Request::redirectTo($this->attachment->ticket->href());
     }
 
     /**

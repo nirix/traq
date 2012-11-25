@@ -35,8 +35,8 @@ Router::add('/_ajax/ticket_template/([0-9]+)', 'traq::controllers::Misc.ticket_t
 Router::add('/_ajax/autocomplete/(username)', 'traq::controllers::Misc.autocomplete_$1');
 
 // Attachment routes
-Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'Attachments::view/$1');
-Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', 'Attachments::delete/$1');
+Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'traq::controllers::Attachments.view/$1');
+Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', 'traq::controllers::Attachments.delete/$1');
 
 // ------------------------------------------------
 // Project routes
