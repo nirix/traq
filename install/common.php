@@ -30,7 +30,7 @@ use avalon\Database;
  */
 function render($view)
 {
-	echo View::get('layout', array('output' => View::get($view)));
+    echo View::get('layout', array('output' => View::get($view)));
 }
 
 /**
@@ -42,7 +42,7 @@ function render($view)
  */
 function form($url)
 {
-	echo '<form action="' . Nanite::base_uri() . 'index.php?' . $url . '" method="post">';
+    echo '<form action="' . Nanite::base_uri() . 'index.php?' . $url . '" method="post">';
 }
 
 /**
@@ -52,15 +52,15 @@ function form($url)
  */
 function is_installed(array $config)
 {
-	global $conn;
+    global $conn;
 
-	// Connect to the database
-	$conn = Database::factory($config, 'main');
+    // Connect to the database
+    $conn = Database::factory($config, 'main');
 
-	// Check if the settings table exists...
-	if ($conn->select('value')->from('settings')->exec()) {
-		return true;
-	}
+    // Check if the settings table exists...
+    if ($conn->select('value')->from('settings')->exec()) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
