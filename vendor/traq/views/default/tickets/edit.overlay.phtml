@@ -1,5 +1,5 @@
 <h3><?php echo l('edit_ticket'); ?></h3>
-<form action="<?php echo Request::full_uri(); ?>" method="post">
+<form action="<?php echo Request::requestUri(); ?>" method="post">
 	<?php show_errors($ticket->errors); ?>
 	<div class="tabular">
 		<div class="group">
