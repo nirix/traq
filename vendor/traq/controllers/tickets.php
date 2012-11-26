@@ -25,6 +25,9 @@ use avalon\output\View;
 use avalon\core\Load;
 
 use traq\models\Ticket;
+use traq\models\Milestone;
+use traq\models\Status;
+use traq\models\Component;
 
 /**
  * Ticket controller.
@@ -73,7 +76,12 @@ class Tickets extends AppController
                 continue;
             }
 
-            $filter_sql = array();
+            if (empty($value)) {
+                $filters[$filter] = array('prefix' => '', 'values' => array(''));
+                continue;
+            }
+
+            $values = array();
             $prefix = '';
             if ($value[0] == '!') {
                 $prefix = '!';
@@ -87,45 +95,45 @@ class Tickets extends AppController
                         continue;
                     }
                     $milestone = Milestone::find('slug', $name);
-                    $filter_sql[] = $milestone->id;
+                    $values[] = $milestone->id;
                 }
-                $sql[] = "{$filter}_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
+                $sql[] = "{$filter}_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $values) . ")";
             }
             // Status filter
             elseif ($filter == 'status') {
                 // All open, or all closed statuses
                 if ($value == 'allopen' or $value == 'allclosed') {
                     foreach (Status::select('id')->where('status', ($value == 'allopen' ? 1 : 0))->exec()->fetch_all() as $status) {
-                        $filter_sql[] = $status->id;
+                        $values[] = $status->id;
                     }
                 }
                 // Get each status by name
                 else {
                     foreach (explode(',', $value) as $name) {
                         $status = Status::find('name', urldecode($name));
-                        $filter_sql[] = $status->id;
+                        $values[] = $status->id;
                     }
                 }
-                $sql[] = "status_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
+                $sql[] = "status_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $values) . ")";
             }
             // Type filter
             elseif ($filter == 'type') {
                 foreach (explode(',', $value) as $name) {
                     $type = Type::find('name', urldecode($name));
-                    $filter_sql[] = $type->id;
+                    $values[] = $type->id;
                 }
-                $sql[] = "type_id IN " . ($prefix == '!' ? 'NOT' :'') . " (" . implode(', ', $filter_sql) . ")";
+                $sql[] = "type_id IN " . ($prefix == '!' ? 'NOT' :'') . " (" . implode(', ', $values) . ")";
             }
             // Component filter
             elseif ($filter == 'component') {
                 foreach (explode(',', $value) as $name){
                     $component = Component::find('name', urldecode($name));
-                    $filter_sql[] = $component->id;
+                    $values[] = $component->id;
                 }
-                $sql[] = "component_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $filter_sql) . ")";
+                $sql[] = "component_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $values) . ")";
             }
 
-            $filters[$filter] = array('prefix' => $prefix, 'values' => explode(',', $value));
+            $filters[$filter] = array('prefix' => $prefix, 'values' => $values);
         }
 
         View::set('filters', $filters);
