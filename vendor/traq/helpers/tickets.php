@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  *
@@ -19,6 +19,9 @@
  */
 
 use avalon\core\Kernel as Avalon;
+
+use traq\models\Type;
+use traq\models\Status;
 
 /**
  * Ticket columns
@@ -156,22 +159,24 @@ function ticket_filter_options_for($filter) {
     switch ($filter) {
         // Milestone options
         case 'milestone':
-            return Avalon::app()->project->milestone_select_options();
+            $options = Avalon::app()->project->milestone_select_options();
             break;
 
         // Version options
         case 'version':
-            return Avalon::app()->project->milestone_select_options('completed');
+            $options = Avalon::app()->project->milestone_select_options('completed');
             break;
 
         // Type options
         case 'type':
-            return Type::select_options();
+            $options = Type::select_options();
             break;
 
         // Status options
         case 'status':
-            return Status::select_options();
+            $options = Status::select_options();
             break;
     }
+
+    return array_merge(array(array('label' => '', 'value' => '')), $options);
 }
