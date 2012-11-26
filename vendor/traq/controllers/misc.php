@@ -27,7 +27,6 @@ use avalon\output\View;
 use traq\models\Type;
 use traq\models\User;
 
-
 /**
  * Misc controller
  *
@@ -50,7 +49,7 @@ class Misc extends Controller
     }
 
     /**
-     * Outputs the javascript to localize the editor.
+     * "Dynamic JavaScript"
      */
     public function action_javascript()
     {
