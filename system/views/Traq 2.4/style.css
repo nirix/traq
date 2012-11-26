@@ -1,0 +1,654 @@
+@import 'bootstrip.css';
+
+/*!
+ * Traq 2.4
+ * Copyright (c) 2012 Jack P.
+ * @license GNU General Public License v3 only
+ */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #e9e9e9;
+  color: #fff;
+  margin: 30px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+#wrapper {
+  width: 820px;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.4);
+}
+
+#head {
+  background: #3478AA;
+  padding: 10px;
+  height: 20px;
+  border-radius: 5px 5px 0 0;
+}
+#head span {
+  font-weight: bold;
+  float: left;
+}
+#head span a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+#search {
+  float: right;
+  margin-top: -32px;
+}
+
+#nav {
+  float: right;
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+#nav .main_nav {
+  float: left;
+}
+
+#meta_nav {
+  float: right;
+  margin-left: 5px;
+}
+
+#nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#nav li {
+  padding: 0;
+  margin: 0;
+  display: inline;
+}
+
+#nav a {
+  display: block;
+  float: left;
+  padding: 2px 5px;
+  border-radius: 2px 2px 0 0;
+  color: #fff;
+  margin-left: 4px;
+}
+
+#nav a:hover, #nav .active a {
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+}
+
+#page {
+  background: #fff;
+  color: #000;
+  padding: 10px;
+  border-radius: 5px;
+  margin: -5px 0;
+  z-index: 10;
+  position: relative;
+  font-size: 14px;
+}
+
+#foot {
+  font-size: 11px;
+  padding: 6px;
+  padding-top: 10px;
+  background: #d9d9d9;
+  color: #000;
+  border-radius: 0 0 5px 5px;
+}
+
+table td.label {
+  background: transparent;
+  color: #000;
+  text-shadow: none;
+}
+
+/* ===========[ Stuff copy/pasted from other themes ]=========== */
+
+table {
+  margin-bottom: 0;
+  border-collapse: collapse;
+}
+table td,
+table th {
+  vertical-align: top;
+}
+td {
+  padding: 0;
+}
+
+tbody tr:nth-child(even) td, tbody tr.even td {
+  background: transparent;;
+}
+
+table thead th {
+  background: #fff;
+}
+
+fieldset {
+  padding: 5px;
+  margin-bottom: 0;
+}
+
+p {
+  margin-bottom: 5px;
+}
+
+ol, ul {
+  margin-bottom: 5px;
+}
+ol li, ul li {
+  margin-bottom: 0;
+}
+
+.breadcrumbs {
+  margin-bottom: 5px;
+  padding: 4px;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  background: #f3f3f3;
+}
+
+.breadcrumbs small {
+  font-size: 11px;
+}
+
+.info {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+/* ==== Project Listing ==== */
+ul.projects li.project {
+  margin: 10px 0;
+}
+ul.projects h2 {
+  margin: 0;
+  line-height: 1;
+}
+ul.projects .quick_nav {
+  margin: 2px 0;
+  margin-bottom: 10px;
+  display: block;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* ==== Milestone Listing ==== */
+.milestone {
+  margin: 12px 0;
+  line-height: 1;
+}
+.milestone table {
+  width: inherit;
+  border-collapse: collapse;
+  padding: 0;
+  margin-bottom: 2px;
+}
+.milestone td {
+  padding: 0;
+}
+.milestone h2 {
+  margin: 0;
+  margin-bottom: 5px;
+}
+.milestone .progress {
+  width: 250px;
+  border: 1px solid #000;
+}
+.milestone .progress .closed {
+  background: #317b2c;
+}
+.milestone .progress a {
+  display: block;
+  padding: 6px 0;
+}
+.milestone .percent {
+  font-size: small;
+  padding-left: 10px;
+}
+.milestone .info dl {
+  font-size: 10px;
+  font-style: italic;
+  margin: 2px 0 7px;
+  white-space: nowrap;
+}
+.milestone .info dt {
+  display: inline;
+  margin: 0;
+}
+.milestone .info dd {
+  display: inline;
+  margin: 0 8px 0 2px;
+}
+.milestone .date {
+  color: #888;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ==== Ticket History ==== */
+#ticket_history, #update_ticket {
+  border: 1px solid #3478AA;
+  padding: 4px;
+  border-radius: 4px;
+}
+#ticket_history {
+  padding: 0;
+  border-top: 0;
+  margin-bottom: 10px;
+}
+#ticket_history h3 {
+  margin: 0;
+  border-bottom: 1px solid #3478AA;
+  font-size: 14px;
+  background: #3478AA;
+  color: #fff;
+  padding: 4px;
+}
+#ticket_history .ticket_prop_change:first-child h3 {
+  border-radius: 4px 4px 0 0;
+}
+#ticket_history ul {
+  margin: 5px 0;
+  padding: 0 0 0 20px;
+}
+#ticket_history ul li {
+}
+#ticket_history .change_comment {
+  padding: 8px;
+  padding-bottom: 10px;
+}
+#ticket_history .ticket_change_actions {
+  float: right;
+  padding: 2px 0 2px 2px;
+}
+
+/* ==== Timeline ==== */
+#timeline .day h3 {
+  margin: 0px;
+}
+.day ul {
+  margin-bottom: 12px;
+}
+
+/* ==== Ticket Filters ==== */
+#ticket_filters {
+  padding: 5px 5px;
+  margin-bottom: 0;
+}
+#ticket_filters table {
+  margin-bottom: 0;
+}
+#ticket_filters .add_filter {
+  text-align: right;
+}
+#ticket_filters .label {
+  font-size: 12px;
+  text-align: right;
+  font-weight: bold;
+  padding-right: 5px;
+  min-width: 90px;
+}
+#ticket_filters td.value {
+  width: 100%;
+}
+#ticket_filters td.value label {
+  font-size: 12px;
+}
+#ticket_filters td.mode {
+  width: 50px;
+  padding-right: 5px;
+}
+#ticket_filters .remove {
+  width: 20px;
+}
+
+/* ==== Changelog ==== */
+#changelog ul {
+  list-style: none;
+  padding: 0 0 0 15px;
+  margin: 0;
+}
+.type_bullet {
+  float: left;
+  width: 12px;
+  text-align: center;
+}
+.legend {
+  font-size: 12px;
+  float: right;
+}
+
+/* ==== Misc ==== */
+#repository_select { float: right; }
+
+/* ==== Ticket Display ==== */
+#ticket {
+  background: #ffd;
+  border: 1px outset #996;
+  padding: 5px;
+  position: relative;
+}
+#ticket h1.summary {
+  margin: 0 0 8px 0;
+  font-size: 23px;
+  line-height: 1;
+}
+#ticket h1.summary small {
+  font-size: 12px;
+}
+#ticket h2.summary {
+  margin: 0 0 .8em 0;
+}
+#ticket .date {
+  color: #996;
+  float: right;
+  font-size: 85%;
+  position: relative;
+}
+#ticket .date p {
+  margin: 0;
+}
+#ticket table.properties .description {
+  border-top: 1px solid #dd9;
+}
+#ticket .properties {
+  display: block;
+}
+#ticket .property {
+  float: left;
+  width: 50%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 80%;
+  vertical-align: top;
+  border-bottom: 1px dotted #eed;
+}
+#ticket .property span {
+  width: 200px;
+  float: left;
+  color: #663;
+  text-align: left;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+#ticket .description h3 {
+  border-bottom: 1px solid #dd9;
+  color: #663;
+  font-size: 100%;
+  font-weight: normal;
+  display: block;
+  clear: both;
+}
+#ticket .inlinebuttons, #history .inlinebuttons {
+  float: right;
+}
+
+#ticket .inlinebuttons input, #history .inlinebuttons input {
+  font-size: 70% !important;
+  border-width: 1px;
+  border-style: dotted;
+  margin: 5px 0;
+  padding: 1px !important;
+}
+
+/* ==== Forms ==== */
+table.form td {
+  padding: 2px;
+}
+form {
+  margin: 0;
+}
+form.new_ticket {
+  margin: 0 auto;
+}
+form p#buttons {
+  margin: 5px 0 0 0;
+}
+#update_ticket textarea, #new_ticket_content, #new_wiki_content {
+  width: 99%;
+  height: 100px;
+  padding: 5px;
+}
+#new_wiki_content {
+  height: 250px;
+}
+#new_ticket_content {
+  height: 250px;
+}
+fieldset.new_ticket.properties div.properties {
+  width: 580px;
+}
+fieldset.properties .property {
+  float: left;
+  width: 49.80%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  vertical-align: top;
+
+}
+fieldset.properties .property.odd {
+  border-right: 1px dotted #d7d7d7;
+}
+fieldset.properties .property span {
+  width: 90px;
+  float: left;
+  text-align: right;
+  padding: 4px 10px 0 0;
+  font-size: 12px;
+}
+fieldset.properties .property table {
+  width: 50%;
+}
+fieldset.properties table.actions {
+  width: 550px;
+}
+input[type=text], input[type=password], textarea {
+  border: 1px solid #d7d7d7;
+}
+input[type=text], input[type=password] {
+  padding: .25em .5em;
+}
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+  border: 1px solid #886;
+}
+fieldset {
+  border: 1px solid #d7d7d7;
+  padding: .5em;
+  margin: 0 0 4px 0;
+}
+fieldset.iefix {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+* html fieldset.iefix {
+  width: 98%;
+}
+fieldset.iefix p {
+  margin: 0;
+}
+legend {
+  color: #999;
+  padding: 0 .25em;
+  font-size: 90%;
+  font-weight: bold;
+}
+label.disabled {
+  color: #d7d7d7;
+}
+fieldset.error {
+  border: 1px solid #C00;
+  color: #C00;
+}
+fieldset.error legend {
+  color: #C00;
+}
+fieldset.error input[type=text], fieldset.error input[type=password] {
+  border: 1px solid #C00;
+}
+.form p {
+  margin: 0 0 5px 0;
+}
+.form span {
+  float: left;
+  width: 100px;
+  margin-right: 5px;
+}
+.form.login, .form.register, .form.resetpass {
+  width: 300px;
+  margin: 0 auto;
+}
+
+/* ==== New/Edit ticket form ==== */
+form.new_ticket {
+  width: 600px;
+}
+form.new_ticket input.summary {
+  width: 98%;
+}
+form.new_ticket textarea.body {
+  width: 98%;
+  height: 150px;
+  padding: 5px;
+}
+
+/* ==== Listings Table ==== */
+table.listing {
+  clear: both;
+  border-bottom: 1px solid #d7d7d7;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-top: 1em;
+  width: 100%;
+  margin-bottom: 0;
+}
+table.listing th {
+  text-align: left;
+  padding: 0 1em .1em 0;
+  font-size: 12px;
+}
+table.listing thead {
+  background: #fff;
+}
+table.listing thead th {
+  border: 1px solid #d7d7d7;
+  border-bottom-color: #999;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px .5em;
+  vertical-align: bottom;
+}
+table.listing thead th a, table.listing thead th a:hover {
+  background-color: transparent;
+}
+table.listing thead th a {
+  border: none;
+  padding-right: 12px;
+}
+table.listing tbody td {
+  padding: .1em .5em !important;
+}
+table.listing th.asc a, table.listing th.desc a {
+  font-weight: bold;
+}
+table.listing th.asc a, table.listing th.desc a {
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+}
+table.listing tbody td, table.listing tbody th {
+  border: 1px dotted #ddd;
+  padding: .33em .5em;
+  vertical-align: top;
+}
+table.listing tbody td a:hover, table.listing tbody th a:hover {
+  background-color: transparent;
+}
+table.listing tbody tr {
+  border-top: 1px solid #ddd;
+}
+table.listing tbody tr.even {
+  background-color: #fcfcfc;
+}
+table.listing tbody tr.odd {
+  background-color: #f7f7f7;
+}
+table.listing tbody tr:hover {
+  background: #fff !important;
+}
+
+table.tickets tbody tr.priority6 {
+  background: #f0f0f0;
+  border-color: #ddd;
+}
+table.tickets tbody tr.even.priority6 {
+  background: #f7f7f7;
+}
+table.tickets tbody tr.priority5 {
+  background: #fdc;
+  border-color: #e88;
+}
+table.tickets tbody tr.even.priority5 {
+  background: #fed;
+  border-color: #e99;
+}
+table.tickets tbody tr.priority4 {
+  background: #ffb;
+  border-color: #eea;
+}
+table.tickets tbody tr.even.priority4 {
+  background: #ffd;
+  border-color: #dd8;
+}
+table.tickets tbody tr.priority3 {
+  background: #e7ffff;
+  border-color: #cee;
+}
+table.tickets tbody tr.even.priority3 {
+  background: #dff;
+  border-color: #bee;
+}
+table.tickets tbody tr.priority2 {
+  background: #e7eeff;
+  border-color: #cde;
+}
+table.tickets tbody tr.even.priority2 {
+  background: #dde7ff;
+}
+table.tickets tbody tr.priority1 {
+  background: #fbfbfb;
+  border-color: #ddd;
+}
+table.tickets tbody tr.even.priority1 {
+  background: #f6f6f6;
+  border-color: #ccc;
+}
+.tickets thead th.id {
+  width: 50px;
+}
+.tickets tbody td a, .tickets tbody td a {
+  display: block;
+}
+.tickets {
+  border-bottom: none;
+}
+.tickets thead th {
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.tickets tbody td.id a {
+  font-weight: bold;
+}

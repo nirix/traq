@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `traq_wiki` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
-('theme', 'Traq 2.3.7'),
+('theme', 'Traq 2.4'),
 ('locale', 'enus.php'),
 ('seo_urls','0'),
 ('recaptcha_enabled','0'),
@@ -233,14 +233,14 @@ INSERT INTO `traq_settings` VALUES ('title', 'Traq'),
 ('timeline_time_format', 'h:iA'),
 ('check_for_update', '1');
 
-INSERT INTO `traq_priorities` (`id`, `name`) VALUES 
+INSERT INTO `traq_priorities` (`id`, `name`) VALUES
 (1, 'Lowest'),
 (2, 'Low'),
 (3, 'Normal'),
 (4, 'High'),
 (5, 'Highest');
 
-INSERT INTO `traq_severities` (`id`, `name`) VALUES 
+INSERT INTO `traq_severities` (`id`, `name`) VALUES
 (1, 'Blocker'),
 (2, 'Critical'),
 (3, 'Major'),
@@ -248,7 +248,7 @@ INSERT INTO `traq_severities` (`id`, `name`) VALUES
 (5, 'Minor'),
 (6, 'Trivial');
 
-INSERT INTO `traq_ticket_status` (`id`, `name`, `status`, `changelog`) VALUES 
+INSERT INTO `traq_ticket_status` (`id`, `name`, `status`, `changelog`) VALUES
 (1, 'New', 1, 1),
 (2, 'Accepted', 1, 1),
 (3, 'Closed', 0, 1),
