@@ -1,5 +1,10 @@
 @import 'screen.css';
 
+/*!
+ * Traq 2.4
+ * Copyright (c) 2012 Jack P.
+ * @license GNU General Public License v3 only
+ */
 body {
 	background: #ddd;
 	margin: 25px 0;
