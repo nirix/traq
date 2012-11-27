@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Status;
+
 /**
  * Admin Statuses controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminStatusesController extends AdminAppController
+class Statuses extends AppController
 {
     public function __construct()
     {
@@ -51,11 +58,11 @@ class AdminStatusesController extends AdminAppController
         $status = new Status;
 
         // Check if the form has been submitted.
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the information.
             $status->set(array(
-                'name' => Request::$post['name'],
-                'status' => Request::$post['status'],
+                'name'      => Request::$post['name'],
+                'status'    => Request::$post['status'],
                 'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0
             ));
 
@@ -84,11 +91,11 @@ class AdminStatusesController extends AdminAppController
         $status = Status::find($id);
 
         // Check if the form has been submitted.
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the information.
             $status->set(array(
-                'name' => Request::$post['name'],
-                'status' => Request::$post['status'],
+                'name'      => Request::$post['name'],
+                'status'    => Request::$post['status'],
                 'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0
             ));
 
