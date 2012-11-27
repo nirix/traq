@@ -314,6 +314,10 @@ ul.projects .quick_nav {
   width: 20px;
 }
 
+#ticket_columns {
+  font-size: 12px;
+}
+
 /* ==== Changelog ==== */
 #changelog ul {
   list-style: none;
@@ -535,6 +539,7 @@ table.listing {
   margin-top: 1em;
   width: 100%;
   margin-bottom: 0;
+  font-size: 12px;
 }
 table.listing th {
   text-align: left;
