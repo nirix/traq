@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Severity;
+
 /**
  * Severities controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminSeveritiesController extends AdminAppController
+class Severities extends AppController
 {
     public function __construct()
     {
@@ -51,13 +58,13 @@ class AdminSeveritiesController extends AdminAppController
         $severity = new Severity();
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the name
             $severity->set('name', Request::$post['name']);
 
             // Save and redirect
             if ($severity->save()) {
-                Request::redirect(Request::base('/admin/severities'));
+                Request::redirectTo('/admin/severities');
             }
         }
 
@@ -75,13 +82,13 @@ class AdminSeveritiesController extends AdminAppController
         $severity = Severity::find($id);
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the name
             $severity->set('name', Request::$post['name']);
 
             // Save and redirect
             if ($severity->save()) {
-                Request::redirect(Request::base('/admin/severities'));
+                Request::redirectTo('/admin/severities');
             }
         }
 
@@ -100,6 +107,6 @@ class AdminSeveritiesController extends AdminAppController
 
         // Delete and redirect
         $severity->delete();
-        Request::redirect(Request::base('/admin/severities'));
+        Request::redirectTo('/admin/severities');
     }
 }

@@ -110,9 +110,9 @@ Router::add('/admin/tickets/statuses/new', 'traq::controllers::admin::Statuses.n
 Router::add('/admin/tickets/statuses/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Statuses.$2/$1');
 
 // Severities
-Router::add('/admin/severities', 'Admin::Severities::index');
-Router::add('/admin/severities/new', 'Admin::Severities::new');
-Router::add('/admin/severities/([0-9]+)/(edit|delete)', 'Admin::Severities::$2/$1');
+Router::add('/admin/severities', 'traq::controllers::admin::Severities.index');
+Router::add('/admin/severities/new', 'traq::controllers::admin::Severities.new');
+Router::add('/admin/severities/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Severities.$2/$1');
 
 // Priorities
 Router::add('/admin/priorities', 'traq::controllers::admin::Priorities.index');
