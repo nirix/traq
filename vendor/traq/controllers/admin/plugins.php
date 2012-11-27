@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  *
@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Plugin;
+
 /**
  * Admin Plugins controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminPluginsController extends AdminAppController
+class Plugins extends AppController
 {
     public function action_index()
     {
@@ -99,7 +106,7 @@ class AdminPluginsController extends AdminAppController
             $plugin->save();
         }
 
-        Request::redirect(Request::base('/admin/plugins'));
+        Request::redirectTo('/admin/plugins');
     }
 
     /**
@@ -119,7 +126,7 @@ class AdminPluginsController extends AdminAppController
             $plugin->save();
         }
 
-        Request::redirect(Request::base('/admin/plugins'));
+        Request::redirectTo('/admin/plugins');
     }
 
     /**
@@ -140,7 +147,7 @@ class AdminPluginsController extends AdminAppController
             $plugin->save();
         }
 
-        Request::redirect(Request::base('/admin/plugins'));
+        Request::redirectTo('/admin/plugins');
     }
 
     /**
@@ -167,6 +174,6 @@ class AdminPluginsController extends AdminAppController
         $plugin = Plugin::find('file', $file);
         $plugin->delete();
 
-        Request::redirect(Request::base('/admin/plugins'));
+        Request::redirectTo('/admin/plugins');
     }
 }
