@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  *
@@ -18,6 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\output\View;
+use traq\models\Project;
+
 /**
  * Admin Projects controller
  *
@@ -26,7 +31,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminProjectsController extends AdminAppController
+class Projects extends AppController
 {
     public function __construct()
     {

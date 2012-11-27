@@ -73,7 +73,7 @@ Router::add('/' . RTR_PROJSLUG . '/settings/permissions/(groups|roles)', 'Projec
 
 // ------------------------------------------------
 // AdminCP routes
-Router::add('/admin', 'Admin::Projects::index');
+Router::add('/admin', 'traq::controllers::admin::Projects.index');
 Router::add('/admin/settings', 'Admin::Settings::index');
 
 // Projects

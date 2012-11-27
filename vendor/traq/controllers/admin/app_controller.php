@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  *
@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
 /**
  * AdminCP controller
  *
@@ -26,7 +28,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminAppController extends AppController
+class AppController extends \traq\controllers\AppController
 {
     /**
      * Constructor!
