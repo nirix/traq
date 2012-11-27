@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Type;
+
 /**
  * Admin Types controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminTypesController extends AdminAppController
+class Types extends AppController
 {
     public function __construct()
     {
@@ -49,20 +56,20 @@ class AdminTypesController extends AdminAppController
         $type = new Type();
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the information
             $type->set(array(
-                'name' => Request::$post['name'],
-                'bullet' => Request::$post['bullet'],
+                'name'      => Request::$post['name'],
+                'bullet'    => Request::$post['bullet'],
                 'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0,
-                'template' => Request::$post['template'],
+                'template'  => Request::$post['template'],
             ));
 
             // Check if the data is valid
             if ($type->is_valid()) {
                 // Save and redirect
                 $type->save();
-                Request::redirect(Request::base('/admin/tickets/types'));
+                Request::redirectTo('/admin/tickets/types');
             }
         }
 
@@ -81,20 +88,20 @@ class AdminTypesController extends AdminAppController
         $type = Type::find($id);
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Update the information
             $type->set(array(
-                'name' => Request::$post['name'],
-                'bullet' => Request::$post['bullet'],
+                'name'      => Request::$post['name'],
+                'bullet'    => Request::$post['bullet'],
                 'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0,
-                'template' => Request::$post['template'],
+                'template'  => Request::$post['template'],
             ));
 
             // Check if the data is valid
             if ($type->is_valid()) {
                 // Save and redirect.
                 $type->save();
-                Request::redirect(Request::base('/admin/tickets/types'));
+                Request::redirectTo('/admin/tickets/types');
             }
         }
 
@@ -112,6 +119,6 @@ class AdminTypesController extends AdminAppController
         // Find the type, delete and redirect.
         $type = Type::find($id);
         $type->delete();
-        Request::redirect(Request::base('/admin/tickets/types'));
+        Request::redirectTo('/admin/tickets/types');
     }
 }

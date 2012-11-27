@@ -100,9 +100,9 @@ Router::add('/admin/roles/new', 'traq::controllers::admin::ProjectRoles.new');
 Router::add('/admin/roles/([0-9]+)/(edit|delete)', 'traq::controllers::admin::ProjectRoles.$2/$1');
 
 // Ticket types
-Router::add('/admin/tickets/types', 'Admin::Types::index');
-Router::add('/admin/tickets/types/new', 'Admin::Types::new');
-Router::add('/admin/tickets/types/([0-9]+)/(edit|delete)', 'Admin::Types::$2/$1');
+Router::add('/admin/tickets/types', 'traq::controllers::admin::Types.index');
+Router::add('/admin/tickets/types/new', 'traq::controllers::admin::Types.new');
+Router::add('/admin/tickets/types/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Types.$2/$1');
 
 // Ticket statuses
 Router::add('/admin/tickets/statuses', 'Admin::Statuses::index');
