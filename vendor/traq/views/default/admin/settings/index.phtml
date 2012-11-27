@@ -1,6 +1,6 @@
 <div class="traq_settings content">
 	<h2 id="page_title"><?php echo l('traq_settings'); ?></h2>
-	<form action="<?php echo Request::full_uri(); ?>" method="post">
+	<form action="<?php echo Request::requestUri(); ?>" method="post">
 		<?php if (isset($errors)) { show_errors($errors); } ?>
 		<fieldset class="tabular section box">
 			<legend><?php echo l('traq'); ?></legend>

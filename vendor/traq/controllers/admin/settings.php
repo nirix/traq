@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
 use avalon\Database;
 use avalon\http\Request;
 use avalon\output\View;
@@ -30,7 +32,7 @@ use avalon\output\View;
  * @package Traq
  * @subpackage Controllers
  */
-class AdminSettingsController extends AdminAppController
+class Settings extends AppController
 {
     /**
      * Traq Settings page
@@ -40,7 +42,7 @@ class AdminSettingsController extends AdminAppController
         $this->title(l('settings'));
 
         // Check if the form has been submitted.
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             $_settings = Request::$post['settings'];
 
             $errors = array();
@@ -63,7 +65,7 @@ class AdminSettingsController extends AdminAppController
                     Database::connection()->update('settings')->set(array('value' => $_value))->where('setting', $_setting)->exec();
                 }
 
-                Request::redirect(Request::full_uri());
+                Request::redirect(Request::requestUri());
             }
 
             View::set('errors', $errors);
