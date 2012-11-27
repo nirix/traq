@@ -3,7 +3,7 @@
 	<div id="head">
 		<h2 id="page_title"><?php echo l('new_page'); ?></h2>
 	</div>
-	<form action="<?php echo Request::full_uri(); ?>" method="post">
+	<form action="<?php echo Request::requestUri(); ?>" method="post">
 		<?php show_errors($page->errors); ?>
 		<div class="tabular box">
 			<?php View::render('wiki/_form', array('page' => $page)); ?>

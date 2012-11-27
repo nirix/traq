@@ -54,12 +54,12 @@ Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'traq::controllers::Tickets.index');
 
 // Wiki routes
-Router::add('/' . RTR_PROJSLUG . '/wiki', 'Wiki::index');
-Router::add('/' . RTR_PROJSLUG . '/wiki/_pages', 'Wiki::pages');
-Router::add('/' . RTR_PROJSLUG . '/wiki/_new', 'Wiki::new');
-Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)', 'Wiki::view/$2');
-Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_edit', 'Wiki::edit/$2');
-Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_delete', 'Wiki::delete/$2');
+Router::add('/' . RTR_PROJSLUG . '/wiki', 'traq::controllers::Wiki.index');
+Router::add('/' . RTR_PROJSLUG . '/wiki/_pages', 'traq::controllers::Wiki.pages');
+Router::add('/' . RTR_PROJSLUG . '/wiki/_new', 'traq::controllers::Wiki.new');
+Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)', 'traq::controllers::Wiki.view/$2');
+Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_edit', 'traq::controllers::Wiki.edit/$2');
+Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_delete', 'traq::controllers::Wiki.delete/$2');
 
 // Project settings routes
 Router::add('/' . RTR_PROJSLUG . '/settings', 'ProjectSettings::Options::index');

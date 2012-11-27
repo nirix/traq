@@ -18,6 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
+use avalon\http\Request;
+use avalon\http\Router;
+use avalon\output\View;
+
+use traq\models\WikiPage;
+
 /**
  * Wiki controller
  *
@@ -26,12 +34,12 @@
  * @package Traq
  * @subpackage Controllers
  */
-class WikiController extends AppController
+class Wiki extends AppController
 {
     // Before filters
     public $_before = array(
-        'new' => array('_check_permission'),
-        'edit' => array('_check_permission'),
+        'new'    => array('_check_permission'),
+        'edit'   => array('_check_permission'),
         'delete' => array('_check_permission')
     );
 
@@ -100,7 +108,7 @@ class WikiController extends AppController
         $page = new WikiPage(array('slug' => $slug));
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Update the page information
             $page->set(array(
                 'title' => Request::$post['title'],
@@ -110,9 +118,8 @@ class WikiController extends AppController
             ));
 
             // Save and redirect
-            if ($page->save())
-            {
-                Request::redirect(Request::base($page->href()));
+            if ($page->save()) {
+                Request::redirectTo($page->href());
             }
         }
 
@@ -132,18 +139,18 @@ class WikiController extends AppController
         $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Update the page information
             $page->set(array(
-                'title' => Request::$post['title'],
-                'slug' => Request::$post['slug'],
-                'body' => Request::$post['body'],
+                'title'      => Request::$post['title'],
+                'slug'       => Request::$post['slug'],
+                'body'       => Request::$post['body'],
                 'project_id' => $this->project->id
             ));
 
             // Save and redirect
             if ($page->save()) {
-                Request::redirect(Request::base($page->href()));
+                Request::redirectTo($page->href());
             }
         }
 
@@ -164,7 +171,7 @@ class WikiController extends AppController
         $page->delete();
 
         // Redirect to main page
-        Request::redirect(Request::base($this->project->href('wiki')));
+        Request::redirectTo($this->project->href('wiki'));
     }
 
     /**
