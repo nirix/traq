@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\ProjectRole;
+
 /**
  * Admin Project Roles controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminProjectRolesController extends AdminAppController
+class ProjectRoles extends AppController
 {
     public function __construct()
     {
@@ -51,7 +58,7 @@ class AdminProjectRolesController extends AdminAppController
         $role = new ProjectRole;
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the role name
             $role->name = Request::$post['name'];
             $role->project_id = Request::$post['project'];
@@ -60,7 +67,7 @@ class AdminProjectRolesController extends AdminAppController
             if ($role->is_valid()) {
                 // Create and redirect
                 $role->save();
-                Request::redirect(Request::base('/admin/roles'));
+                Request::redirectTo('/admin/roles');
             }
         }
 
@@ -76,7 +83,7 @@ class AdminProjectRolesController extends AdminAppController
         $role = ProjectRole::find($id);
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Update the role name
             $role->name = Request::$post['name'];
             $role->project_id = Request::$post['project'];
@@ -85,7 +92,7 @@ class AdminProjectRolesController extends AdminAppController
             if ($role->is_valid()) {
                 // Save and redirect
                 $role->save();
-                Request::redirect(Request::base('/admin/roles'));
+                Request::redirectTo('/admin/roles');
             }
         }
 
@@ -100,6 +107,6 @@ class AdminProjectRolesController extends AdminAppController
         // Fetch and delete the role, then redirect
         $role = ProjectRole::find($id);
         $role->delete();
-        Request::redirect(Request::base('/admin/roles'));
+        Request::redirectTo('/admin/roles');
     }
 }
