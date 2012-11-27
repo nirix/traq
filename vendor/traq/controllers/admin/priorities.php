@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Priority;
+
 /**
  * Priorities controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminPrioritiesController extends AdminAppController
+class Priorities extends AppController
 {
     public function __construct()
     {
@@ -51,7 +58,7 @@ class AdminPrioritiesController extends AdminAppController
         $priority = new Priority();
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the name
             $priority->set('name', Request::$post['name']);
 
@@ -75,7 +82,7 @@ class AdminPrioritiesController extends AdminAppController
         $priority = Priority::find($id);
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the name
             $priority->set('name', Request::$post['name']);
 
