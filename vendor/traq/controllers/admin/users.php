@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\User;
+
 /**
  * Admin Users controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminUsersController extends AdminAppController
+class Users extends AppController
 {
     public function __construct()
     {
@@ -51,7 +58,7 @@ class AdminUsersController extends AdminAppController
         $user = new User(array('group_id' => 2));
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the users information
             $user->set(array(
                 'username' => Request::$post['username'],
@@ -87,7 +94,7 @@ class AdminUsersController extends AdminAppController
         $user = User::find($id);
 
         // Check if the form has been submitted.
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Update the users information.
             $user->set(array(
                 'username' => Request::$post['username'],

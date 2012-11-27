@@ -85,9 +85,9 @@ Router::add('/admin/plugins', 'Admin::Plugins::index');
 Router::add('/admin/plugins/(install|enable|disable|uninstall)/([a-zA-Z0-9\-\_]+)', 'Admin::Plugins::$1/$2');
 
 // Users
-Router::add('/admin/users', 'Admin::Users::index');
-Router::add('/admin/users/new', 'Admin::Users::new');
-Router::add('/admin/users/([0-9]+)/(edit|delete)', 'Admin::Users::$2/$1');
+Router::add('/admin/users', 'traq::controllers::admin::Users.index');
+Router::add('/admin/users/new', 'traq::controllers::admin::Users.new');
+Router::add('/admin/users/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Users.$2/$1');
 
 // User groups
 Router::add('/admin/groups', 'Admin::Groups::index');
