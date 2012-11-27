@@ -1,8 +1,8 @@
 <h3><?php echo l('edit_ticket_history'); ?></h3>
-<form action="<?php echo Request::full_uri(); ?>" method="post">
+<form action="<?php echo Request::requestUri(); ?>" method="post">
 	<?php show_errors($history->errors); ?>
 	<div class="tabular">
-		<?php echo View::render('tickethistory/_form'); ?>
+		<?php echo View::render('ticket_history/_form'); ?>
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?php echo l('save'); ?>" />

@@ -18,6 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers;
+
+use avalon\http\Request;
+use avalon\output\View;
+
 /**
  * Ticket History controller
  *
@@ -26,7 +31,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class TicketHistoryController extends AppController
+class TicketHistory extends AppController
 {
     // Before filters
     public $_before = array(
@@ -42,16 +47,16 @@ class TicketHistoryController extends AppController
     public function action_edit($id)
     {
         // Get the ticket update
-        $history = TicketHistory::find($id);
+        $history = \traq\models\TicketHistory::find($id);
 
         // Has the form been submitted?
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Update the comment
             $history->set('comment', Request::$post['comment']);
 
             // Save and redirect
             if ($history->save()) {
-                Request::redirect(Request::base($history->ticket->href()));
+                Request::redirectTo($history->ticket->href());
             }
         }
 
@@ -66,18 +71,18 @@ class TicketHistoryController extends AppController
     public function action_delete($id)
     {
         // Get the ticket update
-        $history = TicketHistory::find($id);
+        $history = \traq\models\TicketHistory::find($id);
 
         // Delete the update
         $history->delete();
 
         // Is this an ajax request?
-        if (Request::is_ajax()) {
+        if (Request::isAjax()) {
             // Render the view
             View::set('history', $history);
         } else {
             // Just redirect back to the ticket
-            Request::redirect(Request::base($history->ticket->href()));
+            Request::redirectTo($history->ticket->href());
         }
     }
 
