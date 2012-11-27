@@ -77,8 +77,8 @@ Router::add('/admin', 'traq::controllers::admin::Projects.index');
 Router::add('/admin/settings', 'Admin::Settings::index');
 
 // Projects
-Router::add('/admin/projects/new', 'Admin::Projects::new');
-Router::add('/admin/projects/([0-9]+)/delete', 'Admin::Projects::delete/$1');
+Router::add('/admin/projects/new', 'traq::controllers::admin::Projects.new');
+Router::add('/admin/projects/([0-9]+)/delete', 'traq::controllers::admin::Projects.delete/$1');
 
 // Plugins
 Router::add('/admin/plugins', 'Admin::Plugins::index');

@@ -20,7 +20,9 @@
 
 namespace traq\controllers\admin;
 
+use avalon\http\Request;
 use avalon\output\View;
+
 use traq\models\Project;
 
 /**
@@ -55,7 +57,7 @@ class Projects extends AppController
 
         $project = new Project;
 
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             $project->set(array(
                 'name' => Request::$post['name'],
                 'slug' => Request::$post['slug'],
