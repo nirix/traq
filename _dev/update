@@ -1,4 +1,4 @@
 git pull origin master
-cd system/avalon
+cd vendor/avalon
 git pull origin master
 cd ../../
