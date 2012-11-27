@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\admin;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Group;
+
 /**
  * Admin Groups controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class AdminGroupsController extends AdminAppController
+class Groups extends AppController
 {
     public function __construct()
     {
@@ -51,7 +58,7 @@ class AdminGroupsController extends AdminAppController
         $group = new Group;
 
         // Check if the form has been submitted.
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the groups name.
             $group->set('name', Request::$post['name']);
 
@@ -80,7 +87,7 @@ class AdminGroupsController extends AdminAppController
         $group = Group::find($id);
 
         // Check if the form has been submitted.
-        if (Request::$method == 'post') {
+        if (Request::method('post')) {
             // Set the groups name
             $group->set('name', Request::$post['name']);
 

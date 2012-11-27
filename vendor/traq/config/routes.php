@@ -90,9 +90,9 @@ Router::add('/admin/users/new', 'traq::controllers::admin::Users.new');
 Router::add('/admin/users/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Users.$2/$1');
 
 // User groups
-Router::add('/admin/groups', 'Admin::Groups::index');
-Router::add('/admin/groups/new', 'Admin::Groups::new');
-Router::add('/admin/groups/([0-9]+)/(edit|delete)', 'Admin::Groups::$2/$1');
+Router::add('/admin/groups', 'traq::controllers::admin::Groups.index');
+Router::add('/admin/groups/new', 'traq::controllers::admin::Groups.new');
+Router::add('/admin/groups/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Groups.$2/$1');
 
 // Project roles
 Router::add('/admin/roles', 'traq::controllers::admin::ProjectRoles.index');
