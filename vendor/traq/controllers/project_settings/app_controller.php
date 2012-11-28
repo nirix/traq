@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\ProjectSettings;
+
 /**
  * Project settings controller
  *
@@ -26,7 +28,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsAppController extends AppController
+class AppController extends \traq\controllers\AppController
 {
     /**
      * Constructor!

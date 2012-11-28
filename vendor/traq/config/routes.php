@@ -62,7 +62,7 @@ Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_edit', 'traq::contro
 Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_delete', 'traq::controllers::Wiki.delete/$2');
 
 // Project settings routes
-Router::add('/' . RTR_PROJSLUG . '/settings', 'ProjectSettings::Options::index');
+Router::add('/' . RTR_PROJSLUG . '/settings', 'traq::controllers::ProjectSettings::Options.index');
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)', 'ProjectSettings::$2::index');
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)/new', 'ProjectSettings::$2::new');
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'ProjectSettings::$2::$4/$3');

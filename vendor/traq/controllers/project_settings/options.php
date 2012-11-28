@@ -18,6 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\ProjectSettings;
+
+use avalon\http\Request;
+use avalon\output\View;
+
 /**
  * Project settings controller
  *
@@ -26,7 +31,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsOptionsController extends ProjectSettingsAppController
+class Options extends AppController
 {
     /**
      * Project options / information page.
@@ -39,7 +44,7 @@ class ProjectSettingsOptionsController extends ProjectSettingsAppController
         $project = clone $this->project;
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method() == 'post') {
             // Update the information
             $project->set(array(
                 'name' => Request::$post['name'],
@@ -53,7 +58,7 @@ class ProjectSettingsOptionsController extends ProjectSettingsAppController
             if ($project->is_valid()) {
                 // Save and redirect
                 $project->save();
-                Request::redirect(Request::base($project->href('settings')));
+                Request::redirectTo($project->href('settings'));
             }
         }
 
