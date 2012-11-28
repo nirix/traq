@@ -63,13 +63,13 @@ Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)/_delete', 'traq::cont
 
 // Project settings routes
 Router::add('/' . RTR_PROJSLUG . '/settings', 'traq::controllers::ProjectSettings::Options.index');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)', 'ProjectSettings::$2::index');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)/new', 'ProjectSettings::$2::new');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'ProjectSettings::$2::$4/$3');
-Router::add('/' . RTR_PROJSLUG . '/settings/members/save', 'ProjectSettings::Members::save');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)', 'traq::controllers::ProjectSettings::$2.index');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)/new', 'traq::controllers::ProjectSettings::$2.new');
+Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
+Router::add('/' . RTR_PROJSLUG . '/settings/members/save', 'traq::controllers::ProjectSettings::Members.save');
 
 // Project permission routes
-Router::add('/' . RTR_PROJSLUG . '/settings/permissions/(groups|roles)', 'ProjectSettings::Permissions::index/$2');
+Router::add('/' . RTR_PROJSLUG . '/settings/permissions/(groups|roles)', 'traq::controllers::ProjectSettings::Permissions.index/$2');
 
 // ------------------------------------------------
 // AdminCP routes

@@ -18,6 +18,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\ProjectSettings;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Component;
+
 /**
  * Components controller
  *
@@ -26,7 +33,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsComponentsController extends ProjectSettingsAppController
+class Components extends AppController
 {
     public function __construct()
     {
@@ -52,10 +59,10 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
         $component = new Component();
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method() == 'post') {
             // Set the information
             $component->set(array(
-                'name' => Request::$post['name'],
+                'name'       => Request::$post['name'],
                 'project_id' => $this->project->id
             ));
 
@@ -63,7 +70,7 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
             if ($component->is_valid()) {
                 // Save and redirect
                 $component->save();
-                Request::redirect(Request::base("{$this->project->slug}/settings/components"));
+                Request::redirectTo("{$this->project->slug}/settings/components");
             }
         }
 
@@ -83,7 +90,7 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
         $component = Component::find($id);
 
         // Check if the form has been submitted
-        if (Request::$method == 'post') {
+        if (Request::method() == 'post') {
             // Update the information
             $component->set(array(
                 'name' => Request::$post['name'],
@@ -93,7 +100,7 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
             if ($component->is_valid()) {
                 // Save and redirect
                 $component->save();
-                Request::redirect(Request::base("{$this->project->slug}/settings/components"));
+                Request::redirectTo("{$this->project->slug}/settings/components");
             }
         }
 
@@ -112,6 +119,6 @@ class ProjectSettingsComponentsController extends ProjectSettingsAppController
 
         // Delete and redirect
         $component->delete();
-        Request::redirect(Request::base($this->project->href("settings/components")));
+        Request::redirectTo($this->project->href("settings/components"));
     }
 }
