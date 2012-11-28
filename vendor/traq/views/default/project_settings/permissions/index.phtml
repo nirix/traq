@@ -1,8 +1,8 @@
 <div class="content">
 	<h2 id="page_title"><?php echo l('project_settings'); ?></h2>
 </div>
-<?php View::render('projectsettings/_nav'); ?>
-<form action="<?php echo Request::full_uri(); ?>" method="post">
+<?php View::render('project_settings/_nav'); ?>
+<form action="<?php echo Request::requestUri(); ?>" method="post">
 	<table class="permissions list">
 		<thead>
 			<tr>
@@ -19,10 +19,10 @@
 				<td colspan="<?php echo count($groups) + 1; ?>"><strong><?php echo l($key); ?></strong></td>
 			</tr>
 			<?php foreach ($action as $act) {
-				echo View::render('projectsettings/permissions/_permission_row', array('key' => $key, 'action' => $act));
+				echo View::render('project_settings/permissions/_permission_row', array('key' => $key, 'action' => $act));
 				}
 			} else {
-				echo View::render('projectsettings/permissions/_permission_row', array('action' => $action));
+				echo View::render('project_settings/permissions/_permission_row', array('action' => $action));
 			}
 		} ?>
 		</tbody>

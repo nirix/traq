@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  *
@@ -18,6 +18,15 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\ProjectSettings;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Permission;
+use traq\models\Group;
+use traq\models\ProjectRole;
+
 /**
  * Project permissions controller
  *
@@ -26,7 +35,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsPermissionsController extends ProjectSettingsAppController
+class Permissions extends AppController
 {
     public function __construct()
     {
@@ -57,7 +66,7 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
         $type = $type == 'groups' ? 'usergroup' : 'role';
 
         // Has the form been submitted?
-        if (Request::$method == 'post') {
+        if (Request::method() == 'post') {
             $global_defaults = Permission::defaults(0, 0, $type);
 
             // Loop over group/role and get id and permissions
@@ -88,10 +97,10 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
                                 // Create the permission
                                 $perm = new Permission(array(
                                     'project_id' => $this->project->id,
-                                    'type' => $type,
-                                    'type_id' => $type_id,
-                                    'action' => $perm->action,
-                                    'value' => $value
+                                    'type'       => $type,
+                                    'type_id'    => $type_id,
+                                    'action'     => $perm->action,
+                                    'value'      => $value
                                 ));
                                 $perm->save();
                             }
@@ -112,10 +121,10 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
                         else {
                             $perm = new Permission(array(
                                 'project_id' => $this->project->id,
-                                'type' => $type,
-                                'type_id' => $type_id,
-                                'action' => $perm->action,
-                                'value' => $value
+                                'type'       => $type,
+                                'type_id'    => $type_id,
+                                'action'     => $perm->action,
+                                'value'      => $value
                             ));
                             $perm->save();
                         }
@@ -123,7 +132,7 @@ class ProjectSettingsPermissionsController extends ProjectSettingsAppController
                 }
             }
 
-            Request::redirect(Request::full_uri());
+            Request::redirect(Request::requestUri());
         }
 
         // Setup the page
