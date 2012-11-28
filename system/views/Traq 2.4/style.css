@@ -43,6 +43,11 @@ h1 {
   float: right;
   margin-top: -32px;
 }
+#search [type="search"] {
+  border-radius: 5px;
+  border: 1px solid #888;
+  padding: 2px;
+}
 
 #nav {
   float: right;
