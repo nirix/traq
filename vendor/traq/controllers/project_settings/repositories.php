@@ -18,6 +18,15 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\ProjectSettings;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\Repository;
+
+use traq\libraries\SCM;
+
 /**
  * Project repository settings controller
  *
@@ -26,7 +35,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsRepositoriesController extends ProjectSettingsAppController
+class Repositories extends AppController
 {
     public function __construct()
     {
@@ -52,12 +61,12 @@ class ProjectSettingsRepositoriesController extends ProjectSettingsAppController
         $repo = new Repository(array('type' => 'git'));
 
         // Check if the form has been submitted.
-        if (Request::$method == 'post') {
+        if (Request::method() == 'post') {
             // Set the information
             $repo->set(array(
-                'slug' => Request::$post['slug'],
-                'type' => Request::$post['type'],
-                'location' => Request::$post['location'],
+                'slug'       => Request::$post['slug'],
+                'type'       => Request::$post['type'],
+                'location'   => Request::$post['location'],
                 'project_id' => $this->project->id
             ));
 
@@ -65,13 +74,13 @@ class ProjectSettingsRepositoriesController extends ProjectSettingsAppController
             $scm = SCM::factory($repo->type, $repo);
 
             // Runs its before save info method
-            $scm->_before_save_info(&$repo, true);
+            $scm->_before_save_info($repo, true);
 
             // Check if data is good
             if ($repo->is_valid()) {
                 // Save and redirect
                 $repo->save();
-                Request::redirect(Request::base($this->project->href('settings/repositories')));
+                Request::redirectTo($this->project->href('settings/repositories'));
             }
         }
 

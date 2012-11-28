@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require __DIR__ . '/scm/file.php';
+namespace traq\libraries;
 
 /**
  * SCM Base class.
@@ -39,7 +39,7 @@ class SCM
     {
         $file_path = APPPATH . "/libraries/scm/adapters/{$name}.php";
         if (file_exists($file_path)) {
-            $class = "{$name}SCM";
+            $class = "\\traq\\libraries\\scm\\adapters\\" . ucfirst($name);
 
             if (!class_exists($class)) {
                 require $file_path;

@@ -23,6 +23,8 @@ use avalon\core\Kernel as Avalon;
 use traq\models\Setting;
 use traq\models\Project;
 
+use traq\libraries\SCM;
+
 /**
  * Returns the value of the requested setting.
  *

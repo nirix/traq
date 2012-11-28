@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\libraries\scm;
+
 /**
  * SCM Base class.
  * Copyright (C) Jack Polgar
@@ -28,7 +30,7 @@
  * @package SCM
  * @version 0.1
  */
-class SCMFile
+class File
 {
     // This class should store the following information
     public $path; // File path.

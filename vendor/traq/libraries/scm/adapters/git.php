@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\libraries\scm\adapters;
+
 /**
  * Git class.
  * Copyright (C) Jack Polgar
@@ -28,7 +30,7 @@
  * @package SCM
  * @version 0.1
  */
-class GitSCM extends SCM
+class Git extends \traq\libraries\SCM
 {
     protected $_name = 'Git';
     protected $_binary = 'git';
@@ -43,16 +45,9 @@ class GitSCM extends SCM
      */
     public function _before_save_info(&$repo, $is_new = false)
     {
-        // Check if the location is valid
-        if (!preg_match("#^([a-zA-Z0-9\-_\/]+[^&;]*).git$#", $repo->location)) {
-            $repo->_add_error('location', l('errors.scm.location_invalid'));
-        }
-        // Now it's safe to use the path for other stuff
-        else {
-            // Check if the location is a repository or not...
-            if (!$resp = $this->_shell('branch') or preg_match("/Not a git repository/i", $resp)) {
-                $repo->_add_error('location', l('errors.scm.location_not_a_repository'));
-            }
+        // Check if the location is a repository or not...
+        if (!$resp = $this->_shell('branch') or preg_match("/Not a git repository/i", $resp)) {
+            $repo->_add_error('location', l('errors.scm.location_not_a_repository'));
         }
 
         return $repo;
