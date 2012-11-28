@@ -56,7 +56,7 @@ class Types extends AppController
         $type = new Type();
 
         // Check if the form has been submitted
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Set the information
             $type->set(array(
                 'name'      => Request::$post['name'],
@@ -88,7 +88,7 @@ class Types extends AppController
         $type = Type::find($id);
 
         // Check if the form has been submitted
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Update the information
             $type->set(array(
                 'name'      => Request::$post['name'],

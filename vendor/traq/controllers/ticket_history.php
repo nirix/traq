@@ -50,7 +50,7 @@ class TicketHistory extends AppController
         $history = \traq\models\TicketHistory::find($id);
 
         // Has the form been submitted?
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Update the comment
             $history->set('comment', Request::$post['comment']);
 

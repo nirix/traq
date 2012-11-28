@@ -58,7 +58,7 @@ class Groups extends AppController
         $group = new Group;
 
         // Check if the form has been submitted.
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Set the groups name.
             $group->set('name', Request::$post['name']);
 
@@ -87,7 +87,7 @@ class Groups extends AppController
         $group = Group::find($id);
 
         // Check if the form has been submitted.
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Set the groups name
             $group->set('name', Request::$post['name']);
 

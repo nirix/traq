@@ -228,7 +228,7 @@ class Tickets extends AppController
         $ticket = new Ticket;
 
         // Check if the form has been submitted
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Set the ticket data
             $data = array(
                 'summary' => Request::$post['summary'],
@@ -316,7 +316,7 @@ class Tickets extends AppController
         $this->title(l('edit_ticket'));
 
         // Has the form been submitted?
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Set the ticket body
             $ticket->body = Request::$post['body'];
 

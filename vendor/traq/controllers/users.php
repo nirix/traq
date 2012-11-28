@@ -66,7 +66,7 @@ class Users extends AppController
         $this->title(l('login'));
 
         // Check if the form has been submitted
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Try to find the user in the database and verify their password
             if ($user = User::find('username', Request::$post['username'])
             and $user->verify_password(Request::$post['password'])) {
@@ -99,7 +99,7 @@ class Users extends AppController
         $this->title(l('register'));
 
         // Check if the form has been submitted
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Build the data array
             $data = array(
                 'username' => Request::$post['username'],

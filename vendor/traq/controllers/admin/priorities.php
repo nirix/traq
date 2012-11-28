@@ -58,7 +58,7 @@ class Priorities extends AppController
         $priority = new Priority();
 
         // Check if the form has been submitted
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Set the name
             $priority->set('name', Request::$post['name']);
 
@@ -82,7 +82,7 @@ class Priorities extends AppController
         $priority = Priority::find($id);
 
         // Check if the form has been submitted
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             // Set the name
             $priority->set('name', Request::$post['name']);
 

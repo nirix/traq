@@ -42,7 +42,7 @@ class Settings extends AppController
         $this->title(l('settings'));
 
         // Check if the form has been submitted.
-        if (Request::method('post')) {
+        if (Request::method() == 'post') {
             $_settings = Request::$post['settings'];
 
             $errors = array();
