@@ -146,11 +146,12 @@ class enUS extends \traq\libraries\Locale
             'edit_severity'        => 'Edit Severity',
 
             // Project settings
-            'new_milestone'  => "New Milestone",
-            'edit_milestone' => "Edit Milestone",
-            'new_component'  => "New Component",
-            'edit_component' => "Edit Component",
-            'display_order'  => "Display Order",
+            'new_milestone'    => "New Milestone",
+            'delete_milestone' => "Delete Milestone",
+            'edit_milestone'   => "Edit Milestone",
+            'new_component'    => "New Component",
+            'edit_component'   => "Edit Component",
+            'display_order'    => "Display Order",
 
             // Tickets
             'new_ticket'            => "New Ticket",
@@ -309,6 +310,11 @@ class enUS extends \traq\libraries\Locale
                 'close'          => "Closed ticket as {2}",
                 'reopen'         => "Reopened ticket as {2}",
                 'add_attachment' => "Added attachment {2}",
+            ),
+
+            // Warnings
+            'warnings' => array(
+                'delete_milestone' => "Select which milestone to move tickets to."
             ),
 
             // Errors

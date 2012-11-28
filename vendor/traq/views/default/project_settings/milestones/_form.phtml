@@ -16,7 +16,7 @@
 </div>
 <div class="group">
 	<?php echo Form::label(l('status'), 'status'); ?>
-	<?php echo Form::select('status', Milestone::status_select_options(), array('value' => $milestone->_is_new() ? 1 : $milestone->status)); ?>
+	<?php echo Form::select('status', traq\models\Milestone::status_select_options(), array('value' => $milestone->_is_new() ? 1 : $milestone->status)); ?>
 </div>
 <div class="group">
 	<label><?php echo l('Description'); ?></label>

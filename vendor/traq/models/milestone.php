@@ -194,6 +194,8 @@ class Milestone extends Model
      */
     protected function _after_construct()
     {
-        $this->original_status = $this->_data['status'];
+        if (isset($this->_data['status'])) {
+            $this->original_status = $this->_data['status'];
+        }
     }
 }
