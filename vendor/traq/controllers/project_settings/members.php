@@ -18,6 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace traq\controllers\ProjectSettings;
+
+use avalon\http\Request;
+use avalon\output\View;
+
+use traq\models\User;
+use traq\models\UserRole;
+
 /**
  * Project members controller
  *
@@ -26,7 +34,7 @@
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsMembersController extends AppController
+class Members extends AppController
 {
     public function action_index()
     {
@@ -58,7 +66,7 @@ class ProjectSettingsMembersController extends AppController
         // Any errors?
         if (count($errors)) {
             $this->action_index();
-            $this->_render['view'] = 'projectsettings/members/index';
+            $this->_render['view'] = 'project_settings/members/index';
             View::set('errors', $errors);
         }
         // Create role
@@ -70,19 +78,19 @@ class ProjectSettingsMembersController extends AppController
             ));
             $user_role->save();
 
-            Request::redirect(Request::base($this->project->href('settings/members')));
+            Request::redirectTo($this->project->href('settings/members'));
         }
     }
 
     public function action_save()
     {
-        if (Request::$method == 'post') {
+        if (Request::method() == 'post') {
             foreach (Request::$post['role'] as $role_id => $value) {
                 $role = UserRole::find($role_id);
                 $role->project_role_id = $value;
                 $role->save();
             }
-            Request::redirect(Request::base($this->project->href('settings/members')));
+            Request::redirectTo($this->project->href('settings/members'));
         }
     }
 
@@ -91,6 +99,6 @@ class ProjectSettingsMembersController extends AppController
         if ($user_role = UserRole::select('id')->where(array(array('project_id', $this->project->id), array('user_id', $user_id)))->exec()->fetch()) {
             $user_role->delete();
         }
-        Request::redirect(Request::base($this->project->href('settings/members')));
+        Request::redirectTo($this->project->href('settings/members'));
     }
 }
