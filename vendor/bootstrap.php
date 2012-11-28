@@ -79,12 +79,10 @@ foreach ($plugins as $plugin) {
 
         // Register the path to check for controllers and views
         Load::register_path(APPPATH . "/plugins/{$plugin['file']}");
-    }
-}
 
-// Initiate the plugins
-foreach ($plugins as $plugin) {
-    $plugin = "\\traq\plugins\\{$plugin['file']}";
-    $plugin = $plugin::init();
+        // Initiate the plugin
+        $plugin = "\\traq\plugins\\{$plugin['file']}";
+        $plugin = $plugin::init();
+    }
 }
 unset($plugins, $plugin);

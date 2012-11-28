@@ -45,7 +45,10 @@ class Plugins extends AppController
         );
 
         foreach ($this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all() as $plugin) {
-            $plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, array('installed' => true));
+            // Make sure the plugin file exists
+            if (file_exists(APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php")) {
+                $plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, array('installed' => true));
+            }
         }
 
         // Scan the plugin directory

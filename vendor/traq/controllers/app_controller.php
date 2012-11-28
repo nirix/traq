@@ -51,7 +51,13 @@ class AppController extends Controller
         // Call the controller class constructor
         parent::__construct();
 
+        // Set DB connection
         $this->db = Database::connection();
+
+        // Fix plugin view location
+        if (strpos(Router::$controller, "\\traq\\plugins") !== false) {
+            $this->_render['view'] = str_replace("controllers/", '', $this->_render['view']);
+        }
 
         // Set the theme
         View::$theme = settings('theme');
