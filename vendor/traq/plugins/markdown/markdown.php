@@ -34,7 +34,7 @@ class Markdown extends \traq\libraries\Plugin
 {
     protected static $info = array(
         'name'    => 'Markdown',
-        'version' => '0.1',
+        'version' => '1.0',
         'author'  => 'Jack P.'
     );
 
