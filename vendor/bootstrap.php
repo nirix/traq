@@ -81,7 +81,7 @@ foreach ($plugins as $plugin) {
         Load::register_path(APPPATH . "/plugins/{$plugin['file']}");
 
         // Initiate the plugin
-        $plugin = "\\traq\plugins\\{$plugin['file']}";
+        $plugin = "\\traq\plugins\\" . get_plugin_name($plugin['file']);
         $plugin = $plugin::init();
     }
 }

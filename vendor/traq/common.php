@@ -1,5 +1,5 @@
 <?php
-/*
+/*!
  * Traq
  * Copyright (C) 2009-2012 Traq.io
  *
@@ -140,6 +140,23 @@ function theme_select_options()
 
     return $options;
 }
+
+/**
+ * Formats the plugin directory name into
+ * a class name.
+ *
+ * @param string $name
+ *
+ * @return string
+ */
+ function get_plugin_name($name)
+ {
+     $bits = explode('_', $name);
+     foreach ($bits as $k => $v) {
+         $bits[$k] = ucfirst($v);
+     }
+     return implode('', $bits);
+ }
 
 /**
  * Formats the supplied text.
