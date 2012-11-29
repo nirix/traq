@@ -6,6 +6,6 @@
 		<li<?php echo iif(active_nav('/:slug/settings/members(.*)'), ' class="active"')?>><?php echo HTML::link(l('members'), "{$project->slug}/settings/members"); ?></li>
 		<li<?php echo iif(active_nav('/:slug/settings/permissions/groups'), ' class="active"')?>><?php echo HTML::link(l('group_permissions'), "{$project->slug}/settings/permissions/groups"); ?></li>
 		<li<?php echo iif(active_nav('/:slug/settings/permissions/roles'), ' class="active"')?>><?php echo HTML::link(l('role_permissions'), "{$project->slug}/settings/permissions/roles"); ?></li>
-		<?php FishHook::run('template:projectsettings/_nav', array($project)); ?>
+		<?php FishHook::run('template:project_settings/_nav', array($project)); ?>
 	</ul>
 </nav>
