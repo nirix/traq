@@ -46,7 +46,20 @@ post('/step/1', function(){
 post('/step/2', function(){
     // Check for form errors
     $errors = array();
-    foreach (array('type', 'host', 'username', 'database') as $field) {
+    $fields = array('type');
+
+    switch ($_POST['type']) {
+        case 'mysql':
+        case 'postgresql':
+                $fields = array_merge($fields, array('host', 'username', 'database'));
+            break;
+
+        case 'sqlite':
+                $fields[] = 'path';
+            break;
+    }
+
+    foreach ($fields as $field) {
         if ($_POST[$field] == '') {
             $errors[$field] = true;
         }
@@ -66,15 +79,30 @@ post('/step/2', function(){
     // Confirm details
     else {
         // Store DB info in the session
-        $_SESSION['db'] = array(
-            'driver' => 'pdo',
-            'type' => $_POST['type'],
-            'host' => $_POST['host'],
-            'username' => $_POST['username'],
-            'password' => $_POST['password'],
-            'database' => $_POST['database'],
-            'prefix' => $_POST['prefix'],
-        );
+        switch ($_POST['type']) {
+            case 'mysql':
+            case 'postgresql':
+                $_SESSION['db'] = array(
+                    'driver'   => 'pdo',
+                    'type'     => $_POST['type'],
+                    'host'     => $_POST['host'],
+                    'username' => $_POST['username'],
+                    'password' => $_POST['password'],
+                    'database' => $_POST['database']
+                );
+                break;
+
+            case 'sqlite':
+                $_SESSION['db'] = array(
+                    'driver' => 'pdo',
+                    'type'   => 'sqlite',
+                    'path'   => $_POST['path']
+                );
+                break;
+        }
+
+        $_SESSION['db']['prefix'] = $_POST['prefix'];
+        
 
         // Remote database info from _POST
         unset($_POST['type'], $_POST['host'], $_POST['username'], $_POST['password'], $_POST['database'], $_POST['prefix']);
@@ -131,8 +159,8 @@ post('/step/3', function(){
         $config = array();
         $config[] = '<?php';
         $config[] = '$db = array(';
-        foreach (array('driver', 'type', 'host', 'username', 'password', 'database', 'prefix') as $key) {
-            $config[] = '    \'' . $key . '\' => "' . $_SESSION['db'][$key] . '",';
+        foreach ($_SESSION['db'] as $key => $val) {
+            $config[] = '    \'' . $key . '\' => "' . $val . '",';
         }
         $config[] = ');';
         $config = implode(PHP_EOL, $config);
