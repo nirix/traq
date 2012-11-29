@@ -39,4 +39,9 @@ class Setting extends Model
         'setting',
         'value'
     );
+    
+    public function is_valid()
+    {
+        return !empty($this->_data['setting']);
+    }
 }
