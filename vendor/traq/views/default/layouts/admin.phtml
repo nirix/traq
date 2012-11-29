@@ -25,6 +25,7 @@
 					<li<?php echo iif(active_nav('/admin/tickets/statuses(.*)'), ' class="active"')?>><?php echo HTML::link(l('statuses'), "/admin/tickets/statuses"); ?></li>
 					<li<?php echo iif(active_nav('/admin/priorities(.*)'), ' class="active"')?>><?php echo HTML::link(l('priorities'), "/admin/priorities"); ?></li>
 					<li<?php echo iif(active_nav('/admin/severities(.*)'), ' class="active"')?>><?php echo HTML::link(l('severities'), "/admin/severities"); ?></li>
+					<?php FishHook::run('template:layouts/admin/main_nav'); ?>
 				</ul>
 			</nav>
 			<div id="page">
