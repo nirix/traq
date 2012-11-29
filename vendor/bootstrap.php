@@ -64,9 +64,6 @@ else {
     Database::init($db);
 }
 
-// Load the localization file
-$locale = traq\libraries\Locale::load(settings('locale'));
-
 // Load the plugins
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
 foreach ($plugins as $plugin) {
@@ -86,3 +83,7 @@ foreach ($plugins as $plugin) {
     }
 }
 unset($plugins, $plugin);
+
+// Load the localization file
+$locale = traq\libraries\Locale::load(settings('locale'));
+
