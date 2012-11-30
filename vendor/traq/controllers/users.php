@@ -99,6 +99,8 @@ class Users extends AppController
     {
         $this->title(l('register'));
 
+        $user = new User;
+
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Build the data array
@@ -121,8 +123,8 @@ class Users extends AppController
                 $user->save();
                 Request::redirectTo('login');
             }
-
-            View::set('user', $user);
         }
+
+        View::set(compact('user'));
     }
 }
