@@ -216,47 +216,45 @@ class User extends Model
      */
     public function is_valid()
     {
-        $errors = array();
-
         // Check if the username is set
         if (empty($this->_data['username'])) {
-            $errors['username'] = l('errors.users.username_blank');
+            $this->errors['username'] = l('errors.users.username_blank');
         }
 
         // Check username length
         if (isset($this->_data['username'][25])) {
-            $errors['username'] = l('errors.users.username_too_long');
+            $this->errors['username'] = l('errors.users.username_too_long');
         }
 
         // Check if the username is taken
         if ($this->_is_new() and static::find('username', $this->_data['username'])) {
-            $errors['username'] = l('errors.users.username_in_use');
+            $this->errors['username'] = l('errors.users.username_in_use');
         }
 
         // Make sure the users name is set
         if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.users.name_blank');
+            $this->errors['name'] = l('errors.users.name_blank');
         }
 
         // Check if the password is set
         if (empty($this->_data['password'])) {
-            $errors['password'] = l('errors.users.password_blank');
+            $this->errors['password'] = l('errors.users.password_blank');
         }
 
         // check if user changed password
         if (isset($this->_data['old_password']) && (isset($this->_data['new_password']) || isset($this->_data['confirm_password']))) {
             if (empty($this->_data['old_password'])) {
-                $errors['old_password'] = l('errors.users.password_blank');
+                $this->errors['old_password'] = l('errors.users.password_blank');
             } elseif (empty($this->_data['new_password'])) {
-                $errors['new_password'] = l('errors.users.new_password_blank');
+                $this->errors['new_password'] = l('errors.users.new_password_blank');
             } elseif (empty($this->_data['confirm_password'])) {
-                $errors['cofirm_password'] = l('errors.users.confirm_password_blank');
+                $this->errors['cofirm_password'] = l('errors.users.confirm_password_blank');
             } elseif ($this->_data['new_password'] !== $this->_data['confirm_password']) {
-                $errors['new_password'] = l('errors.users.invalid_confirm_password');
+                $this->errors['new_password'] = l('errors.users.invalid_confirm_password');
             } elseif(!$this->verify_password($this->_data['old_password'])) {
-                $errors['old_password'] = l('errors.users.invalid_password');
+                $this->errors['old_password'] = l('errors.users.invalid_password');
             } elseif($this->_data['new_password'] === $this->_data['old_password']) {
-                $errors['old_password'] = l('errors.users.password_same');
+                $this->errors['old_password'] = l('errors.users.password_same');
             } else {
                 // password should be valid at this point
                 unset($this->_data['old_password'], $this->_data['new_password'], $this->_data['confirm_password']);
@@ -266,15 +264,15 @@ class User extends Model
 
         // Check if the email is set
         if (empty($this->_data['email'])) {
-            $errors['email'] = l('errors.users.email_invalid');
+            $this->errors['email'] = l('errors.users.email_invalid');
         }
 
         // Check if we're valid or not...
-        if (count($errors) > 0) {
-            $this->errors = $errors;
+        if (count($this->errors) > 0) {
+            $this->errors = $this->errors;
         }
 
-        return !count($errors) > 0;
+        return !count($this->errors) > 0;
     }
 
     /**
