@@ -20,6 +20,7 @@
 
 namespace traq\controllers;
 
+use \FishHook;
 use avalon\core\Load;
 use avalon\http\Request;
 use avalon\output\View;
@@ -110,6 +111,9 @@ class Users extends AppController
 
             // Create a model with the data
             $user = new User($data);
+
+            // Run plugin hooks
+            FishHook::run('controller:users.register', array(&$user));
 
             // Check if the model is valid
             if ($user->is_valid()) {
