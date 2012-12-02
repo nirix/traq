@@ -27,7 +27,9 @@ use avalon\core\Load;
 use traq\models\Ticket;
 use traq\models\Milestone;
 use traq\models\Status;
+use traq\models\Type;
 use traq\models\Component;
+use traq\helpers\TicketFilterQuery;
 
 /**
  * Ticket controller.
@@ -64,83 +66,20 @@ class Tickets extends AppController
      */
     public function action_index()
     {
-        // Start the filter SQL query
-        $sql = array();
-        $sql[] = "`project_id` = '{$this->project->id}'";
+        $filter_query = new TicketFilterQuery();
 
-        // Filters
-        $filters = array();
         foreach (Request::$request as $filter => $value) {
             // Check if the filter exists...
-            if (!in_array($filter, ticket_filters())) {
-                continue;
+            if (in_array($filter, ticket_filters())) {
+                $filter_query->process($filter, explode(',', $value));
             }
-
-            if (empty($value)) {
-                $filters[$filter] = array('prefix' => '', 'values' => array(''));
-                continue;
-            }
-
-            $values = array();
-            $prefix = '';
-            if ($value[0] == '!') {
-                $prefix = '!';
-                $value = substr($value, 1);
-            }
-
-            // Milestone and Version filter
-            if ($filter == 'milestone' or $filter == 'version') {
-                foreach (explode(',', $value) as $name) {
-                    if (empty($name)) {
-                        continue;
-                    }
-                    $milestone = Milestone::find('slug', $name);
-                    $values[] = $milestone->id;
-                }
-                $sql[] = "{$filter}_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $values) . ")";
-            }
-            // Status filter
-            elseif ($filter == 'status') {
-                // All open, or all closed statuses
-                if ($value == 'allopen' or $value == 'allclosed') {
-                    foreach (Status::select('id')->where('status', ($value == 'allopen' ? 1 : 0))->exec()->fetch_all() as $status) {
-                        $values[] = $status->id;
-                    }
-                }
-                // Get each status by name
-                else {
-                    foreach (explode(',', $value) as $name) {
-                        $status = Status::find('name', urldecode($name));
-                        $values[] = $status->id;
-                    }
-                }
-                $sql[] = "status_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $values) . ")";
-            }
-            // Type filter
-            elseif ($filter == 'type') {
-                foreach (explode(',', $value) as $name) {
-                    $type = Type::find('name', urldecode($name));
-                    $values[] = $type->id;
-                }
-                $sql[] = "type_id IN " . ($prefix == '!' ? 'NOT' :'') . " (" . implode(', ', $values) . ")";
-            }
-            // Component filter
-            elseif ($filter == 'component') {
-                foreach (explode(',', $value) as $name){
-                    $component = Component::find('name', urldecode($name));
-                    $values[] = $component->id;
-                }
-                $sql[] = "component_id " . ($prefix == '!' ? 'NOT' :'') . " IN (" . implode(', ', $values) . ")";
-            }
-
-            $filters[$filter] = array('prefix' => $prefix, 'values' => $values);
         }
 
-        View::set('filters', $filters);
+        View::set('filters', $filter_query->filters());
 
         // Fetch tickets
         $tickets = array();
-        $rows = $this->db->select()->from('tickets')->custom_sql(count($sql) > 0 ? 'WHERE ' . implode(' AND ', $sql) :'')->order_by('priority_id', 'ASC')->exec()->fetch_all();
+        $rows = $this->db->select()->from('tickets')->custom_sql($filter_query->sql())->order_by('priority_id', 'ASC')->exec()->fetch_all();
         foreach($rows as $row) {
             $tickets[] = new Ticket($row, false);
         }

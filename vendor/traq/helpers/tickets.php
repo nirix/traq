@@ -59,6 +59,7 @@ function ticket_filters()
     $filters = array(
         'summary',
         'description',
+        'component',
         'milestone',
         'version',
         'status',
