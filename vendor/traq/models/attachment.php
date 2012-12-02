@@ -52,7 +52,7 @@ class Attachment extends Model
      */
     public function href($extra = '')
     {
-        return "/attachments/{$this->id}/{$this->name}" . $extra;
+        return "/attachments/{$this->id}/" . create_slug($this->name) . $extra;
     }
 
     public function is_valid()
