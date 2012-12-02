@@ -1,19 +1,19 @@
 <div class="profile content">
 	<h2><?php echo l('xs_profile', $profile->name); ?></h2>
-	
+
 	<div class="sidebar span-6">
 		<div class="information box">
 			<h3><?php echo l('information'); ?></h3>
 			<dl>
 				<dt><?php echo l('group'); ?></dt>
 				<dd><?php echo $profile->group->name; ?></dd>
-				
+
 				<dt><?php echo l('assigned_tickets'); ?></dt>
 				<dd><?php echo $profile->assigned_tickets->exec()->row_count(); ?></dd>
-				
+
 				<dt><?php echo l('tickets_created'); ?></dt>
 				<dd><?php echo $profile->tickets->exec()->row_count(); ?></dd>
-				
+
 				<dt><?php echo l('ticket_updates'); ?></dt>
 				<dd><?php echo $profile->ticket_updates->exec()->row_count(); ?></dd>
 
@@ -21,10 +21,10 @@
 				<dd><?php echo ($profile->created_at ? ldate(settings('date_format')) : l('unknown')); ?></dd>
 				<?php FishHook::run('template:users/users/view', array($profile)); ?>
 			</dl>
-			
+
 			<div class="clearfix"></div>
 		</div>
-		
+
 		<div class="box">
 			<h3><?php echo l('projects'); ?></h3>
 			<?php foreach ($profile->projects() as $project) { ?>
@@ -32,10 +32,10 @@
 			<?php } ?>
 		</div>
 	</div>
-	
-	<div id="assigned_to" class="span-16 last box">
+
+	<div id="assigned_to" class="span-16 last">
 		<h3><?php echo l('assigned_tickets'); ?></h3>
-		
+
 		<table class="list">
 			<thead>
 				<th class="summary"><?php echo l('summary'); ?></th>
@@ -57,6 +57,6 @@
 			</tbody>
 		</table>
 	</div>
-	
+
 	<div class="clearfix"></div>
 </div>
