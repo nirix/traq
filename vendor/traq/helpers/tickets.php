@@ -46,7 +46,7 @@ function ticket_columns() {
 }
 
 /**
- * Ticket filters
+ * Returns an array of available ticket filters.
  *
  * @return array
  *
@@ -54,16 +54,46 @@ function ticket_columns() {
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function ticket_filters() {
+function ticket_filters()
+{
     $filters = array(
+        'summary',
+        'description',
         'milestone',
         'version',
         'status',
-        'type',
-        'component',
-        'summary'
+        'type'
     );
+
+    // Run plugin hook
+    FishHook::run('function:ticket_filters', array(&$filters));
+
     return $filters;
+}
+
+/**
+ * Returns an array of available ticket filters
+ * formatted for Form::select().
+ *
+ * @return array
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
+ */
+function ticket_filters_select_options()
+{
+    $options = array();
+
+    // Add blank option
+    $options[] = array('label' => '', 'value' => '');
+
+    // Add ticket filters
+    foreach (ticket_filters() as $filter) {
+        $options[] = array('label' => l($filter), 'value' => $filter);
+    }
+
+    return $options;
 }
 
 /**
