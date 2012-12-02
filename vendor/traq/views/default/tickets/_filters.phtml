@@ -1,47 +1,61 @@
-<form action="<?php echo Request::requestUri(); ?>">
+<form action="<?php echo Request::base($project->href('tickets/process_filters')); ?>" method="post">
 	<fieldset id="ticket_filters">
 		<legend><?php echo l('filters'); ?></legend>
 		<table>
-		<?php foreach ($filters as $filter => $info) { ?>
-			<?php foreach ($info['values'] as $k => $value) { ?>
-			<tr>
-				<td class="label"><?php echo $k == 0 ? l($filter) :''; ?></td>
-				<td class="condition">
-				<?php
-					if ($k == 0) {
-						if (in_array($filter, array('summary', 'description'))) {
-							echo Form::select("filters[{$filter}][prefix]",
-								array(
-									array('label' => l('contains'), 'value' => ''),
-									array('label' => l('doesnt_contain'), 'value' => '!')
-								),
-								array('value' => $info['prefix'])
-							);
+			<tbody>
+			<?php foreach ($filters as $filter => $info) { ?>
+				<?php foreach ($info['values'] as $k => $value) { ?>
+				<tr>
+					<td class="label"><?php echo $k == 0 ? l($filter) :''; ?></td>
+					<td class="condition">
+					<?php
+						if ($k == 0) {
+							if (in_array($filter, array('summary', 'description'))) {
+								echo Form::select("filters[{$filter}][prefix]",
+									array(
+										array('label' => l('contains'), 'value' => ''),
+										array('label' => l('doesnt_contain'), 'value' => '!')
+									),
+									array('value' => $info['prefix'])
+								);
+							} else {
+								echo Form::select("filters[{$filter}][prefix]",
+									array(
+										array('label' => l('is'), 'value' => ''),
+										array('label' => l('is_not'), 'value' => '!')
+									),
+									array('value' => $info['prefix'])
+								);
+							}
 						} else {
-							echo Form::select("filters[{$filter}][prefix]",
-								array(
-									array('label' => l('is'), 'value' => ''),
-									array('label' => l('is_not'), 'value' => '!')
-								),
-								array('value' => $info['prefix'])
-							);
+							echo l('or');
 						}
-					} else {
-						echo l('or');
-					}
-				?>
-				</td>
-				<td class="value">
-					<?php if (in_array($filter, array('milestone', 'status', 'version', 'type'))) {
-						echo Form::select("filters[{$filter}][values][]",
-							ticket_filter_options_for($filter),
-							array('value' => $value)
-						);
-					} ?>
-				</td>
-			</tr>
+					?>
+					</td>
+					<td class="value">
+						<?php if (in_array($filter, array('milestone', 'status', 'version', 'type'))) {
+							echo Form::select("filters[{$filter}][values][]",
+								ticket_filter_options_for($filter),
+								array('value' => $value)
+							);
+						} ?>
+					</td>
+					<td class="ticket_filter_action">
+						<button type="submit" class="button_delete" name="remove_filter[<?php echo $filter; ?>][<?php echo $k; ?>]">-</button>
+					</td>
+				</tr>
+				<?php } ?>
 			<?php } ?>
-		<?php } ?>
+				<tr>
+					<td>
+						<input type="submit" value="<?php echo l('update'); ?>">
+					</td>
+					<td colspan="4" id="ticket_filter_actions">
+						<?php echo Form::select('new_filter', ticket_filters_select_options()); ?>
+						<button type="submit" class="button_new" name="add_filter">+</button>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 	</fieldset>
 </form>
