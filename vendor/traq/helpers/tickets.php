@@ -22,6 +22,7 @@ use avalon\core\Kernel as Avalon;
 
 use traq\models\Type;
 use traq\models\Status;
+use traq\models\Component;
 
 /**
  * Ticket columns
@@ -186,7 +187,7 @@ function ticketlist_data($column, $ticket) {
  *
  * @return array
  */
-function ticket_filter_options_for($filter) {
+function ticket_filter_options_for($filter, $project_id = null) {
     switch ($filter) {
         // Milestone options
         case 'milestone':
@@ -206,6 +207,11 @@ function ticket_filter_options_for($filter) {
         // Status options
         case 'status':
             $options = Status::select_options();
+            break;
+
+        // Component options
+        case 'component':
+            $options = Component::select_options($project_id);
             break;
     }
 
