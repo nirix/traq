@@ -269,6 +269,80 @@ class Tickets extends AppController
     }
 
     /**
+     * Processes the ticket filters form and
+     * builds the query string.
+     */
+    public function action_update_filters()
+    {
+        $query_string = array();
+
+        // Add filter
+        if (isset(Request::$post['add_filter'])) {
+            $new_filter = Request::$post['new_filter'];
+
+            // Make sure the filter index exists
+            if (!isset(Request::$post['filters'][$new_filter])) {
+                Request::$post['filters'][$new_filter] = array('values' => array(''));
+            }
+
+            // Add the blank value
+            Request::$post['filters'][$new_filter]['values'][] = '';
+        }
+
+        // Remove a filter
+        if (isset(Request::$post['remove_filter']) and isset(Request::$post['update'])) {
+            foreach (Request::$post['remove_filter'] as $filter => $nothing) {
+                // Get filter and value
+                $filter = explode(':', $filter);
+                unset(Request::$post['filters'][$filter[0]]['values'][$filter[1]]);
+
+                // If there's no other values, remove filter completely
+                if (!count(Request::$post['filters'][$filter[0]]['values'])) {
+                    unset(Request::$post['filters'][$filter[0]]);
+                }
+            }
+        }
+
+        foreach (Request::$post['filters'] as $name => $filter) {
+            // Don't bother if this isn't a valid filter.
+            if (!in_array($name, ticket_filters())) {
+                continue;
+            }
+
+            // Process filters
+            switch ($name) {
+                // Summary and description
+                case 'summary':
+                case 'description':
+                    $query_string[] = "{$name}=" . $filter['prefix'] . urlencode(implode(',', $filter['values']));
+                    break;
+
+                // Milestone, version, type,
+                // status and component
+                case 'milestone':
+                case 'version':
+                case 'type':
+                case 'status':
+                case 'component':
+                    // Class name
+                    $class = '\\traq\\models\\' . ucfirst($name == 'version' ? 'milestone' : $name);
+
+                    // Values
+                    $values = array();
+                    foreach ($filter['values'] as $value) {
+                        $values[] = urlencode($class::find($value)->name);
+                    }
+
+                    $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
+                    break;
+            }
+        }
+
+        // Redirect
+        Request::redirectTo($this->project->href('tickets') . '?' . implode('&', $query_string));
+    }
+
+    /**
      * Used to check the permission for the requested action.
      */
     public function _check_permission($method)

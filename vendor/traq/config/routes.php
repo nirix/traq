@@ -51,6 +51,7 @@ Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'traq::contro
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote|voters)', 'traq::controllers::Tickets.$3/$2');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/edit', 'traq::controllers::TicketHistory.edit/$3');
 Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/delete', 'traq::controllers::TicketHistory.delete/$3');
+Router::add('/' . RTR_PROJSLUG . '/tickets/update_filters', 'traq::controllers::Tickets.update_filters');
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'traq::controllers::Tickets.index');
 
 // Wiki routes
