@@ -92,6 +92,10 @@ class enUS extends \traq\libraries\Locale
             'or'               => "or",
             'language'         => "Language",
             'filters'          => "Filters",
+            'is'               => 'is',
+            'is_not'           => 'is not',
+            'contains'         => "contains",
+            'does_not_contain' => "does not contain",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
