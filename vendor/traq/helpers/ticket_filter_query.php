@@ -50,7 +50,7 @@ class TicketFilterQuery
         }
 
         // Add to filters array
-        $this->filters[$field] = array('prefix' => $condition, 'values' => array());
+        $this->filters[$field] = array('prefix' => ($condition == 'NOT' ? '!' :''), 'values' => array());
 
         if ($values[0] == '' or end($values) == '') {
             $this->filters[$field]['values'][] = '';
@@ -62,7 +62,7 @@ class TicketFilterQuery
     }
 
     /**
-     * Checks the values and contructs the query.
+     * Checks the values and constructs the query.
      *
      * @param string $field
      * @param string $condition
@@ -74,7 +74,7 @@ class TicketFilterQuery
 
         // Milestone, version, status, type and component
         if (in_array($field, array('milestone', 'status', 'type', 'version', 'component'))) {
-            $class = "\\traq\\models\\" . ucfirst($field);
+            $class = "\\traq\\models\\" . ucfirst($field == 'version' ? 'milestone' : $field);
             foreach ($values as $value) {
                 // What column to use when
                 // looking up row.
@@ -108,6 +108,8 @@ class TicketFilterQuery
             if (count($query_values)) {
                 $this->sql[] = "`{$field}_id` {$condition} {$value}";
             }
+
+            $this->filters[$field]['values'] = array_merge($query_values, $this->filters[$field]['values']);
         }
         // Summary and description
         elseif (in_array($field, array('summary', 'description'))) {
@@ -115,16 +117,16 @@ class TicketFilterQuery
             $query_values = array();
             foreach ($values as $value) {
                 if (!empty($value)) {
-                    $query_values[] = "`{$field}` {$condition} LIKE '" . str_replace('*', '%', $value) . "'";
+                    $query_values[] = "`{$field}` {$condition} LIKE '%" . str_replace('*', '%', $value) . "%'";
                 }
             }
 
             if (count($query_values)) {
                 $this->sql[] = "(" . implode(' OR ', $query_values) . ")";
             }
-        }
 
-        $this->filters[$field]['values'] = array_merge($query_values, $this->filters[$field]['values']);
+            $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
+        }
     }
 
     /**
