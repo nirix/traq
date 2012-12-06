@@ -282,7 +282,7 @@ class Tickets extends AppController
 
             // Make sure the filter index exists
             if (!isset(Request::$post['filters'][$new_filter])) {
-                Request::$post['filters'][$new_filter] = array('values' => array(''));
+                Request::$post['filters'][$new_filter] = array('values' => array());
             }
 
             // Add the blank value
@@ -314,7 +314,11 @@ class Tickets extends AppController
                 // Summary and description
                 case 'summary':
                 case 'description':
-                    $query_string[] = "{$name}=" . $filter['prefix'] . urlencode(implode(',', $filter['values']));
+                    $values = array();
+                    foreach ($filter['values'] as $value) {
+                        $values[] = urlencode($value);
+                    }
+                    $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
                     break;
 
                 // Milestone, version, type,

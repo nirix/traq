@@ -72,6 +72,10 @@ class TicketFilterQuery
     {
         $query_values = array();
 
+        if (!count($values)) {
+            Returns;
+        }
+
         // Milestone, version, status, type and component
         if (in_array($field, array('milestone', 'status', 'type', 'version', 'component'))) {
             $class = "\\traq\\models\\" . ucfirst($field == 'version' ? 'milestone' : $field);
@@ -123,9 +127,8 @@ class TicketFilterQuery
 
             if (count($query_values)) {
                 $this->sql[] = "(" . implode(' OR ', $query_values) . ")";
+                $this->filters[$field]['values'] = $values;
             }
-
-            $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
         }
     }
 
