@@ -73,7 +73,7 @@ class TicketFilterQuery
         $query_values = array();
 
         if (!count($values)) {
-            Returns;
+            return;
         }
 
         // Milestone, version, status, type and component
