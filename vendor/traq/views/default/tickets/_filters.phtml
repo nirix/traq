@@ -1,4 +1,4 @@
-<form action="<?php echo Request::base($project->href('tickets/process_filters')); ?>" method="post">
+<form action="<?php echo Request::base($project->href('tickets/update_filters')); ?>" method="post">
 	<fieldset id="ticket_filters">
 		<legend><?php echo l('filters'); ?></legend>
 		<table>
@@ -14,7 +14,7 @@
 								echo Form::select("filters[{$filter}][prefix]",
 									array(
 										array('label' => l('contains'), 'value' => ''),
-										array('label' => l('doesnt_contain'), 'value' => '!')
+										array('label' => l('does_not_contain'), 'value' => '!')
 									),
 									array('value' => $info['prefix'])
 								);
@@ -33,22 +33,26 @@
 					?>
 					</td>
 					<td class="value">
-						<?php if (in_array($filter, array('milestone', 'status', 'version', 'type'))) {
+					<?php
+						if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component'))) {
 							echo Form::select("filters[{$filter}][values][]",
-								ticket_filter_options_for($filter),
+								ticket_filter_options_for($filter, $project->id),
 								array('value' => $value)
 							);
-						} ?>
+						} elseif (in_array($filter, array('summary', 'description'))) {
+							echo Form::text("filters[{$filter}][values][]", array('value' => $value));
+						}
+					?>
 					</td>
 					<td class="ticket_filter_action">
-						<button type="submit" class="button_delete" name="remove_filter[<?php echo $filter; ?>][<?php echo $k; ?>]">-</button>
+						<button type="submit" class="button_delete" name="remove_filter[<?php echo $filter; ?>:<?php echo $k; ?>]">-</button>
 					</td>
 				</tr>
 				<?php } ?>
 			<?php } ?>
 				<tr>
 					<td>
-						<input type="submit" value="<?php echo l('update'); ?>">
+						<input type="submit" value="<?php echo l('update'); ?>" name="update">
 					</td>
 					<td colspan="4" id="ticket_filter_actions">
 						<?php echo Form::select('new_filter', ticket_filters_select_options()); ?>
