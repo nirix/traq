@@ -335,10 +335,21 @@ class Tickets extends AppController
                     // Class name
                     $class = '\\traq\\models\\' . ucfirst($name == 'version' ? 'milestone' : $name);
 
+                    switch ($name) {
+                        case 'milestone':
+                        case 'version':
+                            $field = 'slug';
+                            break;
+
+                        default:
+                            $field = 'name';
+                            break;
+                    }
+
                     // Values
                     $values = array();
                     foreach ($filter['values'] as $value) {
-                        $values[] = urlencode($class::find($value)->name);
+                        $values[] = urlencode($class::find($value)->{$field});
                     }
 
                     $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
