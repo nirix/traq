@@ -16,7 +16,7 @@
 										array('label' => l('contains'), 'value' => ''),
 										array('label' => l('does_not_contain'), 'value' => '!')
 									),
-									array('value' => $info['prefix'])
+									array('value' => $info['prefix'], 'id' => false)
 								);
 							} else {
 								echo Form::select("filters[{$filter}][prefix]",
@@ -24,7 +24,7 @@
 										array('label' => l('is'), 'value' => ''),
 										array('label' => l('is_not'), 'value' => '!')
 									),
-									array('value' => $info['prefix'])
+									array('value' => $info['prefix'], 'id' => false)
 								);
 							}
 						} else {
@@ -37,12 +37,12 @@
 						if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component'))) {
 							echo Form::select("filters[{$filter}][values][]",
 								ticket_filter_options_for($filter, $project->id),
-								array('value' => $value)
+								array('value' => $value, 'id' => false)
 							);
 						} elseif (in_array($filter, array('summary', 'description'))) {
-							echo Form::text("filters[{$filter}][values][]", array('value' => $value));
+							echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'id' => false));
 						} elseif (in_array($filter, array('owner', 'assigned_to'))) {
-							echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'data-autocomplete' => Request::base('/_ajax/autocomplete/username')));
+							echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'data-autocomplete' => Request::base('/_ajax/autocomplete/username'), 'id' => false));
 						}
 					?>
 					</td>
@@ -56,7 +56,7 @@
 					<td>
 						<input type="submit" value="<?php echo l('update'); ?>" name="update">
 					</td>
-					<td colspan="4" id="ticket_filter_actions">
+					<td colspan="3" id="ticket_filter_actions">
 						<?php echo Form::select('new_filter', ticket_filters_select_options()); ?>
 						<button type="submit" class="button_new" name="add_filter">+</button>
 					</td>
