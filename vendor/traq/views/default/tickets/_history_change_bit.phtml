@@ -26,7 +26,7 @@ if (isset($change['action'])) {
 elseif ($change['property'] == 'assigned_to') {
 	foreach (array('to', 'from') as $key) {
 		// Is the to/from values a user id?
-		if (is_numeric($change[$key])) {
+		if (is_numeric($change[$key]) and $change[$key] !== null and $change[$key] != 0) {
 			// Set it to the users name
 			$change[$key] = traq\models\User::find($change[$key])->name;
 		}
