@@ -21,6 +21,7 @@
 namespace traq\helpers;
 
 use traq\models\Status;
+use traq\models\User;
 
 /**
  * Ticket filter query builder.
@@ -129,6 +130,26 @@ class TicketFilterQuery
                 $this->sql[] = "(" . implode(' OR ', $query_values) . ")";
                 $this->filters[$field]['values'] = $values;
             }
+        }
+        // Owner and Assigned to
+        elseif (in_array($field, array('owner', 'assigned_to'))) {
+            $column = ($field == 'owner') ? 'user' : $field;
+
+            foreach ($values as $value) {
+                if (!empty($value)) {
+                    $query_values[] = User::find('username', $value)->id;
+                }
+            }
+
+            // Value
+            $value = "IN (" . implode(',', $query_values) . ")";
+
+            // Add to query if there's any values
+            if (count($query_values)) {
+                $this->sql[] = "`{$column}_id` {$condition} {$value}";
+            }
+
+            $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
         }
     }
 
