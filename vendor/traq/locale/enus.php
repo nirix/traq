@@ -378,6 +378,42 @@ class enUS extends \traq\libraries\Locale
                 )
             ),
 
+            // ----------------------------------------------------------------------------------------------------
+            // Notifications
+
+            // Ticket assigned
+            'notifications.ticket_assigned.subject' => "Ticket #{2} on project {4} has been assigned to you",
+            'notifications.ticket_assigned.message' => "{2},<br /><br />".
+                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) on project {6} has been assigned to you.<br /><br />".
+                                                       "----------------------------------------------------------------<br />".
+                                                       "{5}".
+                                                       "----------------------------------------------------------------",
+
+            // Ticket created
+            'notifications.ticket_created.subject' => "New ticket #{2} ({3}) on project {4}",
+            'notifications.ticket_created.message' => "{2},<br /><br />".
+                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been created on project {6}.<br /><br />".
+                                                      "----------------------------------------------------------------<br />".
+                                                      "{5}".
+                                                      "----------------------------------------------------------------",
+
+            // Ticket updated
+            'notifications.ticket_updated.subject' => "Ticket #{2} ({3}) updated on project {4}",
+            'notifications.ticket_updated.message' => "{2},<br /><br />".
+                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been updated on project {6}.",
+
+            // Ticket closed
+            'notifications.ticket_closed.subject' => "Ticket #{2} ({3}) closed on project {4}",
+            'notifications.ticket_closed.message' => "{2},<br /><br />".
+                                                     "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been closed on project {6}.",
+
+            // Ticket reopened
+            'notifications.ticket_reopened.subject' => "Ticket #{2} ({3}) reopened on project {4}",
+            'notifications.ticket_reopened.message' => "{2},<br /><br />".
+                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been reopened on project {6}.",
+
+            // ----------------------------------------------------------------------------------------------------
+
             // Testing purposes only...
             'test' => array(
                 'plurals' => "There {plural:{1}, {is {1} bottle|are {1} bottles}} of scotch on the shelf."
