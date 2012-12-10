@@ -24,6 +24,8 @@ use avalon\database\Model;
 use avalon\core\Kernel as Avalon;
 use avalon\http\Request;
 
+use traq\helpers\Notification;
+
 /**
  * Ticket model.
  *
@@ -156,6 +158,14 @@ class Ticket extends Model
                 ));
 
                 $timeline->save();
+
+                // Created notification
+                Notification::send_for_ticket('created', $this);
+
+                // Assigned to notification
+                if ($this->_data['assigned_to_id'] != 0) {
+                    Notification::send_to($this->_data['assigned_to_id'], 'ticket_assigned', array('ticket' => $this, 'project' => $this->project));
+                }
             }
 
             return true;
@@ -271,6 +281,9 @@ class Ticket extends Model
                         'data' => $to_values[$field]->id,
                         'user_id' => $user->id
                     ));
+
+                    $this->_is_closing = $change['action'] == 'close' ? true : false;
+                    $this->_is_reopening= $change['action'] == 'reopen' ? true : false;
                 }
             }
             // Attaching a file?
@@ -320,6 +333,25 @@ class Ticket extends Model
             foreach ($save_queue as $model) {
                 $model->save();
             }
+
+            // Closed notification
+            if (isset($this->_is_closing) and $this->_is_closing) {
+                Notification::send_for_ticket('closed', $this);
+            }
+            // Reopened notification
+            elseif (isset($this->_is_reopening) and $this->_is_reopening) {
+                Notification::send_for_ticket('reopened', $this);
+            }
+            // Updated notification
+            else {
+                Notification::send_for_ticket('updated', $this);
+            }
+
+            // Assigned to notification
+            if (in_array('assigned_to_id', $this->_changed_properties) and $this->_data['assigned_to_id'] != 0) {
+                Notification::send_to($this->_data['assigned_to_id'], 'ticket_assigned', array('ticket' => $this, 'project' => $this->project));
+            }
+
             return true;
         }
         // Error saving
