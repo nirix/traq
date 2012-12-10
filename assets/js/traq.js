@@ -27,6 +27,9 @@ var traq = {
 	}
 };
 
+// Language object
+var language = {};
+
 $(document).ready(function(){
 	$("#header h1").on('mouseenter', function(){
 		$("#project_switcher_btn").stop(true, true).fadeIn('fast');
@@ -65,8 +68,8 @@ $(document).ready(function(){
 
 		var innerDiv = $('<div/>');
 		innerDiv.css('text-align', 'center');
-		innerDiv.append($('<button/>', { 'text' : 'Yes' }).click(function() { window.location.href = parent.attr('href'); }));
-		innerDiv.append($('<button/>', { 'text' : 'No' }).click(function() { $("#popover").hide(); return false; }));
+		innerDiv.append($('<button/>', { 'text' : language.yes }).click(function() { window.location.href = parent.attr('href'); }));
+		innerDiv.append($('<button/>', { 'text' : language.no }).click(function() { $("#popover").hide(); return false; }));
 
 		outerDiv.append(parent.attr('data-confirm'));
 		outerDiv.append(innerDiv);
