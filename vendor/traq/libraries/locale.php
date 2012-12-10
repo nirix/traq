@@ -103,10 +103,13 @@ class Locale
      *
      * @return string
      */
-    public function translate()
+    public function translate($string, $vars = array())
     {
         $string = func_get_arg(0);
-        $vars = array_slice(func_get_args(), 1);
+
+        if (!is_array($vars)) {
+            $vars = array_slice(func_get_args(), 1);
+        }
 
         return $this->_compile_string($this->get_string($string), $vars);
     }
