@@ -311,9 +311,12 @@ class Tickets extends AppController
 
             // Process filters
             switch ($name) {
-                // Summary and description
+                // Summary, description,
+                // owner and assigned to
                 case 'summary':
                 case 'description':
+                case 'owner':
+                case 'assigned_to':
                     $values = array();
                     foreach ($filter['values'] as $value) {
                         $values[] = urlencode($value);

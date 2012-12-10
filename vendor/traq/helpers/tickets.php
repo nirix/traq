@@ -60,6 +60,8 @@ function ticket_filters()
     $filters = array(
         'summary',
         'description',
+        'owner',
+        'assigned_to',
         'component',
         'milestone',
         'version',

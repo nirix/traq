@@ -41,6 +41,8 @@
 							);
 						} elseif (in_array($filter, array('summary', 'description'))) {
 							echo Form::text("filters[{$filter}][values][]", array('value' => $value));
+						} elseif (in_array($filter, array('owner', 'assigned_to'))) {
+							echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'data-autocomplete' => Request::base('/_ajax/autocomplete/username')));
 						}
 					?>
 					</td>
