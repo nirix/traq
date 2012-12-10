@@ -1,7 +1,7 @@
 <?php
 /**
  * Traq 2
- * Copyright (c) 2009, 2010 Jack Polgar
+ * Copyright (c) 2009-2012 Jack Polgar
  *
  * This file is part of Traq.
  * 
@@ -38,7 +38,7 @@ class User
 	public $errors = array();
 	
 	/**
-	 * Consturct
+	 * Construct
 	 * Starts the User class.
 	 */
 	public function __construct()
@@ -76,7 +76,7 @@ class User
 		
 		$login = $db->query("SELECT * FROM ".DBPF."users WHERE username='".$db->es($username)."' AND password='".sha1($db->es($password))."' LIMIT 1");
 		if($db->numrows($login)) {
-			$db->query("UPDATE ".DBPF."users SET sesshash='".$db->es(sha1($password.time().$username))."' WHERE username='".$db->es($username)."' LIMIT 1");
+			//$db->query("UPDATE ".DBPF."users SET sesshash='".$db->es(sha1($password.time().$username))."' WHERE username='".$db->es($username)."' LIMIT 1");
 			
 			// Set the cookies
 			if($remember) {
