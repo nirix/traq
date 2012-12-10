@@ -147,9 +147,8 @@ class TicketFilterQuery
             // Add to query if there's any values
             if (count($query_values)) {
                 $this->sql[] = "`{$column}_id` {$condition} {$value}";
+                $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
             }
-
-            $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
         }
     }
 
