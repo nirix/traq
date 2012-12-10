@@ -8,7 +8,7 @@
  * Copyright (c) 2012 Jack P.
  * All Rights Reserved
  * https://github.com/nirix
- */#popover{display:none;position:absolute;border-radius:4px;box-shadow:0 0 5px #444;z-index:2100;background:#fff;color:#000;padding:0;margin-top:5px}#popover .popover-content{padding:4px}#popover .popover-footer{background:#f4f4f4;padding:2px;text-align:center;border-radius:0 0 4px 4px}#popover ul,#popover ol{margin-bottom:0}#popover:before,#popover:after{bottom:100%;border:solid transparent;content:" ";height:0;width:0;position:absolute;pointer-events:none}#popover:before{border-bottom-color:#444;opacity:0.3;border-width:6px;left:50%;margin-left:-6px}#popover:after{border-bottom-color:#fff;border-width:5px;left:50%;margin-left:-5px}/* SexyTooltips
+ */.popover{display:none;position:absolute;border-radius:4px;box-shadow:0 0 5px #444;z-index:2100;background:#fff;color:#000;padding:0;margin-top:5px}.popover .popover-content{padding:4px}.popover .popover-footer{background:#f4f4f4;padding:2px;text-align:center;border-radius:0 0 4px 4px}.popover ul,.popover ol{margin-bottom:0}.popover:before,.popover:after{bottom:100%;border:solid transparent;content:" ";height:0;width:0;position:absolute;pointer-events:none}.popover:before{border-bottom-color:#444;opacity:0.3;border-width:6px;left:50%;margin-left:-6px}.popover:after{border-bottom-color:#fff;border-width:5px;left:50%;margin-left:-5px}/* SexyTooltips
  * Copyright (c) 2012 Jack P.
  * All Rights Reserved
  * https://github.com/nirix
