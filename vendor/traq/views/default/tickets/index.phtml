@@ -4,9 +4,11 @@
 </div>
 <table class="list">
 	<thead>
+		<tr>
 	<?php foreach (ticket_columns() as $column) { ?>
-		<th><?php echo ticketlist_header($column)?></th>
+			<th><?php echo ticketlist_header($column)?></th>
 	<?php } ?>
+		</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($tickets as $ticket) { ?>
