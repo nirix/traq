@@ -270,6 +270,16 @@ class Tickets extends AppController
     }
 
     /**
+     * Delete ticket.
+     */
+    public function action_delete($ticket_id)
+    {
+        $ticket = Ticket::find($ticket_id);
+        $ticket->delete();
+        Request::redirectTo($this->project->href('tickets'));
+    }
+
+    /**
      * Processes the ticket filters form and
      * builds the query string.
      */
