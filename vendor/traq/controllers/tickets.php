@@ -29,6 +29,7 @@ use traq\models\Milestone;
 use traq\models\Status;
 use traq\models\Type;
 use traq\models\Component;
+use traq\models\User;
 use traq\helpers\TicketFilterQuery;
 
 /**
