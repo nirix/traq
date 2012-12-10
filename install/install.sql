@@ -352,7 +352,7 @@ CREATE TABLE `traq_subscriptions` (
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `project_id` bigint(20) NOT NULL,
-  `data` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `object_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
