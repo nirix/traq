@@ -301,7 +301,7 @@ class Tickets extends AppController
         }
 
         // Remove a filter
-        if (isset(Request::$post['remove_filter']) and isset(Request::$post['update'])) {
+        if (isset(Request::$post['remove_filter']) and !isset(Request::$post['update'])) {
             foreach (Request::$post['remove_filter'] as $filter => $nothing) {
                 // Get filter and value
                 $filter = explode(':', $filter);
