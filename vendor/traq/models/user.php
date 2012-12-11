@@ -62,11 +62,18 @@ class User extends Model
         'create' => array('_before_create')
     );
 
+    // Things to do after certain things
+    protected static $_filters_after = array(
+        'construct' => array('_after_construct')
+    );
+
     // Users group and role ermissions
     protected $permissions = array(
         'project' => array(),
         'role' => array()
     );
+
+    private $_options;
 
     /**
      * Returns the URI for the users profile.
@@ -95,6 +102,24 @@ class User extends Model
 
 
         return $projects;
+    }
+
+    /**
+     * Sets, or gets, the option.
+     *
+     * @param string $option
+     * @param mixed  $value
+     *
+     * @return string
+     */
+    public function option($option, $value = '!donothing')
+    {
+        if ($value != '!donothing') {
+            $this->_options[$option] = $value;
+            $this->set('options', json_encode($this->_options));
+        }
+
+        return $this->_options[$option];
     }
 
     /**
@@ -199,6 +224,15 @@ class User extends Model
         if (!isset($this->_data['name'])) {
             $this->_data['name'] = $this->_data['username'];
         }
+    }
+
+    /**
+     * Handles all the required after the model
+     * construction.
+     */
+    protected function _after_construct()
+    {
+        $this->_options = json_decode($this->_data['options'], true);
     }
 
     /**
