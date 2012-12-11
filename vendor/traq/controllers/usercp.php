@@ -96,6 +96,7 @@ class Usercp extends AppController
 
             // Set the info
             $user->set($data);
+            $user->option('watch_created_tickets', Request::$post['watch_created_tickets']);
 
             // Save the user
             if ($user->save()) {

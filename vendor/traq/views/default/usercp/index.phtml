@@ -22,11 +22,11 @@
 		</fieldset>
 
 		<fieldset id="options" class="box">
-			<legend><?php echo l('options'); ?> [NO YET IMPLEMENTED]</legend>
+			<legend><?php echo l('options'); ?></legend>
 			<div class="tabular">
 				<div class="group">
 					<?php echo Form::label(l('watch_my_new_tickets'), 'watch_my_new_tickets'); ?>
-					<?php echo Form::checkbox('watch_my_new_tickets', 1); ?>
+					<?php echo Form::checkbox('watch_created_tickets', 1, array('checked' => $user->option('watch_created_tickets') ? true : false)); ?>
 				</div>
 				<div class="group">
 					<label><?php echo l('language'); ?></label>
