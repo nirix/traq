@@ -516,7 +516,8 @@ CREATE TABLE `traq_users` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `group_id` bigint(20) NOT NULL DEFAULT '2',
-  `locale` varchar(255) COLLATE utf8_unicode_ci,
+  `locale` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `options` text COLLATE utf8_unicode_ci,
   `login_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
