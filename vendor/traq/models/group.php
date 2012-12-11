@@ -39,6 +39,10 @@ class Group extends Model
         'is_admin',
     );
 
+    protected static $_escape = array(
+        'name'
+    );
+
     // Relations
     protected static $_has_many = array('users' => array('foreign_key' => 'group_id'));
 

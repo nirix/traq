@@ -46,6 +46,11 @@ class Project extends Model
         'private_key'
     );
 
+    protected static $_escape = array(
+        'name',
+        'codename'
+    );
+
     // Has-many relationships with other models
     protected static $_has_many = array(
         'tickets', 'milestones', 'components',

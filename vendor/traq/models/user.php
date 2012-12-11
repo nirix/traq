@@ -46,6 +46,11 @@ class User extends Model
         'created_at'
     );
 
+    protected static $_escape = array(
+        'username',
+        'name'
+    );
+
     // Things the user belongs to
     protected static $_belongs_to = array('group');
 

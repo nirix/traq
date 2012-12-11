@@ -40,6 +40,10 @@ class Component extends Model
         'project_id'
     );
 
+    protected static $_escape = array(
+        'name'
+    );
+
     /**
      * Checks if the model data is valid.
      *

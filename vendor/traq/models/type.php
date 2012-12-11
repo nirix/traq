@@ -42,6 +42,13 @@ class Type extends Model
         'template'
     );
 
+    protected static $_escape = array(
+        'name',
+        'bullet',
+        'changelog',
+        'template'
+    );
+
     /**
      * Checks if the data is valid.
      *

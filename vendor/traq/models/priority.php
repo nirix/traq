@@ -38,6 +38,10 @@ class Priority extends Model
         'name'
     );
 
+    protected static $_escape = array(
+        'name'
+    );
+
     /**
      * Returns an array formatted for the Form::select() method.
      *

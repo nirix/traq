@@ -41,6 +41,10 @@ class Status extends Model
         'changelog'
     );
 
+    protected static $_escape = array(
+        'name'
+    );
+
     /**
      * Returns an array formatted for the Form::select() method.
      *

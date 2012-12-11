@@ -48,6 +48,10 @@ class Milestone extends Model
         'displayorder'
     );
 
+    protected static $_escape = array(
+        'name'
+    );
+
     // Relations
     protected static $_has_many = array('tickets');
     protected static $_belongs_to = array('project');

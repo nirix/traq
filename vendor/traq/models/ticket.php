@@ -60,6 +60,10 @@ class Ticket extends Model
         'updated_at'
     );
 
+    protected static $_escape = array(
+        'summary'
+    );
+
     protected static $_has_many = array(
         'attachments',
 
