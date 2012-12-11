@@ -30,6 +30,7 @@ use traq\models\Status;
 use traq\models\Type;
 use traq\models\Component;
 use traq\models\User;
+use traq\models\Subscription;
 use traq\helpers\TicketFilterQuery;
 
 /**
@@ -196,7 +197,19 @@ class Tickets extends AppController
             // if it is, save the ticket to the DB and
             // redirect to the ticket page.
             if ($ticket->save()) {
-                Request::redirect(Request::base($ticket->href()));
+                // Create subscription
+                if ($this->user->option('watch_created_tickets')) {
+                    $sub = new Subscription(array(
+                        'type'       => 'ticket',
+                        'user_id'    => $this->user->id,
+                        'project_id' => $this->project->id,
+                        'object_id'  => $ticket->id
+                    ));
+                    $sub->save();
+                }
+
+                // Redirect
+                Request::redirectTo($ticket->href());
             }
         }
 
