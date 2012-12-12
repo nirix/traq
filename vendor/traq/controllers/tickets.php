@@ -81,7 +81,7 @@ class Tickets extends AppController
 
         // Fetch tickets
         $tickets = array();
-        $rows = $this->db->select()->from('tickets')->custom_sql($filter_query->sql())->order_by('priority_id', 'ASC')->exec()->fetch_all();
+        $rows = $this->db->select()->from('tickets')->where('project_id', $this->project->id)->custom_sql($filter_query->sql())->order_by('priority_id', 'ASC')->exec()->fetch_all();
         foreach($rows as $row) {
             $tickets[] = new Ticket($row, false);
         }

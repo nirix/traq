@@ -170,7 +170,7 @@ class TicketFilterQuery
     public function sql()
     {
         if (count($this->sql)) {
-            return "WHERE" . implode(" AND ", $this->sql);
+            return "AND " . implode(" AND ", $this->sql);
         }
     }
 }
