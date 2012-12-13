@@ -125,7 +125,7 @@ class User extends Model
             $this->set('options', json_encode($this->_options));
         }
 
-        return $this->_options[$option];
+        return (array_key_exists($option, $this->_options)) ? $this->_options[$option] : false;
     }
 
     /**
@@ -238,7 +238,9 @@ class User extends Model
      */
     protected function _after_construct()
     {
-        $this->_options = json_decode($this->_data['options'], true);
+        if (isset($this->_data) and array_key_exists('options', $this->_data)) {
+            $this->_options = json_decode($this->_data['options'], true);
+        }
     }
 
     /**
