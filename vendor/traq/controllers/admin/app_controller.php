@@ -20,6 +20,8 @@
 
 namespace traq\controllers\admin;
 
+use avalon\http\Request;
+
 /**
  * AdminCP controller
  *
