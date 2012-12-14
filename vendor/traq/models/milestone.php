@@ -68,9 +68,9 @@ class Milestone extends Model
      *
      * @return string
      */
-    public function href()
+    public function href($uri = null)
     {
-        return '/' . $this->project->slug . "/milestone/" . $this->slug;
+        return '/' . $this->project->slug . "/milestone/" . $this->slug . ($uri !== null ? '/' . trim($uri, '/') : '');
     }
 
     /**
