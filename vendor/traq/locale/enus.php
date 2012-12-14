@@ -96,6 +96,8 @@ class enUS extends \traq\libraries\Locale
             'is_not'           => 'is not',
             'contains'         => "contains",
             'does_not_contain' => "does not contain",
+            'subscribe'        => "Subscribe",
+            'unsubscribe'      => "Unubscribe",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
