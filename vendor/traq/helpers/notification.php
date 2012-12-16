@@ -174,7 +174,7 @@ class Notification
         $headers = array(
             "MIME-Version: 1.0",
             "Content-type: text/html; charset=utf-8",
-            "From: " . settings('title') . " <noreply@" . $_SERVER['HTTP_HOST'] . ">"
+            "From: " . settings('title') . " <" . setting('notification_from_email') . ">"
         );
 
         // Send

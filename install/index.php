@@ -102,7 +102,7 @@ post('/step/2', function(){
         }
 
         $_SESSION['db']['prefix'] = $_POST['prefix'];
-        
+
 
         // Remote database info from _POST
         unset($_POST['type'], $_POST['host'], $_POST['username'], $_POST['password'], $_POST['database'], $_POST['prefix']);
@@ -149,11 +149,18 @@ post('/step/3', function(){
         $admin = new User(array(
             'username' => $_POST['username'],
             'password' => $_POST['password'],
-            'name' => $_POST['name'],
-            'email' => $_POST['email'],
+            'name'     => $_POST['name'],
+            'email'    => $_POST['email'],
             'group_id' => 1,
         ));
         $admin->save();
+
+        // Notification from address
+        $setting = new Setting(array(
+            'setting' => "notification_from_email",
+            'value'   => "noreply@{$_SERVER['HTTP_HOST']}"
+        ));
+        $setting->save();
 
         // Config file
         $config = array();

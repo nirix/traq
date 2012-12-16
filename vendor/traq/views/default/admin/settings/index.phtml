@@ -52,6 +52,15 @@
 				<?php echo Form::text('settings[timeline_time_format]', array('value' => settings('timeline_time_format'))); ?>
 			</div>
 		</fieldset>
+
+		<fieldset class="tabular section box">
+			<legend><?php echo l('notifications'); ?></legend>
+			<div class="group">
+				<label><?php echo l('notifications_from_email'); ?></label>
+				<?php echo Form::text('settings[notifications_from_email]', array('value' => settings('notifications_from_email'))); ?>
+			</div>
+		</fieldset>
+
 		<div class="actions">
 			<input type="submit" value="<?php echo l('save'); ?>" />
 		</div>
