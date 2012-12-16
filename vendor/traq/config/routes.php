@@ -73,6 +73,11 @@ Router::add('/' . RTR_PROJSLUG . '/settings/members/save', 'traq::controllers::P
 // Project permission routes
 Router::add('/' . RTR_PROJSLUG . '/settings/permissions/(groups|roles)', 'traq::controllers::ProjectSettings::Permissions.index/$2');
 
+// Subscription routes
+Router::add('/' . RTR_PROJSLUG . '/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/project,$1');
+Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/milestone,$2');
+Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/ticket,$2');
+
 // ------------------------------------------------
 // AdminCP routes
 Router::add('/admin', 'traq::controllers::admin::Projects.index');
