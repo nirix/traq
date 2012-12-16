@@ -24,6 +24,7 @@ use avalon\http\Request;
 
 use traq\models\Subscription;
 use traq\models\Milestone;
+use traq\models\Ticket;
 
 /**
  * Subscription controller.
@@ -97,6 +98,37 @@ class Subscriptions extends AppController
                     $sub->save();
                 }
                 Request::redirectTo($milestone->href());
+                break;
+
+            // Milestone
+            case 'ticket':
+                // Get ticket
+                $ticket = Ticket::select()->where(array(
+                    array('project_id', $this->project->id),
+                    array('ticket_id', $id)
+                ))->exec()->fetch();
+
+                // Delete subscription
+                if (is_subscribed($this->user, $ticket)) {
+                    $sub = Subscription::select()->where(array(
+                        array('project_id', $this->project->id),
+                        array('user_id', $this->user->id),
+                        array('type', 'ticket'),
+                        array('object_id', $ticket->id)
+                    ))->exec()->fetch();
+                    $sub->delete();
+                }
+                // Create subscription
+                else {
+                    $sub = new Subscription(array(
+                        'type'       => "ticket",
+                        'project_id' => $this->project->id,
+                        'user_id'    => $this->user->id,
+                        'object_id'  => $ticket->id
+                    ));
+                    $sub->save();
+                }
+                Request::redirectTo($ticket->href());
                 break;
         }
     }
