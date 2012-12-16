@@ -193,39 +193,59 @@ class Project extends Model
     /**
      * Things to do before deleting the project...
      */
-    protected function _before_delete()
+    public function delete()
     {
-        // Delete milestones
-        foreach ($this->milestones->fetch_all() as $milestone) {
-            $milestone->delete();
-        }
+        if (parent::delete()) {
+            // Delete tickets
+            foreach ($this->tickets->exec()->fetch_all() as $ticket) {
+                $ticket->delete();
+            }
 
-        // Delete tickets
-        foreach ($this->tickets->fetch_all() as $ticket) {
-            $ticket->delete();
-        }
+            // Delete milestones
+            foreach ($this->milestones->exec()->fetch_all() as $milestone) {
+                $milestone->delete();
+            }
 
-        // Delete timeline
-        foreach (Timeline::select('id')->where('project_id', $this->_data['id']) as $timeline) {
-            $timeline->delete();
-        }
+            // Delete timeline
+            foreach (Timeline::select('id')->where('project_id', $this->_data['id'])->exec()->fetch_all() as $timeline) {
+                $timeline->delete();
+            }
 
-        // Delete repositories
-        foreach ($this->repositories->fetch_all() as $repo) {
-            $repo->delete();
-        }
+            // Delete repositories
+            foreach ($this->repositories->exec()->fetch_all() as $repo) {
+                $repo->delete();
+            }
 
-        // Delete components
-        foreach ($this->components->fetch_all() as $component) {
-            $component->delete();
-        }
+            // Delete components
+            foreach ($this->components->exec()->fetch_all() as $component) {
+                $component->delete();
+            }
 
-        // Delete wiki pages
-        foreach ($this->wiki_pages->fetch_all() as $wiki) {
-            $wiki->delete();
-        }
+            // Delete wiki pages
+            foreach ($this->wiki_pages->exec()->fetch_all() as $wiki) {
+                $wiki->delete();
+            }
 
-        // Leaving out permissions for now as they're not completed.
+            // Delete subscriptions
+            foreach ($this->subscriptions->exec()->fetch_all() as $sub) {
+                $sub->delete();
+            }
+
+            // Delete roles
+            foreach ($this->roles->exec()->fetch_all() as $role) {
+                $role->delete();
+            }
+
+            // Delete members
+            foreach ($this->user_roles->exec()->fetch_all() as $member) {
+                $member->delete();
+            }
+
+            // Delete permissions
+            foreach ($this->permissions->exec()->fetch_all() as $permission) {
+                $permission->delete();
+            }
+        }
     }
 
     /**
