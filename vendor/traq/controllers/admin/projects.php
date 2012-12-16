@@ -67,7 +67,7 @@ class Projects extends AppController
             ));
 
             if ($project->save()) {
-                Request::redirect(Request::base('admin'));
+                Request::redirectTo('admin');
             }
         }
 
@@ -83,6 +83,6 @@ class Projects extends AppController
     {
         $project = Project::find('id', $id);
         $project->delete();
-        Request::redirect(Request::base('admin'));
+        Request::redirectTo('admin');
     }
 }
