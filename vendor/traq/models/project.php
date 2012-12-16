@@ -53,8 +53,11 @@ class Project extends Model
 
     // Has-many relationships with other models
     protected static $_has_many = array(
-        'tickets', 'milestones', 'components',
-        'wiki_pages' => array('model' => 'WikiPage')
+        'tickets', 'milestones', 'components', 'subscriptions', 'permissions',
+        'wiki_pages'   => array('model' => 'WikiPage'),
+        'roles'        => array('model' => 'ProjectRole'),
+        'user_roles'   => array('model' => 'UserRole'),
+        'repositories' => array('model' => 'Repository')
     );
 
     // Filters
