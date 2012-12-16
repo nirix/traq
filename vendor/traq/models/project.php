@@ -63,8 +63,7 @@ class Project extends Model
     // Filters
     protected static $_filters_before = array(
         'create' => array('_before_create'),
-        'save' => array('_before_save'),
-        //'delete' => array('_before_delete')
+        'save' => array('_before_save')
     );
 
     /**
