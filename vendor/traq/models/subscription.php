@@ -22,6 +22,10 @@ namespace traq\models;
 
 use avalon\database\Model;
 
+use traq\models\Project;
+use traq\models\Milestone;
+use traq\models\Ticket;
+
 /**
  * Subscription model.
  *
@@ -43,6 +47,8 @@ class Subscription extends Model
 
     protected static $_belongs_to = array('user');
 
+    private $object;
+
     /**
      * Fetch subscriptions for specified project.
      *
@@ -53,6 +59,33 @@ class Subscription extends Model
     public static function fetch_all_for($project_id)
     {
         return static::select()->where('project_id', $project_id)->exec()->fetch_all();
+    }
+
+    /**
+     * Returns the subscribed object.
+     *
+     * @return object
+     */
+    public function object() {
+        if ($this->object !== null) {
+            return $this->object;
+        }
+
+        switch ($this->type) {
+            case 'project':
+                $this->object = Project::find($this->object_id);
+                break;
+
+            case 'milestone':
+                $this->object = Milestone::find($this->object_id);
+                break;
+
+            case 'ticket':
+                $this->object = Ticket::find($this->object_id);
+                break;
+        }
+
+        return $this->object;
     }
 
     /**
