@@ -24,6 +24,8 @@ use avalon\http\Request;
 use avalon\output\View;
 use \FishHook;
 
+use traq\models\Subscription;
+
 /**
  * UserCP controller
  *
@@ -34,6 +36,11 @@ use \FishHook;
  */
 class Usercp extends AppController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        View::set('user', $this->user);
+    }
 
     /**
      * The index page.
@@ -109,5 +116,14 @@ class Usercp extends AppController
         }
 
         View::set('user', $user);
+    }
+
+    /**
+     * Subscriptions page
+     */
+    public function action_subscriptions()
+    {
+        $subscriptions = Subscription::select()->where('user_id', $this->user->id)->exec()->fetch_all();
+        View::set('subscriptions', $subscriptions);
     }
 }
