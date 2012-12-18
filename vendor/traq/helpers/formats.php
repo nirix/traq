@@ -102,7 +102,7 @@ function mime_type_for($extension)
     );
 
     // Check if its in the plain text array
-    if (isset($plain_text[$extention])) {
+    if (isset($plain_text[$extension])) {
         return 'text/plain';
     }
 
