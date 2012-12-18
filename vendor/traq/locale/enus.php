@@ -97,7 +97,8 @@ class enUS extends \traq\libraries\Locale
             'contains'         => "contains",
             'does_not_contain' => "does not contain",
             'subscribe'        => "Subscribe",
-            'unsubscribe'      => "Unubscribe",
+            'unsubscribe'      => "Unsubscribe",
+            'for'              => "For",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
@@ -162,6 +163,7 @@ class enUS extends \traq\libraries\Locale
             'display_order'    => "Display Order",
 
             // Tickets
+            'ticket'                => "Ticket",
             'new_ticket'            => "New Ticket",
             'summary'               => "Summary",
             'status'                => "Status",
@@ -202,6 +204,7 @@ class enUS extends \traq\libraries\Locale
             'information'          => "Information",
             'options'              => "Options",
             'watch_my_new_tickets' => "Watch my new tickets",
+            'subscriptions'        => "Subscriptions",
 
             // Wiki
             'home'         => "Home",
