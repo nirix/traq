@@ -48,19 +48,20 @@ class AppController extends Controller
 
     public function __construct()
     {
-        // Call the controller class constructor
-        parent::__construct();
-
         // Set DB connection
         $this->db = Database::connection();
+
+        // Set the theme
+        View::$theme = settings('theme');
+        View::$inherit_from = APPPATH . "/default";
+
+        // Call the controller class constructor
+        parent::__construct();
 
         // Fix plugin view location
         if (strpos(Router::$controller, "\\traq\\plugins") !== false) {
             $this->_render['view'] = str_replace("controllers/", '', $this->_render['view']);
         }
-
-        // Set the theme
-        View::$theme = settings('theme');
 
         // Set the title
         $this->title(settings('title'));
