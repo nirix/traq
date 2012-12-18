@@ -26,7 +26,7 @@ Router::add('root', 'traq::controllers::Projects.index');
 Router::add('404', 'traq::controllers::Error.404');
 Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
 Router::add('/usercp', 'traq::controllers::Usercp.index');
-Router::add('/usercp/password', 'traq::controllers::Usercp.password');
+Router::add('/usercp/(password|subscriptions)', 'traq::controllers::Usercp.$1');
 Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
 
 // Misc
