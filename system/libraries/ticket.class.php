@@ -110,6 +110,8 @@ class Ticket
 		// Update Project's 'next_tid' field.
 		$db->query("UPDATE ".DBPF."projects SET next_tid=next_tid+1 WHERE id='".$db->res($project['id'])."' LIMIT 1");
 		
+		($hook = FishHook::hook('ticket_create')) ? eval($hook) : false;
+		
 		return true;
 	}
 	
