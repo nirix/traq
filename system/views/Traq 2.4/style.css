@@ -26,12 +26,11 @@ h1 {
 #head {
   background: #3478AA;
   padding: 10px;
-  height: 20px;
+  height: 43px;
   border-radius: 5px 5px 0 0;
 }
 #head span {
   font-weight: bold;
-  float: left;
 }
 #head span a {
   color: #fff;
@@ -41,7 +40,6 @@ h1 {
 
 #search {
   float: right;
-  margin-top: -32px;
 }
 #search [type="search"] {
   border-radius: 5px;
@@ -50,13 +48,13 @@ h1 {
 }
 
 #nav {
-  float: right;
-  margin-top: 3px;
+
+  margin-top: 8px;
   font-size: 12px;
 }
 
 #nav .main_nav {
-  float: left;
+
 }
 
 #meta_nav {
