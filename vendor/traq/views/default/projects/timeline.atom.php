@@ -33,14 +33,14 @@ foreach ($days as $day) {
             $entry['link'] = "http://" . $_SERVER['HTTP_HOST'] . Request::base($row->ticket()->href());
         }
 
-        $entry['updated'] = date("c", Time::to_unix($row->created_at));
+        $entry['updated'] = Time::date("c", $row->created_at);
         $entries[] = $entry;
     }
 }
 
 // Make feed
 $feed = new Atom(array(
-    'title' => l('x_timeline_feed', settings('title')),
+    'title' => l('x_timeline_feed', $project->name),
     'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base(),
     'feed_link' => "http://" . $_SERVER['HTTP_HOST'] . Request::requestUri(),
     'updated' => $entries[0]['updated'],
