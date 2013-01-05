@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -79,6 +79,12 @@ class Atom
             if (array_key_exists('author', $entry)) {
                 $feed[] = "    <author>";
                 $feed[] = "      <name>{$entry['author']['name']}</name>";
+                $feed[] = "    </author>";
+            }
+
+            if (array_key_exists('content', $entry)) {
+                $feed[] = "    <content" . (array_key_exists('type', $entry['content']) ? " type=\"{$entry['content']['type']}\"" :'' ) . ">";
+                $feed[] = "      {$entry['content']['data']}";
                 $feed[] = "    </author>";
             }
 
