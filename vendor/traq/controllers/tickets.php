@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -21,6 +21,7 @@
 namespace traq\controllers;
 
 use avalon\http\Request;
+use avalon\http\Router;
 use avalon\output\View;
 use avalon\core\Load;
 
@@ -81,8 +82,15 @@ class Tickets extends AppController
 
         // Fetch tickets
         $tickets = array();
-        $rows = $this->db->select()->from('tickets')->where('project_id', $this->project->id)->custom_sql($filter_query->sql())->order_by('priority_id', 'ASC')->exec()->fetch_all();
-        foreach($rows as $row) {
+        $rows = $this->db->select()->from('tickets')->where('project_id', $this->project->id)->custom_sql($filter_query->sql())->order_by('priority_id', 'ASC');
+
+        // Order by creation date for atom feed
+        if (Router::$extension == '.atom') {
+            $rows->order_by('created_at', 'DESC');
+        }
+
+        // Add to tickets array
+        foreach($rows->exec()->fetch_all() as $row) {
             $tickets[] = new Ticket($row, false);
         }
 
