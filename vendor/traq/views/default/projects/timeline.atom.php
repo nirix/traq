@@ -32,6 +32,8 @@ foreach ($days as $day) {
             $entry['id'] = "timeline:{$row->id}:ticket:{$row->ticket()->ticket_id}";
             $entry['link'] = "http://" . $_SERVER['HTTP_HOST'] . Request::base($row->ticket()->href());
         }
+
+        $entry['updated'] = date("c", Time::to_unix($row->created_at));
         $entries[] = $entry;
     }
 }
@@ -41,6 +43,7 @@ $feed = new Atom(array(
     'title' => l('x_timeline_feed', settings('title')),
     'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base(),
     'feed_link' => "http://" . $_SERVER['HTTP_HOST'] . Request::requestUri(),
+    'updated' => $entries[0]['updated'],
     'entries' => $entries,
 ));
 
