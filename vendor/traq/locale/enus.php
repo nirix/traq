@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -291,6 +291,10 @@ class enUS extends \traq\libraries\Locale
             'confirm.delete'   => "Are you sure you want to delete that?",
             'confirm.delete_x' => "Are you sure you want to delete '{1}' ?",
             'confirm.remove_x' => "Are you sure you want to remove '{1}' ?",
+
+            // Feeds
+            'x_timeline_feed' => "{1} Timeline Feed",
+            'x_ticket_feed'   => "{1} Ticket Feed",
 
             // Editor
             'editor' => array(
