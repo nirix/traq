@@ -56,12 +56,14 @@ class Atom
         $feed[] = "  <title>{$this->title}</title>";
         $feed[] = "  <link href=\"{$this->link}\" />";
         $feed[] = "  <link href=\"{$this->feed_link}\" rel=\"self\" />";
+        $feed[] = "  <updated>{$this->updated}</updated>";
 
 
         foreach ($this->entries as $entry) {
             $feed[] = "  <entry>";
             $feed[] = "    <title>{$entry['title']}</title>";
             $feed[] = "    <id>{$entry['id']}</id>";
+            $feed[] = "    <updated>{$entry['updated']}</updated>";
 
             // Link
             if (array_key_exists('link', $entry)) {
