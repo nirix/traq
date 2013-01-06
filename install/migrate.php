@@ -305,3 +305,72 @@ get('/step/7', function(){
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/8');
 });
 
+// Step 8
+get('/step/8', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get projects
+    $tickets = $db->select()->from('tickets')->exec()->fetch_all();
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_tickets`;
+        CREATE TABLE `traq_tickets` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `ticket_id` bigint(20) NOT NULL,
+          `summary` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `body` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `user_id` bigint(20) NOT NULL,
+          `project_id` bigint(20) NOT NULL,
+          `milestone_id` bigint(20) NOT NULL,
+          `version_id` bigint(20) NOT NULL,
+          `component_id` bigint(20) NOT NULL,
+          `type_id` bigint(20) NOT NULL,
+          `status_id` bigint(20) NOT NULL DEFAULT '1',
+          `priority_id` bigint(20) NOT NULL DEFAULT '3',
+          `severity_id` bigint(20) NOT NULL,
+          `assigned_to_id` bigint(20) NOT NULL,
+          `is_closed` bigint(20) NOT NULL DEFAULT '0',
+          `is_private` smallint(6) NOT NULL DEFAULT '0',
+          `votes` bigint(20) DEFAULT '0',
+          `extra` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `created_at` datetime NOT NULL,
+          `updated_at` datetime NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add tickets
+    foreach ($tickets as $ticket) {
+        $t = new Ticket(array(
+            'id'             => $ticket['id'],
+            'ticket_id'      => $ticket['ticket_id'],
+            'summary'        => $ticket['summary'],
+            'body'           => $ticket['body'],
+            'user_id'        => $ticket['user_id'],
+            'project_id'     => $ticket['project_id'],
+            'milestone_id'   => $ticket['milestone_id'],
+            'version_id'     => $ticket['version_id'],
+            'component_id'   => $ticket['component_id'],
+            'type_id'        => $ticket['type'],
+            'status_id'      => $ticket['status'],
+            'priority_id'    => $ticket['priority'],
+            'severity_id'    => $ticket['severity'],
+            'assigned_to_id' => $ticket['assigned_to'],
+            'is_closed'      => $ticket['closed'],
+            'is_private'     => $ticket['private'],
+            'votes'          => 0,
+            'extra'          => $ticket['extra'],
+            'created_at'     => Time::date("Y-m-d H:i:s", $ticket['created']),
+            'updated_at'     => $ticket['updated'] ? Time::date("Y-m-d H:i:s", $ticket['updated']) : null
+        ));
+        $t->quick_save();
+    }
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/9');
+});
