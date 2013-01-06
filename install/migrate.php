@@ -289,16 +289,33 @@ get('/step/7', function(){
 
     // Add history
     foreach ($ticket_history as $history) {
+        $changes = array();
+        foreach (json_decode($history['changes'], true) as $change) {
+            // Remove the 'mark' action
+            if (array_key_exists('action', $change) and $change['action'] == 'mark') {
+                unset($change['action']);
+            }
+
+            // Skip the 'open' change
+            if (array_key_exists('action', $change) and $change['action'] == 'open') {
+                continue;
+            }
+
+            $changes[] = $change;
+        }
+
         // Create
-        $update = new TicketHistory(array(
-            'id'         => $history['id'],
-            'user_id'    => $history['user_id'],
-            'ticket_id'  => $history['ticket_id'],
-            'changes'    => $history['changes'],
-            'comment'    => $history['comment'],
-            'created_at' => Time::date("Y-m-d H:i:s", $history['timestamp'])
-        ));
-        $update->save();
+        if (count($changes) or $history['comment'] != '') {
+            $update = new TicketHistory(array(
+                'id'         => $history['id'],
+                'user_id'    => $history['user_id'],
+                'ticket_id'  => $history['ticket_id'],
+                'changes'    => json_encode($changes),
+                'comment'    => $history['comment'],
+                'created_at' => Time::date("Y-m-d H:i:s", $history['timestamp'])
+            ));
+            $update->save();
+        }
     }
 
     // Next
