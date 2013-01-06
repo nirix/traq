@@ -350,7 +350,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `traq_subscriptions`;
 
-CREATE TABLE `subscriptions` (
+CREATE TABLE `traq_subscriptions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `user_id` bigint(20) NOT NULL,
