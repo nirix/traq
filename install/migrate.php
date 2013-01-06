@@ -494,3 +494,75 @@ get('/step/10', function(){
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/11');
 });
+
+// Step 11
+get('/step/11', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get projects
+    $users = $db->select()->from('users')->exec()->fetch_all();
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_users`;
+        CREATE TABLE `traq_users` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `password_ver` varchar(25) COLLATE utf8_unicode_ci DEFAULT 'crypt',
+          `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `group_id` bigint(20) NOT NULL DEFAULT '2',
+          `locale` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `options` text COLLATE utf8_unicode_ci,
+          `login_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+          `created_at` datetime DEFAULT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add users
+    foreach ($users as $user) {
+        $data = array(
+            'id'           => $user['id'],
+            'username'     => $user['username'],
+            'password'     => $user['password'],
+            'password_ver' => 'sha1',
+            'name'         => $user['name'],
+            'email'        => $user['email'],
+            'group_id'     => $user['group_id'],
+            'locale'       => 'enUS',
+            'options'      => '{"watch_created_tickets":null}',
+            'login_hash'   => sha1($user['id'] . $user['name'] . microtime() . $user['email'] . rand(0, 100)),
+            'created_at'   => null
+        );
+        $db->insert($data)->into('users')->exec();
+    }
+
+    // Anonymous user
+    $anon = new User(array(
+        'username'   => 'Anonymous',
+        'password'   => sha1(microtime() . rand(0, 200) . time() . rand(0, 200)) . microtime(),
+        'name'       => 'Anonymous',
+        'email'      => 'anonymous' . microtime() . '@' . $_SERVER['HTTP_HOST'],
+        'group_id'   => 3,
+        'locale'     => 'enUS',
+        'options'    => '{"watch_created_tickets":null}',
+        'login_hash' => sha1(microtime() . rand(0, 250) . time() . rand(0, 250) . microtime()),
+    ));
+    $anon->save();
+
+    // Update tickets for anonymous user
+    $db->update('tickets')->set(array('user_id' => $anon->id))->where('user_id', 0)->exec();
+    $db->update('ticket_history')->set(array('user_id' => $anon->id))->where('user_id', 0)->exec();
+
+    // Update timeline for anonymous user
+    $db->update('timeline')->set(array('user_id' => $anon->id))->where('user_id', 0)->exec();
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/12');
+});
