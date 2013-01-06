@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -176,6 +176,16 @@ class Ticket extends Model
         } else {
             return false;
         }
+    }
+
+    /**
+     * Saves without doing anything with the timeline, notifications, etc.
+     *
+     * @return boolean
+     */
+    public function quick_save()
+    {
+        return parent::save();
     }
 
     /**
