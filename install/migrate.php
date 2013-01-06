@@ -41,6 +41,9 @@ use traq\models\User;
 use traq\models\UserRole;
 use traq\models\WikiPage;
 
+// URI helper
+require '../vendor/traq/helpers/uri.php';
+
 // Make sure the config file doesn't exist...
 if (!file_exists('../vendor/traq/config/database.php')) {
     Error::halt('Error', 'Config file not found.');
@@ -157,4 +160,56 @@ get('/step/4', function(){
 
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/5');
+});
+
+// Step 5
+get('/step/5', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get milestones
+    $old = $db->select()->from('milestones')->exec()->fetch_all();
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_milestones`;
+        CREATE TABLE `traq_milestones` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+          `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `codename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `info` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `changelog` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `due` datetime DEFAULT NULL,
+          `status` int(1) NOT NULL DEFAULT '1',
+          `is_locked` smallint(6) NOT NULL DEFAULT '0',
+          `project_id` bigint(20) NOT NULL,
+          `displayorder` bigint(20) NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add milestones
+    foreach ($old as $milestone) {
+        $ms = new Milestone(array(
+            'id'           => $milestone['id'],
+            'name'         => $milestone['milestone'],
+            'slug'         => $milestone['slug'],
+            'codename'     => $milestone['codename'],
+            'info'         => $milestone['info'],
+            'changelog'    => $milestone['changelog'],
+            'due'          => $milestone['due'] == 0 ? null : Time::date("Y-m-d H:i:s", $milestone['due']),
+            'status'       => $milestone['locked'] ? 0 : 1,
+            'is_locked'    => $milestone['locked'],
+            'project_id'   => $milestone['project_id'],
+            'displayorder' => $milestone['displayorder']
+        ));
+        $ms->save();
+    }
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/6');
 });
