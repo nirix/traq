@@ -213,3 +213,51 @@ get('/step/5', function(){
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/6');
 });
+
+// Step 6
+get('/step/6', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get projects
+    $projects = $db->select()->from('projects')->exec()->fetch_all();
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_projects`;
+        CREATE TABLE `traq_projects` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `codename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `info` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `next_tid` bigint(20) NOT NULL DEFAULT '1',
+          `enable_wiki` tinyint(1) NOT NULL DEFAULT '0',
+          `displayorder` bigint(20) NOT NULL,
+          `private_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add projects
+    foreach ($projects as $project) {
+        $proj = new Project(array(
+            'id'           => $project['id'],
+            'name'         => $project['name'],
+            'slug'         => $project['slug'],
+            'codename'     => $project['codename'],
+            'info'         => $project['info'],
+            'next_tid'     => $project['next_tid'],
+            'enable_wiki'  => 1,
+            'displayorder' => $project['displayorder'],
+            'private_key'  => ''
+        ));
+        $proj->save();
+    }
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/7');
+});
