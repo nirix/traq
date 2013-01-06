@@ -261,3 +261,47 @@ get('/step/6', function(){
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/7');
 });
+
+// Step 7
+get('/step/7', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get projects
+    $ticket_history = $db->select()->from('ticket_history')->exec()->fetch_all();
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_ticket_history`;
+        CREATE TABLE `traq_ticket_history` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `user_id` bigint(20) NOT NULL,
+          `ticket_id` bigint(20) NOT NULL,
+          `changes` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `comment` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `created_at` datetime NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add history
+    foreach ($ticket_history as $history) {
+        // Create
+        $update = new TicketHistory(array(
+            'id'         => $history['id'],
+            'user_id'    => $history['user_id'],
+            'ticket_id'  => $history['ticket_id'],
+            'changes'    => $history['changes'],
+            'comment'    => $history['comment'],
+            'created_at' => Time::date("Y-m-d H:i:s", $history['timestamp'])
+        ));
+        $update->save();
+    }
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/8');
+});
+
