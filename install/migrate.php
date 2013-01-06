@@ -566,3 +566,66 @@ get('/step/11', function(){
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/12');
 });
+
+// Step 12
+get('/step/12', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get priorities
+    $priorities = $db->select()->from('priorities')->exec()->fetch_all();
+
+    // Get defaults and flip them
+    $defaults = array_slice($priorities, 0, 5);
+    foreach ($defaults as $id => $data) {
+        $defaults[$id]['old_id'] = $data['id'];
+
+        switch ($defaults[$id]['id']) {
+            case '1':
+                $defaults[$id]['id'] = 5;
+                break;
+
+            case '2':
+                $defaults[$id]['id'] = 4;
+                break;
+
+            case '4':
+                $defaults[$id]['id'] = 2;
+                break;
+
+            case '5':
+                $defaults[$id]['id'] = 1;
+                break;
+        }
+    }
+
+    // Merge together
+    $priorities = array_merge(array_reverse($defaults), array_slice($priorities, 5));
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_priorities`;
+        CREATE TABLE `traq_priorities` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add priorities
+    foreach ($priorities as $priority) {
+        $p = new Priority(array(
+            'id'   => $priority['id'],
+            'name' => $priority['name'],
+        ));
+        $p->save();
+
+        $db->update('tickets')->set(array('priority_id' => $priority['id']))->where('priority_id', $priority['old_id'])->exec();
+    }
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/13');
+});
