@@ -49,7 +49,7 @@ table {
 
 /*!
  * Traq Install
- * Copyright (c) 2009-2012 Traq.io
+ * Copyright (c) 2009-2013 Traq.io
  * @license GNU General Public License v3 only
  */
 body {
@@ -90,6 +90,13 @@ code {
   font-family: "Courier New", Courier, monospace;
 }
 
+p {
+  margin-bottom: 10px;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
 #licence, #config_code {
   width: 550px;
   height: 400px;
@@ -125,6 +132,16 @@ code {
 .actions {
   text-align: center;
   margin-top: 5px; }
+
+div.error, .alert, .notice, .success, .info {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;}
+div.error, .alert {background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
+.notice {background:#fff6bf;color:#514721;border-color:#ffd324;}
+.success {background:#e6efc2;color:#264409;border-color:#c6d880;}
+.info {background:#d5edf8;color:#205791;border-color:#92cae4;}
+.error a, .alert a {color:#8a1f11;}
+.notice a {color:#514721;}
+.success a {color:#264409;}
+.info a {color:#205791;}
 
 .error label {
   color: red; }
