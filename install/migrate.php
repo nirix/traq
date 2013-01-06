@@ -431,7 +431,7 @@ get('/step/9', function(){
                 break;
 
             case 'reopen_ticket':
-                $action = 'ticket_openend';
+                $action = 'ticket_reopened';
                 break;
 
             default:
