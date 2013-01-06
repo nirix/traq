@@ -803,3 +803,9 @@ get('/step/13', function(){
     $_SESSION['migrating'] = false;
     header("Location: " . Nanite::base_uri() . 'migrate.php?/done');
 });
+
+// Done
+get('/done', function(){
+    View::set('title', 'Done');
+    render('migrate/done');
+});
