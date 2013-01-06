@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -42,7 +42,7 @@ function render($view)
  */
 function form($url)
 {
-    echo '<form action="' . Nanite::base_uri() . 'index.php?' . $url . '" method="post">';
+    echo '<form action="' . $_SERVER['PHP_SELF'] . '?' . $url . '" method="post">';
 }
 
 /**
