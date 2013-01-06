@@ -10,3 +10,5 @@
 		<?php echo HTML::js_inc(Request::base() . 'js.php?js=all'); ?>
 		<?php echo HTML::js_inc(Request::base('_js')); ?>
 		<?php FishHook::run('template:layouts/global/head'); ?>
+<?php foreach ($app->feeds as $feed) { ?><link type="application/atom+xml" rel ="alternate" href="<?php echo $feed[0]; ?>">
+<?php } ?>

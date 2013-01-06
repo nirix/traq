@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -45,6 +45,7 @@ class AppController extends Controller
     public $projects;
     public $user;
     public $title = array();
+    public $feeds = array();
 
     public function __construct()
     {
