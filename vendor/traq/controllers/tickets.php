@@ -69,6 +69,9 @@ class Tickets extends AppController
      */
     public function action_index()
     {
+        // Atom feed
+        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name));
+
         $filter_query = new TicketFilterQuery();
 
         foreach (Request::$request as $filter => $value) {
