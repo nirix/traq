@@ -153,6 +153,11 @@ class Milestone extends Model
      */
     public function save()
     {
+        // Set completed date
+        if ($this->_data['status'] != 1 and $this->completed_on == null) {
+            $this->set('completed_on', "NOW()");
+        }
+
         if (parent::save()) {
             // Check if the status has been changed, if it has, is it completed or cancelled?
             if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1) {
@@ -193,7 +198,6 @@ class Milestone extends Model
     protected function _before_save()
     {
         $this->_create_slug();
-        $this->_data['completed_on'] = Time::gmt_to_local($this->_data['completed_on']);
     }
 
     /**
