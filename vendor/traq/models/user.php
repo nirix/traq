@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -215,6 +215,7 @@ class User extends Model
     public function set_password($new_password)
     {
         $this->password = $new_password;
+        $this->password_ver = 'crypt';
         $this->prepare_password();
     }
 
