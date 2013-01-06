@@ -46,6 +46,35 @@ function form($url)
 }
 
 /**
+ * Connects to the database and returns the link.
+ *
+ * @return object
+ */
+function get_connection()
+{
+    static $conn;
+
+    if ($conn !== null) {
+        return $conn;
+    }
+
+    require '../vendor/traq/config/database.php';
+    $conn = Database::factory($db, 'main');
+    return $conn;
+}
+
+/**
+ * Runs the query.
+ *
+ * @param string $query
+ */
+function run_query($query)
+{
+    $db = get_connection();
+    return $db->query(str_replace('traq_', $db->prefix, $query));
+}
+
+/**
  * Checks if Traq is already installed.
  *
  * @return bool
