@@ -110,6 +110,11 @@ class Tickets extends AppController
     {
         // Fetch the ticket from the database and send it to the view.
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+        // Atom feed
+        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_x_history_feed', $this->project->name, $ticket->summary));
+
+        // Set title and send ticket to view
         $this->title($ticket->summary);
         View::set('ticket', $ticket);
     }
