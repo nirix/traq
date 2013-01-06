@@ -629,3 +629,177 @@ get('/step/12', function(){
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/13');
 });
+
+// Step 13
+get('/step/13', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Rename ticket_status to statuses
+    run_query("
+        DROP TABLE IF EXISTS `traq_statuses`;
+        RENAME TABLE `traq_ticket_status` TO `traq_statuses`;
+    ");
+
+    // Rename ticket_types to types
+    run_query("
+        DROP TABLE IF EXISTS `traq_types`;
+        RENAME TABLE `traq_ticket_types` TO `traq_types`;
+    ");
+
+    // Drop custom fields
+    run_query("DROP TABLE IF EXISTS `traq_custom_fields`;");
+
+    // Create permissions table
+    run_query("
+        DROP TABLE IF EXISTS `traq_permissions`;
+        CREATE TABLE `traq_permissions` (
+          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `project_id` bigint(20) NOT NULL DEFAULT '0',
+          `type` varchar(255) DEFAULT NULL,
+          `type_id` bigint(20) NOT NULL DEFAULT '0',
+          `action` varchar(255) NOT NULL DEFAULT '',
+          `value` tinyint(1) NOT NULL DEFAULT '0',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ");
+
+    // Insert permissions
+    run_query("
+        INSERT INTO `traq_permissions` (`id`, `project_id`, `type`, `type_id`, `action`, `value`)
+        VALUES
+          (1,0,'usergroup',0,'view',1),
+          (2,0,'usergroup',0,'project_settings',0),
+          (3,0,'usergroup',0,'create_tickets',1),
+          (4,0,'usergroup',0,'update_tickets',1),
+          (5,0,'usergroup',0,'delete_tickets',0),
+          (6,0,'usergroup',0,'comment_on_tickets',1),
+          (7,0,'usergroup',0,'edit_ticket_description',0),
+          (8,0,'usergroup',0,'vote_on_tickets',1),
+          (9,0,'usergroup',0,'add_attachments',1),
+          (10,0,'usergroup',0,'view_attachments',1),
+          (11,0,'usergroup',0,'delete_attachments',0),
+          (12,0,'usergroup',0,'set_all_ticket_properties',0),
+          (13,0,'usergroup',0,'edit_ticket_history',0),
+          (14,0,'usergroup',0,'delete_ticket_history',0),
+          (15,0,'usergroup',0,'create_wiki_page',0),
+          (16,0,'usergroup',0,'edit_wiki_page',0),
+          (17,0,'usergroup',0,'delete_wiki_page',0),
+          (18,0,'usergroup',3,'create_tickets',0),
+          (19,0,'usergroup',3,'comment_on_tickets',0),
+          (20,0,'usergroup',3,'update_tickets',0),
+          (21,0,'usergroup',3,'vote_on_tickets',0),
+          (22,0,'usergroup',3,'add_attachments',0),
+          (23,0,'role',0,'view',1),
+          (24,0,'role',0,'project_settings',0),
+          (25,0,'role',0,'create_tickets',1),
+          (26,0,'role',0,'update_tickets',1),
+          (27,0,'role',0,'delete_tickets',0),
+          (28,0,'role',0,'comment_on_tickets',1),
+          (29,0,'role',0,'edit_ticket_description',0),
+          (30,0,'role',0,'vote_on_tickets',1),
+          (31,0,'role',0,'add_attachments',1),
+          (32,0,'role',0,'view_attachments',1),
+          (33,0,'role',0,'delete_attachments',0),
+          (34,0,'role',0,'set_all_ticket_properties',1),
+          (35,0,'role',0,'edit_ticket_history',0),
+          (36,0,'role',0,'delete_ticket_history',0),
+          (37,0,'role',0,'create_wiki_page',0),
+          (38,0,'role',0,'edit_wiki_page',0),
+          (39,0,'role',0,'delete_wiki_page',0),
+          (40,0,'role',1,'project_settings',1),
+          (41,0,'role',1,'delete_tickets',1),
+          (42,0,'role',1,'edit_ticket_description',1),
+          (43,0,'role',1,'delete_attachments',1),
+          (44,0,'role',1,'edit_ticket_history',1),
+          (45,0,'role',1,'delete_ticket_history',1),
+          (46,0,'role',1,'create_wiki_page',1),
+          (47,0,'role',1,'edit_wiki_page',1),
+          (48,0,'role',1,'delete_wiki_page',1);
+    ");
+
+    // Create project roles table
+    run_query("
+        DROP TABLE IF EXISTS `traq_project_roles`;
+        CREATE TABLE `traq_project_roles` (
+          `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+          `name` varchar(255) DEFAULT NULL,
+          `project_id` bigint(20) DEFAULT '0',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ");
+
+    // Insert project roles
+    run_query("
+        INSERT INTO `traq_project_roles` (`id`, `name`, `project_id`)
+        VALUES
+            (1,'Manager',0),
+            (2,'Developer',0),
+            (3,'Tester',0);
+    ");
+
+    // Create user-roles table
+    run_query("
+        DROP TABLE IF EXISTS `traq_user_roles`;
+        CREATE TABLE `traq_user_roles` (
+          `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+          `user_id` int(20) DEFAULT NULL,
+          `project_id` int(20) DEFAULT NULL,
+          `project_role_id` int(20) DEFAULT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ");
+
+    // Drop/create subscriptions table
+    run_query("
+        DROP TABLE IF EXISTS `traq_subscriptions`;
+        CREATE TABLE `traq_subscriptions` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+          `user_id` bigint(20) NOT NULL,
+          `project_id` bigint(20) NOT NULL,
+          `object_id` bigint(20) NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Drop/create plugins table
+    run_query("
+        DROP TABLE IF EXISTS `traq_plugins`;
+        CREATE TABLE `traq_plugins` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `file` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+          `enabled` tinyint(1) NOT NULL DEFAULT '1',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Insert markdown plugin
+    run_query("
+        INSERT INTO `traq_plugins` (`id`, `file`, `enabled`)
+        VALUES
+            (1,'markdown',1);
+    ");
+
+    // Add settings
+    $db->insert(array('setting' => 'date_format', 'value' => "d/m/Y"))->into('settings')->exec();
+    $db->insert(array('setting' => 'notifications_from_email', 'value' => "noreply@{$_SERVER['HTTP_HOST']}"))->into('settings')->exec();
+
+    // Update settings
+    $db->update('settings')->set(array('setting' => 'db_version', 'value' => '30000'))->where('setting', 'db_revision')->exec();
+    $db->update('settings')->set(array('value' => 'enus'))->where('setting', 'locale')->exec();
+    $db->update('settings')->set(array('value' => 'default'))->where('setting', 'theme')->exec();
+
+    // Remove settings
+    $db->delete()->from('settings')->where('setting', 'recaptcha_enabled')->exec();
+    $db->delete()->from('settings')->where('setting', 'recaptcha_privkey')->exec();
+    $db->delete()->from('settings')->where('setting', 'recaptcha_pubkey')->exec();
+    $db->delete()->from('settings')->where('setting', 'seo_urls')->exec();
+
+    // Next
+    $_SESSION['migrating'] = false;
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/done');
+});
