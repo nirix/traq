@@ -44,14 +44,14 @@ use traq\models\WikiPage;
 // URI helper
 require '../vendor/traq/helpers/uri.php';
 
+// Set page and title
+View::set('page', 'migrate');
+View::set('page_title', 'Migration');
+
 // Make sure the config file doesn't exist...
 if (!file_exists('../vendor/traq/config/database.php')) {
     Error::halt('Error', 'Config file not found.');
 }
-
-// Set page and title
-View::set('page', 'migrate');
-View::set('page_title', 'Migration');
 
 // Index
 get('/', function(){
