@@ -458,3 +458,39 @@ get('/step/9', function(){
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/10');
 });
+
+// Step 10
+get('/step/10', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get projects
+    $usergroups = $db->select()->from('usergroups')->exec()->fetch_all();
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_usergroups`;
+        CREATE TABLE `traq_usergroups` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `is_admin` smallint(6) NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add usergroups
+    foreach ($usergroups as $usergroup) {
+        $group = new Group(array(
+            'id'       => $usergroup['id'],
+            'name'     => $usergroup['name'],
+            'is_admin' => $usergroup['is_admin'],
+        ));
+        $group->save();
+    }
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/11');
+});
