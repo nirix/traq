@@ -184,6 +184,7 @@ get('/step/5', function(){
           `info` longtext COLLATE utf8_unicode_ci NOT NULL,
           `changelog` longtext COLLATE utf8_unicode_ci NOT NULL,
           `due` datetime DEFAULT NULL,
+          `completed_on` datetime DEFAULT NULL,
           `status` int(1) NOT NULL DEFAULT '1',
           `is_locked` smallint(6) NOT NULL DEFAULT '0',
           `project_id` bigint(20) NOT NULL,
@@ -194,6 +195,19 @@ get('/step/5', function(){
 
     // Add milestones
     foreach ($milestones as $milestone) {
+        // Completed
+        if ($milestone['completed'] > 0) {
+            $status = 2;
+        }
+        // Cancelled
+        elseif ($milestone['cancelled'] > 0) {
+            $status = 0;
+        }
+        // Active
+        else {
+            $status = 1;
+        }
+
         $ms = new Milestone(array(
             'id'           => $milestone['id'],
             'name'         => $milestone['milestone'],
@@ -202,7 +216,8 @@ get('/step/5', function(){
             'info'         => $milestone['info'],
             'changelog'    => $milestone['changelog'],
             'due'          => $milestone['due'] == 0 ? null : Time::date("Y-m-d H:i:s", $milestone['due']),
-            'status'       => $milestone['locked'] ? 0 : 1,
+            'completed_on' => $milestone['completed'] == 0 ? null : Time::date("Y-m-d H:i:s", $milestone['completed']),
+            'status'       => $status,
             'is_locked'    => $milestone['locked'],
             'project_id'   => $milestone['project_id'],
             'displayorder' => $milestone['displayorder']
