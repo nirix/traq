@@ -374,3 +374,87 @@ get('/step/8', function(){
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/9');
 });
+
+// Step 9
+get('/step/9', function(){
+    if (!array_key_exists('migrating', $_SESSION) or $_SESSION['migrating'] != true) {
+        die("These are not the droids you are looking for.");
+    }
+
+    $db = get_connection();
+
+    // Get projects
+    $updates = $db->select()->from('timeline')->exec()->fetch_all();
+
+    // Drop and recreate table
+    run_query("
+        DROP TABLE IF EXISTS `traq_timeline`;
+        CREATE TABLE `traq_timeline` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `project_id` bigint(20) NOT NULL,
+          `owner_id` bigint(20) NOT NULL,
+          `action` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `data` longtext COLLATE utf8_unicode_ci NOT NULL,
+          `user_id` bigint(20) NOT NULL,
+          `created_at` datetime NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    ");
+
+    // Add updates
+    foreach ($updates as $update) {
+        // Ticket action
+        switch ($update['action']) {
+            case 'open_ticket':
+                $action = 'ticket_created';
+                break;
+
+            case 'close_ticket':
+                $action = 'ticket_closed';
+                break;
+
+            case 'reopen_ticket':
+                $action = 'ticket_openend';
+                break;
+
+            default:
+                $action = $update['action'];
+        }
+
+        // Get status id
+        $status_id = null;
+        $history = $db->select()->from('ticket_history')->custom_sql("WHERE `ticket_id`={$update['owner_id']} AND `created_at`='" . Time::date("Y-m-d H:i:s", $update['timestamp']) . "' LIMIT 1")->exec()->fetch();
+        if ($history) {
+            foreach (json_decode($history['changes'], true) as $change) {
+                if (array_key_exists('action', $change) and $change['property'] == 'status') {
+                    $status = $db->select()->from('ticket_status')->where('name', $change['to'])->exec()->fetch();
+                    $status_id = $status['id'];
+                }
+            }
+        }
+
+        // Attempt to find the 'Closed' status id
+        if ($status_id == null and $status = $db->select()->from('ticket_status')->where('name', 'Closed')->exec()->fetch()) {
+            $status_id = $status['id'];
+        }
+        // Screw it, use the default Closed status id, '3'
+        elseif ($status_id == null) {
+            $status_id = 3;
+        }
+
+        // Create
+        $timeline = new Timeline(array(
+            'id'         => $update['id'],
+            'project_id' => $update['project_id'],
+            'owner_id'   => $update['owner_id'],
+            'action'     => $action,
+            'data'       => $status_id,
+            'user_id'    => $update['user_id'],
+            'created_at' => Time::date("Y-m-d H:i:s", $update['timestamp'])
+        ));
+        $timeline->save();
+    }
+
+    // Next
+    header("Location: " . Nanite::base_uri() . 'migrate.php?/step/10');
+});
