@@ -30,6 +30,7 @@ Autoloader::register();
 require 'nanite.php';
 require SYSPATH . '/libs/fishhook.php';
 require '../vendor/traq/models/user.php';
+require '../vendor/traq/common.php';
 require 'common.php';
 
 use avalon\output\View;
