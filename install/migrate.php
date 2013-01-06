@@ -89,7 +89,7 @@ post('/step/3', function(){
     $_SESSION['migrating'] = true;
 
     // Get attachments
-    $old = $db->select()->from('attachments')->exec()->fetch_all();
+    $attachments = $db->select()->from('attachments')->exec()->fetch_all();
 
     // Drop and recreate table
     run_query("
@@ -108,7 +108,7 @@ post('/step/3', function(){
     ");
 
     // Add attachments
-    foreach ($old as $attachment) {
+    foreach ($attachments as $attachment) {
         $attach = new Attachment(array(
             'id'         => $attachment['id'],
             'name'       => $attachment['name'],
@@ -135,7 +135,7 @@ get('/step/4', function(){
     $db = get_connection();
 
     // Get components
-    $old = $db->select()->from('components')->exec()->fetch_all();
+    $components = $db->select()->from('components')->exec()->fetch_all();
 
     // Drop and recreate table
     run_query("
@@ -149,7 +149,7 @@ get('/step/4', function(){
     ");
 
     // Add components
-    foreach ($old as $component) {
+    foreach ($components as $component) {
         $comp = new Component(array(
             'id'         => $component['id'],
             'name'       => $component['name'],
@@ -171,7 +171,7 @@ get('/step/5', function(){
     $db = get_connection();
 
     // Get milestones
-    $old = $db->select()->from('milestones')->exec()->fetch_all();
+    $milestones = $db->select()->from('milestones')->exec()->fetch_all();
 
     // Drop and recreate table
     run_query("
@@ -193,7 +193,7 @@ get('/step/5', function(){
     ");
 
     // Add milestones
-    foreach ($old as $milestone) {
+    foreach ($milestones as $milestone) {
         $ms = new Milestone(array(
             'id'           => $milestone['id'],
             'name'         => $milestone['milestone'],
