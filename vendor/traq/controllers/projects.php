@@ -117,6 +117,9 @@ class Projects extends AppController
      */
     public function action_changelog()
     {
+        // Atom feed
+        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_changelog_feed', $this->project->name));
+
         // Fetch ticket types
         $types = array();
         foreach (Type::fetch_all() as $type) {
