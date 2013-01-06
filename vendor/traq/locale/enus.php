@@ -293,8 +293,10 @@ class enUS extends \traq\libraries\Locale
             'confirm.remove_x' => "Are you sure you want to remove '{1}' ?",
 
             // Feeds
-            'x_timeline_feed' => "{1} Timeline Feed",
-            'x_ticket_feed'   => "{1} Ticket Feed",
+            'x_timeline_feed'  => "{1} Timeline Feed",
+            'x_ticket_feed'    => "{1} Ticket Feed",
+            'x_x_history_feed' => "{1} / '{2}' History Feed",
+            'update_x'         => "Update #{1}",
 
             // Editor
             'editor' => array(
