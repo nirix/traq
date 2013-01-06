@@ -22,16 +22,18 @@ require './bootstrap.php';
 
 use avalon\Database;
 use avalon\output\View;
+
 use traq\models\User;
+use traq\models\Setting;
+
+// Set page and title
+View::set('page', 'install');
+View::set('page_title', 'Installation');
 
 // Make sure the config file doesn't exist...
 if (file_exists('../vendor/traq/config/database.php')) {
     Error::halt('Error', 'Config file already exists.');
 }
-
-// Set page and title
-View::set('page', 'install');
-View::set('page_title', 'Installation');
 
 // Index
 get('/', function(){
