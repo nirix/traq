@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -133,6 +133,9 @@ class Projects extends AppController
     public function action_timeline()
     {
         $rows = array();
+
+        // Atom feed
+        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_timeline_feed', $this->project->name));
 
         // Fetch the different days with a nicely formatted
         // query for everyone to read easily, unlike the one
