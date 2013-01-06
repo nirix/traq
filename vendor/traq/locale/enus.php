@@ -296,6 +296,7 @@ class enUS extends \traq\libraries\Locale
             'x_timeline_feed'  => "{1} Timeline Feed",
             'x_ticket_feed'    => "{1} Ticket Feed",
             'x_x_history_feed' => "{1} / '{2}' History Feed",
+            'x_changelog_feed' => "{1} Changelog Feed",
             'update_x'         => "Update #{1}",
 
             // Editor
