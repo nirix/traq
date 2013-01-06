@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -22,6 +22,7 @@ namespace traq\models;
 
 use avalon\core\Kernel as Avalon;
 use avalon\database\Model;
+use avalon\helpers\Time;
 
 /**
  * Milestone model.
@@ -42,6 +43,7 @@ class Milestone extends Model
         'info',
         'changelog',
         'due',
+        'completed_on',
         'status',
         'is_locked',
         'project_id',
@@ -191,6 +193,7 @@ class Milestone extends Model
     protected function _before_save()
     {
         $this->_create_slug();
+        $this->_data['completed_on'] = Time::gmt_to_local($this->_data['completed_on']);
     }
 
     /**
@@ -198,8 +201,14 @@ class Milestone extends Model
      */
     protected function _after_construct()
     {
+        // Status
         if (isset($this->_data['status'])) {
             $this->original_status = $this->_data['status'];
+        }
+
+        // Completed on date from GMT to local
+        if (!$this->_is_new() and $this->_data['completed_on'] != null) {
+            $this->_data['completed_on'] = Time::gmt_to_local($this->_data['completed_on']);
         }
     }
 }
