@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -23,6 +23,31 @@ use avalon\core\Kernel as Avalon;
 use traq\models\Type;
 use traq\models\Status;
 use traq\models\Component;
+
+/**
+ * Returns the URL for sorting the provided ticket column.
+ *
+ * @param string $column
+ *
+ * @return string
+ */
+function ticket_sort_url_for($column) {
+    // Get current order
+    if (isset(Request::$request['order_by'])) {
+        $order = explode('.', Request::$request['order_by']);
+    } else {
+        return Request::requestUri() . (strlen($_SERVER['QUERY_STRING']) ? '&' : '?') . "order_by={$column}.asc";
+    }
+
+    // Are we flipping the current sort?
+    if ($order[0] == $column) {
+        $query = "{$column}." . (strtolower($order[1]) == 'asc' ? 'desc' : 'asc');
+    } else {
+        $query = "{$column}.{$order[1]}";
+    }
+
+    return str_replace("order_by=". implode('.', $order), "order_by={$query}", Request::requestUri());
+}
 
 /**
  * Ticket columns
@@ -110,7 +135,7 @@ function ticket_filters_select_options()
 function ticketlist_header($column) {
     switch ($column) {
         case 'ticket_id':
-            return '';
+            return l('id');
         case 'summary':
         case 'status':
         case 'owner':
