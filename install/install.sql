@@ -313,7 +313,7 @@ VALUES
 	('check_for_update','1'),
 	('date_time_format','g:iA d/m/Y'),
   ('date_format','d/m/Y'),
-	('db_revision','22'),
+	('db_version','30000'),
 	('locale','enus'),
 	('theme','default'),
 	('timeline_day_format','l, jS F Y'),
