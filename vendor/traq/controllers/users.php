@@ -25,6 +25,7 @@ use avalon\core\Load;
 use avalon\http\Request;
 use avalon\output\View;
 
+use traq\helpers\Notification;
 use traq\models\User;
 
 /**
@@ -126,5 +127,47 @@ class Users extends AppController
         }
 
         View::set(compact('user'));
+    }
+
+    /**
+     * Forgot/Reset password page.
+     */
+    public function action_reset_password($key = null)
+    {
+        // Reset key provided?
+        if ($key) {
+
+        }
+        // Find user and generate key
+        else {
+            // Check if the form has been submitted
+            if (Request::method() == 'post') {
+                // Generate key
+                if ($user = User::find('username', Request::$post['username'])) {
+                    // Generate reset key
+                    $key = random_hash();
+
+                    // Set reset key option
+                    $user->option('reset_password_key', $key);
+                    $user->save();
+
+                    // Send email
+                    Notification::send(
+                        $user, // User object
+                        l('notifications.password_reset.subject'),     // Subject
+                        l('notifications.password_reset.message',    // Message
+                            settings('title'), // Installation title
+                            $user->name,       // Users name
+                            $user->username,   // Users username
+                            "http://" . $_SERVER['HTTP_HOST'] . Request::base("/login/resetpassword/{$key}"), // Reset password URL
+                            $_SERVER['REMOTE_ADDR'] // IP of reset request
+                        )
+                    );
+                    View::set('reset_email_sent', true);
+                } else {
+                    View::set('error', true);
+                }
+            }
+        }
     }
 }
