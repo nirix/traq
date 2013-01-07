@@ -125,7 +125,7 @@ class User extends Model
             $this->set('options', json_encode($this->_options));
         }
 
-        return (array_key_exists($option, $this->_options)) ? $this->_options[$option] : false;
+        return (isset($this->_options[$option])) ? $this->_options[$option] : false;
     }
 
     /**
