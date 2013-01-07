@@ -168,7 +168,7 @@ class Notification
      * @param string $subject Email subject
      * @param string $message Email message
      */
-    private static function send($user, $subject, $message)
+    public static function send($user, $subject, $message)
     {
         // Headers
         $headers = array(
