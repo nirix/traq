@@ -120,12 +120,16 @@ class Tickets extends AppController
                     $property = "{$order[0]}_id";
                     break;
 
+                case 'id':
+                    $property = "ticket_id";
+                    break;
+
                 default:
-                    $property = 'id';
+                    $property = 'ticket_id';
             }
 
             // Order rows
-            $rows->order_by($property, (($order[1] == 'asc' or $order[1] == 'ASC') ? "ASC" : "DESC"));
+            $rows->order_by($property, (strtolower($order[1]) == 'asc' ? "ASC" : "DESC"));
         }
 
         // Add to tickets array
