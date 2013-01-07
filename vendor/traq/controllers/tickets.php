@@ -91,6 +91,42 @@ class Tickets extends AppController
         if (Router::$extension == '.atom') {
             $rows->order_by('created_at', 'DESC');
         }
+        // Sort from URI, if set
+        elseif (isset(Request::$request['order_by'])) {
+            // field.direction
+            $order = explode('.', Request::$request['order_by']);
+
+            // Check if we need to do
+            // anything with the field.
+            switch($order[0]) {
+                case 'id':
+                case 'summary':
+                case 'body':
+                case 'votes':
+                case 'created_at':
+                case 'updated_at':
+                    $property = $order[0];
+                    break;
+
+                case 'user':
+                case 'milestone':
+                case 'version':
+                case 'component':
+                case 'type':
+                case 'status':
+                case 'priority':
+                case 'severity':
+                case 'assigned_to':
+                    $property = "{$order[0]}_id";
+                    break;
+
+                default:
+                    $property = 'id';
+            }
+
+            // Order rows
+            $rows->order_by($property, (($order[1] == 'asc' or $order[1] == 'ASC') ? "ASC" : "DESC"));
+        }
 
         // Add to tickets array
         foreach($rows->exec()->fetch_all() as $row) {
