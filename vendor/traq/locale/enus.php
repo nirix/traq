@@ -163,6 +163,7 @@ class enUS extends \traq\libraries\Locale
             'display_order'    => "Display Order",
 
             // Tickets
+            'id'                    => "ID",
             'ticket'                => "Ticket",
             'new_ticket'            => "New Ticket",
             'summary'               => "Summary",
