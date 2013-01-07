@@ -2,7 +2,7 @@
 	<h2 id="page_title"><?php echo l('roadmap'); ?></h2>
 	<ul id="milestones">
 		<?php foreach($milestones as $milestone) { ?>
-		<li>
+		<li class="milestone">
 			<h3><?php echo HTML::link($milestone->name . ($milestone->codename != '' ? ' <em>"' . $milestone->codename . '"</em>' : ''), $milestone->href()); ?></h3>
 			<?php if ($milestone->due > 0 and $milestone->status == 1) { ?>
 			<div class="due">
