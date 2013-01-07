@@ -135,8 +135,21 @@ class Users extends AppController
     public function action_reset_password($key = null)
     {
         // Reset key provided?
-        if ($key) {
+        if ($key !== null) {
+            // Find user
+            if ($user = User::select()->where('options', '%"reset_password_key":"' . $key . '"%', 'LIKE')->exec()->fetch()) {
+                // Generate new password
+                $new_password = substr(random_hash(), 0, 10);
 
+                // Set new password, clear reset key and save
+                $user->set_password($new_password);
+                $user->option('reset_password_key', null);
+                $user->save();
+
+                // Send data to the view
+                View::set('password_reset', true);
+                View::set('new_password', $new_password);
+            }
         }
         // Find user and generate key
         else {
