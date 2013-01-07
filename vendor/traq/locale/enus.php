@@ -206,6 +206,12 @@ class enUS extends \traq\libraries\Locale
             'options'              => "Options",
             'watch_my_new_tickets' => "Watch my new tickets",
             'subscriptions'        => "Subscriptions",
+            'forgot_password'      => "Forgot Password",
+            'reset'                => "Reset",
+
+            // Password reset
+            'password_reset.success' => "Your password has been reset, your new password is '{1}', it is recommended that you change it immediately",
+            'password_reset.email_sent' => "We have sent an email to the the address for the account with instructions on how to reset your password.",
 
             // Wiki
             'home'         => "Home",
@@ -340,6 +346,7 @@ class enUS extends \traq\libraries\Locale
             // Errors
             'errors' => array(
                 'invalid_username_or_password' => "Invalid Username or Password.",
+                'invalid_username'             => "Invalid Username",
                 'name_blank'                   => "Name cannot be blank",
                 'slug_blank'                   => "Slug cannot be blank",
                 'slug_in_use'                  => "That slug is already in use",
@@ -427,6 +434,14 @@ class enUS extends \traq\libraries\Locale
             'notifications.ticket_reopened.subject' => "Ticket #{2} ({3}) reopened on project {4}",
             'notifications.ticket_reopened.message' => "{2},<br /><br />".
                                                        "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been reopened on project {6}.",
+
+            // Password reset
+            'notifications.password_reset.subject' => "Password reset request",
+            'notifications.password_reset.message' => "{2},<br /><br />".
+                                                      "You are receiving this email because you or someone has requested a password reset<br />".
+                                                      "for your account '{3}' at {1}. If you did not request a password reset, ignore this email.<br /><br />".
+                                                      "If you did request a password reset, you can <a href=\"{4}\">continue by clicking here</a>.<br /><br />".
+                                                      "This reset request was done by someone with the IP of: {5}",
 
             // ----------------------------------------------------------------------------------------------------
 
