@@ -150,7 +150,7 @@ class Tickets extends AppController
             // Loop over customs from request
             foreach (explode(',', Request::$request['columns']) as $column) {
                 // Make sure it's a valid column
-                if (in_array($column, Ticket::listing_columns())) {
+                if (in_array($column, ticketlist_allowed_columns())) {
                     $columns[] = $column;
                 }
             }
