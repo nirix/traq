@@ -375,27 +375,6 @@ class Ticket extends Model
     }
 
     /**
-     * Returns the table columns allowed on the listing page.
-     *
-     * @return array
-     */
-    public static function listing_columns()
-    {
-        return array(
-            'ticket_id',
-            'summary',
-            'status',
-            'owner',
-            'type',
-            'component',
-            'milestone',
-            'created_at',
-            'updated_at',
-            'votes'
-        );
-    }
-
-    /**
      * Checks if the models data is valid.
      *
      * @return bool

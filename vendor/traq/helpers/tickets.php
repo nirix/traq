@@ -72,6 +72,27 @@ function ticket_columns() {
 }
 
 /**
+ * Returns the table columns allowed on the listing page.
+ *
+ * @return array
+ */
+function ticketlist_allowed_columns()
+{
+    return array(
+        'ticket_id',
+        'summary',
+        'status',
+        'owner',
+        'type',
+        'component',
+        'milestone',
+        'created_at',
+        'updated_at',
+        'votes'
+    );
+}
+
+/**
  * Returns an array of available ticket filters.
  *
  * @return array
