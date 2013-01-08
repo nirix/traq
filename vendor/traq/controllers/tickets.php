@@ -72,8 +72,10 @@ class Tickets extends AppController
         // Atom feed
         $this->feeds[] = array(Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name));
 
+        // Create ticket filter query
         $filter_query = new TicketFilterQuery();
 
+        // Loop over request variables
         foreach (Request::$request as $filter => $value) {
             // Check if the filter exists...
             if (in_array($filter, ticket_filters())) {
@@ -81,6 +83,7 @@ class Tickets extends AppController
             }
         }
 
+        // Send filters to the view
         View::set('filters', $filter_query->filters());
 
         // Fetch tickets
