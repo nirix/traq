@@ -144,21 +144,37 @@ class Tickets extends AppController
         View::set('tickets', $tickets);
 
         // Columns
-        if (isset(Request::$request['columns'])) {
-            $columns = array();
+        $this->get_columns();
+    }
 
-            // Loop over customs from request
-            foreach (explode(',', Request::$request['columns']) as $column) {
+    private function get_columns()
+    {
+        // Set columns from form
+        if (Request::method() == 'post' and isset(Request::$post['update_columns'])) {
+            $new_columns = array();
+            foreach (Request::$post['columns'] as $column) {
+                $new_columns[] = $column;
+            }
+            $_SESSION['columns'] = Request::$request['columns'] = $new_columns;
+        }
+
+        // Get columns
+        $columns = array();
+        if (isset($_SESSION['columns']) or isset(Request::$request['columns'])) {
+            // Loop over customs from session or request
+            foreach ((isset($_SESSION['columns']) ? $_SESSION['columns'] : explode(',', Request::$request['columns'])) as $column) {
                 // Make sure it's a valid column
                 if (in_array($column, ticketlist_allowed_columns())) {
                     $columns[] = $column;
                 }
             }
         }
-        // Default columns
+        // Use default columns
         else {
             $columns = ticket_columns();
         }
+
+        // Send columns to view
         View::set('columns', $columns);
     }
 
