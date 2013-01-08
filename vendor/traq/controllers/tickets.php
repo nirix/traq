@@ -142,6 +142,24 @@ class Tickets extends AppController
 
         // Send the tickets array to the view..
         View::set('tickets', $tickets);
+
+        // Columns
+        if (isset(Request::$request['columns'])) {
+            $columns = array();
+
+            // Loop over customs from request
+            foreach (explode(',', Request::$request['columns']) as $column) {
+                // Make sure it's a valid column
+                if (in_array($column, Ticket::listing_columns())) {
+                    $columns[] = $column;
+                }
+            }
+        }
+        // Default columns
+        else {
+            $columns = ticket_columns();
+        }
+        View::set('columns', $columns);
     }
 
     /**
