@@ -4,52 +4,70 @@
 		<table>
 			<tbody>
 			<?php foreach ($filters as $filter => $info) { ?>
-				<?php foreach ($info['values'] as $k => $value) { ?>
+				<?php if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component'))) { ?>
 				<tr>
-					<td class="label"><?php echo $k == 0 ? l($filter) :''; ?></td>
+					<td class="label"><?php echo l($filter); ?></td>
 					<td class="condition">
-					<?php
-						if ($k == 0) {
-							if (in_array($filter, array('summary', 'description'))) {
-								echo Form::select("filters[{$filter}][prefix]",
-									array(
-										array('label' => l('contains'), 'value' => ''),
-										array('label' => l('does_not_contain'), 'value' => '!')
-									),
-									array('value' => $info['prefix'], 'id' => false)
-								);
-							} else {
-								echo Form::select("filters[{$filter}][prefix]",
-									array(
-										array('label' => l('is'), 'value' => ''),
-										array('label' => l('is_not'), 'value' => '!')
-									),
-									array('value' => $info['prefix'], 'id' => false)
-								);
-							}
-						} else {
-							echo l('or');
-						}
-					?>
+						<?php
+							echo Form::select("filters[{$filter}][prefix]",
+								array(
+									array('label' => l('is'), 'value' => ''),
+									array('label' => l('is_not'), 'value' => '!')
+								),
+								array('value' => $info['prefix'], 'id' => false)
+							);
+						?>
 					</td>
 					<td class="value">
-					<?php
-						if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component'))) {
-							echo Form::select("filters[{$filter}][values][]",
-								ticket_filter_options_for($filter, $project->id),
-								array('value' => $value, 'id' => false)
-							);
-						} elseif (in_array($filter, array('summary', 'description'))) {
-							echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'id' => false));
-						} elseif (in_array($filter, array('owner', 'assigned_to'))) {
-							echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'data-autocomplete' => Request::base('/_ajax/autocomplete/username'), 'id' => false));
-						}
-					?>
+						<?php echo Form::multiselect("filters[{$filter}][values][]", ticket_filter_options_for($filter, $project->id), $info['values']); ?>
 					</td>
 					<td class="ticket_filter_action">
-						<button type="submit" class="button_delete" name="remove_filter[<?php echo $filter; ?>:<?php echo $k; ?>]">-</button>
+						<button type="submit" class="button_delete" name="remove_filter[<?php echo $filter; ?>]">-</button>
 					</td>
 				</tr>
+				<?php } else { ?>
+					<?php foreach ($info['values'] as $k => $value) { ?>
+					<tr>
+						<td class="label"><?php echo $k == 0 ? l($filter) :''; ?></td>
+						<td class="condition">
+						<?php
+							if ($k == 0) {
+								if (in_array($filter, array('summary', 'description'))) {
+									echo Form::select("filters[{$filter}][prefix]",
+										array(
+											array('label' => l('contains'), 'value' => ''),
+											array('label' => l('does_not_contain'), 'value' => '!')
+										),
+										array('value' => $info['prefix'], 'id' => false)
+									);
+								} else {
+									echo Form::select("filters[{$filter}][prefix]",
+										array(
+											array('label' => l('is'), 'value' => ''),
+											array('label' => l('is_not'), 'value' => '!')
+										),
+										array('value' => $info['prefix'], 'id' => false)
+									);
+								}
+							} else {
+								echo l('or');
+							}
+						?>
+						</td>
+						<td class="value">
+						<?php
+							if (in_array($filter, array('summary', 'description'))) {
+								echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'id' => false));
+							} elseif (in_array($filter, array('owner', 'assigned_to'))) {
+								echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'data-autocomplete' => Request::base('/_ajax/autocomplete/username'), 'id' => false));
+							}
+						?>
+						</td>
+						<td class="ticket_filter_action">
+							<button type="submit" class="button_delete" name="remove_filter[<?php echo $filter; ?>:<?php echo $k; ?>]">-</button>
+						</td>
+					</tr>
+					<?php } ?>
 				<?php } ?>
 			<?php } ?>
 				<tr>
