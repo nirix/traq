@@ -1,0 +1,14 @@
+<form action="<?php echo Request::requestUri(); ?>" method="post">
+	<fieldset id="ticket_columns">
+		<legend><a href="#" onclick="$('#ticket_columns_content').slideToggle(); return false;"><?php echo l('columns'); ?></a></legend>
+		<div id="ticket_columns_content">
+		<?php foreach (ticketlist_allowed_columns() as $column) { ?>
+			<?php echo Form::checkbox("columns[{$column}]", $column, array('checked' => in_array($column, $columns))); ?>
+			<?php echo Form::label(l("{$column}"), "columns[{$column}]"); ?>
+		<?php } ?>
+		<div class="actions">
+			<?php echo Form::submit(l('update'), 'update_columns'); ?>
+		</div>
+		</div>
+	</fieldset>
+</form>
