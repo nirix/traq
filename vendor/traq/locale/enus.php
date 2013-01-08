@@ -186,6 +186,12 @@ class enUS extends \traq\libraries\Locale
             'x_uploaded_by_x_x_ago' => "{1} uploaded by {2}, {3}",
             'people_who_have_voted_on_this_ticket' => "People who have voted on this ticket ({1})",
 
+            // Ticket columns
+            'columns'    => "Columns",
+            'ticket_id'  => "Ticket ID",
+            'created_at' => "Created at",
+            'updated_at' => "Updated at",
+
             // Users
             'login'                => "Login",
             'logout'               => "Logout",
