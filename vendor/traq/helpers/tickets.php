@@ -157,6 +157,8 @@ function ticketlist_header($column) {
     switch ($column) {
         case 'ticket_id':
             return l('id');
+            break;
+
         case 'summary':
         case 'status':
         case 'owner':
@@ -164,10 +166,19 @@ function ticketlist_header($column) {
         case 'component':
         case 'milestone':
         case 'updates':
+        case 'votes':
             return l($column);
+
+        case 'created_at':
+            return l('reported');
+            break;
+
+        case 'updated_at':
+            return l('updated');
+            break;
+
         default:
             return '';
-        break;
     }
 }
 
@@ -219,6 +230,21 @@ function ticketlist_data($column, $ticket) {
         // Updates column
         case 'updates':
             return $ticket->history->exec()->row_count();
+            break;
+
+        // Created at
+        case 'created_at':
+            return time_ago($ticket->created_at, false);
+            break;
+
+        // Updated at
+        case 'updated_at':
+            return $ticket->updated_at ? time_ago($ticket->updated_at, false) : l('never');
+            break;
+
+        // Votes
+        case 'votes':
+            return $ticket->votes;
             break;
 
         // Unknown column...
