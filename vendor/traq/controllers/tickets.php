@@ -411,7 +411,15 @@ class Tickets extends AppController
             foreach (Request::$post['remove_filter'] as $filter => $nothing) {
                 // Get filter and value
                 $filter = explode(':', $filter);
-                unset(Request::$post['filters'][$filter[0]]['values'][$filter[1]]);
+
+                // Single row filter
+                if (count($filter) == 1) {
+                    unset(Request::$post['filters'][$filter[0]]);
+                }
+                // Multi-row filter
+                else {
+                    unset(Request::$post['filters'][$filter[0]]);
+                }
 
                 // If there's no other values, remove filter completely
                 if (!count(Request::$post['filters'][$filter[0]]['values'])) {
