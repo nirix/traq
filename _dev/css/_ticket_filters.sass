@@ -11,16 +11,24 @@
   table
     margin: 0
 
-    td.label
-      font-weight: bold
-      text-align: right
-      width: 100px
+    td
+      vertical-align: top
 
-    td.condition
-      width: 120px
+      &.label
+        font-weight: bold
+        text-align: right
+        width: 100px
 
-    td.ticket_filter_action
-      text-align: right
+      &.condition
+        width: 120px
+
+      &.value
+        .multiselect
+          width: 200px
+          height: 85px
+
+      &.ticket_filter_action
+        text-align: right
 
     #ticket_filter_actions
       text-align: right
