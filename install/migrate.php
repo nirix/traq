@@ -371,7 +371,7 @@ get('/step/8', function(){
           `votes` bigint(20) DEFAULT '0',
           `extra` longtext COLLATE utf8_unicode_ci NOT NULL,
           `created_at` datetime NOT NULL,
-          `updated_at` datetime NOT NULL,
+          `updated_at` datetime DEFAULT NULL,
           PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
     ");
