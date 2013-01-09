@@ -43,7 +43,7 @@ class CustomFields extends AppController
 
     public function action_index()
     {
-        View::set('custom_fields', CustomField::fetch_all());
+        View::set('custom_fields', CustomField::select()->where('project_id', $this->project->id)->exec()->fetch_all());
     }
 
     /**
@@ -69,6 +69,14 @@ class CustomFields extends AppController
                 }
             }
 
+            // Is required?
+            if (!isset(Request::$post['is_required'])) {
+                $data['is_required'] = 0;
+            }
+
+            // Project ID
+            $data['project_id'] = $this->project->id;
+
             // Set field properties
             $field->set($data);
 
@@ -92,6 +100,11 @@ class CustomFields extends AppController
         // Get field
         $field = CustomField::find($id);
 
+        // Verify project
+        if ($field->project_id != $this->project->id) {
+            return $this->show_404();
+        }
+
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             $data = array();
@@ -102,6 +115,11 @@ class CustomFields extends AppController
                 if (isset(Request::$post[$property])) {
                     $data[$property] = Request::$post[$property];
                 }
+            }
+
+            // Is required?
+            if (!isset(Request::$post['is_required'])) {
+                $data['is_required'] = 0;
             }
 
             // Set field properties
@@ -124,6 +142,11 @@ class CustomFields extends AppController
     {
         // Find field
         $field = CustomField::find($id);
+
+        // Verify project
+        if ($field->project_id != $this->project->id) {
+            return $this->show_404();
+        }
 
         // Delete and redirect
         $field->delete();

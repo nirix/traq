@@ -43,7 +43,8 @@ class CustomField extends Model
         'regex',
         'min_length',
         'max_length',
-        'is_required'
+        'is_required',
+        'project_id'
     );
 
     /**
