@@ -379,8 +379,9 @@ class Tickets extends AppController
                     $ticket->_add_error($field->id, l("errors.custom_fields.x_is_not_valid", $field->name, $field->type));
                 }
             }
+
             // Check if field is required
-            elseif ($field->is_required) {
+            if ($field->is_required and empty($fields[$field->id])) {
                 $ticket->_add_error($field->id, l('errors.custom_fields.x_required', $field->name));
             }
         }
