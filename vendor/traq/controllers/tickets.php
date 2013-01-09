@@ -32,6 +32,7 @@ use traq\models\Type;
 use traq\models\Component;
 use traq\models\User;
 use traq\models\Subscription;
+use traq\models\CustomField;
 use traq\helpers\TicketFilterQuery;
 
 /**
@@ -62,6 +63,10 @@ class Tickets extends AppController
         // Set the title and load the helper
         $this->title(l('tickets'));
         Load::helper('tickets');
+
+        // Custom fields
+        $this->custom_fields = CustomField::for_project($this->project->id);
+        View::set('custom_fields', $this->custom_fields);
     }
 
     /**
