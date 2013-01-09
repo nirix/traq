@@ -30,7 +30,7 @@
 	</div>
 	<div class="group select_field_property">
 		<?php echo Form::label(l('values'), 'values'); ?>
-		<?php echo Form::textarea('values'); ?>
+		<?php echo Form::textarea('values', array('value' => $field->values)); ?>
 		<div class="info"><?php echo l('help.custom_fields.values'); ?></div>
 	</div>
 	<div class="group select_field_property">
