@@ -70,6 +70,10 @@ Router::add('/' . RTR_PROJSLUG . '/settings', 'traq::controllers::ProjectSetting
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)', 'traq::controllers::ProjectSettings::$2.index');
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)/new', 'traq::controllers::ProjectSettings::$2.new');
 Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
+Router::add('/' . RTR_PROJSLUG . '/settings/custom_fields', 'traq::controllers::ProjectSettings::CustomFields.index');
+Router::add('/' . RTR_PROJSLUG . '/settings/custom_fields/new', 'traq::controllers::ProjectSettings::CustomFields.new');
+Router::add('/' . RTR_PROJSLUG . '/settings/custom_fields/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::CustomFields.$3/$2');
+
 Router::add('/' . RTR_PROJSLUG . '/settings/members/save', 'traq::controllers::ProjectSettings::Members.save');
 
 // Project permission routes
