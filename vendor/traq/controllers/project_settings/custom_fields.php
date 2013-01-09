@@ -122,6 +122,11 @@ class CustomFields extends AppController
                 $data['is_required'] = 0;
             }
 
+            // Multiple
+            if (!isset(Request::$post['multiple'])) {
+                $data['multiple'] = 0;
+            }
+
             // Set field properties
             $field->set($data);
 
