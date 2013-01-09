@@ -1,5 +1,14 @@
 <div class="roadmap content">
 	<h2 id="page_title"><?php echo l('roadmap'); ?></h2>
+</div>
+<nav id="project_roadmap_nav" class="tabs">
+	<ul>
+		<li<?php echo iif(active_nav('/:slug/roadmap'), ' class="active"')?>><?php echo HTML::link(l('active'), $project->href('roadmap')); ?></li>
+		<li<?php echo iif(active_nav('/:slug/roadmap/completed'), ' class="active"')?>><?php echo HTML::link(l('completed'), $project->href('roadmap/completed')); ?></li>
+		<li<?php echo iif(active_nav('/:slug/roadmap/all'), ' class="active"')?>><?php echo HTML::link(l('all'), $project->href('roadmap/all')); ?></li>
+	</ul>
+</nav>
+<div class="roadmap content">
 	<ul id="milestones">
 		<?php foreach($milestones as $milestone) { ?>
 		<li class="milestone">
