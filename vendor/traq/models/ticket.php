@@ -451,6 +451,19 @@ class Ticket extends Model
 
         return false;
     }
+
+    /**
+     * Sets the value of the custom field.
+     *
+     * @param integer $field
+     * @param mixed   $value
+     */
+    public function set_custom_field($field, $value)
+    {
+        $this->_data['extra']['custom_fields'][$field] = $value;
+    }
+
+    /**
      * Processes the data when reading from the database.
      *
      * @access private
