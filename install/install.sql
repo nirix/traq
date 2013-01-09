@@ -49,13 +49,20 @@ CREATE TABLE `traq_components` (
 # Dump of table traq_custom_fields
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_custom_fields`;
+DROP TABLE IF EXISTS `custom_fields`;
 
-CREATE TABLE `traq_custom_fields` (
+CREATE TABLE `custom_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `code` longtext NOT NULL,
-  `project_ids` longtext NOT NULL,
+  `type` varchar(255) NOT NULL DEFAULT 'text',
+  `values` longtext,
+  `multiple` tinyint(1) NOT NULL DEFAULT '0',
+  `default_value` varchar(255) DEFAULT NULL,
+  `regex` varchar(255) DEFAULT NULL,
+  `min_length` int(11) DEFAULT NULL,
+  `max_length` int(11) DEFAULT NULL,
+  `is_required` tinyint(1) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
