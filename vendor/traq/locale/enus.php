@@ -383,6 +383,11 @@ class enUS extends \traq\libraries\Locale
                 'regex_blank'                  => "You need to enter a regex value",
                 'values_blank'                 => "You need to enter some values",
 
+                // Custom fields
+                'custom_fields' => array(
+                    'x_is_not_valid' => "{1} is not a valid"
+                ),
+
                 // 404 error page
                 '404' => array(
                     'title'   => "He's dead, Jim!",
