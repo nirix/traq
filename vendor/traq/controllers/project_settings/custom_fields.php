@@ -81,4 +81,39 @@ class CustomFields extends AppController
         // Send field object to view
         View::set(compact('field'));
     }
+
+    /**
+     * Edit field page.
+     *
+     * @param integer $id
+     */
+    public function action_edit($id)
+    {
+        // Get field
+        $field = CustomField::find($id);
+
+        // Check if the form has been submitted
+        if (Request::method() == 'post') {
+            $data = array();
+
+            // Loop over properties
+            foreach (CustomField::properties() as $property) {
+                // Check if it's set and not empty
+                if (isset(Request::$post[$property]) and !empty(Request::$post[$property])) {
+                    $data[$property] = Request::$post[$property];
+                }
+            }
+
+            // Set field properties
+            $field->set($data);
+
+            // Save and redirect
+            if ($field->save()) {
+                Request::redirectTo($this->project->href('settings/custom_fields'));
+            }
+        }
+
+        // Send field object to view
+        View::set(compact('field'));
+    }
 }
