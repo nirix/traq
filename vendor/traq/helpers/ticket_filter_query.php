@@ -122,7 +122,8 @@ class TicketFilterQuery
             $query_values = array();
             foreach ($values as $value) {
                 if (!empty($value)) {
-                    $query_values[] = "`{$field}` {$condition} LIKE '%" . str_replace('*', '%', $value) . "%'";
+                    $field_name = ($field == 'summary' ? 'summary' : 'body');
+                    $query_values[] = "`{$field_name}` {$condition} LIKE '%" . str_replace('*', '%', $value) . "%'";
                 }
             }
 
