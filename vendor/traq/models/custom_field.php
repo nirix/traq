@@ -145,7 +145,19 @@ class CustomField extends Model
                 break;
 
             case 'select':
-                return in_array($value, explode("\n", $this->values));
+                // Multiple select
+                if ($this->multiple) {
+                    foreach ($value as $v) {
+                        if (!in_array($v, explode("\n", $this->values))) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                // Single select
+                else {
+                    return in_array($value, explode("\n", $this->values));
+                }
                 break;
         }
 
