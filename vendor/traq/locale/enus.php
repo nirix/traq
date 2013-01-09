@@ -198,6 +198,7 @@ class enUS extends \traq\libraries\Locale
             'integer'       => "Integer",
             'custom_fields' => "Custom Fields",
             'new_field'     => "New Field",
+            'edit_field'    => "Edit Field",
             'required'      => "Required",
             'min_length'    => "Min length",
             'max_length'    => "Max length",
