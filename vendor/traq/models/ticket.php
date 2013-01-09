@@ -453,6 +453,20 @@ class Ticket extends Model
     }
 
     /**
+     * Returns the value of the custom field.
+     *
+     * @param integer $field
+     *
+     * @return mixed
+     */
+    public function custom_field($field)
+    {
+        if (isset($this->_data['extra']['custom_fields'][$field])) {
+            return $this->_data['extra']['custom_fields'][$field];
+        }
+    }
+
+    /**
      * Sets the value of the custom field.
      *
      * @param integer $field
