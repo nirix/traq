@@ -36,7 +36,7 @@ function ticket_sort_url_for($column) {
     if (isset(Request::$request['order_by'])) {
         $order = explode('.', Request::$request['order_by']);
     } else {
-        return Request::requestUri() . (strlen($_SERVER['QUERY_STRING']) ? '&' : '?') . "order_by={$column}.asc";
+        return Request::requestUri() . (strlen($_SERVER['QUERY_STRING']) ? '&amp;' : '?') . "order_by={$column}.asc";
     }
 
     // Are we flipping the current sort?
