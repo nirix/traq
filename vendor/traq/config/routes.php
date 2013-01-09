@@ -86,10 +86,11 @@ Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscrib
 
 // ------------------------------------------------
 // AdminCP routes
-Router::add('/admin', 'traq::controllers::admin::Projects.index');
+Router::add('/admin', 'traq::controllers::admin::Dashboard.index');
 Router::add('/admin/settings', 'traq::controllers::admin::Settings.index');
 
 // Projects
+Router::add('/admin/projects', 'traq::controllers::admin::Projects.index');
 Router::add('/admin/projects/new', 'traq::controllers::admin::Projects.new');
 Router::add('/admin/projects/([0-9]+)/delete', 'traq::controllers::admin::Projects.delete/$1');
 
