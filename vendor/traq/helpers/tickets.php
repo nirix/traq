@@ -289,5 +289,5 @@ function ticket_filter_options_for($filter, $project_id = null) {
             break;
     }
 
-    return array_merge(array(array('label' => '', 'value' => '')), $options);
+    return $options;
 }
