@@ -66,7 +66,7 @@
 		?>
 		<div class="property">
 			<?php echo Form::label($field->name); ?>
-			<span class="value"><?php echo $ticket->custom_field($field->id); ?></span>
+			<span class="value"><?php echo implode(', ', (array)$ticket->custom_field($field->id)); ?></span>
 		</div>
 		<?php }
 		}
