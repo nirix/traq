@@ -34,6 +34,7 @@ use traq\models\User;
 use traq\models\Subscription;
 use traq\models\CustomField;
 use traq\helpers\TicketFilterQuery;
+use traq\helpers\Pagination;
 
 /**
  * Ticket controller.
@@ -93,7 +94,7 @@ class Tickets extends AppController
 
         // Fetch tickets
         $tickets = array();
-        $rows = $this->db->select()->from('tickets')->where('project_id', $this->project->id)->custom_sql($filter_query->sql())->order_by('priority_id', 'ASC');
+        $rows = $this->db->select()->from('tickets')->where('project_id', $this->project->id)->custom_sql($filter_query->sql());
 
         // Order by creation date for atom feed
         if (Router::$extension == '.atom') {
@@ -139,6 +140,20 @@ class Tickets extends AppController
             // Order rows
             $rows->order_by($property, (strtolower($order[1]) == 'asc' ? "ASC" : "DESC"));
         }
+
+        // Paginate tickets
+        $pagination = new Pagination(
+            (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
+            settings('tickets_per_page'), // Per page
+            $rows->exec()->row_count() // Row count
+        );
+
+        if ($pagination->paginate) {
+            $rows->limit($pagination->limit, settings('tickets_per_page'));
+        }
+
+        View::set(compact('pagination'));
+        unset($all_rows);
 
         // Add to tickets array
         foreach($rows->exec()->fetch_all() as $row) {
