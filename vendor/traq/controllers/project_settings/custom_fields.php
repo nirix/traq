@@ -46,13 +46,39 @@ class CustomFields extends AppController
         View::set('custom_fields', CustomField::fetch_all());
     }
 
+    /**
+     * New field page.
+     */
     public function action_new()
     {
+        // Create field
         $field = new CustomField(array(
             'type'  => 'text',
             'regex' => '(.*)'
         ));
 
+        // Check if the form has been submitted
+        if (Request::method() == 'post') {
+            $data = array();
+
+            // Loop over properties
+            foreach (CustomField::properties() as $property) {
+                // Check if it's set and not empty
+                if (isset(Request::$post[$property]) and !empty(Request::$post[$property])) {
+                    $data[$property] = Request::$post[$property];
+                }
+            }
+
+            // Set field properties
+            $field->set($data);
+
+            // Save and redirect
+            if ($field->save()) {
+                Request::redirectTo($this->project->href('settings/custom_fields'));
+            }
+        }
+
+        // Send field object to view
         View::set(compact('field'));
     }
 }
