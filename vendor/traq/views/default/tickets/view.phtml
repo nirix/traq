@@ -157,7 +157,11 @@
 				<?php } ?>
 				<div class="field">
 					<?php echo Form::label(l('milestone'), 'milestone'); ?>
-					<?php echo Form::select('milestone', array_merge($ticket->milestone->select_option(), $project->milestone_select_options('open')), array('value' => $ticket->milestone_id)); ?>
+					<?php echo Form::select(
+						'milestone',
+						$ticket->milestone->status != 1 ? array_merge($ticket->milestone->select_option(), $project->milestone_select_options('open')) : $project->milestone_select_options('open'),
+						array('value' => $ticket->milestone_id)
+					); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
