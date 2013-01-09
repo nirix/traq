@@ -41,8 +41,16 @@ class Pagination
     public $prev_page_url;
     public $limit;
 
+    /**
+     * Generates pagination information.
+     *
+     * @param integer $page     Current page
+     * @param integer $per_page Rows per page
+     * @param integer $rows     Rows in the database
+     */
     public function __construct($page, $per_page, $rows)
     {
+        // Set information
         $this->page = $page;
         $this->per_page = $per_page;
         $this->total_pages = ceil($rows / $per_page);
@@ -59,16 +67,19 @@ class Pagination
             // Limit pages
             $this->limit = ($this->page-1 > 0 ? $this->page-1 : 0) * $per_page;
 
-            // Next/prev links
+            // Get correct request URI with page number
             if (!isset(Request::$request['page'])) {
                 $request_uri = Request::requestUri() . (strlen($_SERVER['QUERY_STRING']) ? '&amp;' : '?') . "page={$this->page}";
             } else {
                 $request_uri = Request::requestUri();
             }
+
+            // Next page URL
             if ($this->next_page < $this->total_pages) {
                 $this->next_page_url = str_replace("page=" . $this->page, "page=" . $this->next_page, $request_uri);
             }
 
+            // Previous page URL
             if ($this->prev_page > 0) {
                 $this->prev_page_url = str_replace("page=" . $this->page, "page=" . $this->prev_page, $request_uri);
             }
