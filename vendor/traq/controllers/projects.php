@@ -109,6 +109,11 @@ class Projects extends AppController
             array('slug', $milestone_slug)
         ))->exec()->fetch();
 
+        // Make sure milestone exists
+        if (!$milestone) {
+            return $this->show_404();
+        }
+
         // And send it to the view
         View::set('milestone', $milestone);
     }
