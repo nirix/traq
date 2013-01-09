@@ -99,6 +99,7 @@ class enUS extends \traq\libraries\Locale
             'subscribe'        => "Subscribe",
             'unsubscribe'      => "Unsubscribe",
             'for'              => "For",
+            'search'           => "Search",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",

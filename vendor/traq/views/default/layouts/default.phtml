@@ -16,7 +16,7 @@
 				<?php if (isset($project)) { ?>
 				<form onsubmit="do_search();return false;" id="search">
 					<input type="hidden" name="project_slug" value="<?php echo $project->slug; ?>" />
-					<input type="search" name="search" />
+					<input type="search" name="search" placeholder="<?php echo l('search'); ?>" />
 				</form>
 				<?php } ?>
 			</header>
