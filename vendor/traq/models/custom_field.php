@@ -46,6 +46,21 @@ class CustomField extends Model
         'is_required'
     );
 
+    /**
+     * Returns the models properties.
+     *
+     * @return array
+     */
+    public static function properties()
+    {
+        return static::$_properties;
+    }
+
+    /**
+     * Returns an array containing valid field types.
+     *
+     * @return array
+     */
     public static function types()
     {
         return array(
@@ -55,6 +70,12 @@ class CustomField extends Model
         );
     }
 
+    /**
+     * Returns an array of valid field types formatted
+     * for the Form::select() helper.
+     *
+     * @return array
+     */
     public static function types_select_options()
     {
         $options = array();
@@ -64,5 +85,72 @@ class CustomField extends Model
         }
 
         return $options;
+    }
+
+    /**
+     * Checks if the model data is valid.
+     *
+     * @return boolean
+     */
+    public function is_valid()
+    {
+        $errors = array();
+
+        // Make sure the name is set
+        if (empty($this->_data['name'])) {
+            $errors['name'] = l('errors.name_blank');
+        }
+
+        // Make sure the type is set
+        if (empty($this->_data['type'])) {
+            $errors['type'] = l('errors.type_blank');
+        }
+
+        // Text and integer field
+        if ($this->type == 'text' or $this->type == 'integer') {
+            // Make sure regex is set
+            if (empty($this->_data['regex'])) {
+                $errors['regex'] = l('errors.regex_blank');
+            }
+        }
+        // Select field
+        elseif ($this->type == 'select') {
+            // Make sure there are some values is set
+            if (empty($this->_data['values'])) {
+                $errors['values'] = l('errors.values_blank');
+            }
+        }
+
+        // Set errors and return
+        $this->errors = $errors;
+        return !count($errors) > 0;
+    }
+
+    /**
+     * Saves the model data.
+     *
+     * @return boolean
+     */
+    public function save()
+    {
+        if ($this->is_valid()) {
+            // Defaults
+            $defaults = array(
+                'values'        => "NULL",
+                'multiple'      => 0,
+                'default_value' => "NULL",
+                'regex'         => "NULL",
+                'min_length'    => "NULL",
+                'max_length'    => "NULL",
+                'is_required'   => 0,
+            );
+
+            // Merge defaults with currently set data
+            $this->_data = array_merge($defaults, $this->_data);
+
+            return parent::save();
+        }
+
+        return false;
     }
 }
