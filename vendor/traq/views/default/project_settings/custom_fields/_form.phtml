@@ -8,7 +8,7 @@
 </div>
 <div class="group">
 	<?php echo Form::label(l('required'), 'required'); ?>
-	<?php echo Form::checkbox('is_required', 1); ?>
+	<?php echo Form::checkbox('is_required', 1, array('checked' => $field->is_required)); ?>
 </div>
 
 <div id="fields">
