@@ -15,10 +15,21 @@
 	}
 	// Select
 	elseif ($field->type == "select") {
-		echo Form::select(
-			"custom_fields[{$field->id}]",
-			$field->values_select_options()
-		);
+		if ($field->multiple) {
+			echo Form::multiselect(
+				"custom_fields[{$field->id}][]",
+				$field->values_select_options(),
+				$value
+			);
+		} else {
+			echo Form::select(
+				"custom_fields[{$field->id}]",
+				$field->values_select_options(),
+				array(
+					'value' => $value
+				)
+			);
+		}
 	}
 	?>
 </div>
