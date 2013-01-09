@@ -43,7 +43,8 @@ class Wikipage extends Model
     );
 
     protected static $_escape = array(
-        'title'
+        'title',
+        'body'
     );
 
     protected static $_belongs_to = array('project');
