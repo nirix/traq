@@ -449,6 +449,11 @@ class Ticket extends Model
         if (!isset($this->extra['voted']) or !is_array($this->extra['voted'])) {
             $this->_data['extra']['voted'] = array();
         }
+
+        // Set the custom_fields array
+        if (!isset($this->extra['custom_fields']) or !is_array($this->extra['custom_fields'])) {
+            $this->_data['extra']['custom_fields'] = array();
+        }
     }
 
     /**
