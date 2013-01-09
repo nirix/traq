@@ -102,6 +102,7 @@ class enUS extends \traq\libraries\Locale
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
+            'dashboard'            => "Dashboard",
             'traq_settings'        => "Traq Settings",
             'users'                => "Users",
             'groups'               => "Groups",
@@ -152,6 +153,8 @@ class enUS extends \traq\libraries\Locale
             'new_severity'         => "New Severity",
             'edit_severity'        => "Edit Severity",
             'notifications'        => "Notifications",
+            'total'                => "Total",
+            'newest'               => "Newest",
             'notifications_from_email' => "From Email",
 
             // Project settings
@@ -479,6 +482,8 @@ class enUS extends \traq\libraries\Locale
                                                       "This reset request was done by someone with the IP of: {5}",
 
             // ----------------------------------------------------------------------------------------------------
+
+            'traq_update_available' => "<strong>Update available: <a href=\"{4}\">{1}</a> [<a href=\"{3}\">Download</a>]",
 
             // Testing purposes only...
             'test' => array(
