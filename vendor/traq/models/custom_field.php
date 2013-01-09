@@ -101,6 +101,23 @@ class CustomField extends Model
     }
 
     /**
+     * Returns the fields values formatted for the
+     * Form::select() helper.
+     *
+     * @return array
+     */
+    public function values_select_options()
+    {
+        $options = array();
+
+        foreach (explode("\n", $this->values) as $option) {
+            $options[] = array('label' => $option, 'value' => $option);
+        }
+
+        return $options;
+    }
+
+    /**
      * Validates the custom field.
      *
      * @param mixed $value
