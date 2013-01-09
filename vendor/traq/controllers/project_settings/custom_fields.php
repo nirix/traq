@@ -64,7 +64,7 @@ class CustomFields extends AppController
             // Loop over properties
             foreach (CustomField::properties() as $property) {
                 // Check if it's set and not empty
-                if (isset(Request::$post[$property]) and !empty(Request::$post[$property])) {
+                if (isset(Request::$post[$property])) {
                     $data[$property] = Request::$post[$property];
                 }
             }
@@ -99,7 +99,7 @@ class CustomFields extends AppController
             // Loop over properties
             foreach (CustomField::properties() as $property) {
                 // Check if it's set and not empty
-                if (isset(Request::$post[$property]) and !empty(Request::$post[$property])) {
+                if (isset(Request::$post[$property])) {
                     $data[$property] = Request::$post[$property];
                 }
             }
