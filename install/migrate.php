@@ -784,7 +784,7 @@ get('/step/13', function(){
 
     // Drop/create custom_fields table
     run_query("
-        DROP TABLE IF EXISTS `custom_fields`;
+        DROP TABLE IF EXISTS `traq_custom_fields`;
         CREATE TABLE `custom_fields` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `name` varchar(255) NOT NULL,

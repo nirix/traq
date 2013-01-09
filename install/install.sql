@@ -49,7 +49,7 @@ CREATE TABLE `traq_components` (
 # Dump of table traq_custom_fields
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `custom_fields`;
+DROP TABLE IF EXISTS `traq_custom_fields`;
 
 CREATE TABLE `custom_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
