@@ -193,3 +193,10 @@ function close_overlay()
 	$('#overlay_blackout').fadeOut();
 	$('#overlay').fadeOut();
 }
+
+// Search box
+function do_search() {
+	var project_slug = $('#search input[name="project_slug"]').val();
+	var query = $('#search input[name="search"]').val();
+	window.location.href = traq.base + project_slug + "/tickets?summary=" + query + "&description=" + query;
+}

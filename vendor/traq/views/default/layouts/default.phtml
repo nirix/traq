@@ -13,6 +13,12 @@
 			<header id="header">
 				<h1><?php echo (isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null); ?></h1>
 				<?php View::render('layouts/_project_switcher'); ?>
+				<?php if (isset($project)) { ?>
+				<form onsubmit="do_search();return false;" id="search">
+					<input type="hidden" name="project_slug" value="<?php echo $project->slug; ?>" />
+					<input type="search" name="search" />
+				</form>
+				<?php } ?>
 			</header>
 			<nav id="nav">
 				<ul id="main_nav">
