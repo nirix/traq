@@ -19,7 +19,7 @@
 			echo Form::multiselect(
 				"custom_fields[{$field->id}][]",
 				$field->values_select_options(),
-				$value
+				(is_array($value) ? $value : (array)$value)
 			);
 		} else {
 			echo Form::select(
