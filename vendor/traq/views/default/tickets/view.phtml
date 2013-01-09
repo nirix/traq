@@ -123,7 +123,8 @@
 <?php if ($current_user->permission($project->id, 'update_tickets') or $current_user->permission($project->id, 'comment_on_tickets')) { ?>
 <div class="content">
 	<h3><?php echo l('update_ticket'); ?></h3>
-	<form action="<?php echo Request::requestUri(); ?>/update" method="post" id="update_tickets" enctype="multipart/form-data">
+	<?php show_errors($ticket->errors); ?>
+	<form action="<?php echo Request::base($ticket->href('update')); ?>" method="post" id="update_tickets" enctype="multipart/form-data">
 		<div class="tabular box">
 			<?php if ($current_user->permission($project->id, 'comment_on_tickets')) { ?>
 			<div class="group">
