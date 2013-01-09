@@ -292,7 +292,9 @@ class Tickets extends AppController
             $ticket->set($data);
 
             // Custom fields, FUN!
-            $this->process_custom_fields($ticket, Request::$post['custom_fields']);
+            if (isset(Request::$post['custom_fields'])) {
+                $this->process_custom_fields($ticket, Request::$post['custom_fields']);
+            }
 
             // Check if the ticket data is valid...
             // if it is, save the ticket to the DB and
@@ -352,7 +354,9 @@ class Tickets extends AppController
         }
 
         // Custom fields, FUN!
-        $this->process_custom_fields($ticket, Request::$post['custom_fields']);
+        if (isset(Request::$post['custom_fields'])) {
+            $this->process_custom_fields($ticket, Request::$post['custom_fields']);
+        }
 
         // Update the ticket
         if ($ticket->update_data($data)) {
