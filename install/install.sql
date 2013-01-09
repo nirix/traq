@@ -51,7 +51,7 @@ CREATE TABLE `traq_components` (
 
 DROP TABLE IF EXISTS `traq_custom_fields`;
 
-CREATE TABLE `custom_fields` (
+CREATE TABLE `traq_custom_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL DEFAULT 'text',
