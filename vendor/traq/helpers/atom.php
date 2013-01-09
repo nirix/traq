@@ -66,23 +66,24 @@ class Atom
             $feed[] = "    <updated>{$entry['updated']}</updated>";
 
             // Link
-            if (array_key_exists('link', $entry)) {
+            if (isset($entry['link'])) {
                 $feed[] = "    <link href=\"{$entry['link']}\" />";
             }
 
             // Summary
-            if (array_key_exists('summary', $entry)) {
+            if (isset($entry['summary'])) {
                 $feed[] = "    <summary>{$entry['summary']}</summary>";
             }
 
             // Author
-            if (array_key_exists('author', $entry)) {
+            if (isset($entry['author'])) {
                 $feed[] = "    <author>";
                 $feed[] = "      <name>{$entry['author']['name']}</name>";
                 $feed[] = "    </author>";
             }
 
-            if (array_key_exists('content', $entry)) {
+            // Content
+            if (isset($entry['content'])) {
                 $feed[] = "    <content" . (array_key_exists('type', $entry['content']) ? " type=\"{$entry['content']['type']}\"" :'' ) . ">";
                 $feed[] = "      {$entry['content']['data']}";
                 $feed[] = "    </author>";

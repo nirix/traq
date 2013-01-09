@@ -54,7 +54,7 @@ class Settings extends AppController
 
             // Check select fields
             foreach (array('locale', 'theme', 'allow_registration') as $select) {
-                if (!array_key_exists($select, $_settings)) {
+                if (!isset($_settings[$select])) {
                     $errors[$select] = l("errors.settings.{$select}_blank");
                 }
             }

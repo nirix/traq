@@ -445,7 +445,7 @@ class Ticket extends Model
      */
     public function custom_field_exists($field_id)
     {
-        if (array_key_exists($field_id, $this->extra['custom_fields'])) {
+        if (isset($this->extra['custom_fields'][$field_id])) {
             return true;
         }
 

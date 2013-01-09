@@ -239,7 +239,7 @@ class User extends Model
      */
     protected function _after_construct()
     {
-        if (isset($this->_data) and array_key_exists('options', $this->_data)) {
+        if (isset($this->_data) and isset($this->_data['options'])) {
             $this->_options = json_decode($this->_data['options'], true);
         }
     }

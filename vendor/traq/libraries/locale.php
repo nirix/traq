@@ -135,7 +135,7 @@ class Locale
         $indexes = explode('.', $string);
 
         // Exact match?
-        if (array_key_exists($string, $locale)) {
+        if (isset($locale[$string])) {
             if(is_array($locale[$string]) && isset($locale[$string][0])) {
                 return $locale[$string][0];
             } else {
