@@ -25,12 +25,14 @@
 			<div class="clearfix"></div>
 		</div>
 
+		<?php if (count($profile->projects())) { ?>
 		<div class="box">
 			<h3><?php echo l('projects'); ?></h3>
 			<?php foreach ($profile->projects() as $project) { ?>
 				<li><?php echo HTML::link($project[0]->name, $project[0]->href()); ?>, <?php echo $project[1]->name; ?></li>
 			<?php } ?>
 		</div>
+		<?php } ?>
 	</div>
 
 	<div id="assigned_to" class="span-16 last">
