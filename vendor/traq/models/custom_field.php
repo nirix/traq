@@ -48,6 +48,18 @@ class CustomField extends Model
     );
 
     /**
+     * Returns the custom fields for the specified project.
+     *
+     * @param integer $project_id
+     *
+     * @return array
+     */
+    public static function for_project($project_id)
+    {
+        return static::select()->where('project_id', $project_id)->exec()->fetch_all();
+    }
+
+    /**
      * Returns the models properties.
      *
      * @return array
