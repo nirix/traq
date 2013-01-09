@@ -291,6 +291,9 @@ class Tickets extends AppController
             // Set the ticket data
             $ticket->set($data);
 
+            // Custom fields, FUN!
+            $this->process_custom_fields($ticket, Request::$post['custom_fields']);
+
             // Check if the ticket data is valid...
             // if it is, save the ticket to the DB and
             // redirect to the ticket page.
@@ -351,6 +354,29 @@ class Tickets extends AppController
         // Update the ticket
         if ($ticket->update_data($data)) {
             Request::redirect(Request::base($ticket->href()));
+        }
+    }
+
+    /**
+     * Processes the custom fields
+     *
+     * @param object $ticket
+     * @param array  $custom_fields
+     */
+    private function process_custom_fields(&$ticket, $fields)
+    {
+        foreach ($this->custom_fields as $field) {
+            if (isset($fields[$field->id])) {
+                if ($field->validate($fields[$field->id])) {
+                    $ticket->set_custom_field($field->id, $fields[$field->id]);
+                } else {
+                    $ticket->_add_error($field->id, l("errors.custom_fields.x_is_not_valid", $field->name, $field->type));
+                }
+            }
+            // Check if field is required
+            elseif ($field->is_required) {
+                $ticket->_add_error($field->id, l('errors.custom_fields.x_required', $field->name));
+            }
         }
     }
 
