@@ -192,6 +192,20 @@ class enUS extends \traq\libraries\Locale
             'created_at' => "Created at",
             'updated_at' => "Updated at",
 
+            // Custom fields
+            'text'          => "Text",
+            'select'        => "Select",
+            'integer'       => "Integer",
+            'custom_fields' => "Custom Fields",
+            'new_field'     => "New Field",
+            'required'      => "Required",
+            'min_length'    => "Min length",
+            'max_length'    => "Max length",
+            'regex'         => "Regex",
+            'default_value' => "Default value",
+            'values'        => "Values",
+            'multiple'      => "Multiple",
+
             // Users
             'login'                => "Login",
             'logout'               => "Logout",
@@ -297,8 +311,13 @@ class enUS extends \traq\libraries\Locale
             'timeline.by_x'                => "by {1}",
 
             // Help
-            'help.slug'               => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
-            'help.ticket_type_bullet' => "The bullet style used on the changelog list.",
+            'help.slug'                     => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
+            'help.ticket_type_bullet'       => "The bullet style used on the changelog list.",
+            'help.custom_fields.regex'      => "Regular expression to match user value against.",
+            'help.custom_fields.min_length' => "Minimum value length, blank for none.",
+            'help.custom_fields.max_length' => "Maximum value length, blank for none.",
+            'help.custom_fields.values'     => "Options for select, one per line.",
+            'help.custom_fields.multiple'   => "Allows multiple options to be selected.",
 
             // Confirmations
             'confirm.delete'   => "Are you sure you want to delete that?",
@@ -359,6 +378,9 @@ class enUS extends \traq\libraries\Locale
                 'page_title_blank'             => "Page Title cannot be blank",
                 'already_voted'                => "You have already voted.",
                 'must_be_logged_in'            => "You must be logged in to do that.",
+                'type_blank'                   => "You must choose a type",
+                'regex_blank'                  => "You need to enter a regex value",
+                'values_blank'                 => "You need to enter some values",
 
                 // 404 error page
                 '404' => array(
