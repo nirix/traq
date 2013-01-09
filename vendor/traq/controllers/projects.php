@@ -29,6 +29,7 @@ use traq\models\Timeline;
 use traq\models\Milestone;
 use traq\models\Type;
 use traq\models\Status;
+use traq\helpers\Pagination;
 
 /**
  * Project controller.
@@ -142,9 +143,9 @@ class Projects extends AppController
 
         // Fetch the different days with a nicely formatted
         // query for everyone to read easily, unlike the one
-        // from 2.x and eariler, that were, well, you know,
+        // from 2.x and earlier, that were, well, you know,
         // completely ugly and looked hackish.
-        $days_query = Database::connection()->query("
+        $query = "
             SELECT
             DISTINCT
                 YEAR(created_at) AS 'year',
@@ -152,7 +153,7 @@ class Projects extends AppController
                 DAY(created_at) AS 'day',
                 created_at
 
-            FROM " . DB_PREFIX . "timeline
+            FROM " . $this->db->prefix . "timeline
             WHERE project_id = '{$this->project->id}'
 
             GROUP BY
@@ -161,7 +162,23 @@ class Projects extends AppController
                 DAY(created_at)
 
             ORDER BY created_at DESC
-        ");
+        ";
+
+        // Pagination
+        $pagination = new Pagination(
+            (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
+            settings('timeline_days_per_page'), // Per page
+            Database::connection()->query($query)->rowCount() // Row count
+        );
+
+        // Limit?
+        if ($pagination->paginate) {
+            $days_query = Database::connection()->query($query . " LIMIT {$pagination->limit}, " . $pagination->per_page);
+        } else {
+            $days_query = Database::connection()->query($query);
+        }
+
+        View::set(compact('pagination'));
 
         // Loop through the days and get their activity
         foreach ($days_query as $info) {
