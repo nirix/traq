@@ -437,6 +437,20 @@ class Ticket extends Model
     }
 
     /**
+     * Checks if the custom field has been set on this ticket.
+     *
+     * @param integer $field_id
+     *
+     * @return boolean
+     */
+    public function custom_field_exists($field_id)
+    {
+        if (array_key_exists($field_id, $this->extra['custom_fields'])) {
+            return true;
+        }
+
+        return false;
+    }
      * Processes the data when reading from the database.
      *
      * @access private
