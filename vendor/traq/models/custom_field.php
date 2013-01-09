@@ -101,6 +101,29 @@ class CustomField extends Model
     }
 
     /**
+     * Validates the custom field.
+     *
+     * @param mixed $value
+     *
+     * @return boolean
+     */
+    public function validate($value)
+    {
+        switch($this->type) {
+            case 'text':
+            case 'integer':
+
+                break;
+
+            case 'select':
+                return in_array($value, explode("\n", $this->values));
+                break;
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the model data is valid.
      *
      * @return boolean
