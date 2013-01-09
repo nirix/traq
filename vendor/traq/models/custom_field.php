@@ -111,13 +111,77 @@ class CustomField extends Model
     {
         switch($this->type) {
             case 'text':
-            case 'integer':
+                if ($this->validate_min_length($value)
+                and $this->validate_max_length($value)
+                and $this->validate_regex($value)) {
+                    return true;
+                }
+                break;
 
+            case 'integer':
+                if ($this->validate_min_length($value)
+                and $this->validate_max_length($value)
+                and $this->validate_regex($value)
+                and is_numeric($value)) {
+                    return true;
+                }
                 break;
 
             case 'select':
                 return in_array($value, explode("\n", $this->values));
                 break;
+        }
+
+        return false;
+    }
+
+    /**
+     * Validates the minimum length.
+     *
+     * @param mixed $value
+     *
+     * @return boolean
+     */
+    private function validate_min_length($value)
+    {
+        if ($this->min_length != '') {
+            if (strlen($value) < $this->min_length) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates the maximum length.
+     *
+     * @param mixed $value
+     *
+     * @return boolean
+     */
+    private function validate_max_length($value)
+    {
+        if ($this->max_length != '') {
+            if (strlen($value) > $this->max_length) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates the regex.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    private function validate_regex($value)
+    {
+        if (preg_match("#{$this->regex}#", $value)) {
+            return true;
         }
 
         return false;
