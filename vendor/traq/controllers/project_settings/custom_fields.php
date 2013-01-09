@@ -54,7 +54,7 @@ class CustomFields extends AppController
         // Create field
         $field = new CustomField(array(
             'type'  => 'text',
-            'regex' => '(.*)'
+            'regex' => '^(.*)$'
         ));
 
         // Check if the form has been submitted
