@@ -835,6 +835,8 @@ get('/step/13', function(){
     // Add settings
     $db->insert(array('setting' => 'date_format', 'value' => "d/m/Y"))->into('settings')->exec();
     $db->insert(array('setting' => 'notification_from_email', 'value' => "noreply@{$_SERVER['HTTP_HOST']}"))->into('settings')->exec();
+    $db->insert(array('setting' => 'tickets_per_page', 'value' => "25"))->into('settings')->exec();
+    $db->insert(array('setting' => 'timeline_days_per_page', 'value' => "7"))->into('settings')->exec();
 
     // Update settings
     $db->update('settings')->set(array('setting' => 'db_version', 'value' => '30000'))->where('setting', 'db_revision')->exec();

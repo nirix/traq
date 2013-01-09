@@ -323,7 +323,9 @@ VALUES
 	('db_version','30000'),
 	('locale','enus'),
 	('theme','default'),
+  ('tickets_per_page', '25'),
 	('timeline_day_format','l, jS F Y'),
+  ('timeline_days_per_page','7'),
 	('timeline_time_format','h:iA'),
 	('title','Traq');
 
