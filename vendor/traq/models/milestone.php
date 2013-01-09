@@ -76,6 +76,15 @@ class Milestone extends Model
     }
 
     /**
+     * Returns an array in the format used for the
+     * Form::select() helper.
+     */
+    public function select_option()
+    {
+        return array(array('label' => $this->name, 'value' => $this->id));
+    }
+
+    /**
      * Returns the number of tickets for the specified status.
      *
      * @param string $status The status of the ticket:
