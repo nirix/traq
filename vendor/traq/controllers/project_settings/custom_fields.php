@@ -116,4 +116,17 @@ class CustomFields extends AppController
         // Send field object to view
         View::set(compact('field'));
     }
+
+    /**
+     * Delete field.
+     */
+    public function action_delete($id)
+    {
+        // Find field
+        $field = CustomField::find($id);
+
+        // Delete and redirect
+        $field->delete();
+        Request::redirectTo($this->project->href('settings/custom_fields'));
+    }
 }
