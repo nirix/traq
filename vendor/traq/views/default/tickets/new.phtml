@@ -47,6 +47,7 @@
 					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
 				<?php } ?>
+				<?php View::render('tickets/_custom_fields_form'); ?>
 				<div class="clearfix"></div>
 			</div>
 		</div>
