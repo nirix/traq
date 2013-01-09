@@ -393,8 +393,9 @@ class Ticket extends Model
             $errors['body'] = l('errors.tickets.description_blank');
         }
 
-        $this->errors = $errors;
-        return !count($errors) > 0;
+        // Merge errors
+        $this->errors = array_merge($errors, $this->errors);
+        return !count($this->errors) > 0;
     }
 
     /**
