@@ -351,10 +351,16 @@ class Tickets extends AppController
             $data['attachment'] = $_FILES['attachment']['name'];
         }
 
+        // Custom fields, FUN!
+        $this->process_custom_fields($ticket, Request::$post['custom_fields']);
+
         // Update the ticket
         if ($ticket->update_data($data)) {
             Request::redirect(Request::base($ticket->href()));
         }
+
+        View::set(compact('ticket'));
+        $this->_render['view'] = 'tickets/view';
     }
 
     /**
