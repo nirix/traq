@@ -248,6 +248,9 @@ class CustomField extends Model
             // Merge defaults with currently set data
             $this->_data = array_merge($defaults, $this->_data);
 
+            // Remove stupid crap
+            $this->_data['values'] = str_replace("\r", '', $this->_data['values']);
+
             return parent::save();
         }
 
