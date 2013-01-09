@@ -1,0 +1,13 @@
+<?php foreach ($custom_fields as $field) { ?>
+<div class="custom_field field">
+	<?php echo Form::label($field->name, "custom_fields[{$field->id}]"); ?>
+	<?php if ($field->type == 'text' or $field->type == 'integer') {
+		echo Form::text(
+			"custom_fields[{$field->id}]",
+			array(
+				'value' => ($ticket->custom_field_exists($field->id) ? $ticket->custom_field($field->id) : $field->default_value)
+			)
+		);
+	} ?>
+</div>
+<?php } ?>
