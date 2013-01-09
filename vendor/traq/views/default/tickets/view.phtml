@@ -60,6 +60,17 @@
 				} ?>
 			</span>
 		</div>
+		<?php
+		foreach ($custom_fields as $field) {
+				if ($ticket->custom_field_exists($field->id)) {
+		?>
+		<div class="property">
+			<?php echo Form::label($field->name); ?>
+			<span class="value"><?php echo $ticket->custom_field($field->id); ?></span>
+		</div>
+		<?php }
+		}
+		?>
 
 		<div class="clearfix"></div>
 	</section>
