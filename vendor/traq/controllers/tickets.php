@@ -142,7 +142,7 @@ class Tickets extends AppController
         }
         // Order by priority
         else {
-            $rows->order_by('severity_id', 'ASC');
+            $rows->order_by('priority_id', 'ASC');
         }
 
         // Paginate tickets
