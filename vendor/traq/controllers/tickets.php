@@ -140,6 +140,10 @@ class Tickets extends AppController
             // Order rows
             $rows->order_by($property, (strtolower($order[1]) == 'asc' ? "ASC" : "DESC"));
         }
+        // Order by priority
+        else {
+            $rows->order_by('severity_id', 'ASC');
+        }
 
         // Paginate tickets
         $pagination = new Pagination(
