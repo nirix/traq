@@ -117,3 +117,46 @@
 
   li
     display: inline
+
+table.ticket_listing
+  tr
+    &.priority_1
+      td
+        background-color: #fdc
+
+      &:nth-child(even) td
+        background-color: #fed
+
+    &.priority_2
+      td
+        background-color: #ffb
+
+      &:nth-child(even) td
+        background-color: #ffd
+
+    &.priority_3
+      td
+        background-color: #d9f9f9
+
+      &:nth-child(even) td
+        background-color: #dff
+
+    &.priority_4
+      td
+        background-color: #e7eeff
+
+      &:nth-child(even) td
+        background-color: #dde7ff
+
+    &.priority_5
+      td
+        background-color: #fbfbfb
+
+      &:nth-child(even) td
+        background-color: #f6f6f6
+
+    &:hover
+      td,
+      &:nth-child(even) td
+        background: #fff
+
