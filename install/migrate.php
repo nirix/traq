@@ -654,8 +654,50 @@ get('/step/12', function(){
             'name' => $priority['name'],
         ));
         $p->save();
+    }
 
-        $db->update('tickets')->set(array('priority_id' => $priority['id']))->where('priority_id', $priority['old_id'])->exec();
+    // Fix ticket priority ID's
+    $tickets = $db->select()->from('tickets')->exec()->fetch_all();
+    foreach ($tickets as $id => $ticket) {
+        // No need to change the Normal priority
+        if ($ticket['priority_id'] == '3') {
+            continue;
+        }
+
+        // Determine what to set the priority ID to
+        // with an increase of 1000, to avoid
+        // any issues.
+        switch ($ticket['priority_id']) {
+            case '1':
+                $ticket['priority_id'] = 1005;
+                break;
+
+            case '2':
+                $ticket['priority_id'] = 1004;
+                break;
+
+            case '4':
+                $ticket['priority_id'] = 1002;
+                break;
+
+            case '5':
+                $ticket['priority_id'] = 1001;
+                break;
+        }
+
+        // Update already fetched tickets.
+        $tickets[$id]['priority_id'] = $ticket['priority_id'];
+        $db->update('tickets')->set(array('priority_id' => $ticket['priority_id']))->where('id', $ticket['id'])->exec();
+    }
+
+    // Loop over tickets again
+    foreach ($tickets as $ticket) {
+        // Updated priority ID?
+        if ($ticket['priority_id'] > 1000) {
+            // Subtract ID by 1000 to get real priority ID.
+            $ticket['priority_id'] = $ticket['priority_id'] - 1000;
+            $db->update('tickets')->set(array('priority_id' => $ticket['priority_id']))->where('id', $ticket['id'])->exec();
+        }
     }
 
     // Next
