@@ -3,7 +3,7 @@
 	<?php View::render('tickets/_filters'); ?>
 	<?php View::render('tickets/_columns'); ?>
 </div>
-<table class="list">
+<table class="ticket_listing list">
 	<thead>
 		<tr>
 	<?php foreach ($columns as $column) { ?>
@@ -13,7 +13,7 @@
 	</thead>
 	<tbody>
 	<?php foreach ($tickets as $ticket) { ?>
-		<tr>
+		<tr class="priority_<?php echo $ticket->priority_id; ?>">
 			<?php foreach ($columns as $column) { ?>
 				<?php if ($column == 'summary') { ?>
 				<td><?php echo HTML::link($ticket->summary, "{$project->slug}/tickets/{$ticket->ticket_id}"); ?></td>
