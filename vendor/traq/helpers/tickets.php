@@ -156,7 +156,7 @@ function ticket_filters_select_options()
 function ticketlist_header($column) {
     switch ($column) {
         case 'ticket_id':
-            return l('ticket_id');
+            return l('id');
             break;
 
         case 'summary':
