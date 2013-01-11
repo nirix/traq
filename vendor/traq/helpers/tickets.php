@@ -23,6 +23,7 @@ use avalon\core\Kernel as Avalon;
 use traq\models\Type;
 use traq\models\Status;
 use traq\models\Component;
+use traq\models\Priority;
 
 /**
  * Returns the URL for sorting the provided ticket column.
@@ -112,7 +113,8 @@ function ticket_filters()
         'milestone',
         'version',
         'status',
-        'type'
+        'type',
+        'priority'
     );
 
     // Run plugin hook
@@ -286,6 +288,11 @@ function ticket_filter_options_for($filter, $project_id = null) {
         // Component options
         case 'component':
             $options = Component::select_options($project_id);
+            break;
+
+        // Priority options
+        case 'priority':
+            $options = Priority::select_options();
             break;
     }
 

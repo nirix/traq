@@ -4,7 +4,7 @@
 		<table>
 			<tbody>
 			<?php foreach ($filters as $filter => $info) { ?>
-				<?php if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component'))) { ?>
+				<?php if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component', 'priority'))) { ?>
 				<tr>
 					<td class="label"><?php echo l($filter); ?></td>
 					<td class="condition">
