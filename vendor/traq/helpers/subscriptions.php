@@ -32,12 +32,12 @@ function is_subscribed($user, $object)
     $class = new ReflectionClass(get_class($object));
     $type = strtolower($class->getShortName());
 
-    $sub = Subscription::select()->where([
-        ['project_id', ($type == 'project') ? $object->id : $object->project_id],
-        ['user_id', $user->id],
-        ['type', $type],
-        ['object_id', $object->id]
-    ])->exec()->fetch();
+    $sub = Subscription::select()->where(array(
+        array('project_id', ($type == 'project') ? $object->id : $object->project_id),
+        array('user_id', $user->id),
+        array('type', $type),
+        array('object_id', $object->id)
+    ))->exec()->fetch();
 
     return $sub !== false;
 }
