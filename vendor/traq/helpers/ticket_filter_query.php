@@ -97,7 +97,7 @@ class TicketFilterQuery
                 }
 
                 // Find row and add ID to query values if it exists
-                if ($value == 'allopen' or $value == 'allclosed') {
+                if ($field == 'status' and ($value == 'allopen' or $value == 'allclosed')) {
                     foreach (Status::select('id')->where('status', ($value == 'allopen' ? 1 : 0))->exec()->fetch_all() as $status) {
                         $query_values[] = $status->id;
                     }
