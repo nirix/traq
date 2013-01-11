@@ -523,6 +523,7 @@ class Tickets extends AppController
                 case 'status':
                 case 'component':
                 case 'priority':
+                case 'severity':
                     // Class name
                     $class = '\\traq\\models\\' . ucfirst($name == 'version' ? 'milestone' : $name);
 

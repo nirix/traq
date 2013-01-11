@@ -24,6 +24,7 @@ use traq\models\Type;
 use traq\models\Status;
 use traq\models\Component;
 use traq\models\Priority;
+use traq\models\Severity;
 
 /**
  * Returns the URL for sorting the provided ticket column.
@@ -114,7 +115,8 @@ function ticket_filters()
         'version',
         'status',
         'type',
-        'priority'
+        'priority',
+        'severity'
     );
 
     // Run plugin hook
@@ -293,6 +295,11 @@ function ticket_filter_options_for($filter, $project_id = null) {
         // Priority options
         case 'priority':
             $options = Priority::select_options();
+            break;
+
+        // Priority options
+        case 'severity':
+            $options = Severity::select_options();
             break;
     }
 

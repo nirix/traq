@@ -78,7 +78,7 @@ class TicketFilterQuery
         }
 
         // Milestone, version, status, type and component
-        if (in_array($field, array('milestone', 'status', 'type', 'version', 'component', 'priority'))) {
+        if (in_array($field, array('milestone', 'status', 'type', 'version', 'component', 'priority', 'severity'))) {
             $class = "\\traq\\models\\" . ucfirst($field == 'version' ? 'milestone' : $field);
             foreach ($values as $value) {
                 // What column to use when
