@@ -6,7 +6,7 @@
 		<div class="tabular box">
 			<div class="group">
 				<?php echo Form::label(l('type')); ?>
-				<?php echo Form::select('type', traq\models\Type::select_options()); ?>
+				<?php echo Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
 			</div>
 			<div class="summary group">
 				<?php echo Form::label(l('summary'), 'summary'); ?>
@@ -14,33 +14,33 @@
 			</div>
 			<div class="description group">
 				<?php echo Form::label(l('description'), 'description'); ?>
-				<?php echo Form::textarea('description', array('class' => 'editor')); ?>
+				<?php echo Form::textarea('description', array('class' => 'editor', 'value' => $ticket->body)); ?>
 			</div>
 			<div class="properties group">
 				<div class="field">
 					<?php echo Form::label(l('milestone'), 'milestone'); ?>
-					<?php echo Form::select('milestone', $project->milestone_select_options('open')); ?>
+					<?php echo Form::select('milestone', $project->milestone_select_options('open'), array('value' => $ticket->milestone_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
-					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('closed', 'DESC'))); ?>
+					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('closed', 'DESC')), array('value' => $ticket->version_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
-					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id))); ?>
+					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('severity'), 'severity'); ?>
-					<?php echo Form::select('severity', traq\models\Severity::select_options(), array('value' => 4)); ?>
+					<?php echo Form::select('severity', traq\models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
 				</div>
 				<?php if (current_user()->permission($project->id, 'set_all_ticket_properties')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('priority'), 'priority'); ?>
-					<?php echo Form::select('priority', traq\models\Priority::select_options(), array('value' => 3)); ?>
+					<?php echo Form::select('priority', traq\models\Priority::select_options(), array('value' => $ticket->priority_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('status'), 'status'); ?>
-					<?php echo Form::select('status', traq\models\Status::select_options(), array('value' => 1)); ?>
+					<?php echo Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>

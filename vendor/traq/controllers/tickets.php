@@ -288,7 +288,11 @@ class Tickets extends AppController
         $this->title(l('new_ticket'));
 
         // Create a new ticket object
-        $ticket = new Ticket;
+        $ticket = new Ticket(array(
+            'severity_id' => 4,
+            'priority_id' => 3,
+            'status_id'   => 1
+        ));
 
         // Check if the form has been submitted
         if (Request::method() == 'post') {
