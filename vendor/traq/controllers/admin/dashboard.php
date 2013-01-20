@@ -40,10 +40,8 @@ class Dashboard extends AppController
      */
     public function action_index()
     {
-        // Automatically check for updates?
-        if (settings('check_for_update')) {
-            $this->check_for_update();
-        }
+        // Check for update
+        $this->check_for_update();
 
         // Get information
         $info = array(
