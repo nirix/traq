@@ -23,7 +23,7 @@
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
-					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('closed', 'DESC')), array('value' => $ticket->version_id)); ?>
+					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('all', 'DESC')), array('value' => $ticket->version_id)); ?>
 				</div>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
