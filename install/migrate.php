@@ -307,13 +307,18 @@ get('/step/7', function(){
         $changes = array();
         foreach (json_decode($history['changes'], true) as $change) {
             // Remove the 'mark' action
-            if (array_key_exists('action', $change) and $change['action'] == 'mark') {
+            if (isset($change['action']) and $change['action'] == 'mark') {
                 unset($change['action']);
             }
 
             // Skip the 'open' change
-            if (array_key_exists('action', $change) and $change['action'] == 'open') {
+            if (isset($change['action']) and $change['action'] == 'open') {
                 continue;
+            }
+
+            // Attachment action rename
+            if (isset($change['action']) and $change['action'] == 'add') {
+                $change['action'] = 'add_attachment';
             }
 
             $changes[] = $change;
