@@ -394,7 +394,7 @@ class enUS extends \traq\libraries\Locale
                 // Custom fields
                 'custom_fields' => array(
                     'x_required'     => "{1} is required",
-                    'x_is_not_valid' => "{1} is not a valid"
+                    'x_is_not_valid' => "{1} is not valid"
                 ),
 
                 // 404 error page
