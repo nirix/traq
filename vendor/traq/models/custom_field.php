@@ -173,7 +173,7 @@ class CustomField extends Model
      */
     private function validate_min_length($value)
     {
-        if ($this->min_length != '') {
+        if ($this->min_length != "0") {
             if (strlen($value) < $this->min_length) {
                 return false;
             }
@@ -191,7 +191,7 @@ class CustomField extends Model
      */
     private function validate_max_length($value)
     {
-        if ($this->max_length != '') {
+        if ($this->max_length != "0") {
             if (strlen($value) > $this->max_length) {
                 return false;
             }
