@@ -206,12 +206,27 @@ class Locale
     {
         $translation = $string;
 
-        // Loop through and replace {x}, ${x} or $x
+        // If $vars isn't an array, get everything after
+        // the string and use whatever we get.
+        if (!is_array($vars)) {
+            $vars = array_slice(func_get_args(), 1);
+        }
+
+        // Loop through and replace the placeholders
         // with the values from the $vars array.
-        $v = 1;
-        foreach ($vars as $var) {
-            $translation = str_replace(array("{{$v}}", "\${{$v}}", "\${$v}"), $vars[$v - 1], $translation);
-            $v++;
+        $count = 0;
+        foreach ($vars as $key => $val) {
+            $count++;
+
+            // If array key is an integer,
+            // use the counter to avoid clashes
+            // with numbered placeholders.
+            if (is_integer($key)) {
+                $key = $count;
+            }
+
+            // Replace placeholder with value
+            $translation = str_replace(array("{{$key}}"), $val, $translation);
         }
 
         // Match plural:n,{x, y}
