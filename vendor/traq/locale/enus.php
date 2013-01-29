@@ -311,12 +311,12 @@ class enUS extends \traq\libraries\Locale
 
             // Timeline
             'timeline'                     => "Timeline",
-            'timeline.ticket_created'      => "{3} #{2} ({1}) created",
-            'timeline.ticket_closed'       => "{3} #{2} ({1}) closed as {4}",
-            'timeline.ticket_reopened'     => "{3} #{2} ({1}) reopened as {4}",
-            'timeline.ticket_comment'      => "Commented on ticket {1}",
-            'timeline.milestone_completed' => "Milestone {1} completed",
-            'timeline.milestone_cancelled' => "Milestone {1} cancelled",
+            'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) created",
+            'timeline.ticket_closed'       => "{ticket_type_name} #{ticket_id} ({ticket_summary}) closed as {ticket_status_name}",
+            'timeline.ticket_reopened'     => "{ticket_type_name} #{ticket_id} ({ticket_summary}) reopened as {ticket_status_name}",
+            'timeline.ticket_comment'      => "Commented on ticket {link}",
+            'timeline.milestone_completed' => "Milestone {milestone_name} completed",
+            'timeline.milestone_cancelled' => "Milestone {milestone_name} cancelled",
             'timeline.by_x'                => "by {1}",
 
             // Help
