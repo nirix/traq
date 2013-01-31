@@ -142,12 +142,7 @@ class Ticket extends Model
 
         // Update ticket open/closed state if ticket status has changed.
         $status = Status::find($this->_data['status_id']);
-        if (isset($this->_data['is_closed'])) {
-            if (($this->_data['is_closed'] == 1 and $status->status == 1)
-            or ($this->_data['is_closed'] == 0 and $status->status == 0)) {
-                $this->is_closed = ($status->status == 1 ? 0 : 1);
-            }
-        }
+        $this->_data['is_closed'] = $status->status == 1 ? 0 : 1;
 
         if (parent::save()) {
             // New ticket?
