@@ -102,6 +102,12 @@ class Projects extends AppController
     {
         $project = Project::find('id', $id);
         $project->delete();
-        Request::redirectTo('admin/projects');
+
+        // Is this an API request?
+        if ($this->is_api) {
+            return to_json(array('status' => 'success'));
+        } else {
+            Request::redirectTo('admin/projects');
+        }
     }
 }
