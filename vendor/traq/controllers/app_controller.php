@@ -151,7 +151,20 @@ class AppController extends Controller
         // and set set the user info.
         if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq'])) {
             $this->user = $user;
+        }
+        // Check if the API key is set
+        elseif (isset(Request::$request['api_key']) or isset(Request::$post['api_key'])) {
+            // Get API key
+            $api_key = isset(Request::$request['api_key']) ? Request::$request['api_key'] : Request::$post['api_key'];
 
+            // Make sure it's at least 10 characters long
+            if (isset($api_key[10])) {
+                $this->user = User::find('api_key', $api_key);
+            }
+        }
+
+        // If a user was found, load their language
+        if ($this->user) {
             // Load user's locale
             if ($this->user->locale != '') {
                 $user_locale = Locale::load($this->user->locale);
