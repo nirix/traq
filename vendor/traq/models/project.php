@@ -212,9 +212,9 @@ class Project extends Model
             }
 
             // Delete repositories
-            foreach ($this->repositories->exec()->fetch_all() as $repo) {
+            /*foreach ($this->repositories->exec()->fetch_all() as $repo) {
                 $repo->delete();
-            }
+            }*/
 
             // Delete components
             foreach ($this->components->exec()->fetch_all() as $component) {
