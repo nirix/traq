@@ -44,6 +44,7 @@ class AppController extends Controller
     public $project;
     public $projects;
     public $user;
+    public $is_api = false;
     public $title = array();
     public $feeds = array();
 
@@ -160,6 +161,7 @@ class AppController extends Controller
             // Make sure it's at least 10 characters long
             if (isset($api_key[10])) {
                 $this->user = User::find('api_key', $api_key);
+                $this->is_api = true;
             }
         }
 
@@ -191,6 +193,11 @@ class AppController extends Controller
 
     public function __shutdown()
     {
+        // No layouts for API stuff
+        if ($this->is_api) {
+            $this->_render['layout'] = 'plain';
+        }
+
         // Was the page requested via ajax?
         if ($this->_render['view'] and Request::isAjax() and Router::$extension == null) {
             // Is this page being used as an overlay?
