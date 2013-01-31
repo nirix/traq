@@ -59,19 +59,32 @@ class Projects extends AppController
 
         if (Request::method() == 'post') {
             $project->set(array(
-                'name' => Request::$post['name'],
-                'slug' => Request::$post['slug'],
-                'codename' => Request::$post['codename'],
-                'info' => Request::$post['info'],
+                'name'        => Request::post('name'),
+                'slug'        => Request::post('slug'),
+                'codename'    => Request::post('slug'),
+                'info'        => Request::post('info'),
                 'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
             ));
 
+            // Save project
             if ($project->save()) {
-                Request::redirectTo('admin/projects');
+                // Is this an API request?
+                if ($this->is_api) {
+                    // Return JSON formatted response
+                    return to_json(array('status' => 'success', 'project' => $project));
+                } else {
+                    Request::redirectTo('admin/projects');
+                }
             }
         }
 
-        View::set('proj', $project);
+        // is this an API request?
+        if ($this->is_api) {
+            // Return JSON formatted response
+            return to_json(array('status' => 'error', 'errors' => $project->errors));
+        } else {
+            View::set('proj', $project);
+        }
     }
 
     /**
