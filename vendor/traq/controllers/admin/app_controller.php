@@ -48,7 +48,7 @@ class AppController extends \traq\controllers\AppController
         // URI so we can redirect them back to this page
         // after they login.
         if (!$this->user->group->is_admin) {
-            $this->show_login(Request::full_uri());
+            $this->show_login(Request::requestUri());
         }
     }
 }
