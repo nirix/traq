@@ -172,12 +172,12 @@ class Notification
     {
         // Headers
         $headers = array(
+            "From: " . settings('title') . " <" . settings('notification_from_email') . ">",
             "MIME-Version: 1.0",
-            "Content-type: text/html; charset=utf-8",
-            "From: " . settings('title') . " <" . settings('notification_from_email') . ">"
+            "Content-type: text/html; charset=utf-8"
         );
 
         // Send
-        return mail($user->email, $subject, $message, implode("\r\n", $headers));
+        return mail($user->email, $subject, $message, implode(PHP_EOL, $headers));
     }
 }
