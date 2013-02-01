@@ -134,7 +134,7 @@ class AppController extends Controller
     public function show_login()
     {
         $this->_render['action'] = false;
-        $this->_render['view'] = 'users/login';
+        $this->_render['view'] = 'users/login' . ($this->is_api ? '.api' :'');
     }
 
     /**
