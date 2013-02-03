@@ -119,6 +119,16 @@ class Usercp extends AppController
     }
 
     /**
+     * Generate the users API key.
+     */
+    public function action_create_api_key()
+    {
+        $this->user->generate_api_key();
+        $this->user->save();
+        Request::redirectTo('usercp');
+    }
+
+    /**
      * Subscriptions page
      */
     public function action_subscriptions()

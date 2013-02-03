@@ -28,7 +28,7 @@ Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
 Router::add('/login/resetpassword', 'traq::controllers::Users.reset_password');
 Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.reset_password/$1');
 Router::add('/usercp', 'traq::controllers::Usercp.index');
-Router::add('/usercp/(password|subscriptions)', 'traq::controllers::Usercp.$1');
+Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
 Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
 
 // Misc

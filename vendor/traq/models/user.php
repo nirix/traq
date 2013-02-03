@@ -320,6 +320,14 @@ class User extends Model
     }
 
     /**
+     * Generates the users API key.
+     */
+    public function generate_api_key()
+    {
+        $this->api_key = sha1(microtime() . rand(0, 1000) . time() + rand(0, 1000) . $this->email . $this->id . $this->created_at);
+    }
+
+    /**
      * Returns an array formatted for the Form::select() method.
      *
      * @return array
