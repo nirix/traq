@@ -44,6 +44,7 @@ class User extends Model
         'locale',
         'options',
         'login_hash',
+        'api_key',
         'created_at'
     );
 
