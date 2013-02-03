@@ -22,7 +22,7 @@
 					<?php if ($user->api_key != null) { ?>
 						<?php echo Form::text('user_api_key', array('value' => $user->api_key, 'readonly' => true)); ?>
 					<?php } ?>
-					<?php echo HTML::link(l($user->api_key != null ? 'renew' : 'create'), Request::base('usercp/create_api_key')); ?>
+					<?php echo HTML::link(l($user->api_key != null ? 'renew' : 'create'), 'usercp/create_api_key'); ?>
 				</div>
 				<?php FishHook::run('template:users/usercp/info'); ?>
 			</div>
