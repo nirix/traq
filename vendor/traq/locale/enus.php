@@ -100,6 +100,7 @@ class enUS extends \traq\libraries\Locale
             'unsubscribe'      => "Unsubscribe",
             'for'              => "For",
             'search'           => "Search",
+            'renew'            => "Renew",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
@@ -233,6 +234,7 @@ class enUS extends \traq\libraries\Locale
             'subscriptions'        => "Subscriptions",
             'forgot_password'      => "Forgot Password",
             'reset'                => "Reset",
+            'api_key'              => "API Key",
 
             // Password reset
             'password_reset.success' => "Your password has been reset, your new password is '{1}', it is recommended that you change it immediately",

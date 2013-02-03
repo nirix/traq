@@ -17,6 +17,13 @@
 					<?php echo Form::label(l('email'), 'email'); ?>
 					<?php echo Form::text('email', array('value' => $user->email)); ?>
 				</div>
+				<div class="group">
+					<?php echo Form::label(l('api_key'), 'api_key'); ?>
+					<?php if ($user->api_key != null) { ?>
+						<?php echo Form::text('user_api_key', array('value' => $user->api_key, 'readonly' => true)); ?>
+					<?php } ?>
+					<?php echo HTML::link(l($user->api_key != null ? 'renew' : 'create'), Request::base('usercp/create_api_key')); ?>
+				</div>
 				<?php FishHook::run('template:users/usercp/info'); ?>
 			</div>
 		</fieldset>
