@@ -529,6 +529,7 @@ CREATE TABLE `traq_users` (
   `locale` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `options` text COLLATE utf8_unicode_ci,
   `login_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `api_key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
