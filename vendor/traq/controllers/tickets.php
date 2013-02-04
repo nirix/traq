@@ -450,7 +450,8 @@ class Tickets extends AppController
      */
     public function action_delete($ticket_id)
     {
-        $ticket = Ticket::find($ticket_id);
+        // Get ticket, delete it then redirect to ticket listing
+        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
         $ticket->delete();
         Request::redirectTo($this->project->href('tickets'));
     }
