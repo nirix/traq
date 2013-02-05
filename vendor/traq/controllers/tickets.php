@@ -302,7 +302,7 @@ class Tickets extends AppController
                 'body' => Request::$post['description'],
                 'user_id' => $this->user->id,
                 'project_id' => $this->project->id,
-                'milestone_id' => Request::$post['milestone'],
+                'milestone_id' => isset(Request::$post['milestone']) ? Request::$post['milestone'] : 0,
                 'version_id' => Request::$post['version'],
                 'component_id' => Request::$post['component'],
                 'type_id' => Request::$post['type'],
