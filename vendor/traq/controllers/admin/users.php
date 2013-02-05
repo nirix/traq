@@ -103,10 +103,10 @@ class Users extends AppController
         if (Request::method() == 'post') {
             // Update the users information.
             $user->set(array(
-                'username' => Request::$post['username'],
-                'name' => Request::$post['name'],
-                'email' => Request::$post['email'],
-                'group_id' => Request::$post['group_id']
+                'username' => Request::post('username', $user->username),
+                'name'     => Request::post('name', $user->name),
+                'email'    => Request::post('email', $user->email),
+                'group_id' => Request::post('group_id', $user->group_id)
             ));
 
             // Check if we're changing their password.
@@ -125,7 +125,13 @@ class Users extends AppController
 
                 // Save and redirect to user listing.
                 $user->save();
-                Request::redirect(Request::base('/admin/users'));
+
+                // Return JSON for API
+                if ($this->is_api) {
+                    return to_json(array('status' => 'success', 'user' => $user));
+                } else {
+                    Request::redirect(Request::base('/admin/users'));
+                }
             }
         }
 
