@@ -1,6 +1,6 @@
 <div id="ticket_info">
 	<div class="ticket_actions">
-		<?php subscription_link_for($ticket); ?>
+		<?php echo subscription_link_for($ticket); ?>
 		<?php if ($current_user->permission($ticket->project_id, 'delete_tickets')) {
 			echo HTML::link(l('delete'), $ticket->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $ticket->summary)));
 		} ?>
@@ -119,7 +119,7 @@
 		<?php if (is_array($update->changes)) { ?>
 		<ul class="changes">
 			<?php foreach ($update->changes as $change) { ?>
-			<li><?php View::render('tickets/_history_change_bit', array('change' => $change)); ?></li>
+			<li><?php echo View::render('tickets/_history_change_bit', array('change' => $change)); ?></li>
 			<?php } ?>
 		</ul>
 		<?php } ?>
@@ -134,7 +134,7 @@
 <?php if ($current_user->permission($project->id, 'update_tickets') or $current_user->permission($project->id, 'comment_on_tickets')) { ?>
 <div class="content">
 	<h3><?php echo l('update_ticket'); ?></h3>
-	<?php show_errors($ticket->errors); ?>
+	<?php echo show_errors($ticket->errors); ?>
 	<form action="<?php echo Request::base($ticket->href('update')); ?>" method="post" id="update_tickets" enctype="multipart/form-data">
 		<div class="tabular box">
 			<?php if ($current_user->permission($project->id, 'comment_on_tickets')) { ?>
@@ -195,7 +195,7 @@
 					<input type="file" id="attachment" name="attachment" />
 				</div>
 				<?php } ?>
-				<?php View::render('tickets/_custom_fields_form'); ?>
+				<?php echo View::render('tickets/_custom_fields_form'); ?>
 			</div>
 			<?php } ?>
 			<div class="clear"></div>

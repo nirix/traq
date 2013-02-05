@@ -3,7 +3,7 @@
 
 	<div id="update">
 	<?php if (settings('check_for_update')) { ?>
-		<?php View::render('admin/dashboard/_update'); ?>
+		<?php echo View::render('admin/dashboard/_update'); ?>
 	<?php } else { ?>
 		<strong><?php echo HTML::link(l('check_for_update'), '/admin/check_for_update'); ?></strong>
 	<?php } ?>

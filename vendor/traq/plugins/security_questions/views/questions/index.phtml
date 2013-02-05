@@ -1,7 +1,7 @@
 <div class="traq_settings title content">
 	<h2 id="page_title"><?php echo l('Settings'); ?></h2>
 </div>
-<?php View::render('admin/settings/_nav'); ?>
+<?php echo View::render('admin/settings/_nav'); ?>
 <div class="traq_settings content">
 	<?php if (count($errors)): ?>
 	<div class="error">
@@ -11,7 +11,7 @@
 	<form action="<?php echo Request::requestUri(); ?>" method="post">
 		<div id="questions">
 		<?php foreach ($questions as $id => $question) {
-			View::render('questions/_question', compact('id', 'question'));
+			echo View::render('questions/_question', compact('id', 'question'));
 		} ?>
 		</div>
 		<div class="actions">

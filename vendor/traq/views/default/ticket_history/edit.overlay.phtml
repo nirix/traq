@@ -1,6 +1,6 @@
 <h3><?php echo l('edit_ticket_history'); ?></h3>
 <form action="<?php echo Request::requestUri(); ?>" method="post">
-	<?php show_errors($history->errors); ?>
+	<?php echo show_errors($history->errors); ?>
 	<div class="tabular">
 		<?php echo View::render('ticket_history/_form'); ?>
 	</div>

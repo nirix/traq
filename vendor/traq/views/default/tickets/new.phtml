@@ -2,7 +2,7 @@
 	<h2 id="page_title"><?php echo l('new_ticket'); ?></h2>
 
 	<form action="<?php echo Request::requestUri(); ?>" method="post">
-		<?php show_errors($ticket->errors); ?>
+		<?php echo show_errors($ticket->errors); ?>
 		<div class="tabular box">
 			<div class="group">
 				<?php echo Form::label(l('type')); ?>
@@ -47,7 +47,7 @@
 					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
 				<?php } ?>
-				<?php View::render('tickets/_custom_fields_form'); ?>
+				<?php echo View::render('tickets/_custom_fields_form'); ?>
 				<div class="clearfix"></div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 <div class="content">
 	<h2 id="page_title"><?php echo l('tickets')?></h2>
-	<?php View::render('tickets/_filters'); ?>
-	<?php View::render('tickets/_columns'); ?>
+	<?php echo View::render('tickets/_filters'); ?>
+	<?php echo View::render('tickets/_columns'); ?>
 </div>
 <table class="ticket_listing list">
 	<thead>
@@ -27,4 +27,4 @@
 	<?php } ?>
 	</tbody>
 </table>
-<?php View::render('layouts/_pagination'); ?>
+<?php echo View::render('layouts/_pagination'); ?>

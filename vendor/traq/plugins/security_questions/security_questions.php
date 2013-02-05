@@ -90,7 +90,7 @@ class SecurityQuestions extends \traq\libraries\Plugin
          $question = $questions[$id];
          $_SESSION['question_id'] = $id;
 
-         echo View::get('users/_question_field', array('question' => $question));
+         echo View::render('users/_question_field', array('question' => $question));
      }
 
      /**
