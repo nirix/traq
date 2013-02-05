@@ -45,13 +45,7 @@ class Projects extends AppController
     {
         // Fetch all projects and pass them to the view.
         $projects = Project::fetch_all();
-
-        // Is this an API request?
-        if ($this->is_api) {
-            return to_json($projects);
-        } else {
-            View::set('projects', $projects);
-        }
+        View::set('projects', $projects);
     }
 
     /**
