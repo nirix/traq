@@ -78,13 +78,7 @@ class Projects extends AppController
             }
         }
 
-        // is this an API request?
-        if ($this->is_api) {
-            // Return JSON formatted response
-            return to_json(array('status' => 'error', 'errors' => $project->errors));
-        } else {
-            View::set('proj', $project);
-        }
+        View::set('proj', $project);
     }
 
     /**
