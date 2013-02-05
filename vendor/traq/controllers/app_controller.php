@@ -162,6 +162,8 @@ class AppController extends Controller
             if (isset($api_key[10])) {
                 $this->user = User::find('api_key', $api_key);
                 $this->is_api = true;
+                Router::$extension = '.json';
+                $this->_render['view'] = $this->_render['view'] . ".json";
             }
         }
 
