@@ -71,7 +71,7 @@ class Projects extends AppController
                 // Is this an API request?
                 if ($this->is_api) {
                     // Return JSON formatted response
-                    return to_json(array('status' => 'success', 'project' => $project));
+                    return to_json(array('status' => 1, 'project' => $project));
                 } else {
                     Request::redirectTo('admin/projects');
                 }
@@ -93,7 +93,7 @@ class Projects extends AppController
 
         // Is this an API request?
         if ($this->is_api) {
-            return to_json(array('status' => 'success'));
+            return to_json(array('status' => 1));
         } else {
             Request::redirectTo('admin/projects');
         }

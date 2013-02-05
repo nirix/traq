@@ -76,7 +76,7 @@ class Users extends AppController
 
                 // Return JSON for API
                 if ($this->is_api) {
-                    return to_json(array('status' => 'success', 'user' => $user));
+                    return to_json(array('status' => 1, 'user' => $user));
                 } else {
                     Request::redirect(Request::base('/admin/users'));
                 }
@@ -128,7 +128,7 @@ class Users extends AppController
 
                 // Return JSON for API
                 if ($this->is_api) {
-                    return to_json(array('status' => 'success', 'user' => $user));
+                    return to_json(array('status' => 1, 'user' => $user));
                 } else {
                     Request::redirect(Request::base('/admin/users'));
                 }
@@ -152,7 +152,7 @@ class Users extends AppController
 
         // Return JSON for API, like always...
         if ($this->is_api) {
-            return to_json(array('status' => 'success'));
+            return to_json(array('status' => 1));
         } else {
             Request::redirect(Request::base('/admin/users'));
         }

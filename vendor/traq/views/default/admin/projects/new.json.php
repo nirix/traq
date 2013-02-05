@@ -1,1 +1,1 @@
-<?php echo to_json(array('status' => 'error', 'errors' => $proj->errors)); ?>
+<?php echo to_json(array('status' => 0, 'errors' => $proj->errors)); ?>
