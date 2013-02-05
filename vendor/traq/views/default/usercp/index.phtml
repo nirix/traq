@@ -1,9 +1,9 @@
 <div class="usercp content">
 	<h2 id="page_title"><?php echo l('usercp'); ?></h2>
 </div>
-<?php View::render('usercp/_nav'); ?>
+<?php echo View::render('usercp/_nav'); ?>
 <div class="usercp content">
-	<?php show_errors($user->errors); ?>
+	<?php echo show_errors($user->errors); ?>
 	<form action="<?php echo Request::requestUri(); ?>" method="post">
 		<fieldset id="info" class="box">
 			<legend><?php echo l('information'); ?></legend>

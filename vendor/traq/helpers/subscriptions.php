@@ -56,5 +56,5 @@ function subscription_link_for($object)
     }
 
     $class = new ReflectionClass(get_class($object));
-    View::render('subscriptions/_subscribe', array('type' => strtolower($class->getShortName()), 'object' => $object));
+    return View::render('subscriptions/_subscribe', array('type' => strtolower($class->getShortName()), 'object' => $object));
 }

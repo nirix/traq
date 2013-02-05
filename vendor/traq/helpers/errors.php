@@ -30,5 +30,5 @@
  */
 function show_errors($errors)
 {
-    View::render('error/_list', array('errors' => is_array($errors) ? $errors : array($errors)));
+    return View::render('error/_list', array('errors' => is_array($errors) ? $errors : array($errors)));
 }

@@ -1,9 +1,9 @@
 <div class="content">
 	<h3><?php echo l('new_project'); ?></h3>
 	<form action="<?php echo Request::requestUri(); ?>" method="post">
-		<?php show_errors($proj->errors); ?>
+		<?php echo show_errors($proj->errors); ?>
 		<div class="tabular box">
-			<?php View::render('project_settings/options/_form'); ?>
+			<?php echo View::render('project_settings/options/_form'); ?>
 		</div>
 		<div class="actions">
 			<input type="submit" value="<?php echo l('create'); ?>" />

@@ -1,8 +1,8 @@
 <h3><?php echo l('edit_role'); ?></h3>
 <form action="<?php echo Request::requestUri(); ?>" method="post" class="overlay_thin">
-	<?php show_errors($role->errors); ?>
+	<?php echo show_errors($role->errors); ?>
 	<div class="tabular box">
-		<?php View::render('admin/project_roles/_form'); ?>
+		<?php echo View::render('admin/project_roles/_form'); ?>
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?php echo l('save'); ?>" />
