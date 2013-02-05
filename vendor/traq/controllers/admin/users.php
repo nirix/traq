@@ -148,8 +148,13 @@ class Users extends AppController
     {
         // Find and delete the user then
         // redirect to the user listing page.
-        $user = User::find($id);
-        $user->delete();
-        Request::redirect(Request::base('/admin/users'));
+        $user = User::find($id)->delete();
+
+        // Return JSON for API, like always...
+        if ($this->is_api) {
+            return to_json(array('status' => 'success'));
+        } else {
+            Request::redirect(Request::base('/admin/users'));
+        }
     }
 }
