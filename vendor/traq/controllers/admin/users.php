@@ -61,11 +61,11 @@ class Users extends AppController
         if (Request::method() == 'post') {
             // Set the users information
             $user->set(array(
-                'username' => Request::$post['username'],
-                'name' => Request::$post['name'],
-                'password' => Request::$post['password'],
-                'email' => Request::$post['email'],
-                'group_id' => Request::$post['group_id']
+                'username' => Request::post('username'),
+                'name'     => Request::post('name'),
+                'password' => Request::post('password'),
+                'email'    => Request::post('email'),
+                'group_id' => Request::post('group_id', 2)
             ));
 
             // Check if the data is valid
@@ -73,7 +73,13 @@ class Users extends AppController
                 // Save the users data and redirect
                 // to the user listing page.
                 $user->save();
-                Request::redirect(Request::base('/admin/users'));
+
+                // Return JSON for API
+                if ($this->is_api) {
+                    return to_json(array('status' => 'success', 'user' => $user));
+                } else {
+                    Request::redirect(Request::base('/admin/users'));
+                }
             }
         }
 
