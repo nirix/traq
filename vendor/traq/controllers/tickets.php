@@ -298,22 +298,22 @@ class Tickets extends AppController
         if (Request::method() == 'post') {
             // Set the ticket data
             $data = array(
-                'summary' => Request::$post['summary'],
-                'body' => Request::$post['description'],
-                'user_id' => $this->user->id,
-                'project_id' => $this->project->id,
-                'milestone_id' => Request::$post['milestone'],
-                'version_id' => Request::$post['version'],
-                'component_id' => Request::$post['component'],
-                'type_id' => Request::$post['type'],
-                'severity_id' => Request::$post['severity'],
+                'summary'      => Request::post('summary'),
+                'body'         => Request::post('description'),
+                'user_id'      => $this->user->id,
+                'project_id'   => $this->project->id,
+                'milestone_id' => Request::post('milestone'),
+                'version_id'   => Request::post('version'),
+                'component_id' => Request::post('component'),
+                'type_id'      => Request::post('type', 1),
+                'severity_id'  => Request::post('severity', 4),
             );
 
             // Does the user have permission to set all properties?
             if ($this->user->permission($this->project->id, 'set_all_ticket_properties')) {
-                $data['priority_id'] = Request::$post['priority'];
-                $data['status_id'] = Request::$post['status'];
-                $data['assigned_to_id'] = Request::$post['assigned_to'];
+                $data['priority_id']    = Request::post('priority', 3);
+                $data['status_id']      = Request::post('status', 1);
+                $data['assigned_to_id'] = Request::post('assigned_to');
             }
 
             // Set the ticket data
@@ -339,8 +339,11 @@ class Tickets extends AppController
                     $sub->save();
                 }
 
-                // Redirect
-                Request::redirectTo($ticket->href());
+                if ($this->is_api) {
+                    return to_json(array('status' => 1, 'ticket' => $ticket));
+                } else {
+                    Request::redirectTo($ticket->href());
+                }
             }
         }
 

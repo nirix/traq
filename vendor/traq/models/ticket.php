@@ -404,7 +404,8 @@ class Ticket extends Model
     {
         $data = parent::__toArray($fields);
         $data['id'] = $data['ticket_id'];
-        unset($data['ticket_id']);
+        $data['votes'] = count($data['extra']['voted']);
+        unset($data['ticket_id'], $data['extra']['voted']);
 
         // Extra data to fetch
         $relations = array(
