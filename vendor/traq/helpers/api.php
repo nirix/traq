@@ -41,6 +41,9 @@ class API
      */
     public static function response($status = 1, array $response = array())
     {
+        if (!$status) {
+            header("HTTP/1.1 400 Bad Request");
+        }
         return to_json(array_merge(array('status' => $status, 'version' => TRAQ_API_VER), $response));
     }
 }
