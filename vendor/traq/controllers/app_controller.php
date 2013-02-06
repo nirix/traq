@@ -30,6 +30,7 @@ use avalon\output\View;
 use traq\models\User;
 use traq\models\Project;
 use traq\libraries\Locale;
+use traq\helpers\API;
 
 /**
  * App controller
@@ -70,6 +71,8 @@ class AppController extends Controller
 
         // Load helpers
         Load::helper('html', 'errors', 'form', 'js', 'formats', 'time_ago', 'uri', 'string', 'subscriptions');
+
+        class_alias("\\traq\\helpers\\API", "API");
 
         // Get the user info
         $this->_get_user();
@@ -154,22 +157,17 @@ class AppController extends Controller
             $this->user = $user;
         }
         // Check if the API key is set
-        elseif (isset(Request::$request['api_key']) or isset(Request::$post['api_key'])) {
+        else {
             // Get API key
-            $api_key = isset(Request::$request['api_key']) ? Request::$request['api_key'] : Request::$post['api_key'];
+            $api_key = API::get_key();
 
-            // Make sure it's at least 10 characters long
-            if (isset($api_key[10])) {
+            if ($api_key) {
                 $this->user = User::find('api_key', $api_key);
 
                 // Set is_api and JSON view extension
                 $this->is_api = true;
                 Router::$extension = '.json';
                 $this->_render['view'] = $this->_render['view'] . ".json";
-
-                // Load API helper
-                Load::helper('api');
-                class_alias("\\traq\\helpers\\API", "API");
             }
         }
 
