@@ -197,11 +197,30 @@ class AppController extends Controller
         View::set('current_user', $this->user);
     }
 
+    /**
+     * Display a bad API request.
+     *
+     * @param string $error Error message
+     */
+    protected function bad_api_request($message)
+    {
+        $this->_render = array_merge(
+            $this->_render,
+            array(
+                'action' => false,
+                'view'   => "api/bad_request",
+                'layout' => "plain"
+            )
+        );
+
+        View::set(compact('message'));
+    }
+
     public function __shutdown()
     {
-        // No layouts for API stuff
-        if ($this->is_api) {
-            $this->_render['layout'] = 'plain';
+        // Bad API request?
+        if (API::get_key() === false) {
+            $this->bad_api_request('invalid_api_key');
         }
 
         // Was the page requested via ajax?
