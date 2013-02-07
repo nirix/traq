@@ -1,1 +1,1 @@
-<?php echo to_json(array('status' => 0, 'errors' => $ticket->errors)); ?>
+<?php echo API::response(0, array('errors' => $ticket->errors)); ?>

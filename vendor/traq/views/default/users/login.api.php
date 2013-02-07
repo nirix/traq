@@ -1,1 +1,1 @@
-<?php echo json_encode(array("status" => "error", "error" => "invalid_api_key")); ?>
+<?php echo API::response(0, array('error' => "invalid_api_key")); ?>

@@ -340,7 +340,7 @@ class Tickets extends AppController
                 }
 
                 if ($this->is_api) {
-                    return to_json(array('status' => 1, 'ticket' => $ticket));
+                    return API::response(1, array('ticket' => $ticket));
                 } else {
                     Request::redirectTo($ticket->href());
                 }
