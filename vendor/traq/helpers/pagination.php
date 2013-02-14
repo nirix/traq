@@ -75,7 +75,7 @@ class Pagination
             }
 
             // Next page URL
-            if ($this->next_page < $this->total_pages) {
+            if ($this->next_page <= $this->total_pages) {
                 $this->next_page_url = str_replace("page=" . $this->page, "page=" . $this->next_page, $request_uri);
             }
 
