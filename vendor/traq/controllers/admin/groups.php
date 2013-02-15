@@ -98,9 +98,14 @@ class Groups extends AppController
 
             // Make sure the data is valid.
             if ($group->is_valid()) {
-                // Save and redirect.
                 $group->save();
-                Request::redirect(Request::base('/admin/groups'));
+
+                // Return API response
+                if ($this->is_api) {
+                    return \API::response(1, array('group' => $group));
+                } else {
+                    Request::redirect(Request::base('/admin/groups'));
+                }
             }
         }
 
