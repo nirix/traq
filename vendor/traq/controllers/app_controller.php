@@ -218,6 +218,11 @@ class AppController extends Controller
 
     public function __shutdown()
     {
+        // Plain layout for API requests
+        if ($this->is_api) {
+            $this->_render['layout'] = 'plain';
+        }
+
         // Bad API request?
         if (API::get_key() === false) {
             $this->bad_api_request('invalid_api_key');
