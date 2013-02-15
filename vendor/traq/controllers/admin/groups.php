@@ -123,6 +123,12 @@ class Groups extends AppController
         // Find the group, delete it and redirect
         $group = Group::find($id);
         $group->delete();
-        Request::redirect(Request::base('/admin/groups'));
+
+        // Return API response
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirect(Request::base('/admin/groups'));
+        }
     }
 }
