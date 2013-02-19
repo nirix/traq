@@ -78,13 +78,16 @@ class AppController extends Controller
 
         // Check if we're on a project page and get the project info
         if (isset(Router::$params['project_slug'])
-        and $this->project = is_project(Router::$params['project_slug'])
-        and $this->user->permission($this->project->id, 'view')) {
-            // Add project name to page title
-            $this->title($this->project->name);
+        and $this->project = is_project(Router::$params['project_slug'])) {
+            if ($this->user->permission($this->project->id, 'view')) {
+                // Add project name to page title
+                $this->title($this->project->name);
 
-            // Send the project object to the view
-            View::set('project', $this->project);
+                // Send the project object to the view
+                View::set('project', $this->project);
+            } else {
+                $this->show_no_permission();
+            }
         }
 
         // Fetch all projects and make sure the user has permission
