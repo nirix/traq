@@ -364,19 +364,19 @@ class Tickets extends AppController
 
         // Collect the new data
         $data = array(
-            'summary' => Request::$post['summary'],
-            'milestone_id' => Request::$post['milestone'],
-            'version_id' => Request::$post['version'],
-            'component_id' => Request::$post['component'],
-            'type_id' => Request::$post['type'],
-            'severity_id' => Request::$post['severity']
+            'summary'      => Request::post('summary', $ticket->summary),
+            'milestone_id' => Request::post('milestone', $ticket->milestone_id),
+            'version_id'   => Request::post('version', $ticket->version_id),
+            'component_id' => Request::post('component', $ticket->component_id),
+            'type_id'      => Request::post('type', $ticket->type_id),
+            'severity_id'  => Request::post('severity', $ticket->severity_id)
         );
 
         // Check the users permission to set the restricted data
         if ($this->user->permission($this->project->id, 'set_all_ticket_properties')) {
-            $data['priority_id'] = Request::$post['priority'];
-            $data['status_id'] = Request::$post['status'];
-            $data['assigned_to_id'] = Request::$post['assigned_to'];
+            $data['priority_id']    = Request::post('priority', $ticket->priority_id);
+            $data['status_id']      = Request::post('status', $ticket->status_id);
+            $data['assigned_to_id'] = Request::post('assigned_to', $ticket->assigned_to_id);
         }
 
         // Check if we're adding an attachment and that the user has permission to do so
@@ -391,7 +391,11 @@ class Tickets extends AppController
 
         // Update the ticket
         if ($ticket->update_data($data)) {
-            Request::redirect(Request::base($ticket->href()));
+            if ($this->is_api) {
+                return \API::response(1, array('ticket' => $ticket));
+            } else {
+                Request::redirectTo($ticket->href());
+            }
         }
 
         View::set(compact('ticket'));
