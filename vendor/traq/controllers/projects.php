@@ -198,7 +198,7 @@ class Projects extends AppController
             $date = $date[0];
 
             // Fetch the activity for this day
-            $fetch_activity = Timeline::select()->where('created_at', "{$date} %", "LIKE")->order_by('created_at', 'DESC');
+            $fetch_activity = Timeline::select()->where('project_id', $this->project->id)->where('created_at', "{$date} %", "LIKE")->order_by('created_at', 'DESC');
             foreach ($fetch_activity->exec()->fetch_all() as $row) {
                 // Push it to the days activity array.
                 $day['activity'][] = $row;
