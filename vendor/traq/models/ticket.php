@@ -404,8 +404,16 @@ class Ticket extends Model
     {
         $data = parent::__toArray($fields);
         $data['id'] = $data['ticket_id'];
-        $data['votes'] = count($data['extra']['voted']);
-        unset($data['ticket_id'], $data['extra']['voted']);
+        $data['extra'] = json_decode($data['extra'], true);
+
+        // Set vote count and remove the IDs of
+        // users who have voted.
+        if (isset($data['extra']['voted'])) {
+            $data['votes'] = count($data['extra']['voted']);
+            unset($data['extra']['voted']);
+        } else {
+            $data['votes'] = 0;
+        }
 
         // Extra data to fetch
         $relations = array(
