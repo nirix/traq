@@ -50,6 +50,8 @@ get('/', function(){
 
 // Upgrade
 post('/step/1', function(){
+    global $db;
+
     // Version 3.0.6
     if (DB_VER < 30006) {
         // Find a user with the group ID of the guest group and make it the anonymous user.
@@ -89,6 +91,14 @@ post('/step/1', function(){
             'value'   => $anon->id
         ));
         $anon_id->save();
+
+        // Update tickets, timeline, history with a user ID of -1
+        // to use the anonymous users ID.
+        $db->update('tickets')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
+        $db->update('ticket_history')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
+
+        // Update timeline for anonymous user
+        $db->update('timeline')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
     }
 
     // Update database version setting
