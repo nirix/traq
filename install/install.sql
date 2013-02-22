@@ -320,7 +320,6 @@ VALUES
 	('check_for_update','1'),
 	('date_time_format','g:iA d/m/Y'),
   ('date_format','d/m/Y'),
-	('db_version','30000'),
 	('locale','enus'),
 	('theme','default'),
   ('tickets_per_page', '25'),

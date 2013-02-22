@@ -161,12 +161,39 @@ post('/step/3', function(){
         ));
         $admin->save();
 
+        // Create anonymous user
+        $anon = new User(array(
+            'username'   => 'Anonymous',
+            'password'   => sha1(microtime() . rand(0, 200) . time() . rand(0, 200)) . microtime(),
+            'name'       => 'Anonymous',
+            'email'      => 'anonymous' . microtime() . '@' . $_SERVER['HTTP_HOST'],
+            'group_id'   => 3,
+            'locale'     => 'enUS',
+            'options'    => '{"watch_created_tickets":null}',
+            'login_hash' => sha1(microtime() . rand(0, 250) . time() . rand(0, 250) . microtime()),
+        ));
+        $anon->save();
+
+        // Create setting to save anonymous user ID
+        $anon_id = new Setting(array(
+            'setting' => 'anonymous_user_id',
+            'value'   => $anon->id
+        ));
+        $anon_id->save();
+
         // Notification from address
         $setting = new Setting(array(
             'setting' => "notification_from_email",
             'value'   => "noreply@{$_SERVER['HTTP_HOST']}"
         ));
         $setting->save();
+
+        // Create DB version setting
+        $db_ver = new Setting(array(
+            'setting' => 'db_version',
+            'value'   => TRAQ_VER_CODE
+        ));
+        $db_ver->save();
 
         // Config file
         $config = array();
