@@ -600,6 +600,9 @@ get('/step/11', function(){
     // Update timeline for anonymous user
     $db->update('timeline')->set(array('user_id' => $anon->id))->where('user_id', 0)->exec();
 
+    // Save anonymous user ID to database
+    $db->insert(array('setting' => 'anonymous_user_id', 'value' => $anon->id))->into('settings')->exec();
+
     // Next
     header("Location: " . Nanite::base_uri() . 'migrate.php?/step/12');
 });
@@ -886,7 +889,7 @@ get('/step/13', function(){
     $db->insert(array('setting' => 'timeline_days_per_page', 'value' => "7"))->into('settings')->exec();
 
     // Update settings
-    $db->update('settings')->set(array('setting' => 'db_version', 'value' => '30000'))->where('setting', 'db_revision')->exec();
+    $db->update('settings')->set(array('setting' => 'db_version', 'value' => TRAQ_VER_CODE))->where('setting', 'db_revision')->exec();
     $db->update('settings')->set(array('value' => 'enus'))->where('setting', 'locale')->exec();
     $db->update('settings')->set(array('value' => 'default'))->where('setting', 'theme')->exec();
 
