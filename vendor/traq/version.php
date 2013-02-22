@@ -19,11 +19,11 @@
  */
 
 // Version
-define("TRAQ_VER", "3.0.5"); // Pretty obvious...
+define("TRAQ_VER", "3.0.6"); // Pretty obvious...
 
 // Version code
 // 1.2.3   -> 10203
 // 1.3(.0) -> 10300
 // 1.12.1  -> 11201
 // 1.2.11  -> 10211
-define("TRAQ_VER_CODE", 30005); // Used to check for new versions
+define("TRAQ_VER_CODE", 30006); // Used to check for new versions
