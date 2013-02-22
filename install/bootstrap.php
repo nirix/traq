@@ -21,6 +21,8 @@
 define("APPPATH", dirname(__FILE__));
 define("SYSPATH", dirname(__DIR__) . '/vendor/avalon');
 
+require '../vendor/traq/version.php';
+
 require SYSPATH . '/autoloader.php';
 
 use avalon\Autoloader;
