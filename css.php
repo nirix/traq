@@ -36,6 +36,7 @@ if (!isset($_REQUEST['css']) and !isset($_REQUEST['theme'])) {
 // Fetch the request class.
 require "./vendor/avalon/http/request.php";
 use avalon\http\Request;
+Request::init();
 
 $output = array();
 
