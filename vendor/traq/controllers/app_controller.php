@@ -168,7 +168,7 @@ class AppController extends Controller
         // Otherwise just set the user info to guest.
         else {
             $this->user = new User(array(
-                'id' => -1,
+                'id' => settings('anonymous_user_id'),
                 'username' => l('guest'),
                 'group_id' => 3
             ));
