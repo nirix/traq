@@ -458,6 +458,17 @@ class enUS extends \traq\libraries\Locale
             'help.security_questions.answers'                     => "Accepted answers sperated by a vertical bar: <code>|</code>",
 
             // ----------------------------------------------------------------------------------------------------
+            // Custom tabs
+            'custom_tabs' => "Custom Tabs",
+            'new_tab'     => "New Tab",
+            'edit_tab'    => "Edit Tab",
+            'label'       => "Label",
+            'url'         => "URL",
+
+            'errors.label_blank' => "Label cannot be blank",
+            'errors.url_empty'   => "URL cannot be empty",
+
+            // ----------------------------------------------------------------------------------------------------
             // Notifications
 
             // Ticket assigned

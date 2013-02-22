@@ -1,0 +1,9 @@
+<?php
+foreach ($custom_tabs as $tab) {
+	if ($tab->project_id == 0 or (isset($project) and $tab->project_id == $project->id)) {
+?>
+	<li><a href="<?php echo $tab->url; ?>"><?php echo $tab->label; ?></a></li>
+<?php
+	}
+}
+?>
