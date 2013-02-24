@@ -124,6 +124,22 @@ class Ticket extends Model
     }
 
     /**
+     * Deletes a user from the voted list.
+     *
+     * @param integer $id Users ID
+     */
+    public function delete_voter($id)
+    {
+        foreach ($this->_data['extra']['voted'] as $k => $v) {
+            if ($v == $id) {
+                unset($this->_data['extra']['voted'][$k]);
+            }
+        }
+
+        $this->votes = count($this->_data['extra']['voted']);
+    }
+
+    /**
      * Custom save method for the ticket
      * so we can do what we need with the timeline and such.
      *
