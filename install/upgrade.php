@@ -19,12 +19,14 @@
  */
 
 require './bootstrap.php';
+require '../vendor/traq/helpers/uri.php';
 
 use avalon\Database;
 use avalon\output\View;
 
 use traq\models\User;
 use traq\models\Setting;
+use traq\models\Ticket;
 
 // Set page and title
 View::set('page', 'upgrade');
@@ -41,7 +43,7 @@ define('DB_VER', Setting::find('db_version')->value);
 
 // Index
 get('/', function(){
-    if (DB_VER < TRAQ_VER_CODE) {
+    if (DB_VER < TRAQ_DB_VER) {
         render('upgrade/welcome');
     } else {
         render('upgrade/up_to_date');
@@ -99,6 +101,15 @@ post('/step/1', function(){
 
         // Update timeline for anonymous user
         $db->update('timeline')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
+    }
+
+    // Version 3.0.7
+    if (DB_VER < 30007) {
+        foreach (Ticket::fetch_all() as $ticket) {
+            $ticket->delete_voter('-1');
+            $ticket->delete_voter(Setting::find('anonymous_user_id')->value);
+            $ticket->quick_save();
+        }
     }
 
     // Update database version setting
