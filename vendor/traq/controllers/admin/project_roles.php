@@ -89,14 +89,18 @@ class ProjectRoles extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Update the role name
-            $role->name = Request::$post['name'];
-            $role->project_id = Request::$post['project'];
+            $role->name = Request::post('name', $role->name);
+            $role->project_id = Request::post('project', $role->project_id);
 
             // Validate the data
             if ($role->is_valid()) {
-                // Save and redirect
                 $role->save();
-                Request::redirectTo('/admin/roles');
+
+                if ($this->is_api) {
+                    return \API::response(1, array('role' => $role));
+                } else {
+                    Request::redirectTo('/admin/roles');
+                }
             }
         }
 
