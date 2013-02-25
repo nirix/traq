@@ -253,7 +253,7 @@ class AppController extends Controller
 
         if (Router::$extension == '.json') {
             header('Content-type: application/json');
-            if (strpos($this->_render['view'], '.json') === false) {
+            if ($this->_render['view'] and strpos($this->_render['view'], '.json') === false) {
                 $this->_render['view'] = $this->_render['view'] . '.json';
             }
         }
