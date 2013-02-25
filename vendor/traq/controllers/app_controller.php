@@ -201,8 +201,11 @@ class AppController extends Controller
             $this->_render['view'] = $this->_render['view'] . $extension;
         }
 
-        if (Router::$extension == '.json' and View::exists(str_replace('.json', '', $this->_render['view']) . '.json')) {
+        if (Router::$extension == '.json') {
             header('Content-type: application/json');
+            if (strpos($this->_render['view'], '.json') === false) {
+                $this->_render['view'] = $this->_render['view'] . '.json';
+            }
         }
 
         // Call the controllers shutdown method.
