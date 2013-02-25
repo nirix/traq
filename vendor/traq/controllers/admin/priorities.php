@@ -110,11 +110,13 @@ class Priorities extends AppController
      */
     public function action_delete($id)
     {
-        // Get the priority
-        $priority = Priority::find($id);
+        // Find and delete priority
+        $priority = Priority::find($id)->delete();
 
-        // Delete and redirect
-        $priority->delete();
-        Request::redirect(Request::base('/admin/priorities'));
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo('/admin/priorities');
+        }
     }
 }
