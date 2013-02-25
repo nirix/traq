@@ -110,6 +110,13 @@ post('/step/1', function(){
             $ticket->delete_voter(Setting::find('anonymous_user_id')->value);
             $ticket->quick_save();
         }
+
+        // Fix severities table ID column to auto increment
+        $db->query("
+            ALTER TABLE `" . $db->prefix . "severities` CHANGE `id` `id` BIGINT(20)
+             NOT NULL
+             AUTO_INCREMENT
+        ");
     }
 
     // Update database version setting
