@@ -62,6 +62,22 @@ class Group extends Model
     }
 
     /**
+     * Returns an array of all group IDs
+     *
+     * @return array
+     */
+    public static function all_group_ids()
+    {
+        $ids = array();
+
+        foreach (static::fetch_all() as $group) {
+            $ids[] = $group->id;
+        }
+
+        return $ids;
+    }
+
+    /**
      * Checks if the groups data is valid.
      *
      * @return bool

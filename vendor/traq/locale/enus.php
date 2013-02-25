@@ -447,6 +447,30 @@ class enUS extends \traq\libraries\Locale
             ),
 
             // ----------------------------------------------------------------------------------------------------
+            // Security Questions
+            'security_question'  => "Security Question",
+            'security_questions' => "Security Questions",
+            'question'           => 'Question',
+            'answer'             => "Answer",
+            'answers'            => "Answers",
+            'add_question'       => "Add Question",
+
+            'errors.security_questions.fill_in_fields_marked_red' => "Please fill in the fields marked in red",
+            'errors.security_questions.answer_is_wrong'           => "The security answer you provided is incorrect",
+            'help.security_questions.answers'                     => "Accepted answers sperated by a vertical bar: <code>|</code>",
+
+            // ----------------------------------------------------------------------------------------------------
+            // Custom tabs
+            'custom_tabs' => "Custom Tabs",
+            'new_tab'     => "New Tab",
+            'edit_tab'    => "Edit Tab",
+            'label'       => "Label",
+            'url'         => "URL",
+
+            'errors.label_blank' => "Label cannot be blank",
+            'errors.url_empty'   => "URL cannot be empty",
+
+            // ----------------------------------------------------------------------------------------------------
             // Notifications
 
             // Ticket assigned
