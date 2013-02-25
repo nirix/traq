@@ -88,11 +88,15 @@ class Priorities extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Set the name
-            $priority->set('name', Request::$post['name']);
+            $priority->set('name', Request::post('name', $priority->name));
 
             // Save and redirect
             if ($priority->save()) {
-                Request::redirect(Request::base('/admin/priorities'));
+                if ($this->is_api) {
+                    return \API::response(1, array('priority' => $priority));
+                } else {
+                    Request::redirectTo('/admin/priorities');
+                }
             }
         }
 
