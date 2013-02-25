@@ -113,8 +113,12 @@ class ProjectRoles extends AppController
     public function action_delete($id)
     {
         // Fetch and delete the role, then redirect
-        $role = ProjectRole::find($id);
-        $role->delete();
-        Request::redirectTo('/admin/roles');
+        $role = ProjectRole::find($id)->delete();
+
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo('/admin/roles');
+        }
     }
 }
