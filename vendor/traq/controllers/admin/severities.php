@@ -110,11 +110,13 @@ class Severities extends AppController
      */
     public function action_delete($id)
     {
-        // Get the severity
-        $severity = Severity::find($id);
+        // Get the severity and delete
+        $severity = Severity::find($id)->delete();
 
-        // Delete and redirect
-        $severity->delete();
-        Request::redirectTo('/admin/severities');
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo('/admin/severities');
+        }
     }
 }
