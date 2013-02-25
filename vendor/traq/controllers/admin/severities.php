@@ -60,11 +60,15 @@ class Severities extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Set the name
-            $severity->set('name', Request::$post['name']);
+            $severity->set('name', Request::post('name'));
 
             // Save and redirect
             if ($severity->save()) {
-                Request::redirectTo('/admin/severities');
+                if ($this->is_api) {
+                    return \API::response(1, array('severity' => $severity));
+                } else {
+                    Request::redirectTo('/admin/severities');
+                }
             }
         }
 
