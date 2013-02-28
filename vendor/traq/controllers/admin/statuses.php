@@ -133,8 +133,11 @@ class Statuses extends AppController
     public function action_delete($id)
     {
         // Fetch the status, delete it and redirect.
-        $status = Status::find($id);
-        $status->delete();
-        Request::redirect(Request::base('/admin/tickets/statuses'));
+        $status = Status::find($id)->delete();
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo('/admin/tickets/statuses');
+        }
     }
 }
