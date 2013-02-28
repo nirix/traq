@@ -61,16 +61,20 @@ class Statuses extends AppController
         if (Request::method() == 'post') {
             // Set the information.
             $status->set(array(
-                'name'      => Request::$post['name'],
-                'status'    => Request::$post['status'],
-                'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0
+                'name'      => Request::post('name'),
+                'status'    => Request::post('status'),
+                'changelog' => Request::post('changelog', 0)
             ));
 
             // Check if the data is valid.
             if ($status->is_valid()) {
                 // Save and redirect.
                 $status->save();
-                Request::redirect(Request::base('/admin/tickets/statuses'));
+                if ($this->is_api) {
+                    return \API::response(1, array('status' => $status));
+                } else {
+                    Request::redirectTo('/admin/tickets/statuses');
+                }
             }
         }
 
