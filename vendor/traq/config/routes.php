@@ -59,7 +59,7 @@ Router::add('/' . RTR_PROJSLUG . '/tickets/update_filters', 'traq::controllers::
 Router::add('/' . RTR_PROJSLUG . '/tickets', 'traq::controllers::Tickets.index');
 
 // Wiki routes
-Router::add('/' . RTR_PROJSLUG . '/wiki', 'traq::controllers::Wiki.index');
+Router::add('/' . RTR_PROJSLUG . '/wiki', 'traq::controllers::Wiki.view/main');
 Router::add('/' . RTR_PROJSLUG . '/wiki/_pages', 'traq::controllers::Wiki.pages');
 Router::add('/' . RTR_PROJSLUG . '/wiki/_new', 'traq::controllers::Wiki.new');
 Router::add('/' . RTR_PROJSLUG . '/wiki/([a-zA-Z0-9\-\_]+)', 'traq::controllers::Wiki.view/$2');

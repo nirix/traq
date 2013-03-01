@@ -55,15 +55,6 @@ class Wiki extends AppController
     }
 
     /**
-     * Displays the main wiki page for the project.
-     */
-    public function action_index()
-    {
-        $this->_render['view'] = 'wiki/view';
-        $this->action_view('main');
-    }
-
-    /**
      * Displays the requested wiki page.
      *
      * @param string $slug Wiki page slug.
@@ -164,11 +155,8 @@ class Wiki extends AppController
      */
     public function action_delete($slug)
     {
-        // Get the page
-        $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
-
         // Delete the page
-        $page->delete();
+        $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
 
         // Redirect to main page
         Request::redirectTo($this->project->href('wiki'));
