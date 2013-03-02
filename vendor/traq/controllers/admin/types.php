@@ -131,8 +131,11 @@ class Types extends AppController
     public function action_delete($id)
     {
         // Find the type, delete and redirect.
-        $type = Type::find($id);
-        $type->delete();
-        Request::redirectTo('/admin/tickets/types');
+        $type = Type::find($id)->delete();
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo('/admin/tickets/types');
+        }
     }
 }
