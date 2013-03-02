@@ -59,17 +59,21 @@ class Types extends AppController
         if (Request::method() == 'post') {
             // Set the information
             $type->set(array(
-                'name'      => Request::$post['name'],
-                'bullet'    => Request::$post['bullet'],
-                'changelog' => isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0,
-                'template'  => Request::$post['template'],
+                'name'      => Request::post('name'),
+                'bullet'    => Request::post('bullet'),
+                'changelog' => Request::post('changelog', 0),
+                'template'  => Request::post('template'),
             ));
 
             // Check if the data is valid
             if ($type->is_valid()) {
                 // Save and redirect
                 $type->save();
-                Request::redirectTo('/admin/tickets/types');
+                if ($this->is_api) {
+                    return \API::response(1, array('type' => $type));
+                } else {
+                    Request::redirectTo('/admin/tickets/types');
+                }
             }
         }
 
