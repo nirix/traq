@@ -68,4 +68,12 @@ class UserRole extends Model
     {
         return true;
     }
+
+    public function __toArray($fields = null)
+    {
+        $data = parent::__toArray($fields);
+        $data['user'] = $this->user->__toArray();
+        $data['role'] = $this->role->__toArray();
+        return $data;
+    }
 }
