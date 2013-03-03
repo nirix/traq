@@ -123,10 +123,12 @@ class Components extends AppController
     public function action_delete($id)
     {
         // Fetch the component
-        $component = Component::find($id);
+        Component::find($id)->delete();
 
-        // Delete and redirect
-        $component->delete();
-        Request::redirectTo($this->project->href("settings/components"));
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo($this->project->href("settings/components"));
+        }
     }
 }
