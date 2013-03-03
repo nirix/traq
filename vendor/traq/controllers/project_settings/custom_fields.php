@@ -121,14 +121,12 @@ class CustomFields extends AppController
                 }
             }
 
-            // Is required?
-            if (!isset(Request::$post['is_required'])) {
-                $data['is_required'] = 0;
-            }
-
-            // Multiple
-            if (!isset(Request::$post['multiple'])) {
-                $data['multiple'] = 0;
+            if ($this->is_api) {
+                $data['is_required'] = Request::post('is_required', $field->is_required);
+                $data['multiple'] = Request::post('multiple', $field->multiple);
+            } else {
+                $data['is_required'] = Request::post('is_required', 0);
+                $data['multiple'] = Request::post('multiple', 0);
             }
 
             // Set field properties
@@ -136,7 +134,11 @@ class CustomFields extends AppController
 
             // Save and redirect
             if ($field->save()) {
-                Request::redirectTo($this->project->href('settings/custom_fields'));
+                if ($this->is_api) {
+                    return \API::response(1, array('field' => $field));
+                } else {
+                    Request::redirectTo($this->project->href('settings/custom_fields'));
+                }
             }
         }
 
