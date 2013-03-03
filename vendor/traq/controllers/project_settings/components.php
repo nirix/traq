@@ -62,7 +62,7 @@ class Components extends AppController
         if (Request::method() == 'post') {
             // Set the information
             $component->set(array(
-                'name'       => Request::$post['name'],
+                'name'       => Request::post('name'),
                 'project_id' => $this->project->id
             ));
 
@@ -70,7 +70,11 @@ class Components extends AppController
             if ($component->is_valid()) {
                 // Save and redirect
                 $component->save();
-                Request::redirectTo("{$this->project->slug}/settings/components");
+                if ($this->is_api) {
+                    return \API::response(1, array('component' => $component));
+                } else {
+                    Request::redirectTo("{$this->project->slug}/settings/components");
+                }
             }
         }
 
