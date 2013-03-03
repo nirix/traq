@@ -93,6 +93,10 @@ class Components extends AppController
         // Fetch the component
         $component = Component::find($id);
 
+        if ($component->project_id !== $this->project->id) {
+            return $this->show_no_permission();
+        }
+
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Update the information
@@ -123,7 +127,14 @@ class Components extends AppController
     public function action_delete($id)
     {
         // Fetch the component
-        Component::find($id)->delete();
+        $component = Component::find($id);
+
+        if ($component->project_id !== $this->project->id) {
+            return $this->show_no_permission();
+        }
+
+        // Delete component
+        $component->delete();
 
         if ($this->is_api) {
             return \API::response(1);
