@@ -28,7 +28,9 @@
 		<?php if (count($profile->projects())) { ?>
 		<div class="box">
 			<h3><?php echo l('projects'); ?></h3>
-			<?php foreach ($profile->projects() as $project) { ?>
+			<?php foreach ($profile->projects() as $project) {
+				if (!$current_user->permission($project[0]->id, 'view')) { continue; }
+				?>
 				<li><?php echo HTML::link($project[0]->name, $project[0]->href()); ?>, <?php echo $project[1]->name; ?></li>
 			<?php } ?>
 		</div>
@@ -48,7 +50,9 @@
 				<th class="updated"><?php echo l('updated'); ?></th>
 			</thead>
 			<tbody>
-			<?php foreach ($profile->assigned_tickets->order_by('is_closed', 'ASC')->exec()->fetch_all() as $ticket) { ?>
+			<?php foreach ($profile->assigned_tickets->order_by('is_closed', 'ASC')->exec()->fetch_all() as $ticket) {
+				if (!$current_user->permission($ticket->project_id, 'view')) { continue; }
+				?>
 				<tr>
 					<td><?php echo HTML::link($ticket->summary, $ticket->href()); ?></td>
 					<td><?php echo HTML::link($ticket->project->name, $ticket->project->href()); ?></td>
