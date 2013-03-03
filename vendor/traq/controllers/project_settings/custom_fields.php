@@ -102,7 +102,7 @@ class CustomFields extends AppController
 
         // Verify project
         if ($field->project_id != $this->project->id) {
-            return $this->show_404();
+            return $this->show_no_permission();
         }
 
         // Check if the form has been submitted
@@ -150,7 +150,7 @@ class CustomFields extends AppController
 
         // Verify project
         if ($field->project_id != $this->project->id) {
-            return $this->show_404();
+            return $this->show_no_permission();
         }
 
         // Delete and redirect
