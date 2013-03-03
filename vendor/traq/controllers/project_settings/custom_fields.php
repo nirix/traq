@@ -161,6 +161,11 @@ class CustomFields extends AppController
 
         // Delete and redirect
         $field->delete();
-        Request::redirectTo($this->project->href('settings/custom_fields'));
+
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo($this->project->href('settings/custom_fields'));
+        }
     }
 }
