@@ -82,7 +82,11 @@ class CustomFields extends AppController
 
             // Save and redirect
             if ($field->save()) {
-                Request::redirectTo($this->project->href('settings/custom_fields'));
+                if ($this->is_api) {
+                    return \API::response(1, array('field' => $field));
+                } else {
+                    Request::redirectTo($this->project->href('settings/custom_fields'));
+                }
             }
         }
 
