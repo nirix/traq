@@ -97,14 +97,18 @@ class Components extends AppController
         if (Request::method() == 'post') {
             // Update the information
             $component->set(array(
-                'name' => Request::$post['name'],
+                'name' => Request::post('name'),
             ));
 
             // Check if the data is valid
             if ($component->is_valid()) {
                 // Save and redirect
                 $component->save();
-                Request::redirectTo("{$this->project->slug}/settings/components");
+                if ($this->is_api) {
+                    return \API::response(1, array('component' => $component));
+                } else {
+                    Request::redirectTo("{$this->project->slug}/settings/components");
+                }
             }
         }
 
