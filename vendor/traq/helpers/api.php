@@ -66,9 +66,21 @@ class API
      */
     public static function response($status = 1, array $response = array())
     {
+        // 0, Bad Request
         if (!$status) {
             header("HTTP/1.1 400 Bad Request");
         }
+
+        // 403, Forbidden
+        if ($status == 403) {
+            header("HTTP/1.1 403 Forbidden");
+        }
+
+        // 404, Not Found
+        if ($status == 404) {
+            header("HTTP/1.1 404 Not Found");
+        }
+
         return to_json(array_merge(array('status' => $status, 'version' => TRAQ_API_VER), $response));
     }
 }
