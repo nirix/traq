@@ -157,7 +157,11 @@ class Milestones extends AppController
             $milestone->delete();
 
             // Redirect
-            Request::redirectTo("{$this->project->slug}/settings/milestones");
+            if ($this->is_api) {
+                return \API::response(1);
+            } else {
+                Request::redirectTo("{$this->project->slug}/settings/milestones");
+            }
         }
 
         View::set(compact('milestone', 'milestones'));
