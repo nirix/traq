@@ -99,6 +99,15 @@ class Members extends AppController
         if ($user_role = UserRole::select('id')->where(array(array('project_id', $this->project->id), array('user_id', $user_id)))->exec()->fetch()) {
             $user_role->delete();
         }
-        Request::redirectTo($this->project->href('settings/members'));
+
+        if ($this->is_api) {
+            if ($user_role) {
+                return \API::response(1);
+            } else {
+                return \API::response(0);
+            }
+        } else {
+            Request::redirectTo($this->project->href('settings/members'));
+        }
     }
 }
