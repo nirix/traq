@@ -10,7 +10,7 @@
 		<?php if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened'))) { ?>
 			<?php echo HTML::link(
 				l("timeline.{$row->action}",
-					$row->ticket()->summary,
+					htmlspecialchars($row->ticket()->summary),
 					$row->ticket()->ticket_id,
 					$row->ticket()->type->name,
 					$row->ticket_status()->name
@@ -20,7 +20,7 @@
 		<?php } elseif (in_array($row->action, array('milestone_completed', 'milestone_cancelled'))) { ?>
 			<?php echo l("timeline.{$row->action}", $row->milestone()->name); ?>
 		<?php } elseif ($row->action == 'ticket_comment') { ?>
-			<?php echo l('timeline.ticket_comment', HTML::link($row->ticket()->summary, $row->ticket()->href()), $row->ticket()->ticket_id); ?>
+			<?php echo l('timeline.ticket_comment', HTML::link(htmlspecialchars($row->ticket()->summary), $row->ticket()->href()), $row->ticket()->ticket_id); ?>
 		<?php } ?>
 		</dt>
 		<dd><?php echo l('timeline.by_x', HTML::link(strshorten($row->user->name, 20), $row->user->href())); ?></dd>
