@@ -137,15 +137,19 @@ class Wiki extends AppController
         if (Request::method() == 'post') {
             // Update the page information
             $page->set(array(
-                'title'      => Request::$post['title'],
-                'slug'       => Request::$post['slug'],
-                'body'       => Request::$post['body'],
+                'title'      => Request::post('title'),
+                'slug'       => Request::post('slug'),
+                'body'       => Request::post('body'),
                 'project_id' => $this->project->id
             ));
 
             // Save and redirect
             if ($page->save()) {
-                Request::redirectTo($page->href());
+                if ($this->is_api) {
+                    return \API::response(1, array('page' => $page));
+                } else {
+                    Request::redirectTo($page->href());
+                }
             }
         }
 
