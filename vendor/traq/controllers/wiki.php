@@ -167,7 +167,11 @@ class Wiki extends AppController
         $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
 
         // Redirect to main page
-        Request::redirectTo($this->project->href('wiki'));
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo($this->project->href('wiki'));
+        }
     }
 
     /**
