@@ -103,20 +103,25 @@ class Milestones extends AppController
         if (Request::method() == 'post') {
             // Update the information
             $milestone->set(array(
-                'name'         => Request::$post['name'],
-                'slug'         => Request::$post['slug'],
-                'codename'     => Request::$post['codename'],
-                'info'         => Request::$post['info'],
-                'due'          => Request::$post['due'] != '' ? Request::$post['due'] : 'NULL',
-                'status'       => Request::$post['status'],
-                'displayorder' => Request::$post['displayorder']
+                'name'         => Request::post('name', $milestone->name),
+                'slug'         => Request::post('slug', $milestone->slug),
+                'codename'     => Request::post('codename', $milestone->codename),
+                'info'         => Request::post('info', $milestone->info),
+                'due'          => Request::post('due', $milestone->due),
+                'status'       => Request::post('status', $milestone->status),
+                'displayorder' => Request::post('displayorder', $milestone->displayorder)
             ));
 
             // Make sure the data is valid
             if ($milestone->is_valid()) {
                 // Save and redirect
                 $milestone->save();
-                Request::redirectTo("{$this->project->slug}/settings/milestones");
+
+                if ($this->is_api) {
+                    return \API::response(1, array('milestone' => $milestone));
+                } else {
+                    Request::redirectTo("{$this->project->slug}/settings/milestones");
+                }
             }
         }
 
