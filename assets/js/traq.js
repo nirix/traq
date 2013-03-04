@@ -55,6 +55,13 @@ $(document).ready(function(){
 		$("#project_switcher_btn").stop(true, true).fadeOut('fast');
 	});
 
+	$('[data-preview]').on('click', function(){
+		var data = $($(this).attr('data-preview')).val();
+		$('#overlay').load(traq.base + '/_misc/preview_text', { data: data }, function(){
+			$('#overlay').overlay();
+		});
+	});
+
 	// Add the editor interface to all text areas, like a boss.
 	$('textarea.editor').likeaboss();
 

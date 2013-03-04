@@ -35,6 +35,7 @@ Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
 Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');
 Router::add('/_ajax/ticket_template/([0-9]+)', 'traq::controllers::Misc.ticket_template/$1');
 Router::add('/_ajax/autocomplete/(username)', 'traq::controllers::Misc.autocomplete_$1');
+Router::add('/_misc/preview_text', 'traq::controllers::Misc.preview_text');
 
 // Attachment routes
 Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'traq::controllers::Attachments.view/$1');

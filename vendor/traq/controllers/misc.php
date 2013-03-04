@@ -101,4 +101,10 @@ class Misc extends Controller
             return '["' . implode('","', $options) . '"]';
         }
     }
+
+    public function action_preview_text()
+    {
+        $this->_render['view'] = 'preview_text';
+        View::set('data', format_text(Request::$request['data']));
+    }
 }

@@ -101,6 +101,7 @@ class enUS extends \traq\libraries\Locale
             'for'              => "For",
             'search'           => "Search",
             'renew'            => "Renew",
+            'preview'          => "Preview",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
