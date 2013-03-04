@@ -71,7 +71,7 @@ class Wikipage extends Model
 
         // Check if the name is set
         if (empty($this->_data['title'])) {
-            $errors['name'] = l('errors.page_title_blank');
+            $errors['title'] = l('errors.page_title_blank');
         }
 
         // Make sure the slug isnt in use..
