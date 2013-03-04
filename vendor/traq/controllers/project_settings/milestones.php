@@ -99,6 +99,10 @@ class Milestones extends AppController
         // Fetch the milestone
         $milestone = Milestone::find($id);
 
+        if ($milestone->project_id !== $this->project->id) {
+            return $this->show_no_permission();
+        }
+
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Update the information
@@ -140,6 +144,10 @@ class Milestones extends AppController
 
         // Fetch the milestone
         $milestone = Milestone::find($id);
+
+        if ($milestone->project_id !== $this->project->id) {
+            return $this->show_no_permission();
+        }
 
         // Fetch all but current milestone
         $milestones = array();
