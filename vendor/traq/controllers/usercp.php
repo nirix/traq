@@ -89,8 +89,8 @@ class Usercp extends AppController
     public function action_password()
     {
         // Make sure the user is logged in
-        if (!LOGGEDIN) {
-            $this->show_no_permission();
+        if (!LOGGEDIN or $this->is_api) {
+            return $this->show_no_permission();
         }
 
         // Clone the logged in user object
