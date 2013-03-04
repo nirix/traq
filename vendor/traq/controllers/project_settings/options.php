@@ -47,18 +47,29 @@ class Options extends AppController
         if (Request::method() == 'post') {
             // Update the information
             $project->set(array(
-                'name' => Request::$post['name'],
-                'slug' => Request::$post['slug'],
-                'codename' => Request::$post['codename'],
-                'info' => Request::$post['info'],
-                'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
+                'name'        => Request::post('name', $project->name),
+                'slug'        => Request::post('slug', $project->slug),
+                'codename'    => Request::post('codename', $project->codename),
+                'info'        => Request::post('info', $project->info),
             ));
+
+            // Set enable_wiki
+            if ($this->is_api) {
+                $project->enable_wiki = Request::post('enable_wiki', $project->enable_wiki);
+            } else {
+                $project->enable_wiki = Request::post('enable_wiki', 0);
+            }
 
             // Check if the data is valid
             if ($project->is_valid()) {
                 // Save and redirect
                 $project->save();
-                Request::redirectTo($project->href('settings'));
+
+                if ($this->is_api) {
+                    return \API::response(1, array('project' => $project));
+                } else {
+                    Request::redirectTo($project->href('settings'));
+                }
             }
         }
 
