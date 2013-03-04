@@ -58,21 +58,25 @@ class Usercp extends AppController
         // Has the form been submitted?
         if (Request::method() == 'post') {
             $data = array(
-                'name'   => Request::$post['name'],
-                'email'  => Request::$post['email'],
-                'locale' => Request::$post['locale']
+                'name'   => Request::post('name', $user->name),
+                'email'  => Request::post('email', $user->email),
+                'locale' => Request::post('locale', $user->locale)
             );
 
             FishHook::add('controller:users::usercp/save', array(&$data));
 
             // Set the info
             $user->set($data);
-            $user->option('watch_created_tickets', Request::$post['watch_created_tickets']);
+            $user->option('watch_created_tickets', Request::post('watch_created_tickets'));
 
             // Save the user
             if ($user->save()) {
-                // Redirect if successfull
-                Request::redirect(Request::requestUri());
+                // Redirect if successful
+                if ($this->is_api) {
+                    return \API::response(1, array('user' => $user));
+                } else {
+                    Request::redirect(Request::requestUri());
+                }
             }
         }
 
