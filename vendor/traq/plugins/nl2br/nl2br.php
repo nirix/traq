@@ -1,5 +1,4 @@
 <?php
-<?php
 /*!
  * Traq
  * Copyright (C) 2009-2013 Traq.io
