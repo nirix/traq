@@ -5,7 +5,7 @@
 			echo HTML::link(l('delete'), $ticket->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $ticket->summary)));
 		} ?>
 	</div>
-	<h2 id="ticket_summary"><?php echo $ticket->summary; ?></h2>
+	<h2 id="ticket_summary"><?php echo htmlspecialchars($ticket->summary); ?></h2>
 	<section class="properties">
 		<div class="property">
 			<?php echo Form::label(l('type')); ?>

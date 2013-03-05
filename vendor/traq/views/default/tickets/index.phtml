@@ -16,7 +16,7 @@
 		<tr class="priority_<?php echo $ticket->priority_id; ?>">
 			<?php foreach ($columns as $column) { ?>
 				<?php if ($column == 'summary') { ?>
-				<td><?php echo HTML::link($ticket->summary, "{$project->slug}/tickets/{$ticket->ticket_id}"); ?></td>
+				<td><?php echo HTML::link(htmlspecialchars($ticket->summary), "{$project->slug}/tickets/{$ticket->ticket_id}"); ?></td>
 				<?php } elseif ($column == 'owner') { ?>
 				<td><?php echo HTML::link(strshorten($ticket->user->name, 20), $ticket->user->href()); ?></td>
 				<?php } else { ?>
