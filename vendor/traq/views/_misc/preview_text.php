@@ -4,6 +4,6 @@
 </div>
 <form>
 	<div class="actions">
-		<input type="button" value="<?php echo l('cancel'); ?>" onclick="close_overlay();" />
+		<input type="button" value="<?php echo l('close'); ?>" onclick="close_overlay();" />
 	</div>
 </form>
