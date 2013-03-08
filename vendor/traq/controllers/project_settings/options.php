@@ -47,10 +47,11 @@ class Options extends AppController
         if (Request::method() == 'post') {
             // Update the information
             $project->set(array(
-                'name'        => Request::post('name', $project->name),
-                'slug'        => Request::post('slug', $project->slug),
-                'codename'    => Request::post('codename', $project->codename),
-                'info'        => Request::post('info', $project->info),
+                'name'         => Request::post('name', $project->name),
+                'slug'         => Request::post('slug', $project->slug),
+                'codename'     => Request::post('codename', $project->codename),
+                'info'         => Request::post('info', $project->info),
+                'displayorder' => Request::post('displayorder', $project->displayorder)
             ));
 
             // Set enable_wiki

@@ -59,11 +59,12 @@ class Projects extends AppController
 
         if (Request::method() == 'post') {
             $project->set(array(
-                'name'        => Request::post('name'),
-                'slug'        => Request::post('slug'),
-                'codename'    => Request::post('codename'),
-                'info'        => Request::post('info'),
-                'enable_wiki' => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0)
+                'name'         => Request::post('name'),
+                'slug'         => Request::post('slug'),
+                'codename'     => Request::post('codename'),
+                'info'         => Request::post('info'),
+                'enable_wiki'  => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0),
+                'displayorder' => Request::post('displayorder', 0)
             ));
 
             // Save project

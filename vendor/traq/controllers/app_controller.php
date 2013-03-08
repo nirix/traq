@@ -97,7 +97,7 @@ class AppController extends Controller
         // Fetch all projects and make sure the user has permission
         // to access the project then pass them to the view.
         $this->projects = array();
-        foreach (Project::fetch_all() as $project) {
+        foreach (Project::select()->order_by('displayorder', 'ASC')->exec()->fetch_all() as $project) {
             // Check if the user has access to view the project...
             if ($this->user->permission($project->id, 'view')) {
                 $this->projects[] = $project;
