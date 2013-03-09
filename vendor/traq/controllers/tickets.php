@@ -89,6 +89,23 @@ class Tickets extends AppController
             }
         }
 
+        // Any filters stored in the session?
+        if (!count($filter_query->filters())
+        and isset($_SESSION['ticket_filters'])
+        and isset($_SESSION['ticket_filters'][$this->project->id])) {
+            foreach (explode('&', $_SESSION['ticket_filters'][$this->project->id]) as $filter_value) {
+                if (strpos($filter_value, '=')) {
+                    $filter_value = explode('=', $filter_value);
+                    if (in_array($filter_value[0], ticket_filters())) {
+                        $value = isset($filter_value[1]) ? explode(',', urldecode($filter_value[1])) : array();
+                        $filter_query->process($filter_value[0], $value);
+                    }
+                }
+            }
+        } else {
+            $_SESSION['ticket_filters'][$this->project->id] = Request::$query;
+        }
+
         // Send filters to the view
         View::set('filters', $filter_query->filters());
 
@@ -561,7 +578,8 @@ class Tickets extends AppController
             }
         }
 
-        // Redirect
+        // Save to session and redirect
+        $_SESSION['ticket_filters'][$this->project->id] = implode('&', $query_string);
         Request::redirectTo($this->project->href('tickets') . '?' . implode('&', $query_string));
     }
 
