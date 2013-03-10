@@ -20,6 +20,7 @@
 
 namespace traq\helpers;
 
+use avalon\core\Kernel as Avalon;
 use traq\models\Status;
 use traq\models\User;
 
@@ -96,13 +97,22 @@ class TicketFilterQuery
                         break;
                 }
 
-                // Find row and add ID to query values if it exists
-                if ($field == 'status' and ($value == 'allopen' or $value == 'allclosed')) {
-                    foreach (Status::select('id')->where('status', ($value == 'allopen' ? 1 : 0))->exec()->fetch_all() as $status) {
-                        $query_values[] = $status->id;
+                // Status, type, priority and severity
+                if (in_array($field, array('status', 'type', 'priority', 'severity'))) {
+                    // Find row and add ID to query values if it exists
+                    if ($field == 'status' and ($value == 'allopen' or $value == 'allclosed')) {
+                        foreach (Status::select('id')->where('status', ($value == 'allopen' ? 1 : 0))->exec()->fetch_all() as $status) {
+                            $query_values[] = $status->id;
+                        }
+                    } elseif ($row = $class::find($find, $value) and $row) {
+                        $query_values[] = $row->id;
                     }
-                } elseif ($row = $class::find($find, $value) and $row) {
-                    $query_values[] = $row->id;
+                }
+                // Everything else
+                else {
+                    if ($row = $class::select()->where('project_id', Avalon::app()->project->id)->where($find, $value)->exec()->fetch()) {
+                        $query_values[] = $row->id;
+                    }
                 }
             }
 
