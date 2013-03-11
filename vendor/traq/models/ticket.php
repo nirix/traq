@@ -416,7 +416,10 @@ class Ticket extends Model
     {
         $data = parent::__toArray($fields);
         $data['id'] = $data['ticket_id'];
-        $data['extra'] = json_decode($data['extra'], true);
+
+        if (!is_array($data['extra'])) {
+            $data['extra'] = json_decode($data['extra'], true);
+        }
 
         // Set vote count and remove the IDs of
         // users who have voted.
