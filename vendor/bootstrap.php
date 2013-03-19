@@ -56,7 +56,8 @@ require APPPATH . '/version.php';
 // Check for the database config file
 if (!file_exists(APPPATH . '/config/database.php')) {
     // No config file, redirect to installer
-    header("Location: " . Request::base() . "install");
+    new Request;
+    header("Location: " . Request::base('install'));
 }
 // Include config and connect
 else {
