@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -52,10 +52,9 @@ class Error
      */
     public static function halt($title, $message)
     {
-        // Check if the message is the database complaining about a non existant table
+        // Check if the message is the database complaining about a non existent table
         // and ignore it.
-        if ($title == 'Database Error' and preg_match("/Table '(.*)' doesn\'t exist/", $message))
-        {
+        if ($title == 'Database Error' and preg_match("/Table '(.*)' doesn\'t exist/", $message)) {
             return false;
         }
 
