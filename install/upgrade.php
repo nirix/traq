@@ -114,8 +114,16 @@ post('/step/1', function(){
         // Fix severities table ID column to auto increment
         $db->query("
             ALTER TABLE `" . $db->prefix . "severities` CHANGE `id` `id` BIGINT(20)
-             NOT NULL
-             AUTO_INCREMENT
+             NOT NULL AUTO_INCREMENT
+        ");
+    }
+
+    // Version 3.1
+    if (DB_VER < 30100) {
+        // Default value for project display order.
+        $db->query("
+            ALTER TABLE `" . $db->prefix . "projects` CHANGE `displayorder` `displayorder` BIGINT(20)
+            NOT NULL DEFAULT '0'
         ");
     }
 
