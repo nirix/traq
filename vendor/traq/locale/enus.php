@@ -190,6 +190,7 @@ class enUS extends \traq\libraries\Locale
             'attachments'           => "Attachments",
             'edit_ticket_history'   => "Edit Ticket History",
             'x_uploaded_by_x_x_ago' => "{1} uploaded by {2}, {3}",
+            'move'                  => "Move",
             'people_who_have_voted_on_this_ticket' => "People who have voted on this ticket ({1})",
 
             // Ticket columns
@@ -278,6 +279,7 @@ class enUS extends \traq\libraries\Locale
                     'create_tickets'            => "Create",
                     'update_tickets'            => "Update",
                     'delete_tickets'            => "Delete",
+                    'move_tickets'              => "Move tickets",
                     'vote_on_tickets'           => "Vote",
                     'comment_on_tickets'        => "Comment",
                     'edit_ticket_description'   => "Edit description",

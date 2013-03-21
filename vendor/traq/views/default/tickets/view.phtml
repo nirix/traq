@@ -4,6 +4,9 @@
 		<?php if ($current_user->permission($ticket->project_id, 'delete_tickets')) {
 			echo HTML::link(l('delete'), $ticket->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $ticket->summary)));
 		} ?>
+		<?php if ($current_user->permission($ticket->project_id, 'move_tickets')) {
+			echo HTML::link(l('move'), $ticket->href('move'), array('class' => 'button_move'));
+		} ?>
 	</div>
 	<h2 id="ticket_summary"><?php echo htmlspecialchars($ticket->summary); ?></h2>
 	<section class="properties">
