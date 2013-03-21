@@ -122,15 +122,21 @@ $permissions = array(
     )
 );
 
-// Permission types (usergroup/role)
-foreach ($permissions as $type => $permissions) {
-    $queries[] = "# {$type}";
+$query = array(
+    "INSERT INTO `traq_permissions` (`id`, `project_id`, `type`, `type_id`, `action`, `value`)",
+    "VALUES"
+);
 
-    // Permissions
+foreach ($permissions as $type => $permissions) {
+    //$query[] = "# {$type}";
+
     foreach ($permissions as $permission) {
         $permission_id++;
-        $queries[] = "INSERT INTO traq_permissions VALUES({$permission_id}, 0, '{$type}', {$permission[0]}, '{$permission[1]}', {$permission[2]});";
+        $query[] = "  ({$permission_id},0,'{$type}',{$permission[0]},'{$permission[1]}',{$permission[2]}),";
     }
 }
 
-print(implode(PHP_EOL, $queries));
+$query = implode(PHP_EOL, $query);
+$query[strlen($query)-1] = ';';
+
+print($query);
