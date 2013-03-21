@@ -35,40 +35,40 @@ $permissions = array(
         // Defaults
 
         // Projects
-        array(DEFAULT_ID, 'view', 1),
+        array(DEFAULT_ID, 'view',             1),
         array(DEFAULT_ID, 'project_settings', 0),
 
         // Tickets
-        array(DEFAULT_ID, 'create_tickets', 1),
-        array(DEFAULT_ID, 'update_tickets', 1),
-        array(DEFAULT_ID, 'delete_tickets', 0),
-        array(DEFAULT_ID, 'move_tickets', 0),
-        array(DEFAULT_ID, 'comment_on_tickets', 1),
-        array(DEFAULT_ID, 'edit_ticket_description', 0),
-        array(DEFAULT_ID, 'vote_on_tickets', 1),
-        array(DEFAULT_ID, 'add_attachments', 1),
-        array(DEFAULT_ID, 'view_attachments', 1),
-        array(DEFAULT_ID, 'delete_attachments', 0),
+        array(DEFAULT_ID, 'create_tickets',            1),
+        array(DEFAULT_ID, 'update_tickets',            1),
+        array(DEFAULT_ID, 'delete_tickets',            0),
+        array(DEFAULT_ID, 'move_tickets',              0),
+        array(DEFAULT_ID, 'comment_on_tickets',        1),
+        array(DEFAULT_ID, 'edit_ticket_description',   0),
+        array(DEFAULT_ID, 'vote_on_tickets',           1),
+        array(DEFAULT_ID, 'add_attachments',           1),
+        array(DEFAULT_ID, 'view_attachments',          1),
+        array(DEFAULT_ID, 'delete_attachments',        0),
         array(DEFAULT_ID, 'set_all_ticket_properties', 0),
 
         // Ticket History
-        array(DEFAULT_ID, 'edit_ticket_history', 0),
+        array(DEFAULT_ID, 'edit_ticket_history',   0),
         array(DEFAULT_ID, 'delete_ticket_history', 0),
 
         // Wiki
         array(DEFAULT_ID, 'create_wiki_page', 0),
-        array(DEFAULT_ID, 'edit_wiki_page', 0),
+        array(DEFAULT_ID, 'edit_wiki_page',   0),
         array(DEFAULT_ID, 'delete_wiki_page', 0),
 
         //------------------------------------------
         // Guests
 
         // Tickets
-        array(GUEST_ID, 'create_tickets', 0),
+        array(GUEST_ID, 'create_tickets',     0),
         array(GUEST_ID, 'comment_on_tickets', 0),
-        array(GUEST_ID, 'update_tickets', 0),
-        array(GUEST_ID, 'vote_on_tickets', 0),
-        array(GUEST_ID, 'add_attachments', 0)
+        array(GUEST_ID, 'update_tickets',     0),
+        array(GUEST_ID, 'vote_on_tickets',    0),
+        array(GUEST_ID, 'add_attachments',    0)
     ),
     // Role permissions
     'role' => array(
@@ -76,29 +76,29 @@ $permissions = array(
         // Defaults
 
         // Projects
-        array(DEFAULT_ID, 'view', 1),
+        array(DEFAULT_ID, 'view',             1),
         array(DEFAULT_ID, 'project_settings', 0),
 
         // Tickets
-        array(DEFAULT_ID, 'create_tickets', 1),
-        array(DEFAULT_ID, 'update_tickets', 1),
-        array(DEFAULT_ID, 'delete_tickets', 0),
-        array(DEFAULT_ID, 'move_tickets', 0),
-        array(DEFAULT_ID, 'comment_on_tickets', 1),
-        array(DEFAULT_ID, 'edit_ticket_description', 0),
-        array(DEFAULT_ID, 'vote_on_tickets', 1),
-        array(DEFAULT_ID, 'add_attachments', 1),
-        array(DEFAULT_ID, 'view_attachments', 1),
-        array(DEFAULT_ID, 'delete_attachments', 0),
+        array(DEFAULT_ID, 'create_tickets',            1),
+        array(DEFAULT_ID, 'update_tickets',            1),
+        array(DEFAULT_ID, 'delete_tickets',            0),
+        array(DEFAULT_ID, 'move_tickets',              0),
+        array(DEFAULT_ID, 'comment_on_tickets',        1),
+        array(DEFAULT_ID, 'edit_ticket_description',   0),
+        array(DEFAULT_ID, 'vote_on_tickets',           1),
+        array(DEFAULT_ID, 'add_attachments',           1),
+        array(DEFAULT_ID, 'view_attachments',          1),
+        array(DEFAULT_ID, 'delete_attachments',        0),
         array(DEFAULT_ID, 'set_all_ticket_properties', 1),
 
         // Ticket History
-        array(DEFAULT_ID, 'edit_ticket_history', 0),
+        array(DEFAULT_ID, 'edit_ticket_history',   0),
         array(DEFAULT_ID, 'delete_ticket_history', 0),
 
         // Wiki
         array(DEFAULT_ID, 'create_wiki_page', 0),
-        array(DEFAULT_ID, 'edit_wiki_page', 0),
+        array(DEFAULT_ID, 'edit_wiki_page',   0),
         array(DEFAULT_ID, 'delete_wiki_page', 0),
 
         //------------------------------------------
@@ -108,16 +108,16 @@ $permissions = array(
         array(MANAGER_ID, 'project_settings', 1),
 
         // Tickets
-        array(MANAGER_ID, 'delete_tickets', 1),
-        array(MANAGER_ID, 'move_tickets', 1),
+        array(MANAGER_ID, 'delete_tickets',          1),
+        array(MANAGER_ID, 'move_tickets',            1),
         array(MANAGER_ID, 'edit_ticket_description', 1),
-        array(MANAGER_ID, 'delete_attachments', 1),
-        array(MANAGER_ID, 'edit_ticket_history', 1),
-        array(MANAGER_ID, 'delete_ticket_history', 1),
+        array(MANAGER_ID, 'delete_attachments',      1),
+        array(MANAGER_ID, 'edit_ticket_history',     1),
+        array(MANAGER_ID, 'delete_ticket_history',   1),
 
         // Wiki
         array(MANAGER_ID, 'create_wiki_page', 1),
-        array(MANAGER_ID, 'edit_wiki_page', 1),
+        array(MANAGER_ID, 'edit_wiki_page',   1),
         array(MANAGER_ID, 'delete_wiki_page', 1)
     )
 );
