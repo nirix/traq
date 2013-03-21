@@ -24,6 +24,10 @@ header("Content-type: text/plain");
 $queries = array();
 $permission_id = 0;
 
+const DEFAULT_ID = 0;
+const GUEST_ID   = 3;
+const MANAGER_ID = 1;
+
 $permissions = array(
     // Usergroup permissions
     'usergroup' => array(
@@ -31,39 +35,40 @@ $permissions = array(
         // Defaults
 
         // Projects
-        array(0, 'view', 1),
-        array(0, 'project_settings', 0),
+        array(DEFAULT_ID, 'view', 1),
+        array(DEFAULT_ID, 'project_settings', 0),
 
         // Tickets
-        array(0, 'create_tickets', 1),
-        array(0, 'update_tickets', 1),
-        array(0, 'delete_tickets', 0),
-        array(0, 'comment_on_tickets', 1),
-        array(0, 'edit_ticket_description', 0),
-        array(0, 'vote_on_tickets', 1),
-        array(0, 'add_attachments', 1),
-        array(0, 'view_attachments', 1),
-        array(0, 'delete_attachments', 0),
-        array(0, 'set_all_ticket_properties', 0),
+        array(DEFAULT_ID, 'create_tickets', 1),
+        array(DEFAULT_ID, 'update_tickets', 1),
+        array(DEFAULT_ID, 'delete_tickets', 0),
+        array(DEFAULT_ID, 'move_tickets', 0),
+        array(DEFAULT_ID, 'comment_on_tickets', 1),
+        array(DEFAULT_ID, 'edit_ticket_description', 0),
+        array(DEFAULT_ID, 'vote_on_tickets', 1),
+        array(DEFAULT_ID, 'add_attachments', 1),
+        array(DEFAULT_ID, 'view_attachments', 1),
+        array(DEFAULT_ID, 'delete_attachments', 0),
+        array(DEFAULT_ID, 'set_all_ticket_properties', 0),
 
         // Ticket History
-        array(0, 'edit_ticket_history', 0),
-        array(0, 'delete_ticket_history', 0),
+        array(DEFAULT_ID, 'edit_ticket_history', 0),
+        array(DEFAULT_ID, 'delete_ticket_history', 0),
 
         // Wiki
-        array(0, 'create_wiki_page', 0),
-        array(0, 'edit_wiki_page', 0),
-        array(0, 'delete_wiki_page', 0),
+        array(DEFAULT_ID, 'create_wiki_page', 0),
+        array(DEFAULT_ID, 'edit_wiki_page', 0),
+        array(DEFAULT_ID, 'delete_wiki_page', 0),
 
         //------------------------------------------
         // Guests
 
         // Tickets
-        array(3, 'create_tickets', 0),
-        array(3, 'comment_on_tickets', 0),
-        array(3, 'update_tickets', 0),
-        array(3, 'vote_on_tickets', 0),
-        array(3, 'add_attachments', 0)
+        array(GUEST_ID, 'create_tickets', 0),
+        array(GUEST_ID, 'comment_on_tickets', 0),
+        array(GUEST_ID, 'update_tickets', 0),
+        array(GUEST_ID, 'vote_on_tickets', 0),
+        array(GUEST_ID, 'add_attachments', 0)
     ),
     // Role permissions
     'role' => array(
@@ -71,47 +76,49 @@ $permissions = array(
         // Defaults
 
         // Projects
-        array(0, 'view', 1),
-        array(0, 'project_settings', 0),
+        array(DEFAULT_ID, 'view', 1),
+        array(DEFAULT_ID, 'project_settings', 0),
 
         // Tickets
-        array(0, 'create_tickets', 1),
-        array(0, 'update_tickets', 1),
-        array(0, 'delete_tickets', 0),
-        array(0, 'comment_on_tickets', 1),
-        array(0, 'edit_ticket_description', 0),
-        array(0, 'vote_on_tickets', 1),
-        array(0, 'add_attachments', 1),
-        array(0, 'view_attachments', 1),
-        array(0, 'delete_attachments', 0),
-        array(0, 'set_all_ticket_properties', 1),
+        array(DEFAULT_ID, 'create_tickets', 1),
+        array(DEFAULT_ID, 'update_tickets', 1),
+        array(DEFAULT_ID, 'delete_tickets', 0),
+        array(DEFAULT_ID, 'move_tickets', 0),
+        array(DEFAULT_ID, 'comment_on_tickets', 1),
+        array(DEFAULT_ID, 'edit_ticket_description', 0),
+        array(DEFAULT_ID, 'vote_on_tickets', 1),
+        array(DEFAULT_ID, 'add_attachments', 1),
+        array(DEFAULT_ID, 'view_attachments', 1),
+        array(DEFAULT_ID, 'delete_attachments', 0),
+        array(DEFAULT_ID, 'set_all_ticket_properties', 1),
 
         // Ticket History
-        array(0, 'edit_ticket_history', 0),
-        array(0, 'delete_ticket_history', 0),
+        array(DEFAULT_ID, 'edit_ticket_history', 0),
+        array(DEFAULT_ID, 'delete_ticket_history', 0),
 
         // Wiki
-        array(0, 'create_wiki_page', 0),
-        array(0, 'edit_wiki_page', 0),
-        array(0, 'delete_wiki_page', 0),
+        array(DEFAULT_ID, 'create_wiki_page', 0),
+        array(DEFAULT_ID, 'edit_wiki_page', 0),
+        array(DEFAULT_ID, 'delete_wiki_page', 0),
 
         //------------------------------------------
         // Managers
 
         // Projects
-        array(1, 'project_settings', 1),
+        array(MANAGER_ID, 'project_settings', 1),
 
         // Tickets
-        array(1, 'delete_tickets', 1),
-        array(1, 'edit_ticket_description', 1),
-        array(1, 'delete_attachments', 1),
-        array(1, 'edit_ticket_history', 1),
-        array(1, 'delete_ticket_history', 1),
+        array(MANAGER_ID, 'delete_tickets', 1),
+        array(MANAGER_ID, 'move_tickets', 1),
+        array(MANAGER_ID, 'edit_ticket_description', 1),
+        array(MANAGER_ID, 'delete_attachments', 1),
+        array(MANAGER_ID, 'edit_ticket_history', 1),
+        array(MANAGER_ID, 'delete_ticket_history', 1),
 
         // Wiki
-        array(1, 'create_wiki_page', 1),
-        array(1, 'edit_wiki_page', 1),
-        array(1, 'delete_wiki_page', 1)
+        array(MANAGER_ID, 'create_wiki_page', 1),
+        array(MANAGER_ID, 'edit_wiki_page', 1),
+        array(MANAGER_ID, 'delete_wiki_page', 1)
     )
 );
 
