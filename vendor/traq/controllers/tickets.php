@@ -470,6 +470,17 @@ class Tickets extends AppController
     }
 
     /**
+     * Move ticket.
+     *
+     * @param integer $ticket_id
+     */
+    public function action_move($ticket_id)
+    {
+        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+        View::set('ticket', $ticket);
+    }
+
+    /**
      * Delete ticket.
      */
     public function action_delete($ticket_id)

@@ -1,0 +1,25 @@
+<?php
+use traq\models\Project;
+?>
+<div class="content">
+	<h2 id="page_title"><?php echo l('move_ticket')?></h2>
+	<form action="" method="post">
+		<input type="hidden" name="step" value="<?php echo Request::post('step', 1)+1?>">
+		<div class="tabular box">
+			<div class="group">
+				<label><?php echo l('ticket')?></label>
+				<?php echo htmlspecialchars($ticket->summary)?>
+			</div>
+			<div class="group">
+				<label for="project"><?php echo l('new_project')?></label>
+				<?php echo Form::select('project', Project::select_options(), array('value' => $ticket->project_id))?>
+			</div>
+			<?php if (Request::post('step') == 2) { ?>
+
+			<?php } ?>
+			<div class="actions">
+				<?php echo Form::submit(l( Request::post('step', 1) == 1 ? 'continue' : 'move' ))?>
+			</div>
+		</div>
+	</form>
+</div>
