@@ -25,6 +25,7 @@ use avalon\http\Router;
 use avalon\output\View;
 use avalon\core\Load;
 
+use traq\models\Project;
 use traq\models\Ticket;
 use traq\models\Milestone;
 use traq\models\Status;
@@ -477,6 +478,12 @@ class Tickets extends AppController
     public function action_move($ticket_id)
     {
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+        if (Request::post('step') == 2) {
+            $new_project = Project::find(Request::$post['project_id']);
+            View::set('new_project', $new_project);
+        }
+
         View::set('ticket', $ticket);
     }
 
