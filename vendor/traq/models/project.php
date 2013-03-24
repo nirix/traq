@@ -123,6 +123,15 @@ class Project extends Model
     }
 
     /**
+     * Returns an array of components belonging to the project formatted
+     * for the Form::select method.
+     */
+    public function component_select_options()
+    {
+        return Component::select_options($this->id);
+    }
+
+    /**
      * Returns an array formatted for the Form::select() method.
      *
      * @return array
