@@ -88,6 +88,7 @@ function ticketlist_allowed_columns()
         'type',
         'component',
         'milestone',
+        'assigned_to',
         'created_at',
         'updated_at',
         'votes'
@@ -169,6 +170,7 @@ function ticketlist_header($column) {
         case 'type':
         case 'component':
         case 'milestone':
+        case 'assigned_to':
         case 'updates':
         case 'votes':
             return l($column);
