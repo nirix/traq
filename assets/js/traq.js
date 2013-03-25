@@ -171,6 +171,12 @@ $(document).ready(function(){
 	$("input[data-autocomplete]").each(function(){
 		$(this).autocomplete({ source: $(this).attr('data-autocomplete') });
 	});
+
+	// Move ticket form refresh
+	$("form#move_ticket #project_id").change(function(){
+		$("form#move_ticket input:hidden[name=step]").val(2);
+		$("form#move_ticket").submit();
+	});
 });
 
 /*!

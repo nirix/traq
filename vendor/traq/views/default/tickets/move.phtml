@@ -4,7 +4,7 @@ use traq\models\Milestone;
 ?>
 <div class="content">
 	<h2 id="page_title"><?php echo l('move_ticket')?></h2>
-	<form action="" method="post">
+	<form action="" method="post" id="move_ticket">
 		<input type="hidden" name="step" value="<?php echo Request::post('step', 1)+1?>">
 		<div class="tabular box">
 			<div class="group">
@@ -30,7 +30,7 @@ use traq\models\Milestone;
 			</div>
 			<?php } ?>
 			<div class="actions">
-				<?php echo Form::submit(l( Request::post('step', 1) == 1 ? 'continue' : 'move' ))?>
+				<?php echo Form::submit(l( Request::post('step', 1) == 1 ? 'continue' : 'move' ), 'move')?>
 			</div>
 		</div>
 	</form>
