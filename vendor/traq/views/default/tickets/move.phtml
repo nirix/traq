@@ -28,6 +28,10 @@ use traq\models\Milestone;
 				<label for="component_id"><?php echo l('component')?></label>
 				<?php echo Form::select('component_id', array_merge(array(array('label' => l('none'), 'value' => '0')), $new_project->component_select_options()))?>
 			</div>
+			<div class="group">
+				<label for="assigned_to_id"><?php echo l('assigned_to')?></label>
+				<?php echo Form::select('assigned_to_id', array_merge(array(array('label' => l('none'), 'value' => '0')), $new_project->member_select_options()))?>
+			</div>
 			<?php } ?>
 			<div class="actions">
 				<?php echo Form::submit(l( Request::post('step', 1) == 1 ? 'continue' : 'move' ), 'move')?>
