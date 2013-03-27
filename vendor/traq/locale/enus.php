@@ -102,6 +102,7 @@ class enUS extends \traq\libraries\Locale
             'search'           => "Search",
             'renew'            => "Renew",
             'preview'          => "Preview",
+            'continue'         => "Continue",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
@@ -191,6 +192,7 @@ class enUS extends \traq\libraries\Locale
             'edit_ticket_history'   => "Edit Ticket History",
             'x_uploaded_by_x_x_ago' => "{1} uploaded by {2}, {3}",
             'move'                  => "Move",
+            'move_ticket'           => "Move Ticket",
             'people_who_have_voted_on_this_ticket' => "People who have voted on this ticket ({1})",
 
             // Ticket columns
