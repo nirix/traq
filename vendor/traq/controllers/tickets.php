@@ -484,6 +484,20 @@ class Tickets extends AppController
             $next_step = 3;
             $new_project = Project::find(Request::$post['project_id']);
             View::set('new_project', $new_project);
+        } elseif (Request::post('step') == 3 or $this->is_api) {
+            $next_step = 2;
+
+            $data = array(
+                'project_id'     => Request::post('project_id'),
+                'milestone_id'   => Request::post('milestone_id'),
+                'version_id'     => Request::post('version_id', 0),
+                'component_id'   => Request::post('component_id', 0),
+                'assigned_to_id' => Request::post('assigned_to_id', 0)
+            );
+
+            if ($ticket->update_data($data)) {
+                Request::redirectTo($ticket->href());
+            }
         }
 
         View::set(array('ticket' => $ticket, 'next_step' => $next_step));
