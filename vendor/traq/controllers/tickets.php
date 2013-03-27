@@ -478,13 +478,15 @@ class Tickets extends AppController
     public function action_move($ticket_id)
     {
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+        $next_step = 2;
 
         if (Request::post('step') == 2) {
+            $next_step = 3;
             $new_project = Project::find(Request::$post['project_id']);
             View::set('new_project', $new_project);
         }
 
-        View::set('ticket', $ticket);
+        View::set(array('ticket' => $ticket, 'next_step' => $next_step));
     }
 
     /**
