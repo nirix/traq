@@ -31,6 +31,10 @@ Router::add('/usercp', 'traq::controllers::Usercp.index');
 Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
 Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
 
+// API
+Router::add('/statuses', 'traq::controllers::API.statuses');
+Router::add('/priorities', 'traq::controllers::API.priorities');
+
 // Misc
 Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');
 Router::add('/_ajax/ticket_template/([0-9]+)', 'traq::controllers::Misc.ticket_template/$1');
