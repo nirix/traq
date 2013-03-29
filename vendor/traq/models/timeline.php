@@ -92,4 +92,13 @@ class Timeline extends Model
         }
         return $this->_ticket_status;
     }
+
+    /**
+     * If the row is a moved ticket event, returns the other project.
+     *
+     * @return object
+     */
+    public function other_project() {
+        return Project::find($this->data);
+    }
 }
