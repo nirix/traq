@@ -324,6 +324,8 @@ class enUS extends \traq\libraries\Locale
             'timeline.ticket_comment'      => "Commented on ticket {link}",
             'timeline.milestone_completed' => "Milestone {milestone_name} completed",
             'timeline.milestone_cancelled' => "Milestone {milestone_name} cancelled",
+            'timeline.ticket_moved_from'   => "Moved ticket ({ticket}) from {project}",
+            'timeline.ticket_moved_to'     => "Moved ticket ({ticket}) to {project}",
             'timeline.by_x'                => "by {1}",
 
             // Help
