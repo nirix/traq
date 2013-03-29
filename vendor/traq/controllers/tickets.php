@@ -34,6 +34,7 @@ use traq\models\Component;
 use traq\models\User;
 use traq\models\Subscription;
 use traq\models\CustomField;
+use traq\models\Timeline;
 use traq\helpers\TicketFilterQuery;
 use traq\helpers\Pagination;
 
@@ -507,6 +508,17 @@ class Tickets extends AppController
             // Update ticket
             if ($ticket->update_data($data)) {
                 $new_project->save();
+
+                // Insert timeline event for old project
+                $timeline = new Timeline(array(
+                    'project_id' => $this->project->id,
+                    'owner_id' => $ticket->id,
+                    'action' => 'ticket_moved_to',
+                    'data' => $new_project->id,
+                    'user_id' => $this->user->id
+                ));
+                $timeline->save();
+
                 Request::redirectTo($new_project->href("tickets/{$ticket->ticket_id}"));
             }
         }
