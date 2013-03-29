@@ -519,6 +519,16 @@ class Tickets extends AppController
                 ));
                 $timeline->save();
 
+                // Insert timeline event for new project
+                $timeline = new Timeline(array(
+                    'project_id' => $new_project->id,
+                    'owner_id' => $ticket->id,
+                    'action' => 'ticket_moved_from',
+                    'data' => $this->project->id,
+                    'user_id' => $this->user->id
+                ));
+                $timeline->save();
+
                 Request::redirectTo($new_project->href("tickets/{$ticket->ticket_id}"));
             }
         }
