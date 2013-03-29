@@ -480,14 +480,18 @@ class Tickets extends AppController
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
         $next_step = 2;
 
+        // Step 2
         if (Request::post('step') == 2) {
             $next_step = 3;
             $new_project = Project::find(Request::$post['project_id']);
             View::set('new_project', $new_project);
-        } elseif (Request::post('step') == 3 or $this->is_api) {
+        }
+        // Step 3
+        elseif (Request::post('step') == 3 or $this->is_api) {
             $next_step = 2;
             $new_project = Project::find(Request::post('project_id'));
 
+            // Update ticket data
             $data = array(
                 'project_id'     => Request::post('project_id'),
                 'milestone_id'   => Request::post('milestone_id'),
@@ -496,9 +500,11 @@ class Tickets extends AppController
                 'assigned_to_id' => Request::post('assigned_to_id', 0)
             );
 
+            // Set new ticket ID
             $ticket->ticket_id = $new_project->next_tid;
             $new_project->next_tid++;
 
+            // Update ticket
             if ($ticket->update_data($data)) {
                 $new_project->save();
                 Request::redirectTo($new_project->href("tickets/{$ticket->ticket_id}"));
