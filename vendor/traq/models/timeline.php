@@ -99,6 +99,10 @@ class Timeline extends Model
      * @return object
      */
     public function other_project() {
-        return Project::find($this->data);
+        if (!isset($this->_other_project)) {
+            $this->_other_project = Project::find($this->data);
+        }
+        return $this->_other_project;
+    }
     }
 }
