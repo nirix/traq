@@ -179,7 +179,7 @@ class Ticket extends Model
                         'action'     => 'ticket_closed',
                         'data'       => $this->status_id,
                         'user_id'    => $this->user_id,
-                        'created_at' => Time::date("Y-m-d H:i:s", time()+1)
+                        'created_at' => Time::date("Y-m-d H:i:s", time()-date("Z")+1)
                     ));
                     $timeline->save();
                 }
