@@ -30,7 +30,7 @@ use avalon\database\Model;
  * @author Jack P. <jack@traq.io>
  * @copyright (c) Jack P. <jack@traq.io>
  */
-class Wikipage extends Model
+class WikiPage extends Model
 {
     protected static $_name = 'wiki';
     protected static $_properties = array(
