@@ -23,6 +23,7 @@ namespace traq\models;
 use avalon\database\Model;
 use avalon\core\Kernel as Avalon;
 use avalon\http\Request;
+use avalon\helpers\Time;
 
 use traq\helpers\Notification;
 
@@ -162,13 +163,26 @@ class Ticket extends Model
                 // Timeline entry
                 $timeline = new Timeline(array(
                     'project_id' => $this->project_id,
-                    'owner_id' => $this->id,
-                    'action' => 'ticket_created',
-                    'data' => $this->status_id || 1,
-                    'user_id' => $this->user_id
+                    'owner_id'   => $this->id,
+                    'action'     => 'ticket_created',
+                    'data'       => $this->status_id || 1,
+                    'user_id'    => $this->user_id
                 ));
-
                 $timeline->save();
+
+                // Create timeline event is ticket
+                // is created with a closed status.
+                if ($this->_data['is_closed']) {
+                    $timeline = new Timeline(array(
+                        'project_id' => $this->project_id,
+                        'owner_id'   => $this->id,
+                        'action'     => 'ticket_closed',
+                        'data'       => $this->status_id,
+                        'user_id'    => $this->user_id,
+                        'created_at' => Time::date("Y-m-d H:i:s", time()+1)
+                    ));
+                    $timeline->save();
+                }
 
                 // Created notification
                 Notification::send_for_ticket('created', $this);
