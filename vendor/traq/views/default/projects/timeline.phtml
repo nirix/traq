@@ -23,7 +23,7 @@
 			<?php echo l("timeline.{$row->action}", array('milestone_name' => $row->milestone()->name)); ?>
 <?php } elseif ($row->action == 'ticket_comment') { ?>
 			<?php echo l('timeline.ticket_comment', array('link' => HTML::link(htmlspecialchars($row->ticket()->summary), $row->ticket()->href()), 'ticket_id' => $row->ticket()->ticket_id)); ?>
-<?php } elseif ($row->action == 'ticket_moved_from' or $row->action = 'ticket_moved_to') { ?>
+<?php } elseif ($row->action == 'ticket_moved_from' or $row->action == 'ticket_moved_to') { ?>
 			<?php echo l("timeline.{$row->action}", array('ticket' => HTML::link(htmlspecialchars($row->ticket()->summary), $row->ticket()->href()), 'project' => HTML::link($row->other_project()->name, $row->other_project()->href())))?>
 <?php } ?>
 		</dt>
