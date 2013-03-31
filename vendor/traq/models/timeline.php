@@ -104,5 +104,16 @@ class Timeline extends Model
         }
         return $this->_other_project;
     }
+
+    /**
+     * If the row is a wiki page event, return the wiki page object.
+     *
+     * @return object
+     */
+    public function wiki_page() {
+        if (!isset($this->_wiki_page)) {
+            $this->_wiki_page = WikiPage::find($this->owner_id);
+        }
+        return $this->_wiki_page;
     }
 }
