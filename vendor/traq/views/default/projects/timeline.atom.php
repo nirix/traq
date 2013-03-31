@@ -40,6 +40,12 @@ foreach ($days as $day) {
             $entry['id'] = "timeline:{$row->id}:ticket:{$row->ticket()->ticket_id}:moved";
             $entry['link'] = "http://" . $_SERVER['HTTP_HOST'] . Request::base($row->ticket()->href());
         }
+        // Wiki new/edite page
+        elseif ($row->action == 'wiki_page_created' or $row->action == 'wiki_page_edited') {
+            $entry['title'] = l("timeline.{$row->action}", array('title' => $row->wiki_page()->title, 'slug' => $row->wiki_page()->slug));
+            $entry['id'] = "timeline:{$row->id}:wiki:{$row->owner_id}" . ($row->action == 'wiki_page_created' ? 'created' : 'edited');
+            $entry['link'] = "http://" . $_SERVER['HTTP_HOST'] . Request::base($row->wiki_page()->href());
+        }
 
         $entry['updated'] = Time::date("c", $row->created_at);
         $entries[] = $entry;
