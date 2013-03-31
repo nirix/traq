@@ -351,7 +351,20 @@ class Ticket extends Model
                 'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
             ));
 
-            if (!empty(Request::$post['comment'])) {
+            // Changes (and possibly a comment)
+            // But not when moving the ticket.
+            if (count($changes) and !isset($data['project_id'])) {
+                $save_queue[] = new Timeline(array(
+                    'project_id' => $this->project_id,
+                    'owner_id'   => $this->id,
+                    'action'     => 'ticket_updated',
+                    'data'       => $this->id,
+                    'user_id'    => $user->id
+                ));
+            }
+
+            // No changes but definitely a comment
+            if (!empty(Request::$post['comment']) and !count($changes)) {
                 $save_queue[] = new Timeline(array(
                     'project_id' => $this->project_id,
                     'owner_id' => $this->id,
