@@ -1,6 +1,19 @@
 <div class="timeline content">
 	<h2 id="page_title"><?php echo l('timeline'); ?></h2>
-
+	<div class="timeline_filters">
+		<form action="<?php echo Request::base($project->href('timeline'))?>" method="post">
+			<fieldset>
+				<legend><?php echo l('filter_events')?></legend>
+				<?php foreach (timeline_filters() as $filter => $filter_events) { ?>
+					<?php echo Form::checkbox("filters[{$filter}]", 1, array('checked' => in_array($filter, $filters)))?>
+					<?php echo Form::label(l("timeline.filters.{$filter}"), "filters[{$filter}]")?><br />
+				<?php } ?>
+				<div class="actions">
+					<?php echo Form::submit(l('update'))?>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 	<?php foreach ($days as $day) { ?>
 	<h3><?php echo ldate(settings('timeline_day_format'), $day['created_at']); ?></h3>
 	<dl>
