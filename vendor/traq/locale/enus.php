@@ -321,6 +321,7 @@ class enUS extends \traq\libraries\Locale
             'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) created",
             'timeline.ticket_closed'       => "{ticket_type_name} #{ticket_id} ({ticket_summary}) closed as {ticket_status_name}",
             'timeline.ticket_reopened'     => "{ticket_type_name} #{ticket_id} ({ticket_summary}) reopened as {ticket_status_name}",
+            'timeline.ticket_updated'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) updated",
             'timeline.ticket_comment'      => "Commented on ticket {link}",
             'timeline.milestone_completed' => "Milestone {milestone_name} completed",
             'timeline.milestone_cancelled' => "Milestone {milestone_name} cancelled",

@@ -7,14 +7,14 @@
 	<?php foreach ($day['activity'] as $row) { ?>
 		<dt>
 			<span class="time"><?php echo ldate(settings('timeline_time_format'), $row->created_at); ?></span>
-<?php if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened'))) { ?>
+<?php if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened','ticket_updated'))) { ?>
 			<?php echo HTML::link(
 				l("timeline.{$row->action}",
 					array(
 						'ticket_summary'     => htmlspecialchars($row->ticket()->summary),
 						'ticket_id'          => $row->ticket()->ticket_id,
 						'ticket_type_name'   => $row->ticket()->type->name,
-						'ticket_status_name' => $row->ticket_status()->name
+						'ticket_status_name' => ($row->action == 'ticket_updated' ? null : $row->ticket_status()->name)
 					)
 				),
 				$row->ticket()->href()

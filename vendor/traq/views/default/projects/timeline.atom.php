@@ -7,13 +7,13 @@ foreach ($days as $day) {
     foreach ($day['activity'] as $row) {
         $entry = array();
         // Ticket created, closed and reopened
-        if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened'))) {
+        if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened','ticket_updated'))) {
             $entry['title'] = l("timeline.{$row->action}",
                 array(
                     'ticket_summary'     => $row->ticket()->summary,
                     'ticket_id'          => $row->ticket()->ticket_id,
                     'ticket_type_name'   => $row->ticket()->type->name,
-                    'ticket_status_name' => $row->ticket_status()->name
+                    'ticket_status_name' => ($row->action == 'ticket_updated' ? null : $row->ticket_status()->name)
                 )
             );
             $entry['id'] = "timeline:{$row->id}:ticket:{$row->ticket()->ticket_id}:{$row->action}";
