@@ -326,6 +326,8 @@ class enUS extends \traq\libraries\Locale
             'timeline.milestone_cancelled' => "Milestone {milestone_name} cancelled",
             'timeline.ticket_moved_from'   => "Moved ticket ({ticket}) from {project}",
             'timeline.ticket_moved_to'     => "Moved ticket ({ticket}) to {project}",
+            'timeline.wiki_page_created'   => "Created {title} wiki page",
+            'timeline.wiki_page_edited'    => "Edited {title} wiki page",
             'timeline.by_x'                => "by {1}",
 
             // Help
