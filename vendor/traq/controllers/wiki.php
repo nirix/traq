@@ -25,6 +25,7 @@ use avalon\http\Router;
 use avalon\output\View;
 
 use traq\models\WikiPage;
+use traq\models\Timeline;
 
 /**
  * Wiki controller
@@ -110,6 +111,15 @@ class Wiki extends AppController
 
             // Save and redirect
             if ($page->save()) {
+                // Insert timeline event
+                $timeline = new Timeline(array(
+                    'project_id' => $this->project->id,
+                    'owner_id'   => $page->id,
+                    'action'     => 'wiki_page_created',
+                    'user_id'    => $this->user->id
+                ));
+                $timeline->save();
+
                 if ($this->is_api) {
                     return \API::response(1, array('page' => $page));
                 } else {
