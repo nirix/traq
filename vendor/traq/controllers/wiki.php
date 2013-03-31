@@ -155,6 +155,15 @@ class Wiki extends AppController
 
             // Save and redirect
             if ($page->save()) {
+                // Insert timeline event
+                $timeline = new Timeline(array(
+                    'project_id' => $this->project->id,
+                    'owner_id'   => $page->id,
+                    'action'     => 'wiki_page_edited',
+                    'user_id'    => $this->user->id
+                ));
+                $timeline->save();
+
                 if ($this->is_api) {
                     return \API::response(1, array('page' => $page));
                 } else {
