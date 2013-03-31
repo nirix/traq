@@ -143,6 +143,19 @@ class Projects extends AppController
     {
         $rows = array();
 
+        // Filters
+        $filters = array_keys(timeline_filters());
+        $events = timeline_events();
+
+        if (isset(Request::$post['filters'])) {
+            $filters = array();
+            $events = array();
+            foreach (Request::$post['filters'] as $filter => $value) {
+                $filters[] = $filter;
+                $events = array_merge($events, timeline_filters($filter));
+            }
+        }
+
         // Atom feed
         $this->feeds[] = array(Request::requestUri() . ".atom", l('x_timeline_feed', $this->project->name));
 
@@ -160,6 +173,7 @@ class Projects extends AppController
 
             FROM " . $this->db->prefix . "timeline
             WHERE project_id = '{$this->project->id}'
+            AND `action` IN ('" . implode("','", $events) . "')
 
             GROUP BY
                 YEAR(created_at),
@@ -198,7 +212,12 @@ class Projects extends AppController
             $date = $date[0];
 
             // Fetch the activity for this day
-            $fetch_activity = Timeline::select()->where('project_id', $this->project->id)->where('created_at', "{$date} %", "LIKE")->order_by('created_at', 'DESC');
+            $fetch_activity = Timeline::select()
+                ->where('project_id', $this->project->id)
+                ->where('created_at', "{$date} %", "LIKE")
+                ->custom_sql("AND `action` IN ('" . implode("','", $events) . "')")
+                ->order_by('created_at', 'DESC');
+
             foreach ($fetch_activity->exec()->fetch_all() as $row) {
                 // Push it to the days activity array.
                 $day['activity'][] = $row;
@@ -209,7 +228,7 @@ class Projects extends AppController
             $rows[] = $day;
         }
 
-        // Send the days array to the view.
-        View::set('days', $rows);
+        // Send the days and events to the view.
+        View::set(array('days' => $rows, 'filters' => $filters, 'events' => $events));
     }
 }
