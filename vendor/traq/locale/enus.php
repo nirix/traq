@@ -103,6 +103,7 @@ class enUS extends \traq\libraries\Locale
             'renew'            => "Renew",
             'preview'          => "Preview",
             'continue'         => "Continue",
+            'filter_events'    => "Filter events",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
@@ -330,6 +331,15 @@ class enUS extends \traq\libraries\Locale
             'timeline.wiki_page_created'   => "Created {title} wiki page",
             'timeline.wiki_page_edited'    => "Edited {title} wiki page",
             'timeline.by_x'                => "by {1}",
+
+            // Timeline filters
+            'timeline.filters.new_tickets'           => "New tickets",
+            'timeline.filters.tickets_opened_closed' => "Tickets open/closed",
+            'timeline.filters.ticket_updates'        => "Ticket updates",
+            'timeline.filters.ticket_comments'       => "Ticket comments",
+            'timeline.filters.ticket_moves'          => "Ticket migrations",
+            'timeline.filters.milestones'            => "Milestones",
+            'timeline.filters.wiki_pages'            => "Wiki pages",
 
             // Help
             'help.slug'                     => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
