@@ -31,6 +31,14 @@
 					);
 				?>
 			</div>
+			<div class="group">
+				<label><?php echo l('email_validation'); ?></label>
+				<?php echo Form::select('settings[email_validation]',
+					array(array('label' => l('yes'), 'value' => 1), array('label' => l('no'), 'value' => 0)),
+					array('value' => settings('email_validation'))
+					);
+				?>
+			</div>
 		</fieldset>
 
 		<fieldset class="tabular section box">
