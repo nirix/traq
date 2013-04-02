@@ -1,6 +1,7 @@
 <section id="login_form" class="tabular content">
 	<div class="push-6 span-11">
 		<h2 id="page_title"><?php echo l('login'); ?></h2>
+<?php if (!isset($validation_required)) { ?>
 		<?php if (isset($error) and $error) { ?>
 		<div class="error">
 			<?php echo l('errors.invalid_username_or_password'); ?>
@@ -23,6 +24,11 @@
 			</div>
 		</form>
 		<?php echo HTML::link(l('forgot_password'), '/login/resetpassword'); ?>
+<?php } else { ?>
+		<div class="error">
+			<?php echo l('errors.email_validation_required')?>
+		</div>
+<?php } ?>
 	</div>
 	<div class="clearfix"></div>
 </section>

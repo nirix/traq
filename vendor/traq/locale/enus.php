@@ -414,6 +414,7 @@ class enUS extends \traq\libraries\Locale
                 'type_blank'                   => "You must choose a type",
                 'regex_blank'                  => "You need to enter a regex value",
                 'values_blank'                 => "You need to enter some values",
+                'email_validation_required'    => "You need to validate your email, check your inbox",
 
                 // Custom fields
                 'custom_fields' => array(
