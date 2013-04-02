@@ -98,6 +98,7 @@ class Users extends AppController
      */
     public function action_register()
     {
+        $validation_required = false;
         $this->title(l('register'));
 
         $user = new User;
@@ -115,18 +116,36 @@ class Users extends AppController
             // Create a model with the data
             $user = new User($data);
 
+            // Email validation
+            if (settings('email_validation')) {
+                $user->option('validation_key', sha1($user->username . $user->name . microtime() . rand(0, 1000)));
+            }
+
             // Run plugin hooks
             FishHook::run('controller:users.register', array(&$user));
 
             // Check if the model is valid
-            if ($user->is_valid()) {
-                // Save the model and redirect to the login page.
-                $user->save();
-                Request::redirectTo('login');
+            if ($user->save()) {
+                // Send validation email
+                if (settings('email_validation')) {
+                    Notification::send_to(
+                        $user,
+                        'email_validation',
+                        array(
+                            'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base("users/validate/" . $user->option('validation_key'))
+                        )
+                    );
+
+                    $validation_required = true;
+                }
+                // Redirect to login page
+                else {
+                    Request::redirectTo('login');
+                }
             }
         }
 
-        View::set(compact('user'));
+        View::set(compact('user', 'validation_required'));
     }
 
     /**
