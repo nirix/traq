@@ -152,6 +152,21 @@ class Notification
                     "http://" . $_SERVER['HTTP_HOST'] . Request::base($options['ticket']->href())
                 );
                 break;
+
+            // Email validation
+            case 'email_validation':
+                // Subject
+                $subject_vars = array(
+                    'username' => $user->username
+                );
+
+                // Message
+                $message_vars = array(
+                    'name'     => $user->name,
+                    'username' => $user->username,
+                    'link'     => $options['link']
+                );
+                break;
         }
 
         // Send notification
