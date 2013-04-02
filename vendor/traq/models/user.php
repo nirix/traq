@@ -221,6 +221,16 @@ class User extends Model
     }
 
     /**
+     * Checks if the user has activated their account.
+     *
+     * @return bool
+     */
+    public function is_activated()
+    {
+        return !$this->option('validation_key');
+    }
+
+    /**
      * Handles all the required stuff before creating
      * the user, such as hashing the password.
      */
