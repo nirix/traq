@@ -74,8 +74,14 @@ class Users extends AppController
             and $user->verify_password(Request::$post['password'])) {
                 // User found and verified, set the cookie and redirect them
                 // to the index page if no "redirect" page was set.
-                setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-                Request::redirect(isset(Request::$post['redirect']) ? Request::$post['redirect'] : Request::base());
+                if ($user->is_activated()) {
+                    setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+                    Request::redirect(isset(Request::$post['redirect']) ? Request::$post['redirect'] : Request::base());
+                }
+                // Tell the user to activate
+                else {
+                    View::set('validation_required', true);
+                }
             }
             // No user found
             else {
