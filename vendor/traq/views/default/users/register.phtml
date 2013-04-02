@@ -1,7 +1,7 @@
 <section id="register_form" class="tabular content">
 	<div class="push-6 span-11">
 		<h2 id="page_title"><?php echo l('register'); ?></h2>
-		<?php if (isset($user)) { show_errors($user->errors); } ?>
+		<?php if (isset($user)) { echo show_errors($user->errors); } ?>
 		<form action="<?php echo Request::base('register'); ?>" method="post">
 			<div class="box">
 				<div class="group">
