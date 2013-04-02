@@ -160,6 +160,7 @@ class enUS extends \traq\libraries\Locale
             'notifications'        => "Notifications",
             'total'                => "Total",
             'newest'               => "Newest",
+            'email_validation'     => "Email Validation",
             'notifications_from_email' => "From Email",
 
             // Project settings
@@ -240,6 +241,7 @@ class enUS extends \traq\libraries\Locale
             'forgot_password'      => "Forgot Password",
             'reset'                => "Reset",
             'api_key'              => "API Key",
+            'please_validate_your_account' => "Your account has been created, check your email for the activation link.",
 
             // Password reset
             'password_reset.success' => "Your password has been reset, your new password is '{1}', it is recommended that you change it immediately",
@@ -531,6 +533,12 @@ class enUS extends \traq\libraries\Locale
                                                       "for your account '{3}' at {1}. If you did not request a password reset, ignore this email.<br /><br />".
                                                       "If you did request a password reset, you can <a href=\"{4}\">continue by clicking here</a>.<br /><br />".
                                                       "This reset request was done by someone with the IP of: {5}",
+
+            // Email validation
+            'notifications.email_validation.subject' => "Account validation",
+            'notifications.email_validation.message' => "{name},<br /><br />".
+                                                        "To validate your account click the link below:<br />".
+                                                        "{link}",
 
             // ----------------------------------------------------------------------------------------------------
 
