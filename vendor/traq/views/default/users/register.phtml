@@ -1,6 +1,7 @@
 <section id="register_form" class="tabular content">
 	<div class="push-6 span-11">
 		<h2 id="page_title"><?php echo l('register'); ?></h2>
+<?php if (!$validation_required) { ?>
 		<?php if (isset($user)) { echo show_errors($user->errors); } ?>
 		<form action="<?php echo Request::base('register'); ?>" method="post">
 			<div class="box">
@@ -26,6 +27,9 @@
 				<input type="submit" value="<?php echo l('register'); ?>" />
 			</div>
 		</form>
+<?php } else { ?>
+		<?php echo l('please_validate_your_account')?>
+<?php } ?>
 	</div>
 	<div class="clearfix"></div>
 </section>
