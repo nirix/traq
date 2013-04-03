@@ -241,6 +241,7 @@ class enUS extends \traq\libraries\Locale
             'forgot_password'      => "Forgot Password",
             'reset'                => "Reset",
             'api_key'              => "API Key",
+            'account_validated'    => "Your account has been validated",
             'please_validate_your_account' => "Your account has been created, check your email for the activation link.",
 
             // Password reset

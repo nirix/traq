@@ -7,6 +7,11 @@
 			<?php echo l('errors.invalid_username_or_password'); ?>
 		</div>
 		<?php } ?>
+		<?php if (isset($validated) and $validated) { ?>
+		<div class="success">
+			<?php echo l('account_validated')?>
+		</div>
+		<?php } ?>
 		<form action="<?php echo Request::base('login'); ?>" method="post" class="box">
 			<?php if (!empty($_SERVER['HTTP_REFERER']) or isset(Request::$post['redirect'])) { ?>
 			<input type="hidden" name="redirect" value="<?php echo (isset(Request::$post['redirect'])) ? Request::$post['redirect'] : $_SERVER['HTTP_REFERER']; ?>" />
