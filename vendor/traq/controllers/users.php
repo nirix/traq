@@ -155,6 +155,19 @@ class Users extends AppController
     }
 
     /**
+     * Account validation.
+     */
+    public function action_validate($key)
+    {
+        $user = User::select()->where('options', '%"validation_key":"' . $key . '"%', 'LIKE')->exec()->fetch();
+        $user->option('validation_key', null);
+        $user->save();
+
+        $this->_render['view'] = 'users/login';
+        View::set('validated', true);
+    }
+
+    /**
      * Forgot/Reset password page.
      */
     public function action_reset_password($key = null)
