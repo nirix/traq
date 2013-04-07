@@ -126,6 +126,12 @@ post('/step/1', function(){
             NOT NULL DEFAULT '0'
         ");
 
+        // Add api_key column to users table
+        $db->query("
+          ALTER TABLE `" . $db->prefix . "users` ADD COLUMN `api_key` VARCHAR(255)
+          AFTER `login_hash`;
+        ");
+
         // Add setting for registration/email validation
         $db->query("
             INSERT INTO `" . $db->prefix . "settings` (`setting`, `value`)
