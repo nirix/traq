@@ -411,18 +411,46 @@ class Tickets extends AppController
 
         // Collect the new data
         $data = array(
-            'summary'      => Request::post('summary', $ticket->summary),
-            'milestone_id' => Request::post('milestone', $ticket->milestone_id),
-            'version_id'   => Request::post('version', $ticket->version_id),
-            'component_id' => Request::post('component', $ticket->component_id),
-            'type_id'      => Request::post('type', $ticket->type_id),
-            'severity_id'  => Request::post('severity', $ticket->severity_id)
+            'summary'      => $ticket->summary,
+            'milestone_id' => $ticket->milestone_id,
+            'version_id'   => $ticket->version_id,
+            'component_id' => $ticket->component_id,
+            'type_id'      => $ticket->type_id,
+            'severity_id'  => $ticket->severity_id
         );
 
-        // Check the users permission to set the restricted data
-        if ($this->user->permission($this->project->id, 'set_all_ticket_properties')) {
-            $data['priority_id']    = Request::post('priority', $ticket->priority_id);
-            $data['status_id']      = Request::post('status', $ticket->status_id);
+        // Milestone
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_milestone')) {
+            $data['milestone_id'] = Request::post('milestone', $ticket->milestone_id);
+        }
+
+        // Version
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_version')) {
+            $data['version_id'] = Request::post('version', $ticket->version_id);
+        }
+
+        // Component
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_component')) {
+            $data['component_id'] = Request::post('component', $ticket->component_id);
+        }
+
+        // Severity
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_severity')) {
+            $data['severity_id'] = Request::post('severity', $ticket->severity_id);
+        }
+
+        // Priority
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_priority')) {
+            $data['priority_id'] = Request::post('priority', $ticket->priority_id);
+        }
+
+        // Status
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_status')) {
+            $data['status_id'] = Request::post('status', $ticket->status_id);
+        }
+
+        // Assigned to
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
             $data['assigned_to_id'] = Request::post('assigned_to', $ticket->assigned_to_id);
         }
 
