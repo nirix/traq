@@ -148,18 +148,19 @@
 			<?php } ?>
 			<?php if ($current_user->permission($project->id, 'update_tickets')) { ?>
 			<div class="properties group">
-				<?php if (current_user()->permission($project->id, 'ticket_properties_type')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_type')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('type'), 'type'); ?>
 					<?php echo Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
 				</div>
 				<?php } ?>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_assigned_to')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_assigned_to')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>
 					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
 				<?php } ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_milestone')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('milestone'), 'milestone'); ?>
 					<?php echo Form::select(
@@ -168,37 +169,38 @@
 						array('value' => $ticket->milestone_id)
 					); ?>
 				</div>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_version')) { ?>
+				<?php } ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_version')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
 					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('all', 'DESC')), array('value' => $ticket->version_id)); ?>
 				</div>
 				<?php } ?>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_component')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_component')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
 					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
 				</div>
 				<?php } ?>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_severity')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_severity')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('severity'), 'severity'); ?>
 					<?php echo Form::select('severity', traq\models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
 				</div>
 				<?php } ?>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_priority')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_priority')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('priority'), 'priority'); ?>
 					<?php echo Form::select('priority', traq\models\Priority::select_options(), array('value' => $ticket->priority_id)); ?>
 				</div>
 				<?php } ?>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_status')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_status')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('status'), 'status'); ?>
 					<?php echo Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
 				</div>
 				<?php } ?>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_summary')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_summary')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('summary'), 'summary'); ?>
 					<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>

@@ -302,15 +302,29 @@ class enUS extends \traq\libraries\Locale
 
                 // Ticket properties
                 'ticket_properties' => array(
-                    'ticket_properties_type'        => "Type",
-                    'ticket_properties_assigned_to' => "Assigned to",
-                    'ticket_properties_milestone'   => "Milestone",
-                    'ticket_properties_version'     => "Version",
-                    'ticket_properties_component'   => "Component",
-                    'ticket_properties_severity'    => "Severity",
-                    'ticket_properties_priority'    => "Priority",
-                    'ticket_properties_status'      => "Status",
-                    'ticket_properties_summary'     => "Summary",
+                    'ticket_properties_change_type'        => "Change Type",
+                    'ticket_properties_change_summary'     => "Change Summary",
+
+                    'ticket_properties_set_assigned_to'    => "Set Assigned to",
+                    'ticket_properties_change_assigned_to' => "Change Assigned to",
+
+                    'ticket_properties_set_milestone'      => "Set Milestone",
+                    'ticket_properties_change_milestone'   => "Change Milestone",
+
+                    'ticket_properties_set_version'        => "Set Version",
+                    'ticket_properties_change_version'     => "Change Version",
+
+                    'ticket_properties_set_component'      => "Set Component",
+                    'ticket_properties_change_component'   => "Change Component",
+
+                    'ticket_properties_set_severity'       => "Set Severity",
+                    'ticket_properties_change_severity'    => "Change Severity",
+
+                    'ticket_properties_set_priority'       => "Set Priority",
+                    'ticket_properties_change_priority'    => "Change Priority",
+
+                    'ticket_properties_set_status'         => "Set Status",
+                    'ticket_properties_change_status'      => "Change Status",
                 ),
 
                 // Wiki
