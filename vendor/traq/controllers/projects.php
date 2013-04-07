@@ -147,13 +147,22 @@ class Projects extends AppController
         $filters = array_keys(timeline_filters());
         $events = timeline_events();
 
-        if (isset(Request::$post['filters'])) {
+        // Check if filters are set
+        if (isset(Request::$post['filters']) or isset($_SESSION['timeline_filters'])) {
             $filters = array();
             $events = array();
-            foreach (Request::$post['filters'] as $filter => $value) {
+
+            // Fetch filters
+            $timeline_filters = (isset(Request::$post['filters']) ? Request::$post['filters'] : $_SESSION['timeline_filters']);
+
+            // Process filters
+            foreach ($timeline_filters as $filter => $value) {
                 $filters[] = $filter;
                 $events = array_merge($events, timeline_filters($filter));
             }
+
+            // Save filters to session
+            $_SESSION['timeline_filters'] = $timeline_filters;
         }
 
         // Atom feed
