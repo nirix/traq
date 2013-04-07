@@ -49,7 +49,26 @@ $permissions = array(
         array(DEFAULT_ID, 'add_attachments',           1),
         array(DEFAULT_ID, 'view_attachments',          1),
         array(DEFAULT_ID, 'delete_attachments',        0),
-        array(DEFAULT_ID, 'set_all_ticket_properties', 0),
+
+        // Set ticket properties
+        array(DEFAULT_ID, 'ticket_properties_set_assigned_to', 0),
+        array(DEFAULT_ID, 'ticket_properties_set_milestone',   0),
+        array(DEFAULT_ID, 'ticket_properties_set_version',     0),
+        array(DEFAULT_ID, 'ticket_properties_set_component',   0),
+        array(DEFAULT_ID, 'ticket_properties_set_severity',    0),
+        array(DEFAULT_ID, 'ticket_properties_set_priority',    0),
+        array(DEFAULT_ID, 'ticket_properties_set_status',      0),
+
+        // Change ticket properties
+        array(DEFAULT_ID, 'ticket_properties_change_type',        0),
+        array(DEFAULT_ID, 'ticket_properties_change_assigned_to', 0),
+        array(DEFAULT_ID, 'ticket_properties_change_milestone',   0),
+        array(DEFAULT_ID, 'ticket_properties_change_version',     0),
+        array(DEFAULT_ID, 'ticket_properties_change_component',   0),
+        array(DEFAULT_ID, 'ticket_properties_change_severity',    0),
+        array(DEFAULT_ID, 'ticket_properties_change_priority',    0),
+        array(DEFAULT_ID, 'ticket_properties_change_status',      0),
+        array(DEFAULT_ID, 'ticket_properties_change_summary',     0),
 
         // Ticket History
         array(DEFAULT_ID, 'edit_ticket_history',   0),
@@ -90,7 +109,26 @@ $permissions = array(
         array(DEFAULT_ID, 'add_attachments',           1),
         array(DEFAULT_ID, 'view_attachments',          1),
         array(DEFAULT_ID, 'delete_attachments',        0),
-        array(DEFAULT_ID, 'set_all_ticket_properties', 1),
+
+        // Set ticket properties
+        array(DEFAULT_ID, 'ticket_properties_set_assigned_to', 1),
+        array(DEFAULT_ID, 'ticket_properties_set_milestone',   1),
+        array(DEFAULT_ID, 'ticket_properties_set_version',     1),
+        array(DEFAULT_ID, 'ticket_properties_set_component',   1),
+        array(DEFAULT_ID, 'ticket_properties_set_severity',    1),
+        array(DEFAULT_ID, 'ticket_properties_set_priority',    1),
+        array(DEFAULT_ID, 'ticket_properties_set_status',      1),
+
+        // Change ticket properties
+        array(DEFAULT_ID, 'ticket_properties_change_type',        1),
+        array(DEFAULT_ID, 'ticket_properties_change_assigned_to', 1),
+        array(DEFAULT_ID, 'ticket_properties_change_milestone',   1),
+        array(DEFAULT_ID, 'ticket_properties_change_version',     1),
+        array(DEFAULT_ID, 'ticket_properties_change_component',   1),
+        array(DEFAULT_ID, 'ticket_properties_change_severity',    1),
+        array(DEFAULT_ID, 'ticket_properties_change_priority',    1),
+        array(DEFAULT_ID, 'ticket_properties_change_status',      1),
+        array(DEFAULT_ID, 'ticket_properties_change_summary',     1),
 
         // Ticket History
         array(DEFAULT_ID, 'edit_ticket_history',   0),
