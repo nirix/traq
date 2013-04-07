@@ -125,6 +125,60 @@ post('/step/1', function(){
             ALTER TABLE `" . $db->prefix . "projects` CHANGE `displayorder` `displayorder` BIGINT(20)
             NOT NULL DEFAULT '0'
         ");
+
+        // Add setting for registration/email validation
+        $db->query("
+            INSERT INTO `" . $db->prefix . "settings` (`setting`, `value`)
+            VALUES
+              ('email_validation',0);
+        ");
+
+        // Add permissions for moving tickets
+        $db->query("
+            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+            VALUES
+              (0,'usergroup',0,'move_tickets',0),
+              (0,'role',0,'move_tickets',0),
+              (0,'role',1,'move_tickets',1);
+        ");
+
+        // Add permissions for ticket properties
+        $db->query("
+            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+            VALUES
+              (0,'usergroup',0,'ticket_properties_set_assigned_to',0),
+              (0,'usergroup',0,'ticket_properties_set_milestone',0),
+              (0,'usergroup',0,'ticket_properties_set_version',0),
+              (0,'usergroup',0,'ticket_properties_set_component',0),
+              (0,'usergroup',0,'ticket_properties_set_severity',0),
+              (0,'usergroup',0,'ticket_properties_set_priority',0),
+              (0,'usergroup',0,'ticket_properties_set_status',0),
+              (0,'usergroup',0,'ticket_properties_change_type',0),
+              (0,'usergroup',0,'ticket_properties_change_assigned_to',0),
+              (0,'usergroup',0,'ticket_properties_change_milestone',0),
+              (0,'usergroup',0,'ticket_properties_change_version',0),
+              (0,'usergroup',0,'ticket_properties_change_component',0),
+              (0,'usergroup',0,'ticket_properties_change_severity',0),
+              (0,'usergroup',0,'ticket_properties_change_priority',0),
+              (0,'usergroup',0,'ticket_properties_change_status',0),
+              (0,'usergroup',0,'ticket_properties_change_summary',0),
+              (0,'role',0,'ticket_properties_set_assigned_to',1),
+              (0,'role',0,'ticket_properties_set_milestone',1),
+              (0,'role',0,'ticket_properties_set_version',1),
+              (0,'role',0,'ticket_properties_set_component',1),
+              (0,'role',0,'ticket_properties_set_severity',1),
+              (0,'role',0,'ticket_properties_set_priority',1),
+              (0,'role',0,'ticket_properties_set_status',1),
+              (0,'role',0,'ticket_properties_change_type',1),
+              (0,'role',0,'ticket_properties_change_assigned_to',1),
+              (0,'role',0,'ticket_properties_change_milestone',1),
+              (0,'role',0,'ticket_properties_change_version',1),
+              (0,'role',0,'ticket_properties_change_component',1),
+              (0,'role',0,'ticket_properties_change_severity',1),
+              (0,'role',0,'ticket_properties_change_priority',1),
+              (0,'role',0,'ticket_properties_change_status',1),
+              (0,'role',0,'ticket_properties_change_summary',1);
+        ");
     }
 
     // Update database version setting
