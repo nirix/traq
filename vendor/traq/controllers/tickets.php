@@ -321,17 +321,45 @@ class Tickets extends AppController
                 'body'         => Request::post('description'),
                 'user_id'      => $this->user->id,
                 'project_id'   => $this->project->id,
-                'milestone_id' => Request::post('milestone'),
-                'version_id'   => Request::post('version'),
-                'component_id' => Request::post('component'),
+                'milestone_id' => 0,
+                'version_id'   => 0,
+                'component_id' => 0,
                 'type_id'      => Request::post('type', 1),
-                'severity_id'  => Request::post('severity', 4),
+                'severity_id'  => 4,
             );
 
-            // Does the user have permission to set all properties?
-            if ($this->user->permission($this->project->id, 'set_all_ticket_properties')) {
-                $data['priority_id']    = Request::post('priority', 3);
-                $data['status_id']      = Request::post('status', 1);
+            // Milestone
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_milestone')) {
+                $data['milestone_id'] = Request::post('milestone');
+            }
+
+            // Version
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_version')) {
+                $data['version_id'] = Request::post('version');
+            }
+
+            // Component
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_component')) {
+                $data['component_id'] = Request::post('component');
+            }
+
+            // Severity
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_severity')) {
+                $data['severity_id'] = Request::post('severity');
+            }
+
+            // Priority
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_priority')) {
+                $data['priority_id'] = Request::post('priority');
+            }
+
+            // Status
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_status')) {
+                $data['status_id'] = Request::post('status');
+            }
+
+            // Assigned to
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
                 $data['assigned_to_id'] = Request::post('assigned_to');
             }
 
