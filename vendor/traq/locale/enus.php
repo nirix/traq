@@ -271,6 +271,7 @@ class enUS extends \traq\libraries\Locale
             // Permissions
             'group_permissions' => "Group Permissions",
             'role_permissions'  => "Role Permissions",
+            'ticket_properties' => "Ticket Properties",
             'action'            => "Action",
             'defaults'          => "Defaults",
             'allow'             => "Allow",
@@ -297,6 +298,19 @@ class enUS extends \traq\libraries\Locale
                     // Ticket History
                     'edit_ticket_history'   => "Edit history",
                     'delete_ticket_history' => "Delete history",
+                ),
+
+                // Ticket properties
+                'ticket_properties' => array(
+                    'ticket_properties_type'        => "Type",
+                    'ticket_properties_assigned_to' => "Assigned to",
+                    'ticket_properties_milestone'   => "Milestone",
+                    'ticket_properties_version'     => "Version",
+                    'ticket_properties_component'   => "Component",
+                    'ticket_properties_severity'    => "Severity",
+                    'ticket_properties_priority'    => "Priority",
+                    'ticket_properties_status'      => "Status",
+                    'ticket_properties_summary'     => "Summary",
                 ),
 
                 // Wiki
