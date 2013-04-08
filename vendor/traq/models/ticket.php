@@ -56,6 +56,7 @@ class Ticket extends Model
         'is_closed',
         'is_private',
         'votes',
+        'tasks',
         'extra',
         'created_at',
         'updated_at'
@@ -540,6 +541,11 @@ class Ticket extends Model
         // Set the custom_fields array
         if (!isset($this->extra['custom_fields']) or !is_array($this->extra['custom_fields'])) {
             $this->_data['extra']['custom_fields'] = array();
+        }
+
+        // Tasks
+        if (isset($this->_data['tasks'])) {
+            $this->_data['tasks'] = json_decode($this->_data['tasks'], true);
         }
     }
 
