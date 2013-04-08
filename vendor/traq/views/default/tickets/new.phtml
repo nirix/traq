@@ -57,6 +57,12 @@
 					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
 				<?php } ?>
+				<?php if (current_user()->permission($project->id, 'manage_ticket_tasks')) { ?>
+				<div class="field">
+					<?php echo Form::label(l('tasks'))?>
+					<button type="button" id="manage_ticket_tasks" data-overlay="<?php echo Request::base($project->href('tickets/0/tasks/manage'))?>"><?php echo l('manage')?></button>
+				</div>
+				<?php } ?>
 				<?php echo View::render('tickets/_custom_fields_form'); ?>
 				<div class="clearfix"></div>
 			</div>
