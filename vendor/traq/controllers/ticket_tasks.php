@@ -56,4 +56,13 @@ class TicketTasks extends AppController
 
         View::set('tasks', $tasks);
     }
+
+    /**
+     * Ticket task form bit.
+     */
+    public function action_form_bit()
+    {
+        $this->_render['layout'] = false;
+        return View::render('ticket_tasks/_form_bit');
+    }
 }
