@@ -57,7 +57,7 @@ $(document).ready(function(){
 
 	$('[data-preview]').on('click', function(){
 		var data = $($(this).attr('data-preview')).val();
-		$('#overlay').load(traq.base + '/_misc/preview_text', { data: data }, function(){
+		$('#overlay').load(traq.base + '_misc/preview_text', { data: data }, function(){
 			$('#overlay').overlay();
 		});
 	});
