@@ -21,6 +21,7 @@
 /**
  * Returns an array of timeline events.
  *
+ * @since 3.1
  * @return array
  */
 function timeline_events()
@@ -45,6 +46,7 @@ function timeline_events()
  *
  * @param string $filter
  *
+ * @since 3.1
  * @return array
  */
 function timeline_filters($filter = null)
