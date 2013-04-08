@@ -1,9 +1,11 @@
 <h3><?php echo l('manage_tasks'); ?></h3>
 <div>
 	<div class="ticket_tasks_manager">
+		<div class="tasks">
 <?php foreach ($tasks as $id => $task) { ?>
 		<?php echo View::render('ticket_tasks/_form_bit'); ?>
 <?php } ?>
+		</div>
 		<button type="button" id="add_task"><?php echo l('add_task')?></button>
 	</div>
 	<div class="overlay-actions">
