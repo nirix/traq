@@ -120,8 +120,15 @@ $(document).ready(function(){
 	// data-overlay attribute and load the elements
 	// href value into the overlay container then show
 	// the overlay.
-	$(document).on('click', '[data-overlay=1]', function(){
-		var path = $(this).attr('href').split('?');
+	$(document).on('click', '[data-overlay]', function(){
+		var path;
+
+		if ($(this).attr('data-overlay') == '1') {
+			path = $(this).attr('href').split('?');
+		} else {
+			path = $(this).attr('data-overlay').split('?');
+		}
+
 		var uri = path[0] + '?overlay=true';
 
 		if (path.length > 1) {
