@@ -1,0 +1,5 @@
+<?php if (!isset($id)) { $id = 0; } ?>
+<div class="task">
+	<?php echo Form::checkbox("task[{$id}][completed]", '1')?>
+	<?php echo Form::text("task[{$id}][completed]")?>
+</div>

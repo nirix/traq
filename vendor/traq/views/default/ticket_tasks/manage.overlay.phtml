@@ -1,0 +1,13 @@
+<h3><?php echo l('manage_tasks'); ?></h3>
+<div>
+	<div class="ticket_tasks_manager">
+<?php foreach ($tasks as $id => $task) { ?>
+		<?php echo View::render('ticket_tasks/_form_bit'); ?>
+<?php } ?>
+		<button type="button" id="add_task"><?php echo l('add_task')?></button>
+	</div>
+	<div class="overlay-actions">
+		<input id="set_ticket_tasks" type="submit" value="<?php echo l('save'); ?>" />
+		<input type="button" value="<?php echo l('cancel'); ?>" onclick="close_overlay();" />
+	</div>
+</div>
