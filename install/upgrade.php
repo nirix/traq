@@ -187,6 +187,15 @@ post('/step/1', function(){
         ");
     }
 
+    // Version 3.2
+    if (DB_VER < 30200) {
+        // Add tasks column to tickets table
+        $db->query("
+            ALERT TABLE `" . $db->prefix . "tickets` ADD COLUMN `tasks` longtext
+            AFTER `votes`;
+        ");
+    }
+
     // Update database version setting
     $db_ver = Setting::find('setting', 'db_version');
     $db_ver->value = TRAQ_VER_CODE;
