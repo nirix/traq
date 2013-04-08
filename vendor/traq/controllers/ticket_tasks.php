@@ -24,6 +24,7 @@ use avalon\http\Request;
 use avalon\output\View;
 
 use traq\models\Ticket;
+
 /**
  * TicketTasks controller
  *
@@ -34,13 +35,21 @@ use traq\models\Ticket;
  */
 class TicketTasks extends AppController
 {
+    /**
+     * Task manager.
+     *
+     * @param integer $ticket_id
+     */
     public function action_manage($ticket_id)
     {
+        // New ticket
         if ($ticket_id == 0) {
             $tasks = array(
                 array('completed' => false, 'task' => '')
             );
-        } else {
+        }
+        // Existing ticket
+        else {
             $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
             $tasks = $ticket->tasks;
         }
