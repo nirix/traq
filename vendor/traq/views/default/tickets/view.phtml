@@ -88,6 +88,16 @@
 			<?php echo format_text($ticket->body, true); ?>
 		</div>
 	</section>
+	<?php if (is_array($ticket->tasks) and count($ticket->tasks)) { ?>
+	<section id="tasks">
+		<h3><?php echo l('tasks')?></h3>
+		<ul>
+<?php foreach ($ticket->tasks as $id => $task) { ?>
+			<li><?php echo Form::checkbox("task[{$id}]", 1, array('checked' => $task['completed']))?> <?php echo Form::label($task['task'], "task[{$id}]")?></li>
+<?php } ?>
+		</ul>
+	</section>
+	<?php } ?>
 	<?php if ($current_user->permission($ticket->project_id, 'view_attachments') and $attachments = $ticket->attachments->exec() and $attachments->row_count() > 0) { ?>
 	<section id="attachments">
 		<h3><?php echo l('attachments'); ?></h3>
