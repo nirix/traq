@@ -203,6 +203,12 @@ class enUS extends \traq\libraries\Locale
             'created_at' => "Created at",
             'updated_at' => "Updated at",
 
+            // Ticket tasks
+            'tasks'        => "Tasks",
+            'manage'       => "Manage",
+            'manage_tasks' => "Manage Tasks",
+            'add_task'     => "Add Task",
+
             // Custom fields
             'text'          => "Text",
             'select'        => "Select",
