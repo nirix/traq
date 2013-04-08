@@ -22,22 +22,27 @@
       &:nth-child(4n)
         margin-right: 0px
 
-  #description, #attachments
+  #description, #attachments, #tasks
     h3
+      margin-top: 5px
       display: block
       font-weight: bold
       color: #663
       border-bottom: 1px solid #dd9
       padding-bottom: 2px
 
-  #description
-    margin-top: 5px
-
-  #attachments
-    margin-top: 5px
-
+  #attachments, #tasks
     ul
       margin: 0
+
+  #tasks
+    ul
+      list-style: none
+      padding: 0
+
+    label
+      font-weight: normal
+
 #ticket_summary
   margin: 0
   font-size: 20px
