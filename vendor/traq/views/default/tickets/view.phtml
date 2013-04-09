@@ -220,6 +220,11 @@
 				<div class="field">
 					<?php echo Form::label(l('tasks'))?>
 					<button type="button" id="manage_ticket_tasks" data-overlay="<?php echo Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage"))?>"><?php echo l('manage')?></button>
+					<div id="ticket_tasks_data">
+					<?php foreach ($ticket->tasks as $id => $task) {
+						echo View::render('ticket_tasks/_form_bit', array('id' => $id, 'completed' => $task['completed'], 'task' => $task['task']));
+					} ?>
+					</div>
 				</div>
 				<?php } ?>
 				<?php if ($current_user->permission($project->id, 'add_attachments')) { ?>
