@@ -215,7 +215,7 @@ $(document).ready(function(){
 		var task_id = parseInt($("#task_count").val());
 		$.get(traq.base + '_misc/ticket_tasks_bit?id=' + task_id, function(data){
 			$("#task_count").val(task_id += 1);
-			$("#ticket_tasks_manager .tasks").append(data);
+			$("#ticket_tasks_manager .tasks").append($(data).hide()).find('.task:last').slideDown('fast');
 		});
 	});
 
