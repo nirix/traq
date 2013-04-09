@@ -215,10 +215,14 @@ $(document).ready(function(){
 })(jQuery);
 
 // Function to close overlay
-function close_overlay()
+function close_overlay(func)
 {
+	if (func == undefined) {
+		func = function(){}
+	}
+
 	$('#overlay_blackout').fadeOut();
-	$('#overlay').fadeOut();
+	$('#overlay').fadeOut(function(){ func(); });
 }
 
 // Search box
