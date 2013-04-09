@@ -216,7 +216,7 @@
 					<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
 				</div>
 				<?php } ?>
-				<?php if (current_user()->permission($project->id, 'manage_ticket_tasks')) { ?>
+				<?php if (current_user()->permission($project->id, 'ticket_properties_change_tasks')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('tasks'))?>
 					<button type="button" id="manage_ticket_tasks" data-url="<?php echo Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage"))?>"><?php echo l('manage')?></button>
