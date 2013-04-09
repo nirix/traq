@@ -1,4 +1,4 @@
 <div class="task">
-	<?php echo Form::checkbox("task[{$id}][completed]", '1', array('checked' => $completed))?>
-	<?php echo Form::text("task[{$id}][completed]", array('value' => $task))?>
+	<?php echo Form::checkbox("tasks[{$id}][completed]", '1', array('checked' => $completed, 'data-task-id' => $id))?>
+	<?php echo Form::text("tasks[{$id}][task]", array('value' => $task, 'data-task-id' => $id))?>
 </div>
