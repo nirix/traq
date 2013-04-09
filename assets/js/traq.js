@@ -186,9 +186,9 @@ $(document).ready(function(){
 	});
 
 	// Add ticket task
-	$(document).on('click', ".ticket_tasks_manager #add_task", function(){
+	$(document).on('click', "#ticket_tasks_manager #add_task", function(){
 		$.get(traq.base + '_misc/ticket_tasks_bit', function(data){
-			$(".ticket_tasks_manager .tasks").append(data);
+			$("#ticket_tasks_manager .tasks").append(data);
 		});
 	});
 });
