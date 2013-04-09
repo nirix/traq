@@ -253,7 +253,7 @@ $(document).ready(function(){
 	// Delete ticket task
 	$(document).on('click', '#overlay button.delete_ticket_task', function(){
 		var e = $(this);
-		$("#overlay #ticket_task_bit_" + e.attr('data-task-id')).fadeOut(function(){
+		$("#overlay #ticket_task_bit_" + e.attr('data-task-id')).slideUp('fast', function(){
 			$(this).remove();
 		});
 	});
