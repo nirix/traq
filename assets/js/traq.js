@@ -197,7 +197,32 @@ $(document).ready(function(){
 	// Process ticket tasks form data
 	$(document).on('click', "#overlay #set_ticket_tasks", function(){
 		close_overlay(function(){
-			$("#ticket_tasks_data").html($("#ticket_tasks_manager .tasks").html());
+			var task_count = parseInt($("#task_count").val());
+			var data = {}
+			$('#ticket_tasks_manager input[name*="tasks"]').each(function(){
+				var e = $(this);
+				var task_id = e.attr('data-task-id');
+
+				if (!data[task_id]) {
+					data[task_id] = {}
+				}
+
+				// Checkbox
+				if (e.attr('type') == 'checkbox') {
+					if (e.is(':checked')) {
+						data[task_id].completed = true;
+					} else {
+						data[task_id].completed = false;
+					}
+				}
+				// Text
+				else if(e.attr('type') == 'text') {
+					data[task_id].task = e.val();
+				}
+			});
+			alert(JSON.stringify(data));
+			$("#ticket_tasks_data input[name='task_count']").val(task_count);
+			$("#ticket_tasks_data input[name='tasks']").val(JSON.stringify(data));
 		});
 	});
 });
