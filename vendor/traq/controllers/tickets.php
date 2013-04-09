@@ -326,6 +326,7 @@ class Tickets extends AppController
                 'component_id' => 0,
                 'type_id'      => Request::post('type', 1),
                 'severity_id'  => 4,
+                'tasks'        => array()
             );
 
             // Milestone
@@ -361,6 +362,11 @@ class Tickets extends AppController
             // Assigned to
             if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
                 $data['assigned_to_id'] = Request::post('assigned_to');
+            }
+
+            // Ticket tasks
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_tasks')) {
+                $data['tasks'] = Request::post('tasks');
             }
 
             // Set the ticket data
