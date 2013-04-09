@@ -93,7 +93,10 @@
 		<h3><?php echo l('tasks')?></h3>
 		<ul>
 <?php foreach ($ticket->tasks as $id => $task) { ?>
-			<li><?php echo Form::checkbox("task[{$id}]", 1, array('checked' => $task['completed']))?> <?php echo Form::label($task['task'], "task[{$id}]")?></li>
+			<li>
+				<?php echo Form::checkbox("task[{$id}]", 1, array('checked' => $task['completed'], 'disabled' => !current_user()->permission($project->id, 'ticket_properties_complete_tasks')))?>
+				<?php echo Form::label($task['task'], "task[{$id}]")?>
+			</li>
 <?php } ?>
 		</ul>
 	</section>
