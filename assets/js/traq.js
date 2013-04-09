@@ -220,7 +220,6 @@ $(document).ready(function(){
 					data[task_id].task = e.val();
 				}
 			});
-			alert(JSON.stringify(data));
 			$("#ticket_tasks_data input[name='task_count']").val(task_count);
 			$("#ticket_tasks_data input[name='tasks']").val(JSON.stringify(data));
 		});
