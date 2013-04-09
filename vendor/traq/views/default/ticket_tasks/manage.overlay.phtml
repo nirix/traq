@@ -3,7 +3,7 @@
 	<div class="ticket_tasks_manager">
 		<div class="tasks">
 <?php foreach ($tasks as $id => $task) { ?>
-		<?php echo View::render('ticket_tasks/_form_bit'); ?>
+		<?php echo View::render('ticket_tasks/_form_bit', array('id' => $id, 'completed' => $task['completed'], 'task' => $task['task'])); ?>
 <?php } ?>
 		</div>
 		<button type="button" id="add_task"><?php echo l('add_task')?></button>
