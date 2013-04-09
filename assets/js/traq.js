@@ -201,7 +201,7 @@ $(document).ready(function(){
 			var data = {}
 			$('#ticket_tasks_manager input[name*="tasks"]').each(function(){
 				var e = $(this);
-				var task_id = e.attr('data-task-id');
+				var task_id = parseInt(e.attr('data-task-id'));
 
 				if (!data[task_id]) {
 					data[task_id] = {}
