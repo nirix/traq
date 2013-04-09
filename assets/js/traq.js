@@ -191,6 +191,13 @@ $(document).ready(function(){
 			$("#ticket_tasks_manager .tasks").append(data);
 		});
 	});
+
+	// Process ticket tasks form data
+	$(document).on('click', "#overlay #set_ticket_tasks", function(){
+		close_overlay(function(){
+			$("#ticket_tasks_data").html($("#ticket_tasks_manager .tasks").html());
+		});
+	});
 });
 
 /*!
