@@ -219,10 +219,10 @@
 				<?php if (current_user()->permission($project->id, 'manage_ticket_tasks')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('tasks'))?>
-					<button type="button" id="manage_ticket_tasks" data-overlay="<?php echo Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage"))?>"><?php echo l('manage')?></button>
+					<button type="button" id="manage_ticket_tasks" data-url="<?php echo Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage"))?>"><?php echo l('manage')?></button>
 					<div id="ticket_tasks_data">
 						<input type="hidden" name="task_count" value="<?php echo count($ticket->tasks)?>">
-						<input type="hidden" name="tasks" value="<?php echo json_encode($ticket->tasks)?>">
+						<input type="hidden" name="tasks" value="<?php echo htmlentities(json_encode($ticket->tasks))?>">
 					</div>
 				</div>
 				<?php } ?>

@@ -185,6 +185,31 @@ $(document).ready(function(){
 		$("form#move_ticket").submit();
 	});
 
+	// Manage ticket tasks
+	$(document).on('click', '#manage_ticket_tasks', function(){
+		$('#overlay').load($(this).attr('data-url') + '?overlay=true', function(){
+			var tasks = $('#ticket_tasks_data input[name="tasks"]').val();
+
+			if (tasks == '') {
+				tasks = new Array();
+			} else {
+				tasks = JSON.parse(tasks);
+			}
+
+			$(tasks).each(function(task_id, task){
+				$("#ticket_tasks_manager #task_count").val(tasks.length);
+				$.get(
+					traq.base + '_misc/ticket_tasks_bit',
+					{ id: task_id, completed: String(task.completed), task: task.task },
+					function(data){
+						$('#ticket_tasks_manager .tasks').append(data);
+					}
+				);
+			});
+			$('#overlay').overlay();
+		});
+	});
+
 	// Add ticket task
 	$(document).on('click', "#ticket_tasks_manager #add_task", function(){
 		var task_id = parseInt($("#task_count").val());

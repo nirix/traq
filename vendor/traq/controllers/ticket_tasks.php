@@ -42,22 +42,6 @@ class TicketTasks extends AppController
      */
     public function action_manage($ticket_id)
     {
-        // New ticket
-        if ($ticket_id == 0) {
-            $tasks = array(
-                array('completed' => false, 'task' => '')
-            );
-        }
-        // Existing ticket
-        else {
-            $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
-            if (!$ticket) {
-                return $this->show_404();
-            }
-            $tasks = $ticket->tasks;
-        }
-
-        View::set('tasks', $tasks);
     }
 
     /**
@@ -66,6 +50,12 @@ class TicketTasks extends AppController
     public function action_form_bit()
     {
         $this->_render['layout'] = false;
-        return View::render('ticket_tasks/_form_bit', array('id' => Request::$request['id'], 'completed' => false, 'task' => ''));
+
+        // Task data
+        $id        = isset(Request::$request['id']) ? Request::$request['id'] : 0;
+        $completed = isset(Request::$request['completed']) ? (Request::$request['completed'] == "true" ? true : false) : false;
+        $task      = isset(Request::$request['task']) ? Request::$request['task'] : '';
+
+        return View::render('ticket_tasks/_form_bit', array('id' => $id, 'completed' => $completed, 'task' => $task));
     }
 }

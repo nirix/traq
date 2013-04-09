@@ -60,7 +60,7 @@
 				<?php if (current_user()->permission($project->id, 'manage_ticket_tasks')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('tasks'))?>
-					<button type="button" id="manage_ticket_tasks" data-overlay="<?php echo Request::base($project->href('tickets/0/tasks/manage'))?>"><?php echo l('manage')?></button>
+					<button type="button" id="manage_ticket_tasks" data-url="<?php echo Request::base($project->href('tickets/0/tasks/manage'))?>"><?php echo l('manage')?></button>
 					<div id="ticket_tasks_data">
 						<input type="hidden" name="task_count" value="0">
 						<input type="hidden" name="tasks">
