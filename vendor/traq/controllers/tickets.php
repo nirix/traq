@@ -428,7 +428,8 @@ class Tickets extends AppController
             'version_id'   => $ticket->version_id,
             'component_id' => $ticket->component_id,
             'type_id'      => $ticket->type_id,
-            'severity_id'  => $ticket->severity_id
+            'severity_id'  => $ticket->severity_id,
+            'tasks'        => $ticket->tasks
         );
 
         // Summary
@@ -469,6 +470,18 @@ class Tickets extends AppController
         // Assigned to
         if ($this->user->permission($this->project->id, 'ticket_properties_change_assigned_to')) {
             $data['assigned_to_id'] = Request::post('assigned_to', $ticket->assigned_to_id);
+        }
+
+        // Ticket tasks
+        if ($this->user->permission($this->project->id, 'ticket_properties_change_tasks') and Request::post('tasks') != null) {
+            $data['tasks'] = array();
+            $tasks = json_decode(Request::post('tasks'), true);
+
+            foreach ($tasks as $id => $task) {
+                if (is_array($task) and !empty($task['task'])) {
+                    $data['tasks'][] = $task;
+                }
+            }
         }
 
         // Check if we're adding an attachment and that the user has permission to do so

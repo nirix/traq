@@ -277,6 +277,11 @@ class Ticket extends Model
                     }
                     break;
 
+                case 'tasks':
+                    $from = $this->tasks;
+                    $to   = (!is_array($value) ? json_decode($value, true) : $value);
+                    break;
+
                 default:
                     $accessor = str_replace('_id', '', $field);
                     $class = '\\traq\models\\' . ucfirst($accessor);
