@@ -198,7 +198,7 @@ $(document).ready(function(){
 	$(document).on('click', "#overlay #set_ticket_tasks", function(){
 		close_overlay(function(){
 			var task_count = parseInt($("#task_count").val());
-			var data = {}
+			var data = new Array();
 			$('#ticket_tasks_manager input[name*="tasks"]').each(function(){
 				var e = $(this);
 				var task_id = parseInt(e.attr('data-task-id'));
