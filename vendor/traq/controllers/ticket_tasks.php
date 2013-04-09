@@ -51,6 +51,9 @@ class TicketTasks extends AppController
         // Existing ticket
         else {
             $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
+            if (!$ticket) {
+                return $this->show_404();
+            }
             $tasks = $ticket->tasks;
         }
 
