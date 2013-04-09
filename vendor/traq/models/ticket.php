@@ -544,7 +544,12 @@ class Ticket extends Model
         }
 
         // Tasks
-        if (isset($this->_data['tasks'])) {
+        if (!isset($this->_data['tasks'])) {
+            $this->_data['tasks'] = array();
+        }
+
+        // Decode tasks
+        if (!is_array($this->tasks)) {
             $this->_data['tasks'] = json_decode($this->_data['tasks'], true);
         }
     }
@@ -558,6 +563,11 @@ class Ticket extends Model
     {
         if (isset($this->_data['extra']) and is_array($this->_data['extra'])) {
             $this->extra = json_encode($this->_data['extra']);
+        }
+
+        // Encode ticket tasks
+        if (is_array($this->_data['tasks'])) {
+            $this->tasks = json_encode($this->_data['tasks']);
         }
     }
 
