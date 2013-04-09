@@ -66,6 +66,6 @@ class TicketTasks extends AppController
     public function action_form_bit()
     {
         $this->_render['layout'] = false;
-        return View::render('ticket_tasks/_form_bit', array('id' => '', 'completed' => false, 'task' => ''));
+        return View::render('ticket_tasks/_form_bit', array('id' => Request::$request['id'], 'completed' => false, 'task' => ''));
     }
 }

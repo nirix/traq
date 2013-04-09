@@ -2,6 +2,7 @@
 <div>
 	<div id="ticket_tasks_manager">
 		<div class="tasks">
+			<input type="hidden" id="task_count" name="task_count" value="<?php echo count($tasks)?>">
 <?php foreach ($tasks as $id => $task) { ?>
 		<?php echo View::render('ticket_tasks/_form_bit', array('id' => $id, 'completed' => $task['completed'], 'task' => $task['task'])); ?>
 <?php } ?>
