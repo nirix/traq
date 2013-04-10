@@ -33,6 +33,12 @@ elseif ($change['property'] == 'assigned_to') {
 	}
 	echo _mklocale($change, 'assignee');
 }
+// Tasks
+elseif ($change['property'] == 'tasks') {
+	$change['to'] = implode(', ', $change['to']);
+	$change['from'] = implode(', ', $change['from']);
+	echo _mklocale($change);
+}
 // For everything else
 else {
 	echo _mklocale($change);
