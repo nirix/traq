@@ -71,9 +71,11 @@ class TicketTasks extends AppController
         $this->_render['layout'] = false;
         $this->_render['view'] = false;
 
-        // Get ticket, update task and save
-        $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
-        $ticket->toggle_task($task_id);
-        $ticket->save();
+        if (current_user()->permission($project->id, 'ticket_properties_complete_tasks')) {
+            // Get ticket, update task and save
+            $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
+            $ticket->toggle_task($task_id);
+            $ticket->save();
+        }
     }
 }
