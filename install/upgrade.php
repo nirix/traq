@@ -57,7 +57,8 @@ post('/step/1', function(){
     // Version 3.0.6
     if (DB_VER < 30006) {
         // Find a user with the group ID of the guest group and make it the anonymous user.
-        if ($anon = User::select()->where('group_id', 3)->exec()->fetch()) {
+        if ($anon = $db->select()->from('users')->where('group_id', 3)->exec()->fetch()) {
+            $anon = new User($anon, false);
             $anon->set(array(
                 'username'   => 'Anonymous',
                 'password'   => sha1(microtime() . rand(0, 200) . time() . rand(0, 200)) . microtime(),
