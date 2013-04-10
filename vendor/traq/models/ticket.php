@@ -530,6 +530,17 @@ class Ticket extends Model
     }
 
     /**
+     * Toggles the completed status of a task.
+     *
+     * @param integer $task_id
+     */
+    public function toggle_task($task_id)
+    {
+        $this->_data['tasks'][$task_id]['completed'] = $this->_data['tasks'][$task_id]['completed'] ? false : true;
+        $this->_set_changed('tasks');
+    }
+
+    /**
      * Processes the data when reading from the database.
      *
      * @access private
