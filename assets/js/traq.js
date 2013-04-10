@@ -257,6 +257,34 @@ $(document).ready(function(){
 			$(this).remove();
 		});
 	});
+
+	// Toggle task state
+	$(document).on('click', '#ticket_info #tasks .task input[type="checkbox"]', function(){
+		var task_id = $(this).attr('data-task-task');
+		var completed = false;
+
+		// Get task state
+		if ($(this).is(':checked')) {
+			completed = true;
+		}
+
+		// Update task
+		$.ajax({
+			url: $(this).attr('data-url'),
+			data: { completed: completed },
+			beforeSend: function(){
+				// Disable tasks
+				$('#tasks input[type="checkbox"]').each(function(){
+					$(this).attr('disabled','disabled');
+				});
+			}
+		}).done(function(){
+			// Enable tasks
+			$('#tasks input[type="checkbox"]').each(function(){
+				$(this).removeAttr('disabled');
+			});
+		});
+	});
 });
 
 /*!
