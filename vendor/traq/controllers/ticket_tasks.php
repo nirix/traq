@@ -58,4 +58,22 @@ class TicketTasks extends AppController
 
         return View::render('ticket_tasks/_form_bit', array('id' => $id, 'completed' => $completed, 'task' => $task));
     }
+
+    /**
+     * Toggles the state of a task.
+     *
+     * @param integer $ticket_id
+     * @param integer $task_id
+     */
+    public function action_toggle($ticket_id, $task_id)
+    {
+        // Don't render anything
+        $this->_render['layout'] = false;
+        $this->_render['view'] = false;
+
+        // Get ticket, update task and save
+        $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
+        $ticket->toggle_task($task_id);
+        $ticket->save();
+    }
 }
