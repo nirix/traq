@@ -278,8 +278,17 @@ class Ticket extends Model
                     break;
 
                 case 'tasks':
-                    $from = $this->tasks;
-                    $to   = (!is_array($value) ? json_decode($value, true) : $value);
+                    // Only use the task label.
+                    $from = array();
+                    foreach ($this->tasks as $task) {
+                        $from[] = $task['task'];
+                    }
+
+                    $to    = array();
+                    $values = (!is_array($value) ? json_decode($value, true) : $value);
+                    foreach ($values as $task) {
+                        $to[] = $task['task'];
+                    }
                     break;
 
                 default:
