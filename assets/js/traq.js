@@ -30,6 +30,27 @@ var traq = {
 // Language object
 var language = {};
 
+// Instead of that annoying popup confirm box
+// how about a nice simple popover box.
+// Credit to arturo182
+var popover_confirm = function(parent, message, callback) {
+	var outerDiv = $('<div/>').addClass('popover_confirm');
+	var innerDiv = $('<div/>');
+
+	innerDiv.append($('<button/>', { 'text' : language.yes }).click(function(){
+		$("#popover").fadeOut('fast');
+		callback();
+		return false;
+	}));
+	innerDiv.append($('<button/>', { 'text' : language.no }).click(function(){ $("#popover").fadeOut('fast'); return false; }));
+
+	outerDiv.append(message);
+	outerDiv.append(innerDiv);
+
+	$("#popover").stop(true, true).hide().empty().append(outerDiv);
+	$("#popover").popover(parent);
+}
+
 $(document).ready(function(){
 	$("#header h1").on('mouseenter', function(){
 		$("#project_switcher_btn").stop(true, true).fadeIn('fast');
@@ -70,22 +91,11 @@ $(document).ready(function(){
 	$(document).on('click', '[data-confirm]', function(){
 		var parent = $(this);
 
-		var outerDiv = $('<div/>');
-		outerDiv.css('padding', '5px');
-
-		var innerDiv = $('<div/>');
-		innerDiv.css('text-align', 'center');
-		innerDiv.append($('<button/>', { 'text' : language.yes }).click(function() { window.location.href = parent.attr('href'); }));
-		innerDiv.append($('<button/>', { 'text' : language.no }).click(function() { $("#popover").hide(); return false; }));
-
-		outerDiv.append(parent.attr('data-confirm'));
-		outerDiv.append(innerDiv);
-
-		$("#popover").stop(true, true).hide().empty().append(outerDiv);
-		$("#popover").popover(parent);
+		popover_confirm(parent, parent.attr('data-confirm'), function(){
+			window.location.href = parent.attr('href');
+		});
 
 		return false;
-		//return confirm($(this).attr('data-confirm'));
 	});
 
 	// Add a click event to all elements with
