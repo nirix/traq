@@ -43,7 +43,7 @@
 .button_move
   background-image: url(':baseuri:assets/images/arrow_left.png')
 
-button
+button, .icon_only
   &.button_new,
   &.button_edit,
   &.button_delete
@@ -51,3 +51,7 @@ button
     text-indent: -5000px
     background-color: transparent
     cursor: pointer
+
+.icon_only
+  span
+    display: none
