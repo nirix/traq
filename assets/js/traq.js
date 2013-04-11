@@ -116,12 +116,12 @@ $(document).ready(function(){
 	$(document).on('click', '[data-ajax-confirm]', function(){
 		var e = $(this);
 
-		if (confirm(e.attr('data-ajax-confirm'))) {
+		popover_confirm(e, e.attr('data-ajax-confirm'), function(){
 			$.ajax({
 				url: e.attr('href'),
 				dataType: 'script'
 			});
-		}
+		});
 
 		return false;
 	});
