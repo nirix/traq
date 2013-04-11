@@ -58,6 +58,7 @@ $permissions = array(
         array(DEFAULT_ID, 'ticket_properties_set_severity',    0),
         array(DEFAULT_ID, 'ticket_properties_set_priority',    0),
         array(DEFAULT_ID, 'ticket_properties_set_status',      0),
+        array(DEFAULT_ID, 'ticket_properties_set_tasks',       0),
 
         // Change ticket properties
         array(DEFAULT_ID, 'ticket_properties_change_type',        0),
@@ -69,6 +70,8 @@ $permissions = array(
         array(DEFAULT_ID, 'ticket_properties_change_priority',    0),
         array(DEFAULT_ID, 'ticket_properties_change_status',      0),
         array(DEFAULT_ID, 'ticket_properties_change_summary',     0),
+        array(DEFAULT_ID, 'ticket_properties_change_tasks',       0),
+        array(DEFAULT_ID, 'ticket_properties_complete_tasks',     0),
 
         // Ticket History
         array(DEFAULT_ID, 'edit_ticket_history',   0),
@@ -118,6 +121,7 @@ $permissions = array(
         array(DEFAULT_ID, 'ticket_properties_set_severity',    1),
         array(DEFAULT_ID, 'ticket_properties_set_priority',    1),
         array(DEFAULT_ID, 'ticket_properties_set_status',      1),
+        array(DEFAULT_ID, 'ticket_properties_set_tasks',       1),
 
         // Change ticket properties
         array(DEFAULT_ID, 'ticket_properties_change_type',        1),
@@ -129,6 +133,8 @@ $permissions = array(
         array(DEFAULT_ID, 'ticket_properties_change_priority',    1),
         array(DEFAULT_ID, 'ticket_properties_change_status',      1),
         array(DEFAULT_ID, 'ticket_properties_change_summary',     1),
+        array(DEFAULT_ID, 'ticket_properties_change_tasks',       1),
+        array(DEFAULT_ID, 'ticket_properties_complete_tasks',     1),
 
         // Ticket History
         array(DEFAULT_ID, 'edit_ticket_history',   0),

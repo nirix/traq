@@ -195,6 +195,18 @@ post('/step/1', function(){
             ALERT TABLE `" . $db->prefix . "tickets` ADD COLUMN `tasks` longtext
             AFTER `votes`;
         ");
+
+        // Add ticket task permissions
+        $db->query("
+            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+            VALUES
+              (0,'usergroup',0,'ticket_properties_set_tasks',0),
+              (0,'usergroup',0,'ticket_properties_change_tasks',0),
+              (0,'usergroup',0,'ticket_properties_complete_tasks',0),
+              (0,'role',0,'ticket_properties_set_tasks',1),
+              (0,'role',0,'ticket_properties_change_tasks',1),
+              (0,'role',0,'ticket_properties_complete_tasks',1);
+          ");
     }
 
     // Update database version setting

@@ -331,6 +331,10 @@ class enUS extends \traq\libraries\Locale
 
                     'ticket_properties_set_status'         => "Set Status",
                     'ticket_properties_change_status'      => "Change Status",
+
+                    'ticket_properties_set_tasks'         => "Set Tasks",
+                    'ticket_properties_change_tasks'      => "Change Tasks",
+                    'ticket_properties_complete_tasks'    => "Complete Tasks",
                 ),
 
                 // Wiki
