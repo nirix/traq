@@ -365,7 +365,7 @@ class Tickets extends AppController
             }
 
             // Ticket tasks
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_tasks') and Request::post('tasks') != null) {
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_tasks') and Request::post('tasks') != null) {
                 $tasks = json_decode(Request::post('tasks'), true);
 
                 foreach ($tasks as $id => $task) {
