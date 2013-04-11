@@ -161,7 +161,7 @@ $permissions = array(
 );
 
 $query = array(
-    "INSERT INTO `traq_permissions` (`id`, `project_id`, `type`, `type_id`, `action`, `value`)",
+    "INSERT INTO `traq_permissions` (`project_id`, `type`, `type_id`, `action`, `value`)",
     "VALUES"
 );
 
@@ -170,7 +170,7 @@ foreach ($permissions as $type => $permissions) {
 
     foreach ($permissions as $permission) {
         $permission_id++;
-        $query[] = "  ({$permission_id},0,'{$type}',{$permission[0]},'{$permission[1]}',{$permission[2]}),";
+        $query[] = "  (0,'{$type}',{$permission[0]},'{$permission[1]}',{$permission[2]}),";
     }
 }
 
