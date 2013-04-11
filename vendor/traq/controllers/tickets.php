@@ -429,12 +429,19 @@ class Tickets extends AppController
             'component_id' => $ticket->component_id,
             'type_id'      => $ticket->type_id,
             'severity_id'  => $ticket->severity_id,
+            'priority_id'  => $ticket->priority_id,
+            'status_id'    => $ticket->status_id,
             'tasks'        => $ticket->tasks
         );
 
         // Summary
         if ($this->user->permission($this->project->id, 'ticket_properties_change_summary')) {
             $data['summary'] = Request::post('summary', $ticket->summary);
+        }
+
+        // Type
+        if ($this->user->permission($this->project->id, 'ticket_properties_change_type')) {
+            $data['type'] = Request::post('type', $ticket->type);
         }
 
         // Milestone

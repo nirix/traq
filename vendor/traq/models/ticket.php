@@ -221,9 +221,8 @@ class Ticket extends Model
     {
         $user = Avalon::app()->user;
 
-        $to_values = array();
-        $changes = array();
-        $save_queue = array();
+        $to_values = $changes = $save_queue = array();
+        $this->_is_closing = $this->_is_reopening = false;
 
         // Loop over the data
         foreach ($data as $field => $value) {
@@ -366,26 +365,28 @@ class Ticket extends Model
                 'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
             ));
 
-            // Changes (and possibly a comment)
-            // But not when moving the ticket.
-            if (count($changes) and !isset($data['project_id'])) {
-                $save_queue[] = new Timeline(array(
-                    'project_id' => $this->project_id,
-                    'owner_id'   => $this->id,
-                    'action'     => 'ticket_updated',
-                    'data'       => $this->id,
-                    'user_id'    => $user->id
-                ));
-            }
-
-            // No changes but definitely a comment
-            if (!empty(Request::$post['comment']) and !count($changes)) {
-                $save_queue[] = new Timeline(array(
-                    'project_id' => $this->project_id,
-                    'owner_id' => $this->id,
-                    'action' => 'ticket_comment',
-                    'user_id' => $user->id
-                ));
+            if (!$this->_is_closing and !$this->_is_reopening) {
+                echo ('wat');
+                // Changes (and possibly a comment)
+                // But not when moving the ticket.
+                if (count($changes) and !isset($data['project_id'])) {
+                    $save_queue[] = new Timeline(array(
+                        'project_id' => $this->project_id,
+                        'owner_id'   => $this->id,
+                        'action'     => 'ticket_updated',
+                        'data'       => $this->id,
+                        'user_id'    => $user->id
+                    ));
+                }
+                // No changes but definitely a comment
+                elseif (!count($changes) and !empty(Request::$post['comment']) and !isset($data['project_id'])) {
+                    $save_queue[] = new Timeline(array(
+                        'project_id' => $this->project_id,
+                        'owner_id' => $this->id,
+                        'action' => 'ticket_comment',
+                        'user_id' => $user->id
+                    ));
+                }
             }
         }
 
