@@ -19,6 +19,9 @@
 	<dl>
 	<?php foreach ($day['activity'] as $row) { ?>
 		<dt>
+<?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
+			<a class="button_delete icon_only" data-confirm="<?php echo l('confirm.delete')?>" href="<?php echo Request::base($project->href("timeline/{$row->id}/delete"))?>"><span><?php echo l('delete')?></span></a>
+<?php } ?>
 			<span class="time"><?php echo ldate(settings('timeline_time_format'), $row->created_at); ?></span>
 <?php if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened','ticket_updated'))) { ?>
 			<?php echo HTML::link(
