@@ -18,9 +18,9 @@
 	<h3><?php echo ldate(settings('timeline_day_format'), $day['created_at']); ?></h3>
 	<dl>
 	<?php foreach ($day['activity'] as $row) { ?>
-		<dt>
+		<dt class="timeline_event_<?php echo $row->id?>">
 <?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
-			<a class="button_delete icon_only" data-confirm="<?php echo l('confirm.delete')?>" href="<?php echo Request::base($project->href("timeline/{$row->id}/delete"))?>"><span><?php echo l('delete')?></span></a>
+			<a class="button_delete icon_only" data-ajax-confirm="<?php echo l('confirm.delete')?>" href="<?php echo Request::base($project->href("timeline/{$row->id}/delete"))?>"><span><?php echo l('delete')?></span></a>
 <?php } ?>
 			<span class="time"><?php echo ldate(settings('timeline_time_format'), $row->created_at); ?></span>
 <?php if (in_array($row->action, array('ticket_created','ticket_closed','ticket_reopened','ticket_updated'))) { ?>
@@ -45,7 +45,7 @@
 			<?php echo l("timeline.{$row->action}", array('title' => HTML::link($row->wiki_page()->title, $row->wiki_page()->href()), 'slug' => $row->wiki_page()->slug))?>
 <?php } ?>
 		</dt>
-		<dd><?php echo l('timeline.by_x', HTML::link(strshorten($row->user->name, 20), $row->user->href())); ?></dd>
+		<dd class="timeline_event_<?php echo $row->id?>"><?php echo l('timeline.by_x', HTML::link(strshorten($row->user->name, 20), $row->user->href())); ?></dd>
 	<?php } ?>
 	</dl>
 	<?php } ?>

@@ -240,4 +240,21 @@ class Projects extends AppController
         // Send the days and events to the view.
         View::set(array('days' => $rows, 'filters' => $filters, 'events' => $events));
     }
+
+    /**
+     * Delete timeline event.
+     *
+     * @param integer $event_id
+     */
+    public function action_delete_timeline_event($event_id)
+    {
+        $event = Timeline::find($event_id);
+        $event->delete();
+
+        if (!Request::isAjax()) {
+            Request::redirectTo($this->project->href('timeline'));
+        }
+
+        View::set(compact('event'));
+    }
 }

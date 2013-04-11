@@ -52,6 +52,7 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete'
 Router::add('/projects', 'traq::controllers::Projects.index');
 Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
 Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap|changelog)', 'traq::controllers::Projects.$2');
+Router::add('/' . RTR_PROJSLUG . '/timeline/([0-9]+)/delete', 'traq::controllers::Projects.delete_timeline_event/$2');
 Router::add('/' . RTR_PROJSLUG . '/roadmap/(completed|all|cancelled)', 'traq::controllers::Projects.roadmap/$2');
 Router::add('/' . RTR_PROJSLUG, 'traq::controllers::Projects.view');
 
