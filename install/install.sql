@@ -495,6 +495,7 @@ CREATE TABLE `traq_tickets` (
   `is_closed` bigint(20) NOT NULL DEFAULT '0',
   `is_private` smallint(6) NOT NULL DEFAULT '0',
   `votes` bigint(20) DEFAULT '0',
+  `tasks` longtext COLLATE utf8_unicode_ci NULL,
   `extra` longtext COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
