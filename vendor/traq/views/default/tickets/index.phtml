@@ -6,6 +6,9 @@
 <table class="ticket_listing list">
 	<thead>
 		<tr>
+<?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
+			<th></th>
+<?php } ?>
 	<?php foreach ($columns as $column) { ?>
 			<th><a href="<?php echo ticket_sort_url_for($column == 'ticket_id' ? 'id' : $column); ?>"><?php echo ticketlist_header($column)?></a></th>
 	<?php } ?>
@@ -14,6 +17,9 @@
 	<tbody>
 	<?php foreach ($tickets as $ticket) { ?>
 		<tr class="priority_<?php echo $ticket->priority_id; ?>">
+<?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
+				<td><?php echo Form::checkbox('tickets[]', $ticket->ticket_id)?></td>
+<?php } ?>
 			<?php foreach ($columns as $column) { ?>
 				<?php if ($column == 'summary') { ?>
 				<td><?php echo HTML::link(htmlspecialchars($ticket->summary), "{$project->slug}/tickets/{$ticket->ticket_id}"); ?></td>
