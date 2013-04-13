@@ -3,7 +3,7 @@
 	<?php echo View::render('tickets/_filters'); ?>
 	<?php echo View::render('tickets/_columns'); ?>
 </div>
-<table class="ticket_listing list">
+<table id="tickets" class="ticket_listing list">
 	<thead>
 		<tr>
 <?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
