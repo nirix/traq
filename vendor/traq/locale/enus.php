@@ -285,8 +285,9 @@ class enUS extends \traq\libraries\Locale
             'deny'              => "Deny",
             'permissions' => array(
                 // Projects
-                'view' => "View",
-                'project_settings' => "Project Settings",
+                'view'                   => "View",
+                'project_settings'       => "Project Settings",
+                'delete_timeline_events' => "Delete timeline events",
 
                 // Tickets
                 'tickets' => array(

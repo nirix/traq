@@ -108,6 +108,7 @@ INSERT INTO `traq_permissions` (`project_id`, `type`, `type_id`, `action`, `valu
 VALUES
   (0,'usergroup',0,'view',1),
   (0,'usergroup',0,'project_settings',0),
+  (0,'usergroup',0,'delete_timeline_events',0),
   (0,'usergroup',0,'create_tickets',1),
   (0,'usergroup',0,'update_tickets',1),
   (0,'usergroup',0,'delete_tickets',0),
@@ -149,6 +150,7 @@ VALUES
   (0,'usergroup',3,'add_attachments',0),
   (0,'role',0,'view',1),
   (0,'role',0,'project_settings',0),
+  (0,'role',0,'delete_timeline_events',0),
   (0,'role',0,'create_tickets',1),
   (0,'role',0,'update_tickets',1),
   (0,'role',0,'delete_tickets',0),
@@ -184,6 +186,7 @@ VALUES
   (0,'role',0,'edit_wiki_page',0),
   (0,'role',0,'delete_wiki_page',0),
   (0,'role',1,'project_settings',1),
+  (0,'role',1,'delete_timeline_events',1),
   (0,'role',1,'delete_tickets',1),
   (0,'role',1,'move_tickets',1),
   (0,'role',1,'edit_ticket_description',1),
