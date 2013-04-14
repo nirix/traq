@@ -19,7 +19,7 @@
 	<dl>
 	<?php foreach ($day['activity'] as $row) { ?>
 		<dt class="timeline_event_<?php echo $row->id?>">
-<?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
+<?php if (current_user()->permission($project->id, 'delete_timeline_events')) { ?>
 			<a class="button_delete icon_only" data-ajax-confirm="<?php echo l('confirm.delete')?>" href="<?php echo Request::base($project->href("timeline/{$row->id}/delete"))?>"><span><?php echo l('delete')?></span></a>
 <?php } ?>
 			<span class="time"><?php echo ldate(settings('timeline_time_format'), $row->created_at); ?></span>

@@ -248,6 +248,10 @@ class Projects extends AppController
      */
     public function action_delete_timeline_event($event_id)
     {
+        if (!$this->user->permission($this->project->id, 'delete_timeline_events')) {
+            return $this->show_no_permission();
+        }
+
         $event = Timeline::find($event_id);
         $event->delete();
 
