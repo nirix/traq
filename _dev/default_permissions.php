@@ -35,8 +35,9 @@ $permissions = array(
         // Defaults
 
         // Projects
-        array(DEFAULT_ID, 'view',             1),
-        array(DEFAULT_ID, 'project_settings', 0),
+        array(DEFAULT_ID, 'view',                   1),
+        array(DEFAULT_ID, 'project_settings',       0),
+        array(DEFAULT_ID, 'delete_timeline_events', 0),
 
         // Tickets
         array(DEFAULT_ID, 'create_tickets',            1),
@@ -98,8 +99,9 @@ $permissions = array(
         // Defaults
 
         // Projects
-        array(DEFAULT_ID, 'view',             1),
-        array(DEFAULT_ID, 'project_settings', 0),
+        array(DEFAULT_ID, 'view',                   1),
+        array(DEFAULT_ID, 'project_settings',       0),
+        array(DEFAULT_ID, 'delete_timeline_events', 0),
 
         // Tickets
         array(DEFAULT_ID, 'create_tickets',            1),
@@ -149,7 +151,8 @@ $permissions = array(
         // Managers
 
         // Projects
-        array(MANAGER_ID, 'project_settings', 1),
+        array(MANAGER_ID, 'project_settings',       1),
+        array(MANAGER_ID, 'delete_timeline_events', 1),
 
         // Tickets
         array(MANAGER_ID, 'delete_tickets',          1),
