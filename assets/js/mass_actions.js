@@ -23,7 +23,7 @@ $(document).ready(function(){
 	var selected_tickets = [];
 
 	// Loop over checkboxes
-	$('#tickets input[type="checkbox"]').each(function(){
+	$('.mass_actions input[type="checkbox"][name^="tickets"]').each(function(){
 		// Add click event
 		$(this).on('click', function(){
 			// Add ticket ID to selected tickets
