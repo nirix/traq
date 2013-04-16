@@ -26,8 +26,15 @@ $(document).ready(function(){
 	$('.mass_actions input[type="checkbox"][name^="tickets"]').each(function(){
 		// Add click event
 		$(this).on('click', function(){
+			var ticket_id = $(this).val();
+
 			// Add ticket ID to selected tickets
-			selected_tickets.push($(this).val());
+			if ($(this).is(':checked')) {
+				selected_tickets.push(ticket_id);
+			} else {
+				selected_tickets = $.grep(selected_tickets, function(a){ return a != ticket_id; });
+				$('#tickets #select_all_tickets').prop('checked', false);
+			}
 		});
 	});
 });
