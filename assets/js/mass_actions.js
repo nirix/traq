@@ -33,11 +33,19 @@ $(document).ready(function(){
 	// Save selected tickets.
 	var saveSelectedTickets = function() {
 		$.cookie('selected_tickets', JSON.stringify(selected_tickets));
+
+		// Show mass actions form
+		if (selected_tickets.length > 0) {
+			$('#mass_actions').show();
+		} else {
+			$('#mass_actions').hide();
+		}
 	};
 
 	// Check selected tickets
 	$(selected_tickets).each(function(i, ticket_id){
 		$('#mass_action_ticket_' + ticket_id).prop('checked', true);
+		$('#mass_actions').show();
 	});
 
 	$('.mass_actions #select_all_tickets').on('click', function(){
