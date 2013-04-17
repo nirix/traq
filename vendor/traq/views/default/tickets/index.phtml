@@ -18,7 +18,7 @@
 	<?php foreach ($tickets as $ticket) { ?>
 		<tr class="priority_<?php echo $ticket->priority_id; ?>">
 <?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
-				<td class="mass_actions"><?php echo Form::checkbox('tickets[]', $ticket->ticket_id)?></td>
+				<td class="mass_actions"><?php echo Form::checkbox('tickets[]', $ticket->ticket_id, array('id' => "mass_action_ticket_{$ticket->ticket_id}"))?></td>
 <?php } ?>
 			<?php foreach ($columns as $column) { ?>
 				<?php if ($column == 'summary') { ?>

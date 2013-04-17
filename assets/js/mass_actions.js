@@ -35,6 +35,11 @@ $(document).ready(function(){
 		$.cookie('selected_tickets', JSON.stringify(selected_tickets));
 	};
 
+	// Check selected tickets
+	$(selected_tickets).each(function(i, ticket_id){
+		$('#mass_action_ticket_' + ticket_id).prop('checked', true);
+	});
+
 	$('.mass_actions #select_all_tickets').on('click', function(){
 		var select_all = $(this).is(':checked');
 		$('#tickets input[type="checkbox"][name^="tickets"]').each(function(){
