@@ -26,10 +26,10 @@ $(document).ready(function(){
 		var select_all = $(this).is(':checked');
 		$('#tickets input[type="checkbox"][name^="tickets"]').each(function(){
 			var ticket_id = $(this).val();
-			if (select_all) {
+			if (select_all && !$(this).is(':checked')) {
 				$(this).prop('checked', true);
 				selected_tickets.push(ticket_id);
-			} else {
+			} else if(!select_all && $(this).is(':checked')) {
 				$(this).prop('checked', false);
 				selected_tickets = $.grep(selected_tickets, function(a){ return a != ticket_id; });
 			}
