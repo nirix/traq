@@ -20,7 +20,20 @@
  */
 
 $(document).ready(function(){
-	var selected_tickets = [];
+	// Get selected tickets.
+	var selected_tickets = $.cookie('selected_tickets');
+
+	// If there are none, set empty array.
+	if (!selected_tickets) {
+		selected_tickets = [];
+	} else {
+		selected_tickets = JSON.parse($.cookie('selected_tickets'));
+	}
+
+	// Save selected tickets.
+	var saveSelectedTickets = function() {
+		$.cookie('selected_tickets', JSON.stringify(selected_tickets));
+	};
 
 	$('.mass_actions #select_all_tickets').on('click', function(){
 		var select_all = $(this).is(':checked');
@@ -33,6 +46,7 @@ $(document).ready(function(){
 				$(this).prop('checked', false);
 				selected_tickets = $.grep(selected_tickets, function(a){ return a != ticket_id; });
 			}
+			saveSelectedTickets();
 		});
 	});
 
@@ -49,6 +63,7 @@ $(document).ready(function(){
 				selected_tickets = $.grep(selected_tickets, function(a){ return a != ticket_id; });
 				$('#tickets #select_all_tickets').prop('checked', false);
 			}
+			saveSelectedTickets();
 		});
 	});
 });
