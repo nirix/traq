@@ -36,9 +36,9 @@ $(document).ready(function(){
 
 		// Show mass actions form
 		if (selected_tickets.length > 0) {
-			$('#mass_actions').show();
+			$('#mass_actions').slideDown('fast');
 		} else {
-			$('#mass_actions').hide();
+			$('#mass_actions').slideUp('fast');
 		}
 	};
 
