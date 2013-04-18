@@ -1,5 +1,6 @@
 <div class="content" id="mass_actions">
 	<form action="<?php echo Request::base($project->href('tickets/mass_actions'))?>" method="post">
+		<?php echo Form::hidden('tickets', '')?>
 		<h2><?php echo l('mass_actions')?></h2>
 		<div class="tabular box">
 			<?php if ($current_user->permission($project->id, 'comment_on_tickets')) { ?>

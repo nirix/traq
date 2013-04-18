@@ -30,6 +30,9 @@ $(document).ready(function(){
 		selected_tickets = JSON.parse($.cookie('selected_tickets'));
 	}
 
+	// Set form value
+	$('#mass_actions input[name="tickets"]').val(JSON.stringify(selected_tickets));
+
 	// Save selected tickets.
 	var saveSelectedTickets = function() {
 		$.cookie('selected_tickets', JSON.stringify(selected_tickets));
@@ -40,6 +43,8 @@ $(document).ready(function(){
 		} else {
 			$('#mass_actions').slideUp('fast');
 		}
+
+		$('#mass_actions input[name="tickets"]').val(JSON.stringify(selected_tickets));
 	};
 
 	// Check selected tickets
