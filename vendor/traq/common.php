@@ -96,7 +96,7 @@ function locale_select_options()
 
             // Make sure the locale class
             // isn't already loaded
-            if (!class_exists($class)) {
+            if ($name != settings('locale') and $name != Avalon::app()->user->locale) {
                 require APPPATH . '/locale/' . $file;
             }
 
