@@ -645,6 +645,11 @@ class Tickets extends AppController
      */
     public function action_mass_actions()
     {
+        // Check permission
+        if (!$this->user->permission($this->project->id, 'perform_mass_actions')) {
+            return $this->show_no_permission();
+        }
+
         foreach (json_decode(Request::post('tickets'), true) as $ticket_id) {
             $ticket = Ticket::select('*')->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
 

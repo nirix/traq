@@ -302,6 +302,7 @@ class enUS extends \traq\libraries\Locale
                     'add_attachments'           => "Add attachments",
                     'view_attachments'          => "View attachments",
                     'delete_attachments'        => "Delete attachments",
+                    'perform_mass_actions'      => "Perform mass actions",
 
                     // Ticket History
                     'edit_ticket_history'   => "Edit history",

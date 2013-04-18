@@ -119,6 +119,7 @@ VALUES
   (0,'usergroup',0,'add_attachments',1),
   (0,'usergroup',0,'view_attachments',1),
   (0,'usergroup',0,'delete_attachments',0),
+  (0,'usergroup',0,'perform_mass_actions',0),
   (0,'usergroup',0,'ticket_properties_set_assigned_to',0),
   (0,'usergroup',0,'ticket_properties_set_milestone',0),
   (0,'usergroup',0,'ticket_properties_set_version',0),
@@ -161,6 +162,7 @@ VALUES
   (0,'role',0,'add_attachments',1),
   (0,'role',0,'view_attachments',1),
   (0,'role',0,'delete_attachments',0),
+  (0,'role',0,'perform_mass_actions',0),
   (0,'role',0,'ticket_properties_set_assigned_to',1),
   (0,'role',0,'ticket_properties_set_milestone',1),
   (0,'role',0,'ticket_properties_set_version',1),
@@ -193,6 +195,7 @@ VALUES
   (0,'role',1,'delete_attachments',1),
   (0,'role',1,'edit_ticket_history',1),
   (0,'role',1,'delete_ticket_history',1),
+  (0,'role',1,'perform_mass_actions',1),
   (0,'role',1,'create_wiki_page',1),
   (0,'role',1,'edit_wiki_page',1),
   (0,'role',1,'delete_wiki_page',1);

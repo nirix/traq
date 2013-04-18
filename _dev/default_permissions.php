@@ -50,6 +50,7 @@ $permissions = array(
         array(DEFAULT_ID, 'add_attachments',           1),
         array(DEFAULT_ID, 'view_attachments',          1),
         array(DEFAULT_ID, 'delete_attachments',        0),
+        array(DEFAULT_ID, 'perform_mass_actions',      0),
 
         // Set ticket properties
         array(DEFAULT_ID, 'ticket_properties_set_assigned_to', 0),
@@ -114,6 +115,7 @@ $permissions = array(
         array(DEFAULT_ID, 'add_attachments',           1),
         array(DEFAULT_ID, 'view_attachments',          1),
         array(DEFAULT_ID, 'delete_attachments',        0),
+        array(DEFAULT_ID, 'perform_mass_actions',      0),
 
         // Set ticket properties
         array(DEFAULT_ID, 'ticket_properties_set_assigned_to', 1),
@@ -161,6 +163,7 @@ $permissions = array(
         array(MANAGER_ID, 'delete_attachments',      1),
         array(MANAGER_ID, 'edit_ticket_history',     1),
         array(MANAGER_ID, 'delete_ticket_history',   1),
+        array(MANAGER_ID, 'perform_mass_actions',    1),
 
         // Wiki
         array(MANAGER_ID, 'create_wiki_page', 1),

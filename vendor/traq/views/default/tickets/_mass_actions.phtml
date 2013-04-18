@@ -1,3 +1,4 @@
+<?php if (current_user()->permission($project->id, 'perform_mass_actions')) { ?>
 <div class="content" id="mass_actions">
 	<form action="<?php echo Request::base($project->href('tickets/mass_actions'))?>" method="post">
 		<?php echo Form::hidden('tickets', '')?>
@@ -128,3 +129,4 @@
 		</div>
 	</form>
 </div>
+<?php } ?>
