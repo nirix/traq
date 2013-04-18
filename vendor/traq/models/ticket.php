@@ -351,7 +351,6 @@ class Ticket extends Model
             ));
 
             if (!$this->_is_closing and !$this->_is_reopening) {
-                echo ('wat');
                 // Changes (and possibly a comment)
                 // But not when moving the ticket.
                 if (count($changes) and !isset($data['project_id'])) {
