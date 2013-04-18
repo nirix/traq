@@ -698,7 +698,7 @@ class Tickets extends AppController
                 $data['assigned_to_id'] = Request::post('assigned_to');
             }
 
-            if (count($data)) {
+            if (count($data) or Request::post('comment')) {
                 $ticket->update_data($data);
                 $ticket->save();
             }
