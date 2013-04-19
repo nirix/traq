@@ -192,7 +192,7 @@ post('/step/1', function(){
     if (DB_VER < 30200) {
         // Add tasks column to tickets table
         $db->query("
-            ALERT TABLE `" . $db->prefix . "tickets` ADD COLUMN `tasks` longtext
+            ALTER TABLE `" . $db->prefix . "tickets` ADD COLUMN `tasks` longtext
             AFTER `votes`;
         ");
 
