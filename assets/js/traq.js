@@ -207,7 +207,7 @@ $(document).ready(function(){
 				changeYear: true
 			});
 		}
-	}, '.datepicker');
+	}, 'input.datepicker');
 });
 
 /*!
