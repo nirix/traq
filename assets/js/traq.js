@@ -197,6 +197,17 @@ $(document).ready(function(){
 		$("form#move_ticket input:hidden[name=step]").val(2);
 		$("form#move_ticket").submit();
 	});
+
+	// Datepicker
+	$(document).on({
+		mouseenter: function(){
+			$(this).datepicker({
+				dateFormat: $(this).attr('data-date-format'),
+				changeMonth: true,
+				changeYear: true
+			});
+		}
+	}, '.datepicker');
 });
 
 /*!
