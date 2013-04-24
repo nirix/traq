@@ -26,7 +26,7 @@
 				<?php } elseif ($column == 'owner') { ?>
 				<td><?php echo HTML::link(strshorten($ticket->user->name, 20), $ticket->user->href()); ?></td>
 				<?php } elseif ($column == 'assigned_to') { ?>
-				<td><?php echo HTML::link(strshorten($ticket->assigned_to->name, 20), $ticket->assigned_to->href())?></td>
+				<td><?php echo ($ticket->assigned_to ? HTML::link(strshorten($ticket->assigned_to->name, 20), $ticket->assigned_to->href()) :'')?></td>
 				<?php } else { ?>
 				<td><?php echo ticketlist_data($column, $ticket); ?></td>
 				<?php } ?>
