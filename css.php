@@ -51,10 +51,16 @@ if (isset($_REQUEST['css'])) {
     }
 }
 
-// Theme css files
+// Set `theme_files` to `default` if it's
+// not set in the URI.
+if (!isset($_REQUEST['theme_files'])) {
+    $_REQUEST['theme_files'] = 'default';
+}
+
+// Theme CSS files
 if (isset($_REQUEST['theme'])) {
     $theme = htmlspecialchars($_REQUEST['theme']);
-    foreach (explode(',', $_REQUEST['theme']) as $file) {
+    foreach (explode(',', $_REQUEST['theme_files']) as $file) {
         // Check if the file exists...
         if (file_exists(__DIR__ . "/vendor/traq/views/{$theme}/css/{$file}.css")) {
             // Add it to the output array.
