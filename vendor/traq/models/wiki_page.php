@@ -48,6 +48,11 @@ class WikiPage extends Model
 
     protected static $_belongs_to = array('project');
 
+    protected static $_filters_before = array(
+        'create' => array('_set_slug'),
+        'save'   => array('_set_slug')
+    );
+
     /**
      * Returns the URI for the page.
      *
@@ -58,6 +63,14 @@ class WikiPage extends Model
     public function href($uri = null)
     {
         return "/{$this->project->slug}/wiki/{$this->slug}" . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
+    }
+
+    /**
+     * Removes spaces from the slug.
+     */
+    protected function _set_slug()
+    {
+        $this->slug = str_replace(' ', '_', $this->slug);
     }
 
     /**
