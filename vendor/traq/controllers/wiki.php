@@ -57,11 +57,12 @@ class Wiki extends AppController
 
     /**
      * Displays the requested wiki page.
-     *
-     * @param string $slug Wiki page slug.
      */
-    public function action_view($slug)
+    public function action_view()
     {
+        // Get slug
+        $slug = \avalon\http\Router::$params['slug'];
+
         // Get the page
         $page = $this->project->wiki_pages->where('slug', $slug)->exec();
 
@@ -89,11 +90,12 @@ class Wiki extends AppController
 
     /**
      * Displays the new wiki page form.
-     *
-     * @param string $slug The slug for the wiki page.
      */
-    public function action_new($slug = null)
+    public function action_new()
     {
+        // Get slug
+        $slug = \avalon\http\Router::$params['slug'];
+
         $this->title(l('new'));
 
         // Fetch the page from the database
@@ -133,11 +135,12 @@ class Wiki extends AppController
 
     /**
      * Displays the edit wiki page form.
-     *
-     * @param string $slug The slug for the wiki page.
      */
-    public function action_edit($slug)
+    public function action_edit()
     {
+        // Get slug
+        $slug = \avalon\http\Router::$params['slug'];
+
         $this->title(l('edit'));
 
         // Fetch the page from the database
@@ -177,11 +180,12 @@ class Wiki extends AppController
 
     /**
      * Deletes the specified wiki page.
-     *
-     * @param string $slug The slug for the wiki page.
      */
     public function action_delete($slug)
     {
+        // Get slug
+        $slug = \avalon\http\Router::$params['slug'];
+
         // Delete the page
         $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
 
