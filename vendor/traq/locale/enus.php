@@ -394,6 +394,12 @@ class enUS extends \traq\libraries\Locale
             'help.custom_fields.values'     => "Options for select, one per line.",
             'help.custom_fields.multiple'   => "Allows multiple options to be selected.",
 
+            // Ticket property hints
+            'help.milestone' => "The version in which the ticket should be completed for.",
+            'help.version'   => "The version in which the defect was introduced or the version being used.",
+            'help.component' => "The part of the project the ticket is related to.",
+            'help.severity' => "How severe the ticket is.",
+
             // Confirmations
             'confirm.delete'   => "Are you sure you want to delete that?",
             'confirm.delete_x' => "Are you sure you want to delete '{1}' ?",
