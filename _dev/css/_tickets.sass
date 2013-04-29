@@ -163,3 +163,38 @@ table.ticket_listing
 
 #mass_actions
   display: none
+
+.sort_indicator
+  float: right
+  position: relative
+  top: 7px
+  left: -2px
+
+  &.asc, &.desc
+    position: relative
+    background: #ffffff
+
+    &:after
+      border: solid transparent
+      content: " "
+      height: 0
+      width: 0
+      position: absolute
+      pointer-events: none
+      border-color: rgba(255, 255, 255, 0)
+      border-width: 5px
+      left: 50%
+      margin-left: -5px
+
+  &.asc
+    top: 12px
+
+    &:after
+      bottom: 100%
+      border-bottom-color: #ffffff
+
+  &.desc
+    &:after
+      top: 100%
+      border-top-color: #ffffff
+

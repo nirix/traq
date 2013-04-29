@@ -10,7 +10,10 @@
 			<th class="mass_actions"><?php echo Form::checkbox('all_tickets', 1, array('id' => "select_all_tickets"))?></th>
 <?php } ?>
 	<?php foreach ($columns as $column) { ?>
-			<th><a href="<?php echo ticket_sort_url_for($column == 'ticket_id' ? 'id' : $column); ?>"><?php echo ticketlist_header($column)?></a></th>
+			<th>
+				<?php echo ticketlist_sort_indicator($column == 'ticket_id' ? 'id' : $column); ?>
+				<a href="<?php echo ticket_sort_url_for($column == 'ticket_id' ? 'id' : $column); ?>"><?php echo ticketlist_header($column)?></a>
+			</th>
 	<?php } ?>
 		</tr>
 	</thead>
