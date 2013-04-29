@@ -399,7 +399,7 @@ class Tickets extends AppController
                 }
 
                 if ($this->is_api) {
-                    return API::response(1, array('ticket' => $ticket));
+                    return \traq\helpers\API::response(1, array('ticket' => $ticket));
                 } else {
                     Request::redirectTo($ticket->href());
                 }
