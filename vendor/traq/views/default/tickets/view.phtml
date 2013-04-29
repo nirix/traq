@@ -181,24 +181,28 @@
 						($ticket->milestone and $ticket->milestone->status != 1) ? array_merge($ticket->milestone->select_option(), $project->milestone_select_options('open')) : $project->milestone_select_options('open'),
 						array('value' => $ticket->milestone_id)
 					); ?>
+					<abbr title="<?php echo l('help.milestone'); ?>" class="hint">?</abbr>
 				</div>
 				<?php } ?>
 				<?php if (current_user()->permission($project->id, 'ticket_properties_change_version')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('version'), 'version'); ?>
 					<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('all', 'DESC')), array('value' => $ticket->version_id)); ?>
+					<abbr title="<?php echo l('help.version'); ?>" class="hint">?</abbr>
 				</div>
 				<?php } ?>
 				<?php if (current_user()->permission($project->id, 'ticket_properties_change_component')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('component'), 'component'); ?>
 					<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
+					<abbr title="<?php echo l('help.component'); ?>" class="hint">?</abbr>
 				</div>
 				<?php } ?>
 				<?php if (current_user()->permission($project->id, 'ticket_properties_change_severity')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('severity'), 'severity'); ?>
 					<?php echo Form::select('severity', traq\models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
+					<abbr title="<?php echo l('help.severity'); ?>" class="hint">?</abbr>
 				</div>
 				<?php } ?>
 				<?php if (current_user()->permission($project->id, 'ticket_properties_change_priority')) { ?>
