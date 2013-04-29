@@ -758,7 +758,7 @@ class Tickets extends AppController
             }
         }
 
-        foreach (Request::$post['filters'] as $name => $filter) {
+        foreach (Request::post('filters', array()) as $name => $filter) {
             // Don't bother if this isn't a valid filter.
             if (!in_array($name, ticket_filters())) {
                 continue;
