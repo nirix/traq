@@ -135,7 +135,7 @@ class Notification
                 // Subject
                 $subject_vars = array(
                     settings('title'),
-                    $options['ticket']->id,
+                    $options['ticket']->ticket_id,
                     $options['ticket']->summary,
                     $options['ticket']->project->name,
                 );
@@ -144,7 +144,7 @@ class Notification
                 $message_vars = array(
                     settings('title'),
                     $user->username,
-                    $options['ticket']->id,
+                    $options['ticket']->ticket_id,
                     $options['ticket']->summary,
                     format_text($options['ticket']->body),
                     $options['ticket']->project->name,
