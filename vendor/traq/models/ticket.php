@@ -86,6 +86,8 @@ class Ticket extends Model
         'save' => array('process_data_write')
     );
 
+    protected $_changes = array();
+
     /**
      * Returns the URI for the ticket.
      *
@@ -356,6 +358,8 @@ class Ticket extends Model
             $changes[] = $change;
         }
 
+        $changes = array_merge($changes, $this->_changes);
+
         // Any changes, or perhaps a comment?
         if (count($changes) > 0 or !empty(Request::$post['comment'])) {
             $save_queue[] = new TicketHistory(array(
@@ -530,12 +534,23 @@ class Ticket extends Model
     /**
      * Sets the value of the custom field.
      *
-     * @param integer $field
+     * @param integer $field_id
+     * @param string  $field_name
      * @param mixed   $value
      */
-    public function set_custom_field($field, $value)
+    public function set_custom_field($field_id, $field_name, $value)
     {
-        $this->_data['extra']['custom_fields'][$field] = $value;
+        // Check if value is different
+        if ($this->custom_field($field_id) !== $value) {
+            // Add change
+            $this->_changes[$field_id] = array(
+                'property'     => $field_name,
+                'custom_field' => true,
+                'from'         => $this->_data['extra']['custom_fields'][$field_id],
+                'to'           => $value
+            );
+            $this->_data['extra']['custom_fields'][$field_id] = $value;
+        }
     }
 
     /**

@@ -525,7 +525,7 @@ class Tickets extends AppController
         foreach ($this->custom_fields as $field) {
             if (isset($fields[$field->id])) {
                 if ($field->validate($fields[$field->id])) {
-                    $ticket->set_custom_field($field->id, $fields[$field->id]);
+                    $ticket->set_custom_field($field->id, $field->name, $fields[$field->id]);
                 } else {
                     $ticket->_add_error($field->id, l("errors.custom_fields.x_is_not_valid", $field->name, $field->type));
                 }
