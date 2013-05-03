@@ -2,10 +2,10 @@
 <div class="content">
 	<div class="pagination">
 	<?php if ($pagination->prev_page_url) { ?>
-		<a href="<?php echo $pagination->prev_page_url; ?>" class="prev_link"><?php echo l('previous'); ?></a>
+		<a href="<?php echo $pagination->prev_page_url; ?>" class="button_previous prev_link"><?php echo l('previous'); ?></a>
 	<?php } ?>
 	<?php if ($pagination->next_page_url) { ?>
-		<a href="<?php echo $pagination->next_page_url; ?>" class="next_link"><?php echo l('next'); ?></a>
+		<a href="<?php echo $pagination->next_page_url; ?>" class="button_next next_link"><?php echo l('next'); ?></a>
 	<?php } ?>
 		<div class="clearfix"></div>
 	</div>

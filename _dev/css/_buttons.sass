@@ -2,7 +2,7 @@
 .button_new, .button_edit, .button_delete,
 .button_move, .btn_plugin_enable, .btn_plugin_disable,
 .btn_plugin_install, .btn_plugin_uninstall,
-.button_bug_new
+.button_bug_new, .button_previous
   padding:  1px 0 1px 20px
   background-position: left center
   background-repeat: no-repeat
@@ -15,6 +15,11 @@
     text-indent: -5000px
     display: inline-block
     margin: 0
+
+.button_next
+  padding:  1px 20px 1px 0
+  background-position: right center
+  background-repeat: no-repeat
 
 .button_new
   background-image: url(':baseuri:assets/images/add.png')
@@ -41,6 +46,12 @@
   background-image: url(':baseuri:assets/images/bug_add.png')
 
 .button_move
+  background-image: url(':baseuri:assets/images/arrow_left.png')
+
+.button_next
+  background-image: url(':baseuri:assets/images/arrow_right.png')
+
+.button_previous
   background-image: url(':baseuri:assets/images/arrow_left.png')
 
 button, .icon_only
