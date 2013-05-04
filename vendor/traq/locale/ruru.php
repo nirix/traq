@@ -253,164 +253,164 @@ class ruRU extends \traq\libraries\Locale
             'please_validate_your_account' => "Ваша учётная запись создана. Пожалуйста, проверьте электронную почту на предмет письма со ссылкой для активации.",
 
             // Password reset
-            'password_reset.success' => "Your password has been reset, your new password is '{1}', it is recommended that you change it immediately",
-            'password_reset.email_sent' => "We have sent an email to the the address for the account with instructions on how to reset your password.",
+            'password_reset.success' => "Ваш пароль сброшен, ваш новый пароль: {1}. Мы советуем вам сразу же сменить его",
+            'password_reset.email_sent' => "Мы отправили вам письмо с инструкциями по смене пароля.",
 
             // Wiki
-            'home'         => "Home",
-            'pages'        => "Pages",
-            'new_page'     => "New Page",
-            'edit_page'    => "Edit Page",
-            'delete_page'  => "Delete Page",
-            'page_title'   => "Page Title",
-            'page_content' => "Page Content",
+            'home'         => "Главная страница",
+            'pages'        => "Страницы",
+            'new_page'     => "Новая страница",
+            'edit_page'    => "Редактировать страницу",
+            'delete_page'  => "Удалить страницу",
+            'page_title'   => "Заголовок страницы",
+            'page_content' => "Содержимое страницы",
 
             // Pagination
-            'previous' => "Previous",
-            'next'     => "Next",
+            'previous' => "Предыдущая",
+            'next'     => "Следующая",
 
             // Other
-            'actions' => "Actions",
-            'create'  => "Create",
-            'save'    => "Save",
-            'edit'    => "Edit",
-            'delete'  => "Delete",
+            'actions' => "Действия",
+            'create'  => "Создать",
+            'save'    => "Сохранить",
+            'edit'    => "Редактировать",
+            'delete'  => "Удалить",
 
             // Permissions
-            'group_permissions' => "Group Permissions",
-            'role_permissions'  => "Role Permissions",
-            'ticket_properties' => "Ticket Properties",
-            'action'            => "Action",
-            'defaults'          => "Defaults",
-            'allow'             => "Allow",
-            'deny'              => "Deny",
+            'group_permissions' => "Права группы",
+            'role_permissions'  => "Права роли",
+            'ticket_properties' => "Свойства задачи",
+            'action'            => "Действие",
+            'defaults'          => "По умолчанию",
+            'allow'             => "Разрешить",
+            'deny'              => "Запретить",
             'permissions' => array(
                 // Projects
-                'view'                   => "View",
-                'project_settings'       => "Project Settings",
-                'delete_timeline_events' => "Delete timeline events",
+                'view'                   => "Просматривать",
+                'project_settings'       => "Настройки проекта",
+                'delete_timeline_events' => "Удалять события ленты",
 
                 // Tickets
                 'tickets' => array(
-                    'create_tickets'            => "Create",
-                    'update_tickets'            => "Update",
-                    'delete_tickets'            => "Delete",
-                    'move_tickets'              => "Move tickets",
-                    'vote_on_tickets'           => "Vote",
-                    'comment_on_tickets'        => "Comment",
-                    'edit_ticket_description'   => "Edit description",
-                    'add_attachments'           => "Add attachments",
-                    'view_attachments'          => "View attachments",
-                    'delete_attachments'        => "Delete attachments",
-                    'perform_mass_actions'      => "Perform mass actions",
+                    'create_tickets'            => "Создавать",
+                    'update_tickets'            => "Обновлять",
+                    'delete_tickets'            => "Удалять",
+                    'move_tickets'              => "Перемещать задачи",
+                    'vote_on_tickets'           => "Голосовать",
+                    'comment_on_tickets'        => "Комментировать",
+                    'edit_ticket_description'   => "Редактировать описание",
+                    'add_attachments'           => "Добавлять вложения",
+                    'view_attachments'          => "Просматривать вложения",
+                    'delete_attachments'        => "Удалять вложения",
+                    'perform_mass_actions'      => "Выполнять групповые действия",
 
                     // Ticket History
-                    'edit_ticket_history'   => "Edit history",
-                    'delete_ticket_history' => "Delete history",
+                    'edit_ticket_history'   => "Редактировать историю",
+                    'delete_ticket_history' => "Удалять историю",
                 ),
 
                 // Ticket properties
                 'ticket_properties' => array(
-                    'ticket_properties_change_type'        => "Change Type",
-                    'ticket_properties_change_summary'     => "Change Summary",
+                    'ticket_properties_change_type'        => "Изменять тип",
+                    'ticket_properties_change_summary'     => "Изменять краткое описание",
 
-                    'ticket_properties_set_assigned_to'    => "Set Assigned to",
-                    'ticket_properties_change_assigned_to' => "Change Assigned to",
+                    'ticket_properties_set_assigned_to'    => "Назначать разработчикам",
+                    'ticket_properties_change_assigned_to' => "Изменять назначенных разработчиков",
 
-                    'ticket_properties_set_milestone'      => "Set Milestone",
-                    'ticket_properties_change_milestone'   => "Change Milestone",
+                    'ticket_properties_set_milestone'      => "Устанавливать этап завершения",
+                    'ticket_properties_change_milestone'   => "Изменять этап завершения",
 
-                    'ticket_properties_set_version'        => "Set Version",
-                    'ticket_properties_change_version'     => "Change Version",
+                    'ticket_properties_set_version'        => "Устанавливать версию",
+                    'ticket_properties_change_version'     => "Изменять версию",
 
-                    'ticket_properties_set_component'      => "Set Component",
-                    'ticket_properties_change_component'   => "Change Component",
+                    'ticket_properties_set_component'      => "Устанавливать компонент",
+                    'ticket_properties_change_component'   => "Изменять компонент",
 
-                    'ticket_properties_set_severity'       => "Set Severity",
-                    'ticket_properties_change_severity'    => "Change Severity",
+                    'ticket_properties_set_severity'       => "Устанавливать серьёзность",
+                    'ticket_properties_change_severity'    => "Изменять серьёзность",
 
-                    'ticket_properties_set_priority'       => "Set Priority",
-                    'ticket_properties_change_priority'    => "Change Priority",
+                    'ticket_properties_set_priority'       => "Устанавливать приоритет",
+                    'ticket_properties_change_priority'    => "Изменять приоритет",
 
-                    'ticket_properties_set_status'         => "Set Status",
-                    'ticket_properties_change_status'      => "Change Status",
+                    'ticket_properties_set_status'         => "Устанавливать статус",
+                    'ticket_properties_change_status'      => "Изменять статус",
 
-                    'ticket_properties_set_tasks'         => "Set Tasks",
-                    'ticket_properties_change_tasks'      => "Change Tasks",
-                    'ticket_properties_complete_tasks'    => "Complete Tasks",
+                    'ticket_properties_set_tasks'         => "Устанавливать задания",
+                    'ticket_properties_change_tasks'      => "Изменять задания",
+                    'ticket_properties_complete_tasks'    => "Завершать задания",
                 ),
 
                 // Wiki
                 'wiki' => array(
-                    'create_wiki_page' => "Create page",
-                    'edit_wiki_page'   => "Edit page",
-                    'delete_wiki_page' => "Delete page"
+                    'create_wiki_page' => "Создавать страницы",
+                    'edit_wiki_page'   => "Редактировать страницы",
+                    'delete_wiki_page' => "Удалять страницы"
                 )
             ),
 
             // Time
-            'time'          => "Time",
-            'time.ago'      => "{1} ago",
-            'time.from_now' => "{1} from now",
-            'time.x_and_x'  => "{1} and {2}",
-            'time.x_second' => "{1} {plural:{1}, {second|seconds}}",
-            'time.x_minute' => "{1} {plural:{1}, {minute|minutes}}",
-            'time.x_hour'   => "{1} {plural:{1}, {hour|hours}}",
-            'time.x_day'    => "{1} {plural:{1}, {day|days}}",
-            'time.x_week'   => "{1} {plural:{1}, {week|weeks}}",
-            'time.x_month'  => "{1} {plural:{1}, {month|months}}",
-            'time.x_year'   => "{1} {plural:{1}, {year|years}}",
+            'time'          => "Время",
+            'time.ago'      => "{1} назад",
+            'time.from_now' => "Через {1}",
+            'time.x_and_x'  => "{1} {2}",
+            'time.x_second' => "{1} {plural:{1}, {секунду|секунд}}",
+            'time.x_minute' => "{1} {plural:{1}, {минуту|минут}}",
+            'time.x_hour'   => "{1} {plural:{1}, {час|часов}}",
+            'time.x_day'    => "{1} {plural:{1}, {день|дней}}",
+            'time.x_week'   => "{1} {plural:{1}, {неделю|недель}}",
+            'time.x_month'  => "{1} {plural:{1}, {месяц|месяцев}}",
+            'time.x_year'   => "{1} {plural:{1}, {год|лет}}",
 
             // Timeline
-            'timeline'                     => "Timeline",
-            'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) created",
-            'timeline.ticket_closed'       => "{ticket_type_name} #{ticket_id} ({ticket_summary}) closed as {ticket_status_name}",
-            'timeline.ticket_reopened'     => "{ticket_type_name} #{ticket_id} ({ticket_summary}) reopened as {ticket_status_name}",
-            'timeline.ticket_updated'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) updated",
-            'timeline.ticket_comment'      => "Commented on ticket {link}",
-            'timeline.milestone_completed' => "Milestone {milestone_name} completed",
-            'timeline.milestone_cancelled' => "Milestone {milestone_name} cancelled",
-            'timeline.ticket_moved_from'   => "Moved ticket ({ticket}) from {project}",
-            'timeline.ticket_moved_to'     => "Moved ticket ({ticket}) to {project}",
-            'timeline.wiki_page_created'   => "Created {title} wiki page",
-            'timeline.wiki_page_edited'    => "Edited {title} wiki page",
-            'timeline.by_x'                => "by {1}",
+            'timeline'                     => "Лента",
+            'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) создана",
+            'timeline.ticket_closed'       => "{ticket_type_name} #{ticket_id} ({ticket_summary}) закрыта как {ticket_status_name}",
+            'timeline.ticket_reopened'     => "{ticket_type_name} #{ticket_id} ({ticket_summary}) снова открыта как {ticket_status_name}",
+            'timeline.ticket_updated'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) обновлена",
+            'timeline.ticket_comment'      => "Оставлен комментарий к задаче {link}",
+            'timeline.milestone_completed' => "Этап {milestone_name} завершён",
+            'timeline.milestone_cancelled' => "Этап {milestone_name} отменён",
+            'timeline.ticket_moved_from'   => "Задача ({ticket}) перемещена из {project}",
+            'timeline.ticket_moved_to'     => "Задача ({ticket}) перемещена в {project}",
+            'timeline.wiki_page_created'   => "Создана вики-страница {title}",
+            'timeline.wiki_page_edited'    => "Изменена вики-страница {title}",
+            'timeline.by_x'                => "пользователем {1}",
 
             // Timeline filters
-            'timeline.filters.new_tickets'           => "New tickets",
-            'timeline.filters.tickets_opened_closed' => "Tickets open/closed",
-            'timeline.filters.ticket_updates'        => "Ticket updates",
-            'timeline.filters.ticket_comments'       => "Ticket comments",
-            'timeline.filters.ticket_moves'          => "Ticket migrations",
-            'timeline.filters.milestones'            => "Milestones",
-            'timeline.filters.wiki_pages'            => "Wiki pages",
+            'timeline.filters.new_tickets'           => "Новые задачи",
+            'timeline.filters.tickets_opened_closed' => "Открытые/закрытые задачи",
+            'timeline.filters.ticket_updates'        => "Обновления задач",
+            'timeline.filters.ticket_comments'       => "Комментарии к задачам",
+            'timeline.filters.ticket_moves'          => "Перемещения задач",
+            'timeline.filters.milestones'            => "Этапы работ",
+            'timeline.filters.wiki_pages'            => "Вики-страницы",
 
             // Help
-            'help.slug'                     => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
-            'help.ticket_type_bullet'       => "The bullet style used on the changelog list.",
-            'help.custom_fields.regex'      => "Regular expression to match user value against.",
-            'help.custom_fields.min_length' => "Minimum value length, blank for none.",
-            'help.custom_fields.max_length' => "Maximum value length, blank for none.",
-            'help.custom_fields.values'     => "Options for select, one per line.",
-            'help.custom_fields.multiple'   => "Allows multiple options to be selected.",
+            'help.slug'                     => "Строка, состоящая из малых латинских букв, цифр, точек, тире и знаков подчёркивания, использующаяся в URL-адресе.",
+            'help.ticket_type_bullet'       => "Маркер, используемый в журнале изменений.",
+            'help.custom_fields.regex'      => "Регулярное выражение, с которым сравнивается пользовательское значение.",
+            'help.custom_fields.min_length' => "Минимальная длина значения. Если не нужно, оставьте пустым.",
+            'help.custom_fields.max_length' => "Максимальная длина значения. Если не нужно, оставьте пустым.",
+            'help.custom_fields.values'     => "Варианты выбора, по одному на строке.",
+            'help.custom_fields.multiple'   => "Разрешает выбрать несколько вариантов.",
 
             // Ticket property hints
-            'help.milestone' => "The version in which the ticket should be completed for.",
-            'help.version'   => "The version in which the defect was introduced or the version being used.",
-            'help.component' => "The part of the project the ticket is related to.",
-            'help.severity' => "How severe the ticket is.",
+            'help.milestone' => "Версия, в которой задача должна быть завершена.",
+            'help.version'   => "Версия, в которой появилась проблема или используемая в данный момент.",
+            'help.component' => "Часть проекта, к которой относится задача.",
+            'help.severity' => "Насколько серьёзна задача.",
 
             // Confirmations
-            'confirm.delete'   => "Are you sure you want to delete that?",
-            'confirm.delete_x' => "Are you sure you want to delete '{1}' ?",
-            'confirm.remove_x' => "Are you sure you want to remove '{1}' ?",
+            'confirm.delete'   => "Вы действительно хотите удалить это?",
+            'confirm.delete_x' => "Вы действительно хотите удалить '{1}' ?",
+            'confirm.remove_x' => "Вы действительно хотите удалить '{1}' ?",
 
             // Feeds
-            'x_timeline_feed'  => "{1} Timeline Feed",
-            'x_ticket_feed'    => "{1} Ticket Feed",
-            'x_x_history_feed' => "{1} / '{2}' History Feed",
-            'x_changelog_feed' => "{1} Changelog Feed",
-            'update_x'         => "Update #{1}",
+            'x_timeline_feed'  => "Поток ленты {1}",
+            'x_ticket_feed'    => "Поток задачи {1}",
+            'x_x_history_feed' => "Поток истории {1} / '{2}'",
+            'x_changelog_feed' => "Поток журнала изменений {1}",
+            'update_x'         => "Обновление #{1}",
 
             // Editor
             'editor' => array(
@@ -429,131 +429,131 @@ class ruRU extends \traq\libraries\Locale
                 'Ticket History',
 
                 // Most fields
-                'x_from_x_to_x'    => "Changed {1} from {2} to {3}",
-                'x_from_null_to_x' => "Set {1} to {3}",
-                'x_from_x_to_null' => "Cleared {1}, was {2}",
+                'x_from_x_to_x'    => "{1} изменено с {2} на {3}",
+                'x_from_null_to_x' => "{1} установлено в {3}",
+                'x_from_x_to_null' => "{1} очищено, было {2}",
 
                 // Assignee field
-                'assignee_from_x_to_x'    => "Reassigned ticket from {2} to {3}",
-                'assignee_from_null_to_x' => "Assigned ticket to {3}",
-                'assignee_from_x_to_null' => "Unassigned ticket from {2}",
+                'assignee_from_x_to_x'    => "Назначенный разработчик сменён с {2} на {3}",
+                'assignee_from_null_to_x' => "Задача назначена {3}",
+                'assignee_from_x_to_null' => "Назначение задачи убрано с {2}",
 
                 // Actions
-                'close'          => "Closed ticket as {2}",
-                'reopen'         => "Reopened ticket as {2}",
-                'add_attachment' => "Added attachment {2}",
+                'close'          => "Задача закрыта как {2}",
+                'reopen'         => "Задача снова открыта как {2}",
+                'add_attachment' => "Добавлено вложение {2}",
             ),
 
             // Warnings
             'warnings' => array(
-                'delete_milestone' => "Select which milestone to move tickets to."
+                'delete_milestone' => "Выберите этап, на который следует переместить задачи."
             ),
 
             // Errors
             'errors' => array(
-                'invalid_username_or_password' => "Invalid Username or Password.",
-                'invalid_username'             => "Invalid Username",
-                'name_blank'                   => "Name cannot be blank",
-                'slug_blank'                   => "Slug cannot be blank",
-                'slug_in_use'                  => "That slug is already in use",
-                'page_title_blank'             => "Page Title cannot be blank",
-                'already_voted'                => "You have already voted.",
-                'must_be_logged_in'            => "You must be logged in to do that.",
-                'type_blank'                   => "You must choose a type",
-                'regex_blank'                  => "You need to enter a regex value",
-                'values_blank'                 => "You need to enter some values",
-                'email_validation_required'    => "You need to validate your email, check your inbox",
+                'invalid_username_or_password' => "Неверный логин или пароль.",
+                'invalid_username'             => "Недопустимый логин",
+                'name_blank'                   => "Имя не может быть пустым",
+                'slug_blank'                   => "Адрес не может быть пустым",
+                'slug_in_use'                  => "Этот адрес уже используется",
+                'page_title_blank'             => "Заголовок страницы не может быть пустым",
+                'already_voted'                => "Вы уже проголосовали.",
+                'must_be_logged_in'            => "Чтобы выполнить это действие, вам необходимо войти.",
+                'type_blank'                   => "Вам необходимо выбрать тип",
+                'regex_blank'                  => "Вам необходимо ввести регулярное выражение",
+                'values_blank'                 => "Вам необходимо ввести несколько значений",
+                'email_validation_required'    => "Вам необходимо проверить электронную почту, проверьте входящие",
 
                 // Custom fields
                 'custom_fields' => array(
-                    'x_required'     => "{1} is required",
-                    'x_is_not_valid' => "{1} is not valid"
+                    'x_required'     => "{1} обязательно к заполнению",
+                    'x_is_not_valid' => "{1} недопустиом"
                 ),
 
                 // 404 error page
                 '404' => array(
-                    'title'   => "He's dead, Jim!",
-                    'message' => "The requested page '{1}' couldn't be found."
+                    'title'   => "Похоже, вы попали не туда.",
+                    'message' => "The Запрашиваемая страница '{1}' не найдена."
                 ),
 
                 // No Permission page
                 'no_permission' => array(
-                    'title'   => "Move along, move along",
-                    'message' => "You don't have permission to access this page."
+                    'title'   => "Проходите, не задерживайтесь",
+                    'message' => "У вас нет прав доступа к этой странице."
                 ),
 
                 // Tickets
                 'tickets' => array(
-                    'summary_blank'     => "Summary cannot be blank",
-                    'description_blank' => "Description cannot be blank"
+                    'summary_blank'     => "Краткое описание не может быть пустым",
+                    'description_blank' => "Описание не может быть пустым"
                 ),
 
                 // Ticket types
-                'ticket_type.bullet_blank' => "Bullet cannot be blank",
+                'ticket_type.bullet_blank' => "Маркер не может быть пустым",
 
                 // User errors
                 'users' => array(
-                    'username_blank'           => "Username cannot be blank",
-                    'name_blank'               => "Name cannot be blank",
-                    'username_in_use'          => "That username is already registered",
-                    'password_blank'           => "Password cannot be blank",
-                    'new_password_blank'       => "Your new password cannot be blank",
-                    'confirm_password_blank'   => "You must confirm your password",
-                    'invalid_confirm_password' => "Your confirmation password doesn't match your new password",
-                    'invalid_password'         => "Invalid password",
-                    'email_invalid'            => "Invalid email address",
-                    'doesnt_exist'             => "User doesn't exist",
-                    'already_a_project_member' => "User is already a project member",
-                    'password_same'            => "Your new password cannot be the same as your current password",
-                    'username_too_long'        => "Username cannot be longer than 25 characters"
+                    'username_blank'           => "Логин не может быть пустым",
+                    'name_blank'               => "Имя не может быть пустым",
+                    'username_in_use'          => "Этот логин уже занят",
+                    'password_blank'           => "Пароль не может быть пустым",
+                    'new_password_blank'       => "Новый пароль не может быть пустым",
+                    'confirm_password_blank'   => "Вам необходимо подтвердить пароль",
+                    'invalid_confirm_password' => "Подтверждение не совпадает с новым паролем",
+                    'invalid_password'         => "Неверный пароль",
+                    'email_invalid'            => "Недопустимый адрес электронной почты",
+                    'doesnt_exist'             => "Пользователь не существует",
+                    'already_a_project_member' => "Пользователь уже в команде проекта",
+                    'password_same'            => "Новый пароль не может совпадать с текущим",
+                    'username_too_long'        => "Логин не может быть длиннее 25 символов"
                 ),
 
                 // Traq Settings errors
                 'settings' => array(
-                    'title_blank'              => "Traq Title cannot be blank",
-                    'locale_blank'             => "You must select a default language",
-                    'theme_blank'              => "You must select a theme",
-                    'allow_registration_blank' => "Allow Registration must be set"
+                    'title_blank'              => "Заголовок Traq не может быть пустым",
+                    'locale_blank'             => "Вам необходимо выбрать язык по умолчанию",
+                    'theme_blank'              => "Вам необходимо выбрать тему",
+                    'allow_registration_blank' => "Вам необходимо установить право регистрации"
                 )
             ),
 
             // ----------------------------------------------------------------------------------------------------
             // Security Questions
-            'security_question'  => "Security Question",
-            'security_questions' => "Security Questions",
-            'question'           => 'Question',
-            'answer'             => "Answer",
-            'answers'            => "Answers",
-            'add_question'       => "Add Question",
+            'security_question'  => "Проверочный вопрос",
+            'security_questions' => "Проверочные вопросы",
+            'question'           => 'Вопрос',
+            'answer'             => "Ответ",
+            'answers'            => "Ответы",
+            'add_question'       => "Добавить вопрос",
 
-            'errors.security_questions.fill_in_fields_marked_red' => "Please fill in the fields marked in red",
-            'errors.security_questions.answer_is_wrong'           => "The security answer you provided is incorrect",
-            'help.security_questions.answers'                     => "Accepted answers sperated by a vertical bar: <code>|</code>",
+            'errors.security_questions.fill_in_fields_marked_red' => "Пожалуйста, заполните поля, отмеченные красным",
+            'errors.security_questions.answer_is_wrong'           => "Вы дали неверный ответ на проверочный вопрос",
+            'help.security_questions.answers'                     => "Правильные ответы, разделённые вертикальной чертой: <code>|</code>",
 
             // ----------------------------------------------------------------------------------------------------
             // Custom tabs
-            'custom_tabs' => "Custom Tabs",
-            'new_tab'     => "New Tab",
-            'edit_tab'    => "Edit Tab",
-            'label'       => "Label",
-            'url'         => "URL",
+            'custom_tabs' => "Пользовательские вкладки",
+            'new_tab'     => "Новая вкладка",
+            'edit_tab'    => "Редактировать вкладку",
+            'label'       => "Метка",
+            'url'         => "Адрес",
 
-            'errors.label_blank' => "Label cannot be blank",
-            'errors.url_empty'   => "URL cannot be empty",
+            'errors.label_blank' => "Метка не может быть пустой",
+            'errors.url_empty'   => "Адрес не может быть пустым",
 
             // ----------------------------------------------------------------------------------------------------
             // Notifications
 
             // Ticket assigned
-            'notifications.ticket_assigned.subject' => "Ticket #{2} on project {4} has been assigned to you",
+            'notifications.ticket_assigned.subject' => "Вам назначена задача #{2} в проекте {4}",
             'notifications.ticket_assigned.message' => "{2},<br /><br />".
-                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) on project {6} has been assigned to you.<br /><br />".
+                                                       "Вам назначена задача #{3} (<a href=\"{8}\">{4}</a>) в проекте {6}.<br /><br />".
                                                        "----------------------------------------------------------------<br />".
                                                        "{5}".
                                                        "----------------------------------------------------------------",
 
             // Ticket created
-            'notifications.ticket_created.subject' => "New ticket #{2} ({3}) on project {4}",
+            'notifications.ticket_created.subject' => "Новая задача #{2} ({3}) в проекте {4}",
             'notifications.ticket_created.message' => "{2},<br /><br />".
                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been created on project {6}.<br /><br />".
                                                       "----------------------------------------------------------------<br />".
