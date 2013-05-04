@@ -95,7 +95,7 @@
 <?php foreach ($ticket->tasks as $id => $task) { ?>
 			<li class="task" id="task_<?php echo $id?>">
 				<?php echo Form::checkbox("task[{$id}]", 1, array('data-task-id' => $id, 'data-url' => Request::base($ticket->href("tasks/{$id}")), 'checked' => $task['completed'], 'disabled' => !current_user()->permission($project->id, 'ticket_properties_complete_tasks')))?>
-				<?php echo Form::label($task['task'], "task[{$id}]")?>
+				<?php echo ticket_links($task['task'])?>
 			</li>
 <?php } ?>
 		</ul>
