@@ -70,7 +70,8 @@ class AppController extends Controller
         $this->title(settings('title'));
 
         // Load helpers
-        Load::helper('html', 'errors', 'form', 'js', 'formats', 'time_ago', 'uri', 'string', 'subscriptions', 'timeline');
+        Load::helper('html', 'errors', 'form', 'js', 'formats', 'time_ago', 'uri', 'string',
+            'subscriptions', 'timeline', 'formatting');
 
         class_alias("\\traq\\helpers\\API", "API");
 
