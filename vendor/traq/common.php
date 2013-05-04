@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -157,23 +157,6 @@ function theme_select_options()
      }
      return implode('', $bits);
  }
-
-/**
- * Formats the supplied text.
- *
- * @param string $text
- * @param bool $strip_html Disables HTML, making it safe.
- *
- * @return string
- */
-function format_text($text, $strip_html = true)
-{
-    $text = $strip_html ? htmlspecialchars($text) : $text;
-
-    FishHook::run('function:format_text', array(&$text, $strip_html));
-
-    return $text;
-}
 
 /**
  * Checks if the given regex matches the request
