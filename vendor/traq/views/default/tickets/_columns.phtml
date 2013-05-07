@@ -8,7 +8,7 @@
 		<?php } ?>
 		<?php foreach($custom_fields as $column) { ?>
 			<?php echo Form::checkbox("columns[{$column->name}]", $column->name)?>
-			<?php echo Form::label($column->name)?>
+			<?php echo Form::label($column->name, "columns[{$column->name}]")?>
 		<?php } ?>
 		<div class="actions">
 			<?php echo Form::submit(l('update'), 'update_columns'); ?>
