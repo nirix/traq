@@ -7,7 +7,7 @@
 			<?php echo Form::label(ticketlist_header($column), "columns[{$column}]"); ?>
 		<?php } ?>
 		<?php foreach($custom_fields as $column) { ?>
-			<?php echo Form::checkbox("columns[{$column->name}]", $column->name)?>
+			<?php echo Form::checkbox("columns[{$column->name}]", $column->name, array('checked' => in_array($column->name, $columns)))?>
 			<?php echo Form::label($column->name, "columns[{$column->name}]")?>
 		<?php } ?>
 		<div class="actions">
