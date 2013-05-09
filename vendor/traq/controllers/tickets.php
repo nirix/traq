@@ -196,7 +196,7 @@ class Tickets extends AppController
 
         // Add custom fields
         foreach ($this->custom_fields as $field) {
-            $allowed_columns[] = $field->name;
+            $allowed_columns[] = $field->id;
         }
 
         // Set columns from form
