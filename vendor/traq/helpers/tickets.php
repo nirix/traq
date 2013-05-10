@@ -25,6 +25,7 @@ use traq\models\Status;
 use traq\models\Component;
 use traq\models\Priority;
 use traq\models\Severity;
+use traq\models\CustomField;
 
 /**
  * Returns the URL for sorting the provided ticket column.
@@ -182,10 +183,15 @@ function ticketlist_header($column) {
         case 'updated_at':
             return l('updated');
             break;
-
-        default:
-            return '';
     }
+
+    // If we're still here, it may be a custom field
+    if ($column = CustomField::find($column)) {
+        return $column->name;
+    }
+
+    // Nothing!
+    return '';
 }
 
 /**
@@ -252,12 +258,17 @@ function ticketlist_data($column, $ticket) {
         case 'votes':
             return $ticket->votes;
             break;
-
-        // Unknown column...
-        default:
-            return '';
-            break;
     }
+
+    // If we're still here, it may be a custom field
+    if ($column = CustomField::find($column)) {
+        if (isset($ticket->extra['custom_fields'][$column->id])) {
+            return $ticket->extra['custom_fields'][$column->id];
+        }
+    }
+
+    // Nothing!
+    return '';
 }
 
 /**
