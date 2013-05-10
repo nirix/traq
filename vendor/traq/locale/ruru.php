@@ -41,6 +41,19 @@ class ruRU extends \traq\libraries\Locale
         'locale'         => "RU"
     );
 
+    /**
+     * Determines which replacement to use for plurals.
+     * NOTE: you have always to specify three forms for Russian.
+     *
+     * @param integer $numeral
+     *
+     * @return integer
+     */
+    public function calculate_numeral($numeral)
+    {
+        return $numeral % 10 == 1 && $numeral % 100 != 11 ? 0 : ($numeral % 10 >= 2 && $numeral % 10 <= 4 && ($numeral % 100 < 10 || $numeral % 100 >= 20) ? 1 : 2);
+    }
+
     public static function locale()
     {
         return array(
@@ -48,14 +61,14 @@ class ruRU extends \traq\libraries\Locale
             'copyright'        => "Работает под управлением Traq " . TRAQ_VER . " &copy; 2009-" . date("Y") . " Traq.io",
             'projects'         => "Проекты",
             'project_info'     => "Информация о проекте",
-            'tickets'          => "Задачи",
+            'tickets'          => "Инциденты",
             'roadmap'          => "план работ",
             'settings'         => "Настройки",
             'information'      => "Информация",
-            'milestones'       => "Этапы работ",
+            'milestones'       => "Этапы",
             'components'       => "Компоненты",
             'project_settings' => "Настройки проекта",
-            'name'             => "Название",
+            'name'             => "Имя",
             'slug'             => "Адрес",
             'codename'         => "Имя кода",
             'open'             => "Открыто",
@@ -72,7 +85,7 @@ class ruRU extends \traq\libraries\Locale
             'project'          => "Проект",
             'never'            => "Никогда",
             'votes'            => "Голоса",
-            'update_ticket'    => "Обновить задачу",
+            'update_ticket'    => "Обновить инцидент",
             'comment'          => "Комментарий",
             'update'           => "Обновить",
             'x_by_x'           => "{1} автора {2}",
@@ -84,9 +97,9 @@ class ruRU extends \traq\libraries\Locale
             'completed'        => "Завершено",
             'cancelled'        => "Отменено",
             'due_x'            => "Ожидаемые {1}",
-            'members'          => "Члены",
-            'none'             => "Ничего",
-            'member_since'     => "Является членом с",
+            'members'          => "Участники",
+            'none'             => "Нет",
+            'member_since'     => "Участник с",
             'unknown'          => "Неизвестно",
             'changelog'        => "Журнал изменений",
             'or'               => "или",
@@ -173,9 +186,9 @@ class ruRU extends \traq\libraries\Locale
             'display_order'    => "Порядок показа",
 
             // Tickets
-            'id'                    => "Идентификатор",
-            'ticket'                => "Задача",
-            'new_ticket'            => "Новая задача",
+            'id'                    => "Номер",
+            'ticket'                => "Инцидент",
+            'new_ticket'            => "Новый инцидент",
             'summary'               => "Краткое описание",
             'status'                => "Статус",
             'owner'                 => "Владелец",
@@ -185,23 +198,23 @@ class ruRU extends \traq\libraries\Locale
             'description'           => "Описание",
             'updates'               => "Обновления",
             'severity'              => "Серьёзность",
-            'assigned_to'           => "Назначено",
-            'reported'              => "Сообщено",
+            'assigned_to'           => "Назначен",
+            'reported'              => "Добавлен",
             'priority'              => "Приоритет",
-            'edit_ticket'           => "Редактировать задачу",
+            'edit_ticket'           => "Редактировать инцидент",
             'no_votes'              => "Нет голосов",
             'attachment'            => "Вложение",
             'attachments'           => "Вложения",
-            'edit_ticket_history'   => "Редактировать историю задачи",
+            'edit_ticket_history'   => "Редактировать историю инцидента",
             'x_uploaded_by_x_x_ago' => "{1} загружено пользователем {2}, {3}",
             'move'                  => "Переместить",
-            'move_ticket'           => "Переместить задачу",
+            'move_ticket'           => "Переместить инцидент",
             'mass_actions'          => "Групповые действия",
-            'people_who_have_voted_on_this_ticket' => "Пользователи, проголосовавшие за эту задачу ({1})",
+            'people_who_have_voted_on_this_ticket' => "Пользователи, проголосовавшие за этот инцидент ({1})",
 
             // Ticket columns
             'columns'    => "Столбцы",
-            'ticket_id'  => "Номер задачи",
+            'ticket_id'  => "Номер инцидента",
             'created_at' => "Дата создания",
             'updated_at' => "Дата обновления",
 
@@ -213,7 +226,7 @@ class ruRU extends \traq\libraries\Locale
 
             // Custom fields
             'text'          => "Текст",
-            'select'        => "Выберите",
+            'select'        => "Комбинированный список",
             'integer'       => "Целое число",
             'custom_fields' => "Пользовательские поля",
             'new_field'     => "Новое поле",
@@ -232,24 +245,24 @@ class ruRU extends \traq\libraries\Locale
             'usercp'               => "Ваша панель управления",
             'admincp'              => "Панель администратора",
             'register'             => "Регистрация",
-            'username'             => "Имя пользователя",
+            'username'             => "Логин",
             'password'             => "Пароль",
             'old_password'         => "Старый пароль",
             'new_password'         => "Новый пароль",
             'confirm_password'     => "Подтверждение пароля",
             'email'                => "Адрес электронной почты",
             'xs_profile'           => "Профиль {1}",
-            'assigned_tickets'     => "Назначенные задачи",
-            'tickets_created'      => "Создано задач",
-            'ticket_updates'       => "Обновление задач",
+            'assigned_tickets'     => "Назначенные инциденты",
+            'tickets_created'      => "Созданные инциденты",
+            'ticket_updates'       => "Обновление инцидентов",
             'information'          => "Информация",
             'options'              => "Параметры",
-            'watch_my_new_tickets' => "Отслеживать мои новые задачи",
+            'watch_my_new_tickets' => "Отслеживать мои новые инциденты",
             'subscriptions'        => "Подписки",
             'forgot_password'      => "Я забыл(а) пароль",
             'reset'                => "Сброс",
             'api_key'              => "Ключ API",
-            'account_validated'    => "Ваша учётная запись проверена",
+            'account_validated'    => "Ваша учётная запись подтверждена",
             'please_validate_your_account' => "Ваша учётная запись создана. Пожалуйста, проверьте электронную почту на предмет письма со ссылкой для активации.",
 
             // Password reset
@@ -259,7 +272,7 @@ class ruRU extends \traq\libraries\Locale
             // Wiki
             'home'         => "Главная страница",
             'pages'        => "Страницы",
-            'new_page'     => "Новая страница",
+            'new_page'     => "Создать страницу",
             'edit_page'    => "Редактировать страницу",
             'delete_page'  => "Удалить страницу",
             'page_title'   => "Заголовок страницы",
@@ -279,7 +292,7 @@ class ruRU extends \traq\libraries\Locale
             // Permissions
             'group_permissions' => "Права группы",
             'role_permissions'  => "Права роли",
-            'ticket_properties' => "Свойства задачи",
+            'ticket_properties' => "Свойства инцидента",
             'action'            => "Действие",
             'defaults'          => "По умолчанию",
             'allow'             => "Разрешить",
@@ -295,7 +308,7 @@ class ruRU extends \traq\libraries\Locale
                     'create_tickets'            => "Создавать",
                     'update_tickets'            => "Обновлять",
                     'delete_tickets'            => "Удалять",
-                    'move_tickets'              => "Перемещать задачи",
+                    'move_tickets'              => "Перемещать инциденты",
                     'vote_on_tickets'           => "Голосовать",
                     'comment_on_tickets'        => "Комментировать",
                     'edit_ticket_description'   => "Редактировать описание",
@@ -353,36 +366,36 @@ class ruRU extends \traq\libraries\Locale
             'time.ago'      => "{1} назад",
             'time.from_now' => "Через {1}",
             'time.x_and_x'  => "{1} {2}",
-            'time.x_second' => "{1} {plural:{1}, {секунду|секунд}}",
-            'time.x_minute' => "{1} {plural:{1}, {минуту|минут}}",
-            'time.x_hour'   => "{1} {plural:{1}, {час|часов}}",
-            'time.x_day'    => "{1} {plural:{1}, {день|дней}}",
-            'time.x_week'   => "{1} {plural:{1}, {неделю|недель}}",
-            'time.x_month'  => "{1} {plural:{1}, {месяц|месяцев}}",
-            'time.x_year'   => "{1} {plural:{1}, {год|лет}}",
+            'time.x_second' => "{1} {plural:{1}, {секунду|секунды|секунд}}",
+            'time.x_minute' => "{1} {plural:{1}, {минуту|минуты|минут}}",
+            'time.x_hour'   => "{1} {plural:{1}, {час|часа|часов}}",
+            'time.x_day'    => "{1} {plural:{1}, {день|дня|дней}}",
+            'time.x_week'   => "{1} {plural:{1}, {неделю|недели|недель}}",
+            'time.x_month'  => "{1} {plural:{1}, {месяц|месяца|месяцев}}",
+            'time.x_year'   => "{1} {plural:{1}, {год|года|лет}}",
 
             // Timeline
             'timeline'                     => "Лента",
-            'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) создана",
+            'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) создано",
             'timeline.ticket_closed'       => "{ticket_type_name} #{ticket_id} ({ticket_summary}) закрыта как {ticket_status_name}",
             'timeline.ticket_reopened'     => "{ticket_type_name} #{ticket_id} ({ticket_summary}) снова открыта как {ticket_status_name}",
             'timeline.ticket_updated'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) обновлена",
-            'timeline.ticket_comment'      => "Оставлен комментарий к задаче {link}",
+            'timeline.ticket_comment'      => "Оставлен комментарий к инциденту {link}",
             'timeline.milestone_completed' => "Этап {milestone_name} завершён",
             'timeline.milestone_cancelled' => "Этап {milestone_name} отменён",
-            'timeline.ticket_moved_from'   => "Задача ({ticket}) перемещена из {project}",
-            'timeline.ticket_moved_to'     => "Задача ({ticket}) перемещена в {project}",
+            'timeline.ticket_moved_from'   => "Инцидент ({ticket}) перемещён из {project}",
+            'timeline.ticket_moved_to'     => "Инцидент ({ticket}) перемещён в {project}",
             'timeline.wiki_page_created'   => "Создана вики-страница {title}",
             'timeline.wiki_page_edited'    => "Изменена вики-страница {title}",
             'timeline.by_x'                => "пользователем {1}",
 
             // Timeline filters
-            'timeline.filters.new_tickets'           => "Новые задачи",
-            'timeline.filters.tickets_opened_closed' => "Открытые/закрытые задачи",
-            'timeline.filters.ticket_updates'        => "Обновления задач",
-            'timeline.filters.ticket_comments'       => "Комментарии к задачам",
-            'timeline.filters.ticket_moves'          => "Перемещения задач",
-            'timeline.filters.milestones'            => "Этапы работ",
+            'timeline.filters.new_tickets'           => "Новые инциденты",
+            'timeline.filters.tickets_opened_closed' => "Открытые/закрытые инциденты",
+            'timeline.filters.ticket_updates'        => "Обновления инцидентов",
+            'timeline.filters.ticket_comments'       => "Комментарии к инцидентам",
+            'timeline.filters.ticket_moves'          => "Перемещения инцидентов",
+            'timeline.filters.milestones'            => "Этапы",
             'timeline.filters.wiki_pages'            => "Вики-страницы",
 
             // Help
@@ -395,10 +408,10 @@ class ruRU extends \traq\libraries\Locale
             'help.custom_fields.multiple'   => "Разрешает выбрать несколько вариантов.",
 
             // Ticket property hints
-            'help.milestone' => "Версия, в которой задача должна быть завершена.",
+            'help.milestone' => "Версия, в которой инцидент должен быть завершён.",
             'help.version'   => "Версия, в которой появилась проблема или используемая в данный момент.",
-            'help.component' => "Часть проекта, к которой относится задача.",
-            'help.severity' => "Насколько серьёзна задача.",
+            'help.component' => "Часть проекта, к которой относится инцидент.",
+            'help.severity' => "Насколько серьёзен инцидент.",
 
             // Confirmations
             'confirm.delete'   => "Вы действительно хотите удалить это?",
@@ -407,7 +420,7 @@ class ruRU extends \traq\libraries\Locale
 
             // Feeds
             'x_timeline_feed'  => "Поток ленты {1}",
-            'x_ticket_feed'    => "Поток задачи {1}",
+            'x_ticket_feed'    => "Поток инцидента {1}",
             'x_x_history_feed' => "Поток истории {1} / '{2}'",
             'x_changelog_feed' => "Поток журнала изменений {1}",
             'update_x'         => "Обновление #{1}",
@@ -426,7 +439,7 @@ class ruRU extends \traq\libraries\Locale
 
             // Ticket history
             'ticket_history' => array(
-                'Ticket History',
+                'История инцидента',
 
                 // Most fields
                 'x_from_x_to_x'    => "{1} изменено с {2} на {3}",
@@ -439,14 +452,14 @@ class ruRU extends \traq\libraries\Locale
                 'assignee_from_x_to_null' => "Назначение задачи убрано с {2}",
 
                 // Actions
-                'close'          => "Задача закрыта как {2}",
-                'reopen'         => "Задача снова открыта как {2}",
+                'close'          => "Инцидент закрыт как {2}",
+                'reopen'         => "Инцидент снова открыт как {2}",
                 'add_attachment' => "Добавлено вложение {2}",
             ),
 
             // Warnings
             'warnings' => array(
-                'delete_milestone' => "Выберите этап, на который следует переместить задачи."
+                'delete_milestone' => "Выберите этап, на который следует переместить инциденты."
             ),
 
             // Errors
@@ -462,7 +475,7 @@ class ruRU extends \traq\libraries\Locale
                 'type_blank'                   => "Вам необходимо выбрать тип",
                 'regex_blank'                  => "Вам необходимо ввести регулярное выражение",
                 'values_blank'                 => "Вам необходимо ввести несколько значений",
-                'email_validation_required'    => "Вам необходимо проверить электронную почту, проверьте входящие",
+                'email_validation_required'    => "Вам необходимо подтвердить электронную почту, проверьте входящие",
 
                 // Custom fields
                 'custom_fields' => array(
@@ -545,57 +558,57 @@ class ruRU extends \traq\libraries\Locale
             // Notifications
 
             // Ticket assigned
-            'notifications.ticket_assigned.subject' => "Вам назначена задача #{2} в проекте {4}",
+            'notifications.ticket_assigned.subject' => "Вам назначен инцидент #{2} в проекте {4}",
             'notifications.ticket_assigned.message' => "{2},<br /><br />".
-                                                       "Вам назначена задача #{3} (<a href=\"{8}\">{4}</a>) в проекте {6}.<br /><br />".
+                                                       "Вам назначен инцидент #{3} (<a href=\"{8}\">{4}</a>) в проекте {6}.<br /><br />".
                                                        "----------------------------------------------------------------<br />".
                                                        "{5}".
                                                        "----------------------------------------------------------------",
 
             // Ticket created
-            'notifications.ticket_created.subject' => "Новая задача #{2} ({3}) в проекте {4}",
+            'notifications.ticket_created.subject' => "Создан инцидент #{2} ({3}) в проекте {4}",
             'notifications.ticket_created.message' => "{2},<br /><br />".
-                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been created on project {6}.<br /><br />".
+                                                      "Был создан инцидент #{3} (<a href=\"{8}\">{4}</a>) в проекте {6}.<br /><br />".
                                                       "----------------------------------------------------------------<br />".
                                                       "{5}".
                                                       "----------------------------------------------------------------",
 
             // Ticket updated
-            'notifications.ticket_updated.subject' => "Ticket #{2} ({3}) updated on project {4}",
+            'notifications.ticket_updated.subject' => "Обновлён инцидент #{2} ({3}) в проекте {4}",
             'notifications.ticket_updated.message' => "{2},<br /><br />".
-                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been updated on project {6}.",
+                                                      "Обновлён инцидент #{3} (<a href=\"{8}\">{4}</a>) в проекте {6}.",
 
             // Ticket closed
-            'notifications.ticket_closed.subject' => "Ticket #{2} ({3}) closed on project {4}",
+            'notifications.ticket_closed.subject' => "Закрыт инцидент #{2} ({3}) в проекте {4}",
             'notifications.ticket_closed.message' => "{2},<br /><br />".
-                                                     "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been closed on project {6}.",
+                                                     "Закрыт инцидент #{3} (<a href=\"{8}\">{4}</a>) в проекте {6}.",
 
             // Ticket reopened
-            'notifications.ticket_reopened.subject' => "Ticket #{2} ({3}) reopened on project {4}",
+            'notifications.ticket_reopened.subject' => "Снова открыт инцидент #{2} ({3}) в проекте {4}",
             'notifications.ticket_reopened.message' => "{2},<br /><br />".
-                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been reopened on project {6}.",
+                                                       "Снова открыт инцидент #{3} (<a href=\"{8}\">{4}</a>) в проекте {6}.",
 
             // Password reset
-            'notifications.password_reset.subject' => "Password reset request",
+            'notifications.password_reset.subject' => "Запрос на сброс пароля",
             'notifications.password_reset.message' => "{2},<br /><br />".
-                                                      "You are receiving this email because you or someone has requested a password reset<br />".
-                                                      "for your account '{3}' at {1}. If you did not request a password reset, ignore this email.<br /><br />".
-                                                      "If you did request a password reset, you can <a href=\"{4}\">continue by clicking here</a>.<br /><br />".
-                                                      "This reset request was done by someone with the IP of: {5}",
+                                                      "Вы получили это письмо, поскольку вы или кто-то другой запросили сброс пароля<br />".
+                                                      "для вашей учётной записи {3} на сайте {1}. Если вы не запрашивали сброс пароля, проигнорируйте это письмо.<br /><br />".
+                                                      "Если вы запросили сброс пароля, вы можете <a href=\"{4}\">продолжить, щёлкнув сюда</a>.<br /><br />".
+                                                      "Этот запрос на сброс пароля был сделан пользователем с IP-адресом: {5}",
 
             // Email validation
-            'notifications.email_validation.subject' => "Account validation",
+            'notifications.email_validation.subject' => "Проверка учётной записи",
             'notifications.email_validation.message' => "{name},<br /><br />".
-                                                        "To validate your account click the link below:<br />".
+                                                        "Чтобы подтвердить вашу учётную запись, щёлкните по ссылке ниже:<br />".
                                                         "{link}",
 
             // ----------------------------------------------------------------------------------------------------
 
-            'traq_update_available' => "<strong>Update available: <a href=\"{4}\">{1}</a> [<a href=\"{3}\">Download</a>]",
+            'traq_update_available' => "<strong>Доступно обновление: <a href=\"{4}\">{1}</a> [<a href=\"{3}\">Скачать</a>]",
 
             // Testing purposes only...
             'test' => array(
-                'plurals' => "There {plural:{1}, {is {1} bottle|are {1} bottles}} of scotch on the shelf."
+                'plurals' => "На полке {plural:{1}, {{1} бутылка|{1} бутылки|{1} бутылок}} виски."
             )
         );
     }
