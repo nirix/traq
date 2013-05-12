@@ -215,6 +215,14 @@ post('/step/1', function(){
           ");
     }
 
+    if (DB_VER < 30201) {
+        // Add default ticket type ID column to projects table
+        $db->query("
+            ALTER TABLE `". $db->prefix . "projects` ADD COLUMN `default_ticket_type_id` int
+            AFTER `enable_wiki`;
+        ");
+    }
+
     // Update database version setting
     $db_ver = Setting::find('setting', 'db_version');
     $db_ver->value = TRAQ_VER_CODE;
