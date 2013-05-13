@@ -171,6 +171,7 @@ class enUS extends \traq\libraries\Locale
             'new_component'    => "New Component",
             'edit_component'   => "Edit Component",
             'display_order'    => "Display Order",
+            'default_ticket_type' => "Default ticket type",
 
             // Tickets
             'id'                    => "ID",
