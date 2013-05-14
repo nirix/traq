@@ -64,6 +64,7 @@ class Projects extends AppController
                 'codename'     => Request::post('codename'),
                 'info'         => Request::post('info'),
                 'enable_wiki'  => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0),
+                'default_ticket_type_id' => Request::post('default_ticket_type_id'),
                 'displayorder' => Request::post('displayorder', 0)
             ));
 
