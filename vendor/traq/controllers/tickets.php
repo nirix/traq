@@ -317,7 +317,8 @@ class Tickets extends AppController
         $ticket = new Ticket(array(
             'severity_id' => 4,
             'priority_id' => 3,
-            'status_id'   => 1
+            'status_id'   => 1,
+            'type_id'     => $this->project->default_ticket_type_id
         ));
 
         // Check if the form has been submitted
