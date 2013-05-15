@@ -184,6 +184,7 @@ class ruRU extends \traq\libraries\Locale
             'new_component'    => "Новый компонент",
             'edit_component'   => "Редактировать компонент",
             'display_order'    => "Порядок показа",
+            'default_ticket_type' => "Тип инцидента по умолчанию",
 
             // Tickets
             'id'                    => "Номер",
