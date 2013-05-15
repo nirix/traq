@@ -22,4 +22,8 @@
 	<label><?php echo l('display_order'); ?></label>
 	<?php echo Form::text('displayorder', array('value' => $proj->displayorder)); ?>
 </div>
+<div class="group">
+	<label><?php echo l('default_ticket_type'); ?></label>
+	<?php echo Form::select('default_ticket_type_id', traq\models\Type::select_options(), array('value' => $proj->default_ticket_type_id)); ?>
+</div>
 <?php FishHook::run('template:projectsettings/options/_form', array($proj)); ?>

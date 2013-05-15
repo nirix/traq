@@ -192,6 +192,13 @@ class Tickets extends AppController
 
     private function get_columns()
     {
+        $allowed_columns = ticketlist_allowed_columns();
+
+        // Add custom fields
+        foreach ($this->custom_fields as $field) {
+            $allowed_columns[] = $field->id;
+        }
+
         // Set columns from form
         if (Request::method() == 'post' and isset(Request::$post['update_columns'])) {
             $new_columns = array();
@@ -207,7 +214,7 @@ class Tickets extends AppController
             // Loop over customs from session or request
             foreach ((isset($_SESSION['columns']) ? $_SESSION['columns'] : explode(',', Request::$request['columns'])) as $column) {
                 // Make sure it's a valid column
-                if (in_array($column, ticketlist_allowed_columns())) {
+                if (in_array($column, $allowed_columns)) {
                     $columns[] = $column;
                 }
             }
@@ -310,7 +317,8 @@ class Tickets extends AppController
         $ticket = new Ticket(array(
             'severity_id' => 4,
             'priority_id' => 3,
-            'status_id'   => 1
+            'status_id'   => 1,
+            'type_id'     => $this->project->default_ticket_type_id
         ));
 
         // Check if the form has been submitted

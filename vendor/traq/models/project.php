@@ -42,6 +42,7 @@ class Project extends Model
         'info',
         'next_tid',
         'enable_wiki',
+        'default_ticket_type_id',
         'displayorder',
         'private_key'
     );

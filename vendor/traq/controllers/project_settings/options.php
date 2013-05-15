@@ -51,7 +51,8 @@ class Options extends AppController
                 'slug'         => Request::post('slug', $project->slug),
                 'codename'     => Request::post('codename', $project->codename),
                 'info'         => Request::post('info', $project->info),
-                'displayorder' => Request::post('displayorder', $project->displayorder)
+                'displayorder' => Request::post('displayorder', $project->displayorder),
+                'default_ticket_type_id' => Request::post('default_ticket_type_id', $project->default_ticket_type_id)
             ));
 
             // Set enable_wiki
