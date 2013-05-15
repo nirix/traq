@@ -487,7 +487,7 @@ class ruRU extends \traq\libraries\Locale
                 // 404 error page
                 '404' => array(
                     'title'   => "Похоже, вы попали не туда.",
-                    'message' => "The Запрашиваемая страница '{1}' не найдена."
+                    'message' => "Запрашиваемая страница '{1}' не найдена."
                 ),
 
                 // No Permission page
