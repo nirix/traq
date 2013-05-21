@@ -153,7 +153,6 @@ class Ticket extends Model
             // the value for the next ticket.
             $this->ticket_id = $this->project->next_tid;
             $this->project->next_tid++;
-            $this->project->save();
         }
 
         // Update ticket open/closed state if ticket status has changed.
@@ -161,6 +160,8 @@ class Ticket extends Model
         $this->_data['is_closed'] = ($status and $status->status == 1) ? 0 : 1;
 
         if (parent::save()) {
+            $this->project->save();
+
             // New ticket?
             if ($this->_is_new()) {
                 // Timeline entry
