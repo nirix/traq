@@ -543,13 +543,15 @@ class Ticket extends Model
     {
         // Check if value is different
         if ($this->custom_field($field_id) !== $value) {
-            // Add change
-            $this->_changes[$field_id] = array(
-                'property'     => $field_name,
-                'custom_field' => true,
-                'from'         => $this->_data['extra']['custom_fields'][$field_id],
-                'to'           => $value
-            );
+            if (!$this->_is_new()) {
+                // Add change
+                $this->_changes[$field_id] = array(
+                    'property'     => $field_name,
+                    'custom_field' => true,
+                    'from'         => $this->_data['extra']['custom_fields'][$field_id],
+                    'to'           => $value
+                );
+            }
             $this->_data['extra']['custom_fields'][$field_id] = $value;
         }
     }
