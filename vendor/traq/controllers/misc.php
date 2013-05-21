@@ -23,6 +23,7 @@ namespace traq\controllers;
 use avalon\core\Controller;
 use avalon\http\Request;
 use avalon\output\View;
+use avalon\core\Load;
 
 use traq\models\Type;
 use traq\models\User;
@@ -104,6 +105,7 @@ class Misc extends Controller
 
     public function action_preview_text()
     {
+        Load::helper('formatting');
         $this->_render['view'] = 'preview_text';
         View::set('data', format_text(Request::$request['data']));
     }
