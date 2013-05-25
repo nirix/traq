@@ -64,7 +64,7 @@ class Dashboard extends AppController
      */
     private function check_for_update()
     {
-        if ($update = file_get_contents("http://traq.io/version_check.php?version=" . urlencode(TRAQ_VER) . "&code=" . TRAQ_VER_CODE)) {
+        if ($update = @file_get_contents("http://traq.io/version_check.php?version=" . urlencode(TRAQ_VER) . "&code=" . TRAQ_VER_CODE)) {
             $update = json_decode($update, true);
             View::set(compact('update'));
         }
