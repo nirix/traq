@@ -105,6 +105,7 @@ class enUS extends \traq\libraries\Locale
             'continue'         => "Continue",
             'filter_events'    => "Filter events",
             'done'             => "Done",
+            'profile'          => "Profile",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",

@@ -2,6 +2,7 @@
 	<ul id="user_nav">
 		<?php FishHook::run('template:layouts/_meta_nav/user_nav'); ?>
 	<?php if (LOGGEDIN) { ?>
+		<li<?php echo iif(active_nav(current_user()->href()), ' class="active"')?>><?php echo HTML::link(l('profile'), current_user()->href()) ?></li>
 		<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
 		<li><?php echo HTML::link(l('logout'), '/logout'); ?></li>
 		<?php if ($current_user->group->is_admin) { ?>
