@@ -36,6 +36,7 @@ class ProjectRole extends Model
     protected static $_properties = array(
         'id',
         'name',
+        'assignable',
         'project_id'
     );
 

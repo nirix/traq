@@ -60,7 +60,8 @@ class ProjectRoles extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Set the role name
-            $role->name = Request::post('name');
+            $role->name       = Request::post('name');
+            $role->assignable = Request::post('assignable');
             $role->project_id = Request::post('project');
 
             // Validate the data
@@ -89,7 +90,8 @@ class ProjectRoles extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Update the role name
-            $role->name = Request::post('name', $role->name);
+            $role->name       = Request::post('name', $role->name);
+            $role->assignable = Request::post('assignable', $role->assignable);
             $role->project_id = Request::post('project', $role->project_id);
 
             // Validate the data

@@ -5,6 +5,7 @@
 	<table class="list">
 		<thead>
 			<th class="name"><?php echo l('name'); ?></th>
+			<th><?php echo l('assignable'); ?></th>
 			<th class="project"><?php echo l('project'); ?></th>
 			<th class="actions"><?php echo l('actions'); ?></th>
 		</thead>
@@ -12,6 +13,7 @@
 		<?php foreach ($roles as $role) { ?>
 			<tr>
 				<td><?php echo HTML::link($role->name, "/admin/roles/{$role->id}/edit", array('data-overlay' => true)); ?></td>
+				<td><?php echo $role->assignable ? '&#10003;' : '&times;' ?></td>
 				<td><?php echo $role->project_id > 0 ? $role->project->name : l('all'); ?></td>
 				<td>
 					<?php echo HTML::link(l('edit'), "/admin/roles/{$role->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>

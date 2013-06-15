@@ -164,6 +164,7 @@ class enUS extends \traq\libraries\Locale
             'newest'               => "Newest",
             'email_validation'     => "Email Validation",
             'notifications_from_email' => "From Email",
+            'assignable'           => "Assignable",
 
             // Project settings
             'new_milestone'    => "New Milestone",
