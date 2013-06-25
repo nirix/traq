@@ -58,7 +58,7 @@
 				<?php if (current_user()->permission($project->id, 'ticket_properties_set_assigned_to')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>
-					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
+					<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->assignable_member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 				</div>
 				<?php } ?>
 				<?php if (current_user()->permission($project->id, 'ticket_properties_set_tasks')) { ?>
