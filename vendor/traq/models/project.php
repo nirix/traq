@@ -147,6 +147,23 @@ class Project extends Model
     }
 
     /**
+     * Returns an array of members belonging to a role that tickets can
+     * be assigned to, formatted for the Form::select() helper.
+     *
+     * @return array
+     */
+    public function assignable_member_select_options()
+    {
+        $options = array();
+        foreach ($this->user_roles->exec()->fetch_all() as $relation) {
+            if ($relation->role->assignable) {
+                $options[] = array('label' => $relation->user->name, 'value' => $relation->user->id);
+            }
+        }
+        return $options;
+    }
+
+    /**
      * Checks if the model data is valid.
      *
      * @return bool
