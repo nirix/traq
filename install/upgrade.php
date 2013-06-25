@@ -215,12 +215,22 @@ post('/step/1', function(){
           ");
     }
 
+    // Version 3.2.1
     if (DB_VER < 30201) {
         // Add default ticket type ID column to projects table
         $db->query("
             ALTER TABLE `". $db->prefix . "projects` ADD COLUMN `default_ticket_type_id` int
             AFTER `enable_wiki`;
         ");
+    }
+
+    // Version 3.2.2
+    if (DB_VER < 30202) {
+      // Add assignable column to project role table.
+      $db->query("
+        ALTER TABLE `{$db->prefix}project_roles` ADD COLUMN `assignable` TINYINT(1) NOT NULL DEFAULT '1'
+        AFTER `name`;
+      ");
     }
 
     // Update database version setting

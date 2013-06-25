@@ -253,6 +253,7 @@ DROP TABLE IF EXISTS `traq_project_roles`;
 CREATE TABLE `traq_project_roles` (
   `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '1',
   `project_id` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
