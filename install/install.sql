@@ -253,18 +253,18 @@ DROP TABLE IF EXISTS `traq_project_roles`;
 CREATE TABLE `traq_project_roles` (
   `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `name` varchar(255) NOT NULL DEFAULT '1',
+  `assignable` varchar(255) NOT NULL DEFAULT '1',
   `project_id` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `traq_project_roles` WRITE;
 
-INSERT INTO `traq_project_roles` (`id`, `name`, `project_id`)
+INSERT INTO `traq_project_roles` (`id`, `name`, `assignable`, `project_id`)
 VALUES
-	(1,'Manager',0),
-	(2,'Developer',0),
-	(3,'Tester',0);
+	(1,'Manager',1,0),
+	(2,'Developer',1,0),
+	(3,'Tester',0,0);
 
 UNLOCK TABLES;
 
