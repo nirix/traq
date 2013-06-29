@@ -91,7 +91,7 @@ class ProjectRoles extends AppController
         if (Request::method() == 'post') {
             // Update the role name
             $role->name       = Request::post('name', $role->name);
-            $role->assignable = Request::post('assignable', $role->assignable);
+            $role->assignable = Request::post('assignable', 0);
             $role->project_id = Request::post('project', $role->project_id);
 
             // Validate the data
