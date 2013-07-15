@@ -94,7 +94,7 @@ class Wiki extends AppController
     public function action_new()
     {
         // Get slug
-        $slug = \avalon\http\Router::$params['slug'];
+        $slug = isset(Router::$params['slug']) ? Router::$params['slug'] : '';
 
         $this->title(l('new'));
 
