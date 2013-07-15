@@ -131,6 +131,7 @@ class AppController extends Controller
      */
     public function show_no_permission()
     {
+        header("HTTP/1.0 401 Unauthorized");
         $this->_render['view'] = 'error/no_permission';
         $this->_render['action'] = false;
     }
