@@ -28,6 +28,10 @@ use traq\models\User;
 use traq\models\Setting;
 use traq\models\Ticket;
 
+// Traq 3.0 Ticket model
+require __DIR__ "/models/ticket_3_0.php";
+use traq\models\Ticket_3_0;
+
 // Set page and title
 View::set('page', 'upgrade');
 View::set('page_title', 'Upgrade');
@@ -106,7 +110,7 @@ post('/step/1', function(){
 
     // Version 3.0.7
     if (DB_VER < 30007) {
-        foreach (Ticket::fetch_all() as $ticket) {
+        foreach (Ticket_3_0::fetch_all() as $ticket) {
             $ticket->delete_voter('-1');
             $ticket->delete_voter(Setting::find('anonymous_user_id')->value);
             $ticket->quick_save();
