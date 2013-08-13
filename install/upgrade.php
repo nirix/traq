@@ -29,7 +29,7 @@ use traq\models\Setting;
 use traq\models\Ticket;
 
 // Traq 3.0 Ticket model
-require __DIR__ "/models/ticket_3_0.php";
+require __DIR__ . "/models/ticket_3_0.php";
 use traq\models\Ticket_3_0;
 
 // Set page and title
