@@ -658,7 +658,16 @@ class Tickets extends AppController
             return $this->show_no_permission();
         }
 
-        foreach (json_decode(Request::post('tickets'), true) as $ticket_id) {
+        // Decode tickets array
+        $tickets = json_decode(Request::post('tickets'), true);
+
+        // Make sure there are some tickets
+        if (!is_array($tickets) and !count($tickets)) {
+            Request::redirectTo($this->project->href('tickets'));
+        }
+
+        // Loop over tickets and process actions
+        foreach ($tickets as $ticket_id) {
             $ticket = Ticket::select('*')->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
 
             $data = array();
