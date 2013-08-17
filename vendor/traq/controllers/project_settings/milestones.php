@@ -111,7 +111,7 @@ class Milestones extends AppController
                 'slug'         => Request::post('slug', $milestone->slug),
                 'codename'     => Request::post('codename', $milestone->codename),
                 'info'         => Request::post('info', $milestone->info),
-                'due'          => Request::post('due', $milestone->due),
+                'due'          => Request::post('due') != '' ? Request::post('due') : 'NULL',
                 'status'       => Request::post('status', $milestone->status),
                 'displayorder' => Request::post('displayorder', $milestone->displayorder)
             ));
