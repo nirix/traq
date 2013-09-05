@@ -46,6 +46,19 @@ CREATE TABLE `traq_components` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+# Dump of table traq_custom_field_values
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `traq_custom_field_values`;
+
+CREATE TABLE `traq_custom_field_values` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `custom_field_id` bigint(20) NOT NULL,
+  `ticket_id` bigint(20) NOT NULL,
+  `value` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 # Dump of table traq_custom_fields
 # ------------------------------------------------------------
 

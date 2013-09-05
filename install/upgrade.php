@@ -27,10 +27,11 @@ use avalon\output\View;
 use traq\models\User;
 use traq\models\Setting;
 use traq\models\Ticket;
+use traq\models\CustomFieldValue;
 
 // Traq 3.0 Ticket model
-require __DIR__ . "/models/ticket_3_0.php";
-use traq\models\Ticket_3_0;
+require __DIR__ . "/models/ticket_upgrade.php";
+use traq\models\TicketUpgrade;
 
 // Set page and title
 View::set('page', 'upgrade');
@@ -235,6 +236,37 @@ post('/step/1', function(){
         ALTER TABLE `{$db->prefix}project_roles` ADD COLUMN `assignable` TINYINT(1) NOT NULL DEFAULT '1'
         AFTER `name`;
       ");
+    }
+
+    // Version 3.3 "McCoy"
+    if (DB_VER < 30300) {
+      // Custom field values table
+      $db->query("
+        CREATE TABLE `". $db->prefix . "custom_field_values` (
+          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `custom_field_id` bigint(20) NOT NULL,
+          `ticket_id` bigint(20) NOT NULL,
+          `value` text,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+      ");
+
+      // Loop over tickets and place custom field values
+      // into the new table.
+      foreach (TicketUpgrade::fetch_all() as $ticket) {
+        foreach ($ticket->extra['custom_fields'] as $field_id => $value) {
+          $field = new CustomFieldValue(array(
+            'custom_field_id' => $field_id,
+            'ticket_id'       => $ticket->id,
+            'value'           => $value
+          ));
+
+          $field->save();
+        }
+
+        $ticket->remove_custom_fields();
+        $ticket->save();
+      }
     }
 
     // Update database version setting
