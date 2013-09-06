@@ -65,6 +65,7 @@ class Ticket extends Model
     protected static $_has_many = array(
         'attachments',
 
+        'custom_fields' => array('model' => 'CustomFieldValue'),
         'history' => array('model' => 'TicketHistory')
     );
 
@@ -511,6 +512,33 @@ class Ticket extends Model
     {
         $this->_data['tasks'][$task_id]['completed'] = $this->_data['tasks'][$task_id]['completed'] ? false : true;
         $this->_set_changed('tasks');
+    }
+
+    /**
+     * Returns the value of the specified custom field ID.
+     *
+     * @param integer $field_id
+     *
+     * @return mixed
+     */
+    public function custom_field_value($field_id)
+    {
+        $this->fetch_custom_fields();
+
+        return isset($this->_custom_fields[$field_id]) ? $this->_custom_fields[$field_id] : false;
+    }
+
+    /**
+     * Fetches the tickets custom field values.
+     */
+    public function fetch_custom_fields()
+    {
+        if (!isset($this->_custom_fields)) {
+            $this->_custom_fields = array();
+            foreach ($this->custom_fields->exec()->fetch_all() as $field) {
+                $this->_custom_fields[$field->custom_field_id] = $field->value;
+            }
+        }
     }
 
     /**
