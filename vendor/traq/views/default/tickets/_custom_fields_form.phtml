@@ -2,7 +2,7 @@
 <div class="custom_field field">
 	<?php echo Form::label($field->name, "custom_fields[{$field->id}]"); ?>
 	<?php
-	$value = ($ticket->custom_field_exists($field->id) ? $ticket->custom_field($field->id) : $field->default_value);
+	$value = ($ticket->custom_field_value($field->id) ? $ticket->custom_field_value($field->id) : $field->default_value);
 
 	// Text and integer
 	if ($field->type == "text" or $field->type == "integer") {
