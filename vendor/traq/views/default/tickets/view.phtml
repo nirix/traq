@@ -65,11 +65,11 @@
 		</div>
 		<?php
 		foreach ($custom_fields as $field) {
-				if ($value = $ticket->custom_field_value($field->id)) {
+				if ($field_value = $ticket->custom_field_value($field->id)) {
 		?>
 		<div class="property">
 			<?php echo Form::label($field->name); ?>
-			<span class="value"><?php echo implode(', ', (array)$value); ?></span>
+			<span class="value"><?php echo implode(', ', (array)$field_value->value); ?></span>
 		</div>
 		<?php }
 		}
