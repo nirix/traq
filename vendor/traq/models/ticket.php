@@ -503,60 +503,6 @@ class Ticket extends Model
     }
 
     /**
-     * Checks if the custom field has been set on this ticket.
-     *
-     * @param integer $field_id
-     *
-     * @return boolean
-     */
-    public function custom_field_exists($field_id)
-    {
-        if (isset($this->extra['custom_fields'][$field_id])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the value of the custom field.
-     *
-     * @param integer $field
-     *
-     * @return mixed
-     */
-    public function custom_field($field)
-    {
-        if (isset($this->_data['extra']['custom_fields'][$field])) {
-            return $this->_data['extra']['custom_fields'][$field];
-        }
-    }
-
-    /**
-     * Sets the value of the custom field.
-     *
-     * @param integer $field_id
-     * @param string  $field_name
-     * @param mixed   $value
-     */
-    public function set_custom_field($field_id, $field_name, $value)
-    {
-        // Check if value is different
-        if ($this->custom_field($field_id) !== $value) {
-            if (!$this->_is_new()) {
-                // Add change
-                $this->_changes[$field_id] = array(
-                    'property'     => $field_name,
-                    'custom_field' => true,
-                    'from'         => $this->_data['extra']['custom_fields'][$field_id],
-                    'to'           => $value
-                );
-            }
-            $this->_data['extra']['custom_fields'][$field_id] = $value;
-        }
-    }
-
-    /**
      * Toggles the completed status of a task.
      *
      * @param integer $task_id
@@ -579,11 +525,6 @@ class Ticket extends Model
         // Set the voted array
         if (!isset($this->extra['voted']) or !is_array($this->extra['voted'])) {
             $this->_data['extra']['voted'] = array();
-        }
-
-        // Set the custom_fields array
-        if (!isset($this->extra['custom_fields']) or !is_array($this->extra['custom_fields'])) {
-            $this->_data['extra']['custom_fields'] = array();
         }
 
         // Tasks
