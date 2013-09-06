@@ -88,6 +88,8 @@ class Ticket extends Model
     );
 
     protected $_changes = array();
+    protected $_save_queue = array();
+    protected $_custom_field_queue = array();
 
     /**
      * Returns the URI for the ticket.
@@ -163,6 +165,13 @@ class Ticket extends Model
         if (parent::save()) {
             $this->project->save();
 
+            // Loop over the save queue and save
+            // each object
+            foreach ($this->_save_queue as $model) {
+                $model->save();
+            }
+            $this->_save_queue = array();
+
             // New ticket?
             if ($this->_is_new()) {
                 // Timeline entry
@@ -188,6 +197,12 @@ class Ticket extends Model
                     ));
                     $timeline->save();
                 }
+
+                foreach ($this->_custom_field_queue as $model) {
+                    $model->ticket_id = $this->id;
+                    $model->save();
+                }
+                $this->_custom_field_queue = array();
 
                 // Created notification
                 Notification::send_for_ticket('created', $this);
@@ -225,7 +240,7 @@ class Ticket extends Model
     {
         $user = Avalon::app()->user;
 
-        $to_values = $changes = $save_queue = array();
+        $to_values = $changes = array();
         $this->_is_closing = $this->_is_reopening = false;
 
         // Loop over the data
@@ -327,7 +342,7 @@ class Ticket extends Model
                     $this->is_closed = $to_values[$field]->status ? 0 : 1;
                     $change['action'] = $to_values[$field]->status == 1 ? 'reopen' : 'close';
 
-                    $save_queue[] = new Timeline(array(
+                    $this->_save_queue[] = new Timeline(array(
                         'project_id' => $this->project_id,
                         'owner_id' => $this->id,
                         'action' => $change['action'] == 'close' ? 'ticket_closed' : 'ticket_reopened',
@@ -341,7 +356,7 @@ class Ticket extends Model
             }
             // Attaching a file?
             elseif ($field == 'attachment' and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
-                $save_queue[] = new Attachment(array(
+                $this->_save_queue[] = new Attachment(array(
                     'name' => $_FILES['attachment']['name'],
                     'contents' => base64_encode(file_get_contents($_FILES['attachment']['tmp_name'])),
                     'type' => $_FILES['attachment']['type'],
@@ -364,7 +379,7 @@ class Ticket extends Model
 
         // Any changes, or perhaps a comment?
         if (count($changes) > 0 or !empty(Request::$post['comment'])) {
-            $save_queue[] = new TicketHistory(array(
+            $this->_save_queue[] = new TicketHistory(array(
                 'user_id' => $user->id,
                 'ticket_id' => $this->id,
                 'changes' => count($changes) > 0 ? json_encode($changes) : '',
@@ -375,7 +390,7 @@ class Ticket extends Model
                 // Changes (and possibly a comment)
                 // But not when moving the ticket.
                 if (count($changes) and !isset($data['project_id'])) {
-                    $save_queue[] = new Timeline(array(
+                    $this->_save_queue[] = new Timeline(array(
                         'project_id' => $this->project_id,
                         'owner_id'   => $this->id,
                         'action'     => 'ticket_updated',
@@ -385,7 +400,7 @@ class Ticket extends Model
                 }
                 // No changes but definitely a comment
                 elseif (!count($changes) and !empty(Request::$post['comment']) and !isset($data['project_id'])) {
-                    $save_queue[] = new Timeline(array(
+                    $this->_save_queue[] = new Timeline(array(
                         'project_id' => $this->project_id,
                         'owner_id' => $this->id,
                         'action' => 'ticket_comment',
@@ -397,12 +412,6 @@ class Ticket extends Model
 
         // Save
         if ($this->save()) {
-            // Loop over the save queue and save
-            // each object
-            foreach ($save_queue as $model) {
-                $model->save();
-            }
-
             // Closed notification
             if (isset($this->_is_closing) and $this->_is_closing) {
                 Notification::send_for_ticket('closed', $this);
@@ -504,14 +513,35 @@ class Ticket extends Model
     }
 
     /**
-     * Toggles the completed status of a task.
+     * Sets the value of the custom field.
      *
-     * @param integer $task_id
+     * @param integer $field_id
+     * @param string  $field_name
+     * @param mixed   $value
      */
-    public function toggle_task($task_id)
+    public function set_custom_field($field_id, $field_name, $value)
     {
-        $this->_data['tasks'][$task_id]['completed'] = $this->_data['tasks'][$task_id]['completed'] ? false : true;
-        $this->_set_changed('tasks');
+        $field = $this->custom_field_value($field_id);
+
+        // Check if value is different
+        if ($field and $field->value !== $value) {
+            $field->value = $value;
+
+            // Add change
+            $this->_changes[$field_id] = array(
+                'property'     => $field_name,
+                'custom_field' => true,
+                'from'         => $this->custom_field_value($field_id)->value,
+                'to'           => $value
+            );
+
+            $this->save_queue[] = $field;
+        } elseif (!$field) {
+            $this->_custom_field_queue[] = new CustomFieldValue(array(
+                'custom_field_id' => $field_id,
+                'value' => $value
+            ));
+        }
     }
 
     /**
@@ -536,9 +566,20 @@ class Ticket extends Model
         if (!isset($this->_custom_fields)) {
             $this->_custom_fields = array();
             foreach ($this->custom_fields->exec()->fetch_all() as $field) {
-                $this->_custom_fields[$field->custom_field_id] = $field->value;
+                $this->_custom_fields[$field->custom_field_id] = $field;
             }
         }
+    }
+
+    /**
+     * Toggles the completed status of a task.
+     *
+     * @param integer $task_id
+     */
+    public function toggle_task($task_id)
+    {
+        $this->_data['tasks'][$task_id]['completed'] = $this->_data['tasks'][$task_id]['completed'] ? false : true;
+        $this->_set_changed('tasks');
     }
 
     /**
