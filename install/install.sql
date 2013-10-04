@@ -505,7 +505,7 @@ CREATE TABLE `traq_tickets` (
   `body` longtext COLLATE utf8_unicode_ci NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `project_id` bigint(20) NOT NULL,
-  `milestone_id` bigint(20) NOT NULL,
+  `milestone_id` bigint(20) NOT NULL default '0',
   `version_id` bigint(20) NOT NULL,
   `component_id` bigint(20) NOT NULL,
   `type_id` bigint(20) NOT NULL,

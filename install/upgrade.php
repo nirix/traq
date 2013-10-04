@@ -267,6 +267,9 @@ post('/step/1', function(){
             $ticket->remove_custom_fields();
             $ticket->save();
         }
+
+        // Add default value for milestone_id field in the tickets table
+        $db->query('ALTER TABLE `traq_tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NOT NULL DEFAULT '0';');
     }
 
     // Update database version setting
