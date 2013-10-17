@@ -387,7 +387,9 @@ VALUES
 	('timeline_day_format','l, jS F Y'),
   ('timeline_days_per_page','7'),
 	('timeline_time_format','h:iA'),
-	('title','Traq');
+	('title','Traq'),
+  ('site_name', ''),
+  ('site_url', '');
 
 UNLOCK TABLES;
 

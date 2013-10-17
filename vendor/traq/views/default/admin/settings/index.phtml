@@ -22,6 +22,18 @@
 		</fieldset>
 
 		<fieldset class="tabular section box">
+			<legend><?php echo l('settings.site.legend'); ?></legend>
+			<div class="group">
+				<label for="site_name"><?php echo l('settings.site.name'); ?></label>
+				<?php echo Form::text('settings[site_name]', array('value' => settings('site_name'))); ?>
+			</div>
+			<div class="group">
+				<label for="site_url"><?php echo l('settings.site.url'); ?></label>
+				<?php echo Form::text('settings[site_url]', array('value' => settings('site_url'))); ?>
+			</div>
+		</fieldset>
+
+		<fieldset class="tabular section box">
 			<legend><?php echo l('users'); ?></legend>
 			<div class="group">
 				<label><?php echo l('allow_registration'); ?></label>

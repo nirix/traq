@@ -270,6 +270,14 @@ post('/step/1', function(){
 
         // Add default value for milestone_id field in the tickets table
         $db->query('ALTER TABLE `traq_tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NOT NULL DEFAULT '0';');
+
+        // Site name and URL setting rows
+        $db->query("
+          INSERT INTO `traq_settings` (`setting`, `value`)
+          VALUES
+            ('site_name', ''),
+            ('site_url', '');
+        ");
     }
 
     // Update database version setting

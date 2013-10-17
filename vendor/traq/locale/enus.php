@@ -50,7 +50,6 @@ class enUS extends \traq\libraries\Locale
             'project_info'     => "Project Info",
             'tickets'          => "Tickets",
             'roadmap'          => "Roadmap",
-            'settings'         => "Settings",
             'information'      => "Information",
             'milestones'       => "Milestones",
             'components'       => "Components",
@@ -165,6 +164,12 @@ class enUS extends \traq\libraries\Locale
             'email_validation'     => "Email Validation",
             'notifications_from_email' => "From Email",
             'assignable'           => "Assignable",
+
+            // Settings page
+            'settings'             => "Settings",
+            'settings.site.legend' => "Site",
+            'settings.site.name'   => "Site name",
+            'settings.site.url'    => "Site URL",
 
             // Project settings
             'new_milestone'    => "New Milestone",
