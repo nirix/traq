@@ -104,6 +104,10 @@ class Users extends AppController
      */
     public function action_register()
     {
+        if (!settings('allow_registration')) {
+            return $this->show_404();
+        }
+
         $validation_required = false;
         $this->title(l('register'));
 

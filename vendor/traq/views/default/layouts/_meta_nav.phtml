@@ -10,7 +10,9 @@
 		<?php } ?>
 	<?php } else { ?>
 		<li<?php echo iif(active_nav('/login'), ' class="active"')?>><?php echo HTML::link(l('login'), '/login'); ?></li>
+		<?php if (settings('allow_registration')) { ?>
 		<li<?php echo iif(active_nav('/register'), ' class="active"')?>><?php echo HTML::link(l('register'), '/register'); ?></li>
+		<?php } ?>
 	<?php } ?>
 	</ul>
 	<ul>
