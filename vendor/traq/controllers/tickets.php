@@ -750,7 +750,10 @@ class Tickets extends AppController
             }
 
             // Add the blank value
-            Request::$post['filters'][$new_filter]['values'][] = '';
+            Request::$post['filters'][$new_filter] = array(
+                'prefix' => '',
+                'values' => array()
+            );
         }
 
         // Remove a filter
@@ -777,7 +780,7 @@ class Tickets extends AppController
 
         foreach (Request::post('filters', array()) as $name => $filter) {
             // Don't bother if this isn't a valid filter.
-            if (!in_array($name, ticket_filters())) {
+            if (!in_array($name, array_merge(ticket_filters(), CustomField::get_ids()))) {
                 continue;
             }
 
@@ -827,6 +830,13 @@ class Tickets extends AppController
 
                     $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
                     break;
+            }
+
+            // Process custom field filters
+            if (is_numeric($name)) {
+                $field = CustomField::find($name);
+
+                $query_string[] = "{$field->slug}={$filter['prefix']}" . implode(',', $filter['values']);
             }
         }
 
