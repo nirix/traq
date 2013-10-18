@@ -137,7 +137,7 @@ function ticket_filters()
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function ticket_filters_select_options()
+function ticket_filters_select_options($project = null)
 {
     $options = array();
 
@@ -147,6 +147,13 @@ function ticket_filters_select_options()
     // Add ticket filters
     foreach (ticket_filters() as $filter) {
         $options[] = array('label' => l($filter), 'value' => $filter);
+    }
+
+    // Custom fields
+    if ($project !== null) {
+        foreach ($project->custom_fields->exec()->fetch_all() as $field) {
+            $options[] = array('label' => $field->name, 'value' => $field->id);
+        }
     }
 
     return $options;

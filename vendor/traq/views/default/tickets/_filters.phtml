@@ -75,7 +75,7 @@
 						<input type="submit" value="<?php echo l('update'); ?>" name="update">
 					</td>
 					<td colspan="3" id="ticket_filter_actions">
-						<?php echo Form::select('new_filter', ticket_filters_select_options()); ?>
+						<?php echo Form::select('new_filter', ticket_filters_select_options($project)); ?>
 						<button type="submit" class="button_new" name="add_filter">+</button>
 					</td>
 				</tr>
