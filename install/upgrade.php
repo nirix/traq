@@ -269,7 +269,7 @@ post('/step/1', function(){
         }
 
         // Add default value for milestone_id field in the tickets table
-        $db->query('ALTER TABLE `traq_tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NOT NULL DEFAULT '0';');
+        $db->query('ALTER TABLE `' . $db->prefix . 'tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NOT NULL DEFAULT '0';');
 
         // Site name and URL setting rows
         $db->query("
@@ -278,6 +278,15 @@ post('/step/1', function(){
             ('site_name', ''),
             ('site_url', '');
         ");
+
+        // Add custom fields slug field.
+        $db->query("ALTER TABLE `{$db->prefix}custom_fields` ADD `slug` VARCHAR(255) NOT NULL AFTER `name`;");
+
+        // Update current custom fields and create the slug.
+        foreach ($db->query("SELECT `id`, `name` FROM `{$db->prefix}custom_fields`")->fetchAll(PDO::FETCH_ASSOC) as $field) {
+            $slug = create_slug($field['name']);
+            $db->query("UPDATE `{$db->prefix}custom_fields` SET `slug` = '{$slug}' WHERE `id` = {$field['id']}");
+        }
     }
 
     // Update database version setting
