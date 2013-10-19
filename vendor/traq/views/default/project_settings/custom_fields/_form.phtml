@@ -3,6 +3,10 @@
 	<?php echo Form::text('name', array('value' => $field->name)); ?>
 </div>
 <div class="group">
+	<?php echo Form::label(l('slug'), 'slug'); ?>
+	<?php echo Form::text('slug', array('value' => $field->slug)); ?> <abbr title="<?php echo l('help.slug'); ?>">?</abbr>
+</div>
+<div class="group">
 	<?php echo Form::label(l('type'), 'type'); ?>
 	<?php echo Form::select('type', traq\models\CustomField::types_select_options(), array('value' => $field->type, 'id' => 'field_type')); ?>
 </div>

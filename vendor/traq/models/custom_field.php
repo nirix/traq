@@ -36,6 +36,7 @@ class CustomField extends Model
     protected static $_properties = array(
         'id',
         'name',
+        'slug',
         'type',
         'values',
         'multiple',
@@ -249,6 +250,17 @@ class CustomField extends Model
         // Make sure the name is set
         if (empty($this->_data['name'])) {
             $errors['name'] = l('errors.name_blank');
+        }
+
+        // Check if the slug is empty
+        if (empty($this->_data['slug'])) {
+            $errors['slug'] = l('errors.slug_blank');
+        }
+
+        // Make sure the slug isnt in use
+        $slug = static::select('id')->where('id', ($this->_is_new() ? 0 : $this->id), '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->_data['project_id']);
+        if ($slug->exec()->row_count()) {
+            $errors['slug'] = l('errors.slug_in_use');
         }
 
         // Make sure the type is set
