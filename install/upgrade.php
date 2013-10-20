@@ -273,7 +273,7 @@ post('/step/1', function(){
 
         // Site name and URL setting rows
         $db->query("
-          INSERT INTO `traq_settings` (`setting`, `value`)
+          INSERT INTO `{$db->prefix}settings` (`setting`, `value`)
           VALUES
             ('site_name', ''),
             ('site_url', '');
