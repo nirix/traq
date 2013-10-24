@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2013 Traq.io
  *
  * This file is part of Traq.
  *
@@ -20,6 +20,9 @@
 
 namespace traq\plugins;
 
+require __DIR__ . '/Michelf/Markdown.php';
+require __DIR__ . '/Michelf/MarkdownExtra.php';
+
 use \FishHook;
 
 /**
@@ -34,11 +37,9 @@ class Markdown extends \traq\libraries\Plugin
 {
     protected static $info = array(
         'name'    => 'Markdown',
-        'version' => '1.0',
+        'version' => '2.0',
         'author'  => 'Jack P.'
     );
-
-    private static $parser;
 
     /**
      * Handles the startup of the plugin.
@@ -58,14 +59,7 @@ class Markdown extends \traq\libraries\Plugin
             $text = htmlspecialchars_decode($text);
         }
 
-        // Check if the parser has been loaded...
-        if (static::$parser === null) {
-            // Load the parser
-            require __DIR__ . '/libraries/markdown.php';
-            static::$parser = new \Markdown_Parser;
-        }
-
         // Parse the text
-        $text = static::$parser->transform($text);
+        $text = \Michelf\MarkdownExtra::defaultTransform($text);
     }
 }
