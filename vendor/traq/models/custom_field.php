@@ -82,6 +82,27 @@ class CustomField extends Model
     }
 
     /**
+     * Returns an array of slugs belonging to custom fields.
+     *
+     * @param object $project
+     *
+     * @return array
+     */
+    public static function get_slugs($project = null)
+    {
+        $slugs = array();
+
+        // Get fields for the project if one was passed, otherwise get all.
+        $fields = $project ? static::for_project($project->id) : static::fetch_all();
+
+        foreach ($fields as $field) {
+            $slugs[] = $field->slug;
+        }
+
+        return $slugs;
+    }
+
+    /**
      * Returns the models properties.
      *
      * @return array
