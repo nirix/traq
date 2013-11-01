@@ -128,6 +128,25 @@ function ticket_filters()
 }
 
 /**
+ * Returns an array of all ticket filters, including
+ * custom fields.
+ *
+ * @param object $project
+ *
+ * @return array
+ */
+function ticket_filters_for($project)
+{
+    $filters = ticket_filters();
+
+    foreach (CustomField::for_project($project->id) as $field) {
+        $filters[] = $field->slug;
+    }
+
+    return $filters;
+}
+
+/**
  * Returns an array of available ticket filters
  * formatted for Form::select().
  *
