@@ -28,7 +28,13 @@
 				<?php } else { ?>
 					<?php foreach ($info['values'] as $k => $value) { ?>
 					<tr>
-						<td class="label"><?php echo $k == 0 ? l($filter) :''; ?></td>
+						<td class="label">
+							<?php if (isset($info['label'])) { ?>
+								<?php echo $info['label']; ?>
+							<?php } else { ?>
+								<?php echo $k == 0 ? l($filter) :''; ?>
+							<?php } ?>
+						</td>
 						<td class="condition">
 						<?php
 							if ($k == 0) {
@@ -56,7 +62,7 @@
 						</td>
 						<td class="value">
 						<?php
-							if (in_array($filter, array('summary', 'description'))) {
+							if (in_array($filter, array_merge(array('summary', 'description'), ticket_filters_for($project)))) {
 								echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'id' => false));
 							} elseif (in_array($filter, array('owner', 'assigned_to'))) {
 								echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'data-autocomplete' => Request::base('/_ajax/autocomplete/username'), 'id' => false));

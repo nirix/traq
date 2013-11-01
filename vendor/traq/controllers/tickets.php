@@ -81,12 +81,12 @@ class Tickets extends AppController
         $this->feeds[] = array(Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name));
 
         // Create ticket filter query
-        $filter_query = new TicketFilterQuery();
+        $filter_query = new TicketFilterQuery($this->project);
 
         // Loop over request variables
         foreach (Request::$request as $filter => $value) {
             // Check if the filter exists...
-            if (in_array($filter, ticket_filters())) {
+            if (in_array($filter, ticket_filters_for($this->project))) {
                 $filter_query->process($filter, explode(',', $value));
             }
         }
@@ -98,7 +98,7 @@ class Tickets extends AppController
             foreach (explode('&', $_SESSION['ticket_filters'][$this->project->id]) as $filter_value) {
                 if (strpos($filter_value, '=')) {
                     $filter_value = explode('=', $filter_value);
-                    if (in_array($filter_value[0], ticket_filters())) {
+                    if (in_array($filter_value[0], ticket_filters_for($this->project))) {
                         $value = isset($filter_value[1]) ? explode(',', urldecode($filter_value[1])) : array();
                         $filter_query->process($filter_value[0], $value);
                     }

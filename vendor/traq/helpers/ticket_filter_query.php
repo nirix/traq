@@ -21,6 +21,7 @@
 namespace traq\helpers;
 
 use avalon\core\Kernel as Avalon;
+use traq\models\CustomField;
 use traq\models\Status;
 use traq\models\User;
 
@@ -36,6 +37,12 @@ class TicketFilterQuery
 {
     private $sql = array();
     private $filters = array();
+    private $project;
+
+    public function __construct($project)
+    {
+        $this->project = $project;
+    }
 
     /**
      * Processes a filter.
@@ -160,6 +167,11 @@ class TicketFilterQuery
                 $this->sql[] = "`{$column}_id` {$condition} {$value}";
                 $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
             }
+        }
+        // Custom fields
+        elseif (in_array($field, ticket_filters_for($this->project))) {
+            $custom_field = CustomField::find('slug', $field);
+            $this->filters[$field]['label'] = $custom_field->name;
         }
     }
 
