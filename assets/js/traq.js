@@ -212,7 +212,7 @@ $(document).ready(function(){
 	// Ticket filter remover
 	$(document).on('click', '#ticket_filters button.button_delete', function(){
 		var filter = $(this).attr('data-filter');
-		$('#' + filter).fadeOut('slow', function(){
+		$('#filter-' + filter).fadeOut('fast', function(){
 			$(this).remove();
 		});
 	});

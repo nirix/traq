@@ -5,7 +5,7 @@
 			<tbody>
 			<?php foreach ($filters as $filter => $info) { ?>
 				<?php if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component', 'priority', 'severity'))) { ?>
-				<tr>
+				<tr id="filter-<?php echo $filter; ?>">
 					<td class="label"><?php echo l($filter); ?></td>
 					<td class="condition">
 						<?php
@@ -22,12 +22,12 @@
 						<?php echo Form::multiselect("filters[{$filter}][values][]", ticket_filter_options_for($filter, $project->id), $info['values']); ?>
 					</td>
 					<td class="ticket_filter_action">
-						<button type="submit" class="button_delete" name="remove_filter[<?php echo $filter; ?>]">-</button>
+						<button type="button" class="button_delete" name="remove_filter[<?php echo $filter; ?>:<?php echo $k; ?>]" data-filter="<?php echo $filter; ?>">-</button>
 					</td>
 				</tr>
 				<?php } else { ?>
 					<?php foreach ($info['values'] as $k => $value) { ?>
-					<tr id="<?php echo $filter; ?>-<?php echo $k; ?>">
+					<tr id="filter-<?php echo $filter; ?>-<?php echo $k; ?>">
 						<td class="label">
 							<?php if (isset($info['label'])) { ?>
 								<?php echo $info['label']; ?>
@@ -62,7 +62,7 @@
 						</td>
 						<td class="value">
 						<?php
-							if (in_array($filter, array_merge(array('summary', 'description'), ticket_filters_for($project)))) {
+							if (in_array($filter, array_merge(array('summary', 'description'), array_keys(ticket_filters_for($project))))) {
 								echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'id' => false));
 							} elseif (in_array($filter, array('owner', 'assigned_to'))) {
 								echo Form::text("filters[{$filter}][values][]", array('value' => $value, 'data-autocomplete' => Request::base('/_ajax/autocomplete/username'), 'id' => false));
