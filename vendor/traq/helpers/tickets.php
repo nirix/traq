@@ -108,21 +108,47 @@ function ticketlist_allowed_columns()
 function ticket_filters()
 {
     $filters = array(
-        'summary',
-        'description',
-        'owner',
-        'assigned_to',
-        'component',
-        'milestone',
-        'version',
-        'status',
-        'type',
-        'priority',
-        'severity'
+        'summary'     => l('summary'),
+        'description' => l('description'),
+        'owner'       => l('owner'),
+        'assigned_to' => l('assigned_to'),
+        'component'   => l('component'),
+        'milestone'   => l('milestone'),
+        'version'     => l('version'),
+        'status'      => l('status'),
+        'type'        => l('type'),
+        'priority'    => l('priority'),
+        'severity'    => l('severity')
     );
 
     // Run plugin hook
     FishHook::run('function:ticket_filters', array(&$filters));
+
+    return $filters;
+}
+
+/**
+ * Returns an array of custom field ticket filters for the specified project.
+ *
+ * @param object $project
+ *
+ * @return array
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
+ */
+function custom_field_filters_for($project)
+{
+    static $filters = array();
+
+    if (count($filters)) {
+        return $filters;
+    }
+
+    foreach (CustomField::for_project($project->id) as $field) {
+        $filters[$field->slug] = $field->name;
+    }
 
     return $filters;
 }
@@ -137,10 +163,16 @@ function ticket_filters()
  */
 function ticket_filters_for($project)
 {
+    static $filters;
+
+    if (count($filters)) {
+        return $filters;
+    }
+
     $filters = ticket_filters();
 
-    foreach (CustomField::for_project($project->id) as $field) {
-        $filters[] = $field->slug;
+    foreach (custom_field_filters_for($project) as $field => $name) {
+        $filters[$field] = $name;
     }
 
     return $filters;
@@ -163,16 +195,18 @@ function ticket_filters_select_options($project = null)
     // Add blank option
     $options[] = array('label' => '', 'value' => '');
 
-    // Add ticket filters
-    foreach (ticket_filters() as $filter) {
-        $options[] = array('label' => l($filter), 'value' => $filter);
+    // Ticket filters for a specific project
+    if ($project !== null) {
+        $filters = ticket_filters_for($project);
+    }
+    // Default filters
+    else {
+        $filters = ticket_filters();
     }
 
-    // Custom fields
-    if ($project !== null) {
-        foreach ($project->custom_fields->exec()->fetch_all() as $field) {
-            $options[] = array('label' => $field->name, 'value' => $field->id);
-        }
+    // Add filters
+    foreach ($filters as $slug => $name) {
+        $options[] = array('label' => $name, 'value' => $slug);
     }
 
     return $options;

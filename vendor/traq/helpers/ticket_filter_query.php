@@ -169,7 +169,7 @@ class TicketFilterQuery
             }
         }
         // Custom fields
-        elseif (in_array($field, ticket_filters_for($this->project))) {
+        elseif (in_array($field, array_keys(custom_field_filters_for($this->project)))) {
             $custom_field = CustomField::find('slug', $field);
             $this->filters[$field]['label'] = $custom_field->name;
         }
