@@ -160,6 +160,10 @@ function custom_field_filters_for($project)
  * @param object $project
  *
  * @return array
+ *
+ * @author Jack P.
+ * @copyright Copyright (c) Jack P.
+ * @package Traq
  */
 function ticket_filters_for($project)
 {
