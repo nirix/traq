@@ -21,6 +21,7 @@
 namespace traq\helpers;
 
 use avalon\core\Kernel as Avalon;
+use avalon\Database;
 use traq\models\CustomField;
 use traq\models\Status;
 use traq\models\User;
@@ -36,6 +37,7 @@ use traq\models\User;
 class TicketFilterQuery
 {
     private $sql = array();
+    private $custom_field_sql = array();
     private $filters = array();
     private $project;
 
@@ -172,6 +174,13 @@ class TicketFilterQuery
         elseif (in_array($field, array_keys(custom_field_filters_for($this->project)))) {
             $custom_field = CustomField::find('slug', $field);
             $this->filters[$field]['label'] = $custom_field->name;
+            $this->filters[$field]['values'] = $values;
+
+            $this->custom_field_sql[] = "
+                `fields`.`custom_field_id` = {$custom_field->id}
+                AND `fields`.`value` IN ('" . implode("','", $values) . "')
+                AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
+            ";
         }
     }
 
@@ -192,8 +201,18 @@ class TicketFilterQuery
      */
     public function sql()
     {
+        $sql = '';
+
         if (count($this->sql)) {
-            return "AND " . implode(" AND ", $this->sql);
+            $sql .= "AND " . implode(" AND ", $this->sql);
         }
+
+        if (count($this->custom_field_sql)) {
+            $sql .= "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields` ON (" . implode(' AND ', $this->custom_field_sql) . ")";
+        }
+
+        $sql .= " WHERE `project_id` = {$this->project->id}";
+
+        return $sql;
     }
 }
