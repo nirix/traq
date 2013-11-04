@@ -216,6 +216,20 @@ $(document).ready(function(){
 			$(this).remove();
 		});
 	});
+
+	// Ticket filter form toggle
+	$(document).on('click', '#ticket_filters legend a', function(){
+		var filters_table = $('#ticket_filters_content');
+
+		if (filters_table.is(':visible')) {
+			filters_table.slideUp('fast');
+			$.cookie('hide_filters', 1);
+		} else {
+
+			filters_table.slideDown('fast');
+			$.cookie('hide_filters', 0);
+		}
+	});
 });
 
 /*!
