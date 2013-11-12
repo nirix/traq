@@ -65,7 +65,6 @@ class Tickets extends AppController
 
         // Set the title and load the helper
         $this->title(l('tickets'));
-        Load::helper('tickets');
 
         // Custom fields
         $this->custom_fields = CustomField::for_project($this->project->id);
