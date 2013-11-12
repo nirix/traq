@@ -119,7 +119,7 @@
 </div>
 <div id="ticket_history">
 	<h3><?php echo l('ticket_history'); ?></h3>
-<?php foreach ($ticket->history->order_by('id', 'DESC')->exec()->fetch_all() as $update) { ?>
+<?php foreach ($ticket_history as $update) { ?>
 	<div class="update" id="ticket_update_<?php echo $update->id; ?>">
 		<h4>
 			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link(strshorten($update->user->name, 20), $update->user->href())); ?>

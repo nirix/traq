@@ -296,6 +296,7 @@ CREATE TABLE `traq_projects` (
   `next_tid` bigint(20) NOT NULL DEFAULT '1',
   `enable_wiki` tinyint(1) NOT NULL DEFAULT '0',
   `default_ticket_type_id` int(11) DEFAULT NULL,
+  `ticket_history_sorting` varchar(255) NOT NULL DEFAULT 'oldest_first',
   `displayorder` bigint(20) NOT NULL DEFAULT '0',
   `private_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)

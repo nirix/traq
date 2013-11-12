@@ -287,6 +287,9 @@ post('/step/1', function(){
             $slug = create_slug($field['name']);
             $db->query("UPDATE `{$db->prefix}custom_fields` SET `slug` = '{$slug}' WHERE `id` = {$field['id']}");
         }
+
+        // Ticket history sorting
+        $db->query("ALTER TABLE `{$db->prefix}projects` ADD `ticket_history_sorting` VARCHAR(255) NOT NULL DEFAULT 'oldest_first' AFTER `default_ticket_type_id`;");
     }
 
     // Update database version setting

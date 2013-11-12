@@ -26,4 +26,8 @@
 	<label><?php echo l('default_ticket_type'); ?></label>
 	<?php echo Form::select('default_ticket_type_id', traq\models\Type::select_options(), array('value' => $proj->default_ticket_type_id)); ?>
 </div>
+<div class="group">
+	<label><?php echo l('ticket_history_sorting'); ?></label>
+	<?php echo Form::select('ticket_history_sorting', ticket_history_sorting_options(), array('value' => $proj->ticket_history_sorting)); ?>
+</div>
 <?php FishHook::run('template:projectsettings/options/_form', array($proj)); ?>

@@ -237,6 +237,21 @@ class Tickets extends AppController
         // Fetch the ticket from the database and send it to the view.
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
+        // Ticket history
+        $ticket_history = $ticket->history;
+
+        switch($this->project->ticket_history_sorting) {
+            case 'oldest_first':
+                $ticket_history->order_by('created_at', 'ASC');
+                break;
+
+            case 'newest_first':
+                $ticket_history->order_by('created_at', 'DESC');
+                break;
+        }
+
+        $ticket_history = $ticket_history->exec()->fetch_all();
+
         // Does ticket exist?
         if (!$ticket) {
             return $this->show_404();
@@ -248,6 +263,7 @@ class Tickets extends AppController
         // Set title and send ticket to view
         $this->title($ticket->summary);
         View::set('ticket', $ticket);
+        View::set('ticket_history', $ticket_history);
     }
 
     /**

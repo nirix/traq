@@ -405,3 +405,20 @@ function ticketlist_sort_indicator($column)
         return View::render('tickets/_sort_indicator', array('order' => strtolower($order[1])));
     }
 }
+
+/**
+ * Returns a list of available ticket history sorting options
+ * for use with the `Form::select` helper.
+ *
+ * @return array
+ *
+ * @author Jack P.
+ * @package Traq
+ */
+function ticket_history_sorting_options()
+{
+    return array(
+        array('label' => l('oldest_first'), 'value' => 'oldest_first'),
+        array('label' => l('newest_first'), 'value' => 'newest_first')
+    );
+}
