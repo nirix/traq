@@ -457,6 +457,15 @@ function ticket_sort_order($fallback)
     }
 }
 
+/**
+ * Returns an array of columns allowed to be used for sorting the
+ * ticket listing page to be used with the `Form::select` helper.
+ *
+ * @return array
+ *
+ * @author Jack P.
+ * @package Traq
+ */
 function ticket_sorting_select_options()
 {
     $options = array();
