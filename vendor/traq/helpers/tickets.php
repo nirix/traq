@@ -436,3 +436,39 @@ function ticket_history_sorting_options()
         array('label' => l('newest_first'), 'value' => 'newest_first')
     );
 }
+
+/**
+ * Checks if the `order_by` query string is set and returns it
+ * and falls back to the passed value if it isn't.
+ *
+ * @param string $fallback
+ *
+ * @return string
+ *
+ * @author Jack P.
+ * @package Traq
+ */
+function ticket_sort_order($fallback)
+{
+    if (isset(Request::$request['order_by'])) {
+        return Request::$request['order_by'];
+    } else {
+        return $fallback;
+    }
+}
+
+function ticket_sorting_select_options()
+{
+    $options = array();
+
+    // This is hackish and needs to be fixed in 4.0
+    $options[l('ascending')] = array();
+    $options[l('descending')] = array();
+
+    foreach (ticketlist_allowed_columns() as $column) {
+        $options[l('ascending')][] = array('label' => l($column), 'value' => "{$column}.asc");
+        $options[l('descending')][] = array('label' => l($column), 'value' => "{$column}.desc");
+    }
+
+    return $options;
+}

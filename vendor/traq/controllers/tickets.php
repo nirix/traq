@@ -119,9 +119,9 @@ class Tickets extends AppController
             $rows->order_by('created_at', 'DESC');
         }
         // Sort from URI, if set
-        elseif (isset(Request::$request['order_by'])) {
+        else {
             // field.direction
-            $order = explode('.', Request::$request['order_by']);
+            $order = explode('.', ticket_sort_order($this->project->default_ticket_sorting));
 
             // Check if we need to do
             // anything with the field.
@@ -157,10 +157,6 @@ class Tickets extends AppController
 
             // Order rows
             $rows->order_by($property, (strtolower($order[1]) == 'asc' ? "ASC" : "DESC"));
-        }
-        // Order by priority
-        else {
-            $rows->order_by('priority_id', 'ASC');
         }
 
         // Paginate tickets

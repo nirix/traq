@@ -53,6 +53,7 @@ class Options extends AppController
                 'info'         => Request::post('info', $project->info),
                 'displayorder' => Request::post('displayorder', $project->displayorder),
                 'default_ticket_type_id' => Request::post('default_ticket_type_id', $project->default_ticket_type_id),
+                'default_ticket_sorting' => Request::post('default_ticket_sorting', $project->default_ticket_sorting),
                 'ticket_history_sorting' => Request::post('ticket_history_sorting', $project->ticket_history_sorting)
             ));
 

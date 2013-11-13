@@ -105,6 +105,8 @@ class enUS extends \traq\libraries\Locale
             'filter_events'    => "Filter events",
             'done'             => "Done",
             'profile'          => "Profile",
+            'ascending'        => "Ascending",
+            'descending'       => "Descending",
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
@@ -178,8 +180,9 @@ class enUS extends \traq\libraries\Locale
             'new_component'    => "New Component",
             'edit_component'   => "Edit Component",
             'display_order'    => "Display Order",
-            'default_ticket_type'   => "Default ticket type",
+            'default_ticket_type'    => "Default ticket type",
             'ticket_history_sorting' => "Ticket history sorting",
+            'default_ticket_sorting' => "Default ticket sorting",
             'oldest_first' => "Oldest First",
             'newest_first' => "Newest First",
 
