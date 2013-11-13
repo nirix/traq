@@ -90,6 +90,8 @@ function ticketlist_allowed_columns()
         'component',
         'milestone',
         'assigned_to',
+        'priority',
+        'severity',
         'created_at',
         'updated_at',
         'votes'
@@ -238,6 +240,8 @@ function ticketlist_header($column) {
         case 'assigned_to':
         case 'updates':
         case 'votes':
+        case 'priority':
+        case 'severity':
             return l($column);
 
         case 'created_at':
@@ -321,6 +325,16 @@ function ticketlist_data($column, $ticket) {
         // Votes
         case 'votes':
             return $ticket->votes;
+            break;
+
+        // Priority
+        case 'priority':
+            return $ticket->priority->name;
+            break;
+
+        // Severity
+        case 'severity':
+            return $ticket->severity->name;
             break;
     }
 
