@@ -44,7 +44,6 @@ class Project extends Model
         'enable_wiki',
         'default_ticket_type_id',
         'default_ticket_sorting',
-        'ticket_history_sorting',
         'displayorder',
         'private_key'
     );

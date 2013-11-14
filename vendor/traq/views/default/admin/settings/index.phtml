@@ -81,6 +81,14 @@
 			</div>
 		</fieldset>
 
+		<fieldset class="tabular section box">
+			<legend><?php echo l('tickets'); ?></legend>
+			<div class="group">
+				<label><?php echo l('ticket_history_sorting'); ?></label>
+				<?php echo Form::select('settings[ticket_history_sorting]', ticket_history_sorting_options(), array('value' => settings('ticket_history_sorting'))); ?>
+			</div>
+		</fieldset>
+
 		<div class="actions">
 			<input type="submit" value="<?php echo l('save'); ?>" />
 		</div>

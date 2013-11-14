@@ -297,7 +297,6 @@ CREATE TABLE `traq_projects` (
   `enable_wiki` tinyint(1) NOT NULL DEFAULT '0',
   `default_ticket_type_id` int(11) DEFAULT NULL,
   `default_ticket_sorting` varchar(255) NOT NULL DEFAULT 'priority.asc',
-  `ticket_history_sorting` varchar(255) NOT NULL DEFAULT 'oldest_first',
   `displayorder` bigint(20) NOT NULL DEFAULT '0',
   `private_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
@@ -386,6 +385,7 @@ VALUES
   ('date_format','d/m/Y'),
 	('locale','enus'),
 	('theme','default'),
+  ('ticket_history_sorting', 'oldest_first'),
   ('tickets_per_page', '25'),
 	('timeline_day_format','l, jS F Y'),
   ('timeline_days_per_page','7'),

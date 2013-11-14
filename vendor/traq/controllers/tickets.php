@@ -236,7 +236,7 @@ class Tickets extends AppController
         // Ticket history
         $ticket_history = $ticket->history;
 
-        switch($this->project->ticket_history_sorting) {
+        switch(settings('ticket_history_sorting')) {
             case 'oldest_first':
                 $ticket_history->order_by('created_at', 'ASC');
                 break;
