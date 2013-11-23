@@ -38,6 +38,11 @@ use traq\models\User;
  */
 class Users extends AppController
 {
+    public $_before = array(
+        'login'    => array('already_logged_in'),
+        'register' => array('already_logged_in')
+    );
+
     /**
      * User profile page.
      *
@@ -223,6 +228,16 @@ class Users extends AppController
                     View::set('error', true);
                 }
             }
+        }
+    }
+
+    /**
+     * Redirect to the front page if the user is logged in.
+     */
+    public function already_logged_in()
+    {
+        if (LOGGEDIN) {
+            Request::redirectTo('/');
         }
     }
 }
