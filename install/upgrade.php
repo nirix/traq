@@ -21,6 +21,11 @@
 require __DIR__ . '/bootstrap.php';
 require '../vendor/traq/helpers/uri.php';
 
+// Helpers
+require __DIR__ . '/helpers/fixes.php';
+
+use Installer\Upgrade\Helpers\Fixes as Fixes;
+
 // Framework libraries
 use avalon\Database;
 use avalon\output\View;
@@ -295,6 +300,8 @@ post('/step/1', function(){
 
         // Default ticket sorting
         $db->query("ALTER TABLE `{$db->prefix}projects` ADD `default_ticket_sorting` VARCHAR(255) NOT NULL DEFAULT 'priority.asc' AFTER `default_ticket_type_id`;");
+
+        Fixes::deleted_users();
     }
 
     // Update database version setting
