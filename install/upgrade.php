@@ -18,12 +18,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require './bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 require '../vendor/traq/helpers/uri.php';
 
+// Framework libraries
 use avalon\Database;
 use avalon\output\View;
 
+// Models
 use traq\models\User;
 use traq\models\Setting;
 use traq\models\Ticket;
