@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Installer\Upgrade\Helpers;
+namespace Installer\Helpers;
 
 use Traq\Models\Attachment;
 use Traq\Models\Setting;

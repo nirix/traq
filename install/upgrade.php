@@ -24,7 +24,7 @@ require '../vendor/traq/helpers/uri.php';
 // Helpers
 require __DIR__ . '/helpers/fixes.php';
 
-use Installer\Upgrade\Helpers\Fixes as Fixes;
+use Installer\Helpers\Fixes;
 
 // Framework libraries
 use avalon\Database;
