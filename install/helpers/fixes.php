@@ -56,13 +56,19 @@ class Fixes
 
         // Fix tickets
         $ticket_ids = array();
+        $assigned_ticket_ids = array();
         foreach (Ticket::fetch_all() as $model) {
             if (!User::find($model->user_id)) {
                 $ticket_ids[] = $model->id;
             }
+
+            if ($model->assigned_to_id != 0 and !User::find($model->assigned_to_id)) {
+                $assigned_ticket_ids[] = $model->id;
+            }
         }
 
         $db->query("UPDATE `{$db->prefix}tickets` SET `user_id` = '{$anonymous_user_id}' WHERE `id` IN (" . implode(',', $ticket_ids) . ")");
+        $db->query("UPDATE `{$db->prefix}tickets` SET `assigned_to_id` = '{$anonymous_user_id}' WHERE `id` IN (" . implode(',', $assigned_ticket_ids) . ")");
 
         // Fix ticket history
         $history_ids = array();
