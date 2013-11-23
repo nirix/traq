@@ -301,7 +301,7 @@ post('/step/1', function(){
         // Default ticket sorting
         $db->query("ALTER TABLE `{$db->prefix}projects` ADD `default_ticket_sorting` VARCHAR(255) NOT NULL DEFAULT 'priority.asc' AFTER `default_ticket_type_id`;");
 
-        Fixes::deleted_users();
+        Fixes::deletedUsers();
     }
 
     // Update database version setting
