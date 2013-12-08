@@ -230,6 +230,27 @@ $(document).ready(function(){
 			$.cookie('hide_filters', 0);
 		}
 	});
+
+	// Select all options in ticket filter optgroups when clicked.
+	$(document).on('click', '#ticket_filters_content select[multiple] optgroup', function(e){
+		// Make sure this is the actual optgroup being clicked on and no an option
+		// inside it.
+		if (!$(e.target).is('#ticket_filters_content select[multiple] optgroup')) {
+			return;
+		}
+
+		// Remove currently selected options unless
+		// the `ctrl` key is being held.
+		if (!e.ctrlKey && !e.metaKey) {
+			$('#ticket_filters_content select[multiple] option').each(function(){
+				$(this).removeProp('selected')
+			});
+		}
+
+		$(this).find('option').each(function(){
+			$(this).prop('selected', 'selected');
+		});
+	});
 });
 
 /*!
