@@ -460,7 +460,7 @@ class Tickets extends AppController
 
         // Type
         if ($this->user->permission($this->project->id, 'ticket_properties_change_type')) {
-            $data['type_id'] = Request::post('type', $ticket->type);
+            $data['type_id'] = Request::post('type', $ticket->type->id);
         }
 
         // Milestone
