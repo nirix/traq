@@ -22,8 +22,10 @@ require __DIR__ . '/bootstrap.php';
 require '../vendor/traq/helpers/uri.php';
 
 // Helpers
+require __DIR__ . '/helpers/upgrade/v3x.php';
 require __DIR__ . '/helpers/fixes.php';
 
+use Installer\Helpers\Upgrade\v3x as v3xUpgrades;
 use Installer\Helpers\Fixes;
 
 // Framework libraries
@@ -35,10 +37,6 @@ use traq\models\User;
 use traq\models\Setting;
 use traq\models\Ticket;
 use traq\models\CustomFieldValue;
-
-// Traq 3.0 Ticket model
-require __DIR__ . "/models/ticket_upgrade.php";
-use traq\models\TicketUpgrade;
 
 // Set page and title
 View::set('page', 'upgrade');
@@ -53,6 +51,12 @@ if (!file_exists('../vendor/traq/config/database.php')) {
 $db = get_connection();
 define('DB_VER', Setting::find('db_version')->value);
 
+// Database revisions
+$revisions = array(
+    // 3.x revisions
+    '3.x' => v3xUpgrades::revisions()
+);
+
 // Index
 get('/', function(){
     if (DB_VER < TRAQ_DB_VER) {
@@ -64,244 +68,15 @@ get('/', function(){
 
 // Upgrade
 post('/step/1', function(){
-    global $db;
+    global $db, $revisions;
 
-    // Version 3.0.6
-    if (DB_VER < 30006) {
-        // Find a user with the group ID of the guest group and make it the anonymous user.
-        if ($anon = $db->select()->from('users')->where('group_id', 3)->exec()->fetch()) {
-            $anon = new User($anon, false);
-            $anon->set(array(
-                'username'   => 'Anonymous',
-                'password'   => sha1(microtime() . rand(0, 200) . time() . rand(0, 200)) . microtime(),
-                'name'       => 'Anonymous',
-                'email'      => 'anonymous' . microtime() . '@' . $_SERVER['HTTP_HOST'],
-                'group_id'   => 3,
-                'locale'     => 'enUS',
-                'options'    => '{"watch_created_tickets":null}',
-                'login_hash' => sha1(microtime() . rand(0, 250) . time() . rand(0, 250) . microtime()),
-            ));
+    // 3.x upgrades
+    foreach ($revisions['3.x'] as $revision) {
+        if (DB_VER < $revision) {
+            // call_user_method_array("v{$revision}", "v3xUpgrades", array($db));
+            $method = "v{$revision}";
+            v3xUpgrades::{$method}($db);
         }
-        // Create an anonymous user
-        else {
-            // Anonymous user
-            $anon = new User(array(
-                'username'   => 'Anonymous',
-                'password'   => sha1(microtime() . rand(0, 200) . time() . rand(0, 200)) . microtime(),
-                'name'       => 'Anonymous',
-                'email'      => 'anonymous' . microtime() . '@' . $_SERVER['HTTP_HOST'],
-                'group_id'   => 3,
-                'locale'     => 'enUS',
-                'options'    => '{"watch_created_tickets":null}',
-                'login_hash' => sha1(microtime() . rand(0, 250) . time() . rand(0, 250) . microtime()),
-            ));
-        }
-
-        // Save anonymous user
-        $anon->save();
-
-        // Create setting to save anonymous user ID
-        $anon_id = new Setting(array(
-            'setting' => 'anonymous_user_id',
-            'value'   => $anon->id
-        ));
-        $anon_id->save();
-
-        // Update tickets, timeline, history with a user ID of -1
-        // to use the anonymous users ID.
-        $db->update('tickets')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
-        $db->update('ticket_history')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
-
-        // Update timeline for anonymous user
-        $db->update('timeline')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
-    }
-
-    // Version 3.0.7
-    if (DB_VER < 30007) {
-        foreach (Ticket_3_0::fetch_all() as $ticket) {
-            $ticket->delete_voter('-1');
-            $ticket->delete_voter(Setting::find('anonymous_user_id')->value);
-            $ticket->quick_save();
-        }
-
-        // Fix severities table ID column to auto increment
-        $db->query("
-            ALTER TABLE `" . $db->prefix . "severities` CHANGE `id` `id` BIGINT(20)
-             NOT NULL AUTO_INCREMENT
-        ");
-    }
-
-    // Version 3.1
-    if (DB_VER < 30100) {
-        // Default value for project display order.
-        $db->query("
-            ALTER TABLE `" . $db->prefix . "projects` CHANGE `displayorder` `displayorder` BIGINT(20)
-            NOT NULL DEFAULT '0'
-        ");
-
-        // Add api_key column to users table
-        $db->query("
-          ALTER TABLE `" . $db->prefix . "users` ADD COLUMN `api_key` VARCHAR(255)
-          AFTER `login_hash`;
-        ");
-
-        // Add setting for registration/email validation
-        $db->query("
-            INSERT INTO `" . $db->prefix . "settings` (`setting`, `value`)
-            VALUES
-              ('email_validation',0);
-        ");
-
-        // Add permissions for moving tickets
-        $db->query("
-            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
-            VALUES
-              (0,'usergroup',0,'move_tickets',0),
-              (0,'role',0,'move_tickets',0),
-              (0,'role',1,'move_tickets',1);
-        ");
-
-        // Add permissions for ticket properties
-        $db->query("
-            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
-            VALUES
-              (0,'usergroup',0,'ticket_properties_set_assigned_to',0),
-              (0,'usergroup',0,'ticket_properties_set_milestone',0),
-              (0,'usergroup',0,'ticket_properties_set_version',0),
-              (0,'usergroup',0,'ticket_properties_set_component',0),
-              (0,'usergroup',0,'ticket_properties_set_severity',0),
-              (0,'usergroup',0,'ticket_properties_set_priority',0),
-              (0,'usergroup',0,'ticket_properties_set_status',0),
-              (0,'usergroup',0,'ticket_properties_change_type',0),
-              (0,'usergroup',0,'ticket_properties_change_assigned_to',0),
-              (0,'usergroup',0,'ticket_properties_change_milestone',0),
-              (0,'usergroup',0,'ticket_properties_change_version',0),
-              (0,'usergroup',0,'ticket_properties_change_component',0),
-              (0,'usergroup',0,'ticket_properties_change_severity',0),
-              (0,'usergroup',0,'ticket_properties_change_priority',0),
-              (0,'usergroup',0,'ticket_properties_change_status',0),
-              (0,'usergroup',0,'ticket_properties_change_summary',0),
-              (0,'role',0,'ticket_properties_set_assigned_to',1),
-              (0,'role',0,'ticket_properties_set_milestone',1),
-              (0,'role',0,'ticket_properties_set_version',1),
-              (0,'role',0,'ticket_properties_set_component',1),
-              (0,'role',0,'ticket_properties_set_severity',1),
-              (0,'role',0,'ticket_properties_set_priority',1),
-              (0,'role',0,'ticket_properties_set_status',1),
-              (0,'role',0,'ticket_properties_change_type',1),
-              (0,'role',0,'ticket_properties_change_assigned_to',1),
-              (0,'role',0,'ticket_properties_change_milestone',1),
-              (0,'role',0,'ticket_properties_change_version',1),
-              (0,'role',0,'ticket_properties_change_component',1),
-              (0,'role',0,'ticket_properties_change_severity',1),
-              (0,'role',0,'ticket_properties_change_priority',1),
-              (0,'role',0,'ticket_properties_change_status',1),
-              (0,'role',0,'ticket_properties_change_summary',1);
-        ");
-    }
-
-    // Version 3.2
-    if (DB_VER < 30200) {
-        // Add tasks column to tickets table
-        $db->query("
-            ALTER TABLE `" . $db->prefix . "tickets` ADD COLUMN `tasks` longtext
-            AFTER `votes`;
-        ");
-
-        // Add new permissions
-        $db->query("
-            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
-            VALUES
-              (0,'usergroup',0,'delete_timeline_events',0),
-              (0,'usergroup',0,'perform_mass_actions',0),
-              (0,'usergroup',0,'ticket_properties_set_tasks',0),
-              (0,'usergroup',0,'ticket_properties_change_tasks',0),
-              (0,'usergroup',0,'ticket_properties_complete_tasks',0),
-              (0,'role',0,'delete_timeline_events',0),
-              (0,'role',1,'delete_timeline_events',1),
-              (0,'role',0,'perform_mass_actions',0),
-              (0,'role',1,'perform_mass_actions',1),
-              (0,'role',0,'ticket_properties_set_tasks',1),
-              (0,'role',0,'ticket_properties_change_tasks',1),
-              (0,'role',0,'ticket_properties_complete_tasks',1);
-          ");
-    }
-
-    // Version 3.2.1
-    if (DB_VER < 30201) {
-        // Add default ticket type ID column to projects table
-        $db->query("
-            ALTER TABLE `". $db->prefix . "projects` ADD COLUMN `default_ticket_type_id` int
-            AFTER `enable_wiki`;
-        ");
-    }
-
-    // Version 3.2.2
-    if (DB_VER < 30202) {
-      // Add assignable column to project role table.
-      $db->query("
-        ALTER TABLE `{$db->prefix}project_roles` ADD COLUMN `assignable` TINYINT(1) NOT NULL DEFAULT '1'
-        AFTER `name`;
-      ");
-    }
-
-    // Version 3.3 "McCoy"
-    if (DB_VER < 30300) {
-        // Custom field values table
-        $db->query("
-            CREATE TABLE `". $db->prefix . "custom_field_values` (
-              `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-              `custom_field_id` bigint(20) NOT NULL,
-              `ticket_id` bigint(20) NOT NULL,
-              `value` text,
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-        ");
-
-        // Loop over tickets and place custom field values
-        // into the new table.
-        foreach (TicketUpgrade::fetch_all() as $ticket) {
-            foreach ($ticket->extra['custom_fields'] as $field_id => $value) {
-                $field = new CustomFieldValue(array(
-                    'custom_field_id' => $field_id,
-                    'ticket_id'       => $ticket->id,
-                    'value'           => $value
-                ));
-
-                $field->save();
-            }
-
-            $ticket->remove_custom_fields();
-            $ticket->save();
-        }
-
-        // Add default value for milestone_id field in the tickets table
-        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NOT NULL DEFAULT '0';");
-
-        // Site name and URL setting rows
-        $db->query("
-          INSERT INTO `{$db->prefix}settings` (`setting`, `value`)
-          VALUES
-            ('site_name', ''),
-            ('site_url', '');
-        ");
-
-        // Add custom fields slug field.
-        $db->query("ALTER TABLE `{$db->prefix}custom_fields` ADD `slug` VARCHAR(255) NOT NULL AFTER `name`;");
-
-        // Update current custom fields and create the slug.
-        foreach ($db->query("SELECT `id`, `name` FROM `{$db->prefix}custom_fields`")->fetchAll(PDO::FETCH_ASSOC) as $field) {
-            $slug = create_slug($field['name']);
-            $db->query("UPDATE `{$db->prefix}custom_fields` SET `slug` = '{$slug}' WHERE `id` = {$field['id']}");
-        }
-
-        // Ticket history sorting
-        $db->query("INSERT INTO `{$db->prefix}settings` (`setting`,`value`) VALUES('ticket_history_sorting', 'oldest_first');");
-
-        // Default ticket sorting
-        $db->query("ALTER TABLE `{$db->prefix}projects` ADD `default_ticket_sorting` VARCHAR(255) NOT NULL DEFAULT 'priority.asc' AFTER `default_ticket_type_id`;");
-
-        Fixes::deletedUsers();
     }
 
     // Update database version setting
