@@ -125,6 +125,9 @@ class TicketFilterQuery
                 }
             }
 
+            // Sort values low to high
+            asort($query_values);
+
             // Value
             $value = "IN (" . implode(',', $query_values) . ")";
 
@@ -161,8 +164,11 @@ class TicketFilterQuery
                 }
             }
 
+            // Sort values low to high
+            asort($query_values);
+
             // Value
-            $value = "IN (" . implode(',', $query_values) . ")";
+            $value = "IN (" . implode(',', asort($query_values)) . ")";
 
             // Add to query if there's any values
             if (count($query_values)) {
@@ -175,6 +181,9 @@ class TicketFilterQuery
             $custom_field = CustomField::find('slug', $field);
             $this->filters[$field]['label'] = $custom_field->name;
             $this->filters[$field]['values'] = $values;
+
+            // Sort values low to high
+            asort($values);
 
             $this->custom_field_sql[] = "
                 `fields`.`custom_field_id` = {$custom_field->id}
