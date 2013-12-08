@@ -367,4 +367,29 @@ class User extends Model
         unset($data['password'], $data['email'], $data['login_hash']);
         return $data;
     }
+
+    /**
+     * Moves ticket and timeline data to the anonymous user before deleting the user.
+     */
+    public function delete() {
+        $anon_id = Setting::find('setting', 'anonymous_user_id')->value;
+
+        // Update attachments, tickets, ticket updates and timeline events
+        $tables = array('attachments', 'tickets', 'ticket_history', 'timeline');
+        foreach ($tables as $table) {
+            static::db()->update($table)->set(array('user_id' => $anon_id))->where('user_id', $this->id)->exec();
+        }
+
+        // Update assigned tickets
+        static::db()->update('tickets')->set(array('assigned_to_id' => 0))->where('assigned_to_id', $this->id)->exec();
+
+        // Delete subscriptions
+        static::db()->delete()->from('subscriptions')->where('user_id', $this->id)->exec();
+
+        // Delete user project roles
+        static::db()->delete()->from('user_roles')->where('user_id', $this->id)->exec();
+
+        // Delete user
+        parent::delete();
+    }
 }
