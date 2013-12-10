@@ -265,12 +265,13 @@ class v3x
         // Add default value for milestone_id field in the tickets table
         $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NOT NULL DEFAULT '0';");
 
-        // Site name and URL setting rows
+        // Site name/URL and ticket history sorting setting rows
         $db->query("
           INSERT INTO `{$db->prefix}settings` (`setting`, `value`)
           VALUES
             ('site_name', ''),
-            ('site_url', '');
+            ('site_url', ''),
+            ('ticket_history_sorting', 'oldest_first');
         ");
 
         // Add custom fields slug field.
@@ -281,9 +282,6 @@ class v3x
             $slug = create_slug($field['name']);
             $db->query("UPDATE `{$db->prefix}custom_fields` SET `slug` = '{$slug}' WHERE `id` = {$field['id']}");
         }
-
-        // Ticket history sorting
-        $db->query("INSERT INTO `{$db->prefix}settings` (`setting`,`value`) VALUES('ticket_history_sorting', 'oldest_first');");
 
         // Default ticket sorting
         $db->query("ALTER TABLE `{$db->prefix}projects` ADD `default_ticket_sorting` VARCHAR(255) NOT NULL DEFAULT 'priority.asc' AFTER `default_ticket_type_id`;");
