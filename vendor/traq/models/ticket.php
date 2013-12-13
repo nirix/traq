@@ -412,6 +412,8 @@ class Ticket extends Model
 
         // Save
         if ($this->save()) {
+            $this->project = Project::find($this->project_id);
+
             // Closed notification
             if (isset($this->_is_closing) and $this->_is_closing) {
                 Notification::send_for_ticket('closed', $this);
