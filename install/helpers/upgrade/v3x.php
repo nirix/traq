@@ -26,29 +26,32 @@ use traq\models\TicketUpgrade;
 
 use Installer\Helpers\Fixes;
 
-class v3x
+/**
+ * Traq 3.x upgrades.
+ *
+ * @author Jack P.
+ * @since 3.3
+ * @package Traq
+ * @subpackage Installer
+ */
+class v3x extends Base
 {
     /**
-     * Upgrade version numbers.
-     *
-     * @return array
+     * Available revisions.
      */
-    public static function revisions()
-    {
-        return array(
-            // 3.0.x
-            30006, 30007,
+    protected static $revisions = array(
+        // 3.0.x
+        30006, 30007,
 
-            // 3.1.x
-            30100,
+        // 3.1.x
+        30100,
 
-            // 3.2.x
-            30200, 30201, 30202,
+        // 3.2.x
+        30200, 30201, 30202,
 
-            // 3.3.x
-            30300
-        );
-    }
+        // 3.3.x
+        30300
+    );
 
     /**
      * Traq v3.0.6

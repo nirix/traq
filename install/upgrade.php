@@ -22,6 +22,7 @@ require __DIR__ . '/bootstrap.php';
 require '../vendor/traq/helpers/uri.php';
 
 // Helpers
+require __DIR__ . '/helpers/upgrade/base.php';
 require __DIR__ . '/helpers/upgrade/v3x.php';
 require __DIR__ . '/helpers/fixes.php';
 
@@ -51,12 +52,6 @@ if (!file_exists('../vendor/traq/config/database.php')) {
 $db = get_connection();
 define('DB_VER', Setting::find('db_version')->value);
 
-// Database revisions
-$revisions = array(
-    // 3.x revisions
-    '3.x' => v3xUpgrades::revisions()
-);
-
 // Index
 get('/', function(){
     if (DB_VER < TRAQ_DB_VER) {
@@ -70,14 +65,8 @@ get('/', function(){
 post('/step/1', function(){
     global $db, $revisions;
 
-    // 3.x upgrades
-    foreach ($revisions['3.x'] as $revision) {
-        if (DB_VER < $revision) {
-            // call_user_method_array("v{$revision}", "v3xUpgrades", array($db));
-            $method = "v{$revision}";
-            v3xUpgrades::{$method}($db);
-        }
-    }
+    // Traq 3.x upgrades
+    v3xUpgrades::run($db, DB_VER);
 
     // Update database version setting
     $db_ver = Setting::find('setting', 'db_version');
