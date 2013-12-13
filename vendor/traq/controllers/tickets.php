@@ -126,7 +126,6 @@ class Tickets extends AppController
             // Check if we need to do
             // anything with the field.
             switch($order[0]) {
-                case 'id':
                 case 'summary':
                 case 'body':
                 case 'votes':
