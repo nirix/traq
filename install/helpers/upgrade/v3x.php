@@ -252,13 +252,13 @@ class v3x extends Base
         // into the new table.
         foreach (TicketUpgrade::fetch_all() as $ticket) {
             foreach ($ticket->extra['custom_fields'] as $field_id => $value) {
-                $field = new CustomFieldValue(array(
+                $data = array(
                     'custom_field_id' => $field_id,
                     'ticket_id'       => $ticket->id,
                     'value'           => $value
-                ));
+                );
 
-                $field->save();
+                $db->insert($data)->into('custom_field_values')->exec();
             }
 
             $ticket->remove_custom_fields();
