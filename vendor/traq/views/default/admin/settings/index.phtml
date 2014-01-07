@@ -87,6 +87,10 @@
 				<label><?php echo l('ticket_history_sorting'); ?></label>
 				<?php echo Form::select('settings[ticket_history_sorting]', ticket_history_sorting_options(), array('value' => settings('ticket_history_sorting'))); ?>
 			</div>
+			<div class="group">
+				<label><?php echo l('ticket_creation_delay'); ?></label>
+				<?php echo Form::text('settings[ticket_creation_delay]', array('value' => settings('ticket_creation_delay'))); ?> <abbr title="<?php echo l('help.ticket_creation_delay'); ?>">?</abbr>
+			</div>
 		</fieldset>
 
 		<div class="actions">

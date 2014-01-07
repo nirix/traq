@@ -385,6 +385,7 @@ VALUES
   ('date_format','d/m/Y'),
 	('locale','enus'),
 	('theme','default'),
+  ('ticket_creation_delay', '30'),
   ('ticket_history_sorting', 'oldest_first'),
   ('tickets_per_page', '25'),
 	('timeline_day_format','l, jS F Y'),

@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Traq.io
  *
  * This file is part of Traq.
  *
@@ -166,6 +166,7 @@ class enUS extends \traq\libraries\Locale
             'email_validation'     => "Email Validation",
             'notifications_from_email' => "From Email",
             'assignable'           => "Assignable",
+            'ticket_creation_delay' => "Creation Delay",
 
             // Settings page
             'settings'             => "Settings",
@@ -407,6 +408,7 @@ class enUS extends \traq\libraries\Locale
             'help.custom_fields.max_length' => "Maximum value length, blank for none.",
             'help.custom_fields.values'     => "Options for select, one per line.",
             'help.custom_fields.multiple'   => "Allows multiple options to be selected.",
+            'help.ticket_creation_delay'    => "Seconds users must wait before creating a new ticket.",
 
             // Ticket property hints
             'help.milestone' => "The version in which the ticket should be completed for.",

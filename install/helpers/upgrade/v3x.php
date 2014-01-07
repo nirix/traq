@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Traq.io
  *
  * This file is part of Traq.
  *
@@ -50,7 +50,7 @@ class v3x extends Base
         30200, 30201, 30202,
 
         // 3.3.x
-        30300
+        30300, 30304
     );
 
     /**
@@ -290,5 +290,12 @@ class v3x extends Base
         $db->query("ALTER TABLE `{$db->prefix}projects` ADD `default_ticket_sorting` VARCHAR(255) NOT NULL DEFAULT 'priority.asc' AFTER `default_ticket_type_id`;");
 
         Fixes::deletedUsers();
+    }
+
+    /**
+     * Traq v3.3.4
+     */
+    public function v30304($db) {
+        $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('ticket_creation_delay', '30');");
     }
 }
