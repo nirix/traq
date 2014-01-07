@@ -404,7 +404,11 @@ class Tickets extends AppController
             // Check if the ticket data is valid...
             // if it is, save the ticket to the DB and
             // redirect to the ticket page.
-            if ($ticket->save()) {
+            if (check_ticket_creation_delay($ticket) and $ticket->is_valid()) {
+                // Set last ticket creation time
+                $_SESSION['last_ticket_creation'] = time();
+
+                $ticket->save();
                 // Create subscription
                 if ($this->user->option('watch_created_tickets')) {
                     $sub = new Subscription(array(

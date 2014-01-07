@@ -481,3 +481,23 @@ function ticket_sorting_select_options()
 
     return $options;
 }
+
+/**
+ * Checks the ticket creation delay against the last created
+ * ticket.
+ *
+ * TODO: In 4.0, this will be moved into the new action limiting feature.
+ *
+ * @return boolean
+ */
+function check_ticket_creation_delay($ticket) {
+    if (isset($_SESSION['last_ticket_creation']) and $_SESSION['last_ticket_creation'] > (time() - settings('ticket_creation_delay'))) {
+        $ticket->_add_error(
+            'ticket_creation_delay',
+            l('errors.you_must_wait_x', Time::difference_in_words($_SESSION['last_ticket_creation'] + settings('ticket_creation_delay')))
+        );
+        return false;
+    }
+
+    return true;
+}
