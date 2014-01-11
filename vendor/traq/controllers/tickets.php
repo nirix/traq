@@ -86,7 +86,7 @@ class Tickets extends AppController
         foreach (Request::$request as $filter => $value) {
             // Check if the filter exists...
             if (in_array($filter, array_keys(ticket_filters_for($this->project)))) {
-                $filter_query->process($filter, explode(',', $value));
+                $filter_query->process($filter, $value);
             }
         }
 
@@ -784,6 +784,7 @@ class Tickets extends AppController
                 case 'description':
                 case 'owner':
                 case 'assigned_to':
+                case 'search':
                     $values = array();
                     foreach ($filter['values'] as $value) {
                         $values[] = urlencode($value);

@@ -5,9 +5,15 @@
 			<table>
 				<tbody>
 				<?php foreach ($filters as $filter => $info) { ?>
-					<?php if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component', 'priority', 'severity'))) { ?>
+					<?php if (in_array($filter, array('milestone', 'status', 'version', 'type', 'component', 'priority', 'severity', 'search'))) { ?>
 					<tr id="filter-<?php echo $filter; ?>">
 						<td class="label"><?php echo l($filter); ?></td>
+						<?php if ($filter == 'search') { ?>
+						<td class="condition">is</td>
+						<td class="value">
+							<?php echo Form::text("filters[{$filter}][values][]", array('value' => implode(',', $info['values']), 'id' => false)); ?>
+						</td>
+						<?php } else { ?>
 						<td class="condition">
 							<?php
 								echo Form::select("filters[{$filter}][prefix]",
@@ -22,6 +28,7 @@
 						<td class="value">
 							<?php echo Form::multiselect("filters[{$filter}][values][]", ticket_filter_options_for($filter, $project->id), $info['values']); ?>
 						</td>
+						<?php } ?>
 						<td class="ticket_filter_action">
 							<button type="button" class="button_delete" name="remove_filter[<?php echo $filter; ?>:<?php echo $k; ?>]" data-filter="<?php echo $filter; ?>">-</button>
 						</td>

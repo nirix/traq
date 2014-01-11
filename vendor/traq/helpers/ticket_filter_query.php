@@ -54,6 +54,12 @@ class TicketFilterQuery
      */
     public function process($field, $values)
     {
+        if ($field == 'search') {
+            $values = array($values);
+        } else {
+            $values = explode(',', $values);
+        }
+
         $condition = '';
         if (substr($values[0], 0, 1) == '!') {
             $condition = 'NOT';
@@ -175,6 +181,12 @@ class TicketFilterQuery
                 $this->sql[] = "`{$column}_id` {$condition} {$value}";
                 $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
             }
+        }
+        // Search
+        elseif ($field == 'search') {
+            $value = str_replace('*', '%', implode('%', $values));
+            $this->sql[] = "(`summary` LIKE '%{$value}%' OR `body` LIKE '%{$value}%')";
+            $this->filters['search']['values'] = $values;
         }
         // Custom fields
         elseif (in_array($field, array_keys(custom_field_filters_for($this->project)))) {

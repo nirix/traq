@@ -120,7 +120,8 @@ function ticket_filters()
         'status'      => l('status'),
         'type'        => l('type'),
         'priority'    => l('priority'),
-        'severity'    => l('severity')
+        'severity'    => l('severity'),
+        'search'      => l('search')
     );
 
     // Run plugin hook
