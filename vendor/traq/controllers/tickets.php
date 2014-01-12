@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Traq.io
  *
  * This file is part of Traq.
  *
@@ -27,6 +27,7 @@ use avalon\core\Load;
 
 use traq\models\Project;
 use traq\models\Ticket;
+use traq\models\TicketRelationship;
 use traq\models\Milestone;
 use traq\models\Status;
 use traq\models\Type;
@@ -409,6 +410,24 @@ class Tickets extends AppController
                 $_SESSION['last_ticket_creation'] = time();
 
                 $ticket->save();
+
+                // Related tickets
+                if ($this->user->permission($this->project->id, 'ticket_properties_set_related_tickets') and !empty(Request::post('related_tickets'))) {
+                    foreach (explode(',', Request::post('related_tickets')) as $ticket_id) {
+                        $related = Ticket::select('id')
+                            ->where('project_id', $this->project->id)
+                            ->where('ticket_id', trim($ticket_id))
+                            ->limit(1)->exec()->fetch();
+
+                        $relation = new TicketRelationship(array(
+                            'ticket_id'         => $ticket->id,
+                            'related_ticket_id' => $related->id
+                        ));
+
+                        $relation->save();
+                    }
+                }
+
                 // Create subscription
                 if ($this->user->option('watch_created_tickets')) {
                     $sub = new Subscription(array(
