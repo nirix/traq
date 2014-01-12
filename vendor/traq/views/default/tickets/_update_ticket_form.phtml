@@ -90,6 +90,12 @@
 					<input type="file" id="attachment" name="attachment" />
 				</div>
 				<?php } ?>
+				<?php if ($current_user->permission($project->id, 'ticket_properties_change_related_tickets')) { ?>
+				<div class="field">
+					<?php echo Form::label(l('related_tickets'), 'related_tickets'); ?>
+					<?php echo Form::text('related_tickets', array('value' => implode(', ', $ticket->related_ticket_tids()))); ?>
+				</div>
+				<?php } ?>
 				<?php echo View::render('tickets/_custom_fields_form'); ?>
 			</div>
 			<?php } ?>
