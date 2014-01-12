@@ -50,7 +50,10 @@ class v3x extends Base
         30200, 30201, 30202,
 
         // 3.3.x
-        30300, 30304
+        30300, 30304,
+
+        // 3.4.x
+        30400
     );
 
     /**
@@ -297,5 +300,28 @@ class v3x extends Base
      */
     public function v30304($db) {
         $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('ticket_creation_delay', '30');");
+    }
+
+    /**
+     * Traq 3.4.0
+     */
+    public function v30400($db) {
+        $db->query("
+            CREATE TABLE IF NOT EXISTS `{$db->prefix}ticket_relationships` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `ticket_id` bigint(20) NOT NULL,
+              `related_ticket_id` bigint(20) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+        ");
+
+        $db->query("
+            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+            VALUES
+              (0,'usergroup',0,'ticket_properties_set_related_tickets',0),
+              (0,'usergroup',0,'ticket_properties_change_related_tickets',0),
+              (0,'role',0,'ticket_properties_set_related_tickets',1),
+              (0,'role',0,'ticket_properties_change_related_tickets',1);
+        ");
     }
 }
