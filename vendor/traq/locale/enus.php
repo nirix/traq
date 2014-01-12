@@ -212,6 +212,7 @@ class enUS extends \traq\libraries\Locale
             'move'                  => "Move",
             'move_ticket'           => "Move Ticket",
             'mass_actions'          => "Mass Actions",
+            'related_tickets'       => "Related tickets",
             'people_who_have_voted_on_this_ticket' => "People who have voted on this ticket ({1})",
 
             // Ticket columns
