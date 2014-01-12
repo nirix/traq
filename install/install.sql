@@ -401,6 +401,16 @@ VALUES
 
 UNLOCK TABLES;
 
+# Dump of table traq_ticket_relationships
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `traq_ticket_relationships` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) NOT NULL,
+  `related_ticket_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 # Dump of table traq_severities
 # ------------------------------------------------------------
 
