@@ -1,4 +1,0 @@
-git pull origin master
-cd vendor/avalon
-git pull origin master
-cd ../../
