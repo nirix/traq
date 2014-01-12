@@ -16,11 +16,20 @@
       label
         color: #663
 
-      div.value, span.value
+      div.value, span.value, ul.value
         float: right
 
       &:nth-child(4n)
         margin-right: 0px
+
+      ul
+        display: inline-block
+        margin: 0
+        padding: 0
+        list-style-type: none
+
+        li
+          display: inline
 
   #description, #attachments, #tasks
     h3

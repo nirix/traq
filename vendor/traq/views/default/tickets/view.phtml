@@ -63,6 +63,14 @@
 				} ?>
 			</span>
 		</div>
+		<div class="property">
+			<?php echo Form::label(l('related_tickets')); ?>
+			<ul class="value">
+			<?php foreach ($ticket->related_tickets() as $ticket) { ?>
+				<li><?php echo HTML::link("#" . $ticket->ticket_id, $ticket->href()); ?></li>
+			<?php } ?>
+			</ul>
+		</div>
 		<?php
 		foreach ($custom_fields as $field) {
 				if ($field_value = $ticket->custom_field_value($field->id)) {

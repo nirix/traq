@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Traq.io
  *
  * This file is part of Traq.
  *
@@ -582,6 +582,56 @@ class Ticket extends Model
     {
         $this->_data['tasks'][$task_id]['completed'] = $this->_data['tasks'][$task_id]['completed'] ? false : true;
         $this->_set_changed('tasks');
+    }
+
+    /**
+     * Returns an array of tickets related to this ticket.
+     *
+     * @return array
+     */
+    public function related_tickets()
+    {
+        // Check if we've already fetched related tickets.
+        if (isset($this->_related_tickets)) {
+            return $this->_related_tickets;
+        }
+
+        $tickets = array();
+
+        // Fetch tickets
+        $related_tickets = TicketRelationship::select()->where('ticket_id', $this->id)->exec()->fetch_all();
+        $tickets_related = TicketRelationship::select()->where('related_ticket_id', $this->id)->exec()->fetch_all();
+
+        // Related tickets
+        foreach ($related_tickets as $relation) {
+            $tickets[] = $relation->related_ticket;
+        }
+
+        // Tickets related to this
+        foreach ($tickets_related as $relation) {
+            $tickets[] = $relation->ticket;
+        }
+
+        $this->_related_tickets = $tickets;
+        unset($tickets);
+
+        return $this->_related_tickets;
+    }
+
+    /**
+     * Returns an array containing the ticket IDs of related tickets.
+     *
+     * @return array
+     */
+    public function related_ticket_tids()
+    {
+        $ticket_ids = array();
+
+        foreach ($this->related_tickets() as $ticket) {
+            $ticket_ids[] = $ticket->ticket_id;
+        }
+
+        return $ticket_ids;
     }
 
     /**
