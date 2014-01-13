@@ -174,6 +174,13 @@ class Ticket extends Model
             }
             $this->_save_queue = array();
 
+            // Save custom fields
+            foreach ($this->_custom_field_queue as $model) {
+                $model->ticket_id = $this->id;
+                $model->save();
+            }
+            $this->_custom_field_queue = array();
+
             // New ticket?
             if ($this->_is_new()) {
                 // Timeline entry
@@ -199,12 +206,6 @@ class Ticket extends Model
                     ));
                     $timeline->save();
                 }
-
-                foreach ($this->_custom_field_queue as $model) {
-                    $model->ticket_id = $this->id;
-                    $model->save();
-                }
-                $this->_custom_field_queue = array();
 
                 // Created notification
                 Notification::send_for_ticket('created', $this);
