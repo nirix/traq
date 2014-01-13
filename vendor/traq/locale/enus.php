@@ -354,6 +354,9 @@ class enUS extends \traq\libraries\Locale
                     'ticket_properties_set_tasks'         => "Set Tasks",
                     'ticket_properties_change_tasks'      => "Change Tasks",
                     'ticket_properties_complete_tasks'    => "Complete Tasks",
+
+                    'ticket_properties_set_related_tickets'    => "Set related tickets",
+                    'ticket_properties_change_related_tickets' => "Change related tickets",
                 ),
 
                 // Wiki
