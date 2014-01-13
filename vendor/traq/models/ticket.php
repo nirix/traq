@@ -560,11 +560,6 @@ class Ticket extends Model
     {
         $this->fetch_custom_fields();
 
-        // return isset($this->_custom_fields[$field_id]) ? $this->_custom_fields[$field_id] : false;
-
-        // $value = CustomFieldValue::select()->where('ticket_id', $this->id)->where('custom_field_id', $field_id)->exec()->fetch();
-        // return $value;
-
         return isset($this->_custom_fields[$field_id]) ? $this->_custom_fields[$field_id] : false;
     }
 
