@@ -529,18 +529,18 @@ class Ticket extends Model
         $field = $this->custom_field_value($field_id);
 
         // Check if value is different
-        if ($field and $field->value !== $value) {
-            $field->value = $value;
+        if ($field and $field->value != $value) {
 
             // Add change
             $this->_changes[$field_id] = array(
                 'property'     => $field_name,
                 'custom_field' => true,
-                'from'         => $this->custom_field_value($field_id)->value,
+                'from'         => $field->value,
                 'to'           => $value
             );
 
-            $this->save_queue[] = $field;
+            $field->value = $value;
+            $this->_save_queue[] = $field;
         } elseif (!$field) {
             $this->_custom_field_queue[] = new CustomFieldValue(array(
                 'custom_field_id' => $field_id,
@@ -560,6 +560,11 @@ class Ticket extends Model
     {
         $this->fetch_custom_fields();
 
+        // return isset($this->_custom_fields[$field_id]) ? $this->_custom_fields[$field_id] : false;
+
+        // $value = CustomFieldValue::select()->where('ticket_id', $this->id)->where('custom_field_id', $field_id)->exec()->fetch();
+        // return $value;
+
         return isset($this->_custom_fields[$field_id]) ? $this->_custom_fields[$field_id] : false;
     }
 
@@ -568,12 +573,18 @@ class Ticket extends Model
      */
     public function fetch_custom_fields()
     {
-        if (!isset($this->_custom_fields)) {
-            $this->_custom_fields = array();
-            foreach ($this->custom_fields->exec()->fetch_all() as $field) {
-                $this->_custom_fields[$field->custom_field_id] = $field;
-            }
+        if (isset($this->_custom_fields)) {
+            return $this->_custom_fields;
         }
+
+        $this->_custom_fields = array();
+
+        $values = CustomFieldValue::select()->where('ticket_id', $this->id)->exec()->fetch_all();
+        foreach ($values as $value) {
+            $this->_custom_fields[$value->custom_field_id] = $value;
+        }
+
+        return $this->_custom_fields;
     }
 
     /**
