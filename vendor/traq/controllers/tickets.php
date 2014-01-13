@@ -532,6 +532,44 @@ class Tickets extends AppController
             }
         }
 
+        // Related tickets
+        if ($this->user->permission($this->project->id, 'ticket_properties_change_related_tickets')) {
+            $related_tickets = $ticket->related_ticket_tids();
+            $posted_related_tickets = array();
+
+            foreach (explode(',', Request::post('related_tickets')) as $posted_related_ticket) {
+                $posted_related_tickets[] = trim($posted_related_ticket);
+            }
+
+            // New relations
+            foreach ($posted_related_tickets as $related_tid) {
+                // Make sure it's not already a relation
+                if (!in_array($related_tid, $related_tickets)) {
+                    // Fetch ticket info
+                    $related_ticket = Ticket::select('id')
+                        ->where('project_id', $this->project->id)
+                        ->where('ticket_id', $related_tid)
+                        ->exec()->fetch();
+
+                    // Make sure the ticket exists
+                    if ($related_ticket) {
+                        $relation = new TicketRelationship(array(
+                            'ticket_id' => $ticket->id,
+                            'related_ticket_id' => $related_ticket->id
+                        ));
+                        $relation->save();
+                    }
+                }
+            }
+
+            // Delete relations
+            foreach ($ticket->ticket_relationships->exec()->fetch_all() as $relation) {
+                if (!in_array($relation->related_ticket->ticket_id, $posted_related_tickets)) {
+                    $relation->delete();
+                }
+            }
+        }
+
         // Check if we're adding an attachment and that the user has permission to do so
         if ($this->user->permission($this->project->id, 'add_attachments') and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
             $data['attachment'] = $_FILES['attachment']['name'];

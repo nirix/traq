@@ -65,8 +65,9 @@ class Ticket extends Model
     protected static $_has_many = array(
         'attachments',
 
-        'custom_fields' => array('model' => 'CustomFieldValue'),
-        'history' => array('model' => 'TicketHistory')
+        'custom_fields'        => array('model' => 'CustomFieldValue'),
+        'history'              => array('model' => 'TicketHistory'),
+        'ticket_relationships' => array('model' => 'TicketRelationship')
     );
 
     protected static $_belongs_to = array(
