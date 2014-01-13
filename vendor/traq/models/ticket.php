@@ -87,8 +87,9 @@ class Ticket extends Model
         'save' => array('process_data_write')
     );
 
-    protected $_changes = array();
-    protected $_save_queue = array();
+    protected $_changes            = array();
+    protected $_save_queue         = array();
+    protected $_related_tickets    = array();
     protected $_custom_field_queue = array();
 
     /**
@@ -587,47 +588,51 @@ class Ticket extends Model
     /**
      * Returns an array of tickets related to this ticket.
      *
+     * @param boolean $include_reverse Include tickets with relations to this ticket.
+     *
      * @return array
      */
-    public function related_tickets()
+    public function related_tickets($include_reverse = true)
     {
         // Check if we've already fetched related tickets.
-        if (isset($this->_related_tickets)) {
-            return $this->_related_tickets;
+        if (isset($this->_related_tickets[$include_reverse])) {
+            return $this->_related_tickets[$include_reverse];
         }
 
         $tickets = array();
 
-        // Fetch tickets
-        $related_tickets = TicketRelationship::select()->where('ticket_id', $this->id)->exec()->fetch_all();
-        $tickets_related = TicketRelationship::select()->where('related_ticket_id', $this->id)->exec()->fetch_all();
-
         // Related tickets
+        $related_tickets = TicketRelationship::select()->where('ticket_id', $this->id)->exec()->fetch_all();
         foreach ($related_tickets as $relation) {
             $tickets[] = $relation->related_ticket;
         }
 
         // Tickets related to this
-        foreach ($tickets_related as $relation) {
-            $tickets[] = $relation->ticket;
+        if ($include_reverse) {
+            $tickets_related = TicketRelationship::select()->where('related_ticket_id', $this->id)->exec()->fetch_all();
+            foreach ($tickets_related as $relation) {
+                $tickets[] = $relation->ticket;
+            }
         }
 
-        $this->_related_tickets = $tickets;
+        $this->_related_tickets[$include_reverse] = $tickets;
         unset($tickets);
 
-        return $this->_related_tickets;
+        return $this->_related_tickets[$include_reverse];
     }
 
     /**
      * Returns an array containing the ticket IDs of related tickets.
      *
+     * @param boolean $include_reverse Include tickets with relations to this ticket.
+     *
      * @return array
      */
-    public function related_ticket_tids()
+    public function related_ticket_tids($include_reverse = true)
     {
         $ticket_ids = array();
 
-        foreach ($this->related_tickets() as $ticket) {
+        foreach ($this->related_tickets($include_reverse) as $ticket) {
             $ticket_ids[] = $ticket->ticket_id;
         }
 
