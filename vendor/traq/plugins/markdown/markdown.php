@@ -1,7 +1,9 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -35,9 +37,11 @@ use \FishHook;
  */
 class Markdown extends \traq\libraries\Plugin
 {
+    protected static $parser;
+
     protected static $info = array(
         'name'    => 'Markdown',
-        'version' => '2.0',
+        'version' => '2.0.1',
         'author'  => 'Jack P.'
     );
 
@@ -59,7 +63,13 @@ class Markdown extends \traq\libraries\Plugin
             $text = htmlspecialchars_decode($text);
         }
 
+        // Initialise parser
+        if (!isset(static::$parser)) {
+            static::$parser = new \Michelf\MarkdownExtra;
+            static::$parser->no_markup = true;
+        }
+
         // Parse the text
-        $text = \Michelf\MarkdownExtra::defaultTransform($text);
+        $text = static::$parser->transform($text);
     }
 }
