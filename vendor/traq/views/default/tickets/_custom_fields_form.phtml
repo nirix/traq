@@ -1,5 +1,5 @@
 <?php foreach ($custom_fields as $field) { ?>
-<div class="custom_field field">
+<div class="custom_field field <?php echo $field->type_css_classes(); ?>">
 	<?php echo Form::label($field->name, "custom_fields[{$field->id}]"); ?>
 	<?php
 	$value = ($ticket->custom_field_value($field->id) ? $ticket->custom_field_value($field->id)->value : $field->default_value);

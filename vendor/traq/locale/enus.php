@@ -186,6 +186,7 @@ class enUS extends \traq\libraries\Locale
             'default_ticket_sorting' => "Default ticket sorting",
             'oldest_first' => "Oldest First",
             'newest_first' => "Newest First",
+            'ticket_types' => "Ticket types",
 
             // Tickets
             'id'                    => "ID",

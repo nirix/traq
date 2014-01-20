@@ -602,17 +602,19 @@ class Tickets extends AppController
     private function process_custom_fields(&$ticket, $fields)
     {
         foreach ($this->custom_fields as $field) {
-            if (isset($fields[$field->id])) {
-                if ($field->validate($fields[$field->id])) {
-                    $ticket->set_custom_field($field->id, $field->name, $fields[$field->id]);
-                } else {
-                    $ticket->_add_error($field->id, l("errors.custom_fields.x_is_not_valid", $field->name, $field->type));
+            if (in_array($ticket->type_id, $field->ticket_type_ids)) {
+                if (isset($fields[$field->id])) {
+                    if ($field->validate($fields[$field->id])) {
+                        $ticket->set_custom_field($field->id, $field->name, $fields[$field->id]);
+                    } else {
+                        $ticket->_add_error($field->id, l("errors.custom_fields.x_is_not_valid", $field->name, $field->type));
+                    }
                 }
-            }
 
-            // Check if field is required
-            if ($field->is_required and empty($fields[$field->id])) {
-                $ticket->_add_error($field->id, l('errors.custom_fields.x_required', $field->name));
+                // Check if field is required
+                if ($field->is_required and empty($fields[$field->id])) {
+                    $ticket->_add_error($field->id, l('errors.custom_fields.x_required', $field->name));
+                }
             }
         }
     }

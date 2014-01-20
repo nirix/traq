@@ -42,6 +42,19 @@
 		<?php echo Form::checkbox('multiple', 1, array('checked' => $field->multiple)); ?>  <abbr title="<?php echo l('help.custom_fields.multiple'); ?>">?</abbr>
 	</div>
 </div>
+
+<div class="group">
+	<?php echo Form::label(l('ticket_types'), 'ticket_type_ids[]'); ?>
+	<?php echo Form::multiselect(
+		'ticket_type_ids[]',
+		array_merge(
+			array(array('label' => l('all'), 'value' => 0)),
+			\traq\models\Type::select_options()
+		),
+		$field->ticket_type_ids
+	); ?>
+</div>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	// Show only text field properties

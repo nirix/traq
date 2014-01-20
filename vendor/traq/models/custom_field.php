@@ -45,8 +45,26 @@ class CustomField extends Model
         'min_length',
         'max_length',
         'is_required',
-        'project_id'
+        'project_id',
+        'ticket_type_ids'
     );
+
+    /**
+     * Modified construct method to handle the `ticket_type_ids` column.
+     *
+     * @param array   $data
+     * @param boolean $is_new
+     */
+    public function __construct($data = null, $is_new = true )
+    {
+        parent::__construct($data, $is_new);
+
+        if (!$is_new) {
+            $this->_data['ticket_type_ids'] = json_decode($this->_data['ticket_type_ids'], true);
+        } else {
+            $this->_data['ticket_type_ids'] = array();
+        }
+    }
 
     /**
      * Returns the custom fields for the specified project.
@@ -310,6 +328,24 @@ class CustomField extends Model
     }
 
     /**
+     * Returns a string of CSS classes to be used in the custom field
+     * `div` wrapper in forms to easily show or hide for relevant
+     * ticket types.
+     *
+     * @return string
+     */
+    public function type_css_classes()
+    {
+        $classes = array();
+
+        foreach ($this->_data['ticket_type_ids'] as $type_id) {
+            $classes[] = "field-for-type-{$type_id}";
+        }
+
+        return implode(" ", $classes);
+    }
+
+    /**
      * Saves the model data.
      *
      * @return boolean
@@ -319,13 +355,14 @@ class CustomField extends Model
         if ($this->is_valid()) {
             // Defaults
             $defaults = array(
-                'values'        => "NULL",
-                'multiple'      => 0,
-                'default_value' => "NULL",
-                'regex'         => "NULL",
-                'min_length'    => "NULL",
-                'max_length'    => "NULL",
-                'is_required'   => 0,
+                'values'          => "NULL",
+                'multiple'        => 0,
+                'default_value'   => "NULL",
+                'regex'           => "NULL",
+                'min_length'      => "NULL",
+                'max_length'      => "NULL",
+                'is_required'     => 0,
+                'ticket_type_ids' => array()
             );
 
             // Merge defaults with currently set data
@@ -333,6 +370,9 @@ class CustomField extends Model
 
             // Remove stupid crap
             $this->_data['values'] = str_replace("\r", '', $this->_data['values']);
+
+            // JSON encode ticket type IDs
+            $this->_data['ticket_type_ids'] = json_encode($this->_data['ticket_type_ids']);
 
             return parent::save();
         }

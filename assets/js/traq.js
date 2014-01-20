@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
- * Copyright (C) 2009-2013 Jack P.
+ * Copyright (C) 2009-2014 Traq.io
+ * Copyright (C) 2009-2014 Jack P.
  * https://github.com/nirix
  *
  * This file is part of Traq.
@@ -23,7 +23,23 @@
 var traq = {
 	base: '/',
 	load_ticket_template: function(){
-		$("#description").load(traq.base + '_ajax/ticket_template/' + $("#type option:selected").val());
+		var type_id = $("#type option:selected").val();
+
+		$("#description").load(traq.base + '_ajax/ticket_template/' + type_id);
+
+		// Toggle visibility for custom fields that aren't relveant
+		// for the selected type.
+		$(".properties .custom_field").each(function(){
+			var field = $(this);
+
+			// Hide the fied
+			field.hide();
+
+			// Check if it is for 0 (all) or the selected type ID and show it.
+			if (field.hasClass('field-for-type-0') || field.hasClass('field-for-type-' + type_id)) {
+				field.show();
+			}
+		});
 	}
 };
 
