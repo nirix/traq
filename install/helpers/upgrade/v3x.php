@@ -316,7 +316,7 @@ class v3x extends Base
         ");
 
         $db->query("
-            INSERT INTO `" . $db->prefix . "permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+            INSERT INTO `{$db->prefix}permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
             VALUES
               (0,'usergroup',0,'ticket_properties_set_related_tickets',0),
               (0,'usergroup',0,'ticket_properties_change_related_tickets',0),
