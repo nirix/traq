@@ -174,7 +174,7 @@ class TicketFilterQuery
             asort($query_values);
 
             // Value
-            $value = "IN (" . implode(',', asort($query_values)) . ")";
+            $value = "IN (" . implode(',', $query_values) . ")";
 
             // Add to query if there's any values
             if (count($query_values)) {
