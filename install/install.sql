@@ -77,6 +77,7 @@ CREATE TABLE `traq_custom_fields` (
   `max_length` int(11) DEFAULT NULL,
   `is_required` tinyint(1) NOT NULL DEFAULT '0',
   `project_id` int(11) NOT NULL,
+  `ticket_type_ids` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

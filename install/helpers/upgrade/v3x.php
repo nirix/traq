@@ -323,5 +323,7 @@ class v3x extends Base
               (0,'role',0,'ticket_properties_set_related_tickets',1),
               (0,'role',0,'ticket_properties_change_related_tickets',1);
         ");
+
+        $db->query("ALTER TABLE `{$db->prefix}custom_fields` ADD `ticket_type_ids` VARCHAR(255) NOT NULL;");
     }
 }
