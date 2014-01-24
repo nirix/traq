@@ -30,9 +30,7 @@ use traq\models\TicketUpgrade;
 use Installer\Helpers\Fixes;
 
 // Traq models
-foreach (array('user', 'setting') as $model) {
-    require $traq_dir . "/vendor/traq/models/{$model}.php";
-}
+require $traq_dir . "/vendor/traq/models/setting.php";
 use traq\models\User;
 use traq\models\Setting;
 
