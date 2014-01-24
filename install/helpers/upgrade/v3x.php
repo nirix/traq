@@ -20,11 +20,21 @@
 
 namespace Installer\Helpers\Upgrade;
 
+$install_dir = dirname(dirname(__DIR__));
+$traq_dir    = dirname($install_dir);
+
 // Traq 3.0 Ticket model
 require dirname(dirname(__DIR__)) . "/models/ticket_upgrade.php";
 use traq\models\TicketUpgrade;
 
 use Installer\Helpers\Fixes;
+
+// Traq models
+foreach (array('user', 'setting') as $model) {
+    require $traq_dir . "/vendor/traq/models/{$model}.php";
+}
+use traq\models\User;
+use traq\models\Setting;
 
 /**
  * Traq 3.x upgrades.
