@@ -6,3 +6,4 @@ vendor/traq/plugins/better_php_errors
 .settings
 .buildpath
 .htaccess
+_dev/
