@@ -419,12 +419,14 @@ class Tickets extends AppController
                             ->where('ticket_id', trim($ticket_id))
                             ->limit(1)->exec()->fetch();
 
-                        $relation = new TicketRelationship(array(
-                            'ticket_id'         => $ticket->id,
-                            'related_ticket_id' => $related->id
-                        ));
+                        if ($related) {
+                            $relation = new TicketRelationship(array(
+                                'ticket_id'         => $ticket->id,
+                                'related_ticket_id' => $related->id
+                            ));
 
-                        $relation->save();
+                            $relation->save();
+                        }
                     }
                 }
 
