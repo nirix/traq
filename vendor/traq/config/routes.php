@@ -42,6 +42,7 @@ Router::add('/_ajax/ticket_template/([0-9]+)', 'traq::controllers::Misc.ticket_t
 Router::add('/_ajax/autocomplete/(username)', 'traq::controllers::Misc.autocomplete_$1');
 Router::add('/_misc/preview_text', 'traq::controllers::Misc.preview_text');
 Router::add('/_misc/ticket_tasks_bit', 'traq::controllers::TicketTasks.form_bit');
+Router::add('/_misc/format_text', 'traq::controllers::Misc.format_text');
 
 // Attachment routes
 Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'traq::controllers::Attachments.view/$1');

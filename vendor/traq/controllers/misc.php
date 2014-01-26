@@ -109,4 +109,10 @@ class Misc extends Controller
         $this->_render['view'] = 'preview_text';
         View::set('data', format_text(Request::$request['data']));
     }
+
+    public function action_format_text()
+    {
+        Load::helper('formatting');
+        return format_text(Request::$request['data']);
+    }
 }
