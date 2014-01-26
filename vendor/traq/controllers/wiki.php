@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -38,7 +41,7 @@ use traq\models\Timeline;
 class Wiki extends AppController
 {
     // Before filters
-    public $_before = array(
+    public $before = array(
         'new'    => array('_check_permission'),
         'edit'   => array('_check_permission'),
         'delete' => array('_check_permission')
@@ -206,7 +209,7 @@ class Wiki extends AppController
      */
     private function _new_page($slug)
     {
-        $this->_render['view'] = 'wiki/new';
+        $this->render['view'] = 'wiki/new';
         $this->action_new($slug);
     }
 

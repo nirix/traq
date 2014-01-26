@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -49,7 +52,7 @@ class TicketTasks extends AppController
      */
     public function action_form_bit()
     {
-        $this->_render['layout'] = false;
+        $this->render['layout'] = false;
 
         // Task data
         $id        = isset(Request::$request['id']) ? Request::$request['id'] : 0;

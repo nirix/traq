@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -34,7 +37,7 @@ use avalon\output\View;
 class TicketHistory extends AppController
 {
     // Before filters
-    public $_before = array(
+    public $before = array(
         'edit' => array('_check_permission'),
         'delete' => array('_check_permission')
     );

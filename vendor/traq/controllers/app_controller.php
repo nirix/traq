@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -63,7 +66,7 @@ class AppController extends Controller
 
         // Fix plugin view location
         if (strpos(Router::$controller, "\\traq\\plugins") !== false) {
-            $this->_render['view'] = str_replace("controllers/", '', $this->_render['view']);
+            $this->render['view'] = str_replace("controllers/", '', $this->render['view']);
         }
 
         // Set the title
@@ -105,6 +108,8 @@ class AppController extends Controller
             }
         }
         View::set('projects', $this->projects);
+
+        View::set('app', $this);
     }
 
     /**
@@ -132,8 +137,8 @@ class AppController extends Controller
     public function show_no_permission()
     {
         header("HTTP/1.0 401 Unauthorized");
-        $this->_render['view'] = 'error/no_permission';
-        $this->_render['action'] = false;
+        $this->render['view'] = 'error/no_permission';
+        $this->render['action'] = false;
     }
 
     /**
@@ -141,8 +146,8 @@ class AppController extends Controller
      */
     public function show_login()
     {
-        $this->_render['action'] = false;
-        $this->_render['view'] = 'users/login' . ($this->is_api ? '.api' :'');
+        $this->render['action'] = false;
+        $this->render['view'] = 'users/login' . ($this->is_api ? '.api' :'');
     }
 
     /**
@@ -172,7 +177,7 @@ class AppController extends Controller
                 // Set is_api and JSON view extension
                 $this->is_api = true;
                 Router::$extension = '.json';
-                $this->_render['view'] = $this->_render['view'] . ".json";
+                $this->render['view'] = $this->render['view'] . ".json";
             }
         }
 
@@ -209,8 +214,8 @@ class AppController extends Controller
      */
     protected function bad_api_request($message)
     {
-        $this->_render = array_merge(
-            $this->_render,
+        $this->render = array_merge(
+            $this->render,
             array(
                 'action' => false,
                 'view'   => "api/bad_request",
@@ -225,7 +230,7 @@ class AppController extends Controller
     {
         // Plain layout for JSON and API requests
         if (Router::$extension == '.json' or $this->is_api) {
-            $this->_render['layout'] = 'plain';
+            $this->render['layout'] = 'plain';
         }
         // Bad API request?
         if (API::get_key() === false) {
@@ -233,7 +238,7 @@ class AppController extends Controller
         }
 
         // Was the page requested via ajax?
-        if ($this->_render['view'] and Request::isAjax() and Router::$extension == null) {
+        if ($this->render['view'] and Request::isAjax() and Router::$extension == null) {
             // Is this page being used as an overlay?
             if (isset(Request::$request['overlay'])) {
                 $extension = '.overlay';
@@ -248,14 +253,14 @@ class AppController extends Controller
             }
 
             // Set the layout and view extension
-            $this->_render['layout'] = 'plain';
-            $this->_render['view'] = $this->_render['view'] . $extension;
+            $this->render['layout'] = 'plain';
+            $this->render['view'] = $this->render['view'] . $extension;
         }
 
         if (Router::$extension == '.json') {
             header('Content-type: application/json');
-            if ($this->_render['view'] and strpos($this->_render['view'], '.json') === false) {
-                $this->_render['view'] = $this->_render['view'] . '.json';
+            if ($this->render['view'] and strpos($this->render['view'], '.json') === false) {
+                $this->render['view'] = $this->render['view'] . '.json';
             }
         }
 

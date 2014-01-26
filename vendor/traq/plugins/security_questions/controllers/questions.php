@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -85,7 +88,7 @@ class Questions extends \traq\controllers\admin\AppController
      */
     public function action_new_question()
     {
-        $this->_render['layout'] = false;
+        $this->render['layout'] = false;
         return View::get('questions/_question', array(
             'id' => time(),
             'question' => array(

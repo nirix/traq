@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -38,7 +41,7 @@ use traq\models\User;
  */
 class Users extends AppController
 {
-    public $_before = array(
+    public $before = array(
         'login'    => array('already_logged_in'),
         'register' => array('already_logged_in')
     );
@@ -172,7 +175,7 @@ class Users extends AppController
         $user->option('validation_key', null);
         $user->save();
 
-        $this->_render['view'] = 'users/login';
+        $this->render['view'] = 'users/login';
         View::set('validated', true);
     }
 

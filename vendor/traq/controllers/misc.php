@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -60,7 +63,7 @@ class Misc extends Controller
         header("Content-type: text/javascript");
 
         // Set the view without the controller namespace
-        $this->_render['view'] = 'javascript';
+        $this->render['view'] = 'javascript';
 
         // Get the locale strings and set the editor strings
         $strings = $locale->locale();
@@ -75,7 +78,7 @@ class Misc extends Controller
     public function action_ticket_template($type_id)
     {
         // No view, just print the ticket template
-        $this->_render['view'] = false;
+        $this->render['view'] = false;
         return Type::find($type_id)->template;
     }
 
@@ -85,7 +88,7 @@ class Misc extends Controller
     public function action_autocomplete_username()
     {
         // No view, just json content
-        $this->_render['view'] = false;
+        $this->render['view'] = false;
         header("Content-type: application/json");
 
         // Get the users, and loop over them
@@ -106,7 +109,7 @@ class Misc extends Controller
     public function action_preview_text()
     {
         Load::helper('formatting');
-        $this->_render['view'] = 'preview_text';
+        $this->render['view'] = 'preview_text';
         View::set('data', format_text(Request::$request['data']));
     }
 

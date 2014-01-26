@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -50,7 +53,7 @@ use traq\helpers\Pagination;
 class Tickets extends AppController
 {
     // Before filters
-    public $_before = array(
+    public $before = array(
         'new' => array('_check_permission'),
         'edit' => array('_check_permission'),
         'update' => array('_check_permission'),
@@ -592,7 +595,7 @@ class Tickets extends AppController
         }
 
         View::set(compact('ticket'));
-        $this->_render['view'] = 'tickets/view';
+        $this->render['view'] = 'tickets/view';
     }
 
     /**
