@@ -56,7 +56,7 @@ class TicketFilterQuery
     {
         if ($field == 'search') {
             $values = is_array($values) ? $values : array($values);
-        } else {
+        } elseif (!is_array($values)) {
             $values = explode(',', $values);
         }
 
