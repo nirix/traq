@@ -23,10 +23,6 @@ namespace Installer\Helpers\Upgrade;
 $install_dir = dirname(dirname(__DIR__));
 $traq_dir    = dirname($install_dir);
 
-// Traq 3.0 Ticket model
-require dirname(dirname(__DIR__)) . "/models/ticket_upgrade.php";
-use traq\models\TicketUpgrade;
-
 use Installer\Helpers\Fixes;
 
 // Traq models
@@ -122,10 +118,19 @@ class v3x extends Base
      */
     public static function v30007($db)
     {
-        foreach (TicketUpgrade::fetch_all() as $ticket) {
-            $ticket->delete_voter('-1');
-            $ticket->delete_voter(Setting::find('anonymous_user_id')->value);
-            $ticket->quick_save();
+        $anon_user_setting = $db->query("SELECT * FROM `{$db->prefix}settings` WHERE `setting` = 'anonymous_user_id`");
+
+        $tickets = $db->query("SELECT * FROM `{$db->prefix}tickets`");
+        foreach ($tickets as $ticket) {
+            $extra = json_decode($ticket['extra'], true);
+
+            foreach ($extra['voted'] as $k => $v) {
+                if ($v == '-1' or $v == $anon_user_setting['value']) {
+                    unset($extra['voted'][$k]);
+                }
+            }
+
+            $db->query("UPDATE `{$db->prefix}tickets` SET `extra` = '" . json_encode($extra) . "' WHERE `id` = '{$ticket['id']}' LIMIT 1");
         }
 
         // Fix severities table ID column to auto increment
@@ -261,19 +266,23 @@ class v3x extends Base
 
         // Loop over tickets and place custom field values
         // into the new table.
-        foreach (TicketUpgrade::fetch_all() as $ticket) {
-            foreach ($ticket->extra['custom_fields'] as $field_id => $value) {
+        $tickets = $db->query("SELECT * FROM `{$db->prefix}tickets`");
+        foreach ($tickets as $ticket) {
+            $extra = json_decode($ticket['extra'], true);
+
+            foreach ($extra['custom_fields'] as $field_id => $value) {
                 $data = array(
                     'custom_field_id' => $field_id,
-                    'ticket_id'       => $ticket->id,
+                    'ticket_id'       => $ticket['id'],
                     'value'           => $value
                 );
 
                 $db->insert($data)->into('custom_field_values')->exec();
             }
 
-            $ticket->remove_custom_fields();
-            $ticket->save();
+            unset($extra['custom_fields']);
+
+            $db->query("UPDATE `{$db->prefix}tickets` SET `extra` = '" . json_encode($extra) . "' WHERE `id` = '{$ticket['id']}' LIMIT 1");
         }
 
         // Add default value for milestone_id field in the tickets table
