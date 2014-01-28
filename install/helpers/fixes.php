@@ -20,13 +20,6 @@
 
 namespace Installer\Helpers;
 
-use Traq\Models\Attachment;
-use Traq\Models\Setting;
-use Traq\Models\Ticket;
-use Traq\Models\TicketHistory;
-use Traq\Models\Timeline;
-use Traq\Models\User;
-
 /**
  * Fixes library with various fixes for Traq.
  *
@@ -42,13 +35,14 @@ class Fixes
     {
         global $db;
 
-        $anonymous_user_id = Setting::find('setting', 'anonymous_user_id')->value;
+        $anon_user_id_setting = $db->query("SELECT * FROM `settings` WHERE `setting` = 'anonymous_user_id' LIMIT 1")->fetch();
+        $anonymous_user_id = $anon_user_id_setting['value'];
 
         // Fix attachments
         $attachment_ids = array();
-        foreach (Attachment::fetch_all() as $model) {
-            if (!User::find($model->user_id)) {
-                $attachment_ids[] = $model->id;
+        foreach (static::fetch_all('attachments') as $row) {
+            if (!static::fetch_user($row['user_id'])) {
+                $attachment_ids[] = $row['id'];
             }
         }
 
@@ -57,13 +51,13 @@ class Fixes
         // Fix tickets
         $ticket_ids = array();
         $assigned_ticket_ids = array();
-        foreach (Ticket::fetch_all() as $model) {
-            if (!User::find($model->user_id)) {
-                $ticket_ids[] = $model->id;
+        foreach (static::fetch_all('tickets') as $row) {
+            if (!static::fetch_user($row['user_id'])) {
+                $ticket_ids[] = $row['id'];
             }
 
-            if ($model->assigned_to_id != 0 and !User::find($model->assigned_to_id)) {
-                $assigned_ticket_ids[] = $model->id;
+            if ($row['assigned_to_id'] != 0 and !static::fetch_user($row['assigned_to_id'])) {
+                $assigned_ticket_ids[] = $row['id'];
             }
         }
 
@@ -72,9 +66,9 @@ class Fixes
 
         // Fix ticket history
         $history_ids = array();
-        foreach (TicketHistory::fetch_all() as $model) {
-            if (!User::find($model->user_id)) {
-                $history_ids[] = $model->id;
+        foreach (static::fetch_all('ticket_history') as $row) {
+            if (!static::fetch_user($row['user_id'])) {
+                $history_ids[] = $row['id'];
             }
         }
 
@@ -82,12 +76,43 @@ class Fixes
 
         // Fix timeline
         $timeline_ids = array();
-        foreach (Timeline::fetch_all() as $model) {
-            if (!User::find($model->user_id)) {
-                $timeline_ids[] = $model->id;
+        foreach (static::fetch_all('timeline') as $row) {
+            if (!static::fetch_user($row['user_id'])) {
+                $timeline_ids[] = $row['id'];
             }
         }
 
         $db->query("UPDATE `{$db->prefix}timeline` SET `user_id` = '{$anonymous_user_id}' WHERE `id` IN (" . implode(',', $timeline_ids) . ")");
+    }
+
+    /**
+     * Fetches the user by the ID.
+     *
+     * @param integer $id
+     *
+     * @return mixed
+     */
+    private static function fetch_user($id)
+    {
+        global $db;
+
+        if ($user = $db->query("SELECT * FROM `{$db->prefix}users` WHERE `id` = '{$id}' LIMIT 1")) {
+            return $user->fetch();
+        }
+
+        return false;
+    }
+
+    /**
+     * Fetches all the rows for the specified table.
+     *
+     * @param string $table
+     *
+     * @return array
+     */
+    private static function fetch_all($table)
+    {
+        global $db;
+        return $db->query("SELECT * FROM `{$db->prefix}{$table}`")->fetchAll();
     }
 }
