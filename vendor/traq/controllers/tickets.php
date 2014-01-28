@@ -415,7 +415,7 @@ class Tickets extends AppController
                 $ticket->save();
 
                 // Related tickets
-                if ($this->user->permission($this->project->id, 'ticket_properties_set_related_tickets') and !empty(Request::post('related_tickets'))) {
+                if ($this->user->permission($this->project->id, 'ticket_properties_set_related_tickets')) {
                     foreach (explode(',', Request::post('related_tickets')) as $ticket_id) {
                         $related = Ticket::select('id')
                             ->where('project_id', $this->project->id)
