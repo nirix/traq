@@ -315,14 +315,14 @@ class v3x extends Base
     /**
      * Traq v3.3.4
      */
-    public function v30304($db) {
+    public static function v30304($db) {
         $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('ticket_creation_delay', '30');");
     }
 
     /**
      * Traq 3.4.0
      */
-    public function v30400($db) {
+    public static function v30400($db) {
         $db->query("
             CREATE TABLE IF NOT EXISTS `{$db->prefix}ticket_relationships` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
