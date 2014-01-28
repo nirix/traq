@@ -20,14 +20,7 @@
 
 namespace Installer\Helpers\Upgrade;
 
-$install_dir = dirname(dirname(__DIR__));
-$traq_dir    = dirname($install_dir);
-
 use Installer\Helpers\Fixes;
-
-// Traq models
-require $traq_dir . "/vendor/traq/models/setting.php";
-use traq\models\User;
 
 /**
  * Traq 3.x upgrades.
@@ -66,8 +59,7 @@ class v3x extends Base
     {
         // Find a user with the group ID of the guest group and make it the anonymous user.
         if ($anon = $db->select()->from('users')->where('group_id', 3)->exec()->fetch()) {
-            $anon = new User($anon, false);
-            $anon->set(array(
+            $data = array(
                 'username'   => 'Anonymous',
                 'password'   => sha1(microtime() . rand(0, 200) . time() . rand(0, 200)) . microtime(),
                 'name'       => 'Anonymous',
@@ -76,12 +68,14 @@ class v3x extends Base
                 'locale'     => 'enUS',
                 'options'    => '{"watch_created_tickets":null}',
                 'login_hash' => sha1(microtime() . rand(0, 250) . time() . rand(0, 250) . microtime()),
-            ));
+            );
+
+            $db->update('users')->set($data)->where('id', $anon['id'])->exec();
+            $anon_id = $anon['id'];
         }
         // Create an anonymous user
         else {
-            // Anonymous user
-            $anon = new User(array(
+            $data = array(
                 'username'   => 'Anonymous',
                 'password'   => sha1(microtime() . rand(0, 200) . time() . rand(0, 200)) . microtime(),
                 'name'       => 'Anonymous',
@@ -90,25 +84,25 @@ class v3x extends Base
                 'locale'     => 'enUS',
                 'options'    => '{"watch_created_tickets":null}',
                 'login_hash' => sha1(microtime() . rand(0, 250) . time() . rand(0, 250) . microtime()),
-            ));
-        }
+            );
 
-        // Save anonymous user
-        $anon->save();
+            $db->insert($data)->into('users')->exec();
+            $anon_id = $db->last_insert_id();
+        }
 
         // Create setting to save anonymous user ID
         $db->insert(array(
             'setting' => 'anonymous_user_id',
-            'value'   => $anon->id
+            'value'   => $anon_id
         ))->into('settings')->exec();
 
         // Update tickets, timeline, history with a user ID of -1
         // to use the anonymous users ID.
-        $db->update('tickets')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
-        $db->update('ticket_history')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
+        $db->update('tickets')->set(array('user_id' => $anon_id))->where('user_id', -1)->exec();
+        $db->update('ticket_history')->set(array('user_id' => $anon_id))->where('user_id', -1)->exec();
 
         // Update timeline for anonymous user
-        $db->update('timeline')->set(array('user_id' => $anon->id))->where('user_id', -1)->exec();
+        $db->update('timeline')->set(array('user_id' => $anon_id))->where('user_id', -1)->exec();
     }
 
     /**
