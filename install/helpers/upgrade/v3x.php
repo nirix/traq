@@ -28,7 +28,6 @@ use Installer\Helpers\Fixes;
 // Traq models
 require $traq_dir . "/vendor/traq/models/setting.php";
 use traq\models\User;
-use traq\models\Setting;
 
 /**
  * Traq 3.x upgrades.
@@ -98,11 +97,10 @@ class v3x extends Base
         $anon->save();
 
         // Create setting to save anonymous user ID
-        $anon_id = new Setting(array(
+        $db->insert(array(
             'setting' => 'anonymous_user_id',
             'value'   => $anon->id
-        ));
-        $anon_id->save();
+        ))->into('settings')->exec();
 
         // Update tickets, timeline, history with a user ID of -1
         // to use the anonymous users ID.
