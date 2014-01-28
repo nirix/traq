@@ -33,12 +33,6 @@ use Installer\Helpers\Fixes;
 use avalon\Database;
 use avalon\output\View;
 
-// Models
-use traq\models\User;
-use traq\models\Setting;
-use traq\models\Ticket;
-use traq\models\CustomFieldValue;
-
 // Set page and title
 View::set('page', 'upgrade');
 View::set('page_title', 'Upgrade');
@@ -50,7 +44,8 @@ if (!file_exists('../vendor/traq/config/database.php')) {
 
 // Get database connection
 $db = get_connection();
-define('DB_VER', Setting::find('db_version')->value);
+$db_ver = $db->query("SELECT * FROM `{$db->prefix}settings` WHERE `setting` = 'db_version' LIMIT 1")->fetch();
+define('DB_VER', $db_ver['value']);
 
 // Index
 get('/', function(){
@@ -69,9 +64,7 @@ post('/step/1', function(){
     v3xUpgrades::run($db, DB_VER);
 
     // Update database version setting
-    $db_ver = Setting::find('setting', 'db_version');
-    $db_ver->value = TRAQ_VER_CODE;
-    $db_ver->save();
+    $db->query("UPDATE `{$db->prefix}settings` SET `value` = '" . TRAQ_VER_CODE . "' WHERE `setting` = 'db_version' LIMIT 1");
 
     render('upgrade/complete');
 });
