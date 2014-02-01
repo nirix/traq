@@ -604,7 +604,7 @@ class Tickets extends AppController
     private function process_custom_fields(&$ticket, $fields)
     {
         foreach ($this->custom_fields as $field) {
-            if (in_array($ticket->type_id, $field->ticket_type_ids)) {
+            if (in_array($ticket->type_id, $field->ticket_type_ids) or $field->ticket_type_ids[0] == 0) {
                 if (isset($fields[$field->id])) {
                     if ($field->validate($fields[$field->id])) {
                         $ticket->set_custom_field($field->id, $field->name, $fields[$field->id]);
