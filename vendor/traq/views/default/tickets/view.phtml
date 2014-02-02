@@ -66,8 +66,8 @@
 		<div class="property">
 			<?php echo Form::label(l('related_tickets')); ?>
 			<ul class="value">
-			<?php foreach ($ticket->related_tickets() as $ticket) { ?>
-				<li><?php echo HTML::link("#" . $ticket->ticket_id, $ticket->href()); ?></li>
+			<?php foreach ($ticket->related_tickets() as $related_ticket) { ?>
+				<li><?php echo HTML::link("#" . $related_ticket->ticket_id, $related_ticket->href()); ?></li>
 			<?php } ?>
 			</ul>
 		</div>
