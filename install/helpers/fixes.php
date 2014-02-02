@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Traq.io
  *
  * This file is part of Traq.
  *
@@ -35,7 +35,7 @@ class Fixes
     {
         global $db;
 
-        $anon_user_id_setting = $db->query("SELECT * FROM `settings` WHERE `setting` = 'anonymous_user_id' LIMIT 1")->fetch();
+        $anon_user_id_setting = $db->query("SELECT * FROM `settings` WHERE `setting` = 'anonymous_user_id' LIMIT 1");
         $anonymous_user_id = $anon_user_id_setting['value'];
 
         // Fix attachments
