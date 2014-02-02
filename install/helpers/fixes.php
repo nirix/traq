@@ -39,7 +39,7 @@ class Fixes
         $anonymous_user_id = $anon_user_id_setting['value'];
 
         // Fix attachments
-        $attachment_ids = array();
+        $attachment_ids = array(0);
         foreach (static::fetch_all('attachments') as $row) {
             if (!static::fetch_user($row['user_id'])) {
                 $attachment_ids[] = $row['id'];
@@ -49,7 +49,7 @@ class Fixes
         $db->query("UPDATE `{$db->prefix}attachments` SET `user_id` = '{$anonymous_user_id}' WHERE `id` IN (" . implode(',', $attachment_ids) . ")");
 
         // Fix tickets
-        $ticket_ids = array();
+        $ticket_ids = array(0);
         $assigned_ticket_ids = array();
         foreach (static::fetch_all('tickets') as $row) {
             if (!static::fetch_user($row['user_id'])) {
@@ -65,7 +65,7 @@ class Fixes
         $db->query("UPDATE `{$db->prefix}tickets` SET `assigned_to_id` = '{$anonymous_user_id}' WHERE `id` IN (" . implode(',', $assigned_ticket_ids) . ")");
 
         // Fix ticket history
-        $history_ids = array();
+        $history_ids = array(0);
         foreach (static::fetch_all('ticket_history') as $row) {
             if (!static::fetch_user($row['user_id'])) {
                 $history_ids[] = $row['id'];
@@ -75,7 +75,7 @@ class Fixes
         $db->query("UPDATE `{$db->prefix}ticket_history` SET `user_id` = '{$anonymous_user_id}' WHERE `id` IN (" . implode(',', $history_ids) . ")");
 
         // Fix timeline
-        $timeline_ids = array();
+        $timeline_ids = array(0);
         foreach (static::fetch_all('timeline') as $row) {
             if (!static::fetch_user($row['user_id'])) {
                 $timeline_ids[] = $row['id'];
