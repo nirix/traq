@@ -50,27 +50,20 @@ function format_text($text, $strip_html = true)
  */
 function ticket_links($text)
 {
-    $match = preg_match_all("/\s+(?P<ticket_id>(?:[a-zA-Z0-9\-\_]+)?#[0-9]+)\s+/", $text, $matches);
-    foreach ($matches['ticket_id'] as $match) {
-        $match = explode('#', $match);
+    return preg_replace_callback(
+        "|(?:[\w\d\-_]+)?#([\d]+)|",
+        function($matches){
+            $match = explode('#', $matches[0]);
 
-        // Replace project#123
-        if ($project = Project::find('slug', $match[0])) {
-            $text = str_replace(
-                "{$project->slug}#{$match[1]}",
-                HTML::link("{$project->slug}#{$match[1]}", $project->href("tickets/{$match[1]}")),
-                $text
-            );
-        }
-        // Replace #123
-        elseif (empty($match[0])) {
-            $text = str_replace(
-                " #{$match[1]} ",
-                " " . HTML::link("#{$match[1]}", Avalon::app()->project->href("tickets/{$match[1]}")) . " ",
-                $text
-            );
-        }
-    }
-
-    return $text;
+            // Replace project#123
+            if (isset($match[1]) and $project = Project::find('slug', $match[0])) {
+                return HTML::link("{$project->slug}#{$match[1]}", $project->href("tickets/{$match[1]}"));
+            }
+            // Replace #123
+            else {
+                return HTML::link("#{$match[1]}", Avalon::app()->project->href("tickets/{$match[1]}"));
+            }
+        },
+        $text
+    );
 }
