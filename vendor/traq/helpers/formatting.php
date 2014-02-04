@@ -60,8 +60,12 @@ function ticket_links($text)
                 return HTML::link("{$project->slug}#{$match[1]}", $project->href("tickets/{$match[1]}"));
             }
             // Replace #123
-            else {
+            elseif (isset(Avalon::app()->project->name)) {
                 return HTML::link("#{$match[1]}", Avalon::app()->project->href("tickets/{$match[1]}"));
+            }
+            // No project found, don't link it
+            else {
+                return "#{$match[1]}";
             }
         },
         $text

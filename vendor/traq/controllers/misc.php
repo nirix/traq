@@ -50,6 +50,10 @@ class Misc extends Controller
         View::$theme = '_misc';
 
         parent::__construct();
+
+        // Load helpers
+        Load::helper("html");
+        Load::helper('formatting');
     }
 
     /**
@@ -108,14 +112,12 @@ class Misc extends Controller
 
     public function action_preview_text()
     {
-        Load::helper('formatting');
         $this->render['view'] = 'preview_text';
         View::set('data', format_text(Request::$request['data']));
     }
 
     public function action_format_text()
     {
-        Load::helper('formatting');
         return format_text(Request::$request['data']);
     }
 }
