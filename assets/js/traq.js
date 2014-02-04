@@ -249,6 +249,8 @@ $(document).ready(function(){
 
 	// Select all options in ticket filter optgroups when clicked.
 	$(document).on('click', '#ticket_filters_content select[multiple] optgroup', function(e){
+		e.preventDefault();
+
 		// Make sure this is the actual optgroup being clicked on and no an option
 		// inside it.
 		if (!$(e.target).is('#ticket_filters_content select[multiple] optgroup')) {
@@ -258,14 +260,10 @@ $(document).ready(function(){
 		// Remove currently selected options unless
 		// the `ctrl` key is being held.
 		if (!e.ctrlKey && !e.metaKey) {
-			$('#ticket_filters_content select[multiple] option').each(function(){
-				$(this).removeProp('selected')
-			});
+			$('#ticket_filters_content select[multiple] option').prop('selected', false);
 		}
 
-		$(this).find('option').each(function(){
-			$(this).prop('selected', 'selected');
-		});
+		$(this).find('option').prop('selected', true);
 	});
 });
 
