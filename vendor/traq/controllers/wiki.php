@@ -28,6 +28,7 @@ use avalon\http\Router;
 use avalon\output\View;
 
 use traq\models\WikiPage;
+use traq\models\WikiRevision;
 use traq\models\Timeline;
 
 /**
@@ -110,12 +111,27 @@ class Wiki extends AppController
             $page->set(array(
                 'title'      => Request::post('title'),
                 'slug'       => Request::post('slug'),
-                'body'       => Request::post('body'),
                 'project_id' => $this->project->id
+            ));
+
+            // Set revision data
+            $page->revision->set(array(
+                'revision' => 1,
+                'user_id'  => $this->user->id,
+                'content'  => Request::post('body')
             ));
 
             // Save and redirect
             if ($page->save()) {
+                // Save revision
+                $page->revision->wiki_page_id = $page->id;
+                $page->revision->save();
+
+                // Set pages revision ID
+                $page->revision_id = $page->revision->id;
+                $page->_is_new(false);
+                $page->save();
+
                 // Insert timeline event
                 $timeline = new Timeline(array(
                     'project_id' => $this->project->id,
@@ -155,12 +171,25 @@ class Wiki extends AppController
             $page->set(array(
                 'title'      => Request::post('title'),
                 'slug'       => Request::post('slug'),
-                'body'       => Request::post('body'),
                 'project_id' => $this->project->id
             ));
 
+            if (Request::post('body') != $page->revision->content) {
+                $page->revision = new WikiRevision(array(
+                    'wiki_page_id' => $page->id,
+                    'revision'     => $page->revision->revision + 1,
+                    'content'      => Request::post('body'),
+                    'user_id'      => $this->user->id
+                ));
+            }
+
             // Save and redirect
             if ($page->save()) {
+                // Update revision
+                $page->revision->save();
+                $page->revision_id = $page->revision->id;
+                $page->save();
+
                 // Insert timeline event
                 $timeline = new Timeline(array(
                     'project_id' => $this->project->id,
