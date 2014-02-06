@@ -340,10 +340,8 @@ function ticketlist_data($column, $ticket) {
     }
 
     // If we're still here, it may be a custom field
-    foreach (CustomField::for_project($ticket->project_id) as $custom_field) {
-        if ($value = $ticket->custom_field_value($custom_field->id)) {
-            return $value->value;
-        }
+    if ($value = $ticket->custom_field_value($column)) {
+        return $value->value;
     }
 
     // Nothing!
