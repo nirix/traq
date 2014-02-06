@@ -77,6 +77,8 @@ Router::add('/' . RTR_PROJSLUG . '/wiki/_pages', 'traq::controllers::Wiki.pages'
 Router::add('/' . RTR_PROJSLUG . '/wiki/_new', 'traq::controllers::Wiki.new');
 Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_edit', 'traq::controllers::Wiki.edit');
 Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_delete', 'traq::controllers::Wiki.delete');
+Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions', 'traq::controllers::Wiki.revisions/$2');
+Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(\d+)', 'traq::controllers::Wiki.revision/$2,$3');
 Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::controllers::Wiki.view');
 
 // Project settings routes
