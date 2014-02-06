@@ -240,6 +240,23 @@ class Wiki extends AppController
         View::set(compact('page'));
     }
 
+    /**
+     * View revision.
+     *
+     * @param string  $slug
+     * @param integer $revision
+     */
+    public function action_revision($slug, $revision)
+    {
+        $page = WikiPage::select()->where('project_id', $this->project->id)->where('slug', $slug)->exec()->fetch();
+        $page->revision = $page->revisions->where('revision', $revision)->exec()->fetch();
+
+        View::set(compact('page'));
+
+        $this->render['view'] = 'wiki/view';
+    }
+
+    /**
      * Used by the action_view method if the page
      * to display the new page form if the requested
      * page doesn't exist.
