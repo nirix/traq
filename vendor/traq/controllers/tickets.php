@@ -116,7 +116,7 @@ class Tickets extends AppController
 
         // Fetch tickets
         $tickets = array();
-        $rows = $this->db->select()->from('tickets')->custom_sql($filter_query->sql());
+        $rows = $this->db->select('tickets.*')->from('tickets')->custom_sql($filter_query->sql());
 
         // Order by creation date for atom feed
         if (Router::$extension == '.atom') {

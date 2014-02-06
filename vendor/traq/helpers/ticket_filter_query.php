@@ -197,11 +197,13 @@ class TicketFilterQuery
             // Sort values low to high
             asort($values);
 
-            $this->custom_field_sql[] = "
-                `fields`.`custom_field_id` = {$custom_field->id}
-                AND `fields`.`value` IN ('" . implode("','", $values) . "')
-                AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
-            ";
+            if (count($values) == 1 && !empty($values[0])) {
+                $this->custom_field_sql[] = "
+                    `fields`.`custom_field_id` = {$custom_field->id}
+                    AND `fields`.`value` IN ('" . implode("','", $values) . "')
+                    AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
+                ";
+            }
         }
     }
 
@@ -222,14 +224,16 @@ class TicketFilterQuery
      */
     public function sql()
     {
-        $sql = array(" WHERE `project_id` = {$this->project->id}");
-
-        if (count($this->sql)) {
-            $sql[] = "AND " . implode(" AND ", $this->sql);
-        }
+        $sql = array();
 
         if (count($this->custom_field_sql)) {
             $sql[] = "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields` ON (" . implode(' AND ', $this->custom_field_sql) . ")";
+        }
+
+        $sql[] = " WHERE `project_id` = {$this->project->id}";
+
+        if (count($this->sql)) {
+            $sql[] = "AND " . implode(" AND ", $this->sql);
         }
 
         return implode(" ", $sql);
