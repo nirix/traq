@@ -197,11 +197,13 @@ class TicketFilterQuery
             // Sort values low to high
             asort($values);
 
-            $this->custom_field_sql[] = "
-                `fields`.`custom_field_id` = {$custom_field->id}
-                AND `fields`.`value` IN ('" . implode("','", $values) . "')
-                AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
-            ";
+            if (count($values) == 1 && !empty($values[0])) {
+                $this->custom_field_sql[] = "
+                    `fields`.`custom_field_id` = {$custom_field->id}
+                    AND `fields`.`value` IN ('" . implode("','", $values) . "')
+                    AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
+                ";
+            }
         }
     }
 
