@@ -15,5 +15,12 @@
 			<li><?php echo HTML::link(l('revisions'), $page->href('_revisions'), array('class' => 'button_revisions')); ?></li>
 		</ul>
 	</div>
-	<?php echo format_text($page->revision->content); ?>
+	<ul id="pages">
+	<?php foreach ($page->revisions->exec()->fetch_all() as $revision) { ?>
+		<li>
+			<?php echo HTML::link(l("revision_x", $revision->revision), $page->href("_revisions/{$revision->revision}")); ?>
+			by <?php echo HTML::link($revision->user->username, $revision->user->href()); ?>
+		</li>
+	<?php } ?>
+	</ul>
 </div>

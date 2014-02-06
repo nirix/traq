@@ -49,6 +49,10 @@ class WikiPage extends Model
         'title'
     );
 
+    protected static $_has_many = array(
+        'revisions' => array('model' => "WikiRevision", 'foreign_key' => 'wiki_page_id')
+    );
+
     protected static $_belongs_to = array(
         'project',
         'revision' => array('model' => "WikiRevision")

@@ -47,7 +47,8 @@ class WikiRevision extends Model
     );
 
     protected static $_belongs_to = array(
-        'wiki_page' => array('model' => 'Wiki')
+        'user',
+        'wiki_page' => array('model' => 'WikiPage')
     );
 
     public function is_valid()

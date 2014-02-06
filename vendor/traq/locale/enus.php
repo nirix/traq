@@ -282,6 +282,8 @@ class enUS extends \traq\libraries\Locale
             'delete_page'  => "Delete Page",
             'page_title'   => "Page Title",
             'page_content' => "Page Content",
+            'revisions'    => "Revisions",
+            'revision_x'   => "Revision {1}",
 
             // Pagination
             'previous' => "Previous",
