@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -38,20 +41,39 @@ class WikiPage extends Model
         'project_id',
         'title',
         'slug',
-        'body',
-        'main'
+        'main',
+        'revision_id'
     );
 
     protected static $_escape = array(
         'title'
     );
 
-    protected static $_belongs_to = array('project');
+    protected static $_belongs_to = array(
+        'project',
+        'revision' => array('model' => "WikiRevision")
+    );
 
     protected static $_filters_before = array(
         'create' => array('_set_slug'),
         'save'   => array('_set_slug')
     );
+
+    /**
+     * @param array   $data
+     * @param boolean $is_new
+     */
+    public function __construct($data = array(), $is_new = true)
+    {
+        parent::__construct($data, $is_new);
+
+        if ($is_new) {
+            $this->revision = new WikiRevision(array(
+                'revision' => 1,
+                'content'  => (isset($data['content']) ? $data['content'] : '')
+            ));
+        }
+    }
 
     /**
      * Returns the URI for the page.
