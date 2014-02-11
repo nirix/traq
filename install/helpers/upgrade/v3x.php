@@ -49,7 +49,10 @@ class v3x extends Base
         30300, 30304,
 
         // 3.4.x
-        30400
+        30400,
+
+        // 3.5.x
+        30500
     );
 
     /**
@@ -336,5 +339,49 @@ class v3x extends Base
         ");
 
         $db->query("ALTER TABLE `{$db->prefix}custom_fields` ADD `ticket_type_ids` VARCHAR(255) NOT NULL;");
+    }
+
+    /**
+     * Traq 3.5.0
+     */
+    public static function v30500($db)
+    {
+        $anon_user_setting = $db->select()->from('settings')->where('setting', 'anonymous_user_id')->exec()->fetch();
+
+        // Create wiki page revisions table
+        $db->query("
+            CREATE TABLE `{$db->prefix}wiki_revisions` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `wiki_page_id` bigint(20) NOT NULL,
+              `revision` bigint(20) NOT NULL DEFAULT '1',
+              `content` text NOT NULL,
+              `user_id` int(11) NOT NULL,
+              `created_at` datetime NOT NULL,
+              `updated_at` datetime NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        ");
+
+        // Add `revision_id` to wiki pages table.
+        $db->query("ALTER TABLE `{$db->prefix}wiki` ADD `revision_id` BIGINT(20) NOT NULL;");
+
+        // Create revisions for current page content
+        foreach ($db->query("SELECT * FROM `{$db->prefix}wiki`")->fetchAll(\PDO::FETCH_ASSOC) as $page) {
+            $data = array(
+                'wiki_page_id' => $page['id'],
+                'revision'     => 1,
+                'content'      => $page['body'],
+                'user_id'      => $anon_user_setting['value'],
+                'created_at'   => "UTC_TIMESTAMP()",
+                'updated_at'   => "UTC_TIMESTAMP()"
+            );
+            $db->insert($data)->into('wiki_revisions')->exec();
+
+            // Set revision ID for wiki pages
+            $db->update('wiki')->set(array('revision_id' => $db->last_insert_id()))->where('id', $page['id'])->exec();
+        }
+
+        // Drop body column
+        $db->query("ALTER TABLE `{$db->prefix}wiki` DROP `body`;");
     }
 }

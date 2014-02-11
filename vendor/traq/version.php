@@ -30,7 +30,7 @@ define("TRAQ_VER", "3.5"); // Pretty obvious...
 // 1.12.1  -> 11201
 // 1.2.11  -> 10211
 define("TRAQ_VER_CODE", 30500); // Used to check for new versions
-define("TRAQ_DB_VER", 30400);   // Database version
+define("TRAQ_DB_VER", 30500);   // Database version
 
 // API version
 define("TRAQ_API_VER", "1.0");
