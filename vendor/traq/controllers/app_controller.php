@@ -213,7 +213,7 @@ class AppController extends Controller
             $this->_render,
             array(
                 'action' => false,
-                'view'   => "api/bad_request",
+                'view'   => "api/bad_request.json",
                 'layout' => "plain"
             )
         );
