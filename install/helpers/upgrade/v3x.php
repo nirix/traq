@@ -383,5 +383,13 @@ class v3x extends Base
 
         // Drop body column
         $db->query("ALTER TABLE `{$db->prefix}wiki` DROP `body`;");
+
+        // Permissions
+        $db->query("
+            INSERT INTO `{$db->prefix}permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+            VALUES
+              (0,'usergroup',0,'view_tickets',1),
+              (0,'role',0,'view_tickets',1);
+        ");
     }
 }

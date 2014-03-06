@@ -312,6 +312,7 @@ class enUS extends \traq\libraries\Locale
 
                 // Tickets
                 'tickets' => array(
+                    'view_tickets'              => "View",
                     'create_tickets'            => "Create",
                     'update_tickets'            => "Update",
                     'delete_tickets'            => "Delete",
