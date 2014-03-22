@@ -9,6 +9,15 @@ if (!function_exists('_mklocale')) {
 		} elseif (empty($change['to']) and !empty($change['from'])) {
 			$string = "{$locale_property}_from_x_to_null";
 		}
+
+		if (is_array($change['from'])) {
+			$change['from'] = implode(', ', $change['from']);
+		}
+
+		if (is_array($change['to'])) {
+			$change['to'] = implode(', ', $change['to']);
+		}
+
 		return l(
 			"ticket_history.{$string}",
 			'<span class="ticket_history_property">' . l($change['property']) . '</span>',
