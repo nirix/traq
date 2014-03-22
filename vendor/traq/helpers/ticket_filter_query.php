@@ -164,9 +164,12 @@ class TicketFilterQuery
         elseif (in_array($field, array('owner', 'assigned_to'))) {
             $column = ($field == 'owner') ? 'user' : $field;
 
+            $query_values[] = 0;
             foreach ($values as $value) {
                 if (!empty($value)) {
-                    $query_values[] = User::find('username', $value)->id;
+                    if ($user = User::find('username', $value)) {
+                        $query_values[] = $user->id;
+                    }
                 }
             }
 
