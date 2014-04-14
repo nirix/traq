@@ -169,6 +169,8 @@ class enUS extends \traq\libraries\Locale
             'ticket_creation_delay'     => "Creation Delay",
             'traq_news'                 => "Traq news",
 
+            'admin.news.secure_connection' => "Secure connection detected, loading of news is disabled.",
+
             // Settings page
             'settings'             => "Settings",
             'settings.site.legend' => "Site",

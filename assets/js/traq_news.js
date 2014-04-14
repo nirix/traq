@@ -27,26 +27,30 @@ $(document).ready(function(){
 		return text.replace(/</g, "&lt;");
 	};
 
-	$.getJSON('http://traq.io/news.json?callback=?').done(function(data){
-		$.each(data, function(i, data){
-			var item = $("<li>").addClass('box');
+	if (window.location.protocol == "http:") {
+		$.getJSON('http://traq.io/news.json?callback=?').done(function(data){
+			$.each(data, function(i, data){
+				var item = $("<li>").addClass('box');
 
-			var summary = $("<h4>");
-			if (data.url) {
-				summary.append($("<a>").attr('href', data.url).append(data.summary));
-			} else {
-				summary.append(data.summary);
-			}
+				var summary = $("<h4>");
+				if (data.url) {
+					summary.append($("<a>").attr('href', data.url).append(data.summary));
+				} else {
+					summary.append(data.summary);
+				}
 
-			var created_at = $("<span>").append(data.created_at_relative).attr('title', data.created_at);
+				var created_at = $("<span>").append(data.created_at_relative).attr('title', data.created_at);
 
-			// Format the Markdown text.
-			var content = $("<div>").load(traq.base + '_misc/format_text', { data: data.content });
+				// Format the Markdown text.
+				var content = $("<div>").load(traq.base + '_misc/format_text', { data: data.content });
 
-			item.append(summary);
-			item.append(created_at);
-			item.append(content);
-			news_container.append(item);
+				item.append(summary);
+				item.append(created_at);
+				item.append(content);
+				news_container.append(item);
+			});
 		});
-	});
+	} else {
+		$("#traq_news .secure_alert").show();
+	}
 });
