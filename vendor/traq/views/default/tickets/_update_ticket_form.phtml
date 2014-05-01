@@ -107,4 +107,12 @@
 		</div>
 	</form>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		traq.show_hide_custom_fields();
+		$('#type').change(function() {
+			traq.show_hide_custom_fields();
+		});
+	});
+</script>
 <?php } ?>

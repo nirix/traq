@@ -27,12 +27,17 @@ var traq = {
 
 		$("#description").load(traq.base + '_ajax/ticket_template/' + type_id);
 
+		traq.show_hide_custom_fields()
+	},
+	show_hide_custom_fields: function(){
+		var type_id = $("#type option:selected").val();
+
 		// Toggle visibility for custom fields that aren't relveant
 		// for the selected type.
 		$(".properties .custom_field").each(function(){
 			var field = $(this);
 
-			// Hide the fied
+			// Hide the field
 			field.hide();
 
 			// Check if it is for 0 (all) or the selected type ID and show it.
