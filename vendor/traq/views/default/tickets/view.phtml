@@ -11,6 +11,10 @@
 	<h2 id="ticket_summary"><?php echo htmlspecialchars($ticket->summary); ?></h2>
 	<section class="properties">
 		<div class="property">
+			<?php echo Form::label(l('ticket_id')); ?>
+			<span class="value"><?php echo $ticket->ticket_id; ?></span>
+		</div>
+		<div class="property">
 			<?php echo Form::label(l('type')); ?>
 			<span class="value"><?php echo $ticket->type->name; ?></span>
 		</div>
