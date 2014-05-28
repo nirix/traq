@@ -38,6 +38,9 @@ function format_text($text, $strip_html = true)
     // Ticket links
     $text = ticket_links($text);
 
+    // Wiki links
+    $text = wiki_links($text);
+
     return $text;
 }
 
@@ -67,6 +70,30 @@ function ticket_links($text)
             else {
                 return "#{$match[1]}";
             }
+        },
+        $text
+    );
+}
+
+/**
+ * Converts the wiki [[page]] and [[text|page]] to HTML links.
+ *
+ * @param string $text
+ *
+ * @return string
+ */
+function wiki_links($text)
+{
+    return preg_replace_callback(
+        "|\[\[(?P<page>[\w\d\-_]+)(\|(?P<text>[\s\w\d\-_]+))?\]\]|",
+        function($matches){
+            $project = Avalon::app()->project;
+
+            if (!isset($matches['text'])) {
+                $matches['text'] = $matches['page'];
+            }
+
+            return HTML::link($matches['text'], $project->href("wiki/{$matches['page']}"));
         },
         $text
     );
