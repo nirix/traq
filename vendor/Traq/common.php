@@ -23,7 +23,6 @@ use avalon\core\Kernel as Avalon;
 use traq\models\Setting;
 use traq\models\Project;
 
-use traq\libraries\SCM;
 
 /**
  * Returns the value of the requested setting.
@@ -47,35 +46,6 @@ function settings($setting) {
 
     $CACHE[$setting] = $data ? $data->value : null;
     return $CACHE[$setting];
-}
-
-/**
- * Returns the value of the requested localization string.
- *
- * @return string
- *
- * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
- */
-function l()
-{
-    global $locale;
-    return call_user_func_array(array($locale, 'translate'), func_get_args());
-}
-
-/**
- * Returns the localized date.
- *
- * @param string $format
- * @param mixed $timestamo
- *
- * @return string
- */
-function ldate()
-{
-    global $locale;
-    return call_user_func_array(array($locale, 'date'), func_get_args());
 }
 
 /**
@@ -140,23 +110,6 @@ function theme_select_options()
 
     return $options;
 }
-
-/**
- * Formats the plugin directory name into
- * a class name.
- *
- * @param string $name
- *
- * @return string
- */
- function get_plugin_name($name)
- {
-     $bits = explode('_', $name);
-     foreach ($bits as $k => $v) {
-         $bits[$k] = ucfirst($v);
-     }
-     return implode('', $bits);
- }
 
 /**
  * Checks if the given regex matches the request
@@ -228,43 +181,6 @@ function permission_actions()
     }
 
     return $actions;
-}
-
-/**
- * Returns an array of available SCMs.
- *
- * @return array
- */
-function scm_types()
-{
-    static $scms = array();
-
-    if (count($scms) == 0) {
-        foreach (scandir(APPPATH . "/libraries/scm/adapters") as $file) {
-            if (substr($file, -3) == 'php') {
-                $name = str_replace('.php', '', $file);
-                $scm = SCM::factory($name);
-                $scms[$name] = $scm->name();
-            }
-        }
-    }
-
-    FishHook::run('function:scm_types', array(&$scms));
-    return $scms;
-}
-
-/**
- * Returns the available SCMS as form select options.
- *
- * @return array
- */
-function scm_select_options()
-{
-    $options = array();
-    foreach (scm_types() as $scm => $name) {
-        $options[] = array('label' => $name, 'value' => $scm);
-    }
-    return $options;
 }
 
 /**
