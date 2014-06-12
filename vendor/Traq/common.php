@@ -18,11 +18,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use avalon\core\Kernel as Avalon;
+use Radium\Kernel as Radium;
 
-use traq\models\Setting;
-use traq\models\Project;
-
+use Traq\Models\Setting;
+use Traq\Models\Project;
 
 /**
  * Returns the value of the requested setting.
@@ -135,7 +134,7 @@ function active_nav($uri)
  */
 function current_user()
 {
-    return Avalon::app()->user;
+    return Radium::controller()->user;
 }
 
 /**
