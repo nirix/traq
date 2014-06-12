@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -19,31 +22,13 @@
  */
 
 // MySQL connection
-$db = array(
+return array(
     'driver'   => 'PDO',       // Leave as is.
     'type'     => 'MySQL',     // Database type.
     'host'     => 'localhost', // Database server.
     'username' => 'root',      // Database username.
     'password' => 'root',      // Database password.
     'database' => 'traq',      // Database name.
-    'prefix'   => ''           // Table prefix.
+    'prefix'   => ''           // Table prefix, recommended to leave blank.
     //'port'     => 3306         // Database server port
 );
-
-// SQLite connection
-/*
-$db = array(
-    'driver' => 'PDO',
-    'type'   => 'SQLite',
-    'path'   => '/path/to/database.sqlite'
-);
-*/
-
-// Other database
-// See: http://php.net/manual/en/pdo.drivers.php
-/*
-$db = array(
-    'driver' => 'PDO',
-    'dsn'    => 'PDO DSN goes here'
-);
-*/
