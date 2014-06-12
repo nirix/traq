@@ -34,9 +34,9 @@ if (!isset($_REQUEST['css']) and !isset($_REQUEST['theme'])) {
 }
 
 // Fetch the request class.
-require "./vendor/avalon/http/request.php";
-use avalon\http\Request;
-Request::init();
+require "./vendor/Radium/Http/Request.php";
+use Radium\Http\Request;
+$request = new Request;
 
 $output = array();
 
@@ -62,9 +62,9 @@ if (isset($_REQUEST['theme'])) {
     $theme = htmlspecialchars($_REQUEST['theme']);
     foreach (explode(',', $_REQUEST['theme_files']) as $file) {
         // Check if the file exists...
-        if (file_exists(__DIR__ . "/vendor/traq/views/{$theme}/css/{$file}.css")) {
+        if (file_exists(__DIR__ . "/vendor/Traq/Views/{$theme}/CSS/{$file}.css")) {
             // Add it to the output array.
-            $output[] = file_get_contents(__DIR__ . "/vendor/traq/views/{$theme}/css/{$file}.css");
+            $output[] = file_get_contents(__DIR__ . "/vendor/Traq/Views/{$theme}/CSS/{$file}.css");
         }
     }
 }
