@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,9 +21,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\helpers;
+namespace Traq;
 
-use avalon\http\Request;
+use Radium\Http\Request;
+use Radium\Http\Response;
+use Traq\Helpers\Format;
 
 /**
  * API helper.
@@ -38,7 +43,7 @@ class API
      *
      * @return mixed
      */
-    public static function get_key()
+    public static function getKey()
     {
         // Check request
         if (isset(Request::$request['access_token']) and isset(Request::$request['access_token'][5])) {
@@ -52,35 +57,29 @@ class API
         elseif (isset(Request::$request['access_token']) or isset($_SERVER['HTTP_ACCESS_TOKEN'])) {
             return false;
         }
-
-        return null;
     }
+
     /**
      * Returns a JSON formatted response.
      *
-     * @param integer $status   Request result, 1 = good, 0 = bad
      * @param array   $response Response data
+     * @param integer $status   HTTP response code
      *
      * @example
-     *     API::response(0, array('error' => "api_key_invalid"));
+     *     API::response(array('error' => "api_key_invalid"), 401);
      */
-    public static function response($status = 1, array $response = array())
+    public static function response($status = 200, $data = array())
     {
-        // 0, Bad Request
-        if (!$status) {
-            header("HTTP/1.1 400 Bad Request");
+        if (is_array($data)) {
+            $data = Format::toJson($data);
         }
 
-        // 403, Forbidden
-        if ($status == 403) {
-            header("HTTP/1.1 403 Forbidden");
-        }
+        $response = new Response(function($resp) use ($status, $data) {
+            $resp->status = $status;
+            $resp->body   = $data;
 
-        // 404, Not Found
-        if ($status == 404) {
-            header("HTTP/1.1 404 Not Found");
-        }
-
-        return to_json(array_merge(array('status' => $status, 'version' => TRAQ_API_VER), $response));
+            header("X-Traq-Version: " . Traq::version());
+            header("X-API-Version: " . TRAQ_API_VER);
+        });
     }
 }
