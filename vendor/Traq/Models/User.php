@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,9 +21,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Radium\Database\Model;
 
 /**
  * User model.
@@ -32,35 +35,14 @@ use avalon\database\Model;
  */
 class User extends Model
 {
-    protected static $_name = 'users';
-    protected static $_properties = array(
-        'id',
-        'username',
-        'password',
-        'password_ver',
-        'name',
-        'email',
-        'group_id',
-        'locale',
-        'options',
-        'login_hash',
-        'api_key',
-        'created_at'
-    );
-
-    protected static $_escape = array(
-        'username',
-        'name'
-    );
-
     // Things the user belongs to
-    protected static $_belongs_to = array('group');
+    protected static $_belongsTo = array('group');
 
     // Things the user has many of
-    protected static $_has_many = array(
+    protected static $_hasMany = array(
         'tickets',
 
-        'ticket_updates' => array('model' => 'TicketHistory'),
+        'ticket_updates'   => array('model' => 'TicketHistory'),
         'assigned_tickets' => array('model' => 'ticket', 'foreign_key' => 'assigned_to_id')
     );
 
@@ -148,14 +130,14 @@ class User extends Model
         // Check if the projects permissions has been fetched
         // if not, fetch them.
         if (!isset($this->permissions['project'][$project_id])) {
-            $this->permissions['project'][$project_id] = Permission::get_permissions($project_id, $this->_data['group_id']);
+            $this->permissions['project'][$project_id] = Permission::getPermissions($project_id, $this->group_id);
         }
 
         // Check if the user has a role for the project and
         // fetch the permissions if not already done so...
-        $role_id = $this->get_project_role($project_id);
+        $role_id = $this->getProjectRole($project_id);
         if ($role_id and !isset($this->permissions['role'][$project_id])) {
-            $this->permissions['role'][$project_id] = Permission::get_permissions($project_id, $role_id, 'role');
+            $this->permissions['role'][$project_id] = Permission::getPermissions($project_id, $role_id, 'role');
         } elseif (!isset($this->permissions['role'][$project_id])) {
             $this->permissions['role'][$project_id] = array();
         }
@@ -176,10 +158,12 @@ class User extends Model
      *
      * @return integer
      */
-    public function get_project_role($project_id)
+    public function getProjectRole($project_id)
     {
-        if ($role = UserRole::select()->where('project_id', $project_id)->where('user_id', $this->_data['id'])->exec()
-        and $role->row_count() > 0) {
+        if ($role = UserRole::select()
+            ->where('project_id = ?', $project_id)
+            ->where('user_id = ?', $this->id)->exec()
+        and $role->rowCount() > 0) {
             return $role->fetch()->project_role_id;
         } else {
             return 0;
@@ -391,5 +375,14 @@ class User extends Model
 
         // Delete user
         parent::delete();
+    }
+
+    public static function anonymousUser()
+    {
+        return new static(array(
+            'id'       => Setting::find('anonymous_user_id')->value,
+            'username' => "Guest",
+            'group_id' => 3
+        ));
     }
 }
