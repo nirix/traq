@@ -1,0 +1,9 @@
+<div class="project-show container">
+	<h1 class="page-header"><?php echo $project->name; ?></h1>
+	<div>
+		<?php echo Subscription::linkFor($project); ?>
+	</div>
+	<div class="project_info">
+		<?php echo Format::text($project->info); ?>
+	</div>
+</div>

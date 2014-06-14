@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,18 +21,18 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
-use avalon\http\Request;
-use avalon\output\View;
-use avalon\Database;
+use Radium\Http\Request;
+use Radium\Action\View;
+use Radium\Database;
 
-use traq\models\Ticket;
-use traq\models\Timeline;
-use traq\models\Milestone;
-use traq\models\Type;
-use traq\models\Status;
-use traq\helpers\Pagination;
+use Traq\Models\Ticket;
+use Traq\Models\Timeline;
+use Traq\Models\Milestone;
+use Traq\Models\Type;
+use Traq\Models\Status;
+use Traq\Helpers\Pagination;
 
 /**
  * Project controller.
@@ -44,7 +47,7 @@ class Projects extends AppController
     /**
      * Project listing page.
      */
-    public function action_index()
+    public function indexAction()
     {
         // No need to do anything here as the
         // AppController fetches the projects
@@ -54,7 +57,7 @@ class Projects extends AppController
     /**
      * Handles the project info page.
      */
-    public function action_view()
+    public function showAction()
     {
         // Make sure this is a project
         if (!$this->project) {
@@ -63,8 +66,8 @@ class Projects extends AppController
 
         // Get open and closed ticket counts.
         View::set('ticket_count', array(
-            'open' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->exec()->row_count(),
-            'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->exec()->row_count()
+            'open' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->rowCount(),
+            'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->rowCount()
         ));
     }
 
@@ -139,7 +142,7 @@ class Projects extends AppController
     /**
      * Handles the timeline page.
      */
-    public function action_timeline()
+public function action_timeline()
     {
         $rows = array();
 
