@@ -97,9 +97,4 @@ class Permission extends Model
         // And return them...
         return $permissions;
     }
-
-    public function is_valid()
-    {
-        return true;
-    }
 }
