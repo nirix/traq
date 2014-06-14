@@ -66,6 +66,7 @@ class Traq extends Application
         // Traq helpers
         class_alias("Traq\Helpers\Format", "Format");
         class_alias("Traq\Helpers\Subscription", "Subscription");
+        class_alias("Traq\Helpers\TWBS", "TWBS");
     }
 
     public static function version()
