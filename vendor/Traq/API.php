@@ -70,7 +70,7 @@ class API
      */
     public static function response($status = 200, $data = array())
     {
-        if (is_array($data)) {
+        if (is_array($data) or is_object($data)) {
             $data = Format::toJson($data);
         }
 
