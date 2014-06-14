@@ -29,6 +29,5 @@ return array(
     'username' => 'root',      // Database username.
     'password' => 'root',      // Database password.
     'database' => 'traq',      // Database name.
-    'prefix'   => ''           // Table prefix, recommended to leave blank.
     //'port'     => 3306         // Database server port
 );
