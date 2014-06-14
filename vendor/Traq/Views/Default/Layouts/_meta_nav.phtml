@@ -1,24 +1,50 @@
-<div id="meta_nav">
-	<ul id="user_nav">
-		<?php FishHook::run('template:layouts/_meta_nav/user_nav'); ?>
-	<?php if (LOGGEDIN) { ?>
-		<li<?php echo iif(active_nav(current_user()->href()), ' class="active"')?>><?php echo HTML::link(l('profile'), current_user()->href()) ?></li>
-		<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
-		<li><?php echo HTML::link(l('logout'), '/logout'); ?></li>
-		<?php if ($current_user->group->is_admin) { ?>
-		<li<?php echo iif(active_nav('/admin(.*)'), ' class="active"')?>><?php echo HTML::link(l('admincp'), '/admin'); ?></li>
-		<?php } ?>
-	<?php } else { ?>
-		<li<?php echo iif(active_nav('/login'), ' class="active"')?>><?php echo HTML::link(l('login'), '/login'); ?></li>
-		<?php if (settings('allow_registration')) { ?>
-		<li<?php echo iif(active_nav('/register'), ' class="active"')?>><?php echo HTML::link(l('register'), '/register'); ?></li>
-		<?php } ?>
-	<?php } ?>
-	</ul>
-	<ul>
-		<?php if (settings('site_name') !== '') { ?>
-		<li><a href="<?php echo settings('site_url'); ?>"><?php echo settings('site_name'); ?></a></li>
-		<?php } ?>
-		<?php if (Request::seg(0)) { ?><li><?php echo HTML::link(settings('title'), '/'); ?></li><?php } ?>
-	</ul>
-</div>
+<nav id="nav-meta" class="navbar navbar-inverse navbar-static-top" role="navigation">
+	<div class="container">
+		<ul class="links-site nav navbar-nav navbar-left">
+		<?php if (settings('site_name')): ?>
+			<li><?php echo HTML::link(settings('site_name'), settings('site_url')); ?></li>
+		<?php endif; ?>
+		<?php if (isset($project)): ?>
+			<li><?php echo HTML::link(settings('title'), '/'); ?></li>
+		<?php endif; ?>
+		</ul>
+		<ul class="links-user nav navbar-nav navbar-right">
+		<?php if (LOGGEDIN): ?>
+			<?php if ($currentUser->group->is_admin or (isset($project) and $currentUser->permission($project->id, 'project_settings'))): ?>
+			<li class="dropdown">
+				<?php echo HTML::link(
+					TWBS::fa('cog') . " " . TWBS::caret(), '#',
+					array('class' => "dropdown-toggle", 'data-toggle' => "dropdown")
+				); ?>
+				<ul class="dropdown-menu">
+				<?php if (isset($project)): ?>
+					<li><?php echo HTML::link($t('project_settings'), $project->href('settings')); ?></li>
+				<?php endif; ?>
+				<?php if ($currentUser->group->is_admin): ?>
+					<li><?php echo HTML::link($t('admincp'), '/admin'); ?></li>
+				<?php endif; ?>
+				</ul>
+			</li>
+			<?php endif; ?>
+			<li class="dropdown">
+				<?php echo HTML::link(
+					TWBS::fa('user') . " " . TWBS::caret(), '/usercp',
+					array('class' => "dropdown-toggle", 'data-toggle' => "dropdown")
+				); ?>
+				<ul class="dropdown-menu">
+					<li><?php echo HTML::link($t('profile'), $currentUser->href()); ?></li>
+					<li><?php echo HTML::link($t('logout'), '/logout'); ?></li>
+				</ul>
+			</li>
+		<?php else: ?>
+			<li class="dropdown">
+				<?php echo HTML::link(TWBS::fa('user') . " " . TWBS::caret(), '/usercp'); ?>
+				<ul class="dropdown-menu">
+					<li><?php echo HTML::link($t('login'), '/login'); ?></li>
+					<li><?php echo HTML::link($t('register'), '/register'); ?></li>
+				</ul>
+			</li>
+		<?php endif; ?>
+		</ul>
+	</div>
+</nav>

@@ -1,0 +1,45 @@
+<?php echo View::render('Layouts/_meta_nav'); ?>
+<header id="header" class="navbar navbar-default navbar-static-top">
+	<div class="container">
+		<div class="navbar-header">
+		<?php if (isset($project)): ?>
+			<?php echo HTML::link($project->name, $project->href(), array('class' => "navbar-brand")); ?>
+		<?php else: ?>
+			<?php echo HTML::link(settings('title'), '/', array('class' => "navbar-brand")); ?>
+		<?php endif; ?>
+		</div>
+		<nav id="nav-main">
+		<?php if (isset($project)): ?>
+			<ul class="nav navbar-nav navbar-left">
+				<li><?php echo HTML::link($t('timeline'), $project->href('timeline')); ?></li>
+				<li class="roadmap dropdown">
+					<?php echo HTML::link($t('roadmap'), $project->href('roadmap'), array('class' => "link")); ?>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+					<ul class="dropdown-menu">
+					<?php foreach ($project->milestones->_and('status = ?', 1)->orderBy('displayorder', 'ASC')->fetchAll() as $milestone): ?>
+						<li>
+							<a href="<?php echo $milestone->href(); ?>">
+								<?php echo $milestone->name; ?>
+								<?php if ($milestone->codename !== null): ?>
+									<em class="codename"><?php echo $milestone->codename; ?></em>
+								<?php endif; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				</li>
+				<li><?php echo HTML::link($t('issues'), $project->href('issues')); ?></li>
+				<li><?php echo HTML::link($t('changelog'), $project->href('changelog')); ?></li>
+				<?php if ($project->enable_wiki): ?>
+					<li><?php echo HTML::link($t('wiki'), $project->href('wiki')); ?></li>
+				<?php endif; ?>
+			</ul>
+			<?php if (LOGGEDIN): ?>
+			<div class="navbar-left">
+				<a href="#traq/issues/new" class="btn btn-warning btn-sm btn-create-issue">Create Issue</a>
+			</div>
+			<?php endif; ?>
+		<?php endif; ?>
+		</nav>
+	</div>
+</header>
