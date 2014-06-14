@@ -23,6 +23,8 @@
 
 namespace Traq\Helpers;
 
+use Radium\Action\View;
+
 /**
  * Twitter Bootstrap Helper.
  *
@@ -52,5 +54,27 @@ class TWBS
     public static function fa($icon)
     {
         return "<span class=\"fa fa-{$icon}\"></span>";
+    }
+
+    /**
+     * Returns the HTML of an alert.
+     *
+     * @param string  $message
+     * @param string  $class   Alert class
+     * @param boolean $dismissable
+     *
+     * @return string
+     */
+    public static function alert($message, $class = 'info', $dismissable = true)
+    {
+        if ($dismissable) {
+            $class = "{$class} alert-dismissable";
+        }
+
+        return View::render('TWBS/alert', array(
+            'message'     => $message,
+            'class'       => $class,
+            'dismissable' => $dismissable
+        ));
     }
 }

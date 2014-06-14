@@ -48,8 +48,12 @@ class Traq extends Application
         require __DIR__ . "/Translations/enAU.php";
         Language::setCurrent('enAU');
 
+        // Add theme to view search path.
         $theme = Setting::find('theme')->value;
         View::addSearchPath(__DIR__ . "/Views/{$theme}", true);
+
+        // Add Twitter Bootstrap helper view directory to view search path.
+        View::addSearchPath(__DIR__ . "/Views/TWBS");
 
         require __DIR__ . "/common.php";
     }
