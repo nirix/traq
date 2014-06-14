@@ -93,6 +93,8 @@ $enAU = new Language(function($t){
         'admincp' => "AdminCP",
 
         // Errors
+        'errors.404.title'   => "I accidentally the whole page...",
+        'errors.404.message' => "Well this is awkward, it seems the page '{1}' doesn't exist.",
         'errors.invalid_username_or_password' => "Invalid username and/or password.",
         'errors.account.activation_required'  => "You must first activate your account.",
     );
