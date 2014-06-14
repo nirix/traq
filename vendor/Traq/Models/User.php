@@ -160,10 +160,12 @@ class User extends Model
      */
     public function getProjectRole($project_id)
     {
-        if ($role = UserRole::select()
+        $role = UserRole::select()
             ->where('project_id = ?', $project_id)
-            ->where('user_id = ?', $this->id)->exec()
-        and $role->rowCount() > 0) {
+            ->_and('user_id = ?', $this->id)
+            ->exec();
+
+        if ($role->rowCount() > 0) {
             return $role->fetch()->project_role_id;
         } else {
             return 0;

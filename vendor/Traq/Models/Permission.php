@@ -49,8 +49,8 @@ class Permission extends Model
         // Fetch the permission rows and merge them with the defaults
         $rows = static::select()
             ->where('project_id = ?', $project_id)
-            ->where('type = ?', $type)
-            ->where('type_id = ?', $type_id)
+            ->_and('type = ?', $type)
+            ->_and('type_id = ?', $type_id)
             ->fetchAll();
 
         $rows = array_merge(static::defaults($project_id, $type_id, $type), $rows);
@@ -78,7 +78,11 @@ class Permission extends Model
     public static function defaults($project_id = 0, $type_id = 0, $type = 'usergroup')
     {
         // Fetch the defaults
-        $defaults = static::select()->sql("WHERE `type` = '{$type}' AND `type_id` = '{$type_id}' and `project_id` IN (" . ($project_id > 0 ? "0,{$project_id}" : '0') . ")")->fetchAll();
+        $defaults = static::select()
+            ->where('type = ?', $type)
+            ->_and('type_id = ?', $type_id)
+            ->_and('project_id IN (' . ($project_id > 0 ? "0,{$project_id}" : '0') . ')')
+            ->fetchAll();
 
         // If we're fetching a specific group,
         // also fetch the defaults for all groups.
