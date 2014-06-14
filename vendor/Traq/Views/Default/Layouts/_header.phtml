@@ -18,7 +18,7 @@
 					<ul class="dropdown-menu">
 					<?php foreach ($project->milestones->_and('status = ?', 1)->orderBy('displayorder', 'ASC')->fetchAll() as $milestone): ?>
 						<li>
-							<a href="<?php echo $milestone->href(); ?>">
+							<a href="<?php echo Request::base($milestone->href()); ?>">
 								<?php echo $milestone->name; ?>
 								<?php if ($milestone->codename !== null): ?>
 									<em class="codename"><?php echo $milestone->codename; ?></em>
