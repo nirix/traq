@@ -46,7 +46,7 @@ class Traq extends Application
 
         // Load default language
         require __DIR__ . "/Translations/enAU.php";
-        Language::setCurrent('enAU');
+        Language::setCurrent(Setting::find('locale')->value);
 
         // Add theme to view search path.
         $theme = Setting::find('theme')->value;
