@@ -166,25 +166,6 @@ class AppController extends Controller
         $this->set('currentUser', $this->user);
     }
 
-    /**
-     * Display a bad API request.
-     *
-     * @param string $error Error message
-     */
-    protected function bad_api_request($message)
-    {
-        $this->render = array_merge(
-            $this->render,
-            array(
-                'action' => false,
-                'view'   => "api/bad_request.json",
-                'layout' => "plain"
-            )
-        );
-
-        View::set(compact('message'));
-    }
-
     public function __shutdown()
     {
         return parent::__shutdown();
