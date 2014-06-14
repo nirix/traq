@@ -30,9 +30,10 @@ Router::map(function($r){
     $r->registerToken('project_slug', '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
 
     $r->root("{$traq}\Projects::index");
-    $r->get("/projects")->to("{$traq}\Projects::index");
+    $r->route('404')->to("{$traq}\Errors::notFound");
 
     // Projects
+    $r->get("/projects")->to("{$traq}\Projects::index");
     $r->get('/:project_slug')->to("{$traq}\Projects::show");
 
     // Tickets
