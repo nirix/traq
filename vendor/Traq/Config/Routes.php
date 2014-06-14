@@ -32,6 +32,11 @@ Router::map(function($r){
     $r->root("{$traq}\Projects::index");
     $r->route('404')->to("{$traq}\Errors::notFound");
 
+    // Users
+    $r->get('/login')->to("{$traq}\Sessions::new");
+    $r->post('/login')->to("{$traq}\Sessions::create");
+    $r->get('/logout')->to("{$traq}\Sessions::destroy");
+
     // Projects
     $r->get("/projects")->to("{$traq}\Projects::index");
     $r->get('/:project_slug')->to("{$traq}\Projects::show");

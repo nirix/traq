@@ -179,17 +179,17 @@ class User extends Model
      *
      * @return bool
      */
-    public function verify_password($password)
+    public function authenticate($password)
     {
-        switch($this->_data['password_ver']) {
+        switch($this->password_ver) {
             // Passwords from Traq 0.1 to 2.3
             case 'sha1':
-                return sha1($password) == $this->_data['password'];
+                return sha1($password) == $this->password;
                 break;
 
             // Passwords from Traq 3+
             case 'crypt':
-                return crypt($password, $this->_data['password']) == $this->_data['password'];
+                return crypt($password, $this->password) == $this->password;
                 break;
         }
     }
