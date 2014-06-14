@@ -1545,6 +1545,15 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 .navbar-default .nav > li.roadmap.dropdown > .dropdown-toggle { float: left; padding-left: 0; }
 .navbar-default .btn-create-issue { margin-top: 10px; margin-left: 8px; /*border-color: #285e8e;*/ }
 
+#project-list { margin: 0; padding: 0; }
+#project-list > li { display: inline-block; vertical-align: top; margin-bottom: 15px; width: 49%; max-width: 49%; }
+#project-list > li:first-child { margin-right: 15px; }
+#project-list > li h2 { border-bottom: 1px solid #eee; padding-bottom: 9px; }
+#project-list > li nav { margin-bottom: 4px; }
+#project-list > li nav .nav > li > a { padding: 5px 15px; }
+
+.codename:before, .codename:after { content: "\""; }
+
 .page-header:first-child { margin-top: 0; }
 
 #footer { margin-top: 15px; }

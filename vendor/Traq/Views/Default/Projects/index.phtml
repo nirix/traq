@@ -1,13 +1,20 @@
 <div class="project-listing container">
-	<h2 id="page_title"><?php echo $t('projects'); ?></h2>
-	<ul id="project_list">
+	<h1 class="page-header"><?php echo $t('projects'); ?></h1>
+	<ul id="project-list">
 		<?php foreach($projects as $project) { ?>
 		<li>
-			<h3><?php echo HTML::link($project->name, $project->slug); ?><?php echo ($project->codename ? " <em>\"{$project->codename}\"</em>" : ''); ?></h3>
+			<h2>
+				<?php echo HTML::link($project->name, $project->slug); ?>
+				<?php if ($project->codename !== null): ?>
+				<small>
+					<em class="codename"><?php echo $project->codename; ?></em>
+				</small>
+				<?php endif; ?>
+			</h2>
 			<nav>
-				<ul>
+				<ul class="nav nav-justified nav-pills">
 					<li><?php echo HTML::link($t('roadmap'), "{$project->slug}/roadmap"); ?></li>
-					<li><?php echo HTML::link($t('tickets'), "{$project->slug}/tickets"); ?></li>
+					<li><?php echo HTML::link($t('issues'), "{$project->slug}/issues"); ?></li>
 					<li><?php echo HTML::link($t('timeline'), "{$project->slug}/timeline"); ?></li>
 					<?php Hook::run('template:projects/index/project/nav', array($project)); ?>
 				</ul>
