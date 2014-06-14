@@ -212,9 +212,9 @@ class User extends Model
      *
      * @return bool
      */
-    public function is_activated()
+    public function isActivated()
     {
-        return !$this->option('validation_key');
+        return !isset($this->options['validation_key']);
     }
 
     /**

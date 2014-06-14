@@ -45,12 +45,16 @@ class Sessions extends AppController
      */
     public function createAction()
     {
+        $this->setView('Sessions/new');
+
         if ($user = User::find('username', Request::$post['username'])
         and $user->authenticate(Request::$post['password'])) {
-            setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-            $this->redirectTo(isset(Request::$post['redirect']) ? Request::$post['redirect'] : '/');
-        } else {
-            $this->setView('Sessions/new');
+            if ($user->isActivated()) {
+                setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+                $this->redirectTo(isset(Request::$post['redirect']) ? Request::$post['redirect'] : '/');
+            } else {
+                $this->set('activationRequired', true);
+            }
         }
     }
 

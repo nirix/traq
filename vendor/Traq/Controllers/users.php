@@ -42,7 +42,6 @@ use traq\models\User;
 class Users extends AppController
 {
     public $before = array(
-        'login'    => array('already_logged_in'),
         'register' => array('already_logged_in')
     );
 
@@ -65,46 +64,6 @@ class Users extends AppController
 
         Load::helper('tickets');
         View::set('profile', $user);
-    }
-
-    /**
-     * Handles the login page.
-     */
-    public function action_login()
-    {
-        // Set the title
-        $this->title(l('login'));
-
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Try to find the user in the database and verify their password
-            if ($user = User::find('username', Request::$post['username'])
-            and $user->verify_password(Request::$post['password'])) {
-                // User found and verified, set the cookie and redirect them
-                // to the index page if no "redirect" page was set.
-                if ($user->is_activated()) {
-                    setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-                    Request::redirect(isset(Request::$post['redirect']) ? Request::$post['redirect'] : Request::base());
-                }
-                // Tell the user to activate
-                else {
-                    View::set('validation_required', true);
-                }
-            }
-            // No user found
-            else {
-                View::set('error', true);
-            }
-        }
-    }
-
-    /**
-     * Handles the logout request.
-     */
-    public function action_logout()
-    {
-        setcookie('_traq', sha1(time()), time() + 5, '/');
-        Request::redirectTo();
     }
 
     /**

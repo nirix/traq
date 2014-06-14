@@ -4,7 +4,11 @@
 			<h1><?php echo $t('login'); ?></h1>
 
 			<?php if (Request::$method == 'post'): ?>
-				<?php echo TWBS::alert($t('errors.invalid_username_or_password'), 'danger', false); ?>
+				<?php if (isset($activationRequired)): ?>
+					<?php echo TWBS::alert($t('errors.account.activation_required'), 'danger', false); ?>
+				<?php else: ?>
+					<?php echo TWBS::alert($t('errors.invalid_username_or_password'), 'danger', false); ?>
+				<?php endif; ?>
 			<?php endif; ?>
 			<form action="<?php echo Request::base('login'); ?>" method="post" class="form-horizontal">
 				<div class="form-group">
