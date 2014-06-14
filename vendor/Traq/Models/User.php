@@ -47,13 +47,14 @@ class User extends Model
     );
 
     // Things to do before certain things
-    protected static $_filters_before = array(
-        'create' => array('_before_create')
+    protected static $_before = array(
+        'create' => array('beforeCreate'),
+        'update' => array('beforeUpdate')
     );
 
     // Things to do after certain things
-    protected static $_filters_after = array(
-        'construct' => array('_after_construct')
+    protected static $_after = array(
+        'construct' => array('afterConstruct')
     );
 
     // Users group and role ermissions
@@ -220,25 +221,30 @@ class User extends Model
      * Handles all the required stuff before creating
      * the user, such as hashing the password.
      */
-    protected function _before_create()
+    protected function beforeCreate()
     {
         $this->prepare_password();
-        $this->_data['login_hash'] = sha1(time() . $this->_data['username'] . rand(0, 1000));
+        $this->login_hash = sha1(time() . $this->username . rand(0, 1000));
 
-        if (!isset($this->_data['name'])) {
-            $this->_data['name'] = $this->_data['username'];
+        if (!isset($this->name)) {
+            $this->name = $this->username;
         }
+
+        $this->options = json_encode($this->options);
+    }
+
+    protected function beforeUpdate()
+    {
+        $this->options = json_encode($this->options);
     }
 
     /**
      * Handles all the required after the model
      * construction.
      */
-    protected function _after_construct()
+    protected function afterConstruct()
     {
-        if (isset($this->_data) and isset($this->_data['options'])) {
-            $this->_options = json_decode($this->_data['options'], true);
-        }
+            $this->options = json_decode($this->options, true);
     }
 
     /**
