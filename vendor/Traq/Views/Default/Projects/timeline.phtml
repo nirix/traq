@@ -22,11 +22,11 @@
 	<dl>
 	<?php foreach ($day['activity'] as $event): ?>
 		<dt id="timeline_event_<?php echo $event->id?>">
-			<?php if (LOGGEDIN and $currentUser->permission($project->id, 'delete_timeline_events')) { ?>
+			<?php if (LOGGEDIN and $currentUser->permission($project->id, 'delete_timeline_events')): ?>
 			<a class="btn btn-xs btn-danger" data-ajax-confirm="<?php echo $t('confirm.delete')?>" href="<?php echo Request::base($event->href('delete'))?>">
 				<?php echo TWBS::fa('minus-circle'); ?><span class="sr-only"><?php echo$t('delete')?></span>
 			</a>
-			<?php } ?>
+			<?php endif; ?>
 			<span class="text-muted time"><?php echo $l(settings('timeline_time_format'), $event->created_at); ?></span>
 
 		<?php if (in_array($event->action, array('ticket_created','ticket_closed','ticket_reopened','ticket_updated'))): ?>
