@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,9 +21,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Radium\Database\Model;
 
 /**
  * Project model.
@@ -34,34 +37,96 @@ use avalon\database\Model;
 class Project extends Model
 {
     protected static $_name = 'projects';
-    protected static $_properties = array(
-        'id',
-        'name',
-        'codename',
-        'slug',
-        'info',
-        'next_tid',
-        'enable_wiki',
-        'default_ticket_type_id',
-        'default_ticket_sorting',
-        'displayorder',
-        'private_key'
-    );
 
-    protected static $_escape = array(
-        'name',
-        'codename'
-    );
+    /**
+     * Tickets relation.
+     *
+     * @return array
+     */
+    public function tickets()
+    {
+        return $this->hasMany('Ticket');
+    }
 
-    // Has-many relationships with other models
-    protected static $_has_many = array(
-        'tickets', 'milestones', 'components', 'subscriptions', 'permissions',
-        'wiki_pages'   => array('model' => 'WikiPage'),
-        'roles'        => array('model' => 'ProjectRole'),
-        'user_roles'   => array('model' => 'UserRole'),
-        'repositories' => array('model' => 'Repository'),
-        'custom_fields' => array('model' => 'CustomField')
-    );
+    /**
+     * Milestones relation.
+     *
+     * @return array
+     */
+    public function milestones()
+    {
+        return $this->hasMany('Milestone');
+    }
+
+    /**
+     * Components relation.
+     *
+     * @return array
+     */
+    public function components()
+    {
+        return $this->hasMany('Component');
+    }
+
+    /**
+     * Subscriptions relation.
+     *
+     * @return array
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany('Subscription');
+    }
+
+    /**
+     * Permissions relation.
+     *
+     * @return array
+     */
+    public function permissions()
+    {
+        return $this->hasMany('Permission');
+    }
+
+    /**
+     * Wiki pages relation.
+     *
+     * @return array
+     */
+    public function wikiPages()
+    {
+        return $this->hasMany('WikiPage');
+    }
+
+    /**
+     * Roles relation.
+     *
+     * @return array
+     */
+    public function roles()
+    {
+        return $this->hasMany('Role');
+    }
+
+    /**
+     * User<>Roles relation.
+     *
+     * @return array
+     */
+    public function userRoles()
+    {
+        return $this->hasMany('UserRole');
+    }
+
+    /**
+     * Custom fields relation.
+     *
+     * @return array
+     */
+    public function customFields()
+    {
+        return $this->hasMany('CustomField');
+    }
 
     // Filters
     protected static $_filters_before = array(
@@ -76,7 +141,7 @@ class Project extends Model
      */
     public function href($uri = null)
     {
-        return $this->_data['slug'] . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
+        return $this->slug . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
     }
 
     /**
