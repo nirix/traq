@@ -37,6 +37,9 @@ class Traq extends Application
     {
         parent::__construct();
 
+        // Start session
+        session_start();
+
         // Include version file
         require __DIR__ . "/version.php";
         static::$version = TRAQ_VER;
