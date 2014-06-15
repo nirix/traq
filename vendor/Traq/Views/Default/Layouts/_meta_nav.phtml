@@ -10,7 +10,7 @@
 		</ul>
 		<ul class="links-user nav navbar-nav navbar-right">
 		<?php if (LOGGEDIN): ?>
-			<?php if ($currentUser->group->is_admin or (isset($project) and $currentUser->permission($project->id, 'project_settings'))): ?>
+			<?php if ($currentUser->group()->is_admin or (isset($project) and $currentUser->permission($project->id, 'project_settings'))): ?>
 			<li class="dropdown">
 				<?php echo HTML::link(
 					TWBS::fa('cog') . " " . TWBS::caret(), '#',
@@ -20,7 +20,7 @@
 				<?php if (isset($project)): ?>
 					<li><?php echo HTML::link($t('project_settings'), $project->href('settings')); ?></li>
 				<?php endif; ?>
-				<?php if ($currentUser->group->is_admin): ?>
+				<?php if ($currentUser->group()->is_admin): ?>
 					<li><?php echo HTML::link($t('admincp'), '/admin'); ?></li>
 				<?php endif; ?>
 				</ul>

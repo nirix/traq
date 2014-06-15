@@ -35,17 +35,6 @@ use Radium\Database\Model;
  */
 class User extends Model
 {
-    // Things the user belongs to
-    protected static $_belongsTo = array('group');
-
-    // Things the user has many of
-    protected static $_hasMany = array(
-        'tickets',
-
-        'ticket_updates'   => array('model' => 'TicketHistory'),
-        'assigned_tickets' => array('model' => 'ticket', 'foreign_key' => 'assigned_to_id')
-    );
-
     // Things to do before certain things
     protected static $_before = array(
         'create' => array('beforeCreate'),
@@ -64,6 +53,36 @@ class User extends Model
     );
 
     private $_options;
+
+    /**
+     * Group relation.
+     *
+     * @return object
+     */
+    public function group()
+    {
+        return $this->belongsTo('Group');
+    }
+
+    /**
+     * Ticket updates relation.
+     *
+     * @return object
+     */
+    public function ticketUpdates()
+    {
+        return $this->hasMany('TicketUpdate');
+    }
+
+    /**
+     * Assigned tickets relation.
+     *
+     * @return object
+     */
+    public function assignedTickets()
+    {
+        return $this->hasMany('Ticket', array('foreignKey' => 'assigned_to_id'));
+    }
 
     /**
      * Returns the URI for the users profile.
@@ -124,7 +143,7 @@ class User extends Model
     {
         // Check if user is admin and return true
         // as admins have the right to do anything.
-        if ($this->group->is_admin) {
+        if ($this->group()->is_admin) {
             return true;
         }
 
