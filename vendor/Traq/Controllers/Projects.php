@@ -33,6 +33,7 @@ use Traq\Models\Milestone;
 use Traq\Models\Type;
 use Traq\Models\Status;
 use Traq\Helpers\Pagination;
+use Traq\API;
 
 /**
  * Project controller.
@@ -49,9 +50,11 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        // No need to do anything here as the
-        // AppController fetches the projects
-        // for use with the project switcher.
+        return  $this->respondTo(function($format, $controller){
+            if ($format == 'json') {
+                return API::response(200, $controller->render('Projects/index.json'));
+            }
+        });
     }
 
     /**
