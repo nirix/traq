@@ -66,7 +66,7 @@ class API
      * @param integer $status   HTTP response code
      *
      * @example
-     *     API::response(array('error' => "api_key_invalid"), 401);
+     *     API::response(401, array('error' => "api_key_invalid"));
      */
     public static function response($status = 200, $data = array())
     {
@@ -74,9 +74,10 @@ class API
             $data = Format::toJson($data);
         }
 
-        $response = new Response(function($resp) use ($status, $data) {
-            $resp->status = $status;
-            $resp->body   = $data;
+        return new Response(function($resp) use ($status, $data) {
+            $resp->contentType = 'application/json';
+            $resp->status      = $status;
+            $resp->body        = $data;
 
             header("X-Traq-Version: " . Traq::version());
             header("X-API-Version: " . TRAQ_API_VER);
