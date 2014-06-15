@@ -40,6 +40,7 @@ Router::map(function($r){
     // Projects
     $r->get("/projects")->to("{$traq}\Projects::index");
     $r->get('/:project_slug')->to("{$traq}\Projects::show");
+    $r->route('/:project_slug/timeline')->to("{$traq}\Projects::timeline")->method(array('get','post'));
 
     // Tickets
     $r->get('/:project_slug/tickets')->to("{$traq}\Tickets::index");

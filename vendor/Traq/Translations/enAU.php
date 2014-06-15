@@ -80,6 +80,10 @@ $enAU = new Language(function($t){
         'timeline.wiki_page_edited'    => "Edited {title} wiki page",
         'timeline.by_x'                => "by {1}",
 
+        // Filters
+        'filter_events' => "Filter Events",
+        'apply_filters' => "Apply Filters",
+
         // Timeline filters
         'timeline.filters.new_tickets'           => "New tickets",
         'timeline.filters.tickets_opened_closed' => "Tickets open/closed",
@@ -91,6 +95,10 @@ $enAU = new Language(function($t){
 
         // AdminCP
         'admincp' => "AdminCP",
+
+        // Pagination
+        'next'     => "Next",
+        'previous' => "Previous",
 
         // Errors
         'errors.404.title'   => "I accidentally the whole page...",
