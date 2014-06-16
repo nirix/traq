@@ -47,6 +47,12 @@ Router::map(function($r){
     $r->route('/:project_slug/timeline')->to("{$traq}\Projects::timeline")
         ->method(array('get','post'));
 
+    // Roadmap
+    $r->get('/:project_slug/roadmap')->to("{$traq}\Roadmap::index");
+    $r->get('/:project_slug/roadmap/all')->to("{$traq}\Roadmap::index", array('all'));
+    $r->get('/:project_slug/roadmap/completed')->to("{$traq}\Roadmap::index", array('completed'));
+    $r->get('/:project_slug/roadmap/cancelled')->to("{$traq}\Roadmap::index", array('cancelled'));
+    $r->get('/:project_slug/roadmap/:slug')->to("{$traq}\Roadmap::show");
 
     // Tickets
     $r->get('/:project_slug/tickets')->to("{$traq}\Tickets::index");

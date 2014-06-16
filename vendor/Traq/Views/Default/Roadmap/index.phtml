@@ -1,0 +1,34 @@
+<div class="roadmap container">
+	<h1 class="page-header"><?php echo $t('roadmap'); ?></h1>
+
+	<nav>
+		<ul class="nav nav-tabs">
+			<li<?php echo activeNav('/:slug/roadmap') ? ' class="active"' : ''; ?>>
+				<?php echo HTML::link($t('active'), $project->href('roadmap')); ?>
+			</li>
+			<li<?php echo activeNav('/:slug/roadmap/completed') ? ' class="active"' : ''; ?>>
+				<?php echo HTML::link($t('completed'), $project->href('roadmap/completed')); ?>
+			</li>
+			<li<?php echo activeNav('/:slug/roadmap/all') ? ' class="active"' : ''; ?>>
+				<?php echo HTML::link($t('all'), $project->href('roadmap/all')); ?>
+			</li>
+		</ul>
+	</nav>
+
+	<ul class="milestones">
+<?php foreach ($milestones as $milestone): ?>
+		<li>
+			<h2>
+				<?php echo HTML::link($milestone->name, $milestone); ?>
+				<?php if ($milestone->codename): ?>
+					<small><em class="codename"><?php echo $milestone->codename; ?></em></small>
+				<?php endif; ?>
+			</h2>
+			<?php echo View::render('Roadmap/_progressBar', array('milestone' => $milestone)); ?>
+			<div>
+				<?php echo Format::text($milestone->info); ?>
+			</div>
+		</li>
+<?php endforeach; ?>
+	</ul>
+</div>

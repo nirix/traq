@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,11 +21,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\core\Kernel as Avalon;
-use avalon\database\Model;
-use avalon\helpers\Time;
+use Radium\Database\Model;
+use Radium\Kernel as Radium;
+use Radium\Helpers\Time;
 
 /**
  * Milestone model.
@@ -34,36 +37,42 @@ use avalon\helpers\Time;
  */
 class Milestone extends Model
 {
-    protected static $_name = 'milestones';
-    protected static $_properties = array(
-        'id',
-        'name',
-        'slug',
-        'codename',
-        'info',
-        'changelog',
-        'due',
-        'completed_on',
-        'status',
-        'is_locked',
-        'project_id',
-        'displayorder'
+    // Validations
+    protected static $_validates = array(
+        'name' => array('required'),
+        'slug' => array('required')
     );
 
-    protected static $_escape = array(
-        'name'
+    // Before filters
+    protected static $_before = array(
+        'create' => array('_beforeCreate'),
+        'save'   => array('_beforeSave')
     );
 
-    // Relations
-    protected static $_has_many = array('tickets');
-    protected static $_belongs_to = array('project');
-
-    // Filters
-    protected static $_filters_before = array(
-        'create' => array('_before_create'),
-        'save' => array('_before_save')
+    // After filters
+    protected static $_after = array(
+        'construct' => array('_afterConstruct')
     );
-    protected static $_filters_after = array('construct' => array('_after_construct'));
+
+    /**
+     * Project relation.
+     *
+     * @return Traq\Models\Project
+     */
+    public function project()
+    {
+        return $this->belongsTo('Project');
+    }
+
+    /**
+     * Tickets relation.
+     *
+     * @return array
+     */
+    public function tickets()
+    {
+        return $this->hasMany('Ticket');
+    }
 
     /**
      * Easily get the URI to the milestone.
@@ -72,55 +81,52 @@ class Milestone extends Model
      */
     public function href($uri = null)
     {
-        return '/' . $this->project->slug . "/milestone/" . $this->slug . ($uri !== null ? '/' . trim($uri, '/') : '');
+        return "/{$this->project()->slug}/milestone/{$this->slug}" . ($uri !== null ? '/' . trim($uri, '/') : '');
     }
 
     /**
      * Returns an array in the format used for the
      * Form::select() helper.
      */
-    public function select_option()
+    public function selectOption()
     {
         return array(array('label' => $this->name, 'value' => $this->id));
+    }
+
+    public function ticketPercent($status = 'closed')
+    {
+        $total = $this->tickets()->rowCount();
+        $count = $this->ticketCount($status);
+
+        if ($total > 0 and $count > 0) {
+            return round($count / $total * 100);
+        }
+
+        return 0;
     }
 
     /**
      * Returns the number of tickets for the specified status.
      *
-     * @param string $status The status of the ticket:
-     *     open, closed, total, open_percent, closed_percent
+     * @param string $status
      *
      * @return integer
      */
-    public function ticket_count($status = 'total')
+    public function ticketCount($status = 'closed')
     {
-        // Holder for the counts array.
-        static $counts = array();
-
-        // Check if we need to fetch
-        // the ticket counts.
-        if (!isset($counts[$this->id])) {
-            $counts[$this->id] = array(
-                'open' => $this->tickets->where('is_closed', 0)->exec()->row_count(),
-                'closed' => $this->tickets->where('is_closed', 1)->exec()->row_count()
-            );
-            $counts[$this->id]['total'] = $counts[$this->id]['open'] + $counts[$this->id]['closed'];
-            $counts[$this->id]['open_percent'] = $counts[$this->id]['open'] ? get_percent($counts[$this->id]['open'], $counts[$this->id]['total']) : 0;
-            $counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'], $counts[$this->id]['total']);
-        }
-
-        // Return the requested count index.
-        return $counts[$this->id][$status];
+        return $count = $this->tickets()
+            ->where('is_closed = ?', ($status == 'open' ? 0 : 1))
+            ->rowCount();
     }
 
     /**
      * Returns an array of milestone statuses
      * formatted for the Form::select() helper.
      */
-    public static function status_select_options()
+    public static function statusSelectOptions()
     {
         return array(
-            array('label' => l('active'), 'value' => 1),
+            array('label' => l('active'),    'value' => 1),
             array('label' => l('completed'), 'value' => 2),
             array('label' => l('cancelled'), 'value' => 0),
         );
@@ -134,16 +140,6 @@ class Milestone extends Model
     public function is_valid()
     {
         $errors = array();
-
-        // Check if the name is empty
-        if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.name_blank');
-        }
-
-        // Check if the slug is empty
-        if (empty($this->_data['slug'])) {
-            $errors['slug'] = l('errors.slug_blank');
-        }
 
         // Check if the slug is in use
         $milestone_slug = Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')
@@ -188,15 +184,15 @@ class Milestone extends Model
     /**
      * Converts the slug to be URI safe.
      */
-    protected function _create_slug()
+    protected function _createSlug()
     {
-        $this->slug = create_slug($this->slug);
+        $this->slug = URI::createSlug($this->slug);
     }
 
     /**
      * Does required things before creating the row.
      */
-    protected function _before_create()
+    protected function _beforeCreate()
     {
         $this->_create_slug();
     }
@@ -204,7 +200,7 @@ class Milestone extends Model
     /**
      * Does required things before saving the data.
      */
-    protected function _before_save()
+    protected function _beforeSave()
     {
         $this->_create_slug();
     }
@@ -212,16 +208,16 @@ class Milestone extends Model
     /**
      * Clones the status for use in the save method.
      */
-    protected function _after_construct()
+    protected function _afterConstruct()
     {
         // Status
-        if (isset($this->_data['status'])) {
-            $this->original_status = $this->_data['status'];
+        if (isset($this->status)) {
+            $this->original_status = $this->status;
         }
 
         // Completed on date from GMT to local
-        if (!$this->_is_new() and $this->_data['completed_on'] != null) {
-            $this->_data['completed_on'] = Time::gmt_to_local($this->_data['completed_on']);
+        if (!$this->_isNew and $this->completed_on != null) {
+            $this->completed_on = Time::gmtToLocal($this->completed_on);
         }
     }
 }

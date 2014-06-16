@@ -53,7 +53,11 @@ $enAU = new Language(function($t){
         'projects' => "Projects",
 
         // Roadmap
-        'roadmap' => "Roadmap",
+        'roadmap'   => "Roadmap",
+        'all'       => "All",
+        'active'    => "Active",
+        'completed' => "Completed",
+        'cancelled' => "Cancelled",
 
         // Issues
         'issues'       => "Issues",

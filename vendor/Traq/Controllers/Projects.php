@@ -75,36 +75,6 @@ class Projects extends AppController
     }
 
     /**
-     * Handles the roadmap page.
-     */
-    public function action_roadmap($which = 'active')
-    {
-        // Get the projects milestones and send them to the view.
-        $milestones = Milestone::select()->where('project_id', $this->project->id);
-
-        // Are we displaying all milestones?
-        if ($which == 'all') {
-            // We do NOTHING!
-        }
-        // Just the completed ones?
-        elseif ($which == 'completed') {
-            $milestones = $milestones->where('status', 2);
-        }
-        // Just the cancelled ones?
-        elseif ($which == 'cancelled') {
-            $milestones = $milestones->where('status', 0);
-        }
-        // Looks like just the active ones
-        else {
-            $milestones = $milestones->where('status', 1);
-        }
-
-        // Get the milestones and send them to the view
-        $milestones = $milestones->order_by('displayorder', 'ASC')->exec()->fetch_all();
-        View::set('milestones', $milestones);
-    }
-
-    /**
      * Handles the milestone page.
      */
     public function action_milestone($milestone_slug)

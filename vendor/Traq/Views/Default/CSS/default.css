@@ -1566,6 +1566,10 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 #timeline-filters fieldset legend { border: 0; margin-bottom: 0; }
 #timeline-filters fieldset .actions { margin-top: 5px; }
 
+/* Roadmap CSS */
+.roadmap.container > ul { list-style: none; padding: 0; }
+.roadmap.container > ul > li h2 { border-bottom: 1px solid #eee; }
+
 /* Forms CSS */
 .form-actions { text-align: center; }
 
