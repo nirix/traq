@@ -24,6 +24,7 @@
 namespace Traq\Helpers;
 
 use Radium\Action\View;
+use Radium\Helpers\HTML;
 
 /**
  * Twitter Bootstrap Helper.
@@ -76,5 +77,25 @@ class TWBS
             'class'       => $class,
             'dismissable' => $dismissable
         ));
+    }
+
+    public static function progressBar($value, $options)
+    {
+        $attributes = array(
+            'class' => "progress-bar {$options['style']}",
+            'role' => "progressbar",
+            'aria-valuenow' => $value,
+            'aria-valuemin' => 0,
+            'aria-valuemax' => 100,
+            'style' => "width:{$value}%;"
+        );
+
+        unset($options['style']);
+
+        $attributes = array_merge($attributes, $options);
+
+        $attributes = HTML::buildAttributes($attributes);
+
+        return "<div {$attributes}></div>";
     }
 }
