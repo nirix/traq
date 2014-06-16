@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -117,14 +120,14 @@ function theme_select_options()
  *
  * @return bool
  */
-function active_nav($uri)
+function activeNav($uri)
 {
     $uri = str_replace(
         array(':slug', ':any', ':num'),
         array('([a-zA-Z0-9\-\_]+)', '(.*)', '([0-9]+)'),
         $uri
     );
-    return preg_match("#^{$uri}$#", Request::uri());
+    return Request::matches($uri);
 }
 
 /**
