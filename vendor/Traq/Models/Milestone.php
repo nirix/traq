@@ -106,6 +106,38 @@ class Milestone extends Model
     }
 
     /**
+     * Returns the count of open tickets.
+     *
+     * @return integer
+     */
+    public function openTicketCount()
+    {
+        return $this->ticketCount('open');
+    }
+
+    /**
+     * Returns the count of closed tickets.
+     *
+     * @return integer
+     */
+    public function closedTicketCount()
+    {
+        return $this->ticketCount('closed');
+    }
+
+    /**
+     * Returns the count of started tickets.
+     *
+     * @return integer
+     */
+    public function startedTicketCount()
+    {
+        return $this->tickets()->join('statuses', "statuses.id = tickets.status_id")
+            ->where("`statuses`.`status` = 2")
+            ->rowCount();
+    }
+
+    /**
      * Returns the number of tickets for the specified status.
      *
      * @param string $status
