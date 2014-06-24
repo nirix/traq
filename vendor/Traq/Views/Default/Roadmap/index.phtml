@@ -25,6 +25,26 @@
 				<?php endif; ?>
 			</h2>
 			<?php echo View::render('Roadmap/_progressBar', array('milestone' => $milestone)); ?>
+			<ul class="issue-counts">
+				<li>
+					<?php echo HTML::link(
+						$t('x_open', array($milestone->openTicketCount())),
+						$project->href('issues/?open')
+					); ?>
+				</li>
+				<li>
+					<?php echo HTML::link(
+						$t('x_started', array($milestone->startedTicketCount())),
+						$project->href('issues/?started')
+					); ?>
+				</li>
+				<li>
+					<?php echo HTML::link(
+						$t('x_closed', array($milestone->closedTicketCount())),
+						$project->href('issues/?closed')
+					); ?>
+				</li>
+			</ul>
 			<div>
 				<?php echo Format::text($milestone->info); ?>
 			</div>

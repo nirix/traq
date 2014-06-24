@@ -1569,6 +1569,10 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 /* Roadmap CSS */
 .roadmap.container > ul { list-style: none; padding: 0; }
 .roadmap.container > ul > li h2 { border-bottom: 1px solid #eee; }
+.roadmap.container > ul > li .progress { margin-bottom: 5px; }
+.roadmap.container > ul > li .issue-counts { list-style: none; margin: 0; padding: 0; margin-bottom: 10px; }
+.roadmap.container > ul > li .issue-counts a:link, .roadmap.container > ul > li .issue-counts a:visited, .roadmap.container > ul > li .issue-counts a:active, .roadmap.container > ul > li .issue-counts a:hover { color: #999; }
+.roadmap.container > ul > li .issue-counts li { display: inline; margin-right: 10px; }
 
 /* Forms CSS */
 .form-actions { text-align: center; }
