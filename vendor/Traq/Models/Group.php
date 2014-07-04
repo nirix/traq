@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,33 +21,30 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Radium\Database\Model;
 
 /**
  * User group model.
  *
- * @package Traq
- * @subpackage Models
+ * @package Traq\Models
  * @author Jack P.
  * @copyright (c) Jack P.
  */
 class Group extends Model
 {
-    protected static $_name = 'usergroups';
-    protected static $_properties = array(
-        'id',
-        'name',
-        'is_admin',
-    );
+    protected static $_table = 'usergroups';
 
-    protected static $_escape = array(
-        'name'
+    // Validations
+    protected static $_validates = array(
+        'name' => array('required', 'unique')
     );
 
     // Relations
-    protected static $_has_many = array('users' => array('foreign_key' => 'group_id'));
+    protected static $_hasMany = array(
+        'users' => array('foreignKey' => 'group_id')
+    );
 
     /**
      * Returns an array of groups to be used
@@ -52,10 +52,10 @@ class Group extends Model
      *
      * @return array
      */
-    public static function select_options()
+    public static function selectOptions()
     {
         $options = array();
-        foreach (static::fetch_all() as $group) {
+        foreach (static::all() as $group) {
             $options[] = array('value' => $group->id, 'label' => $group->name);
         }
         return $options;
@@ -66,32 +66,14 @@ class Group extends Model
      *
      * @return array
      */
-    public static function all_group_ids()
+    public static function allGroupIds()
     {
         $ids = array();
 
-        foreach (static::fetch_all() as $group) {
+        foreach (static::all() as $group) {
             $ids[] = $group->id;
         }
 
         return $ids;
-    }
-
-    /**
-     * Checks if the groups data is valid.
-     *
-     * @return bool
-     */
-    public function is_valid()
-    {
-        $errors = array();
-
-        // Make sure the name is set...
-        if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.name_blank');
-        }
-
-        $this->errors = $errors;
-        return !count($errors) > 0;
     }
 }
