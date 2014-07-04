@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,34 +21,24 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Radium\Database\Model;
 
-use traq\models\Project;
-use traq\models\Milestone;
-use traq\models\Ticket;
+use Traq\Models\Project;
+use Traq\Models\Milestone;
+use Traq\Models\Ticket;
 
 /**
  * Subscription model.
  *
- * @package Traq
- * @subpackage Models
+ * @package Traq\Models
  * @author Jack P.
  * @copyright (c) Jack P.
  */
 class Subscription extends Model
 {
-    protected static $_name = 'subscriptions';
-    protected static $_properties = array(
-        'id',
-        'type',
-        'user_id',
-        'project_id',
-        'object_id'
-    );
-
-    protected static $_belongs_to = array('user');
+    protected static $_belongsTo = array('user');
 
     private $object;
 
@@ -56,9 +49,9 @@ class Subscription extends Model
      *
      * @return array
      */
-    public static function fetch_all_for($project_id)
+    public static function fetchAllFor($project_id)
     {
-        return static::select()->where('project_id', $project_id)->exec()->fetch_all();
+        return static::select()->where('project_id = ?', $project_id)->fetchAll();
     }
 
     /**
@@ -86,15 +79,5 @@ class Subscription extends Model
         }
 
         return $this->object;
-    }
-
-    /**
-     * Checks if the groups data is valid.
-     *
-     * @return bool
-     */
-    public function is_valid()
-    {
-        return true;
     }
 }
