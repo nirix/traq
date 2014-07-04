@@ -19,7 +19,7 @@ Licenses
 -------
 
 * Traq is released under the GNU GPL license, _version 3 only_.
-* Avalon is released under the GNU Lesser GPL license, _version 3 only_.
+* Radium is released under the Apache License 2.0.
 * Nanite is released under the GNU Lesser GPL license, _version 3 only_.
 
 ### Terminated Licenses ###
