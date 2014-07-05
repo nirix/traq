@@ -23,6 +23,9 @@
 
 namespace Traq\Controllers;
 
+use Traq\API;
+use Traq\Helpers\Format;
+
 /**
  * Roadmap controller.
  *
@@ -54,6 +57,13 @@ class Roadmap extends AppController
             $milestones = $milestones->where('status = ?', 0);
         }
 
-        $this->set('milestones', $milestones->fetchAll());
+        $milestones = $milestones->fetchAll();
+        $this->set(compact('milestones'));
+
+        return  $this->respondTo(function($format, $controller) use ($milestones) {
+            if ($format == 'json') {
+                return API::response(200, Format::toJson($milestones));
+            }
+        });
     }
 }
