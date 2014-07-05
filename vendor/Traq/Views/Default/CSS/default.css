@@ -1544,7 +1544,7 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 
 .navbar-default .nav > li.roadmap.dropdown > a.link { float: left; padding-right: 5px; }
 .navbar-default .nav > li.roadmap.dropdown > .dropdown-toggle { float: left; padding-left: 0; }
-.navbar-default .btn-create-issue { margin-top: 10px; margin-left: 8px; /*border-color: #285e8e;*/ }
+.navbar-default .btn-create-issue { margin-top: 10px; margin-left: 8px; border-color: #285e8e; }
 
 /* Projects CSS */
 #project-list { margin: 0; padding: 0; }
