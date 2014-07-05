@@ -39,32 +39,7 @@ use traq\helpers\Notification;
  */
 class Ticket extends Model
 {
-    protected static $_name = 'tickets';
-    protected static $_properties = array(
-        'id',
-        'ticket_id',
-        'summary',
-        'body',
-        'user_id',
-        'project_id',
-        'milestone_id',
-        'version_id',
-        'component_id',
-        'type_id',
-        'status_id',
-        'priority_id',
-        'severity_id',
-        'assigned_to_id',
-        'is_closed',
-        'is_private',
-        'votes',
-        'tasks',
-        'extra',
-        'created_at',
-        'updated_at'
-    );
-
-    protected static $_has_many = array(
+    protected static $_hasMany = array(
         'attachments',
 
         'custom_fields'        => array('model' => 'CustomFieldValue'),
@@ -72,7 +47,7 @@ class Ticket extends Model
         'ticket_relationships' => array('model' => 'TicketRelationship')
     );
 
-    protected static $_belongs_to = array(
+    protected static $_belongsTo = array(
         'user', 'project', 'milestone', 'component',
         'priority', 'severity', 'type', 'status',
 
@@ -81,13 +56,13 @@ class Ticket extends Model
         'version'     => array('model' => 'Milestone'),
     );
 
-    protected static $_filters_after = array(
-        'construct' => array('process_data_read')
+    protected static $_after = array(
+        'construct' => array('processDataRead')
     );
 
     protected static $_filters_before = array(
-        'create' => array('process_data_write'),
-        'save' => array('process_data_write')
+        'create' => array('processDataWrite'),
+        'save'   => array('processDataWrite')
     );
 
     protected $_changes            = array();
@@ -102,7 +77,7 @@ class Ticket extends Model
      */
     public function href($uri = null)
     {
-        return "/{$this->project->slug}/tickets/{$this->ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
+        return "/{$this->project()->slug}/tickets/{$this->ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
     }
 
     /**
@@ -654,23 +629,18 @@ class Ticket extends Model
      *
      * @access private
      */
-    protected function process_data_read()
+    protected function processDataRead()
     {
-        $this->_data['extra'] = json_decode(isset($this->_data['extra']) ? $this->_data['extra'] : '', true);
+        $this->extra = json_decode($this->extra, true);
 
         // Set the voted array
         if (!isset($this->extra['voted']) or !is_array($this->extra['voted'])) {
-            $this->_data['extra']['voted'] = array();
-        }
-
-        // Tasks
-        if (!isset($this->_data['tasks'])) {
-            $this->_data['tasks'] = array();
+            $this->extra['voted'] = array();
         }
 
         // Decode tasks
         if (!is_array($this->tasks)) {
-            $this->_data['tasks'] = json_decode($this->_data['tasks'], true);
+            $this->tasks = json_decode($this->tasks, true);
         }
     }
 
@@ -679,15 +649,15 @@ class Ticket extends Model
      *
      * @access private
      */
-    protected function process_data_write()
+    protected function processDataWrite()
     {
-        if (isset($this->_data['extra']) and is_array($this->_data['extra'])) {
-            $this->extra = json_encode($this->_data['extra']);
+        if (isset($this->extra) and is_array($this->extra)) {
+            $this->extra = json_encode($this->extra);
         }
 
         // Encode ticket tasks
-        if (is_array($this->_data['tasks'])) {
-            $this->tasks = json_encode($this->_data['tasks']);
+        if (is_array($this->tasks)) {
+            $this->tasks = json_encode($this->tasks);
         }
     }
 
