@@ -1,0 +1,10 @@
+{
+    "require": {
+        "radium/radium": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Traq\\": "vendor/Traq"
+        }
+    }
+}

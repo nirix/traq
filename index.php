@@ -24,7 +24,7 @@
 define('START_TIME', microtime(true));
 define('START_MEM',  memory_get_usage());
 
-require __DIR__ . "/vendor/Radium/bootstrap.php";
+require __DIR__ . '/vendor/autoload.php';
 
 use Traq\Traq;
 

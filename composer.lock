@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "041fc6e50666ed2b946679fff7cf61bc",
+    "packages": [
+        {
+            "name": "radium/radium",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nirix/radium.git",
+                "reference": "04a8abfc905f19ab20aa0df99e7218f08da6252b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/04a8abfc905f19ab20aa0df99e7218f08da6252b",
+                "reference": "04a8abfc905f19ab20aa0df99e7218f08da6252b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Radium\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "The Radium framework.",
+            "keywords": [
+                "framework",
+                "radium"
+            ],
+            "time": "2014-07-04 15:10:09"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "radium/radium": 20
+    },
+    "platform": [],
+    "platform-dev": []
+}
