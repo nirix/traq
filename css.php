@@ -34,7 +34,7 @@ if (!isset($_REQUEST['css']) and !isset($_REQUEST['theme'])) {
 }
 
 // Fetch the request class.
-require "./vendor/Radium/Http/Request.php";
+require "./vendor/radium/radium/Http/Request.php";
 use Radium\Http\Request;
 $request = new Request;
 
