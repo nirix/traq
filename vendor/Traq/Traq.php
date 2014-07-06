@@ -64,6 +64,7 @@ class Traq extends Application
     protected function aliasClasses()
     {
         class_alias("Radium\Hook", "Hook");
+        class_alias("Radium\Action\View", "View");
 
         // Radium helpers
         class_alias("Radium\Helpers\HTML", "HTML");
