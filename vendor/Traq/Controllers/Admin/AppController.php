@@ -21,19 +21,18 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
-use avalon\http\Request;
+use Radium\Http\Request;
 
 /**
  * AdminCP controller
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @package Traq\Controllers
  */
-class AppController extends \traq\controllers\AppController
+class AppController extends \Traq\Controllers\AppController
 {
     /**
      * Constructor!
@@ -43,17 +42,14 @@ class AppController extends \traq\controllers\AppController
         parent::__construct();
 
         // Set the admin layout.
-        $this->render['layout'] = 'admin';
-        $this->title(l('admincp'));
+        $this->layout = 'admin';
+        $this->title($this->translate('admincp'));
 
-        // Check if the user is an admin before
-        // if not show the login page with this pages
-        // URI so we can redirect them back to this page
-        // after they login.
-        if (LOGGEDIN and !$this->user->group->is_admin) {
-            $this->show_no_permission();
+        // Make sure the user is logged in and is an admin.
+        if (LOGGEDIN and !$this->user->group()->is_admin) {
+            $this->showNoPermission();
         } elseif (!LOGGEDIN) {
-            $this->show_login(Request::requestUri());
+            $this->showLogin(Request::$requestUri);
         }
     }
 }
