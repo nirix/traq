@@ -1,13 +1,34 @@
-<div class="content">
-	<h3 class="list_title"><?php echo l('enabled_plugins'); ?></h3>
-</div>
-<div>
-	<?php echo View::render('admin/plugins/_list', array('plugins' => $plugins['enabled'])); ?>
-</div>
-<hr />
-<div class="content">
-	<h3 class="list_title"><?php echo l('disabled_plugins'); ?></h3>
-</div>
-<div>
-	<?php echo View::render('admin/plugins/_list', array('plugins' => $plugins['disabled'])); ?>
+<div class="plugins container">
+	<h1 class="page-header"><?php echo $t('plugins'); ?></h1>
+
+	<table class="table table-striped table-hover">
+		<thead>
+			<th class="name"><?php echo $t('name'); ?></th>
+			<th class="author"><?php echo $t('author'); ?></th>
+			<th class="version"><?php echo $t('version'); ?></th>
+			<th class="actions"></th>
+		</thead>
+		<tbody>
+		<?php foreach ($plugins as $plugin) { ?>
+			<tr class="plugin-<?php echo $plugin['status']; ?>">
+				<td><?php echo $plugin['name']; ?></td>
+				<td><?php echo $plugin['author'] ? $plugin['author'] : ''; ?></td>
+				<td><?php echo $plugin['version']; ?></td>
+				<td>
+					<?php if (!$plugin['installed']): ?>
+						<?php echo HTML::link(
+							TWBS::fa('plus', $t('install')), "/admin/plugins/{$plugin['directory']}/install",
+							array('class' => 'btn btn-xs btn-success')
+						); ?>
+					<?php else: ?>
+						<?php echo HTML::link(
+							TWBS::fa('power-off', $t('uninstall')), "/admin/plugins/{$plugin['directory']}/uninstall",
+							array('class' => 'btn btn-xs btn-danger')
+						); ?>
+					<?php endif; ?>
+				</td>
+			</tr>
+		<?php } ?>
+		</tbody>
+	</table>
 </div>

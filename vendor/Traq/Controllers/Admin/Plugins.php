@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,77 +21,94 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
-use avalon\http\Request;
-use avalon\output\View;
+use Radium\Http\Request;
 
-use traq\models\Plugin;
+use Traq\Models\Plugin;
 
 /**
  * Admin Plugins controller
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @package Traq\Controllers\Admin
  */
 class Plugins extends AppController
 {
-    public function action_index()
+    public function indexAction()
     {
-        $this->title(l('plugins'));
+        $this->title($this->translate('plugins'));
 
-        $plugins = array(
-            'enabled' => array(),
-            'disabled' => array()
-        );
+        $plugins = array();
 
-        foreach ($this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all() as $plugin) {
-            // Make sure the plugin file exists
-            if (file_exists(APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php")) {
-                $plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, array('installed' => true));
+        foreach (Plugin::select()->orderBy('enabled', 'ASC') as $plugin) {
+            $pluginDir  = VENDORDIR . "/plugins/{$plugin->directory}";
+            $pluginFile = "{$pluginDir}/plugin.json";
+
+            if (file_exists($pluginFile)) {
+                $pluginInfo = $this->loadJson($pluginFile);
+                $pluginInfo['installed'] = true;
+                $pluginInfo['enabled']   = $plugin->isEnabled();
+                $pluginInfo['directory'] = $plugin->directory;
+                $pluginInfo['status']  = $this->status($pluginInfo);
+
+                $plugins[$plugin->file] = $pluginInfo;
             }
         }
 
         // Scan the plugin directory
-        $plugins_dir = APPPATH . '/plugins/';
-        if (is_dir($plugins_dir)) {
-            foreach (scandir($plugins_dir) as $file) {
-                // Make sure its a plugin, not some weird
-                // or unwanted file or directory.
-                if ($file[0] == '.' or !is_dir("{$plugins_dir}/{$file}") or !file_exists("{$plugins_dir}/{$file}/{$file}.php")) {
-                    continue;
-                }
-
-                // If the plugin isn't enabled, fetch the plugin
-                // file and then call the info() method.
-                if (!isset($plugins['enabled'][$file])) {
-                    require $plugins_dir . "{$file}/{$file}.php";
-                    $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-                    if (class_exists($class_name)) {
-                        $plugins['disabled'][$file] = array_merge(
-                            $class_name::info(),
-                            array(
-                                'installed' => isset($plugins['disabled'][$file]),
-                                'enabled' => false,
-                                'file' => $file
-                            )
-                        );
-                    }
-                }
-                // It's enabled, only call the info() method.
-                else {
-                    $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-                    if (class_exists($class_name)) {
-                        $key = isset($plugins['enabled'][$file]) ? 'enabled' : 'disabled';
-                        $plugins[$key][$file] = array_merge($class_name::info(), $plugins[$key][$file]);
-                    }
-                }
+        foreach (scandir(VENDORDIR . '/plugins') as $dir) {
+            if ($dir[0] == '.'
+            or !is_dir(VENDORDIR . "/plugins/{$dir}")
+            or !file_exists(VENDORDIR . "/plugins/{$dir}/plugin.json")) {
+                continue;
             }
+
+            $pluginDir  = VENDORDIR . "/plugins/{$dir}";
+            $pluginFile = "{$pluginDir}/plugin.json";
+            $pluginInfo = $this->loadJson($pluginFile);
+
+            $pluginInfo['directory'] = $dir;
+            $pluginInfo['installed'] = false;
+            $pluginInfo['enabled']   = false;
+            $pluginInfo['status']  = $this->status($pluginInfo);
+
+            $plugins[$pluginFile] = $pluginInfo;
         }
 
-        View::set('plugins', $plugins);
+        $this->set('plugins', $plugins);
+    }
+
+    /**
+     * Loads and parses the plugins JSON file.
+     *
+     * @param string $path Path to JSON file.
+     *
+     * @return array
+     */
+    protected function loadJson($path)
+    {
+        $data = file_get_contents($path);
+        return json_decode($data, true);
+    }
+
+    /**
+     * Returns the status of the plugin.
+     *
+     * @param array $info Plugin info.
+     *
+     * @return string
+     */
+    protected function status($info)
+    {
+        if ($info['enabled']) {
+            return 'enabled';
+        } else if ($info['installed']) {
+            return 'installed';
+        } else {
+            return 'uninstalled';
+        }
     }
 
     /**

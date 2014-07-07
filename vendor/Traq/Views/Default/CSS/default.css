@@ -1577,6 +1577,11 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 /* Forms CSS */
 .form-actions { text-align: center; }
 
+/* Plugin CSS */
+table tr.plugin-enabled td:first-child { border-left: 3px solid #5cb85c; }
+table tr.plugin-installed td:first-child { border-left: 3px solid #f0ad4e; }
+table tr.plugin-uninstalled td:first-child { border-left: 3px solid #d9534f; }
+
 .page-header:first-child { margin-top: 0; }
 
 #footer { margin-top: 15px; margin-bottom: 25px; }
