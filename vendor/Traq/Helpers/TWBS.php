@@ -52,9 +52,15 @@ class TWBS
      *
      * @return string
      */
-    public static function fa($icon)
+    public static function fa($icon, $text = null)
     {
-        return "<span class=\"fa fa-{$icon}\"></span>";
+        $html = "<span class=\"fa fa-{$icon}\"></span>";
+
+        if ($text) {
+            $html = "{$html} {$text}";
+        }
+
+        return $html;
     }
 
     /**
