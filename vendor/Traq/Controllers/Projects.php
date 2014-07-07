@@ -64,7 +64,7 @@ class Projects extends AppController
     {
         // Make sure this is a project
         if (!$this->project) {
-            return $this->show_404();
+            return $this->show404();
         }
 
         // Get open and closed ticket counts.
