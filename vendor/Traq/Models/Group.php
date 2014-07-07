@@ -47,6 +47,14 @@ class Group extends Model
     );
 
     /**
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->is_admin == '1' ? true : false;
+    }
+
+    /**
      * Returns an array of groups to be used
      * with the Form::select() method.
      *
