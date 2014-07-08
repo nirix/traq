@@ -25,6 +25,7 @@ namespace Traq\Helpers;
 
 use Radium\Kernel as Radium;
 use Radium\Hook;
+use Radium\Helpers\HTML;
 use Traq\Models\Project;
 
 class Format extends \Radium\Helpers\Format
@@ -71,8 +72,8 @@ class Format extends \Radium\Helpers\Format
                     return HTML::link("{$project->slug}#{$match[1]}", $project->href("tickets/{$match[1]}"));
                 }
                 // Replace #123
-                elseif (isset(Avalon::app()->project->name)) {
-                    return HTML::link("#{$match[1]}", Avalon::app()->project->href("tickets/{$match[1]}"));
+                elseif (isset(Radium::controller()->project->name)) {
+                    return HTML::link("#{$match[1]}", Radium::controller()->project->href("tickets/{$match[1]}"));
                 }
                 // No project found, don't link it
                 else {
@@ -95,7 +96,11 @@ class Format extends \Radium\Helpers\Format
         return preg_replace_callback(
             "|\[\[(?P<page>[\w\d\-_]+)(\|(?P<text>[\s\w\d\-_]+))?\]\]|",
             function($matches){
-                $project = Avalon::app()->project;
+                $project = Radium::controller()->project;
+
+                if (!$project) {
+                    return $matches[0];
+                }
 
                 if (!isset($matches['text'])) {
                     $matches['text'] = $matches['page'];
