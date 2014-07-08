@@ -47,7 +47,7 @@ class Plugins extends AppController
             $pluginFile = "{$pluginDir}/plugin.json";
 
             if (file_exists($pluginFile)) {
-                $pluginInfo = $this->loadJson($pluginFile);
+                $pluginInfo = $plugin->__toArray();
                 $pluginInfo['installed'] = true;
                 $pluginInfo['enabled']   = $plugin->isEnabled();
                 $pluginInfo['directory'] = $plugin->directory;
