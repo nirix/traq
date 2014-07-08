@@ -57,4 +57,10 @@ Router::map(function($r){
 
     // Tickets
     $r->get('/:project_slug/tickets')->to("{$traq}\Tickets::index");
+
+    // --------------------------------------------------
+    // AdminCP
+
+    // Plugins
+    $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
 });
