@@ -66,9 +66,7 @@ class Plugins extends AppController
                 continue;
             }
 
-            $pluginDir  = VENDORDIR . "/plugins/{$dir}";
-            $pluginFile = "{$pluginDir}/plugin.json";
-            $pluginInfo = $this->loadJson($pluginFile);
+            $pluginInfo = $this->getInfo($dir);
 
             $pluginInfo['directory'] = $dir;
             $pluginInfo['installed'] = false;
@@ -84,12 +82,13 @@ class Plugins extends AppController
     /**
      * Loads and parses the plugins JSON file.
      *
-     * @param string $path Path to JSON file.
+     * @param string $directory Plugin directory
      *
      * @return array
      */
-    protected function loadJson($path)
+    protected function getInfo($directory)
     {
+        $path = VENDORDIR . "/plugins/{$directory}/plugin.json";
         $data = file_get_contents($path);
         return json_decode($data, true);
     }
