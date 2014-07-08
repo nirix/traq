@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+require __DIR__ . '/vendor/autoload.php';
+
 // Set the content type and charset.
 header("content-type: text/css; charset: UTF-8;");
 
@@ -34,7 +36,6 @@ if (!isset($_REQUEST['css']) and !isset($_REQUEST['theme'])) {
 }
 
 // Fetch the request class.
-require "./vendor/radium/radium/Http/Request.php";
 use Radium\Http\Request;
 $request = new Request;
 
