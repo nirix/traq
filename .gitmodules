@@ -1,3 +1,0 @@
-[submodule "vendor/Radium"]
-	path = vendor/Radium
-	url = https://github.com/nirix/radium.git
