@@ -184,27 +184,20 @@ class Plugins extends AppController
     /**
      * Uninstalls the specified plugin.
      *
-     * @param string $file The plugin filename
+     * @param string $directory The plugin directory name
      */
-    public function action_uninstall($file)
+    public function uninstallAction($directory)
     {
-        $file = htmlspecialchars($file);
+        $plugin = Plugin::find('directory', $directory);
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-
-        // Check if the plugin file exists
-        if (file_exists(APPPATH . "/plugins/{$file}.plugin.php") and !class_exists($class_name)) {
-            require APPPATH . "/plugins/{$file}.plugin.php";
-        }
+        $class = "{$plugin->namespace}\\{$plugin->class}";
 
         // Check if the class exists
-        if (class_exists($class_name)) {
-            $class_name::__uninstall();
+        if (class_exists($class)) {
+            $class::__uninstall();
+            $plugin->delete();
         }
 
-        $plugin = Plugin::find('file', $file);
-        $plugin->delete();
-
-        Request::redirectTo('/admin/plugins');
+        $this->redirectTo('/admin/plugins');
     }
 }
