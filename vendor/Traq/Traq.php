@@ -28,6 +28,7 @@ use Radium\Language;
 use Radium\Action\View;
 
 use Traq\Models\Setting;
+use Traq\Models\Plugin;
 
 class Traq extends Application
 {
@@ -59,6 +60,8 @@ class Traq extends Application
         View::addSearchPath(__DIR__ . "/Views/TWBS");
 
         require __DIR__ . "/common.php";
+
+        $this->loadPlugins();
     }
 
     protected function aliasClasses()
@@ -75,6 +78,29 @@ class Traq extends Application
         class_alias("Traq\Helpers\Format", "Format");
         class_alias("Traq\Helpers\Subscription", "Subscription");
         class_alias("Traq\Helpers\TWBS", "TWBS");
+    }
+
+    protected function loadPlugins()
+    {
+        $queue = array();
+
+        foreach (Plugin::all() as $plugin) {
+            $file = VENDORDIR . "/plugins/{$plugin->directory}/{$plugin->file}";
+
+            if (file_exists($file)) {
+                require $file;
+
+                $class = "{$plugin->namespace}\\{$plugin->class}";
+                if (class_exists($class)) {
+                    $class::init();
+                    $queue[] = $class;
+                }
+            }
+        }
+
+        foreach ($queue as $plugin) {
+            $plugin::enable();
+        }
     }
 
     public static function version()
