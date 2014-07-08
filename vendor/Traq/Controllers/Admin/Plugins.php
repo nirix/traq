@@ -61,7 +61,8 @@ class Plugins extends AppController
         foreach (scandir(VENDORDIR . '/plugins') as $dir) {
             if ($dir[0] == '.'
             or !is_dir(VENDORDIR . "/plugins/{$dir}")
-            or !file_exists(VENDORDIR . "/plugins/{$dir}/plugin.json")) {
+            or !file_exists(VENDORDIR . "/plugins/{$dir}/plugin.json")
+            or isset($plugins[$dir])) {
                 continue;
             }
 
