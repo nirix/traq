@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ec0aba9b6855508362319b20f3e0ef86",
+    "hash": "b0da324dff192369f045de0bd981e33e",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -128,13 +128,58 @@
                 "radium"
             ],
             "time": "2014-07-07 04:16:26"
+        },
+        {
+            "name": "radium/schema-builder",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/radiumphp/schema-builder.git",
+                "reference": "a43b99dda18d1b9685bdf46ba52f264572971118"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/radiumphp/schema-builder/zipball/a43b99dda18d1b9685bdf46ba52f264572971118",
+                "reference": "a43b99dda18d1b9685bdf46ba52f264572971118",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "radium/radium": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Radium\\Database\\": "src/Database/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Schema builder for Radium.",
+            "keywords": [
+                "builder",
+                "framework",
+                "migration",
+                "radium",
+                "schema"
+            ],
+            "time": "2014-07-07 04:18:24"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "radium/radium": 20
+        "radium/radium": 20,
+        "radium/schema-builder": 20
     },
     "platform": [],
     "platform-dev": []
