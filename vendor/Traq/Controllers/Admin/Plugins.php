@@ -164,10 +164,10 @@ class Plugins extends AppController
 
         $pluginInfo['directory'] = $directory;
         $pluginInfo['enabled']   = true;
+        $pluginInfo['class']     = preg_replace("/^([\w]+).php$/", "$1", $pluginInfo['file']);
 
         $file = "{$pluginDir}/{$pluginInfo['file']}";
-        $class = "{$pluginInfo['namespace']}\\" .
-            preg_replace("/^([\w]+).php$/", "$1", $pluginInfo['file']);
+        $class = "{$pluginInfo['namespace']}\\{$pluginInfo['class']}";
 
         if (file_exists($file)) {
             require $file;
