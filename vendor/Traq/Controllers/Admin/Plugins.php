@@ -155,22 +155,30 @@ class Plugins extends AppController
     /**
      * Installs the specified plugin.
      *
-     * @param string $file The plugin filename
+     * @param string $directory The plugin directory name
      */
-    public function action_install($file)
+    public function installAction($directory)
     {
-        $file = htmlspecialchars($file);
-        require APPPATH . "/plugins/{$file}/{$file}.php";
+        $pluginDir  = VENDORDIR . "/plugins/{$directory}";
+        $pluginInfo = $this->getInfo($directory);
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-        if (class_exists($class_name)) {
-            $class_name::__install();
-            $plugin = new Plugin(array('file' => $file));
-            $plugin->set('enabled', 1);
-            $plugin->save();
+        $pluginInfo['directory'] = $directory;
+        $pluginInfo['enabled']   = true;
+
+        $file = "{$pluginDir}/{$pluginInfo['file']}";
+        $class = "{$pluginInfo['namespace']}\\" .
+            preg_replace("/^([\w]+).php$/", "$1", $pluginInfo['file']);
+
+        if (file_exists($file)) {
+            require $file;
         }
 
-        Request::redirectTo('/admin/plugins');
+        if (class_exists($class)) {
+            $class::__install();
+            (new Plugin($pluginInfo))->save();
+        }
+
+        return $this->redirectTo('/admin/plugins');
     }
 
     /**
