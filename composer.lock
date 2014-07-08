@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b0da324dff192369f045de0bd981e33e",
+    "hash": "c8d45e4c5d58abef6fc8e7895a54c939",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -90,17 +90,17 @@
             "time": "2014-06-18 23:58:16"
         },
         {
-            "name": "radium/radium",
+            "name": "radium/framework",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/radium.git",
-                "reference": "b11ccf4cbab3d75f5d228916915c7d8358ad5cda"
+                "reference": "a710a2994fb968654ce0cebbbc1e76a7c9d24c88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/radium/zipball/b11ccf4cbab3d75f5d228916915c7d8358ad5cda",
-                "reference": "b11ccf4cbab3d75f5d228916915c7d8358ad5cda",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/a710a2994fb968654ce0cebbbc1e76a7c9d24c88",
+                "reference": "a710a2994fb968654ce0cebbbc1e76a7c9d24c88",
                 "shasum": ""
             },
             "require": {
@@ -109,7 +109,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Radium\\": ""
+                    "Radium\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -127,7 +127,7 @@
                 "framework",
                 "radium"
             ],
-            "time": "2014-07-07 04:16:26"
+            "time": "2014-07-08 09:02:10"
         },
         {
             "name": "radium/schema-builder",
@@ -135,17 +135,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/radiumphp/schema-builder.git",
-                "reference": "a43b99dda18d1b9685bdf46ba52f264572971118"
+                "reference": "2307535699392023a0d080f3dab7b9f2ca221ffd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/schema-builder/zipball/a43b99dda18d1b9685bdf46ba52f264572971118",
-                "reference": "a43b99dda18d1b9685bdf46ba52f264572971118",
+                "url": "https://api.github.com/repos/radiumphp/schema-builder/zipball/2307535699392023a0d080f3dab7b9f2ca221ffd",
+                "reference": "2307535699392023a0d080f3dab7b9f2ca221ffd",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "radium/radium": "dev-master"
+                "radium/framework": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -171,14 +171,14 @@
                 "radium",
                 "schema"
             ],
-            "time": "2014-07-07 04:18:24"
+            "time": "2014-07-08 09:08:59"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "radium/radium": 20,
+        "radium/framework": 20,
         "radium/schema-builder": 20
     },
     "platform": [],
