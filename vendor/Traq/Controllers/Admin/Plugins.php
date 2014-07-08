@@ -42,7 +42,7 @@ class Plugins extends AppController
 
         $plugins = array();
 
-        foreach (Plugin::select()->orderBy('enabled', 'ASC') as $plugin) {
+        foreach (Plugin::select()->orderBy('enabled', 'ASC')->fetchAll() as $plugin) {
             $pluginDir  = VENDORDIR . "/plugins/{$plugin->directory}";
             $pluginFile = "{$pluginDir}/plugin.json";
 
