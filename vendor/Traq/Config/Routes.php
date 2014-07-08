@@ -63,4 +63,6 @@ Router::map(function($r){
 
     // Plugins
     $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
+    $r->get('/admin/plugins/:slug/install')->to("{$traq}\Admin\Plugins::install", array('slug'));
+    $r->get('/admin/plugins/:slug/uninstall')->to("{$traq}\Admin\Plugins::uninstall", array('slug'));
 });
