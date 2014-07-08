@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,68 +21,47 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\libraries;
+namespace Traq;
 
 /**
  * Plugin base class.
  *
  * @package Traq
- * @subpackage Libraries
  * @author Jack P.
  * @copyright (c) Jack P.
  */
 abstract class Plugin
 {
-    protected static $info = array();
-
-    /**
-     * Returns an array of the plugins info
-     */
-    public static function info()
-    {
-        return static::$info;
-    }
-
     /**
      * Called when the plugin is loaded
      */
-    protected static function init()
-    {
-    }
+    protected static function init() {}
 
     /**
      * Called when the plugin is installed
      *
      * @return bool
      */
-    public static function __install()
-    {
-    }
+    public static function __install() {}
 
     /**
      * Called when the enable plugin link is clicked.
      *
      * @return bool
      */
-    public static function __enable()
-    {
-    }
+    public static function __enable() {}
 
     /**
      * Called when the disable plugin link is clicked.
      *
      * @return bool
      */
-    public static function __disable()
-    {
-    }
+    public static function __disable() {}
 
     /**
      * Called when the plugin is uninstalled
      *
      * @return bool
      */
-    public static function __uninstall()
-    {
-    }
+    public static function __uninstall() {}
 }
