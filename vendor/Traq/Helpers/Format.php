@@ -42,7 +42,7 @@ class Format extends \Radium\Helpers\Format
     {
         $text = $strip_html ? htmlspecialchars($text) : $text;
 
-        Hook::run('function:format_text', array(&$text, $strip_html));
+        Hook::run('function:Format::text', array(&$text, $strip_html));
 
         // Ticket links
         $text = static::ticketLinks($text);
