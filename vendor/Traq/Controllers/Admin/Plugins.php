@@ -53,7 +53,7 @@ class Plugins extends AppController
                 $pluginInfo['directory'] = $plugin->directory;
                 $pluginInfo['status']  = $this->status($pluginInfo);
 
-                $plugins[$plugin->file] = $pluginInfo;
+                $plugins[$plugin->directory] = $pluginInfo;
             }
         }
 
@@ -74,7 +74,7 @@ class Plugins extends AppController
             $pluginInfo['enabled']   = false;
             $pluginInfo['status']  = $this->status($pluginInfo);
 
-            $plugins[$pluginFile] = $pluginInfo;
+            $plugins[$dir] = $pluginInfo;
         }
 
         $this->set('plugins', $plugins);
