@@ -1,0 +1,9 @@
+{
+    "name": "Markdown",
+    "description": "Markdown formatting with Parsedown Extra",
+    "author": "Parsedown",
+    "url": "http://parsedown.org",
+    "version": "2.0",
+    "file": "Markdown.php",
+    "namespace": "Markdown"
+}

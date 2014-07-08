@@ -7,7 +7,8 @@ vendor/Traq/Config/Database.php
 .htaccess
 _dev/
 
-# Composer-related
+# Composer
 vendor/autoload.php
 vendor/composer
 vendor/radium
+vendor/erusev
