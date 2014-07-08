@@ -38,4 +38,12 @@ class Plugin extends Model
     protected static $validates = array(
         'directory' => array('required', 'unique')
     );
+
+    /**
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return $this->enabled == '1' ? true : false;
+    }
 }
