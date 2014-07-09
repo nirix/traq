@@ -44,6 +44,6 @@ class Plugin extends Model
      */
     public function isEnabled()
     {
-        return $this->enabled == '1' ? true : false;
+        return $this->is_enabled == '1' ? true : false;
     }
 }

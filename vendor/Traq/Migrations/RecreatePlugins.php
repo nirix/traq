@@ -44,7 +44,7 @@ class RecreatePlugins extends Migration
             $t->varchar('file', array('nullable' => false));
             $t->varchar('namespace', array('nullable' => false));
             $t->varchar('class', array('nullable' => false));
-            $t->tinyint('enabled', array(
+            $t->tinyint('is_enabled', array(
                 'nullable' => false,
                 'default' => true,
                 'length' => 1)

@@ -42,14 +42,14 @@ class Plugins extends AppController
 
         $plugins = array();
 
-        foreach (Plugin::select()->orderBy('enabled', 'ASC')->fetchAll() as $plugin) {
+        foreach (Plugin::select()->orderBy('is_enabled', 'ASC')->fetchAll() as $plugin) {
             $pluginDir  = VENDORDIR . "/plugins/{$plugin->directory}";
             $pluginFile = "{$pluginDir}/plugin.json";
 
             if (file_exists($pluginFile)) {
                 $pluginInfo = $plugin->__toArray();
                 $pluginInfo['installed'] = true;
-                $pluginInfo['enabled']   = $plugin->isEnabled();
+                $pluginInfo['is_enabled']   = $plugin->isEnabled();
                 $pluginInfo['directory'] = $plugin->directory;
                 $pluginInfo['status']  = $this->status($pluginInfo);
 
@@ -70,7 +70,7 @@ class Plugins extends AppController
 
             $pluginInfo['directory'] = $dir;
             $pluginInfo['installed'] = false;
-            $pluginInfo['enabled']   = false;
+            $pluginInfo['is_enabled']   = false;
             $pluginInfo['status']  = $this->status($pluginInfo);
 
             $plugins[$dir] = $pluginInfo;
@@ -102,7 +102,7 @@ class Plugins extends AppController
      */
     protected function status($info)
     {
-        if ($info['enabled']) {
+        if ($info['is_enabled']) {
             return 'enabled';
         } else if ($info['installed']) {
             return 'installed';
@@ -163,7 +163,7 @@ class Plugins extends AppController
         $pluginInfo = $this->getInfo($directory);
 
         $pluginInfo['directory'] = $directory;
-        $pluginInfo['enabled']   = true;
+        $pluginInfo['is_enabled']   = true;
         $pluginInfo['class']     = preg_replace("/^([\w]+).php$/", "$1", $pluginInfo['file']);
 
         $file = "{$pluginDir}/{$pluginInfo['file']}";
