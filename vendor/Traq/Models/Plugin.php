@@ -46,4 +46,12 @@ class Plugin extends Model
     {
         return $this->is_enabled == '1' ? true : false;
     }
+
+    /**
+     * @return array
+     */
+    public static function allEnabled()
+    {
+        return static::select()->where('is_enabled = ?', 1)->fetchAll();
+    }
 }

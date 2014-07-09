@@ -84,7 +84,7 @@ class Traq extends Application
     {
         $queue = array();
 
-        foreach (Plugin::all() as $plugin) {
+        foreach (Plugin::allEnabled() as $plugin) {
             $file = VENDORDIR . "/plugins/{$plugin->directory}/{$plugin->file}";
 
             if (file_exists($file)) {
