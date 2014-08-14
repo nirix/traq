@@ -1,8 +1,11 @@
-<nav id="usercp_nav" class="tabs">
-	<ul>
-		<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('information'), "/usercp"); ?></li>
-		<li<?php echo iif(active_nav('/usercp/password'), ' class="active"')?>><?php echo HTML::link(l('password'), "/usercp/password"); ?></li>
-		<li<?php echo iif(active_nav('/usercp/subscriptions'), ' class="active"')?>><?php echo HTML::link(l('subscriptions'), "/usercp/subscriptions"); ?></li>
-		<?php FishHook::run('template:usercp/_nav', array($user)); ?>
-	</ul>
-</nav>
+<ul class="nav nav-tabs" role="tablist">
+	<li<?php echo activeNav('/usercp') ? ' class="active"' :'' ?>>
+		<?php echo HTML::link($t('account'), '/usercp'); ?>
+	</li>
+	<li<?php echo activeNav('/usercp/password') ? ' class="active"' :'' ?>>
+		<?php echo HTML::link($t('password'), '/usercp/password'); ?>
+	</li>
+	<li<?php echo activeNav('/usercp/subscriptions') ? ' class="active"' :'' ?>>
+		<?php echo HTML::link($t('subscriptions'), '/usercp/subscriptions'); ?>
+	</li>
+</ul>

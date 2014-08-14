@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,23 +21,21 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
-use avalon\http\Request;
-use avalon\output\View;
-use \FishHook;
+use Radium\Http\Request;
+use Radium\Action\View;
 
-use traq\models\Subscription;
+use Traq\Models\Subscription;
 
 /**
  * UserCP controller
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @package Traq\Controllers
  */
-class Usercp extends AppController
+class UserCP extends AppController
 {
     public function __construct()
     {
@@ -45,11 +46,11 @@ class Usercp extends AppController
     /**
      * The index page.
      */
-    public function action_index()
+    public function indexAction()
     {
         // Make sure the user is logged in
         if (!LOGGEDIN) {
-            $this->show_no_permission();
+            $this->showNoPermission();
         }
 
         // Clone the logged in user object

@@ -40,6 +40,9 @@ Router::map(function($r){
     $r->post('/login')->to("{$traq}\Sessions::create");
     $r->get('/logout')->to("{$traq}\Sessions::destroy");
 
+    $r->get('/usercp')->to("{$traq}\UserCP::index");
+    $r->post('/usercp')->to("{$traq}\UserCP::save");
+
     // --------------------------------------------------
     // Projects
     $r->get("/projects")->to("{$traq}\Projects::index");
