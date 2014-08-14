@@ -116,20 +116,25 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function action_enable($file)
+    public function enableAction($directory)
     {
-        $file = htmlspecialchars($file);
-        require APPPATH . "/plugins/{$file}/{$file}.php";
+        $plugin    = Plugin::find('directory', $directory);
+        $pluginDir = VENDORDIR . "/plugins/{$directory}";
+        $class     = "{$plugin->namespace}\\{$plugin->class}";
+        $file      = "{$pluginDir}/{$plugin->file}";
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-        if (class_exists($class_name)) {
-            $class_name::__enable();
-            $plugin = Plugin::find('file', $file);
-            $plugin->set('enabled', 1);
+        if (file_exists($file)) {
+            require $file;
+        }
+
+        // Check if the class exists
+        if (class_exists($class)) {
+            $class::__enable();
+            $plugin->is_enabled = true;
             $plugin->save();
         }
 
-        Request::redirectTo('/admin/plugins');
+        $this->redirectTo('/admin/plugins');
     }
 
     /**
@@ -137,19 +142,20 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function action_disable($file)
+    public function disableAction($directory)
     {
-        $file = htmlspecialchars($file);
+        $plugin    = Plugin::find('directory', $directory);
+        $pluginDir = VENDORDIR . "/plugins/{$directory}";
+        $class     = "{$plugin->namespace}\\{$plugin->class}";
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-        if (class_exists($class_name)) {
-            $class_name::__disable();
-            $plugin = Plugin::find('file', $file);
-            $plugin->set('enabled', 0);
+        // Check if the class exists
+        if (class_exists($class)) {
+            $class::__disable();
+            $plugin->is_enabled = false;
             $plugin->save();
         }
 
-        Request::redirectTo('/admin/plugins');
+        $this->redirectTo('/admin/plugins');
     }
 
     /**

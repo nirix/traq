@@ -25,6 +25,17 @@
 							TWBS::fa('power-off', $t('uninstall')), "/admin/plugins/{$plugin['directory']}/uninstall",
 							array('class' => 'btn btn-xs btn-danger')
 						); ?>
+						<?php if ($plugin['is_enabled']): ?>
+							<?php echo HTML::link(
+								TWBS::fa('minus', $t('disable')), "/admin/plugins/{$plugin['directory']}/disable",
+								array('class' => 'btn btn-xs btn-warning')
+							); ?>
+						<?php else: ?>
+							<?php echo HTML::link(
+								TWBS::fa('check', $t('enable')), "/admin/plugins/{$plugin['directory']}/enable",
+								array('class' => 'btn btn-xs btn-success')
+							); ?>
+						<?php endif; ?>
 					<?php endif; ?>
 				</td>
 			</tr>
