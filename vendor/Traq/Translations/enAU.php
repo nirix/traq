@@ -112,6 +112,8 @@ $enAU = new Language(function($t){
         // Errors
         'errors.404.title'   => "I accidentally the whole page...",
         'errors.404.message' => "Well this is awkward, it seems the page '{1}' doesn't exist.",
+        'errors.no_permission.title'   => "You shall not pass!",
+        'errors.no_permission.message' => "You don't have permission to access this page.",
         'errors.invalid_username_or_password' => "Invalid username and/or password.",
         'errors.account.activation_required'  => "You must first activate your account.",
     );

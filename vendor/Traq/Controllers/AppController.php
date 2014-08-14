@@ -25,6 +25,7 @@ namespace Traq\Controllers;
 
 use Radium\Action\Controller;
 use Radium\Database;
+use Radium\Http\Response;
 use Radium\Http\Request;
 use Radium\Http\Router;
 use Radium\Action\View;
@@ -119,9 +120,10 @@ class AppController extends Controller
      */
     public function showNoPermission()
     {
-        header("HTTP/1.0 401 Unauthorized");
-        $this->render['view'] = 'error/no_permission';
-        $this->render['action'] = false;
+        $this->setView("Errors/noPermission");
+        return $this->response = new Response(function($resp){
+            $resp->status = 401;
+        });
     }
 
     /**
