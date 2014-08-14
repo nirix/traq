@@ -1,7 +1,10 @@
 <?php
-/*
+/*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,17 +21,28 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Traq\Helpers;
+
+use Radium\Action\View;
+
 /**
- * Used to render an array of errors.
- *
- * @param array $errors
+ * Error helpers.
  *
  * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
- * @subpackage Helpers
+ * @package Traq\Helpers
+ * @since 4.0
  */
-function show_errors($errors)
+class Errors
 {
-    return View::render('error/_list', array('errors' => is_array($errors) ? $errors : array($errors)));
+    /**
+     * Used to render an array of errors.
+     *
+     * @param array $errors
+     */
+    public static function show($errors)
+    {
+        return View::render('Errors/_list', array(
+            'errors' => is_array($errors) ? $errors : array($errors)
+        ));
+    }
 }
