@@ -90,7 +90,9 @@ class Plugins extends AppController
     {
         $path = VENDORDIR . "/plugins/{$directory}/plugin.json";
         $data = file_get_contents($path);
-        return json_decode($data, true);
+        $data = json_decode($data, true);
+        $data['class'] = preg_replace("/^([\w]+).php$/", "$1", $data['file']);
+        return $data;
     }
 
     /**
@@ -168,9 +170,8 @@ class Plugins extends AppController
         $pluginDir  = VENDORDIR . "/plugins/{$directory}";
         $pluginInfo = $this->getInfo($directory);
 
-        $pluginInfo['directory'] = $directory;
-        $pluginInfo['is_enabled']   = true;
-        $pluginInfo['class']     = preg_replace("/^([\w]+).php$/", "$1", $pluginInfo['file']);
+        $pluginInfo['directory']  = $directory;
+        $pluginInfo['is_enabled'] = true;
 
         $file = "{$pluginDir}/{$pluginInfo['file']}";
         $class = "{$pluginInfo['namespace']}\\{$pluginInfo['class']}";
