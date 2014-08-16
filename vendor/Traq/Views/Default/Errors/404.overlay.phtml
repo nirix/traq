@@ -1,4 +1,7 @@
-<h3><?php echo l('errors.404.title'); ?></h3>
-<div class="content" align="center">
-	<?php echo l('errors.404.message', $request); ?>
+<?php echo TWBS::modalHeader($t('errors.404.title')); ?>
+<div class="modal-body">
+	<?php echo $t('errors.404.message', array(Request::$requestUri)); ?>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $t('close'); ?></button>
 </div>
