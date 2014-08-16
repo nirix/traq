@@ -50,7 +50,7 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        return  $this->respondTo(function($format, $controller){
+        return $this->respondTo(function($format, $controller){
             if ($format == 'json') {
                 return API::response(200, $controller->render('Projects/index.json'));
             }
