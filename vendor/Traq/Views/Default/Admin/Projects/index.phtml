@@ -1,24 +1,38 @@
-<div class="content">
-	<?php echo HTML::link(l('new_project'), '/admin/projects/new', array('class' => 'button_new')); ?>
-</div>
-<div>
-	<table class="admin projects list">
+<div class="admin-projects container">
+	<h1 class="page-header"><?php echo $t('projects'); ?></h1>
+
+	<?php echo HTML::link(
+		$t('new_project'), '/admin/projects/new',
+		array('data-overlay' => true)
+	); ?>
+
+	<table class="table table-striped table-hover">
 		<thead>
-			<th class="fixed_name"><?php echo l('name'); ?></th>
-			<th class="codename"><?php echo l('codename'); ?></th>
-			<th class="actions"><?php echo l('actions'); ?></th>
+			<th class="name"><?php echo $t('name'); ?></th>
+			<th class="codename"><?php echo $t('codename'); ?></th>
+			<th class="actions"></th>
 		</thead>
 		<tbody>
-		<?php foreach ($projects as $project) { ?>
+		<?php foreach ($projects as $project): ?>
 			<tr>
-				<td><?php echo HTML::link($project->name, "/{$project->slug}/settings"); ?></td>
-				<td><?php echo $project->codename; ?></td>
 				<td>
-					<?php echo HTML::link(l('edit'), "/{$project->slug}/settings", array('class' => 'button_edit')); ?>
-					<?php echo HTML::link(l('delete'), "/admin/projects/{$project->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $project->name))); ?>
+					<?php echo HTML::link(
+						$project->name, "/admin/projects/{$project->id}/edit",
+						array('data-overlay' => true)
+					); ?>
+				</td>
+				<td>
+					<?php echo HTML::link(
+						TWBS::fa('edit', $t('edit')), "/admin/projects/{$project->id}/edit",
+						array('data-overlay' => true, 'class' => 'btn btn-xs btn-warning')
+					); ?>
+					<?php echo HTML::link(
+						TWBS::fa('times', $t('delete')), "/admin/projects/{$project->id}/delete",
+						array('data-confirm' => $t('confirm.delete'), 'class' => 'btn btn-xs btn-danger')
+					); ?>
 				</td>
 			</tr>
-		<?php } ?>
+		<?php endforeach; ?>
 		</tbody>
 	</table>
 </div>

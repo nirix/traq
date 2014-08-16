@@ -1,33 +1,48 @@
-<div class="group">
-	<label><?php echo l('name'); ?></label>
-	<?php echo Form::text('name', array('value' => $proj->name)); ?>
+<div class="form-group">
+	<?php echo Form::label($t('name'), 'name', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::text('name', array('value' => $project->name, 'class' => 'form-control')); ?>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('slug'); ?></label>
-	<?php echo Form::text('slug', array('value' => $proj->slug)); ?> <abbr title="<?php echo l('help.slug'); ?>">?</abbr>
+<div class="form-group">
+	<?php echo Form::label($t('slug'), 'slug', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::text('slug', array('value' => $project->slug, 'class' => 'form-control')); ?>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('codename'); ?></label>
-	<?php echo Form::text('codename', array('value' => $proj->codename)); ?>
+<div class="form-group">
+	<?php echo Form::label($t('codename'), 'codename', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::text('codename', array('value' => $project->codename, 'class' => 'form-control')); ?>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('description'); ?></label>
-	<?php echo Form::textarea('info', array('value' => $proj->info, 'class' => 'editor')); ?>
+<div class="form-group">
+	<?php echo Form::label($t('description'), 'info', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::textarea('info', array('value' => $project->info, 'class' => 'form-control')); ?>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('enable_wiki'); ?></label>
-	<?php echo Form::checkbox('enable_wiki', 1, array('checked' => $proj->enable_wiki == 1 ? true : false)); ?> <?php echo Form::label(l('yes'), 'enable_wiki'); ?>
+<div class="form-group">
+	<?php echo Form::label($t('enable_wiki'), 'enable_wiki', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::checkbox('enable_wiki', 1, array('checked' => $project->enable_wiki == 1 ? true : false)); ?>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('display_order'); ?></label>
-	<?php echo Form::text('displayorder', array('value' => $proj->displayorder)); ?>
+<div class="form-group">
+	<?php echo Form::label($t('display_order'), 'display_order', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::text('display_order', array('value' => $project->display_order, 'class' => 'form-control')); ?>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('default_ticket_type'); ?></label>
-	<?php echo Form::select('default_ticket_type_id', traq\models\Type::select_options(), array('value' => $proj->default_ticket_type_id)); ?>
+<div class="form-group">
+	<?php echo Form::label($t('default_ticket_type'), 'default_ticket_type_id', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::select('default_ticket_type_id', Traq\Models\Type::selectOptions(), array('value' => $project->default_ticket_type_id)); ?>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('default_ticket_sorting'); ?></label>
-	<?php echo Form::select('default_ticket_sorting', ticket_sorting_select_options(), array('value' => $proj->default_ticket_sorting)); ?>
+<div class="form-group">
+	<?php echo Form::label($t('default_ticket_sorting'), 'default_ticket_sorting', array('class' => 'col-sm-4 control-label')); ?>
+	<div class="col-sm-8">
+		<?php echo Form::select('default_ticket_sorting', array(), array('value' => $project->default_ticket_sorting)); ?>
+	</div>
 </div>
-<?php FishHook::run('template:projectsettings/options/_form', array($proj)); ?>

@@ -67,6 +67,11 @@ Router::map(function($r){
     // --------------------------------------------------
     // AdminCP
 
+    // Projects
+    $r->get('/admin/projects')->to("{$traq}\Admin\Projects::index");
+    $r->get('/admin/projects/new')->to("{$traq}\Admin\Projects::new");
+    $r->get('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::edit", array('id'));
+
     // Plugins
     $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
     $r->get('/admin/plugins/:slug/install')->to("{$traq}\Admin\Plugins::install", array('slug'));
