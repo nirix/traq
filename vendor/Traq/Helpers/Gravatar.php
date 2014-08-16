@@ -35,7 +35,7 @@ class Gravatar
      * Returns the HTML for the users garavar.
      *
      * @param \Traq\Models\User $user
-     * @param integer          $size Size of the gravatar
+     * @param integer           $size Size of the gravatar
      */
     public static function forUser(User $user, $size = null)
     {
@@ -43,7 +43,7 @@ class Gravatar
         $url = "https://www.gravatar.com/avatar/{$hash}";
 
         if ($size) {
-            $url = "{$url}?s={$size}}";
+            $url = "{$url}?s={$size}";
         }
 
         return HTML::image($url);
