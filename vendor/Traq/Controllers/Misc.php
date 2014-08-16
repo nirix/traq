@@ -21,23 +21,21 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
-use avalon\core\Controller;
-use avalon\http\Request;
-use avalon\output\View;
-use avalon\core\Load;
+use Radium\Action\View;
+use Radium\Action\Controller;
+use Radium\Http\Request;
 
-use traq\models\Type;
-use traq\models\User;
+use Traq\Models\Type;
+use Traq\Models\User;
 
 /**
  * Misc controller
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @package Traq\Controllers
  */
 class Misc extends Controller
 {
@@ -46,32 +44,20 @@ class Misc extends Controller
      */
     public function __construct()
     {
-        // Set the theme
-        View::$theme = '_misc';
-
         parent::__construct();
-
-        // Load helpers
-        Load::helper("html");
-        Load::helper('formatting');
+        $this->layout = false;
     }
 
     /**
      * "Dynamic JavaScript"
      */
-    public function action_javascript()
+    public function javascriptAction()
     {
-        global $locale;
-
         // Set the content type to javascript
-        header("Content-type: text/javascript");
+        $this->response->contentType = "text/javascript";
 
-        // Set the view without the controller namespace
-        $this->render['view'] = 'javascript';
-
-        // Get the locale strings and set the editor strings
-        $strings = $locale->locale();
-        View::set('editor_strings', $strings['editor']);
+        View::addSearchPath(VENDORDIR . '/Traq/Views/_misc');
+        $this->view = 'javascript';
     }
 
     /**

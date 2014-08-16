@@ -109,6 +109,10 @@ $enAU = new Language(function($t){
         'next'     => "Next",
         'previous' => "Previous",
 
+        // Confirmations:
+        'confirm.yes' => "Yes",
+        'confirm.no'  => "No",
+
         // Errors
         'errors.404.title'   => "I accidentally the whole page...",
         'errors.404.message' => "Well this is awkward, it seems the page '{1}' doesn't exist.",

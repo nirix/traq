@@ -32,7 +32,9 @@ Router::map(function($r){
 
     $r->root("{$traq}\Projects::index");
     $r->get('/admin')->to("{$traq}\Admin\Dashboard::index");
+
     $r->route('404')->to("{$traq}\Errors::notFound");
+    $r->get('/_js')->to("{$traq}\Misc::javascript");
 
     // --------------------------------------------------
     // Users

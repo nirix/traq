@@ -1,8 +1,9 @@
-traq.base = '<?php echo Request::base(); ?>';
-<?php foreach ($editor_strings as $key => $value) { ?>
-likeABoss.strings['<?php echo $key; ?>'] = '<?php echo $value; ?>';
-<?php } ?>
+window.traq.uri = '<?php echo Request::base(); ?>';
 
 // Yes and No translations
-language.yes = '<?php echo l('yes'); ?>';
-language.no = '<?php echo l('no'); ?>';
+window.traq.locale = {
+    confirm: {
+        'yes': '<?php echo $t('confirm.yes'); ?>',
+        'no': '<?php echo $t('confirm.no'); ?>'
+    }
+}
