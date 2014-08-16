@@ -172,7 +172,7 @@ class AppController extends Controller
     {
         if (isset($_SERVER['HTTP_X_OVERLAY']) and $_SERVER['HTTP_X_OVERLAY'] == 'true') {
             $this->response->status = 200;
-            $this->layout = 'modal';
+            $this->layout = false;
             $this->view = "{$this->view}.overlay";
         }
 
