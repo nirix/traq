@@ -1584,4 +1584,6 @@ table tr.plugin-uninstalled td:first-child { border-left: 3px solid #d9534f; }
 
 .page-header:first-child { margin-top: 0; }
 
-#footer { margin-top: 15px; margin-bottom: 25px; }
+.page-actions { clear: both; float: right; }
+
+#footer { margin-bottom: 25px; margin-top: 15px; }
