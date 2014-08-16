@@ -1,15 +1,18 @@
-vendor/Traq/Config/Database.php
+# Traq
+/_dev
+/vendor/Traq/Config/Database.php
 /assets/js/components
-.sass-cache
-.DS_Store
-.project
-.settings
-.buildpath
-.htaccess
-_dev/
 
 # Composer
 vendor/autoload.php
 vendor/composer
 vendor/radium
 vendor/erusev
+
+# Misc
+.sass-cache
+.DS_Store
+.project
+.settings
+.buildpath
+.htaccess
