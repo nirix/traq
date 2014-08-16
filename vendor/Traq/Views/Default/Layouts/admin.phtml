@@ -13,11 +13,6 @@
 				<span class="text-muted"><?php echo $t('copyright'); ?></span>
 			</div>
 		</footer>
-		<?php echo HTML::jsIncTag('https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'); ?>
-		<?php echo HTML::jsIncTag('https://code.jquery.com/ui/1.10.4/jquery-ui.min.js'); ?>
-		<?php echo HTML::jsIncTag('https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'); ?>
-		<?php echo HTML::jsIncTag('js.php?js=all'); ?>
-		<?php echo HTML::jsIncTag('_js'); ?>
-		<!-- <?php echo round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3); ?>mb -->
+		<?php echo View::render('Layouts/_foot'); ?>
 	</body>
 </html>
