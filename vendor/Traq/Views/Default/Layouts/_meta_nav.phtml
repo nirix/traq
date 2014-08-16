@@ -28,7 +28,7 @@
 			<?php endif; ?>
 			<li class="dropdown">
 				<?php echo HTML::link(
-					TWBS::fa('user') . " " . TWBS::caret(), '/usercp',
+					Gravatar::forUser($currentUser, 18) . " " . TWBS::caret(), '/usercp',
 					array('class' => "dropdown-toggle", 'data-toggle' => "dropdown")
 				); ?>
 				<ul class="dropdown-menu">
