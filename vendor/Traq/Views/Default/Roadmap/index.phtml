@@ -21,7 +21,7 @@
 			<h2>
 				<?php echo HTML::link($milestone->name, $milestone); ?>
 				<?php if ($milestone->codename): ?>
-					<small><em class="codename"><?php echo $milestone->codename; ?></em></small>
+					<small><em class="project-codename"><?php echo $milestone->codename; ?></em></small>
 				<?php endif; ?>
 			</h2>
 			<?php echo View::render('Roadmap/_progressBar', array('milestone' => $milestone)); ?>

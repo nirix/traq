@@ -27,6 +27,11 @@
 					); ?>
 				</td>
 				<td>
+					<?php if ($project->codename): ?>
+						<span class="project-codename"><?php echo $project->codename; ?></span>
+					<?php endif; ?>
+				</td>
+				<td class="actions">
 					<?php echo HTML::link(
 						TWBS::fa('edit', $t('edit')), "/admin/projects/{$project->id}/edit",
 						array('data-overlay' => true, 'class' => 'btn btn-xs btn-warning')

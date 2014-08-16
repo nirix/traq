@@ -1537,50 +1537,46 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
-/* Header CSS */
-.navbar-inverse { margin-bottom: 0; height: 30px; min-height: 30px; z-index: 1005; }
+.navbar-inverse { height: 30px; margin-bottom: 0; min-height: 30px; z-index: 1005; }
 .navbar-inverse .container { padding-left: 0; padding-right: 0; }
-.navbar-inverse .navbar-nav > li > a { padding-top: 5px; padding-bottom: 5px; }
+.navbar-inverse .navbar-nav > li > a { padding-bottom: 5px; padding-top: 5px; }
 
 .navbar-default .nav > li.roadmap.dropdown > a.link { float: left; padding-right: 5px; }
 .navbar-default .nav > li.roadmap.dropdown > .dropdown-toggle { float: left; padding-left: 0; }
-.navbar-default .btn-create-issue { margin-top: 10px; margin-left: 8px; border-color: #285e8e; }
+.navbar-default .btn-create-issue { border-color: #285e8e; margin-left: 8px; margin-top: 10px; }
 
-/* Projects CSS */
 #project-list { margin: 0; padding: 0; }
-#project-list > li { display: inline-block; vertical-align: top; margin-bottom: 15px; width: 49%; max-width: 49%; }
+#project-list > li { display: inline-block; margin-bottom: 15px; max-width: 49%; vertical-align: top; width: 49%; }
 #project-list > li:first-child { margin-right: 15px; }
 #project-list > li h2 { border-bottom: 1px solid #eee; padding-bottom: 9px; }
 #project-list > li nav { margin-bottom: 4px; }
 #project-list > li nav .nav > li > a { padding: 5px 15px; }
 
-.codename:before, .codename:after { content: "\""; }
+.project-codename:before, .project-codename:after { content: '"'; }
 
-/* Timeline CSS */
-#timeline.container h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
-#timeline.container dl dt { font-weight: normal; }
-#timeline.container dl dd { margin-left: 25px; margin-bottom: 5px; }
+#timeline h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
+#timeline dl dt { font-weight: normal; }
+#timeline dl dd { margin-bottom: 5px; margin-left: 25px; }
 
-#timeline-filters { width: 180px; margin-top: 15px; }
-#timeline-filters fieldset { padding: 5px 10px 10px 10px; border: 1px solid #eee; border-radius: 5px; background-color: #fff; }
+#timeline-filters { margin-top: 15px; width: 180px; }
+#timeline-filters fieldset { background-color: #fff; border: 1px solid #eee; border-radius: 5px; padding: 5px 10px 10px; }
 #timeline-filters fieldset legend { border: 0; margin-bottom: 0; }
 #timeline-filters fieldset .actions { margin-top: 5px; }
 
-/* Roadmap CSS */
 .roadmap.container > ul { list-style: none; padding: 0; }
 .roadmap.container > ul > li h2 { border-bottom: 1px solid #eee; }
 .roadmap.container > ul > li .progress { margin-bottom: 5px; }
-.roadmap.container > ul > li .issue-counts { list-style: none; margin: 0; padding: 0; margin-bottom: 10px; }
+.roadmap.container > ul > li .issue-counts { list-style: none; margin: 0; margin-bottom: 10px; padding: 0; }
 .roadmap.container > ul > li .issue-counts a:link, .roadmap.container > ul > li .issue-counts a:visited, .roadmap.container > ul > li .issue-counts a:active, .roadmap.container > ul > li .issue-counts a:hover { color: #999; }
 .roadmap.container > ul > li .issue-counts li { display: inline; margin-right: 10px; }
 
-/* Forms CSS */
 .form-actions { text-align: center; }
 
-/* Plugin CSS */
 table tr.plugin-enabled td:first-child { border-left: 3px solid #5cb85c; }
 table tr.plugin-installed td:first-child { border-left: 3px solid #f0ad4e; }
 table tr.plugin-uninstalled td:first-child { border-left: 3px solid #d9534f; }
+
+table td.actions { text-align: right; }
 
 .page-header:first-child { margin-top: 0; }
 
