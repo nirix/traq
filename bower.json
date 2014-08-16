@@ -1,8 +1,8 @@
 {
   "name": "traq",
   "dependencies": {
-    "bootstrap-confirmation2": "~2.1.2",
-    "jquery-ui": "~1.11.1"
+    "jquery-ui": "~1.11.1",
+    "jquery-cookie": "~1.4.1"
   },
   "preen": {
     "jquery": [
@@ -11,11 +11,11 @@
     "jquery-ui": [
       "jquery-ui.min.js"
     ],
+    "jquery-cookie": [
+      "jquery.cookie.js"
+    ],
     "bootstrap": [
       "dist/js/bootstrap.min.js"
-    ],
-    "bootstrap-confirmation2": [
-      "bootstrap-confirmation.min.js"
     ]
   }
 }
