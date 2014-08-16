@@ -170,6 +170,12 @@ class AppController extends Controller
 
     public function __shutdown()
     {
+        if (isset($_SERVER['HTTP_X_OVERLAY']) and $_SERVER['HTTP_X_OVERLAY'] == 'true') {
+            $this->response->status = 200;
+            $this->layout = 'modal';
+            $this->view = "{$this->view}.overlay";
+        }
+
         return parent::__shutdown();
     }
 }

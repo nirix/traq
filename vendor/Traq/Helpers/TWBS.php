@@ -25,6 +25,7 @@ namespace Traq\Helpers;
 
 use Radium\Action\View;
 use Radium\Helpers\HTML;
+use Radium\Language;
 
 /**
  * Twitter Bootstrap Helper.
@@ -85,6 +86,14 @@ class TWBS
         ));
     }
 
+    /**
+     * Returns the HTML for a progress bar.
+     *
+     * @param integer $value
+     * @param array   $options
+     *
+     * @return string
+     */
     public static function progressBar($value, $options)
     {
         $attributes = array(
@@ -103,5 +112,27 @@ class TWBS
         $attributes = HTML::buildAttributes($attributes);
 
         return "<div {$attributes}></div>";
+    }
+
+    /**
+     * Returns the HTML for a modal header.
+     *
+     * @param string $title
+     *
+     * @return string
+     */
+    public static function modalHeader($title)
+    {
+        $header = array(
+            '<div class="modal-header">',
+            '    <button type="button" class="close" data-dismiss="modal">',
+            '        <span aria-hidden="true">&times;</span>',
+            '        <span class="sr-only">' . Language::translate('close') . '</span>',
+            '    </button>',
+            '    <h4 class="modal-title">' . $title . '</h4>',
+            '</div>'
+        );
+
+        return implode(PHP_EOL, $header);
     }
 }
