@@ -56,7 +56,7 @@
         success: function(data) {
           var modal;
           $('#overlay').html(data);
-          if (element.attr('data-target') !== null) {
+          if (element.attr('data-target') != null) {
             modal = $(element.attr('data-target'));
           } else {
             modal = $('#overlay .modal');
