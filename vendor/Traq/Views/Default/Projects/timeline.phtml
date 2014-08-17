@@ -21,7 +21,7 @@
 
 	<dl>
 	<?php foreach ($day['activity'] as $event): ?>
-		<dt id="timeline_event_<?php echo $event->id?>">
+		<dt class="timeline_event_<?php echo $event->id; ?>">
 			<?php if (LOGGEDIN and $currentUser->permission($project->id, 'delete_timeline_events')): ?>
 			<a class="btn btn-xs btn-danger" data-ajax-confirm="<?php echo $t('confirm.delete')?>" href="<?php echo Request::base($event->href('delete'))?>">
 				<?php echo TWBS::fa('minus-circle'); ?><span class="sr-only"><?php echo $t('delete')?></span>
@@ -65,7 +65,7 @@
 			); ?>
 		<?php endif; ?>
 		</dt>
-		<dd id="timeline_event_<?php echo $event->id?>">
+		<dd class="timeline_event_<?php echo $event->id; ?>">
 			<span class="text-muted">
 				<?php echo $t('timeline.by_x', array(HTML::link(Gravatar::withUsername($event->user(), 15), $event->user()))); ?>
 			</span>
