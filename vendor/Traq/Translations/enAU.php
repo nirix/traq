@@ -42,7 +42,9 @@ $enAU = new Language(function($t){
 
         // --------------------------------------------------------------------
         // AdminCP
-        'admincp' => "AdminCP",
+        'admincp'     => "AdminCP",
+        'dashboard'   => "Dashboard",
+        'latest_news' => "Latest News",
 
         // --------------------------------------------------------------------
         // Changelog
@@ -80,6 +82,9 @@ $enAU = new Language(function($t){
         // Issues
         'issues'       => "Issues",
         'create_issue' => "Create Issue",
+        'open'         => "Open",
+        'closed'       => "Closed",
+        'total'        => "Total",
 
         // --------------------------------------------------------------------
         // Pagination
@@ -151,6 +156,8 @@ $enAU = new Language(function($t){
 
         // --------------------------------------------------------------------
         // Users
+        'users'    => "Users",
+        'newest'   => "Newest",
         'profile'  => "Profile",
         'usercp'   => "UserCP",
         'register' => "Register",
