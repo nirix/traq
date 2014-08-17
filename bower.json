@@ -1,8 +1,11 @@
 {
   "name": "traq",
   "dependencies": {
+    "jquery": "~2.1.1",
     "jquery-ui": "~1.11.1",
-    "jquery-cookie": "~1.4.1"
+    "jquery-cookie": "~1.4.1",
+    "bootstrap": "~3.2.0",
+    "font-awesome": "~4.1.0"
   },
   "preen": {
     "jquery": [
@@ -16,6 +19,10 @@
     ],
     "bootstrap": [
       "dist/js/bootstrap.min.js"
+    ],
+    "font-awesome": [
+      "css/font-awesome.min.css",
+      "fonts/*"
     ]
   }
 }

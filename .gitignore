@@ -1,7 +1,7 @@
 # Traq
 /_dev
 /vendor/Traq/Config/Database.php
-/assets/js/components
+/assets/components
 
 # Composer
 vendor/autoload.php
