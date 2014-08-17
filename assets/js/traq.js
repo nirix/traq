@@ -76,7 +76,7 @@
         content: content,
         html: true,
         placement: 'bottom',
-        trigger: 'click focus'
+        trigger: 'click'
       });
       return $(document).on('shown.bs.popover', function(event) {
         var link, popover;
