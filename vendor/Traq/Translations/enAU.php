@@ -40,15 +40,63 @@ $enAU = new Language(function($t){
     $t->strings = array(
         'copyright' => "Powered by Traq " . Traq::version() . " &copy; 2009-" . date("Y") . " Traq.io",
 
-        // Users
-        'profile'  => "Profile",
-        'usercp'   => "UserCP",
-        'register' => "Register",
-        'login'    => "Login",
-        'logout'   => "Logout",
-        'username' => "Username",
-        'password' => "Password",
+        // --------------------------------------------------------------------
+        // AdminCP
+        'admincp' => "AdminCP",
 
+        // --------------------------------------------------------------------
+        // Changelog
+        'changelog' => "Changelog",
+
+        // --------------------------------------------------------------------
+        // Confirmations:
+        'confirm.yes' => "Yes",
+        'confirm.no'  => "No",
+
+        // --------------------------------------------------------------------
+        // Errors
+        'errors.404.title'   => "I accidentally the whole page...",
+        'errors.404.message' => "Well this is awkward, it seems the page '{1}' doesn't exist.",
+        'errors.no_permission.title'   => "You shall not pass!",
+        'errors.no_permission.message' => "You don't have permission to access this page.",
+        'errors.invalid_username_or_password' => "Invalid username and/or password.",
+        'errors.account.activation_required'  => "You must first activate your account.",
+
+        // --------------------------------------------------------------------
+        // Filters
+        'filter_events' => "Filter Events",
+        'apply_filters' => "Apply Filters",
+
+        // --------------------------------------------------------------------
+        // Forms
+        'create' => "Create",
+        'save'   => "Save",
+        'cancel' => "Cancel",
+        'close'  => "Close",
+        'edit'   => "Edit",
+        'delete' => "Delete",
+
+        // --------------------------------------------------------------------
+        // Issues
+        'issues'       => "Issues",
+        'create_issue' => "Create Issue",
+
+        // --------------------------------------------------------------------
+        // Pagination
+        'next'     => "Next",
+        'previous' => "Previous",
+
+        // --------------------------------------------------------------------
+        // Plugins
+        'plugins'   => "Plugins",
+        'author'    => "Author",
+        'version'   => "Version",
+        'install'   => "Install",
+        'uninstall' => "Uninstall",
+        'enable'    => "Enable",
+        'disable'   => "Disable",
+
+        // --------------------------------------------------------------------
         // Projects
         'projects'      => "Projects",
         'new_project'   => "New Project",
@@ -62,6 +110,7 @@ $enAU = new Language(function($t){
         'default_ticket_type'    => "Default ticket type",
         'default_ticket_sorting' => "Default ticket sorting",
 
+        // --------------------------------------------------------------------
         // Roadmap
         'roadmap'   => "Roadmap",
         'all'       => "All",
@@ -72,16 +121,7 @@ $enAU = new Language(function($t){
         'x_started' => "{1} started",
         'x_closed'  => "{1} closed",
 
-        // Issues
-        'issues'       => "Issues",
-        'create_issue' => "Create Issue",
-
-        // Changelog
-        'changelog' => "Changelog",
-
-        // Wiki
-        'wiki' => "Wiki",
-
+        // --------------------------------------------------------------------
         // Timeline
         'timeline'                     => "Timeline",
         'activity'                     => "Activity",
@@ -99,18 +139,7 @@ $enAU = new Language(function($t){
         'timeline.wiki_page_edited'    => "Edited {title} wiki page",
         'timeline.by_x'                => "by {1}",
 
-        // Forms
-        'create' => "Create",
-        'save'   => "Save",
-        'cancel' => "Cancel",
-        'close'  => "Close",
-        'edit'   => "Edit",
-        'delete' => "Delete",
-
-        // Filters
-        'filter_events' => "Filter Events",
-        'apply_filters' => "Apply Filters",
-
+        // --------------------------------------------------------------------
         // Timeline filters
         'timeline.filters.new_tickets'           => "New tickets",
         'timeline.filters.tickets_opened_closed' => "Tickets open/closed",
@@ -120,33 +149,19 @@ $enAU = new Language(function($t){
         'timeline.filters.milestones'            => "Milestones",
         'timeline.filters.wiki_pages'            => "Wiki pages",
 
-        // AdminCP
-        'admincp' => "AdminCP",
+        // --------------------------------------------------------------------
+        // Users
+        'profile'  => "Profile",
+        'usercp'   => "UserCP",
+        'register' => "Register",
+        'login'    => "Login",
+        'logout'   => "Logout",
+        'username' => "Username",
+        'password' => "Password",
 
-        // Plugins
-        'plugins'   => "Plugins",
-        'author'    => "Author",
-        'version'   => "Version",
-        'install'   => "Install",
-        'uninstall' => "Uninstall",
-        'enable'    => "Enable",
-        'disable'   => "Disable",
-
-        // Pagination
-        'next'     => "Next",
-        'previous' => "Previous",
-
-        // Confirmations:
-        'confirm.yes' => "Yes",
-        'confirm.no'  => "No",
-
-        // Errors
-        'errors.404.title'   => "I accidentally the whole page...",
-        'errors.404.message' => "Well this is awkward, it seems the page '{1}' doesn't exist.",
-        'errors.no_permission.title'   => "You shall not pass!",
-        'errors.no_permission.message' => "You don't have permission to access this page.",
-        'errors.invalid_username_or_password' => "Invalid username and/or password.",
-        'errors.account.activation_required'  => "You must first activate your account.",
+        // --------------------------------------------------------------------
+        // Wiki
+        'wiki' => "Wiki",
     );
 });
 
