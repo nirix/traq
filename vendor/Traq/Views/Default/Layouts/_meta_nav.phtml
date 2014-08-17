@@ -4,7 +4,7 @@
 		<?php if (settings('site_name')): ?>
 			<li><?php echo HTML::link(settings('site_name'), settings('site_url')); ?></li>
 		<?php endif; ?>
-		<?php if (isset($project)): ?>
+		<?php if (isset($project) or Request::matches('/admin.*')): ?>
 			<li><?php echo HTML::link(settings('title'), '/'); ?></li>
 		<?php endif; ?>
 		</ul>
