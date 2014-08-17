@@ -36,7 +36,10 @@
 			</ul>
 			<?php if (LOGGEDIN): ?>
 			<div class="navbar-left">
-				<a href="#traq/issues/new" class="btn btn-primary btn-sm btn-create-issue">Create Issue</a>
+				<?php echo HTML::link(
+					$t('create_issue'), $project->href('/issues/new'),
+					array('class' => "btn btn-primary btn-sm btn-create-issue", 'data-overlay' => true)
+				); ?>
 			</div>
 			<?php endif; ?>
 		<?php endif; ?>
