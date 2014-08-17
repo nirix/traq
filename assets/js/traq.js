@@ -67,29 +67,38 @@
     },
     popoverConfirm: function(element, message, callback) {
       var content;
-      element.on('click', function(e) {
-        return e.preventDefault();
-      });
       content = '<div class="text-center"><div class="btn-group">' + '<button class="btn btn-sm btn-primary popover-btn-confirm">' + '<i class="fa fa-check"></i> ' + window.traq.locale.confirm.yes + '</button>' + '<button class="btn btn-sm btn-default popover-btn-cancel">' + '<i class="fa fa-times"></i> ' + window.traq.locale.confirm.no + '</button>' + '</div></div>';
-      element.popover({
-        title: message,
-        content: content,
-        html: true,
-        placement: 'bottom',
-        trigger: 'click'
-      });
-      return $(document).on('shown.bs.popover', function(event) {
-        var link, popover;
-        link = $(event.target);
-        popover = link.next();
-        popover.find('.popover-btn-confirm').one('click', function() {
-          callback();
-          return popover.popover('hide');
+      if (!element.attr('data-popover-added')) {
+        element.popover({
+          title: message,
+          content: content,
+          html: true,
+          placement: 'bottom',
+          trigger: 'click'
         });
-        return popover.find('.popover-btn-cancel').one('click', function() {
-          return popover.popover('hide');
+        $(document).on('shown.bs.popover', function(event) {
+          var link, popover;
+          link = $(event.target);
+          popover = link.next();
+          popover.find('.popover-btn-confirm').one('click', function() {
+            callback();
+            return popover.popover('hide');
+          });
+          return popover.find('.popover-btn-cancel').one('click', function() {
+            return popover.popover('hide');
+          });
         });
-      });
+        element.popover('show');
+        element.attr('data-popover-added', true);
+        return $(document).on('hide.bs.popover', function(event) {
+          var link, popover;
+          link = $(event.target);
+          popover = link.next();
+          popover.find('.popover-btn-confirm').off('click');
+          popover.find('.popover-btn-cancel').off('click');
+          return console.log(popover);
+        });
+      }
     }
   };
 

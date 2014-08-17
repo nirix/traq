@@ -21,11 +21,23 @@
   $(document).ready(function() {
     var doc;
     doc = $(document);
-    $('[data-confirm]').each(function() {
+    doc.on('click', '[data-confirm]', function(event) {
       var href;
+      event.preventDefault();
       href = $(this).attr('href');
       return window.traq.popoverConfirm($(this), $(this).attr('data-confirm'), function() {
         return window.location.href = href;
+      });
+    });
+    doc.on('click', '[data-ajax-confirm]', function(event) {
+      var href;
+      event.preventDefault();
+      href = $(this).attr('href');
+      return window.traq.popoverConfirm($(this), $(this).attr('data-ajax-confirm'), function() {
+        return $.ajax({
+          url: href,
+          dataType: 'script'
+        });
       });
     });
     doc.on('click', '[data-ajax=1]', function(event) {
@@ -34,15 +46,6 @@
         dataType: 'script'
       });
       return event.preventDefault();
-    });
-    doc.on('click', '[data-ajax-confirm]', function() {
-      return window.traq.popoverConfirm($(this), $(this).attr('data-ajax-confirm'), function() {
-        $.ajax({
-          url: $(this).attr('href'),
-          dataType: 'script'
-        });
-        return event.preventDefault();
-      });
     });
     doc.on('focus', '[data-autocomplete]', function() {
       return $(this).autocomplete({
