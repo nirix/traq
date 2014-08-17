@@ -99,6 +99,14 @@ $enAU = new Language(function($t){
         'timeline.wiki_page_edited'    => "Edited {title} wiki page",
         'timeline.by_x'                => "by {1}",
 
+        // Forms
+        'create' => "Create",
+        'save'   => "Save",
+        'cancel' => "Cancel",
+        'close'  => "Close",
+        'edit'   => "Edit",
+        'delete' => "Delete",
+
         // Filters
         'filter_events' => "Filter Events",
         'apply_filters' => "Apply Filters",
