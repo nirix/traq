@@ -11,24 +11,7 @@
 				<?php endif; ?>
 			<?php endif; ?>
 			<form action="<?php echo Request::base('login'); ?>" method="post" class="form-horizontal">
-				<div class="form-group">
-					<?php echo Form::label(
-						$t('username'), 'username',
-						array('class' => 'col-md-4 control-label')
-					); ?>
-					<div class="col-md-8">
-						<?php echo Form::text('username', array('class' => 'form-control')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<?php echo Form::label(
-						$t('password'), 'password',
-						array('class' => 'col-md-4 control-label')
-					); ?>
-					<div class="col-md-8">
-						<?php echo Form::password('password', array('class' => 'form-control')); ?>
-					</div>
-				</div>
+				<?php echo View::render('Sessions/_form'); ?>
 				<div class="form-actions">
 					<?php echo Form::submit($t('login'), array('class' => 'btn btn-success')); ?>
 				</div>
