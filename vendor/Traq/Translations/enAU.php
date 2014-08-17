@@ -96,7 +96,7 @@ $enAU = new Language(function($t){
         // --------------------------------------------------------------------
         // Plugins
         'plugins'   => "Plugins",
-        'author'    => "Author",
+        'authors'   => "Authors",
         'version'   => "Version",
         'install'   => "Install",
         'uninstall' => "Uninstall",

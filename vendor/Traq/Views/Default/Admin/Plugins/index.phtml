@@ -4,7 +4,7 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<th class="name"><?php echo $t('name'); ?></th>
-			<th class="author"><?php echo $t('author'); ?></th>
+			<th class="authors"><?php echo $t('authors'); ?></th>
 			<th class="version"><?php echo $t('version'); ?></th>
 			<th class="actions"></th>
 		</thead>
@@ -12,27 +12,35 @@
 		<?php foreach ($plugins as $plugin) { ?>
 			<tr class="plugin-<?php echo $plugin['status']; ?>">
 				<td><?php echo $plugin['name']; ?></td>
-				<td><?php echo $plugin['author'] ? $plugin['author'] : ''; ?></td>
+				<td>
+				<?php if (count($plugin['authors'])): ?>
+					<ul>
+					<?php foreach ($plugin['authors'] as $author): ?>
+						<li><?php echo $author['name']; ?></li>
+					<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+				</td>
 				<td><?php echo $plugin['version']; ?></td>
 				<td>
 					<?php if (!$plugin['installed']): ?>
 						<?php echo HTML::link(
-							TWBS::fa('plus', $t('install')), "/admin/plugins/{$plugin['directory']}/install",
+							TWBS::fa('plus', $t('install')), "/admin/plugins/install?plugin={$plugin['directory']}",
 							array('class' => 'btn btn-xs btn-success')
 						); ?>
 					<?php else: ?>
 						<?php echo HTML::link(
-							TWBS::fa('power-off', $t('uninstall')), "/admin/plugins/{$plugin['directory']}/uninstall",
+							TWBS::fa('power-off', $t('uninstall')), "/admin/plugins/uninstall?plugin={$plugin['directory']}",
 							array('class' => 'btn btn-xs btn-danger')
 						); ?>
 						<?php if ($plugin['is_enabled']): ?>
 							<?php echo HTML::link(
-								TWBS::fa('minus', $t('disable')), "/admin/plugins/{$plugin['directory']}/disable",
+								TWBS::fa('minus', $t('disable')), "/admin/plugins/disable?plugin={$plugin['directory']}",
 								array('class' => 'btn btn-xs btn-warning')
 							); ?>
 						<?php else: ?>
 							<?php echo HTML::link(
-								TWBS::fa('check', $t('enable')), "/admin/plugins/{$plugin['directory']}/enable",
+								TWBS::fa('check', $t('enable')), "/admin/plugins/enable?plugin={$plugin['directory']}",
 								array('class' => 'btn btn-xs btn-success')
 							); ?>
 						<?php endif; ?>

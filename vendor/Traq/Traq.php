@@ -86,17 +86,17 @@ class Traq extends Application
     {
         $queue = array();
 
+        $loader = require VENDORDIR . '/autoload.php';
+
         foreach (Plugin::allEnabled() as $plugin) {
-            $file = VENDORDIR . "/plugins/{$plugin->directory}/{$plugin->file}";
+            $class = "{$plugin->namespace}{$plugin->class}";
 
-            if (file_exists($file)) {
-                require $file;
+            // Register namespace with autoloader
+            $loader->addPsr4($plugin->namespace, VENDORDIR . "/{$plugin->directory}");
 
-                $class = "{$plugin->namespace}\\{$plugin->class}";
-                if (class_exists($class)) {
-                    $class::init();
-                    $queue[] = $class;
-                }
+            if (class_exists($class)) {
+                $class::init();
+                $queue[] = $class;
             }
         }
 

@@ -36,81 +36,32 @@ use Traq\Models\Plugin;
  */
 class Plugins extends AppController
 {
+    protected $loader;
+
     public function indexAction()
     {
         $this->title($this->translate('plugins'));
 
-        $plugins = array();
+        $plugins = $this->getPlugins();
 
-        foreach (Plugin::select()->orderBy('is_enabled', 'ASC')->fetchAll() as $plugin) {
-            $pluginDir  = VENDORDIR . "/plugins/{$plugin->directory}";
-            $pluginFile = "{$pluginDir}/plugin.json";
+        foreach ($plugins as $id => $info) {
+            $info = $info + array(
+                'installed'  => false,
+                'is_enabled' => false
+            );
 
-            if (file_exists($pluginFile)) {
-                $pluginInfo = $plugin->__toArray();
-                $pluginInfo['installed'] = true;
-                $pluginInfo['is_enabled']   = $plugin->isEnabled();
-                $pluginInfo['directory'] = $plugin->directory;
-                $pluginInfo['status']  = $this->status($pluginInfo);
+            if ($plugin = Plugin::find('directory', $info['directory'])) {
+                $info['installed'] = true;
 
-                $plugins[$plugin->directory] = $pluginInfo;
-            }
-        }
-
-        // Scan the plugin directory
-        foreach (scandir(VENDORDIR . '/plugins') as $dir) {
-            if ($dir[0] == '.'
-            or !is_dir(VENDORDIR . "/plugins/{$dir}")
-            or !file_exists(VENDORDIR . "/plugins/{$dir}/plugin.json")
-            or isset($plugins[$dir])) {
-                continue;
+                if ($plugin->is_enabled) {
+                    $info['is_enabled'] = true;
+                }
             }
 
-            $pluginInfo = $this->getInfo($dir);
-
-            $pluginInfo['directory'] = $dir;
-            $pluginInfo['installed'] = false;
-            $pluginInfo['is_enabled']   = false;
-            $pluginInfo['status']  = $this->status($pluginInfo);
-
-            $plugins[$dir] = $pluginInfo;
+            $plugins[$id] = $info;
         }
 
         $this->set('plugins', $plugins);
-    }
-
-    /**
-     * Loads and parses the plugins JSON file.
-     *
-     * @param string $directory Plugin directory
-     *
-     * @return array
-     */
-    protected function getInfo($directory)
-    {
-        $path = VENDORDIR . "/plugins/{$directory}/plugin.json";
-        $data = file_get_contents($path);
-        $data = json_decode($data, true);
-        $data['class'] = preg_replace("/^([\w]+).php$/", "$1", $data['file']);
-        return $data;
-    }
-
-    /**
-     * Returns the status of the plugin.
-     *
-     * @param array $info Plugin info.
-     *
-     * @return string
-     */
-    protected function status($info)
-    {
-        if ($info['is_enabled']) {
-            return 'enabled';
-        } else if ($info['installed']) {
-            return 'installed';
-        } else {
-            return 'uninstalled';
-        }
     }
 
     /**
@@ -118,16 +69,12 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function enableAction($directory)
+    public function enableAction()
     {
-        $plugin    = Plugin::find('directory', $directory);
-        $pluginDir = VENDORDIR . "/plugins/{$directory}";
-        $class     = "{$plugin->namespace}\\{$plugin->class}";
-        $file      = "{$pluginDir}/{$plugin->file}";
+        $plugin = Plugin::find('directory', Request::$get['plugin']);
+        $class  = "{$plugin->namespace}{$plugin->class}";
 
-        if (file_exists($file)) {
-            require $file;
-        }
+        $this->registerNamespace($plugin->namespace, VENDORDIR . "/{$plugin->directory}");
 
         // Check if the class exists
         if (class_exists($class)) {
@@ -144,11 +91,10 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function disableAction($directory)
+    public function disableAction()
     {
-        $plugin    = Plugin::find('directory', $directory);
-        $pluginDir = VENDORDIR . "/plugins/{$directory}";
-        $class     = "{$plugin->namespace}\\{$plugin->class}";
+        $plugin = Plugin::find('directory', Request::$get['plugin']);
+        $class  = "{$plugin->namespace}{$plugin->class}";
 
         // Check if the class exists
         if (class_exists($class)) {
@@ -165,24 +111,21 @@ class Plugins extends AppController
      *
      * @param string $directory The plugin directory name
      */
-    public function installAction($directory)
+    public function installAction()
     {
-        $pluginDir  = VENDORDIR . "/plugins/{$directory}";
-        $pluginInfo = $this->getInfo($directory);
+        $plugins = $this->getPlugins();
+        $info    = $plugins[Request::$get['plugin']];
+        $class   = "{$info['namespace']}{$info['class']}";
 
-        $pluginInfo['directory']  = $directory;
-        $pluginInfo['is_enabled'] = true;
-
-        $file = "{$pluginDir}/{$pluginInfo['file']}";
-        $class = "{$pluginInfo['namespace']}\\{$pluginInfo['class']}";
-
-        if (file_exists($file)) {
-            require $file;
-        }
+        // Register for autoload
+        $this->registerNamespace($info['namespace'], VENDORDIR . "/{$info['directory']}");
 
         if (class_exists($class)) {
             $class::__install();
-            (new Plugin($pluginInfo))->save();
+            $class::__enable();
+
+            $info['is_enabled'] = true;
+            (new Plugin($info))->save();
         }
 
         return $this->redirectTo('/admin/plugins');
@@ -193,18 +136,78 @@ class Plugins extends AppController
      *
      * @param string $directory The plugin directory name
      */
-    public function uninstallAction($directory)
+    public function uninstallAction()
     {
-        $plugin = Plugin::find('directory', $directory);
+        $plugin  = Plugin::find('directory', Request::$get['plugin']);
+        $plugins = $this->getPlugins();
+        $info    = $plugins[Request::$get['plugin']];
+        $class   = "{$plugin->namespace}{$plugin->class}";
 
-        $class = "{$plugin->namespace}\\{$plugin->class}";
+        // Register for autoload
+        if (!$plugin->is_enabled) {
+            $this->registerNamespace($info['namespace'], VENDORDIR . "/{$info['directory']}");
+        }
 
         // Check if the class exists
         if (class_exists($class)) {
+            if ($plugin->is_enabled) {
+                $class::__disable();
+            }
+
             $class::__uninstall();
-            $plugin->delete();
         }
 
+        $plugin->delete();
         $this->redirectTo('/admin/plugins');
+    }
+
+    /**
+     * Registers the namespace with the autoloader.
+     *
+     * @param string $namespace
+     * @param string $directroy
+     */
+    protected function registerNamespace($namespace, $directroy)
+    {
+        if (!$this->loader) {
+            $loader = require VENDORDIR . '/autoload.php';
+        }
+
+        $loader->addPsr4($namespace, $directroy);
+    }
+
+    /**
+     * Reads all plugin info files two levels deep in the `vendor` directory.
+     *
+     * @return array
+     */
+    protected function getPlugins()
+    {
+        $files = array();
+
+        foreach (glob(VENDORDIR . '/*/traq_plugin.json') as $file) {
+            $files[] = $file;
+        }
+
+        foreach (glob(VENDORDIR . '/*/*/traq_plugin.json') as $file) {
+            $files[] = $file;
+        }
+
+        $plugins = array();
+
+        foreach ($files as $file) {
+            $info = json_decode(file_get_contents($file), true);
+
+            if (!$info) {
+                continue;
+            }
+
+            // Get directory without the vendor directory path
+            $info['directory'] = trim(str_replace(VENDORDIR, '', dirname($file)), '/');
+
+            $plugins[$info['directory']] = $info;
+        }
+
+        return $plugins;
     }
 }

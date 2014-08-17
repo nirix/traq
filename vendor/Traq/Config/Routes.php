@@ -74,8 +74,8 @@ Router::map(function($r){
 
     // Plugins
     $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
-    $r->get('/admin/plugins/:slug/install')->to("{$traq}\Admin\Plugins::install", array('slug'));
-    $r->get('/admin/plugins/:slug/uninstall')->to("{$traq}\Admin\Plugins::uninstall", array('slug'));
-    $r->get('/admin/plugins/:slug/enable')->to("{$traq}\Admin\Plugins::enable", array('slug'));
-    $r->get('/admin/plugins/:slug/disable')->to("{$traq}\Admin\Plugins::disable", array('slug'));
+    $r->get('/admin/plugins/install')->to("{$traq}\Admin\Plugins::install");
+    $r->get('/admin/plugins/uninstall')->to("{$traq}\Admin\Plugins::uninstall");
+    $r->get('/admin/plugins/enable')->to("{$traq}\Admin\Plugins::enable");
+    $r->get('/admin/plugins/disable')->to("{$traq}\Admin\Plugins::disable");
 });

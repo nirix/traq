@@ -1,0 +1,16 @@
+{
+    "name": "Markdown",
+    "description": "Markdown formatting with Parsedown Extra",
+    "version": "2.0",
+    "url": "http://parsedown.org",
+    "authors": [
+      {
+        "name": "Parsedown"
+      },
+      {
+        "name": "Traq.io"
+      }
+    ],
+    "namespace": "Markdown\\",
+    "class": "Markdown"
+}
