@@ -59,4 +59,15 @@ class Gravatar
     {
         return HTML::image(static::url($user->email, $size));
     }
+
+    /**
+     * Returns the avatar with the users username on the right.
+     *
+     * @param \Traq\Models\User $user
+     * @param integer           $size Image size
+     */
+    public static function withUsername(User $user, $size = null)
+    {
+        return static::forUser($user, $size) . " {$user->username}";
+    }
 }
