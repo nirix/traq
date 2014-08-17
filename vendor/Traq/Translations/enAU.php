@@ -123,6 +123,15 @@ $enAU = new Language(function($t){
         // AdminCP
         'admincp' => "AdminCP",
 
+        // Plugins
+        'plugins'   => "Plugins",
+        'author'    => "Author",
+        'version'   => "Version",
+        'install'   => "Install",
+        'uninstall' => "Uninstall",
+        'enable'    => "Enable",
+        'disable'   => "Disable",
+
         // Pagination
         'next'     => "Next",
         'previous' => "Previous",
