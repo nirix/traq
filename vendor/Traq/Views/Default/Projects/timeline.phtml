@@ -66,7 +66,9 @@
 		<?php endif; ?>
 		</dt>
 		<dd id="timeline_event_<?php echo $event->id?>">
-			<span class="text-muted"><?php echo $t('timeline.by_x', array(HTML::link($event->user()->name, $event->user()))); ?></span>
+			<span class="text-muted">
+				<?php echo $t('timeline.by_x', array(HTML::link(Gravatar::withUsername($event->user(), 15), $event->user()))); ?>
+			</span>
 		</dd>
 	<?php endforeach; ?>
 	</dl>
