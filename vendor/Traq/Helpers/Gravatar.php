@@ -32,20 +32,31 @@ use Traq\Models\User;
 class Gravatar
 {
     /**
-     * Returns the HTML for the users garavar.
+     * Generates the gravatar URL.
      *
-     * @param \Traq\Models\User $user
-     * @param integer           $size Size of the gravatar
+     * @param string  $email
+     * @param integer $size  Image size
      */
-    public static function forUser(User $user, $size = null)
+    public static function url($email, $size = null)
     {
-        $hash = md5($user->email);
+        $hash = md5($email);
         $url = "https://www.gravatar.com/avatar/{$hash}";
 
         if ($size) {
             $url = "{$url}?s={$size}";
         }
 
-        return HTML::image($url);
+        return $url;
+    }
+
+    /**
+     * Returns the HTML for the users avatar.
+     *
+     * @param \Traq\Models\User $user
+     * @param integer           $size Image size
+     */
+    public static function forUser(User $user, $size = null)
+    {
+        return HTML::image(static::url($user->email, $size));
     }
 }
