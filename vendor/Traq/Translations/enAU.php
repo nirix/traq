@@ -50,7 +50,17 @@ $enAU = new Language(function($t){
         'password' => "Password",
 
         // Projects
-        'projects' => "Projects",
+        'projects'      => "Projects",
+        'new_project'   => "New Project",
+        'edit_project'  => "Edit Project",
+        'name'          => "Name",
+        'slug'          => "Slug",
+        'codename'      => "Codename",
+        'description'   => "Description",
+        'enable_wiki'   => "Enable Wiki",
+        'display_order' => "Display Order",
+        'default_ticket_type'    => "Default ticket type",
+        'default_ticket_sorting' => "Default ticket sorting",
 
         // Roadmap
         'roadmap'   => "Roadmap",
