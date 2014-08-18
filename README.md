@@ -1,7 +1,8 @@
 Traq
 ======
 
-Traq is a PHP powered project manager, capable of tracking issues for multiple projects with multiple milestones.
+Traq is a PHP powered project manager, capable of tracking issues for multiple
+projects with multiple milestones.
 
 Requirements
 ------------
@@ -13,7 +14,8 @@ Requirements
 Installation
 ------------
 
-In your browser, open the location you placed Traq in and follow the installation steps.
+In your browser, open the location you placed Traq in and follow the
+installation steps.
 
 Licenses
 -------
@@ -24,11 +26,13 @@ Licenses
 
 ### Terminated Licenses ###
 
-* **devxdev / Devon Hazelett**: 
-  Files, classes and functions were taken and completely stripped of copyright, warranty and code comments then used in the "Soule Framework", licenses _permanently_ terminated.
+* **devxdev / Devon Hazelett**:
+  Files, classes and functions were taken and completely stripped of copyright,
+  warranty and code comments then used in the "Soule Framework",
+  licenses _permanently_ terminated.
 
 Contributors
 ------------
 
-A list of people who contribute or have contributed to Traq can be found on [Github](https://github.com/nirix/traq/graphs/contributors).
-
+A list of people who contribute or have contributed to Traq can be found on
+[Github](https://github.com/nirix/traq/graphs/contributors).
