@@ -25,35 +25,18 @@ namespace Traq\Migrations;
 
 use Radium\Database\Schema\Migration;
 
-/**
- * Recreates the plugins table for the new plugin system.
- */
-class RecreatePlugins extends Migration
+class CreateUsergroups extends Migration
 {
     public function up()
     {
-        $this->dropTable('plugins');
-
-        $this->createTable('plugins', function($t){
+        $this->createTable('usergroups', function($t){
             $t->varchar('name', array('nullable' => false));
-            $t->text('description');
-            $t->varchar('version', array('nullable' => false));
-            $t->varchar('author', array('nullable' => false));
-            $t->varchar('url', array('nullable' => false));
-            $t->varchar('directory', array('nullable' => false));
-            $t->varchar('file', array('nullable' => false));
-            $t->varchar('namespace', array('nullable' => false));
-            $t->varchar('class', array('nullable' => false));
-            $t->tinyint('is_enabled', array(
-                'nullable' => false,
-                'default' => true,
-                'length' => 1)
-            );
+            $t->tinyint('is_admin', array('nullable' => false, 'default' => false));
         });
     }
 
     public function down()
     {
-        throw new \Exception("The RecreatePlugins migration cannot be rolled back");
+        $this->dropTable('usergroups');
     }
 }
