@@ -72,6 +72,9 @@ Router::map(function($r){
     $r->get('/admin/projects/new')->to("{$traq}\Admin\Projects::new");
     $r->get('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::edit", array('id'));
 
+    $r->post('/admin/projects/new')->to("{$traq}\Admin\Projects::create");
+    $r->post('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::save", array('id'));
+
     // Plugins
     $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
     $r->get('/admin/plugins/install')->to("{$traq}\Admin\Plugins::install");

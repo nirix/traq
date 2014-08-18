@@ -1,12 +1,11 @@
-<div class="content">
-	<h3><?php echo l('new_project'); ?></h3>
-	<form action="<?php echo Request::requestUri(); ?>" method="post">
-		<?php echo show_errors($proj->errors); ?>
-		<div class="tabular box">
-			<?php echo View::render('project_settings/options/_form'); ?>
-		</div>
-		<div class="actions">
-			<input type="submit" value="<?php echo l('create'); ?>" />
+<div class="admin-projects container">
+	<h1 class="page-header"><?php echo $t('new_project'); ?></h1>
+
+	<form action="<?php echo Request::base('/admin/projects/new'); ?>" method="post" class="form-horizontal">
+		<?php echo Errors::messagesFor($project); ?>
+		<?php echo View::render('ProjectSettings/Options/_form'); ?>
+		<div class="form-actions">
+			<?php echo Form::submit($t('create'), array('class' => 'btn btn-success')); ?>
 		</div>
 	</form>
 </div>

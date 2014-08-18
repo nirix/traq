@@ -37,7 +37,7 @@
 			<?php if (LOGGEDIN): ?>
 			<div class="navbar-left">
 				<?php echo HTML::link(
-					$t('create_issue'), $project->href('/issues/new'),
+					$t('create_issue'), $project->href('issues/new'),
 					array('class' => "btn btn-primary btn-sm btn-create-issue", 'data-overlay' => true)
 				); ?>
 			</div>

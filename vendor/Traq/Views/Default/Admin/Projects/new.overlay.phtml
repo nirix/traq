@@ -1,7 +1,7 @@
 <div class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<form id="form_id" action="<?php echo Request::base('/admin/projects/new'); ?>" method="post" class="form-horizontal">
+			<form action="<?php echo Request::base('/admin/projects/new'); ?>" method="post" class="form-horizontal">
 				<?php echo TWBS::modalHeader($t('new_project')); ?>
 				<div class="modal-body">
 					<?php echo View::render('ProjectSettings/Options/_form'); ?>

@@ -59,6 +59,32 @@ class Projects extends AppController
     }
 
     /**
+     * Create new project.
+     */
+    public function createAction()
+    {
+        $this->title($this->translate('new'));
+
+        $project = new Project(array(
+            'name'                   => Request::$post['name'],
+            'slug'                   => Request::$post['slug'],
+            'codename'               => Request::$post['codename'],
+            'info'                   => Request::$post['info'],
+            'enable_wiki'            => Request::post('enable_wiki', false),
+            'default_ticket_type_id' => Request::$post['default_ticket_type_id'],
+            'default_ticket_sorting' => Request::$post['default_ticket_sorting'],
+            'display_order'          => Request::$post['display_order']
+        ));
+
+        if ($project->save()) {
+            $this->redirect('/admin/projects');
+        }
+
+        $this->view = "Admin/Projects/new";
+        $this->set('project', $project);
+    }
+
+    /**
      * Edit project page.
      */
     public function editAction($project_id)
