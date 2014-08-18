@@ -36,102 +36,25 @@ use Radium\Database\Model;
  */
 class Project extends Model
 {
-    protected static $_name = 'projects';
+    protected static $_validates = array(
+        'name'          => array('unique', 'required'),
+        'slug'          => array('unique', 'required'),
+        'enable_wiki'   => array('required'),
+        'display_order' => array('required', 'numeric'),
+        'default_ticket_type_id' => array('required'),
+        'default_ticket_sorting' => array('required')
+    );
 
-    /**
-     * Tickets relation.
-     *
-     * @return array
-     */
-    public function tickets()
-    {
-        return $this->hasMany('Ticket');
-    }
-
-    /**
-     * Milestones relation.
-     *
-     * @return array
-     */
-    public function milestones()
-    {
-        return $this->hasMany('Milestone');
-    }
-
-    /**
-     * Components relation.
-     *
-     * @return array
-     */
-    public function components()
-    {
-        return $this->hasMany('Component');
-    }
-
-    /**
-     * Subscriptions relation.
-     *
-     * @return array
-     */
-    public function subscriptions()
-    {
-        return $this->hasMany('Subscription');
-    }
-
-    /**
-     * Permissions relation.
-     *
-     * @return array
-     */
-    public function permissions()
-    {
-        return $this->hasMany('Permission');
-    }
-
-    /**
-     * Wiki pages relation.
-     *
-     * @return array
-     */
-    public function wikiPages()
-    {
-        return $this->hasMany('WikiPage');
-    }
-
-    /**
-     * Roles relation.
-     *
-     * @return array
-     */
-    public function roles()
-    {
-        return $this->hasMany('Role');
-    }
-
-    /**
-     * User<>Roles relation.
-     *
-     * @return array
-     */
-    public function userRoles()
-    {
-        return $this->hasMany('UserRole');
-    }
-
-    /**
-     * Custom fields relation.
-     *
-     * @return array
-     */
-    public function customFields()
-    {
-        return $this->hasMany('CustomField');
-    }
+    // Has many relationships
+    protected static $_hasMany = array(
+        'tickets', 'milestones', 'components', 'subscriptions', 'permissions',
+        'wikiPages', 'roles', 'userRoles', 'customFields',
+    );
 
     // Filters
     protected static $_filters_before = array(
         'create' => array('_before_create'),
-        'save' => array('_before_save')
+        'save'   => array('_before_save')
     );
 
     /**
@@ -228,35 +151,6 @@ class Project extends Model
             }
         }
         return $options;
-    }
-
-    /**
-     * Checks if the model data is valid.
-     *
-     * @return bool
-     */
-    public function is_valid()
-    {
-        $errors = array();
-
-        // Check if the name is empty
-        if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.name_blank');
-        }
-
-        // Check if the slug is empty
-        if (empty($this->_data['slug'])) {
-            $errors['slug'] = l('errors.slug_blank');
-        }
-
-        // Make sure the slug isnt in use
-        $project_slug = Project::select('id')->where('id', ($this->_is_new() ? 0 : $this->id), '!=')->where('slug', $this->_data['slug']);
-        if ($project_slug->exec()->row_count()) {
-            $errors['slug'] = l('errors.slug_in_use');
-        }
-
-        $this->errors = $errors;
-        return !count($errors) > 0;
     }
 
     /**
