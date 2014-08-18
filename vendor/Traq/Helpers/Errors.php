@@ -24,6 +24,7 @@
 namespace Traq\Helpers;
 
 use Radium\Action\View;
+use Radium\Language;
 
 /**
  * Error helpers.
@@ -44,5 +45,26 @@ class Errors
         return View::render('Errors/_list', array(
             'errors' => is_array($errors) ? $errors : array($errors)
         ));
+    }
+
+    /**
+     * Returns the view for a nice error list for the given model.
+     *
+     * @param object $model
+     *
+     * @return string
+     */
+    public static function messagesFor($model, $title = null)
+    {
+        if (!$title) {
+            $title = Language::translate('errors.correct_the_following');
+        }
+
+        if (is_object($model) and count($model->errors())) {
+            return View::render('Errors/_messagesFor', array(
+                'title'  => $title,
+                'errors' => $model->errorMessages()
+            ));
+        }
     }
 }

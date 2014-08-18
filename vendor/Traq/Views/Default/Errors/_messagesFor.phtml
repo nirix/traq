@@ -1,0 +1,8 @@
+<div class="panel panel-danger">
+	<div class="panel-heading"><?php echo $title; ?></div>
+	<ul class="list-group">
+	<?php foreach ($errors as $error): ?>
+		<li class="list-group-item"><?php echo $error[0]; ?></li>
+	<?php endforeach; ?>
+	</ul>
+</div>
