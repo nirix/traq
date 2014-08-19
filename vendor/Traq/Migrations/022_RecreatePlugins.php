@@ -35,20 +35,14 @@ class RecreatePlugins extends Migration
         $this->dropTable('plugins');
 
         $this->createTable('plugins', function($t){
-            $t->varchar('name', array('nullable' => false));
-            $t->text('description');
-            $t->varchar('version', array('nullable' => false));
-            $t->varchar('author', array('nullable' => false));
-            $t->varchar('url', array('nullable' => false));
             $t->varchar('directory', array('nullable' => false));
-            $t->varchar('file', array('nullable' => false));
+            $t->varchar('version', array('nullable' => false));
             $t->varchar('namespace', array('nullable' => false));
             $t->varchar('class', array('nullable' => false));
-            $t->tinyint('enabled', array(
+            $t->bool('is_enabled', array(
                 'nullable' => false,
-                'default' => true,
-                'length' => 1)
-            );
+                'default' => true
+            ));
         });
     }
 
