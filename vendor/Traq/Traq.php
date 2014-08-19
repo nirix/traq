@@ -33,10 +33,13 @@ use Traq\Models\Plugin;
 class Traq extends Application
 {
     protected static $version;
+    protected static $loader;
 
     public function __construct()
     {
         parent::__construct();
+
+        static::$loader = require VENDORDIR . '/autoload.php';
 
         // Start session
         session_start();
@@ -89,11 +92,9 @@ class Traq extends Application
         $loader = require VENDORDIR . '/autoload.php';
 
         foreach (Plugin::allEnabled() as $plugin) {
-            $class = "{$plugin->namespace}{$plugin->class}";
+            $plugin->registerWithAutoloader();
 
-            // Register namespace with autoloader
-            $loader->addPsr4($plugin->namespace, VENDORDIR . "/{$plugin->directory}/src");
-
+            $class = $plugin->main;
             if (class_exists($class)) {
                 $class::init();
                 $queue[] = $class;
@@ -103,6 +104,17 @@ class Traq extends Application
         foreach ($queue as $plugin) {
             $plugin::enable();
         }
+    }
+
+    /**
+     * Registers the namespace and directory with the autoloader.
+     *
+     * @param string $namespace
+     * @param string $directory
+     */
+    public static function registerNamespace($namespace, $directory)
+    {
+        static::$loader->addPsr4($namespace, $directory);
     }
 
     public static function version()

@@ -24,6 +24,7 @@
 namespace Traq\Models;
 
 use Radium\Database\Model;
+use Traq\Traq;
 
 /**
  * Plugin model.
@@ -35,9 +36,30 @@ use Radium\Database\Model;
  */
 class Plugin extends Model
 {
-    protected static $validates = array(
-        'directory' => array('required', 'unique')
+    protected static $_validates = array(
+        'directory'  => array('required', 'unique'),
+        'version'    => array('required'),
+        'autoload'   => array('required'),
+        'main'       => array('required')
     );
+
+    protected static $_after = array(
+        'construct' => array('decodeAutoload')
+    );
+
+    /**
+     * Registers the plugins autoload paths with the autoloader.
+     */
+    public function registerWithAutoloader()
+    {
+        // Register namespace with autoloader
+        foreach ($this->autoload as $namespace => $directory) {
+            Traq::registerNamespace(
+                $namespace,
+                VENDORDIR . "/{$this->directory}/{$directory}"
+            );
+        }
+    }
 
     /**
      * @return boolean
@@ -53,5 +75,12 @@ class Plugin extends Model
     public static function allEnabled()
     {
         return static::select()->where('is_enabled = ?', 1)->fetchAll();
+    }
+
+    public function decodeAutoload()
+    {
+        if (!$this->_isNew) {
+            $this->autoload = json_decode($this->autoload, true);
+        }
     }
 }
