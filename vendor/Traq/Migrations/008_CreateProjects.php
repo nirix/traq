@@ -38,6 +38,7 @@ class CreateProjects extends Migration
             $t->bool('enable_wiki', array('nullable' => false, 'default' => true));
             $t->int('default_ticket_type_id', array('nullable' => false, 'default' => 1));
             $t->varchar('default_ticket_sorting', array('nullable' => false, 'default' => 'priority.asc'));
+            $t->int('display_order', array('nullable' => false, 'default' => 0));
             $t->varchar('private_key');
             $t->timestamps();
         });
