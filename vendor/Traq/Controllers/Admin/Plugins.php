@@ -173,7 +173,7 @@ class Plugins extends AppController
             $loader = require VENDORDIR . '/autoload.php';
         }
 
-        $loader->addPsr4($namespace, $directroy);
+        $loader->addPsr4($namespace, "{$directroy}/src");
     }
 
     /**

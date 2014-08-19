@@ -92,7 +92,7 @@ class Traq extends Application
             $class = "{$plugin->namespace}{$plugin->class}";
 
             // Register namespace with autoloader
-            $loader->addPsr4($plugin->namespace, VENDORDIR . "/{$plugin->directory}");
+            $loader->addPsr4($plugin->namespace, VENDORDIR . "/{$plugin->directory}/src");
 
             if (class_exists($class)) {
                 $class::init();
