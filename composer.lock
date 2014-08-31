@@ -94,16 +94,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/radium.git",
-                "reference": "2bcf4895a5e950a64f9661574a7a1bd365cc8915"
+                "reference": "3f55367740571bc2d7bed8793f4e23cddb4a03a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/radium/zipball/2bcf4895a5e950a64f9661574a7a1bd365cc8915",
-                "reference": "2bcf4895a5e950a64f9661574a7a1bd365cc8915",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/3f55367740571bc2d7bed8793f4e23cddb4a03a6",
+                "reference": "3f55367740571bc2d7bed8793f4e23cddb4a03a6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "suggest": {
                 "radium/schema-builder": "Easily manage database schema."
@@ -129,7 +129,7 @@
                 "framework",
                 "radium"
             ],
-            "time": "2014-08-18 07:33:14"
+            "time": "2014-08-31 00:23:35"
         },
         {
             "name": "radium/schema-builder",
