@@ -21,36 +21,33 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
-use \FishHook;
-use avalon\core\Load;
-use avalon\http\Request;
-use avalon\output\View;
-
-use traq\helpers\Notification;
-use traq\models\User;
+use Radium\Action\View;
+use Radium\Core\Load;
+use Radium\Http\Request;
+use Traq\Helpers\Notification;
+use Traq\Models\User;
 
 /**
  * User controller
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @package Traq\Controllers
  */
 class Users extends AppController
 {
-    public $before = array(
-        'register' => array('already_logged_in')
-    );
+    public $before = [
+        'register' => ['alreadyLoggedIn']
+    ];
 
     /**
      * User profile page.
      *
      * @param integer $user_id
      */
-    public function action_view($user_id)
+    public function viewAction($userId)
     {
         // If the user doesn't exist
         // display the 404 page.
@@ -69,60 +66,51 @@ class Users extends AppController
     /**
      * Handles the register page and account creation.
      */
-    public function action_register()
+    public function newAction()
     {
         if (!settings('allow_registration')) {
-            return $this->show_404();
+            return $this->show404();
         }
 
-        $validation_required = false;
-        $this->title(l('register'));
+        $this->title($this->translate('register'));
 
-        $user = new User;
+        $this->set('user', new User);
+    }
 
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Build the data array
-            $data = array(
-                'username' => Request::$post['username'],
-                'name'     => Request::$post['name'],
-                'password' => Request::$post['password'],
-                'email'    => Request::$post['email']
-            );
+    /**
+     * Create user.
+     */
+    public function createAction()
+    {
+        $this->view = 'Users/new';
 
-            // Create a model with the data
-            $user = new User($data);
+        // Create a model with the data
+        $user = new User([
+            'username' => Request::$post['username'],
+            'name'     => Request::$post['name'],
+            'password' => Request::$post['password'],
+            'email'    => Request::$post['email']
+        ]);
 
-            // Email validation
-            if (settings('email_validation')) {
-                $user->option('validation_key', sha1($user->username . $user->name . microtime() . rand(0, 1000)));
+        // Account activation
+        if (settings('accountActivation')) {
+            $user->generateActivationKey();
+        }
+
+        // Check if the model is valid
+        if ($user->save()) {
+            // Send validation email
+            if (settings('accountActivation')) {
+                die("We're supposed to send an account activation email,
+                     but that part isn't completed yet.");
             }
-
-            // Run plugin hooks
-            FishHook::run('controller:users.register', array(&$user));
-
-            // Check if the model is valid
-            if ($user->save()) {
-                // Send validation email
-                if (settings('email_validation')) {
-                    Notification::send_to(
-                        $user,
-                        'email_validation',
-                        array(
-                            'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base("users/validate/" . $user->option('validation_key'))
-                        )
-                    );
-
-                    $validation_required = true;
-                }
-                // Redirect to login page
-                else {
-                    Request::redirectTo('login');
-                }
+            // Redirect to login page
+            else {
+                $this->redirectTo('login');
             }
         }
 
-        View::set(compact('user', 'validation_required'));
+        $this->set('user', $user);
     }
 
     /**
@@ -196,10 +184,10 @@ class Users extends AppController
     /**
      * Redirect to the front page if the user is logged in.
      */
-    public function already_logged_in()
+    public function alreadyLoggedIn()
     {
         if (LOGGEDIN) {
-            Request::redirectTo('/');
+            $this->redirectTo('/');
         }
     }
 }
