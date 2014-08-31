@@ -75,26 +75,6 @@ class Projects extends AppController
     }
 
     /**
-     * Handles the milestone page.
-     */
-    public function action_milestone($milestone_slug)
-    {
-        // Get the milestone
-        $milestone = Milestone::select()->where(array(
-            array('project_id', $this->project->id),
-            array('slug', $milestone_slug)
-        ))->exec()->fetch();
-
-        // Make sure milestone exists
-        if (!$milestone) {
-            return $this->show_404();
-        }
-
-        // And send it to the view
-        View::set('milestone', $milestone);
-    }
-
-    /**
      * Handles the changelog page.
      */
     public function action_changelog()
