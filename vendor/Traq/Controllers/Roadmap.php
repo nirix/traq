@@ -35,6 +35,8 @@ use Traq\Helpers\Format;
  */
 class Roadmap extends AppController
 {
+    protected $before = ['*' => 'setTitle'];
+
     /**
      * Roadmap index
      *
@@ -80,5 +82,10 @@ class Roadmap extends AppController
         $this->title($milestone->name);
 
         $this->set(compact('milestone'));
+    }
+
+    public function setTitle()
+    {
+        $this->title($this->translate('roadmap'));
     }
 }
