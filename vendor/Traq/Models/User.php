@@ -24,6 +24,7 @@
 namespace Traq\Models;
 
 use Radium\Database\Model;
+use Radium\Database\Model\SecurePassword;
 
 /**
  * User model.
@@ -35,54 +36,32 @@ use Radium\Database\Model;
  */
 class User extends Model
 {
+    use SecurePassword;
+
     // Things to do before certain things
-    protected static $_before = array(
-        'create' => array('beforeCreate'),
-        'update' => array('beforeUpdate')
-    );
+    protected static $_before = [
+        'create' => ['preparePassword', 'createLoginHash', 'setName'],
+    ];
 
     // Things to do after certain things
-    protected static $_after = array(
-        'construct' => array('afterConstruct')
-    );
+    protected static $_after = [
+        'construct' => ['decodeOptions']
+    ];
+
+    // Belongs-to relationships
+    protected static $_belongsTo = ['group'];
+
+    // Has many relationships
+    protected static $_hasMany = [
+        'ticket_updates',
+        'assigned_tickets' => ['foreignKey' => 'asssigned_to_id']
+    ];
 
     // Users group and role ermissions
     protected $permissions = array(
         'project' => array(),
         'role' => array()
     );
-
-    private $_options;
-
-    /**
-     * Group relation.
-     *
-     * @return object
-     */
-    public function group()
-    {
-        return $this->belongsTo('Group');
-    }
-
-    /**
-     * Ticket updates relation.
-     *
-     * @return object
-     */
-    public function ticketUpdates()
-    {
-        return $this->hasMany('TicketUpdate');
-    }
-
-    /**
-     * Assigned tickets relation.
-     *
-     * @return object
-     */
-    public function assignedTickets()
-    {
-        return $this->hasMany('Ticket', array('foreignKey' => 'assigned_to_id'));
-    }
 
     /**
      * Returns the URI for the users profile.
@@ -102,33 +81,15 @@ class User extends Model
      */
     public function projects()
     {
-        $projects = array();
+        $projects = [];
 
         // Loop over the relations and add the project and role to the array
-        foreach (UserRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation) {
-            $projects[] = array($relation->project, $relation->role);
+        UserRole::select()->where('user_id', $this->id)->fetchAll();
+        foreach ($roles as $relation) {
+            $projects[] = [$relation->project, $relation->role];
         }
-
 
         return $projects;
-    }
-
-    /**
-     * Sets, or gets, the option.
-     *
-     * @param string $option
-     * @param mixed  $value
-     *
-     * @return string
-     */
-    public function option($option, $value = '!donothing')
-    {
-        if ($value != '!donothing') {
-            $this->_options[$option] = $value;
-            $this->set('options', json_encode($this->_options));
-        }
-
-        return (isset($this->_options[$option])) ? $this->_options[$option] : false;
     }
 
     /**
@@ -193,176 +154,37 @@ class User extends Model
     }
 
     /**
-     * Checks the given password against the users password.
-     *
-     * @param string $password
-     *
-     * @return bool
-     */
-    public function authenticate($password)
-    {
-        switch($this->password_ver) {
-            // Passwords from Traq 0.1 to 2.3
-            case 'sha1':
-                return sha1($password) == $this->password;
-                break;
-
-            // Passwords from Traq 3+
-            case 'crypt':
-                return crypt($password, $this->password) == $this->password;
-                break;
-        }
-    }
-
-    /**
-     * Sets the users password.
-     *
-     * @param string $new_password
-     */
-    public function set_password($new_password)
-    {
-        $this->password = $new_password;
-        $this->password_ver = 'crypt';
-        $this->prepare_password();
-    }
-
-    /**
      * Checks if the user has activated their account.
      *
      * @return bool
      */
     public function isActivated()
     {
-        return !isset($this->options['validation_key']);
+        return !isset($this->options['activationKey']);
     }
 
-    /**
-     * Handles all the required stuff before creating
-     * the user, such as hashing the password.
-     */
-    protected function beforeCreate()
+    protected static $_validates = [
+        'username' => ['required', 'unique', 'minLength' => 25],
+        'name'     => ['required'],
+        'password' => ['required'],
+        'email'    => ['required', 'unique']
+    ];
+
+    public function generateActivationKey()
     {
-        $this->prepare_password();
-        $this->login_hash = sha1(time() . $this->username . rand(0, 1000));
-
-        if (!isset($this->name)) {
-            $this->name = $this->username;
-        }
-
-        $this->options = json_encode($this->options);
-    }
-
-    protected function beforeUpdate()
-    {
-        $this->options = json_encode($this->options);
-    }
-
-    /**
-     * Handles all the required after the model
-     * construction.
-     */
-    protected function afterConstruct()
-    {
-            $this->options = json_decode($this->options, true);
-    }
-
-    /**
-     * Hashes the users password.
-     */
-    public function prepare_password()
-    {
-        $this->_data['password'] = crypt($this->_data['password'], '$2a$10$' . sha1(microtime() . $this->_data['username'] . $this->_data['email']) . '$');
-    }
-
-    /**
-     * Checks if the users data is valid or not.
-     *
-     * @return bool
-     */
-    public function is_valid()
-    {
-        // Check if the username is set
-        if (empty($this->_data['username'])) {
-            $this->errors['username'] = l('errors.users.username_blank');
-        }
-
-        // Check username length
-        if (isset($this->_data['username'][25])) {
-            $this->errors['username'] = l('errors.users.username_too_long');
-        }
-
-        // Check if the username is taken
-        if ($this->_is_new() and static::find('username', $this->_data['username'])) {
-            $this->errors['username'] = l('errors.users.username_in_use');
-        }
-
-        // Make sure the users name is set
-        if (empty($this->_data['name'])) {
-            $this->errors['name'] = l('errors.users.name_blank');
-        }
-
-        // Check if the password is set
-        if (empty($this->_data['password'])) {
-            $this->errors['password'] = l('errors.users.password_blank');
-        }
-
-        // check if user changed password
-        if (isset($this->_data['old_password']) && (isset($this->_data['new_password']) || isset($this->_data['confirm_password']))) {
-            if (empty($this->_data['old_password'])) {
-                $this->errors['old_password'] = l('errors.users.password_blank');
-            } elseif (empty($this->_data['new_password'])) {
-                $this->errors['new_password'] = l('errors.users.new_password_blank');
-            } elseif (empty($this->_data['confirm_password'])) {
-                $this->errors['cofirm_password'] = l('errors.users.confirm_password_blank');
-            } elseif ($this->_data['new_password'] !== $this->_data['confirm_password']) {
-                $this->errors['new_password'] = l('errors.users.invalid_confirm_password');
-            } elseif(!$this->verify_password($this->_data['old_password'])) {
-                $this->errors['old_password'] = l('errors.users.invalid_password');
-            } elseif($this->_data['new_password'] === $this->_data['old_password']) {
-                $this->errors['old_password'] = l('errors.users.password_same');
-            } else {
-                // password should be valid at this point
-                unset($this->_data['old_password'], $this->_data['new_password'], $this->_data['confirm_password']);
-            }
-        }
-
-
-        // Check if the email is set
-        if (empty($this->_data['email'])) {
-            $this->errors['email'] = l('errors.users.email_invalid');
-        }
-
-        // Check if we're valid or not...
-        if (count($this->errors) > 0) {
-            $this->errors = $this->errors;
-        }
-
-        return !count($this->errors) > 0;
+        $this->options['activationKey'] = sha1(
+            (microtime() + rand(0, 1000)) . $this->id . time()
+        );
     }
 
     /**
      * Generates the users API key.
      */
-    public function generate_api_key()
+    public function generateApiKey()
     {
-        $this->api_key = sha1(microtime() . rand(0, 1000) . time() + rand(0, 1000) . $this->email . $this->id . $this->created_at);
-    }
-
-    /**
-     * Returns an array formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public static function select_options()
-    {
-        $options = array();
-
-        // Get all users and make a Form::select() friendly array
-        foreach (static::fetch_all() as $user) {
-            $options[] = array('label' => $user->name, 'value' => $user->id);
-        }
-
-        return $options;
+        $this->api_key = sha1(
+            (microtime() + rand(0, 1000)) . $this->id . (time() + rand(0, 1000))
+        );
     }
 
     /**
@@ -404,12 +226,52 @@ class User extends Model
         parent::delete();
     }
 
+    //--------------------------------------------------------------------------
+    // Before and after filters
+
+    protected function setLoginHash()
+    {
+        $this->login_hash = sha1(time() . $this->username . rand(0, 1000));
+    }
+
+    protected function setName()
+    {
+        if (empty($this->name) || !isset($this->name)) {
+            $this->name = $this->username;
+        }
+    }
+
+    protected function decodeOptions()
+    {
+        $this->options = json_decode($this->options, true);
+    }
+
+    //--------------------------------------------------------------------------
+    // Static methods
+
     public static function anonymousUser()
     {
-        return new static(array(
+        return new static([
             'id'       => Setting::find('anonymous_user_id')->value,
             'username' => "Guest",
             'group_id' => 3
-        ));
+        ]);
+    }
+
+    /**
+     * Returns an array formatted for the Form::select() method.
+     *
+     * @return array
+     */
+    public static function selectOptions()
+    {
+        $options = [];
+
+        // Get all users and make a Form::select() friendly array
+        foreach (static::all() as $user) {
+            $options[] = ['label' => $user->name, 'value' => $user->id];
+        }
+
+        return $options;
     }
 }
