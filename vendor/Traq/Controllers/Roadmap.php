@@ -66,4 +66,19 @@ class Roadmap extends AppController
             }
         });
     }
+
+    /**
+     * Milestone info page.
+     *
+     * @param string $milestone Milestone slug
+     */
+    public function showAction($milestone)
+    {
+        $milestone = $this->project->milestones()
+            ->where('slug = ?', $milestone)->fetch();
+
+        $this->title($milestone->name);
+
+        $this->set(compact('milestone'));
+    }
 }
