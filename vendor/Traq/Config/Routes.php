@@ -52,14 +52,14 @@ Router::map(function($r){
 
     // Timeline
     $r->route('/:project_slug/timeline')->to("{$traq}\Projects::timeline")
-        ->method(array('get','post'));
+        ->method(['get','post']);
 
     // Roadmap
     $r->get('/:project_slug/roadmap')->to("{$traq}\Roadmap::index");
-    $r->get('/:project_slug/roadmap/all')->to("{$traq}\Roadmap::index", array('all'));
-    $r->get('/:project_slug/roadmap/completed')->to("{$traq}\Roadmap::index", array('completed'));
-    $r->get('/:project_slug/roadmap/cancelled')->to("{$traq}\Roadmap::index", array('cancelled'));
-    $r->get('/:project_slug/roadmap/:slug')->to("{$traq}\Roadmap::show");
+    $r->get('/:project_slug/roadmap/all')->to("{$traq}\Roadmap::index", ['all']);
+    $r->get('/:project_slug/roadmap/completed')->to("{$traq}\Roadmap::index", ['completed']);
+    $r->get('/:project_slug/roadmap/cancelled')->to("{$traq}\Roadmap::index", ['cancelled']);
+    $r->get('/:project_slug/milestone/:slug')->to("{$traq}\Roadmap::show", ['slug']);
 
     // Tickets
     $r->get('/:project_slug/tickets')->to("{$traq}\Tickets::index");
@@ -70,10 +70,10 @@ Router::map(function($r){
     // Projects
     $r->get('/admin/projects')->to("{$traq}\Admin\Projects::index");
     $r->get('/admin/projects/new')->to("{$traq}\Admin\Projects::new");
-    $r->get('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::edit", array('id'));
+    $r->get('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::edit", ['id']);
 
     $r->post('/admin/projects/new')->to("{$traq}\Admin\Projects::create");
-    $r->post('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::save", array('id'));
+    $r->post('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::save", ['id']);
 
     // Plugins
     $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
