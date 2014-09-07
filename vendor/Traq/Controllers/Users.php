@@ -39,7 +39,7 @@ use Traq\Models\User;
 class Users extends AppController
 {
     public $before = [
-        'register' => ['alreadyLoggedIn']
+        'new' => ['alreadyLoggedIn']
     ];
 
     /**
