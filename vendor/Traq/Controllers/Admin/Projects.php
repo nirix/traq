@@ -77,7 +77,7 @@ class Projects extends AppController
         ));
 
         if ($project->save()) {
-            $this->redirect('/admin/projects');
+            $this->redirectTo('/admin/projects');
         }
 
         $this->view = "Admin/Projects/new";
