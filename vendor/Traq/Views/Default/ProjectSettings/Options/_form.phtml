@@ -43,6 +43,6 @@
 <div class="form-group">
 	<?php echo Form::label($t('default_ticket_sorting'), 'default_ticket_sorting', array('class' => 'col-sm-3 control-label')); ?>
 	<div class="col-sm-9">
-		<?php echo Form::select('default_ticket_sorting', array(), array('value' => $project->default_ticket_sorting)); ?>
+		<?php echo Form::select('default_ticket_sorting', Ticketlist::sortingSelectOptions(), array('value' => $project->default_ticket_sorting)); ?>
 	</div>
 </div>

@@ -83,6 +83,7 @@ class Traq extends Application
         class_alias("Traq\Helpers\TWBS", "TWBS");
         class_alias("Traq\Helpers\Errors", "Errors");
         class_alias("Traq\Helpers\Gravatar", "Gravatar");
+        class_alias("Traq\Helpers\Ticketlist", "Ticketlist");
     }
 
     protected function loadPlugins()

@@ -89,6 +89,26 @@ $enAU = new Language(function($t){
         'closed'       => "Closed",
         'total'        => "Total",
 
+        // Issue properties
+        'ticket_id'   => "ID",
+        'summary'     => "Summary",
+        'status'      => "Status",
+        'owner'       => "Owner",
+        'type'        => "Type",
+        'component'   => "Component",
+        'milestone'   => "Milestone",
+        'assigned_to' => "Assigned to",
+        'priority'    => "Priority",
+        'severity'    => "Severity",
+        'created_at'  => "Created",
+        'updated_at'  => "Updated",
+        'votes'       => "Votes",
+
+        // --------------------------------------------------------------------
+        // Misc
+        'ascending'  => "Ascending",
+        'descending' => "Descending",
+
         // --------------------------------------------------------------------
         // Pagination
         'next'     => "Next",
