@@ -75,30 +75,6 @@ function ticket_columns() {
 }
 
 /**
- * Returns the table columns allowed on the listing page.
- *
- * @return array
- */
-function ticketlist_allowed_columns()
-{
-    return array(
-        'ticket_id',
-        'summary',
-        'status',
-        'owner',
-        'type',
-        'component',
-        'milestone',
-        'assigned_to',
-        'priority',
-        'severity',
-        'created_at',
-        'updated_at',
-        'votes'
-    );
-}
-
-/**
  * Returns an array of available ticket filters.
  *
  * @return array
@@ -454,31 +430,6 @@ function ticket_sort_order($fallback)
     } else {
         return $fallback;
     }
-}
-
-/**
- * Returns an array of columns allowed to be used for sorting the
- * ticket listing page to be used with the `Form::select` helper.
- *
- * @return array
- *
- * @author Jack P.
- * @package Traq
- */
-function ticket_sorting_select_options()
-{
-    $options = array();
-
-    // This is hackish and needs to be fixed in 4.0
-    $options[l('ascending')] = array();
-    $options[l('descending')] = array();
-
-    foreach (ticketlist_allowed_columns() as $column) {
-        $options[l('ascending')][] = array('label' => l($column), 'value' => "{$column}.asc");
-        $options[l('descending')][] = array('label' => l($column), 'value' => "{$column}.desc");
-    }
-
-    return $options;
 }
 
 /**
