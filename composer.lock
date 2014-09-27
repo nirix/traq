@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "477aa84948a2bd46ee820bd727b79de6",
+    "hash": "37b514da179c3cab6fbc3a20dd0ab0bf",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -174,6 +174,40 @@
                 "schema"
             ],
             "time": "2014-08-18 07:32:21"
+        },
+        {
+            "name": "traq/markdown-plugin",
+            "version": "v2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/traq/markdown-plugin.git",
+                "reference": "1c9bff2dd5ceb3c9f97061323b586891d1d9fd31"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/traq/markdown-plugin/zipball/1c9bff2dd5ceb3c9f97061323b586891d1d9fd31",
+                "reference": "1c9bff2dd5ceb3c9f97061323b586891d1d9fd31",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "1.0.*",
+                "erusev/parsedown-extra": "0.1.*"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Allows the use of Markdown formatting in Traq",
+            "keywords": [
+                "markdown",
+                "plugin",
+                "traq"
+            ],
+            "time": "2014-08-25 18:14:33"
         }
     ],
     "packages-dev": [],

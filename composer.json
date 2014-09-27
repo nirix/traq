@@ -3,7 +3,8 @@
         "radium/framework": "dev-master",
         "radium/schema-builder": "dev-master",
         "erusev/parsedown": "1.0.*",
-        "erusev/parsedown-extra": "0.1.*"
+        "erusev/parsedown-extra": "0.1.*",
+        "traq/markdown-plugin": "v2.0"
     },
     "autoload": {
         "psr-4": {
