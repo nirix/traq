@@ -8,6 +8,7 @@ vendor/autoload.php
 vendor/composer
 vendor/radium
 vendor/erusev
+vendor/traq/markdown-plugin
 
 # Misc
 .sass-cache
