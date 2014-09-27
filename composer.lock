@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/radium.git",
-                "reference": "48de350c3f156747e7fef537891b6536e910d3e2"
+                "reference": "fea3df8e083fd33d475ef65feefee5a2a4561ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/radium/zipball/48de350c3f156747e7fef537891b6536e910d3e2",
-                "reference": "48de350c3f156747e7fef537891b6536e910d3e2",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/fea3df8e083fd33d475ef65feefee5a2a4561ca8",
+                "reference": "fea3df8e083fd33d475ef65feefee5a2a4561ca8",
                 "shasum": ""
             },
             "require": {
@@ -129,7 +129,7 @@
                 "framework",
                 "radium"
             ],
-            "time": "2014-09-06 17:07:12"
+            "time": "2014-09-27 18:56:13"
         },
         {
             "name": "radium/schema-builder",
