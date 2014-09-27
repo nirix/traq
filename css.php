@@ -63,9 +63,9 @@ if (isset($_REQUEST['theme'])) {
     $theme = htmlspecialchars($_REQUEST['theme']);
     foreach (explode(',', $_REQUEST['theme_files']) as $file) {
         // Check if the file exists...
-        if (file_exists(__DIR__ . "/vendor/Traq/Views/{$theme}/CSS/{$file}.css")) {
+        if (file_exists(__DIR__ . "/vendor/traq/traq/Views/{$theme}/CSS/{$file}.css")) {
             // Add it to the output array.
-            $output[] = file_get_contents(__DIR__ . "/vendor/Traq/Views/{$theme}/CSS/{$file}.css");
+            $output[] = file_get_contents(__DIR__ . "/vendor/traq/traq/Views/{$theme}/CSS/{$file}.css");
         }
     }
 }
