@@ -55,8 +55,6 @@ class Misc extends Controller
     {
         // Set the content type to javascript
         $this->response->contentType = "text/javascript";
-
-        View::addSearchPath(VENDORDIR . '/Traq/Views/_misc');
         $this->view = 'javascript';
     }
 

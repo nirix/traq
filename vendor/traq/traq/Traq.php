@@ -59,6 +59,9 @@ class Traq extends Application
         $theme = Setting::find('theme')->value;
         View::addSearchPath(__DIR__ . "/Views/{$theme}", true);
 
+        // Misc
+        View::addSearchPath(__DIR__ . "/Views/_misc");
+
         // Add Twitter Bootstrap helper view directory to view search path.
         View::addSearchPath(__DIR__ . "/Views/TWBS");
 
