@@ -1,4 +1,12 @@
 <div class="milestone container">
-    <h1 class="page-header"><?php echo $milestone->name; ?></h1>
+	<h1 class="page-header">
+		<?php echo $milestone->name; ?>
+		<?php if ($milestone->codename): ?>
+			<small><em class="project-codename"><?php echo $milestone->codename; ?></em></small>
+		<?php endif; ?>
+	</h1>
 
+	<div>
+		<?=Format::text($milestone->info)?>
+	</div>
 </div>
