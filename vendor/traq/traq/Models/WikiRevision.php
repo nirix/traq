@@ -21,9 +21,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Radium\Database\Model;
 
 /**
  * Wiki page revision database model.
@@ -35,24 +35,8 @@ use avalon\database\Model;
  */
 class WikiRevision extends Model
 {
-    protected static $_name = 'wiki_revisions';
-    protected static $_properties = array(
-        'id',
-        'wiki_page_id',
-        'revision',
-        'content',
-        'user_id',
-        'created_at',
-        'updated_at'
-    );
-
-    protected static $_belongs_to = array(
+    protected static $_belongsTo = array(
         'user',
-        'wiki_page' => array('model' => 'WikiPage')
+        'wikiPage'
     );
-
-    public function is_valid()
-    {
-        return true;
-    }
 }

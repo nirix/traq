@@ -21,23 +21,22 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
-use avalon\http\Request;
-use avalon\http\Router;
-use avalon\output\View;
+use Radium\Http\Request;
+use Radium\Http\Router;
+use Radium\Action\View;
 
-use traq\models\WikiPage;
-use traq\models\WikiRevision;
-use traq\models\Timeline;
+use Traq\Models\WikiPage;
+use Traq\Models\WikiRevision;
+use Traq\Models\Timeline;
 
 /**
  * Wiki controller
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @package Traq\Controllers
  */
 class Wiki extends AppController
 {
@@ -56,28 +55,25 @@ class Wiki extends AppController
         parent::__construct();
 
         // Set the title
-        $this->title(l('wiki'));
+        $this->title($this->translate('wiki'));
     }
 
     /**
      * Displays the requested wiki page.
      */
-    public function action_view()
+    public function showAction($slug)
     {
-        // Get slug
-        $slug = \avalon\http\Router::$params['slug'];
-
         // Get the page
-        $page = $this->project->wiki_pages->where('slug', $slug)->exec();
+        $page = $this->project->wikiPages()->where('slug = ?', $slug)->exec();
 
         // Check if the page exists
-        if (!$page->row_count()) {
+        if (!$page->rowCount()) {
             // it doesnt, show the new page form if the user has permission
             // otherwise display the 404 page.
             return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show_404();
         }
 
-        View::set('page', $page->fetch());
+        $this->set('page', $page->fetch());
     }
 
     /**

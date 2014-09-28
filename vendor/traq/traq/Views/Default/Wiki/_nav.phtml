@@ -1,6 +1,10 @@
-<nav id="project_wiki_nav" class="tabs">
-	<ul>
-		<li<?php echo iif(active_nav('/:slug/wiki'), ' class="active"')?>><?php echo HTML::link(l('home'), "{$project->slug}/wiki"); ?></li>
-		<li<?php echo iif(active_nav('/:slug/wiki/_pages'), ' class="active"')?>><?php echo HTML::link(l('pages'), "{$project->slug}/wiki/_pages"); ?></li>
+<nav id="wiki-nav" class="container">
+	<ul class="nav nav-tabs" role="tablist">
+		<li<?=iif(activeNav('/:slug/wiki'), ' class="active"')?>>
+			<?=HTML::link($t('home'), "{$project->slug}/wiki")?>
+		</li>
+		<li<?=iif(activeNav('/:slug/wiki/_pages'), ' class="active"')?>>
+			<?=HTML::link($t('pages'), "{$project->slug}/wiki/_pages")?>
+		</li>
 	</ul>
 </nav>

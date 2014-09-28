@@ -1,0 +1,24 @@
+<?php echo View::render('Wiki/_nav'); ?>
+<div class="wiki container">
+	<div id="head">
+		<h1 class="page-header"><?=$page->title?></h1>
+		<ul id="wiki_actions">
+		<?php if (current_user()->permission($project->id, 'create_wiki_page')) { ?>
+			<li><?=HTML::link($t('new_page'), $project->href('wiki/_new'), ['class' => 'button_new'])?></li>
+		<?php } ?>
+		<?php if (current_user()->permission($project->id, 'edit_wiki_page')) { ?>
+			<li><?=HTML::link($t('edit_page'), $page->href('_edit'), array('class' => 'button_edit'))?></li>
+		<?php } ?>
+		<?php if (current_user()->permission($project->id, 'delete_wiki_page')) { ?>
+			<li>
+				<?=HTML::link($t('delete_page'), $page->href('_delete'), [
+					'class' => 'button_delete',
+					'data-confirm' => $t('confirm.delete_x', [$page->title])
+				])?>
+			</li>
+		<?php } ?>
+			<li><?=HTML::link($t('revisions'), $page->href('_revisions'), ['class' => 'button_revisions'])?></li>
+		</ul>
+	</div>
+	<?=Format::text($page->revision()->content)?>
+</div>

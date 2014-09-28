@@ -67,6 +67,9 @@ Router::map(function($r){
     // Tickets
     $r->get('/:project_slug/tickets')->to("{$traq}\Tickets::index");
 
+    // Wiki
+    $r->get('/:project_slug/wiki')->to("{$traq}\Wiki::show", ['slug' => 'main']);
+
     // --------------------------------------------------
     // AdminCP
 
