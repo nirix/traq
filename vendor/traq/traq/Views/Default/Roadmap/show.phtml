@@ -5,7 +5,7 @@
 			<small><em class="project-codename"><?php echo $milestone->codename; ?></em></small>
 		<?php endif; ?>
 	</h1>
-
+	<?=View::render('Roadmap/_progressBar')?>
 	<div>
 		<?=Format::text($milestone->info)?>
 	</div>
