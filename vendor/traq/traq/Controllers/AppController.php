@@ -116,6 +116,24 @@ class AppController extends Controller
     }
 
     /**
+     * Sets the response to a 404 Not Found
+     */
+    public function show404()
+    {
+        $default = parent::show404();
+
+        return $this->respondTo(function($format) use ($default) {
+            if ($format === 'html') {
+                return $default;
+            } elseif ($format === 'json') {
+                return API::response(404, [
+                    'message' => $this->translate('errors.404.message', [Request::uri()])
+                ]);
+            }
+        });
+    }
+
+    /**
      * Used to display the no permission page.
      */
     public function showNoPermission()
