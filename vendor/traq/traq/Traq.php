@@ -57,7 +57,7 @@ class Traq extends Application
 
         // Add theme to view search path.
         $theme = Setting::find('theme')->value;
-        View::addSearchPath(__DIR__ . "/Views/{$theme}", true);
+        View::addSearchPath(__DIR__ . "/../themes/{$theme}", true);
 
         // Misc
         View::addSearchPath(__DIR__ . "/Views/_misc");

@@ -1,7 +1,0 @@
-<div class="wiki container">
-	<h1 class="page-header"><?=$page->title?></h1>
-</div>
-<?php echo View::render('Wiki/_nav'); ?>
-<div class="wiki container">
-	<?=Format::text($page->revision()->content)?>
-</div>
