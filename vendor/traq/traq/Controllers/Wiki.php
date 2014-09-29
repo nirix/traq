@@ -87,13 +87,19 @@ class Wiki extends AppController
     /**
      * Displays all the wiki pages for the project.
      */
-    public function action_pages()
+    public function pagesAction()
     {
         // Fetch all the projects wiki pages
-        $pages = $this->project->wiki_pages->exec()->fetch_all();
+        $pages = $this->project->wikiPages()->fetchAll();
 
-        $this->title(l('pages'));
+        $this->title($this->translate('pages'));
         View::set('pages', $pages);
+
+        return $this->respondTo(function($format) use ($pages){
+            if ($format == 'json') {
+                return API::response(200, $pages);
+            }
+        });
     }
 
     /**
