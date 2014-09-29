@@ -191,7 +191,13 @@ $enAU = new Language(function($t){
 
         // --------------------------------------------------------------------
         // Wiki
-        'wiki' => "Wiki",
+        'wiki'        => "Wiki",
+        'home'        => "Home",
+        'pages'       => "Pages",
+        'new_page'    => "New Page",
+        'edit_page'   => "Edit Page",
+        'delete_page' => "Delete Page",
+        'revisions'   => "Revisions"
     );
 });
 
