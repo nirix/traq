@@ -118,4 +118,21 @@ class WikiPage extends Model
 
         return count($this->errors) == 0;
     }
+
+    /**
+     * Convert to array.
+     *
+     * @return array
+     */
+    public function __toArray()
+    {
+        return [
+            'id' => $this->id,
+            'title'      => $this->title,
+            'slug'       => $this->slug,
+            'main'       => $this->main,
+            'project_id' => $this->project_id,
+            'revision'   => $this->revision()->__toArray()
+        ];
+    }
 }

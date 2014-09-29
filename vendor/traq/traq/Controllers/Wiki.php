@@ -27,6 +27,7 @@ use Radium\Http\Request;
 use Radium\Http\Router;
 use Radium\Action\View;
 
+use Traq\API;
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;
 use Traq\Models\Timeline;
@@ -70,10 +71,17 @@ class Wiki extends AppController
         if (!$page->rowCount()) {
             // it doesnt, show the new page form if the user has permission
             // otherwise display the 404 page.
-            return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show_404();
+            return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_newPage($slug) : $this->show404();
         }
 
-        $this->set('page', $page->fetch());
+        $page = $page->fetch();
+        $this->set('page', $page);
+
+        return $this->respondTo(function($format) use($page){
+            if ($format == 'json') {
+                return API::response(200, $page->__toArray());
+            }
+        });
     }
 
     /**

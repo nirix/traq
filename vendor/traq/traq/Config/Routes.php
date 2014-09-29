@@ -69,6 +69,7 @@ Router::map(function($r){
 
     // Wiki
     $r->get('/:project_slug/wiki')->to("{$traq}\Wiki::show", ['slug' => 'main']);
+    $r->get('/:project_slug/wiki/(?P<slug>[\w\d\-_]+)')->to("{$traq}\Wiki::show", ['slug']);
 
     // --------------------------------------------------
     // AdminCP
