@@ -39,4 +39,9 @@ class WikiRevision extends Model
         'user',
         'wikiPage'
     );
+
+    public function href()
+    {
+        return $this->wikiPage()->href("_revisions/{$this->revision}");
+    }
 }

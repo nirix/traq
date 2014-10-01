@@ -244,10 +244,11 @@ class Wiki extends AppController
      *
      * @param string $slug
      */
-    public function action_revisions($slug)
+    public function revisionsAction($slug)
     {
-        $page = WikiPage::select()->where('project_id', $this->project->id)->where('slug', $slug)->exec()->fetch();
-        View::set(compact('page'));
+        // $page = WikiPage::select()->where('project_id = ?', $this->project->id)->where('slug', $slug)->exec()->fetch();
+        $page = $this->project->wikiPages()->where('slug = ?', $slug)->fetch();
+        $this->set(compact('page'));
     }
 
     /**
