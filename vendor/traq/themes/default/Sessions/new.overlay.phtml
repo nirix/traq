@@ -1,14 +1,14 @@
 <div class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form action="<?php echo Request::base("/login"); ?>" method="post" class="form-horizontal">
-				<?php echo TWBS::modalHeader($t('login')); ?>
+			<form action="<?=Request::basePath("/login")?>" method="post" class="form-horizontal">
+				<?=TWBS::modalHeader($t('login'))?>
 				<div class="modal-body">
-					<?php echo View::render('Sessions/_form'); ?>
+					<?=View::render('Sessions/_form')?>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success"><?php echo $t('login'); ?></button>
-					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $t('cancel'); ?></button>
+					<button type="submit" class="btn btn-success"><?=$t('login')?></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?=$t('cancel')?></button>
 				</div>
 			</form>
 		</div>
