@@ -1,6 +1,6 @@
 # Traq
 /_dev
-/vendor/traq/traq/Config/Database.php
+/config/database.php
 /assets/components
 
 # Composer
