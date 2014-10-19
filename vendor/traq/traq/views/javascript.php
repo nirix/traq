@@ -1,9 +1,9 @@
-window.traq.uri = '<?php echo Request::base(); ?>';
+window.traq.uri = '<?=Request::basePath()?>';
 
 // Yes and No translations
 window.traq.locale = {
     confirm: {
-        'yes': '<?php echo $t('confirm.yes'); ?>',
-        'no': '<?php echo $t('confirm.no'); ?>'
+        'yes': '<?=$t('confirm.yes')?>',
+        'no': '<?=$t('confirm.no')?>'
     }
 }
