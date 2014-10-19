@@ -123,7 +123,7 @@ class Projects extends AppController
 
         // Atom feed
         $this->feeds[] = array(
-            Request::$uri . ".atom",
+            Request::pathInfo() . ".atom",
             $this->translate('x_timeline_feed', array($this->project->name))
         );
 

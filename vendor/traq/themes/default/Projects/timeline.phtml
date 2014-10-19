@@ -2,7 +2,7 @@
 	<h1 class="page-header"><?php echo $t('timeline'); ?></h1>
 
 	<div id="timeline-filters" class="pull-right">
-		<form action="<?php echo Request::base($project->href('timeline'))?>" method="post">
+		<form action="<?php echo Request::basePath($project->href('timeline'))?>" method="post">
 			<fieldset>
 				<legend><?php echo $t('filter_events')?></legend>
 				<?php foreach (Traq\Models\Timeline::timelineFilters() as $filter => $filter_events): ?>
