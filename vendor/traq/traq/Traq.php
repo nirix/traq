@@ -52,7 +52,7 @@ class Traq extends Application
         $this->aliasClasses();
 
         // Load default language
-        require __DIR__ . "/Translations/enAU.php";
+        require __DIR__ . "/translations/enAU.php";
         Language::setCurrent(Setting::find('locale')->value);
 
         // Add theme to view search path.
