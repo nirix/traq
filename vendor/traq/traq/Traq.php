@@ -60,10 +60,10 @@ class Traq extends Application
         View::addSearchPath(__DIR__ . "/../themes/{$theme}", true);
 
         // Misc
-        View::addSearchPath(__DIR__ . "/Views/_misc");
+        View::addSearchPath(__DIR__ . "/views/_misc");
 
         // Add Twitter Bootstrap helper view directory to view search path.
-        View::addSearchPath(__DIR__ . "/Views/TWBS");
+        View::addSearchPath(__DIR__ . "/views/TWBS");
 
         require __DIR__ . "/common.php";
 
