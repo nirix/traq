@@ -111,6 +111,20 @@ class Traq extends Application
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function loadDatabaseConfig()
+    {
+        $this->databaseConfigFile = __DIR__ . '/../../../config/database.php';
+
+        if (file_exists($this->databaseConfigFile)) {
+            $this->databaseConfig = require $this->databaseConfigFile;
+        } else {
+            parent::loadDatabaseConfig();
+        }
+    }
+
+    /**
      * Registers the namespace and directory with the autoloader.
      *
      * @param string $namespace

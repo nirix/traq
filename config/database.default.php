@@ -28,6 +28,6 @@ return array(
     'host'     => 'localhost', // Database server.
     'username' => 'root',      // Database username.
     'password' => 'root',      // Database password.
-    'database' => 'traq',      // Database name.
+    'database' => 'traq4',      // Database name.
     //'port'     => 3306         // Database server port
 );
