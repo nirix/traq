@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "37b514da179c3cab6fbc3a20dd0ab0bf",
+    "hash": "0a9a64cb0663a8aee07ed5f698408e8a",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/radium.git",
-                "reference": "f866a5942fb3845de52af1fbd035bfe0c99fc7e3"
+                "reference": "6e8ad68f7a2dceb3f8371dcf6ada32f9ffb04623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/radium/zipball/f866a5942fb3845de52af1fbd035bfe0c99fc7e3",
-                "reference": "f866a5942fb3845de52af1fbd035bfe0c99fc7e3",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/6e8ad68f7a2dceb3f8371dcf6ada32f9ffb04623",
+                "reference": "6e8ad68f7a2dceb3f8371dcf6ada32f9ffb04623",
                 "shasum": ""
             },
             "require": {
@@ -129,7 +129,7 @@
                 "framework",
                 "radium"
             ],
-            "time": "2014-10-19 12:52:26"
+            "time": "2014-10-21 10:26:25"
         },
         {
             "name": "radium/schema-builder",
@@ -210,12 +210,57 @@
             "time": "2014-08-25 18:14:33"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "joseph-lenton/php-error",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JosephLenton/PHP-Error.git",
+                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JosephLenton/PHP-Error/zipball/9918dd5eeec527846d43c92a4c9880bfcdd0de14",
+                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/php_error.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Joseph Lenton",
+                    "homepage": "http://www.playmycode.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Better error reporting for PHP, and prettier too!",
+            "homepage": "https://github.com/JosephLenton/PHP-Error",
+            "keywords": [
+                "error",
+                "php",
+                "reporting"
+            ],
+            "time": "2013-08-05 19:13:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "radium/framework": 20,
-        "radium/schema-builder": 20
+        "radium/schema-builder": 20,
+        "joseph-lenton/php-error": 20
     },
     "platform": [],
     "platform-dev": []
