@@ -3,7 +3,7 @@
 
     <div class="col-md-6 col-md-offset-3">
         <?=Errors::messagesFor($user)?>
-        <form action="<?=Request::base('/register')?>" method="post" class="form-horizontal">
+        <form action="<?=Request::basePath('/register')?>" method="post" class="form-horizontal">
             <div class="form-group">
                 <?=Form::label($t('name'), 'name', ['class' => 'control-label col-md-3'])?>
                 <div class="col-md-9">
