@@ -24,20 +24,44 @@
 namespace Traq;
 
 use Exception;
-
 use Radium\Application;
 use Radium\Language;
 use Radium\Action\View;
-
 use Traq\Models\Setting;
 use Traq\Models\Plugin;
 
+/**
+ * The heart of Traq.
+ *
+ * @author Jack Polgar <jack@polgar.id.au>
+ * @package Traq
+ */
 class Traq extends Application
 {
+    /**
+     * @var string
+     */
     protected static $version;
+
+    /**
+     * The composer autoloader instance.
+     *
+     * @var object
+     */
     protected static $loader;
 
+    /**
+     * Path to user set configuration directory.
+     *
+     * @var string
+     */
     protected $generalConfigDir;
+
+    /**
+     * Main configuration.
+     *
+     * @var array
+     */
     protected $config;
 
     public function __construct()
@@ -83,6 +107,9 @@ class Traq extends Application
         $this->loadPlugins();
     }
 
+    /**
+     * Alias classes for use in views.
+     */
     protected function aliasClasses()
     {
         class_alias("Radium\Hook", "Hook");
@@ -102,11 +129,12 @@ class Traq extends Application
         class_alias("Traq\Helpers\Ticketlist", "Ticketlist");
     }
 
+    /**
+     * Load enabled plugins.
+     */
     protected function loadPlugins()
     {
         $queue = array();
-
-        $loader = require VENDORDIR . '/autoload.php';
 
         foreach (Plugin::allEnabled() as $plugin) {
             $plugin->registerWithAutoloader();
@@ -163,6 +191,9 @@ class Traq extends Application
         }
     }
 
+    /**
+     * @return string
+     */
     public static function version()
     {
         return static::$version;
