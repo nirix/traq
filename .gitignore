@@ -1,5 +1,6 @@
 # Traq
 /_dev
+/config/config.php
 /config/database.php
 /assets/components
 

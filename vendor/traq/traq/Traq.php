@@ -23,6 +23,8 @@
 
 namespace Traq;
 
+use Exception;
+
 use Radium\Application;
 use Radium\Language;
 use Radium\Action\View;
@@ -35,11 +37,22 @@ class Traq extends Application
     protected static $version;
     protected static $loader;
 
+    protected $generalConfigDir;
+    protected $config;
+
     public function __construct()
     {
-        parent::__construct();
+        // General configuration directory
+        $this->generalConfigDir = __DIR__ . '/../../../config';
 
+        // Load main configuration file
+        $this->loadConfig();
+
+        // We'll need the autoloader instance
         static::$loader = require VENDORDIR . '/autoload.php';
+
+        // This line looks weird without a comment
+        parent::__construct();
 
         // Start session
         session_start();
@@ -115,7 +128,7 @@ class Traq extends Application
      */
     public function loadDatabaseConfig()
     {
-        $this->databaseConfigFile = __DIR__ . '/../../../config/database.php';
+        $this->databaseConfigFile = "{$this->generalConfigDir}/database.php";
 
         if (file_exists($this->databaseConfigFile)) {
             $this->databaseConfig = require $this->databaseConfigFile;
@@ -133,6 +146,21 @@ class Traq extends Application
     public static function registerNamespace($namespace, $directory)
     {
         static::$loader->addPsr4($namespace, $directory);
+    }
+
+    /**
+     * Loads main configuration file.
+     */
+    protected function loadConfig()
+    {
+        $path = "{$this->generalConfigDir}/config.php";
+        if (file_exists($path)) {
+            $this->config = require $path;
+
+            $this->environment = isset($this->config['environment']) ? $this->config['environment'] : 'dev';
+        } else {
+            throw new Exception("Unable to load main configuration file.");
+        }
     }
 
     public static function version()
