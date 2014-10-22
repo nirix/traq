@@ -29,6 +29,7 @@ Router::map(function($r){
     // URL tokens
     $r->registerToken('project_slug', '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
     $r->registerToken('slug', '(?P<slug>[a-zA-Z0-9\-\_\.]+)');
+    $r->registerToken('wiki_slug', '(?P<slug>[\w\d\-_]+)');
 
     $r->root("{$traq}\Projects::index");
     $r->get('/admin')->to("{$traq}\Admin\Dashboard::index");
@@ -59,9 +60,9 @@ Router::map(function($r){
 
     // Roadmap
     $r->get('/:project_slug/roadmap')->to("{$traq}\Roadmap::index");
-    $r->get('/:project_slug/roadmap/all')->to("{$traq}\Roadmap::index", ['all']);
-    $r->get('/:project_slug/roadmap/completed')->to("{$traq}\Roadmap::index", ['completed']);
-    $r->get('/:project_slug/roadmap/cancelled')->to("{$traq}\Roadmap::index", ['cancelled']);
+    $r->get('/:project_slug/roadmap/all')->to("{$traq}\Roadmap::index", ['filter' => 'all']);
+    $r->get('/:project_slug/roadmap/completed')->to("{$traq}\Roadmap::index", ['filter' => 'completed']);
+    $r->get('/:project_slug/roadmap/cancelled')->to("{$traq}\Roadmap::index", ['filter' => 'cancelled']);
     $r->get('/:project_slug/milestone/:slug')->to("{$traq}\Roadmap::show", ['slug']);
 
     // Tickets
@@ -70,8 +71,8 @@ Router::map(function($r){
     // Wiki
     $r->get('/:project_slug/wiki')->to("{$traq}\Wiki::show", ['slug' => 'main']);
     $r->get('/:project_slug/wiki/_pages')->to("{$traq}\Wiki::pages");
-    $r->get('/:project_slug/wiki/(?P<slug>[\w\d\-_]+)')->to("{$traq}\Wiki::show", ['slug']);
-    $r->get('/:project_slug/wiki/(?P<slug>[\w\d\-_]+)/_revisions')->to("{$traq}\Wiki::revisions", ['slug']);
+    $r->get('/:project_slug/wiki/:wiki_slug')->to("{$traq}\Wiki::show");
+    $r->get('/:project_slug/wiki/:wiki_slug/_revisions')->to("{$traq}\Wiki::revisions");
 
     // --------------------------------------------------
     // AdminCP
@@ -79,10 +80,10 @@ Router::map(function($r){
     // Projects
     $r->get('/admin/projects')->to("{$traq}\Admin\Projects::index");
     $r->get('/admin/projects/new')->to("{$traq}\Admin\Projects::new");
-    $r->get('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::edit", ['id']);
+    $r->get('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::edit", ['project_id' => 'id']);
 
     $r->post('/admin/projects/new')->to("{$traq}\Admin\Projects::create");
-    $r->post('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::save", ['id']);
+    $r->post('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::save", ['project_id' => 'id']);
 
     // Plugins
     $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
