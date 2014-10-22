@@ -35,6 +35,17 @@ use Traq\Models\User;
  */
 class Sessions extends AppController
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->before(['new', 'create'], function(){
+            if (LOGGEDIN) {
+                $this->redirectTo('/');
+            }
+        });
+    }
+
     /**
      * Login form
      */
