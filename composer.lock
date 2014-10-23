@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "824daae7fff896ca5dc25b76aa50cbd8",
+    "hash": "91737147494e25a0a01954dd54219edb",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/radium.git",
-                "reference": "410bb50e8c34c23af986b3fd20504dae49616035"
+                "reference": "89fb3b58c1b195e09e0f17126aad071c828b1e5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/radium/zipball/410bb50e8c34c23af986b3fd20504dae49616035",
-                "reference": "410bb50e8c34c23af986b3fd20504dae49616035",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/89fb3b58c1b195e09e0f17126aad071c828b1e5e",
+                "reference": "89fb3b58c1b195e09e0f17126aad071c828b1e5e",
                 "shasum": ""
             },
             "require": {
@@ -129,7 +129,7 @@
                 "framework",
                 "radium"
             ],
-            "time": "2014-10-23 08:47:05"
+            "time": "2014-10-23 08:55:04"
         },
         {
             "name": "radium/schema-builder",
@@ -276,6 +276,8 @@
         "radium/framework": 20,
         "radium/schema-builder": 20
     },
-    "platform": [],
+    "platform": {
+        "php": ">=5.4.0"
+    },
     "platform-dev": []
 }

@@ -2,6 +2,7 @@
     "minumum-stability": "dev",
     "prefer-stable": true,
     "require": {
+        "php": ">=5.4.0",
         "radium/framework": "dev-master",
         "radium/schema-builder": "dev-master",
         "erusev/parsedown": "1.0.*",
