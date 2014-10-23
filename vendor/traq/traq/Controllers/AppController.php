@@ -138,9 +138,12 @@ class AppController extends Controller
      */
     public function showNoPermission()
     {
-        $this->setView("Errors/noPermission");
-        return $this->response = new Response(function($resp){
+        $this->executeAction = false;
+        return new Response(function($resp){
             $resp->status = 401;
+            $resp->body   = $this->renderView('errors/no_permission', [
+                '_layout' => $this->layout
+            ]);
         });
     }
 
