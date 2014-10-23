@@ -185,15 +185,4 @@ class AppController extends Controller
 
         $this->set('currentUser', $this->user);
     }
-
-    public function __shutdown($response = null)
-    {
-        if (isset($_SERVER['HTTP_X_OVERLAY']) and $_SERVER['HTTP_X_OVERLAY'] == 'true') {
-            $this->response->status = 200;
-            $this->layout = false;
-            $this->view = "{$this->view}.overlay";
-        }
-
-        return parent::__shutdown($response);
-    }
 }
