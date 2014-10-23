@@ -1,4 +1,4 @@
 <?php
-\php_error\reportErrors([
-    'catch_ajax_errors' => false
-]);
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();

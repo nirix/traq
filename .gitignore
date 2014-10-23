@@ -9,7 +9,7 @@ vendor/autoload.php
 vendor/composer
 vendor/radium
 vendor/erusev
-vendor/joseph-lenton
+vendor/filp
 vendor/traq/markdown-plugin
 
 # Misc

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0a9a64cb0663a8aee07ed5f698408e8a",
+    "hash": "824daae7fff896ca5dc25b76aa50cbd8",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -212,55 +212,69 @@
     ],
     "packages-dev": [
         {
-            "name": "joseph-lenton/php-error",
-            "version": "dev-master",
+            "name": "filp/whoops",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/JosephLenton/PHP-Error.git",
-                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14"
+                "url": "https://github.com/filp/whoops.git",
+                "reference": "9f451fbc7b8cad5e71300672c340c28c6bec09ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JosephLenton/PHP-Error/zipball/9918dd5eeec527846d43c92a4c9880bfcdd0de14",
-                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/9f451fbc7b8cad5e71300672c340c28c6bec09ff",
+                "reference": "9f451fbc7b8cad5e71300672c340c28c6bec09ff",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
+            "require-dev": {
+                "mockery/mockery": "0.9.*"
+            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
             "autoload": {
-                "files": [
-                    "src/php_error.php"
+                "psr-0": {
+                    "Whoops": "src/"
+                },
+                "classmap": [
+                    "src/deprecated"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Joseph Lenton",
-                    "homepage": "http://www.playmycode.com",
+                    "name": "Filipe Dobreira",
+                    "homepage": "https://github.com/filp",
                     "role": "Developer"
                 }
             ],
-            "description": "Better error reporting for PHP, and prettier too!",
-            "homepage": "https://github.com/JosephLenton/PHP-Error",
+            "description": "php error handling for cool kids",
+            "homepage": "https://github.com/filp/whoops",
             "keywords": [
                 "error",
-                "php",
-                "reporting"
+                "exception",
+                "handling",
+                "library",
+                "silex-provider",
+                "whoops",
+                "zf2"
             ],
-            "time": "2013-08-05 19:13:00"
+            "time": "2014-07-11 05:56:54"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "radium/framework": 20,
-        "radium/schema-builder": 20,
-        "joseph-lenton/php-error": 20
+        "radium/schema-builder": 20
     },
     "platform": [],
     "platform-dev": []

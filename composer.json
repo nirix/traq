@@ -9,7 +9,7 @@
         "traq/markdown-plugin": "v2.0"
     },
     "require-dev": {
-        "joseph-lenton/php-error": "dev-master"
+        "filp/whoops": "1.1.*"
     },
     "autoload": {
         "psr-4": {
