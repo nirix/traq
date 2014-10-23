@@ -50,9 +50,11 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        return $this->respondTo(function($format, $controller){
-            if ($format == 'json') {
-                return API::response(200, $controller->render('Projects/index.json'));
+        return $this->respondTo(function($format){
+            if ($format == 'html') {
+                return $this->render('projects/index');
+            } elseif ($format == 'json') {
+                return API::response(200, $this->projects);
             }
         });
     }
@@ -69,9 +71,17 @@ class Projects extends AppController
 
         // Get open and closed ticket counts.
         View::set('ticket_count', array(
-            'open' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->rowCount(),
+            'open'   => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->rowCount(),
             'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->rowCount()
         ));
+
+        return $this->respondTo(function($format){
+            if ($format == 'html') {
+                return $this->render('projects/show');
+            } elseif ($format == 'json') {
+                return API::response(200, $this->project);
+            }
+        });
     }
 
     /**
@@ -198,6 +208,12 @@ class Projects extends AppController
             'filters' => $filters,
             'events'  => $events
         ));
+
+        return $this->respondTo(function($format){
+            if ($format == 'html') {
+                return $this->render('projects/timeline');
+            }
+        });
     }
 
     /**
