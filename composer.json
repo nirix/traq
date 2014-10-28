@@ -4,6 +4,7 @@
     "require": {
         "php": ">=5.4.0",
         "radium/framework": "dev-master",
+        "radium/twig-templating": "dev-master",
         "radium/schema-builder": "dev-master",
         "erusev/parsedown": "1.0.*",
         "erusev/parsedown-extra": "0.1.*",

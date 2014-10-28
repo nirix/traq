@@ -5,12 +5,7 @@
 /assets/components
 
 # Composer
-vendor/autoload.php
-vendor/composer
-vendor/radium
-vendor/erusev
-vendor/filp
-vendor/traq/markdown-plugin
+/vendor
 
 # Misc
 .sass-cache
