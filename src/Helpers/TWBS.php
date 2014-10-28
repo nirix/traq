@@ -79,11 +79,16 @@ class TWBS
             $class = "{$class} alert-dismissable";
         }
 
-        return View::render('TWBS/alert', array(
-            'message'     => $message,
-            'class'       => $class,
-            'dismissable' => $dismissable
-        ));
+        $alert = ['<div class="alert alert-' . $class . '">'];
+
+        if ($dismissable) {
+            $alert[] = '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+        }
+
+        $alert[] = "    {$message}";
+        $alert[] = "</div>";
+
+        return implode(PHP_EOL, $alert);
     }
 
     /**
