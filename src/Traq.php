@@ -26,7 +26,7 @@ namespace Traq;
 use Exception;
 use Radium\Application;
 use Radium\Language;
-use Radium\Action\View;
+use Radium\Templating\View;
 use Traq\Models\Setting;
 use Traq\Models\Plugin;
 
@@ -67,7 +67,7 @@ class Traq extends Application
     public function __construct()
     {
         // General configuration directory
-        $this->generalConfigDir = __DIR__ . '/../../../config';
+        $this->generalConfigDir = __DIR__ . '/../config';
 
         // Load main configuration file
         $this->loadConfig();
@@ -94,10 +94,13 @@ class Traq extends Application
 
         // Add theme to view search path.
         $theme = Setting::find('theme')->value;
-        View::addSearchPath(__DIR__ . "/../themes/{$theme}", true);
+
+        if ($theme !== 'default') {
+            View::addPath(__DIR__ . "/../vendor/traq/themes/{$theme}", true);
+        }
 
         // Add Twitter Bootstrap helper view directory to view search path.
-        View::addSearchPath(__DIR__ . "/views/TWBS");
+        View::addPath(__DIR__ . "/views/TWBS");
 
         require __DIR__ . "/common.php";
 
@@ -110,7 +113,7 @@ class Traq extends Application
     protected function aliasClasses()
     {
         class_alias("Radium\Hook", "Hook");
-        class_alias("Radium\Action\View", "View");
+        class_alias("Radium\Templating\View", "View");
 
         // Radium helpers
         class_alias("Radium\Helpers\HTML", "HTML");

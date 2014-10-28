@@ -65,7 +65,7 @@ class AppController extends Controller
         $this->getUser();
 
         // Set the theme, title and pass the app object to the view.
-        View::set('traq', $this);
+        $this->set('traq', $this);
 
         // Check if we're on a project page and get the project info
         $route = Router::currentRoute();
