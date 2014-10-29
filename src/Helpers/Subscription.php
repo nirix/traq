@@ -24,7 +24,7 @@
 namespace Traq\Helpers;
 
 use ReflectionClass;
-use Radium\Action\View;
+use Radium\Templating\View;
 use Traq\Models\Subscription as SubscriptionModel;
 
 class Subscription
@@ -65,6 +65,9 @@ class Subscription
         }
 
         $class = new ReflectionClass(get_class($object));
-        return View::render('Subscriptions/_subscribe', array('type' => strtolower($class->getShortName()), 'object' => $object));
+        return View::render('subscriptions/_subscribe.phtml', [
+            'type'   => strtolower($class->getShortName()),
+            'object' => $object
+        ]);
     }
 }

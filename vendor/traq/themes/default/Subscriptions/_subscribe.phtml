@@ -1,7 +1,0 @@
-<?php
-$subbed = Subscription::isSubscribed($currentUser, $object);
-$string = ($subbed ? 'un' : '') . 'subscribe';
-echo HTML::link(
-	$t($string),
-	$object->href($string)
-);
