@@ -69,6 +69,10 @@ class Projects extends AppController
                 'displayorder' => Request::post('displayorder', 0)
             ));
 
+            if (!is_numeric($project->displayorder)) {
+                $project->displayorder = 0;
+            }
+
             // Save project
             if ($project->save()) {
                 // Is this an API request?
