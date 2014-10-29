@@ -24,7 +24,6 @@
 namespace Traq\Controllers\Admin;
 
 use Radium\Http\Request;
-
 use Traq\Models\Project;
 
 /**
@@ -75,16 +74,7 @@ class Projects extends AppController
     {
         $this->title($this->translate('new'));
 
-        $project = new Project([
-            'name'                   => Request::$post['name'],
-            'slug'                   => Request::$post['slug'],
-            'codename'               => Request::$post['codename'],
-            'info'                   => Request::$post['info'],
-            'enable_wiki'            => (bool) Request::post('enable_wiki', false),
-            'default_ticket_type_id' => Request::$post['default_ticket_type_id'],
-            'default_ticket_sorting' => Request::$post['default_ticket_sorting'],
-            'display_order'          => (int) Request::post('display_order', 0)
-        ]);
+        $project = new Project($this->projectParams());
 
         if ($project->save()) {
             $this->redirectTo('/admin/projects');
@@ -105,7 +95,38 @@ class Projects extends AppController
     public function editAction($project_id)
     {
         $this->title($this->translate('edit'));
-        View::set('project', Project::find($project_id));
+
+        $project = Project::find($project_id);
+
+        if (Request::header('x-overlay')) {
+            return $this->render('admin/projects/edit.overlay.phtml', [
+                '_layout' => false,
+                'project' => $project,
+            ]);
+        } else {
+            return $this->render('admin/projects/edit.phtml', [
+                'project' => $project
+            ]);
+        }
+    }
+
+    /**
+     * Save project.
+     */
+    public function saveAction($project_id)
+    {
+        $this->title($this->translate('edit'));
+
+        $project = Project::find($project_id);
+        $project->set($this->projectParams());
+
+        if ($project->save()) {
+            $this->redirectTo('/admin/projects');
+        } else {
+            return $this->render('admin/projects/edit.phtml', [
+                'project' => $project
+            ]);
+        }
     }
 
     /**
@@ -124,5 +145,22 @@ class Projects extends AppController
         } else {
             Request::redirectTo('admin/projects');
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function projectParams()
+    {
+        return [
+            'name'                   => Request::$post['name'],
+            'slug'                   => Request::$post['slug'],
+            'codename'               => Request::$post['codename'],
+            'info'                   => Request::$post['info'],
+            'enable_wiki'            => (bool) Request::post('enable_wiki', false),
+            'default_ticket_type_id' => Request::$post['default_ticket_type_id'],
+            'default_ticket_sorting' => Request::$post['default_ticket_sorting'],
+            'display_order'          => (int) Request::post('display_order', 0)
+        ];
     }
 }
