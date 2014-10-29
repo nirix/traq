@@ -23,7 +23,6 @@
 
 namespace Traq\Controllers\Admin;
 
-use Radium\Action\View;
 use Radium\Http\Request;
 
 use Traq\Models\Project;
@@ -45,8 +44,9 @@ class Projects extends AppController
 
     public function indexAction()
     {
-        // Fetch all projects and pass them to the view.
-        View::set('projects', Project::all());
+        return $this->render('admin/projects/index.phtml', [
+            'projects' => Project::all()
+        ]);
     }
 
     /**
