@@ -63,7 +63,9 @@ class Roadmap extends AppController
         $this->set(compact('milestones'));
 
         return  $this->respondTo(function($format, $controller) use ($milestones) {
-            if ($format == 'json') {
+            if ($format == 'html') {
+                return $this->render('roadmap/index.phtml');
+            } elseif ($format == 'json') {
                 return API::response(200, Format::toJson($milestones));
             }
         });
@@ -74,14 +76,14 @@ class Roadmap extends AppController
      *
      * @param string $milestone Milestone slug
      */
-    public function showAction($milestone)
+    public function showAction($slug)
     {
         $milestone = $this->project->milestones()
-            ->where('slug = ?', $milestone)->fetch();
+            ->where('slug = ?', $slug)->fetch();
 
         $this->title($milestone->name);
 
-        $this->set(compact('milestone'));
+        return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
     }
 
     public function setTitle()

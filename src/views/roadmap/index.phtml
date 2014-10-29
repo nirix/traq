@@ -1,0 +1,54 @@
+<div class="roadmap container">
+	<h1 class="page-header"><?=$t('roadmap')?></h1>
+
+	<nav>
+		<ul class="nav nav-tabs">
+			<li<?=activeNav('/:slug/roadmap') ? ' class="active"' : ''?>>
+				<?=HTML::link($t('active'), $project->href('roadmap'))?>
+			</li>
+			<li<?=activeNav('/:slug/roadmap/completed') ? ' class="active"' : ''?>>
+				<?=HTML::link($t('completed'), $project->href('roadmap/completed'))?>
+			</li>
+			<li<?=activeNav('/:slug/roadmap/all') ? ' class="active"' : ''?>>
+				<?=HTML::link($t('all'), $project->href('roadmap/all'))?>
+			</li>
+		</ul>
+	</nav>
+
+	<ul class="milestones">
+<?php foreach ($milestones as $milestone): ?>
+		<li>
+			<h2>
+				<?=HTML::link($milestone->name, $milestone)?>
+				<?php if ($milestone->codename): ?>
+					<small><em class="project-codename"><?=$milestone->codename?></em></small>
+				<?php endif; ?>
+			</h2>
+			<?=View::render('roadmap/_progress_bar.phtml', array('milestone' => $milestone))?>
+			<ul class="issue-counts">
+				<li>
+					<?=HTML::link(
+						$t('x_open', [$milestone->openTicketCount()]),
+						$project->href('issues/?open')
+					)?>
+				</li>
+				<li>
+					<?=HTML::link(
+						$t('x_started', [$milestone->startedTicketCount()]),
+						$project->href('issues/?started')
+					)?>
+				</li>
+				<li>
+					<?=HTML::link(
+						$t('x_closed', [$milestone->closedTicketCount()]),
+						$project->href('issues/?closed')
+					)?>
+				</li>
+			</ul>
+			<div>
+				<?=Format::text($milestone->info)?>
+			</div>
+		</li>
+<?php endforeach; ?>
+	</ul>
+</div>

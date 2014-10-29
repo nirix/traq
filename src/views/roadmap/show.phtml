@@ -1,11 +1,11 @@
 <div class="milestone container">
 	<h1 class="page-header">
-		<?php echo $milestone->name; ?>
+		<?=$milestone->name?>
 		<?php if ($milestone->codename): ?>
-			<small><em class="project-codename"><?php echo $milestone->codename; ?></em></small>
+			<small><em class="project-codename"><?=$milestone->codename?></em></small>
 		<?php endif; ?>
 	</h1>
-	<?=View::render('Roadmap/_progressBar')?>
+	<?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
 	<div>
 		<?=Format::text($milestone->info)?>
 	</div>
