@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+	<head>
+		<?=View::render('layouts/_head.phtml')?>
+		<?php Hook::run('template:layouts/default:head'); ?>
+	</head>
+	<body>
+		<?=View::render('layouts/_admin_header.phtml')?>
+		<main id="page">
+<?=$content?>
+		</main>
+		<?=View::render('layouts/_footer.phtml')?>
+	</body>
+</html>

@@ -34,6 +34,8 @@ use Radium\Http\Request;
  */
 class AppController extends \Traq\Controllers\AppController
 {
+    public $layout = 'admin.phtml';
+
     /**
      * Constructor!
      */
@@ -42,14 +44,13 @@ class AppController extends \Traq\Controllers\AppController
         parent::__construct();
 
         // Set the admin layout.
-        $this->layout = 'admin';
         $this->title($this->translate('admincp'));
 
         // Make sure the user is logged in and is an admin.
         if (LOGGEDIN and !$this->user->group()->is_admin) {
             $this->showNoPermission();
         } elseif (!LOGGEDIN) {
-            $this->showLogin(Request::$requestUri);
+            $this->showLogin(Request::requestUri());
         }
     }
 }
