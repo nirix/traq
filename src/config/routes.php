@@ -24,6 +24,8 @@
 use Radium\Http\Router;
 
 Router::map(function($r){
+    Router::$extensions[] = '.js';
+
     $traq = "Traq\Controllers";
 
     // URL tokens
@@ -58,6 +60,7 @@ Router::map(function($r){
     // Timeline
     $r->route('/:project_slug/timeline')->to("{$traq}\Timeline::index")
         ->method(['get','post']);
+    $r->get('/:project_slug/timeline/(?P<event_id>[\d]+)/delete')->to("{$traq}\Timeline::deleteEvent");
 
     // Roadmap
     $r->get('/:project_slug/roadmap')->to("{$traq}\Roadmap::index");
