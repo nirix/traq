@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "02f20596684b368e080b718924863112",
+    "hash": "d7b5002dfa3ef0a202812340ea3e3ce3",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -95,12 +95,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/radium.git",
-                "reference": "5f7ee48b13e7c374bbd6435bc3862e2ca2642e67"
+                "reference": "3869952f0eda83073780a0f7ef8728b3d0dbe475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/radium/zipball/5f7ee48b13e7c374bbd6435bc3862e2ca2642e67",
-                "reference": "5f7ee48b13e7c374bbd6435bc3862e2ca2642e67",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/3869952f0eda83073780a0f7ef8728b3d0dbe475",
+                "reference": "3869952f0eda83073780a0f7ef8728b3d0dbe475",
                 "shasum": ""
             },
             "require": {
@@ -110,6 +110,11 @@
                 "radium/schema-builder": "Easily manage database schema."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Radium\\": "src/"
@@ -130,7 +135,7 @@
                 "framework",
                 "radium"
             ],
-            "time": "2014-10-28 09:41:19"
+            "time": "2014-10-29 07:10:28"
         },
         {
             "name": "radium/schema-builder",
@@ -138,12 +143,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/radiumphp/schema-builder.git",
-                "reference": "c2728b805dcecb13530d2420154ac23d45713ad5"
+                "reference": "5d1c7590faae6622332895ac79f7f72cb51179ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/schema-builder/zipball/c2728b805dcecb13530d2420154ac23d45713ad5",
-                "reference": "c2728b805dcecb13530d2420154ac23d45713ad5",
+                "url": "https://api.github.com/repos/radiumphp/schema-builder/zipball/5d1c7590faae6622332895ac79f7f72cb51179ab",
+                "reference": "5d1c7590faae6622332895ac79f7f72cb51179ab",
                 "shasum": ""
             },
             "require": {
@@ -151,6 +156,11 @@
                 "radium/framework": "dev-master"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Radium\\Database\\": "src/Database/"
@@ -174,48 +184,7 @@
                 "radium",
                 "schema"
             ],
-            "time": "2014-08-18 07:32:21"
-        },
-        {
-            "name": "radium/twig-templating",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/twig-templating.git",
-                "reference": "2303f3db958664da552d88cca4b7a134b697c9f4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/twig-templating/zipball/2303f3db958664da552d88cca4b7a134b697c9f4",
-                "reference": "2303f3db958664da552d88cca4b7a134b697c9f4",
-                "shasum": ""
-            },
-            "require": {
-                "twig/twig": "1.16.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Radium\\Templating\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Adds support for Twig template rendering.",
-            "keywords": [
-                "radium",
-                "templating",
-                "twig"
-            ],
-            "time": "2014-10-28 09:16:57"
+            "time": "2014-10-29 07:10:45"
         },
         {
             "name": "traq/markdown-plugin",
@@ -250,63 +219,6 @@
                 "traq"
             ],
             "time": "2014-08-25 18:14:33"
-        },
-        {
-            "name": "twig/twig",
-            "version": "v1.16.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fabpot/Twig.git",
-                "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/42f758d9fe2146d1f0470604fc05ee43580873fc",
-                "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.16-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Twig_": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                },
-                {
-                    "name": "Twig Team",
-                    "homepage": "https://github.com/fabpot/Twig/graphs/contributors",
-                    "role": "Contributors"
-                }
-            ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
-            "keywords": [
-                "templating"
-            ],
-            "time": "2014-10-17 12:53:44"
         }
     ],
     "packages-dev": [
@@ -370,12 +282,8 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {
-        "radium/framework": 20,
-        "radium/twig-templating": 20,
-        "radium/schema-builder": 20
-    },
+    "minimum-stability": "dev",
+    "stability-flags": [],
     "prefer-stable": true,
     "platform": {
         "php": ">=5.4.0"
