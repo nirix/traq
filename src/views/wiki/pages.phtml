@@ -1,0 +1,10 @@
+<?=View::render('wiki/_nav.phtml')?>
+<div class="wiki container">
+	<h1 class="page-header"><?=$t('pages')?></h1>
+
+	<ul id="pages">
+	<?php foreach ($pages as $page): ?>
+		<li><?=HTML::link($page->title, $page->href())?></li>
+	<?php endforeach; ?>
+	</ul>
+</div>

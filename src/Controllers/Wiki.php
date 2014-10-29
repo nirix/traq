@@ -25,7 +25,6 @@ namespace Traq\Controllers;
 
 use Radium\Http\Request;
 use Radium\Http\Router;
-use Radium\Action\View;
 
 use Traq\API;
 use Traq\Models\WikiPage;
@@ -65,20 +64,19 @@ class Wiki extends AppController
     public function showAction($slug)
     {
         // Get the page
-        $page = $this->project->wikiPages()->where('slug = ?', $slug)->exec();
+        $page = $this->project->wikiPages()->where('slug = ?', $slug)->fetch();
 
         // Check if the page exists
-        if (!$page->rowCount()) {
+        if (!$page) {
             // it doesnt, show the new page form if the user has permission
             // otherwise display the 404 page.
             return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_newPage($slug) : $this->show404();
         }
 
-        $page = $page->fetch();
-        $this->set('page', $page);
-
-        return $this->respondTo(function($format) use($page){
-            if ($format == 'json') {
+        return $this->respondTo(function($format) use($page) {
+            if ($format == 'html') {
+                return $this->render('wiki/show.phtml', ['page' => $page]);
+            } elseif ($format == 'json') {
                 return API::response(200, $page->__toArray());
             }
         });
@@ -93,10 +91,11 @@ class Wiki extends AppController
         $pages = $this->project->wikiPages()->fetchAll();
 
         $this->title($this->translate('pages'));
-        View::set('pages', $pages);
 
-        return $this->respondTo(function($format) use ($pages){
-            if ($format == 'json') {
+        return $this->respondTo(function($format) use ($pages) {
+            if ($format == 'html') {
+                return $this->render('wiki/pages.phtml', ['pages' => $pages]);
+            } elseif ($format == 'json') {
                 return API::response(200, $pages);
             }
         });
