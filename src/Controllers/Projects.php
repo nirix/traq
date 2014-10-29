@@ -210,7 +210,7 @@ class Projects extends AppController
 
         return $this->respondTo(function($format){
             if ($format == 'html') {
-                return $this->render('projects/timeline');
+                return $this->render('projects/timeline.phtml');
             }
         });
     }
