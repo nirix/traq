@@ -23,15 +23,12 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * Type model.
  *
- * @package Traq\Models
- * @since 3.0
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Type extends Model
 {

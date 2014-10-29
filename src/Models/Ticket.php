@@ -23,7 +23,7 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 use Radium\Kernel as Radium;
 use Radium\Http\Request;
 use Radium\Helpers\Time;
@@ -33,9 +33,7 @@ use traq\helpers\Notification;
 /**
  * Ticket model.
  *
- * @package Traq\Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Ticket extends Model
 {

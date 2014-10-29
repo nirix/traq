@@ -23,17 +23,14 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 use Radium\Kernel as Radium;
 use Radium\Helpers\Time;
 
 /**
  * Milestone model.
  *
- * @package Traq
- * @subpackage Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Milestone extends Model
 {
@@ -132,7 +129,7 @@ class Milestone extends Model
      */
     public function startedTicketCount()
     {
-        return $this->tickets()->join('statuses', "statuses.id = tickets.status_id")
+        return $this->tickets()->innerJoin('tickets', 'statuses', 'statuses', "statuses.id = tickets.status_id")
             ->where("`statuses`.`status` = 2")
             ->rowCount();
     }

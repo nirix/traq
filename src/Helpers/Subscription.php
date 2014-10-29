@@ -43,9 +43,9 @@ class Subscription
 
         $sub = SubscriptionModel::select()
             ->where('project_id = ?', ($type == 'project') ? $object->id : $object->project_id)
-            ->_and('user_id = ?', $user->id)
-            ->_and('type = ?', $type)
-            ->_and('object_id = ?', $object->id)
+            ->andWhere('user_id = ?', $user->id)
+            ->andWhere('type = ?', $type)
+            ->andWhere('object_id = ?', $object->id)
             ->fetch();
 
         return $sub !== false;

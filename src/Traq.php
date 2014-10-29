@@ -27,6 +27,7 @@ use Exception;
 use Radium\Application;
 use Radium\Language;
 use Radium\Templating\View;
+use Avalon\Database\ConnectionManager;
 use Traq\Models\Setting;
 use Traq\Models\Plugin;
 
@@ -90,10 +91,10 @@ class Traq extends Application
 
         // Load default language
         require __DIR__ . "/translations/enAU.php";
-        Language::setCurrent(Setting::find('locale')->value);
+        Language::setCurrent(Setting::get('locale')->value);
 
         // Add theme to view search path.
-        $theme = Setting::find('theme')->value;
+        $theme = Setting::get('theme')->value;
 
         if ($theme !== 'default') {
             View::addPath(__DIR__ . "/../vendor/traq/themes/{$theme}", true);
@@ -149,20 +150,6 @@ class Traq extends Application
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function loadDatabaseConfig()
-    {
-        $this->databaseConfigFile = "{$this->generalConfigDir}/database.php";
-
-        if (file_exists($this->databaseConfigFile)) {
-            $this->databaseConfig = require $this->databaseConfigFile;
-        } else {
-            parent::loadDatabaseConfig();
-        }
-    }
-
-    /**
      * Registers the namespace and directory with the autoloader.
      *
      * @param string $namespace
@@ -186,6 +173,36 @@ class Traq extends Application
         } else {
             throw new Exception("Unable to load main configuration file.");
         }
+    }
+
+    // -------------------------------------------------------------------------
+    // Database related methods
+
+
+    /**
+     * Loads the database configuration file.
+     */
+    protected function loadDatabaseConfig()
+    {
+        $this->databaseConfigFile = "{$this->generalConfigDir}/database.php";
+
+        if (file_exists($this->databaseConfigFile)) {
+            $this->databaseConfig = require $this->databaseConfigFile;
+        } else {
+            parent::loadDatabaseConfig();
+        }
+    }
+
+    /**
+     * Connects to the configured database.
+     */
+    protected function connectDatabase()
+    {
+        if (!$this->databaseConfig) {
+            return null;
+        }
+
+        $this->databaseConnection = ConnectionManager::create($this->databaseConfig);
     }
 
     /**

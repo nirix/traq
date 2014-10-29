@@ -190,8 +190,8 @@ class Projects extends AppController
             // Fetch the activity for this day
             $fetchActivity = Timeline::select()
                 ->where('project_id = ?', $this->project->id)
-                ->_and("created_at LIKE '" . $date . " %'")
-                ->_and("action IN ('".implode("','", $events)."')")
+                ->andWhere("created_at LIKE '" . $date . " %'")
+                ->andWhere("action IN ('".implode("','", $events)."')")
                 ->orderBy('created_at', 'DESC');
 
             $day['activity'] = $fetchActivity->fetchAll();

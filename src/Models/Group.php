@@ -23,18 +23,16 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * User group model.
  *
- * @package Traq\Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Group extends Model
 {
-    protected static $_table = 'usergroups';
+    protected static $_tableName = 'usergroups';
 
     // Validations
     protected static $_validates = array(

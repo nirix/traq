@@ -23,16 +23,13 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 use Radium\Language;
 
 /**
  * Status model.
  *
- * @package Traq\Models
- * @since 3.0
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Status extends Model
 {

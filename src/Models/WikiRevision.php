@@ -23,15 +23,12 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * Wiki page revision database model.
  *
- * @package Traq
- * @subpackage Models
- * @author Jack P. <jack@traq.io>
- * @copyright (c) Jack P. <jack@traq.io>
+ * @author Jack P.
  */
 class WikiRevision extends Model
 {

@@ -23,29 +23,28 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
-use Radium\Database\Model\SecurePassword;
+use Avalon\Database\Model;
+use Avalon\Database\Model\SecurePassword;
 
 /**
  * User model.
  *
- * @package Traq
- * @subpackage Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class User extends Model
 {
     use SecurePassword;
 
+    protected static $_validates = [
+        'username' => ['required', 'unique', 'minLength' => 25],
+        'name'     => ['required'],
+        'password' => ['required'],
+        'email'    => ['required', 'unique']
+    ];
+
     // Things to do before certain things
     protected static $_before = [
         'create' => ['preparePassword', 'createLoginHash', 'setName'],
-    ];
-
-    // Things to do after certain things
-    protected static $_after = [
-        'construct' => ['decodeOptions']
     ];
 
     // Belongs-to relationships
@@ -62,6 +61,10 @@ class User extends Model
         'project' => array(),
         'role' => array()
     );
+
+    protected static $_dataTypes = [
+        'options' => 'json_array'
+    ];
 
     /**
      * Returns the URI for the users profile.
@@ -143,8 +146,8 @@ class User extends Model
     {
         $role = UserRole::select()
             ->where('project_id = ?', $project_id)
-            ->_and('user_id = ?', $this->id)
-            ->exec();
+            ->andWhere('user_id = ?', $this->id)
+            ->execute();
 
         if ($role->rowCount() > 0) {
             return $role->fetch()->project_role_id;
@@ -162,13 +165,6 @@ class User extends Model
     {
         return !isset($this->options['activationKey']);
     }
-
-    protected static $_validates = [
-        'username' => ['required', 'unique', 'minLength' => 25],
-        'name'     => ['required'],
-        'password' => ['required'],
-        'email'    => ['required', 'unique']
-    ];
 
     public function generateActivationKey()
     {
@@ -252,7 +248,7 @@ class User extends Model
     public static function anonymousUser()
     {
         return new static([
-            'id'       => Setting::find('anonymous_user_id')->value,
+            'id'       => Setting::get('anonymous_user_id')->value,
             'username' => "Guest",
             'group_id' => 3
         ]);

@@ -23,20 +23,16 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * Timeline model.
  *
- * @package Traq
- * @subpackage Models
- * @since 3.0
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Timeline extends Model
 {
-    protected static $_table = 'timeline';
+    protected static $_tableName = 'timeline';
 
     /**
      * User relation.

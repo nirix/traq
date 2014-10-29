@@ -44,7 +44,7 @@ function settings($setting) {
         return $CACHE[$setting];
     }
 
-    $data = Setting::find($setting);
+    $data = Setting::get($setting);
 
     $CACHE[$setting] = $data ? $data->value : null;
     return $CACHE[$setting];

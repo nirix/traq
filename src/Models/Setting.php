@@ -23,21 +23,21 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * Setting model.
  *
- * @package Traq\Models
- * @since 3.0
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Setting extends Model
 {
-    protected static $_primaryKey = 'setting';
-
     protected static $_validates = array(
         'setting' => array('required')
     );
+
+    public static function get($setting)
+    {
+        return static::where('setting = ?', $setting)->fetch();
+    }
 }

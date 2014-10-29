@@ -23,7 +23,7 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 use Traq\Models\Project;
 use Traq\Models\Milestone;
@@ -32,9 +32,7 @@ use Traq\Models\Ticket;
 /**
  * Subscription model.
  *
- * @package Traq\Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Subscription extends Model
 {

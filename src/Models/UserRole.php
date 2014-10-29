@@ -23,14 +23,12 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * Users<>Roles model.
  *
- * @package Traq\Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class UserRole extends Model
 {

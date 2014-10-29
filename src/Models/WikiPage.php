@@ -23,14 +23,12 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * Wiki Page database model.
  *
- * @package TraqModels
- * @author Jack P. <jack@traq.io>
- * @copyright (c) Jack P. <jack@traq.io>
+ * @author Jack P.
  */
 class WikiPage extends Model
 {

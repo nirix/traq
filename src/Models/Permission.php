@@ -23,15 +23,12 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 
 /**
  * Permission model.
  *
- * @package Traq
- * @subpackage Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Permission extends Model
 {
@@ -49,8 +46,8 @@ class Permission extends Model
         // Fetch the permission rows and merge them with the defaults
         $rows = static::select()
             ->where('project_id = ?', $project_id)
-            ->_and('type = ?', $type)
-            ->_and('type_id = ?', $type_id)
+            ->andWhere('type = ?', $type)
+            ->andWhere('type_id = ?', $type_id)
             ->fetchAll();
 
         $rows = array_merge(static::defaults($project_id, $type_id, $type), $rows);
@@ -80,8 +77,8 @@ class Permission extends Model
         // Fetch the defaults
         $defaults = static::select()
             ->where('type = ?', $type)
-            ->_and('type_id = ?', $type_id)
-            ->_and('project_id IN (' . ($project_id > 0 ? "0,{$project_id}" : '0') . ')')
+            ->andWhere('type_id = ?', $type_id)
+            ->andWhere('project_id IN (' . ($project_id > 0 ? "0,{$project_id}" : '0') . ')')
             ->fetchAll();
 
         // If we're fetching a specific group,

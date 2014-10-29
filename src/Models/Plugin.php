@@ -23,16 +23,13 @@
 
 namespace Traq\Models;
 
-use Radium\Database\Model;
+use Avalon\Database\Model;
 use Traq\Traq;
 
 /**
  * Plugin model.
  *
- * @package Traq
- * @subpackage Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Plugin extends Model
 {
@@ -46,6 +43,10 @@ class Plugin extends Model
     protected static $_after = array(
         'construct' => array('decodeAutoload')
     );
+
+    protected static $_dataTypes = [
+        'autoload' => 'json_array'
+    ];
 
     /**
      * Registers the plugins autoload paths with the autoloader.

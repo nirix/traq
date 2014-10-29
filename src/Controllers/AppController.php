@@ -24,13 +24,12 @@
 namespace Traq\Controllers;
 
 use Radium\Action\Controller;
-use Radium\Database;
 use Radium\Http\Response;
 use Radium\Http\Request;
 use Radium\Http\Router;
 use Radium\Action\View;
 use Radium\Language;
-
+use Avalon\Database\ConnectionManager;
 use Traq\Models\Setting;
 use Traq\Models\User;
 use Traq\Models\Project;
@@ -58,8 +57,11 @@ class AppController extends Controller
         // Call the controller class constructor
         parent::__construct();
 
+        // Get database connection
+        $this->db = ConnectionManager::getConnection();
+
         // Set the title
-        $this->title(Setting::find('title')->value);
+        $this->title(Setting::get('title')->value);
 
         // Get the user info
         $this->getUser();
