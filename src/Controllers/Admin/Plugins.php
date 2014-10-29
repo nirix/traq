@@ -34,7 +34,6 @@ use Traq\Plugin\Registry;
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq\Controllers\Admin
  */
 class Plugins extends AppController
 {
@@ -53,22 +52,30 @@ class Plugins extends AppController
      */
     public function indexAction()
     {
-        $plugins = array();
+        $plugins = [];
         foreach (Registry::registered() as $info) {
-            $info = $info + array(
+            $info = $info + [
                 'installed'  => false,
                 'is_enabled' => false
-            );
+            ];
 
             if ($plugin = Plugin::find('directory', $info['directory'])) {
                 $info['installed']  = true;
                 $info['is_enabled'] = $plugin->isEnabled();
             }
 
+            if ($info['is_enabled']) {
+                $info['status'] = 'enabled';
+            } elseif ($info['installed']) {
+                $info['status'] = 'installed';
+            } else {
+                $info['status'] = 'uninstalled';
+            }
+
             $plugins[] = $info;
         }
 
-        $this->set('plugins', $plugins);
+        return $this->render('admin/plugins/index.phtml', ['plugins' => $plugins]);
     }
 
     /**
