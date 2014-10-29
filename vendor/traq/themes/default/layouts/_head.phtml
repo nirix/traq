@@ -1,7 +1,0 @@
-<title><?php echo implode(' - ', array_reverse($traq->title)); ?></title>
-		<meta charset="UTF-8" />
-		<?php echo HTML::cssLinkTag('assets/css/default.css'); ?>
-		<?php echo HTML::cssLinkTag('assets/components/font-awesome/css/font-awesome.min.css'); ?>
-		<?php Hook::run('template:layouts/global/head'); ?>
-<?php foreach ($app->feeds as $feed) { ?><link type="application/atom+xml" rel ="alternate" href="<?php echo $feed[0]; ?>">
-<?php } ?>

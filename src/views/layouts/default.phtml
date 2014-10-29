@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+	<head>
+		<?=View::render('layouts/_head.phtml')?>
+		<?php Hook::run('template:layouts/default:head'); ?>
+	</head>
+	<body>
+		<?=View::render('layouts/_header.phtml')?>
+		<main id="page">
+<?=$content?>
+		</main>
+		<footer id="footer">
+			<div class="container">
+				<span class="text-muted"><?=$t('copyright')?></span>
+			</div>
+		</footer>
+		<?=View::render('layouts/_footer.phtml')?>
+	</body>
+</html>
