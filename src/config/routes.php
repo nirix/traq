@@ -82,6 +82,7 @@ Router::map(function($r){
     $r->get('/admin/projects')->to("{$traq}\Admin\Projects::index");
     $r->get('/admin/projects/new')->to("{$traq}\Admin\Projects::new");
     $r->get('/admin/projects/:project_id/edit')->to("{$traq}\Admin\Projects::edit");
+    $r->get('/admin/projects/:project_id/delete')->to("{$traq}\Admin\Projects::delete");
 
     $r->post('/admin/projects/new')->to("{$traq}\Admin\Projects::create");
     $r->post('/admin/projects/:project_id/edit')->to("{$traq}\Admin\Projects::save");

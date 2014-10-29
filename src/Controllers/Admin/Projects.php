@@ -134,14 +134,14 @@ class Projects extends AppController
      *
      * @param integer $id Project ID.
      */
-    public function action_delete($id)
+    public function deleteAction($project_id)
     {
-        $project = Project::find('id', $id);
+        $project = Project::find($project_id);
         $project->delete();
 
         // Is this an API request?
-        if ($this->is_api) {
-            return API::response(1);
+        if ($this->isApi) {
+            return API::response(200);
         } else {
             Request::redirectTo('admin/projects');
         }
