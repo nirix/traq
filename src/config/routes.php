@@ -28,6 +28,7 @@ Router::map(function($r){
 
     // URL tokens
     $r->registerToken('project_slug', '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
+    $r->registerToken('project_id', '(?P<project_id>[\d]+)');
     $r->registerToken('slug', '(?P<slug>[a-zA-Z0-9\-\_\.]+)');
     $r->registerToken('wiki_slug', '(?P<slug>[\w\d\-_]+)');
 
@@ -80,10 +81,10 @@ Router::map(function($r){
     // Projects
     $r->get('/admin/projects')->to("{$traq}\Admin\Projects::index");
     $r->get('/admin/projects/new')->to("{$traq}\Admin\Projects::new");
-    $r->get('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::edit", ['project_id' => 'id']);
+    $r->get('/admin/projects/:project_id/edit')->to("{$traq}\Admin\Projects::edit");
 
     $r->post('/admin/projects/new')->to("{$traq}\Admin\Projects::create");
-    $r->post('/admin/projects/:id/edit')->to("{$traq}\Admin\Projects::save", ['project_id' => 'id']);
+    $r->post('/admin/projects/:project_id/edit')->to("{$traq}\Admin\Projects::save");
 
     // Plugins
     $r->get('/admin/plugins')->to("{$traq}\Admin\Plugins::index");
