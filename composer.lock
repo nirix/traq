@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "9b7a56368e0bfbfed20eac7514a0b4bb3b777733"
+                "reference": "d8160d3d521d1bd6bc491215d713b8ff23509022"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/9b7a56368e0bfbfed20eac7514a0b4bb3b777733",
-                "reference": "9b7a56368e0bfbfed20eac7514a0b4bb3b777733",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/d8160d3d521d1bd6bc491215d713b8ff23509022",
+                "reference": "d8160d3d521d1bd6bc491215d713b8ff23509022",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-10-29 17:59:00"
+            "time": "2014-10-29 18:48:35"
         },
         {
             "name": "doctrine/annotations",
