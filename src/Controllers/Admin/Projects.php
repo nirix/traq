@@ -55,7 +55,17 @@ class Projects extends AppController
     public function newAction()
     {
         $this->title($this->translate('new'));
-        View::set('project', new Project);
+
+        if (Request::header('x-overlay')) {
+            return $this->render('admin/projects/new.overlay.phtml', [
+                '_layout' => false,
+                'project' => new Project,
+            ]);
+        } else {
+            return $this->render('admin/projects/new.phtml', [
+                'project' => new Project
+            ]);
+        }
     }
 
     /**
@@ -65,23 +75,28 @@ class Projects extends AppController
     {
         $this->title($this->translate('new'));
 
-        $project = new Project(array(
+        $project = new Project([
             'name'                   => Request::$post['name'],
             'slug'                   => Request::$post['slug'],
             'codename'               => Request::$post['codename'],
             'info'                   => Request::$post['info'],
-            'enable_wiki'            => Request::post('enable_wiki', false),
+            'enable_wiki'            => (bool) Request::post('enable_wiki', false),
             'default_ticket_type_id' => Request::$post['default_ticket_type_id'],
             'default_ticket_sorting' => Request::$post['default_ticket_sorting'],
-            'display_order'          => Request::$post['display_order']
-        ));
+            'display_order'          => (int) Request::post('display_order', 0)
+        ]);
 
         if ($project->save()) {
             $this->redirectTo('/admin/projects');
         }
 
-        $this->view = "Admin/Projects/new";
-        $this->set('project', $project);
+        return $this->respondTo(function($format) use($project) {
+            if ($format == 'html') {
+                return $this->render('admin/projects/new.phtml', [
+                    'project' => $project
+                ]);
+            }
+        });
     }
 
     /**

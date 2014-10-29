@@ -1,0 +1,48 @@
+<div class="form-group">
+	<?=Form::label($t('name'), 'name', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::text('name', ['value' => $project->name, 'class' => 'form-control'])?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('slug'), 'slug', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::text('slug', ['value' => $project->slug, 'class' => 'form-control'])?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('codename'), 'codename', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::text('codename', ['value' => $project->codename, 'class' => 'form-control'])?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('description'), 'info', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::textarea('info', ['value' => $project->info, 'class' => 'form-control'])?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('enable_wiki'), 'enable_wiki', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::checkbox('enable_wiki', 1, array('checked' => $project->enable_wiki == 1 ? true : false))?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('display_order'), 'display_order', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::text('display_order', ['value' => $project->display_order, 'class' => 'form-control'])?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('default_ticket_type'), 'default_ticket_type_id', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::select('default_ticket_type_id', Traq\Models\Type::selectOptions(), ['value' => $project->default_ticket_type_id])?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('default_ticket_sorting'), 'default_ticket_sorting', ['class' => 'col-sm-3 control-label'])?>
+	<div class="col-sm-9">
+		<?=Form::select('default_ticket_sorting', Ticketlist::sortingSelectOptions(), ['value' => $project->default_ticket_sorting])?>
+	</div>
+</div>
