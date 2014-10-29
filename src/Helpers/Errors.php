@@ -23,14 +23,13 @@
 
 namespace Traq\Helpers;
 
-use Radium\Action\View;
+use Radium\Templating\View;
 use Radium\Language;
 
 /**
  * Error helpers.
  *
  * @author Jack P.
- * @package Traq\Helpers
  * @since 4.0
  */
 class Errors
@@ -61,9 +60,18 @@ class Errors
         }
 
         if (is_object($model) and count($model->errors())) {
-            return View::render('Errors/_messagesFor', array(
+            $messages = [];
+
+            foreach ($model->errors() as $field => $errors) {
+                foreach ($errors as $error) {
+                    $error['field'] = Language::translate($error['field']);
+                    $messages[] = Language::translate("errors.validations.{$error['error']}", $error);
+                }
+            }
+
+            return View::render('errors/_messages_for.phtml', array(
                 'title'  => $title,
-                'errors' => $model->errorMessages()
+                'messages' => $messages
             ));
         }
     }
