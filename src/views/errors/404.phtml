@@ -1,9 +1,9 @@
 <div class="not-found-error container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<h1 class="page-header"><?php echo $t('errors.404.title'); ?></h1>
+			<h1 class="page-header"><?=$t('errors.404.title')?></h1>
 			<p class="error-message">
-				<?php echo $t('errors.404.message', array(Request::$requestUri)); ?>
+				<?=$t('errors.404.message', [Request::requestUri()])?>
 			</p>
 		</div>
 	</div>

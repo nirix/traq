@@ -28,7 +28,6 @@ namespace Traq\Controllers;
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq\Controllers
  */
 class Errors extends AppController
 {
@@ -36,6 +35,6 @@ class Errors extends AppController
      * 404 Error page.
      */
     public function notFoundAction() {
-        $this->show404();
+        return $this->show404();
     }
 }
