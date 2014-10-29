@@ -4,7 +4,7 @@
 			<form action="<?=Request::basePath("/login")?>" method="post" class="form-horizontal">
 				<?=TWBS::modalHeader($t('login'))?>
 				<div class="modal-body">
-					<?=View::render('Sessions/_form')?>
+					<?=View::render('sessions/_form.phtml')?>
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-success"><?=$t('login')?></button>

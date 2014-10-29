@@ -11,7 +11,7 @@
 				<?php endif; ?>
 			<?php endif; ?>
 			<form action="<?=Request::basePath('login')?>" method="post" class="form-horizontal">
-				<?=View::render('Sessions/_form')?>
+				<?=View::render('sessions/_form.phtml')?>
 				<div class="form-actions">
 					<?=Form::submit($t('login'), array('class' => 'btn btn-success'))?>
 				</div>
