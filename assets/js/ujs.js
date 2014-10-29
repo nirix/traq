@@ -32,7 +32,7 @@
     doc.on('click', '[data-ajax-confirm]', function(event) {
       var href;
       event.preventDefault();
-      href = $(this).attr('href');
+      href = $(this).attr('href') + '.js';
       return window.traq.popoverConfirm($(this), $(this).attr('data-ajax-confirm'), function() {
         return $.ajax({
           url: href,
@@ -42,7 +42,7 @@
     });
     doc.on('click', '[data-ajax=1]', function(event) {
       $.ajax({
-        url: $(this).attr('href'),
+        url: $(this).attr('href') + '.js',
         dataType: 'script'
       });
       return event.preventDefault();
