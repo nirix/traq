@@ -24,7 +24,6 @@
 namespace Traq\Controllers;
 
 use Radium\Http\Request;
-use Radium\Action\View;
 use Radium\Database;
 use Radium\Helpers\Pagination;
 
@@ -52,7 +51,7 @@ class Projects extends AppController
     {
         return $this->respondTo(function($format){
             if ($format == 'html') {
-                return $this->render('projects/index');
+                return $this->render('projects/index.phtml');
             } elseif ($format == 'json') {
                 return API::response(200, $this->projects);
             }
@@ -70,14 +69,14 @@ class Projects extends AppController
         }
 
         // Get open and closed ticket counts.
-        View::set('ticket_count', array(
+        $this->set('ticket_count', [
             'open'   => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->rowCount(),
             'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->rowCount()
-        ));
+        ]);
 
         return $this->respondTo(function($format){
             if ($format == 'html') {
-                return $this->render('projects/show');
+                return $this->render('projects/show.phtml');
             } elseif ($format == 'json') {
                 return API::response(200, $this->project);
             }
