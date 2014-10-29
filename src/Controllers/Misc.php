@@ -23,10 +23,9 @@
 
 namespace Traq\Controllers;
 
-use Radium\Action\View;
 use Radium\Action\Controller;
 use Radium\Http\Request;
-
+use Radium\Http\Response;
 use Traq\Models\Type;
 use Traq\Models\User;
 
@@ -39,23 +38,17 @@ use Traq\Models\User;
  */
 class Misc extends Controller
 {
-    /**
-     * Custom constructor, we need to do extra stuff.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->layout = false;
-    }
+    public $layout = false;
 
     /**
      * "Dynamic JavaScript"
      */
     public function javascriptAction()
     {
-        // Set the content type to javascript
-        $this->response->contentType = "text/javascript";
-        $this->view = 'javascript';
+        return new Response(function($resp){
+            $resp->contentType = 'text/javascript';
+            $resp->body = $this->renderView('javascript.php');
+        });
     }
 
     /**
