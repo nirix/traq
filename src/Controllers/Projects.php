@@ -24,11 +24,7 @@
 namespace Traq\Controllers;
 
 use Radium\Http\Request;
-use Radium\Database;
-use Radium\Helpers\Pagination;
-
 use Traq\Models\Ticket;
-use Traq\Models\Timeline;
 use Traq\Models\Milestone;
 use Traq\Models\Type;
 use Traq\Models\Status;
@@ -39,8 +35,6 @@ use Traq\API;
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
  */
 class Projects extends AppController
 {
@@ -99,140 +93,5 @@ class Projects extends AppController
 
         View::set('milestones', $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all());
         View::set('types', $types);
-    }
-
-    /**
-     * Handles the timeline page.
-     */
-    public function timelineAction()
-    {
-        $rows = array();
-
-        // Filters
-        $filters = array_keys(Timeline::timelineFilters());
-        $events  = Timeline::timelineEvents();
-
-        // Check if filters are set
-        if (isset(Request::$post['filters']) or isset($_SESSION['timeline_filters'])) {
-            $filters = array();
-            $events  = array();
-
-            // Fetch filters
-            $timelineFilters = (isset(Request::$post['filters']) ? Request::$post['filters'] : $_SESSION['timeline_filters']);
-
-            // Process filters
-            foreach ($timelineFilters as $filter => $value) {
-                $filters[] = $filter;
-                $events = array_merge($events, Timeline::timelineFilters($filter));
-            }
-
-            // Save filters to session
-            $_SESSION['timeline_filters'] = $timelineFilters;
-        }
-
-        // Atom feed
-        $this->feeds[] = array(
-            Request::pathInfo() . ".atom",
-            $this->translate('x_timeline_feed', array($this->project->name))
-        );
-
-        // Fetch the different days with a nicely formatted
-        // query for everyone to read easily, unlike the one
-        // from 2.x and earlier, that was completely ugly.
-        $query = "
-            SELECT
-            DISTINCT
-                YEAR(created_at) AS 'year',
-                MONTH(created_at) AS 'month',
-                DAY(created_at) AS 'day',
-                created_at
-
-            FROM timeline
-            WHERE `project_id` = '{$this->project->id}'
-            AND `action` IN ('" . implode("','", $events) . "')
-
-            GROUP BY
-                YEAR(created_at),
-                MONTH(created_at),
-                DAY(created_at)
-
-            ORDER BY created_at DESC
-        ";
-
-        // Pagination
-        $pagination = new Pagination(
-            (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
-            settings('timeline_days_per_page'), // Per page
-            $this->db->query($query)->rowCount() // Row count
-        );
-
-        // Limit?
-        if ($pagination->paginate) {
-            $daysQuery = $this->db->query($query . " LIMIT {$pagination->limit}, " . $pagination->perPage);
-        } else {
-            $daysQuery = $this->db->query($query);
-        }
-
-        $this->set(compact('pagination'));
-
-        // Loop through the days and get their activity
-        foreach ($daysQuery as $info) {
-            // Construct the array for the day
-            $day = array(
-                'created_at' => $info['created_at'],
-                'activity' => array()
-            );
-
-            // Get the date, without the time
-            $date = explode(' ', $info['created_at']);
-            $date = $date[0];
-
-            // Fetch the activity for this day
-            $fetchActivity = Timeline::select()
-                ->where('project_id = ?', $this->project->id)
-                ->andWhere("created_at LIKE '" . $date . " %'")
-                ->andWhere("action IN ('".implode("','", $events)."')")
-                ->orderBy('created_at', 'DESC');
-
-            $day['activity'] = $fetchActivity->fetchAll();
-
-            // Push the days data to the
-            // rows array,
-            $rows[] = $day;
-        }
-
-        // Send the days and events to the view.
-        $this->set(array(
-            'days'    => $rows,
-            'filters' => $filters,
-            'events'  => $events
-        ));
-
-        return $this->respondTo(function($format){
-            if ($format == 'html') {
-                return $this->render('projects/timeline.phtml');
-            }
-        });
-    }
-
-    /**
-     * Delete timeline event.
-     *
-     * @param integer $event_id
-     */
-    public function action_delete_timeline_event($event_id)
-    {
-        if (!$this->user->permission($this->project->id, 'delete_timeline_events')) {
-            return $this->show_no_permission();
-        }
-
-        $event = Timeline::find($event_id);
-        $event->delete();
-
-        if (!Request::isAjax()) {
-            Request::redirectTo($this->project->href('timeline'));
-        }
-
-        View::set(compact('event'));
     }
 }

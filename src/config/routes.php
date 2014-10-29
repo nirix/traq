@@ -56,7 +56,7 @@ Router::map(function($r){
     $r->get('/:project_slug')->to("{$traq}\Projects::show");
 
     // Timeline
-    $r->route('/:project_slug/timeline')->to("{$traq}\Projects::timeline")
+    $r->route('/:project_slug/timeline')->to("{$traq}\Timeline::index")
         ->method(['get','post']);
 
     // Roadmap
