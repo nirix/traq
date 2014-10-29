@@ -1,0 +1,49 @@
+<div class="admin dashboard container">
+	<h1 class="page-header"><?=$t('dashboard')?></h1>
+
+	<div id="update">
+	<?php if (settings('check_for_update')) { ?>
+		<?=View::render('admin/dashboard/_update.phtml')?>
+	<?php } else { ?>
+		<strong><?=HTML::link($t('check_for_update'), '/admin/check_for_update')?></strong>
+	<?php } ?>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<h2><?=$t('issues')?></h2>
+			<div class="well">
+				<dl>
+					<dt><?=$t('open')?></dt>
+					<dd><?=$tickets['open']?></dd>
+
+					<dt><?=$t('closed')?></dt>
+					<dd><?=$tickets['closed']?></dd>
+
+					<dt><?=$t('total')?></dt>
+					<dd><?=$tickets['open'] + $tickets['closed']?></dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<h2><?=$t('users')?></h2>
+			<div class="well">
+				<dl>
+					<dt><?=$t('total')?></dt>
+					<dd><?=$users?></dd>
+
+					<dt><?=$t('newest')?></dt>
+					<dd><?=HTML::link($latest_user->username, $latest_user->href())?></dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div id="traq_news" class="col-md-12">
+			<h2><?=$t('latest_news')?></h2>
+			<ul></ul>
+		</div>
+	</div>
+</div>

@@ -30,7 +30,6 @@ use Radium\Http\Request;
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq\Controllers
  */
 class AppController extends \Traq\Controllers\AppController
 {

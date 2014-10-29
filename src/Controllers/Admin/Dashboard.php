@@ -31,7 +31,6 @@ use Traq\Models\Ticket;
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq\Controllers
  */
 class Dashboard extends AppController
 {
@@ -56,7 +55,7 @@ class Dashboard extends AppController
             'closed' => Ticket::select()->where('is_closed = ?', 1)->rowCount(),
         );
 
-        $this->set($info);
+        return $this->render('admin/dashboard/index.phtml', $info);
     }
 
     /**
