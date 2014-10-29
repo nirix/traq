@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,53 +21,21 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
+use Radium\Language;
 
 /**
  * User group model.
  *
- * @package Traq
- * @subpackage Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class CustomField extends Model
 {
-    protected static $_name = 'custom_fields';
-    protected static $_properties = array(
-        'id',
-        'name',
-        'slug',
-        'type',
-        'values',
-        'multiple',
-        'default_value',
-        'regex',
-        'min_length',
-        'max_length',
-        'is_required',
-        'project_id',
-        'ticket_type_ids'
-    );
-
-    /**
-     * Modified construct method to handle the `ticket_type_ids` column.
-     *
-     * @param array   $data
-     * @param boolean $is_new
-     */
-    public function __construct($data = null, $is_new = true )
-    {
-        parent::__construct($data, $is_new);
-
-        if (!$is_new) {
-            $this->_data['ticket_type_ids'] = json_decode($this->_data['ticket_type_ids'], true);
-        } else {
-            $this->_data['ticket_type_ids'] = array();
-        }
-    }
+    protected static $_dataTypes = [
+        'ticket_type_ids' => 'json_array'
+    ];
 
     /**
      * Returns the custom fields for the specified project.
@@ -73,9 +44,9 @@ class CustomField extends Model
      *
      * @return array
      */
-    public static function for_project($project_id)
+    public static function forProject($project_id)
     {
-        return static::select()->where('project_id', $project_id)->exec()->fetch_all();
+        return static::where('project_id = ?', $project_id)->fetchAll();
     }
 
     /**
@@ -85,12 +56,12 @@ class CustomField extends Model
      *
      * @return array
      */
-    public static function get_ids($project = null)
+    public static function getIds(Project $project = null)
     {
-        $ids = array();
+        $ids = [];
 
         // Get fields for the project if one was passed, otherwise get all.
-        $fields = $project ? static::for_project($project->id) : static::fetch_all();
+        $fields = $project ? static::forProject($project->id) : static::all();
 
         foreach ($fields as $field) {
             $ids[] = $field->id;
@@ -106,28 +77,18 @@ class CustomField extends Model
      *
      * @return array
      */
-    public static function get_slugs($project = null)
+    public static function getSlugs(Project $project = null)
     {
-        $slugs = array();
+        $slugs = [];
 
         // Get fields for the project if one was passed, otherwise get all.
-        $fields = $project ? static::for_project($project->id) : static::fetch_all();
+        $fields = $project ? static::forProject($project->id) : static::all();
 
         foreach ($fields as $field) {
             $slugs[] = $field->slug;
         }
 
         return $slugs;
-    }
-
-    /**
-     * Returns the models properties.
-     *
-     * @return array
-     */
-    public static function properties()
-    {
-        return static::$_properties;
     }
 
     /**
@@ -150,12 +111,12 @@ class CustomField extends Model
      *
      * @return array
      */
-    public static function types_select_options()
+    public static function typesSelectOptions()
     {
-        $options = array();
+        $options = [];
 
         foreach (static::types() as $type) {
-            $options[] = array('label' => l($type), 'value' => $type);
+            $options[] = ['label' => Language::translate($type), 'value' => $type];
         }
 
         return $options;
@@ -167,12 +128,12 @@ class CustomField extends Model
      *
      * @return array
      */
-    public function values_select_options()
+    public function valuesSelectOptions()
     {
-        $options = array();
+        $options = [];
 
         foreach (explode("\n", $this->values) as $option) {
-            $options[] = array('label' => $option, 'value' => $option);
+            $options[] = ['label' => $option, 'value' => $option];
         }
 
         return $options;
@@ -334,11 +295,11 @@ class CustomField extends Model
      *
      * @return string
      */
-    public function type_css_classes()
+    public function typeCssClasses()
     {
-        $classes = array();
+        $classes = [];
 
-        foreach ($this->_data['ticket_type_ids'] as $type_id) {
+        foreach ($this->ticket_type_ids as $type_id) {
             $classes[] = "field-for-type-{$type_id}";
         }
 
@@ -352,27 +313,9 @@ class CustomField extends Model
      */
     public function save()
     {
-        if ($this->is_valid()) {
-            // Defaults
-            $defaults = array(
-                'values'          => "NULL",
-                'multiple'        => 0,
-                'default_value'   => "NULL",
-                'regex'           => "NULL",
-                'min_length'      => "NULL",
-                'max_length'      => "NULL",
-                'is_required'     => 0,
-                'ticket_type_ids' => array()
-            );
-
-            // Merge defaults with currently set data
-            $this->_data = array_merge($defaults, $this->_data);
-
+        if ($this->validates()) {
             // Remove stupid crap
-            $this->_data['values'] = str_replace("\r", '', $this->_data['values']);
-
-            // JSON encode ticket type IDs
-            $this->_data['ticket_type_ids'] = json_encode($this->_data['ticket_type_ids']);
+            $this->values = str_replace("\r", '', $this->values);
 
             return parent::save();
         }
