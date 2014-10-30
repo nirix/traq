@@ -134,11 +134,10 @@ class Tickets extends AppController
                 $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
                 $tickets->orderBy($sorting[0], $sorting[1]);
 
-                // $this->getColumns();
-
                 return $this->render('tickets/index.phtml', [
                     'tickets'    => $tickets->fetchAll(),
-                    'pagination' => $pagination
+                    'pagination' => $pagination,
+                    'columns'    => $this->getColumns()
                 ]);
             } elseif ($format == 'atom') {
                 throw new \Exception("Not implemented");
@@ -146,42 +145,48 @@ class Tickets extends AppController
         });
     }
 
-    private function get_columns()
+    /**
+     * Get columns for the ticket listing page.
+     *
+     * @return array
+     */
+    protected function getColumns()
     {
-        $allowed_columns = ticketlist_allowed_columns();
+        $allowedColumns = Ticketlist::allowedColumns();
 
         // Add custom fields
-        foreach ($this->custom_fields as $field) {
-            $allowed_columns[] = $field->id;
+        foreach ($this->customFields as $field) {
+            $allowedColumns[] = $field->id;
         }
 
         // Set columns from form
-        if (Request::method() == 'post' and isset(Request::$post['update_columns'])) {
-            $new_columns = array();
-            foreach (Request::$post['columns'] as $column) {
-                $new_columns[] = $column;
-            }
-            $_SESSION['columns'] = Request::$request['columns'] = $new_columns;
-        }
+        if (Request::method() == 'POST' and Request::post('update_columns')) {
+            $newColumns = [];
 
+            foreach (Request::$post['columns'] as $column) {
+                $newColumns[] = $column;
+            }
+
+            $_SESSION['columns'] = Request::$request['columns'] = $newColumns;
+            return $newColumns;
+        }
         // Get columns
-        $columns = array();
-        if (isset($_SESSION['columns']) or isset(Request::$request['columns'])) {
-            // Loop over customs from session or request
-            foreach ((isset($_SESSION['columns']) ? $_SESSION['columns'] : explode(',', Request::$request['columns'])) as $column) {
+        elseif (isset($_SESSION['columns']) or isset(Request::$request['columns'])) {
+            $columns = [];
+
+            foreach (explode(',', Request::$request['columns']) as $column) {
                 // Make sure it's a valid column
-                if (in_array($column, $allowed_columns)) {
+                if (in_array($column, $allowedColumns)) {
                     $columns[] = $column;
                 }
             }
+
+            return $columns;
         }
         // Use default columns
         else {
-            $columns = ticket_columns();
+            return Ticketlist::defaultColumns();
         }
-
-        // Send columns to view
-        View::set('columns', $columns);
     }
 
     /**
