@@ -16,7 +16,7 @@
 					<?=HTML::link($t('roadmap'), $project->href('roadmap'), array('class' => "link"))?>
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
 					<ul class="dropdown-menu">
-					<?php foreach ($project->milestones()->where('status = ?', 1)->orderBy('displayorder', 'ASC')->fetchAll() as $milestone): ?>
+					<?php foreach ($project->milestones()->where('status = ?', 1)->orderBy('display_order', 'ASC')->fetchAll() as $milestone): ?>
 						<li>
 							<a href="<?=Request::basePath($milestone->href())?>">
 								<?=$milestone->name?>
