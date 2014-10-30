@@ -24,12 +24,13 @@
 namespace Traq\Helpers;
 
 use Avalon\Database\QueryBuilder;
-use Traq\Models\Ticket;
-use Traq\Models\CustomField;
-use Traq\Models\Status;
-use Traq\Models\User;
+use Traq\Models\Project;
 use Traq\Models\Milestone;
+use Traq\Models\Status;
 use Traq\Models\Type;
+use Traq\Models\Ticket;
+use Traq\Models\User;
+use Traq\Models\CustomField;
 
 /**
  * Ticket filter query builder.
@@ -39,12 +40,22 @@ use Traq\Models\Type;
  */
 class TicketFilterQuery
 {
-    private $sql = [];
-    private $custom_field_sql = [];
-    private $filters = [];
-    private $project;
+    /**
+     * @var Project
+     */
+    protected $project;
 
-    public function __construct($project)
+    /**
+     * @var QueryBuilder
+     */
+    protected $builder;
+
+    /**
+     * @var array
+     */
+    protected $filters;
+
+    public function __construct(Project $project)
     {
         $this->project = $project;
         $this->builder = $project->tickets();
