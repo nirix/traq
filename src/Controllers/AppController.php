@@ -118,6 +118,18 @@ class AppController extends Controller
     }
 
     /**
+     * Returns the value of the setting.
+     *
+     * @param string $setting
+     *
+     * @return mixed
+     */
+    protected function setting($setting)
+    {
+        return Setting::get($setting)->value;
+    }
+
+    /**
      * Sets the response to a 404 Not Found
      */
     public function show404()
