@@ -80,18 +80,31 @@ class Projects extends AppController
     /**
      * Handles the changelog page.
      */
-    public function action_changelog()
+    public function changelogAction()
     {
         // Atom feed
-        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_changelog_feed', $this->project->name));
+        $this->feeds[] = [
+            Request::requestUri() . ".atom",
+            $this->translate('x_changelog_feed', [$this->project->name])
+        ];
 
         // Fetch ticket types
-        $types = array();
-        foreach (Type::fetch_all() as $type) {
+        $types = [];
+        foreach (Type::all() as $type) {
             $types[$type->id] = $type;
         }
 
-        View::set('milestones', $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all());
-        View::set('types', $types);
+        $milestones = $this->project->milestones()->where('status = ?', 2)
+            ->orderBy('display_order', 'DESC')
+            ->fetchAll();
+
+        return $this->respondTo(function($format) use ($milestones, $types) {
+            if ($format == 'html') {
+                return $this->render('projects/changelog.phtml', [
+                    'milestones' => $milestones,
+                    'types'      => $types
+                ]);
+            }
+        });
     }
 }

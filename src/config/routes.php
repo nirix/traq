@@ -78,6 +78,9 @@ Router::map(function($r){
     $r->get('/:project_slug/wiki/:wiki_slug')->to("{$traq}\Wiki::show");
     $r->get('/:project_slug/wiki/:wiki_slug/_revisions')->to("{$traq}\Wiki::revisions");
 
+    // Changelog
+    $r->get('/:project_slug/changelog')->to("{$traq}\Projects::changelog");
+
     // --------------------------------------------------
     // AdminCP
 
