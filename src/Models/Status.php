@@ -38,6 +38,22 @@ class Status extends Model
     );
 
     /**
+     * @return Status[]
+     */
+    public static function allOpen()
+    {
+        return static::where('status = ?', 1)->fetchAll();
+    }
+
+    /**
+     * @return Status[]
+     */
+    public static function allClosed()
+    {
+        return static::where('status = ?', 0)->fetchAll();
+    }
+
+    /**
      * Returns an array formatted for the Form::select() method.
      *
      * @return array
