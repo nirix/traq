@@ -21,34 +21,31 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
-use avalon\http\Request;
-use avalon\http\Router;
-use avalon\output\View;
-use avalon\core\Load;
-
-use traq\models\Project;
-use traq\models\Ticket;
-use traq\models\TicketRelationship;
-use traq\models\Milestone;
-use traq\models\Status;
-use traq\models\Type;
-use traq\models\Component;
-use traq\models\User;
-use traq\models\Subscription;
-use traq\models\CustomField;
-use traq\models\Timeline;
-use traq\helpers\TicketFilterQuery;
-use traq\helpers\Pagination;
+use Radium\Http\Request;
+use Radium\Http\Router;
+use Radium\Helpers\Pagination;
+use Traq\Models\Project;
+use Traq\Models\Ticket;
+use Traq\Models\TicketRelationship;
+use Traq\Models\Milestone;
+use Traq\Models\Status;
+use Traq\Models\Type;
+use Traq\Models\Component;
+use Traq\Models\User;
+use Traq\Models\Subscription;
+use Traq\Models\CustomField;
+use Traq\Models\Timeline;
+use Traq\Helpers\TicketFilterQuery;
+use Traq\Helpers\Ticketlist;
+use Traq\Helpers\TicketFilters;
 
 /**
  * Ticket controller.
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
  */
 class Tickets extends AppController
 {
@@ -69,124 +66,84 @@ class Tickets extends AppController
         parent::__construct();
 
         // Set the title and load the helper
-        $this->title(l('tickets'));
+        $this->title($this->translate('tickets'));
 
         // Custom fields
-        $this->custom_fields = CustomField::for_project($this->project->id);
-        View::set('custom_fields', $this->custom_fields);
+        $this->customFields = CustomField::forProject($this->project->id);
+        $this->set('customFields', $this->customFields);
     }
 
     /**
-     * Handles the ticket listing index page.
+     * Ticket listing.
      */
-    public function action_index()
+    public function indexAction()
     {
         // Atom feed
-        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name));
+        $this->feeds[] = [
+            Request::requestUri() . ".atom",
+            $this->translate('x_ticket_feed', [$this->project->name])
+        ];
 
         // Create ticket filter query
-        $filter_query = new TicketFilterQuery($this->project);
+        $filterQuery = new TicketFilterQuery($this->project);
 
-        // Loop over request variables
+        $ticketFilters = array_keys(TicketFilters::filtersFor($this->project));
+
+        // Process filters from request
         foreach (Request::$request as $filter => $value) {
-            // Check if the filter exists...
-            if (in_array($filter, array_keys(ticket_filters_for($this->project)))) {
-                $filter_query->process($filter, $value);
+            if (in_array($filter, $ticketFilters)) {
+                $filterQuery->process($filter, $value);
             }
         }
 
-        // Any filters stored in the session?
-        if (!count($filter_query->filters())
-        and isset($_SESSION['ticket_filters'])
-        and isset($_SESSION['ticket_filters'][$this->project->id])) {
-            foreach (explode('&', $_SESSION['ticket_filters'][$this->project->id]) as $filter_value) {
-                if (strpos($filter_value, '=')) {
-                    $filter_value = explode('=', $filter_value);
-                    if (in_array($filter_value[0], array_keys(ticket_filters_for($this->project)))) {
-                        $value = isset($filter_value[1]) ? explode(',', urldecode($filter_value[1])) : array();
-                        $filter_query->process($filter_value[0], $value);
-                    }
+        // Process filters from the session
+        if (
+            !count($filterQuery->filters())
+            && isset($_SESSION['ticket_filters'])
+            && isset($_SESSION['ticket_filters'][$this->project->id])
+        ) {
+            $filterValues = json_decode($_SESSION['ticket_filters'][$this->project->id], true);
+            foreach ($filterValues as $filter => $value) {
+                if (in_array($filter, $ticketFilters)) {
+                    $filterQuery->process($filter, $value);
                 }
             }
         } else {
-            $_SESSION['ticket_filters'][$this->project->id] = Request::$query;
+            $_SESSION['ticket_filters'][$this->project->id] = json_encode(Request::$request);
         }
 
-        // Send filters to the view
-        View::set('filters', $filter_query->filters());
+        // Get query builder
+        $tickets = $filterQuery->builder();
 
-        // Fetch tickets
-        $tickets = array();
-        $rows = $this->db->select('tickets.*')->from('tickets')->custom_sql($filter_query->sql());
+        return $this->respondTo(function($format) use ($tickets) {
+            if ($format == 'html') {
 
-        // Order by creation date for atom feed
-        if (Router::$extension == '.atom') {
-            $rows->order_by('created_at', 'DESC');
-        }
-        // Sort from URI, if set
-        else {
-            // field.direction
-            $order = explode('.', ticket_sort_order($this->project->default_ticket_sorting));
+                // Paginate tickets
+                $pagination = new Pagination(
+                    Request::request('page', 1),
+                    $this->setting('tickets_per_page'),
+                    $tickets->execute()->rowCount()
+                );
 
-            // Check if we need to do
-            // anything with the field.
-            switch($order[0]) {
-                case 'summary':
-                case 'body':
-                case 'votes':
-                case 'created_at':
-                case 'updated_at':
-                    $property = $order[0];
-                    break;
+                if ($pagination->paginate) {
+                    $tickets->setFirstResult($pagination->limit);
+                    $tickets->setMaxResults($this->setting('tickets_per_page'));
+                }
 
-                case 'user':
-                case 'milestone':
-                case 'version':
-                case 'component':
-                case 'type':
-                case 'status':
-                case 'priority':
-                case 'severity':
-                case 'assigned_to':
-                    $property = "{$order[0]}_id";
-                    break;
+                // Sorting
+                $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
+                $tickets->orderBy($sorting[0], $sorting[1]);
 
-                case 'id':
-                    $property = "ticket_id";
-                    break;
+                // $this->getColumns();
 
-                default:
-                    $property = 'ticket_id';
+                return $this->render('tickets/index.phtml', [
+                    'tickets'    => $tickets->fetchAll(),
+                    'pagination' => $pagination
+                ]);
+            } elseif ($format == 'atom') {
+                throw new \Exception("Not implemented");
             }
-
-            // Order rows
-            $rows->order_by($property, (strtolower($order[1]) == 'asc' ? "ASC" : "DESC"));
-        }
-
-        // Paginate tickets
-        $pagination = new Pagination(
-            (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
-            settings('tickets_per_page'), // Per page
-            $rows->exec()->row_count() // Row count
-        );
-
-        if ($pagination->paginate) {
-            $rows->limit($pagination->limit, settings('tickets_per_page'));
-        }
-
-        View::set(compact('pagination'));
-        unset($all_rows);
-
-        // Add to tickets array
-        foreach($rows->exec()->fetch_all() as $row) {
-            $tickets[] = new Ticket($row, false);
-        }
-
-        // Send the tickets array to the view..
-        View::set('tickets', $tickets);
-
-        // Columns
-        $this->get_columns();
+        });
     }
 
     private function get_columns()

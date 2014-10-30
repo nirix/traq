@@ -24,6 +24,7 @@
 namespace Traq\Helpers;
 
 use Radium\Language;
+use Radium\Http\Request;
 
 /**
  * Ticket listing helper
@@ -69,7 +70,7 @@ class Ticketlist
         $asc  = Language::translate('ascending');
         $desc = Language::translate('descending');
 
-        $options = array();
+        $options = [];
 
         // This is hackish and needs to be fixed in 4.0
         $options[$asc]  = [];
@@ -88,5 +89,57 @@ class Ticketlist
         }
 
         return $options;
+    }
+
+    /**
+     * Get ticket sorting order.
+     *
+     * @param string $fallback
+     *
+     * @return array
+     */
+    public static function sortOrder($fallback = 'id.asc')
+    {
+        $order = Request::request('order_by', $fallback);
+
+        // field.direction
+        $order = explode('.', $order);
+
+        // Check if we need to do
+        // anything with the field.
+        switch($order[0]) {
+            case 'summary':
+            case 'body':
+            case 'votes':
+            case 'created_at':
+            case 'updated_at':
+                $property = $order[0];
+                break;
+
+            case 'user':
+            case 'milestone':
+            case 'version':
+            case 'component':
+            case 'type':
+            case 'status':
+            case 'priority':
+            case 'severity':
+            case 'assigned_to':
+                $property = "{$order[0]}_id";
+                break;
+
+            case 'id':
+                $property = "ticket_id";
+                break;
+
+            default:
+                $property = 'ticket_id';
+        }
+
+        if (count($order) === 1) {
+            $order[] = 'ASC';
+        }
+
+        return [$property, strtolower($order[1]) == 'asc' ? "ASC" : "DESC"];
     }
 }
