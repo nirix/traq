@@ -159,8 +159,8 @@ class Tickets extends AppController
             $allowedColumns[] = $field->id;
         }
 
-        // Set columns from form
-        if (Request::method() == 'POST' and Request::post('update_columns')) {
+        // Columns from form
+        if (Request::method() == 'POST' && Request::post('update_columns')) {
             $newColumns = [];
 
             foreach (Request::$post['columns'] as $column) {
@@ -170,8 +170,8 @@ class Tickets extends AppController
             $_SESSION['columns'] = Request::$request['columns'] = $newColumns;
             return $newColumns;
         }
-        // Get columns
-        elseif (isset($_SESSION['columns']) or isset(Request::$request['columns'])) {
+        // Columns from request
+        elseif (isset(Request::$get['columns'])) {
             $columns = [];
 
             foreach (explode(',', Request::$request['columns']) as $column) {
@@ -182,6 +182,10 @@ class Tickets extends AppController
             }
 
             return $columns;
+        }
+        // Columns from session
+        elseif (isset($_SESSION['columns'])) {
+            return $_SESSION['columns'];
         }
         // Use default columns
         else {
