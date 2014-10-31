@@ -87,27 +87,28 @@ class Project extends Model
      *
      * @return array
      */
-    public function milestone_select_options($status = null, $sort = 'ASC')
+    public function milestoneSelectOptions($status = null, $sort = 'ASC')
     {
-        $milestones = Milestone::select()->where('project_id', $this->id)->order_by('displayorder', $sort);
+        $milestones = $this->milestones()->orderBy('display_order', $sort);
 
         // Check if we're fetching uncompleted milestones
         if ($status == 'open') {
-            $milestones = $milestones->where('status', 1);
+            $milestones = $milestones->where('status = ?', 1);
         }
         // Or if we're fetching completed milestones
         elseif ($status == 'closed') {
-            $milestones = $milestones->where('status', 2);
+            $milestones = $milestones->where('status = ?', 2);
         }
         // or even cancelled milestones
         elseif ($status == 'cancelled') {
-            $milestones = $milestones->where('status', 0);
+            $milestones = $milestones->where('status = ?', 0);
         }
 
         $options = array();
-        foreach ($milestones->exec()->fetch_all() as $milestone) {
-            $options[] = array('label' => $milestone->name, 'value' => $milestone->id);
+        foreach ($milestones->fetchAll() as $milestone) {
+            $options[] = ['label' => $milestone->name, 'value' => $milestone->id];
         }
+
         return $options;
     }
 
