@@ -307,7 +307,7 @@ class Ticketlist
                         Time::agoInWords($ticket->updated_at, false)
                     ]);
                 } else {
-                    Language::translate('never');
+                    return Language::translate('never');
                 }
                 break;
 
