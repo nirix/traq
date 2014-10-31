@@ -115,6 +115,8 @@ class Tickets extends AppController
         // Get query builder
         $tickets = $filterQuery->builder();
 
+        $this->set('filters', $filterQuery->filters() ?: []);
+
         return $this->respondTo(function($format) use ($tickets) {
             if ($format == 'html') {
 

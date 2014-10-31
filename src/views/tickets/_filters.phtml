@@ -1,0 +1,39 @@
+<?php $multiSelectFilter = function ($name, $filter) use ($project) { ?>
+	<td class="filter-condition">
+		<?=Form::select("filters[{$name}][prefix]", TicketFilters::isIsNotSelectOptions(), [
+			'value' => $filter['prefix'],
+			'id'    => false,
+			'class' => 'form-control'
+		])?>
+	</td>
+	<td class="filter-value">
+		<?=Form::select("filters[{$name}][values][]", TicketFilters::selectOptionsFor($name, $project), [
+			'value'    => $filter['values'],
+			'multiple' => true,
+			'class'    => 'form-control'
+		])?>
+	</td>
+<?php } ?>
+<form action="<?=Request::basePath($project->href('issues/update-filters'))?>" method="post">
+	<fieldset id="ticket-filters">
+		<legend><a href="#"><?=$t('filters')?></a></legend>
+
+		<div id="ticket-filters-content">
+			<table class="table table-hover table-striped">
+				<tbody>
+				<?php foreach ($filters as $filterName => $filter): ?>
+					<tr class="filter-<?=$filterName?>">
+						<td class="filter-name"><?=$t($filterName)?></td>
+						<?php if (in_array($filterName, ['milestone', 'status', 'version', 'type', 'component', 'priority', 'severity'])): ?>
+							<?=$multiSelectFilter($filterName, $filter)?>
+							<td class="filter-actions">
+								<button class="btn btn-sm btn-danger" class="remove-filter" data-filter="<?=$filterName?>">-</button>
+							</td>
+						<?php endif; ?>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</fieldset>
+</form>

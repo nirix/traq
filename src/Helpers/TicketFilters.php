@@ -195,4 +195,17 @@ class TicketFilters
 
         return $options;
     }
+
+    /**
+     * Returns is/is not options for the `Form::select` helper.
+     *
+     * @return array
+     */
+    public static function isIsNotSelectOptions()
+    {
+        return [
+            ['label' => Language::translate('is'), 'value' => ''],
+            ['label' => Language::translate('is_not'), 'value' => '!']
+        ];
+    }
 }
