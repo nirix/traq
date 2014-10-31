@@ -24,7 +24,13 @@
 					<?=Form::checkbox('tickets[]', $ticket->ticket_id, ['id' => "mass-action-ticket-{$ticket->ticket_id}"])?>
 				</td>
 			<?php foreach ($columns as $column): ?>
-				<td>
+				<?php if ($column == 'priority'): ?>
+					<td class="<?=Ticketlist::priorityClass($ticket)?>">
+				<?php elseif ($column == 'severity'): ?>
+					<td class="<?=Ticketlist::severityClass($ticket)?>">
+				<?php else: ?>
+					<td>
+				<?php endif; ?>
 					<?php if ($column == 'summary'): ?>
 						<?=HTML::link(Ticketlist::dataFor($column, $ticket), $ticket)?>
 					<?php elseif ($column == 'owner'): ?>

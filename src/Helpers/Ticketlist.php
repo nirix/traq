@@ -26,6 +26,7 @@ namespace Traq\Helpers;
 use Radium\Language;
 use Radium\Http\Request;
 use Radium\Helpers\Time;
+use Traq\Models\Ticket;
 
 /**
  * Ticket listing helper
@@ -187,6 +188,66 @@ class Ticketlist
         }
 
         return str_replace("order_by=". implode('.', $order), "order_by={$query}", Request::requestUri());
+    }
+
+    /**
+     * @param Ticket $ticket
+     *
+     * @return string
+     */
+    public static function priorityClass(Ticket $ticket)
+    {
+        switch ($ticket->priority()->level) {
+            case 1:
+                return 'active';
+                break;
+
+            case 2:
+                return 'success';
+                break;
+
+            case 3:
+                return '';
+                break;
+
+            case 4:
+                return 'warning';
+                break;
+
+            case 5:
+                return 'danger';
+                break;
+        }
+    }
+
+    /**
+     * @param Ticket $ticket
+     *
+     * @return string
+     */
+    public static function severityClass(Ticket $ticket)
+    {
+        switch ($ticket->severity()->level) {
+            case 1:
+                return 'active';
+                break;
+
+            case 2:
+                return 'info';
+                break;
+
+            case 3:
+                return 'success';
+                break;
+
+            case 4:
+                return 'warning';
+                break;
+
+            case 5:
+                return 'danger';
+                break;
+        }
     }
 
     /**
