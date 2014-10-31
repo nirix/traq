@@ -261,7 +261,7 @@ class Ticketlist
 
             // Owner / author column
             case 'owner':
-                return $ticket->user()->username;
+                return $ticket->user()->name;
                 break;
 
             // Ticket type column
