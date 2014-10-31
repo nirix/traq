@@ -90,7 +90,6 @@ $enAU = new Language(function($t){
         'total'        => "Total",
 
         // Issue properties
-        'columns'     => "Columns",
         'id'          => "ID",
         'ticket_id'   => "ID",
         'summary'     => "Summary",
@@ -107,6 +106,10 @@ $enAU = new Language(function($t){
         'votes'       => "Votes",
         'created'     => "Created",
         'updated'     => "Updated",
+
+        // Ticket listing
+        'columns' => "Columns",
+        'update'  => "Update",
 
         // --------------------------------------------------------------------
         // Misc
