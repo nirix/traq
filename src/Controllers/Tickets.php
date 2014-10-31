@@ -66,7 +66,7 @@ class Tickets extends AppController
         parent::__construct();
 
         // Set the title and load the helper
-        $this->title($this->translate('tickets'));
+        $this->title($this->translate('issues'));
 
         // Custom fields
         $this->customFields = CustomField::forProject($this->project->id);
