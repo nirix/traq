@@ -64,54 +64,6 @@ function ticket_filters_select_options($project = null)
 }
 
 /**
- * Returns options for the specific ticket filter.
- *
- * @param string $filter
- *
- * @return array
- */
-function ticket_filter_options_for($filter, $project_id = null) {
-    switch ($filter) {
-        // Milestone options
-        case 'milestone':
-            $options = Avalon::app()->project->milestone_select_options();
-            break;
-
-        // Version options
-        case 'version':
-            $options = Avalon::app()->project->milestone_select_options('completed');
-            break;
-
-        // Type options
-        case 'type':
-            $options = Type::select_options();
-            break;
-
-        // Status options
-        case 'status':
-            $options = Status::select_options();
-            break;
-
-        // Component options
-        case 'component':
-            $options = Component::select_options($project_id);
-            break;
-
-        // Priority options
-        case 'priority':
-            $options = Priority::select_options();
-            break;
-
-        // Priority options
-        case 'severity':
-            $options = Severity::select_options();
-            break;
-    }
-
-    return $options;
-}
-
-/**
  * Ticket listing sort indicator.
  *
  * @param string $column

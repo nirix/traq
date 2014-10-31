@@ -27,6 +27,11 @@ use Radium\Hook;
 use Radium\Language;
 use Traq\Models\Project;
 use Traq\Models\CustomField;
+use Traq\Models\Type;
+use Traq\Models\Status;
+use Traq\Models\Component;
+use Traq\Models\Priority;
+use Traq\Models\Severity;
 
 /**
  * Ticket filters helper.
@@ -112,5 +117,53 @@ class TicketFilters
         Hook::run('function:ticket_filters', array(&$filters));
 
         return $filters;
+    }
+
+    /**
+     * Returns options for the specific ticket filter.
+     *
+     * @param string $filter
+     *
+     * @return array
+     */
+    public static function selectOptionsFor($filter, Project $project) {
+        switch ($filter) {
+            // Milestone options
+            case 'milestone':
+                $options = $project->milestoneSelectOptions();
+                break;
+
+            // Version options
+            case 'version':
+                $options = $project->milestoneSelectOptions('completed');
+                break;
+
+            // Type options
+            case 'type':
+                $options = Type::selectOptions();
+                break;
+
+            // Status options
+            case 'status':
+                $options = Status::selectOptions();
+                break;
+
+            // Component options
+            case 'component':
+                $options = Component::selectOptions($project->id);
+                break;
+
+            // Priority options
+            case 'priority':
+                $options = Priority::selectOptions();
+                break;
+
+            // Severity options
+            case 'severity':
+                $options = Severity::selectOptions();
+                break;
+        }
+
+        return $options;
     }
 }
