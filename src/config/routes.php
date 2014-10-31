@@ -69,8 +69,10 @@ Router::map(function($r){
     $r->get('/:project_slug/roadmap/cancelled')->to("{$traq}\Roadmap::index", ['filter' => 'cancelled']);
     $r->get('/:project_slug/milestone/:slug')->to("{$traq}\Roadmap::show");
 
-    // Tickets
+    // Issues
     $r->get('/:project_slug/tickets')->to("{$traq}\Tickets::index");
+    $r->get('/:project_slug/issues')->to("{$traq}\Tickets::index");
+    $r->post('/:project_slug/issues/set-columns')->to("{$traq}\Tickets::setColumns");
 
     // Wiki
     $r->get('/:project_slug/wiki')->to("{$traq}\Wiki::show", ['slug' => 'main']);

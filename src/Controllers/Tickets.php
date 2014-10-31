@@ -194,6 +194,15 @@ class Tickets extends AppController
     }
 
     /**
+     * Set columns to be displayed on the ticket listing page.
+     */
+    public function setColumnsAction()
+    {
+        $this->getColumns();
+        $this->redirectTo($this->project->href('issues') . Request::buildQueryString());
+    }
+
+    /**
      * Handles the view ticket page.
      *
      * @param integer $ticket_id
