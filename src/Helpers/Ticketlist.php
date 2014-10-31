@@ -318,12 +318,12 @@ class Ticketlist
 
             // Priority
             case 'priority':
-                return $ticket->priority->name;
+                return $ticket->priority()->name;
                 break;
 
             // Severity
             case 'severity':
-                return $ticket->severity->name;
+                return $ticket->severity()->name;
                 break;
         }
 
