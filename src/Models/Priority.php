@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,61 +21,35 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
 
 /**
  * Priorities model.
  *
- * @package Traq
- * @subpackage Models
  * @author Jack P.
- * @copyright (c) Jack P.
  */
 class Priority extends Model
 {
-    protected static $_name = 'priorities';
-    protected static $_properties = array(
-        'id',
-        'name'
-    );
-
-    protected static $_escape = array(
-        'name'
-    );
+    protected static $_validates = [
+        'name' => ['required']
+    ];
 
     /**
      * Returns an array formatted for the Form::select() method.
      *
      * @return array
      */
-    public static function select_options()
+    public static function selectOptions()
     {
-        $options = array();
+        $options = [];
 
         // Get all rows and make a Form::select() friendly arrray
-        foreach (static::fetch_all() as $priority) {
-            $options[] = array('label' => $priority->name, 'value' => $priority->id);
+        foreach (static::all() as $priority) {
+            $options[] = ['label' => $priority->name, 'value' => $priority->id];
         }
         return $options;
     }
 
-    /**
-     * Checks if the groups data is valid.
-     *
-     * @return bool
-     */
-    public function is_valid()
-    {
-        $errors = array();
-
-        // Make sure the name is set...
-        if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.name_blank');
-        }
-
-        $this->errors = $errors;
-        return !count($errors) > 0;
-    }
 }
