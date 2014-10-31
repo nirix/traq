@@ -1,0 +1,21 @@
+
+<form action="<?=Request::basePath($project->href('issues/set-columns')) . Request::buildQueryString()?>" method="post">
+	<fieldset id="ticketlust-columns">
+		<legend><a href="#" id="ticketlist-columns-toggle"><?=$t('columns')?></a></legend>
+
+		<div id="ticketlist-columns-content">
+		<?php foreach (Ticketlist::allowedColumns() as $column): ?>
+			<?=Form::checkbox("columns[{$column}]", $column, ['checked' => in_array($column, $columns)])?>
+			<?=Form::label(Ticketlist::headerFor($column), "columns[{$column}]")?>
+		<?php endforeach; ?>
+		<?php foreach($customFields as $column): ?>
+			<?php echo Form::checkbox("columns[{$column->id}]", $column->id, ['checked' => in_array($column->name, $columns)])?>
+			<?php echo Form::label($column->name, "columns[{$column->id}]")?>
+		<?php endforeach; ?>
+
+			<div class="actions">
+				<?=Form::submit($t('update'), ['name' => 'update_columns'])?>
+			</div>
+		</div>
+	</fieldset>
+</form>

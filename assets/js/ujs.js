@@ -56,12 +56,16 @@
       event.preventDefault();
       return window.traq.overlay($(this));
     });
-    return doc.on('focus', 'input.datepicker', function() {
+    doc.on('focus', 'input.datepicker', function() {
       return $(this).datepicker({
         dateFormat: $(this).attr('data-date-format'),
         changeMonth: true,
         changeYear: true
       });
+    });
+    return $('#ticketlist-columns-toggle').on('click', function(event) {
+      event.preventDefault();
+      return $('#ticketlist-columns-content').slideToggle();
     });
   });
 
