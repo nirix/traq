@@ -120,6 +120,35 @@ class TicketFilters
     }
 
     /**
+     * Returns an array of available ticket filters formatted for Form::select().
+     *
+     * @return array
+     */
+    public static function selectOptions(Project $project = null)
+    {
+        $options = [];
+
+        // Add blank option
+        $options[] = ['label' => '', 'value' => ''];
+
+        // Ticket filters for a specific project
+        if ($project !== null) {
+            $filters = static::filtersFor($project);
+        }
+        // Default filters
+        else {
+            $filters = static::filters();
+        }
+
+        // Add filters
+        foreach ($filters as $slug => $name) {
+            $options[] = ['label' => $name, 'value' => $slug];
+        }
+
+        return $options;
+    }
+
+    /**
      * Returns options for the specific ticket filter.
      *
      * @param string $filter

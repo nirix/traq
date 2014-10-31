@@ -27,42 +27,6 @@ use traq\models\Priority;
 use traq\models\Severity;
 use traq\models\CustomField;
 
-
-
-/**
- * Returns an array of available ticket filters
- * formatted for Form::select().
- *
- * @return array
- *
- * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
- */
-function ticket_filters_select_options($project = null)
-{
-    $options = array();
-
-    // Add blank option
-    $options[] = array('label' => '', 'value' => '');
-
-    // Ticket filters for a specific project
-    if ($project !== null) {
-        $filters = ticket_filters_for($project);
-    }
-    // Default filters
-    else {
-        $filters = ticket_filters();
-    }
-
-    // Add filters
-    foreach ($filters as $slug => $name) {
-        $options[] = array('label' => $name, 'value' => $slug);
-    }
-
-    return $options;
-}
-
 /**
  * Ticket listing sort indicator.
  *
