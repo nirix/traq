@@ -264,6 +264,15 @@ class Ticketlist
                 return $ticket->user()->name;
                 break;
 
+            // Assigned to
+            case 'assigned_to':
+                if ($ticket->assigned_to()) {
+                    return $ticket->assigned_to()->name;
+                } else {
+                    return '';
+                }
+                break;
+
             // Ticket type column
             case 'type':
                 return $ticket->type()->name;
