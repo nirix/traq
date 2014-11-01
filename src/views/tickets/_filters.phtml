@@ -19,7 +19,7 @@
 		<legend><a href="#"><?=$t('filters')?></a></legend>
 
 		<div id="ticket-filters-content">
-			<table class="table table-hover table-striped">
+			<table class="table table-striped">
 				<tbody>
 				<?php foreach ($filters as $filterName => $filter): ?>
 					<tr class="filter-<?=$filterName?>">
@@ -34,6 +34,21 @@
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+			<div class="actions">
+				<div class="row">
+					<div class="col-sm-3 col-sm-offset-8">
+						<div class="input-group input-group-sm">
+							<?=Form::select('new_filter', TicketFilters::selectOptions($project), ['class' => 'form-control'])?>
+							<div class="input-group-btn">
+								<button type="submit" class="btn btn-success btn-filter-add">+</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-1">
+						<?=Form::submit($t('update'), ['class' => 'btn btn-sm btn-success'])?>
+					</div>
+				</div>
+			</div>
 		</div>
 	</fieldset>
 </form>
