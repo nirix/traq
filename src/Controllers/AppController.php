@@ -152,7 +152,7 @@ class AppController extends Controller
                 return $default;
             } elseif ($format === 'json') {
                 return API::response(404, [
-                    'message' => $this->translate('errors.404.message', [Request::uri()])
+                    'message' => $this->translate('errors.404.message', [Request::pathInfo()])
                 ]);
             }
         });
