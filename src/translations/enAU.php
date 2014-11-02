@@ -108,6 +108,7 @@ $enAU = new Language(function($t){
         'updated'     => "Updated",
 
         // Ticket listing
+        'filters' => "Filters",
         'columns' => "Columns",
         'update'  => "Update",
 
