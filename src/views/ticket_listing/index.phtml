@@ -1,8 +1,8 @@
 <div class="tickets container">
 	<h1 class="page-header"><?=$t('issues')?></h1>
 
-	<?=View::render('tickets/_filters.phtml')?>
-	<?=View::render('tickets/_columns.phtml', ['columns' => $columns])?>
+	<?=View::render('ticket_listing/_filters.phtml')?>
+	<?=View::render('ticket_listing/_columns.phtml', ['columns' => $columns])?>
 
 	<table id="tickets" class="table table-striped table-hover table-bordered">
 		<thead>

@@ -113,7 +113,7 @@ class TicketListing extends AppController
                     $tickets->setMaxResults($this->setting('tickets_per_page'));
                 }
 
-                return $this->render('tickets/index.phtml', [
+                return $this->render('ticket_listing/index.phtml', [
                     'tickets'    => $tickets->fetchAll(),
                     'pagination' => $pagination,
                     'columns'    => $this->getColumns()
