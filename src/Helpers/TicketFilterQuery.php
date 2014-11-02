@@ -31,6 +31,7 @@ use Traq\Models\Type;
 use Traq\Models\Ticket;
 use Traq\Models\User;
 use Traq\Models\Component;
+use Traq\Models\Priority;
 use Traq\Models\CustomField;
 
 /**
@@ -294,6 +295,37 @@ class TicketFilterQuery
                 $in = $this->builder->expr()->notIn('component_id', $ids);
             } else {
                 $in = $this->builder->expr()->in('component_id', $ids);
+            }
+
+            $this->builder->andWhere($in);
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Process ticket priority filter.
+     *
+     * @param string $condition
+     * @param array  $values
+     *
+     * @return array
+     */
+    protected function filterPriority($condition, $values)
+    {
+        $ids = [];
+
+        foreach ($values as $value) {
+            if ($priority = Priority::find('name', $value)) {
+                $ids[] = $priority->id;
+            }
+        }
+
+        if (count($ids)) {
+            if ($condition == 'NOT') {
+                $in = $this->builder->expr()->notIn('priority_id', $ids);
+            } else {
+                $in = $this->builder->expr()->in('priority_id', $ids);
             }
 
             $this->builder->andWhere($in);
