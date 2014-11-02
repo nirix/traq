@@ -43,9 +43,17 @@ class Projects extends AppController
 
     public function indexAction()
     {
-        return $this->render('admin/projects/index.phtml', [
-            'projects' => Project::all()
-        ]);
+        $projects = Project::all();
+
+        return $this->respondTo(function($format) use ($projects) {
+            if ($format == 'html') {
+                return $this->render('admin/projects/index.phtml', [
+                    'projects' => $projects
+                ]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse($projects);
+            }
+        });
     }
 
     /**
@@ -102,9 +110,15 @@ class Projects extends AppController
                 'project' => $project
             ]);
         } else {
-            return $this->render('admin/projects/edit.phtml', [
-                'project' => $project
-            ]);
+            return $this->respondTo(function($format) use ($project) {
+                if ($format == 'html') {
+                    return $this->render('admin/projects/edit.phtml', [
+                        'project' => $project
+                    ]);
+                } elseif ($format == 'json') {
+                    return $this->jsonResponse($project->toArray());
+                }
+            });
         }
     }
 
