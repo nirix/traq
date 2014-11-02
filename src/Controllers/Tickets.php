@@ -25,21 +25,11 @@ namespace Traq\Controllers;
 
 use Radium\Http\Request;
 use Radium\Http\Router;
-use Radium\Helpers\Pagination;
-use Traq\Models\Project;
+
 use Traq\Models\Ticket;
 use Traq\Models\TicketRelationship;
-use Traq\Models\Milestone;
-use Traq\Models\Status;
-use Traq\Models\Type;
-use Traq\Models\Component;
-use Traq\Models\User;
 use Traq\Models\Subscription;
-use Traq\Models\CustomField;
 use Traq\Models\Timeline;
-use Traq\Helpers\TicketFilterQuery;
-use Traq\Helpers\Ticketlist;
-use Traq\Helpers\TicketFilters;
 
 /**
  * Ticket controller.
@@ -71,137 +61,6 @@ class Tickets extends AppController
         // Custom fields
         $this->customFields = CustomField::forProject($this->project->id);
         $this->set('customFields', $this->customFields);
-    }
-
-    /**
-     * Ticket listing.
-     */
-    public function indexAction()
-    {
-        // Atom feed
-        $this->feeds[] = [
-            Request::requestUri() . ".atom",
-            $this->translate('x_ticket_feed', [$this->project->name])
-        ];
-
-        // Create ticket filter query
-        $filterQuery = new TicketFilterQuery($this->project);
-
-        $ticketFilters = array_keys(TicketFilters::filtersFor($this->project));
-
-        // Process filters from request
-        foreach (Request::$request as $filter => $value) {
-            if (in_array($filter, $ticketFilters)) {
-                $filterQuery->process($filter, $value);
-            }
-        }
-
-        // Process filters from the session
-        if (
-            !count($filterQuery->filters())
-            && isset($_SESSION['ticket_filters'])
-            && isset($_SESSION['ticket_filters'][$this->project->id])
-        ) {
-            $filterValues = json_decode($_SESSION['ticket_filters'][$this->project->id], true);
-            foreach ($filterValues as $filter => $value) {
-                if (in_array($filter, $ticketFilters)) {
-                    $filterQuery->process($filter, $value);
-                }
-            }
-        } else {
-            $_SESSION['ticket_filters'][$this->project->id] = json_encode(Request::$request);
-        }
-
-        // Get query builder
-        $tickets = $filterQuery->builder();
-
-        $this->set('filters', $filterQuery->filters() ?: []);
-
-        return $this->respondTo(function($format) use ($tickets) {
-            if ($format == 'html') {
-
-                // Paginate tickets
-                $pagination = new Pagination(
-                    Request::request('page', 1),
-                    $this->setting('tickets_per_page'),
-                    $tickets->execute()->rowCount()
-                );
-
-                if ($pagination->paginate) {
-                    $tickets->setFirstResult($pagination->limit);
-                    $tickets->setMaxResults($this->setting('tickets_per_page'));
-                }
-
-                // Sorting
-                $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
-                $tickets->orderBy($sorting[0], $sorting[1]);
-
-                return $this->render('tickets/index.phtml', [
-                    'tickets'    => $tickets->fetchAll(),
-                    'pagination' => $pagination,
-                    'columns'    => $this->getColumns()
-                ]);
-            } elseif ($format == 'atom') {
-                throw new \Exception("Not implemented");
-            }
-        });
-    }
-
-    /**
-     * Get columns for the ticket listing page.
-     *
-     * @return array
-     */
-    protected function getColumns()
-    {
-        $allowedColumns = Ticketlist::allowedColumns();
-
-        // Add custom fields
-        foreach ($this->customFields as $field) {
-            $allowedColumns[] = $field->id;
-        }
-
-        // Columns from form
-        if (Request::method() == 'POST' && Request::post('update_columns')) {
-            $newColumns = [];
-
-            foreach (Request::$post['columns'] as $column) {
-                $newColumns[] = $column;
-            }
-
-            $_SESSION['columns'] = Request::$request['columns'] = $newColumns;
-            return $newColumns;
-        }
-        // Columns from request
-        elseif (isset(Request::$get['columns'])) {
-            $columns = [];
-
-            foreach (explode(',', Request::$request['columns']) as $column) {
-                // Make sure it's a valid column
-                if (in_array($column, $allowedColumns)) {
-                    $columns[] = $column;
-                }
-            }
-
-            return $columns;
-        }
-        // Columns from session
-        elseif (isset($_SESSION['columns'])) {
-            return $_SESSION['columns'];
-        }
-        // Use default columns
-        else {
-            return Ticketlist::defaultColumns();
-        }
-    }
-
-    /**
-     * Set columns to be displayed on the ticket listing page.
-     */
-    public function setColumnsAction()
-    {
-        $this->getColumns();
-        $this->redirectTo($this->project->href('issues') . Request::buildQueryString());
     }
 
     /**
@@ -786,70 +645,6 @@ class Tickets extends AppController
         setcookie('selected_tickets', '', time(), '/');
 
         Request::redirectTo($this->project->href('tickets'));
-    }
-
-    /**
-     * Processes the ticket filters form and builds the query string.
-     */
-    public function updateFiltersAction()
-    {
-        $queryString = [];
-
-        // Add filter
-        if ($newFilter = Request::post('new_filter') and $newFilter !== '') {
-            if (!isset(Request::$post['filters'][$newFilter])) {
-                Request::$post['filters'][$newFilter] = [
-                    'prefix' => '',
-                    'values' => []
-                ];
-             } else {
-                Request::$post['filters'][$newFilter]['values'][] = '';
-             }
-        }
-
-        foreach (Request::post('filters', []) as $name => $filter) {
-            if (!in_array($name, array_keys(TicketFilters::filtersFor($this->project)))) {
-                continue;
-            }
-
-            switch ($name) {
-                case 'summary':
-                case 'description':
-                case 'owner':
-                case 'assigned_to':
-                    $queryString[$name] = $filter['prefix'] . implode(',', $filter['values']);
-                    break;
-
-                case 'milestone':
-                case 'version':
-                case 'type':
-                case 'status':
-                case 'component':
-                case 'priority':
-                case 'severity':
-                    $class = "\Traq\\Models\\" . ($name == 'version' ? 'Milestone' : ucfirst($name));
-
-                    if ($name == 'milestone' || $name == 'version') {
-                        $field = 'slug';
-                    } else {
-                        $field = 'name';
-                    }
-
-                    $values = [];
-                    foreach ($filter['values'] as $value) {
-                        $values[] = $class::find($value)->{$field};
-                    }
-
-                    $queryString[$name] = $filter['prefix'] . implode(',', $values);
-                    break;
-            }
-
-            if ($field = CustomField::find('slug', $name)) {
-                $queryString[$name] = $filter['prefix'] . implode(',', $filter['values']);
-            }
-        }
-
-        $this->redirectTo($this->project->href('issues') . Request::buildQueryString($queryString, false));
     }
 
     /**
