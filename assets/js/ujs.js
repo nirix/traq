@@ -65,13 +65,18 @@
     });
     $('#ticket-filters-toggle').on('click', function(event) {
       event.preventDefault();
+      if ($('#ticket-filters-content').css('display') === 'none') {
+        $.cookie('show_ticket_filters', true);
+      } else {
+        $.cookie('show_ticket_filters', false);
+      }
       return $('#ticket-filters-content').slideToggle();
     });
     $('#ticketlist-columns-toggle').on('click', function(event) {
       event.preventDefault();
       return $('#ticketlist-columns-content').slideToggle();
     });
-    return doc.on('click', 'button.remove-filter', function(event) {
+    doc.on('click', 'button.remove-filter', function(event) {
       var filterRow;
       event.preventDefault();
       filterRow = $(this).attr('data-filter');
@@ -79,6 +84,9 @@
         return $(this).remove();
       });
     });
+    if ($.cookie('show_ticket_filters') === 'true') {
+      return $('#ticket-filters-content').show();
+    }
   });
 
 }).call(this);
