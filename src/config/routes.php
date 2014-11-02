@@ -108,8 +108,8 @@ Router::map(function($r){
     $r->get('/admin/statuses/new')->to("{$traq}\Admin\Statuses::new");
     $r->post('/admin/statuses/new')->to("{$traq}\Admin\Statuses::create");
 
-    $r->get('/admin/statuses/:id')->to("{$traq}\Admin\Statuses::edit");
-    $r->post('/admin/statuses/:id')->to("{$traq}\Admin\Statuses::save");
+    $r->get('/admin/statuses/:id/edit')->to("{$traq}\Admin\Statuses::edit");
+    $r->post('/admin/statuses/:id/edit')->to("{$traq}\Admin\Statuses::save");
 
     $r->get('/admin/statuses/:id/delete')->to("{$traq}\Admin\Statuses::destroy");
 });

@@ -1,7 +1,7 @@
 <div class="admin-statuses container">
     <h1 class="page-header"><?=$t('edit_status')?></h1>
 
-    <form action="<?=Request::basePath("/admin/statuses/{$status->id}")?>" method="post" class="form-horizontal">
+    <form action="<?=Request::basePath("/admin/statuses/{$status->id}/edit")?>" method="post" class="form-horizontal">
         <?=Errors::messagesFor($status)?>
         <?=View::render('admin/statuses/_form.phtml', ['status' => $status])?>
         <div class="form-actions">

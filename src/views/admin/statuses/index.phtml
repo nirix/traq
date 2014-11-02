@@ -19,10 +19,10 @@
         <tbody>
         <?php foreach ($statuses as $status): ?>
             <tr>
-                <td><?=HTML::link($status->name, "admin/statuses/{$status->id}")?></td>
+                <td><?=HTML::link($status->name, "admin/statuses/{$status->id}/edit")?></td>
                 <td><?=$t("status.type.{$status->status}")?></td>
                 <td class="actions">
-                    <?=HTML::link(TWBS::fa('edit', $t('edit')), "admin/statuses/{$status->id}", [
+                    <?=HTML::link(TWBS::fa('edit', $t('edit')), "admin/statuses/{$status->id}/edit", [
                         'class'   => 'btn btn-xs btn-warning',
                         'data-overlay' => true
                     ])?>
