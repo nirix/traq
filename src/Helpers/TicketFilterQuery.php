@@ -32,6 +32,7 @@ use Traq\Models\Ticket;
 use Traq\Models\User;
 use Traq\Models\Component;
 use Traq\Models\Priority;
+use Traq\Models\Severity;
 use Traq\Models\CustomField;
 
 /**
@@ -326,6 +327,37 @@ class TicketFilterQuery
                 $in = $this->builder->expr()->notIn('priority_id', $ids);
             } else {
                 $in = $this->builder->expr()->in('priority_id', $ids);
+            }
+
+            $this->builder->andWhere($in);
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Process ticket severity filter.
+     *
+     * @param string $condition
+     * @param array  $values
+     *
+     * @return array
+     */
+    protected function filterSeverity($condition, $values)
+    {
+        $ids = [];
+
+        foreach ($values as $value) {
+            if ($severity = Severity::find('name', $value)) {
+                $ids[] = $severity->id;
+            }
+        }
+
+        if (count($ids)) {
+            if ($condition == 'NOT') {
+                $in = $this->builder->expr()->notIn('severity_id', $ids);
+            } else {
+                $in = $this->builder->expr()->in('severity_id', $ids);
             }
 
             $this->builder->andWhere($in);
