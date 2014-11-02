@@ -73,6 +73,7 @@ Router::map(function($r){
     $r->get('/:project_slug/tickets')->to("{$traq}\Tickets::index");
     $r->get('/:project_slug/issues')->to("{$traq}\Tickets::index");
     $r->post('/:project_slug/issues/set-columns')->to("{$traq}\Tickets::setColumns");
+    $r->post('/:project_slug/issues/update-filters')->to("{$traq}\Tickets::updateFilters");
 
     // Wiki
     $r->get('/:project_slug/wiki')->to("{$traq}\Wiki::show", ['slug' => 'main']);
