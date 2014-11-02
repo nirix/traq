@@ -16,7 +16,7 @@
 		])?>
 	</td>
 	<td class="filter-actions">
-		<button class="btn btn-sm btn-danger" class="remove-filter" data-filter="<?=$name?>">-</button>
+		<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>">-</button>
 	</td>
 </tr>
 <?php } ?>
@@ -42,7 +42,7 @@
 			])?>
 		</td>
 		<td class="filter-actions">
-			<button class="btn btn-sm btn-danger" class="remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
+			<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
 		</td>
 	</tr>
 	<?php endforeach; ?>
@@ -69,14 +69,14 @@
 			])?>
 		</td>
 		<td class="filter-actions">
-			<button class="btn btn-sm btn-danger" class="remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
+			<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
 		</td>
 	</tr>
 	<?php endforeach; ?>
 <?php } ?>
 <form action="<?=Request::basePath($project->href('issues/update-filters'))?>" method="post">
 	<fieldset id="ticket-filters">
-		<legend><a href="#"><?=$t('filters')?></a></legend>
+		<legend><a href="#" id="ticket-filters-toggle"><?=$t('filters')?></a></legend>
 
 		<div id="ticket-filters-content">
 			<table class="table table-striped">

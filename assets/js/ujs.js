@@ -71,6 +71,14 @@
       event.preventDefault();
       return $('#ticketlist-columns-content').slideToggle();
     });
+    return doc.on('click', 'button.remove-filter', function(event) {
+      var filterRow;
+      event.preventDefault();
+      filterRow = $(this).attr('data-filter');
+      return $('#filter-' + filterRow).fadeOut(function() {
+        return $(this).remove();
+      });
+    });
   });
 
 }).call(this);
