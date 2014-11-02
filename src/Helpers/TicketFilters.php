@@ -208,4 +208,17 @@ class TicketFilters
             ['label' => Language::translate('is_not'), 'value' => '!']
         ];
     }
+
+    /**
+     * Returns contains/doesn't contain options for the `Form::select` helper.
+     *
+     * @return array
+     */
+    public static function containsFilterSelectOptions()
+    {
+        return [
+            ['label' => Language::translate('contains'), 'value' => ''],
+            ['label' => Language::translate('doesnt_contain'), 'value' => '!']
+        ];
+    }
 }
