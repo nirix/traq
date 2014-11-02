@@ -63,7 +63,11 @@
         changeYear: true
       });
     });
-    return $('#ticketlist-columns-toggle').on('click', function(event) {
+    $('#ticket-filters-toggle').on('click', function(event) {
+      event.preventDefault();
+      return $('#ticket-filters-content').slideToggle();
+    });
+    $('#ticketlist-columns-toggle').on('click', function(event) {
       event.preventDefault();
       return $('#ticketlist-columns-content').slideToggle();
     });
