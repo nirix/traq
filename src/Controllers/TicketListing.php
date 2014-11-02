@@ -95,8 +95,12 @@ class TicketListing extends AppController
         $this->set('filters', $filterQuery->filters() ?: []);
 
         return $this->respondTo(function($format) use ($tickets) {
-            if ($format == 'html') {
+            if ($format == 'html' || $format == 'json') {
+                $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
+                $tickets->orderBy($sorting[0], $sorting[1]);
+            }
 
+            if ($format == 'html') {
                 // Paginate tickets
                 $pagination = new Pagination(
                     Request::request('page', 1),
@@ -109,15 +113,13 @@ class TicketListing extends AppController
                     $tickets->setMaxResults($this->setting('tickets_per_page'));
                 }
 
-                // Sorting
-                $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
-                $tickets->orderBy($sorting[0], $sorting[1]);
-
                 return $this->render('tickets/index.phtml', [
                     'tickets'    => $tickets->fetchAll(),
                     'pagination' => $pagination,
                     'columns'    => $this->getColumns()
                 ]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse($tickets->fetchAll());
             } elseif ($format == 'atom') {
                 throw new \Exception("Not implemented");
             }
