@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "d8160d3d521d1bd6bc491215d713b8ff23509022"
+                "reference": "f9d9ee32b959648b1048d6d5f2d03986fdd45308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/d8160d3d521d1bd6bc491215d713b8ff23509022",
-                "reference": "d8160d3d521d1bd6bc491215d713b8ff23509022",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/f9d9ee32b959648b1048d6d5f2d03986fdd45308",
+                "reference": "f9d9ee32b959648b1048d6d5f2d03986fdd45308",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-10-29 18:48:35"
+            "time": "2014-11-01 14:12:17"
         },
         {
             "name": "doctrine/annotations",
@@ -606,12 +606,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/radium.git",
-                "reference": "874e3e730e868b834fdb644489ac8131cb35d8a5"
+                "reference": "096dc698553bdb9e204b7c5cb8ee9f8e281f54ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/radium/zipball/874e3e730e868b834fdb644489ac8131cb35d8a5",
-                "reference": "874e3e730e868b834fdb644489ac8131cb35d8a5",
+                "url": "https://api.github.com/repos/nirix/radium/zipball/096dc698553bdb9e204b7c5cb8ee9f8e281f54ee",
+                "reference": "096dc698553bdb9e204b7c5cb8ee9f8e281f54ee",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
                 "framework",
                 "radium"
             ],
-            "time": "2014-10-30 18:52:46"
+            "time": "2014-11-01 17:12:28"
         },
         {
             "name": "radium/schema-builder",
