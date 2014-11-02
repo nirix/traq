@@ -436,6 +436,98 @@ class TicketFilterQuery
         return $values;
     }
 
+    /**
+     * Process ticket owner filter.
+     *
+     * @param string $condition
+     * @param array  $values
+     *
+     * @return array
+     */
+    protected function filterOwner($condition, $values)
+    {
+        $ids = [];
+
+        foreach ($values as $value) {
+            if ($value !== '' && $user = User::find('name', $value)) {
+                $ids[] = $user->id;
+            }
+        }
+
+        if (count($ids)) {
+            if ($condition == 'NOT') {
+                $in = $this->builder->expr()->notIn('user_id', $ids);
+            } else {
+                $in = $this->builder->expr()->in('user_id', $ids);
+            }
+
+            $this->builder->andWhere($in);
+        }
+
+        return $values;
+    }
+
+    /**
+     * Process ticket assignee filter.
+     *
+     * @param string $condition
+     * @param array  $values
+     *
+     * @return array
+     */
+    protected function filterAssignedTo($condition, $values)
+    {
+        $ids = [];
+
+        foreach ($values as $value) {
+            if ($value !== '' && $user = User::find('name', $value)) {
+                $ids[] = $user->id;
+            }
+        }
+
+        if (count($ids)) {
+            if ($condition == 'NOT') {
+                $in = $this->builder->expr()->notIn('assigned_to_id', $ids);
+            } else {
+                $in = $this->builder->expr()->in('assigned_to_id', $ids);
+            }
+
+            $this->builder->andWhere($in);
+        }
+
+        return $values;
+    }
+
+    protected function filterOwnerWIP($condition, $values)
+    {
+        $conditions = [];
+
+        $this->builder->join('tickets', 'users', 'owner', 'owner.id = tickets.user_id');
+
+        foreach ($values as $value) {
+            if ($value !== '') {
+                if ($condition == 'NOT') {
+                    $conditions[] = $this->builder()->expr()->neq(
+                        'owner.name',
+                        $this->builder->getConnection()->quote("{$value}")
+                    );
+                } else {
+                    $conditions[] = $this->builder()->expr()->eq(
+                        'owner.name',
+                        $this->builder->getConnection()->quote("{$value}")
+                    );
+                }
+            }
+        }
+
+        if (count($conditions)) {
+            $orX = call_user_func_array([$this->builder()->expr(), 'orX'], $conditions);
+            $this->builder()->andWhere($orX);
+        }
+
+        return $values;
+    }
+
     private function add_old($field, $condition, $values)
     {
 
