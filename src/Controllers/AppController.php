@@ -224,7 +224,7 @@ class AppController extends Controller
     protected function jsonResponse(array $data)
     {
         return new Response(function($resp) use ($data) {
-            $resp->contentType = 'text/javascript';
+            $resp->contentType = 'application/json';
             $resp->body = json_encode($data);
         });
     }
