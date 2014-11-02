@@ -52,6 +52,11 @@ class AppController extends Controller
     public $title = array();
     public $feeds = array();
 
+    /**
+     * @var bool
+     */
+    protected $isOverlay = false;
+
     public function __construct()
     {
         // Call the controller class constructor
@@ -96,6 +101,12 @@ class AppController extends Controller
         $this->set('projects', $this->projects);
 
         $this->set('app', $this);
+
+        // No layout for overlays
+        if (Request::header('X-Overlay')) {
+            $this->layout    = false;
+            $this->isOverlay = true;
+        }
     }
 
     /**

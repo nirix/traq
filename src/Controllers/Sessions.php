@@ -52,10 +52,8 @@ class Sessions extends AppController
     public function newAction() {
         return $this->respondTo(function($format){
             if ($format == 'html') {
-                if (Request::header('x-overlay')) {
-                    return $this->render('sessions/new.overlay.phtml', [
-                        '_layout' => false
-                    ]);
+                if ($this->isOverlay) {
+                    return $this->render('sessions/new.overlay.phtml');
                 } else {
                     return $this->render('sessions/new.phtml');
                 }

@@ -55,10 +55,9 @@ class Projects extends AppController
     {
         $this->title($this->translate('new'));
 
-        if (Request::header('x-overlay')) {
+        if ($this->isOverlay) {
             return $this->render('admin/projects/new.overlay.phtml', [
-                '_layout' => false,
-                'project' => new Project,
+                'project' => new Project
             ]);
         } else {
             return $this->render('admin/projects/new.phtml', [
@@ -98,10 +97,9 @@ class Projects extends AppController
 
         $project = Project::find($project_id);
 
-        if (Request::header('x-overlay')) {
+        if ($this->isOverlay) {
             return $this->render('admin/projects/edit.overlay.phtml', [
-                '_layout' => false,
-                'project' => $project,
+                'project' => $project
             ]);
         } else {
             return $this->render('admin/projects/edit.phtml', [
