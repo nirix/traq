@@ -30,6 +30,7 @@ use Traq\Models\Status;
 use Traq\Models\Type;
 use Traq\Models\Ticket;
 use Traq\Models\User;
+use Traq\Models\Component;
 use Traq\Models\CustomField;
 
 /**
@@ -262,6 +263,37 @@ class TicketFilterQuery
                 $in = $this->builder->expr()->notIn('type_id', $ids);
             } else {
                 $in = $this->builder->expr()->in('type_id', $ids);
+            }
+
+            $this->builder->andWhere($in);
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Process ticket component filter.
+     *
+     * @param string $condition
+     * @param array  $values
+     *
+     * @return array
+     */
+    protected function filterComponent($condition, $values)
+    {
+        $ids = [];
+
+        foreach ($values as $value) {
+            if ($component = Component::find('name', $value)) {
+                $ids[] = $component->id;
+            }
+        }
+
+        if (count($ids)) {
+            if ($condition == 'NOT') {
+                $in = $this->builder->expr()->notIn('component_id', $ids);
+            } else {
+                $in = $this->builder->expr()->in('component_id', $ids);
             }
 
             $this->builder->andWhere($in);
