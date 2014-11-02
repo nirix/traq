@@ -51,7 +51,7 @@
         url: uri,
         type: "GET",
         headers: {
-          'x-overlay': true
+          'X-Overlay': true
         },
         success: function(data) {
           var modal;
