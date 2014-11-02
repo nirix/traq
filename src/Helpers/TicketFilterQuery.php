@@ -366,36 +366,75 @@ class TicketFilterQuery
         return $ids;
     }
 
-    private function add_old($field, $condition, $values)
+    /**
+     * Process ticket summary filter.
+     *
+     * @param string $condition
+     * @param array  $values
+     *
+     * @return array
+     */
+    protected function filterSummary($condition, $values)
     {
-        $query_values = array();
+        $conditions = [];
 
-        if (!count($values)) {
-            return;
-        }
+        foreach ($values as $value) {
+            $value = str_replace('*', '%', $value);
 
-        // Milestone, version, status, type and component
-        if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity'])) {
-
-        }
-        // Summary and description
-        elseif (in_array($field, array('summary', 'description'))) {
-            $class = "\\traq\\models\\" . ucfirst($field);
-            $query_values = array();
-            foreach ($values as $value) {
-                if (!empty($value)) {
-                    $field_name = ($field == 'summary' ? 'summary' : 'body');
-                    $query_values[] = "`{$field_name}` {$condition} LIKE '%" . str_replace('*', '%', $value) . "%'";
+            if ($value !== '') {
+                if ($condition == 'NOT') {
+                    $conditions[] = $this->builder()->expr()->notLike('summary', "'%{$value}%'");
+                } else {
+                    $conditions[] = $this->builder()->expr()->like('summary', "'%{$value}%'");
                 }
             }
+        }
 
-            if (count($query_values)) {
-                $this->sql[] = "(" . implode(' OR ', $query_values) . ")";
-                $this->filters[$field]['values'] = $values;
+        if (count($conditions)) {
+            $orX = call_user_func_array([$this->builder()->expr(), 'orX'], $conditions);
+            $this->builder()->andWhere($orX);
+        }
+
+        return $values;
+    }
+
+    /**
+     * Process ticket description filter.
+     *
+     * @param string $condition
+     * @param array  $values
+     *
+     * @return array
+     */
+    protected function filterDescription($condition, $values)
+    {
+        $conditions = [];
+
+        foreach ($values as $value) {
+            $value = str_replace('*', '%', $value);
+
+            if ($value !== '') {
+                if ($condition == 'NOT') {
+                    $conditions[] = $this->builder()->expr()->notLike('body', "'%{$value}%'");
+                } else {
+                    $conditions[] = $this->builder()->expr()->like('body', "'%{$value}%'");
+                }
             }
         }
+
+        if (count($conditions)) {
+            $orX = call_user_func_array([$this->builder()->expr(), 'orX'], $conditions);
+            $this->builder()->andWhere($orX);
+        }
+
+        return $values;
+    }
+
+    private function add_old($field, $condition, $values)
+    {
+
         // Owner and Assigned to
-        elseif (in_array($field, array('owner', 'assigned_to'))) {
+        if (in_array($field, array('owner', 'assigned_to'))) {
             $column = ($field == 'owner') ? 'user' : $field;
 
             $query_values[] = 0;
