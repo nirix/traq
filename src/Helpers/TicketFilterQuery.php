@@ -250,9 +250,13 @@ class TicketFilterQuery
         }
 
         if (count($ids)) {
-            $this->builder->andWhere(
-                $this->builder->expr()->in('type_id', $ids)
-            );
+            if ($condition == 'NOT') {
+                $in = $this->builder->expr()->notIn('type_id', $ids);
+            } else {
+                $in = $this->builder->expr()->in('type_id', $ids);
+            }
+
+            $this->builder->andWhere($in);
         }
 
         return $ids;
