@@ -243,6 +243,8 @@ class TicketListing extends AppController
             }
         }
 
+        $_SESSION['ticket_filters'] = [];
+
         $this->redirectTo($this->project->href('issues') . Request::buildQueryString($queryString, false));
     }
 }
