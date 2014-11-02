@@ -34,7 +34,7 @@ use Radium\Language;
 class Status extends Model
 {
     protected static $_validates = array(
-        'name' => array('required', 'unique')
+        'name' => ['required', 'unique']
     );
 
     /**

@@ -158,6 +158,16 @@ $enAU = new Language(function($t){
         'x_closed'  => "{1} closed",
 
         // --------------------------------------------------------------------
+        // Statuses
+        'statuses'          => "Statuses",
+        'status.type.0'     => "Closed",
+        'status.type.1'     => "Open",
+        'status.type.2'     => "Started",
+        'new_status'        => "New Status",
+        'edit_status'        => "Edit Status",
+        'show_on_changelog' => "Show on Changelog",
+
+        // --------------------------------------------------------------------
         // Timeline
         'timeline'                     => "Timeline",
         'activity'                     => "Activity",

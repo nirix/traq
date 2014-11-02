@@ -213,4 +213,19 @@ class AppController extends Controller
 
         $this->set('currentUser', $this->user);
     }
+
+    /**
+     * Returns a new JSON response.
+     *
+     * @param array $data
+     *
+     * @return Response
+     */
+    protected function jsonResponse(array $data)
+    {
+        return new Response(function($resp) use ($data) {
+            $resp->contentType = 'text/javascript';
+            $resp->body = json_encode($data);
+        });
+    }
 }
