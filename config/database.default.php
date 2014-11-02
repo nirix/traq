@@ -1,11 +1,10 @@
 <?php
 // MySQL connection
-return array(
-    'driver'   => 'PDO',       // Leave as is.
-    'type'     => 'MySQL',     // Database type.
+return [
+    'driver'   => 'pdo_mysql', // Database type.
     'host'     => 'localhost', // Database server.
-    'username' => 'root',      // Database username.
+    'user'     => 'root',      // Database username.
     'password' => 'root',      // Database password.
-    'database' => 'traq',      // Database name.
-    //'port'     => 3306         // Database server port
-);
+    'dbname'   => 'traq',      // Database name.
+    //'port'   => 3306         // Database server port
+];
