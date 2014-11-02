@@ -227,9 +227,13 @@ class TicketFilterQuery
         }
 
         if (count($ids)) {
-            $this->builder->andWhere(
-                $this->builder->expr()->in('status_id', $ids)
-            );
+            if ($condition == 'NOT') {
+                $in = $this->builder->expr()->notIn('status_id', $ids);
+            } else {
+                $in = $this->builder->expr()->in('status_id', $ids);
+            }
+
+            $this->builder->andWhere($in);
         }
 
         return $ids;
