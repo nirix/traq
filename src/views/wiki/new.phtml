@@ -1,0 +1,12 @@
+<?=View::render('wiki/_nav.phtml')?>
+<div class="new-wiki-page container">
+    <h1 class="page-header"><?=$t('new_page')?></h1>
+
+    <form action="<?=Request::basePath($project->href('wiki/_new'))?>" method="post" class="form-horizontal">
+        <?=View::render('wiki/_form.phtml', ['page' => $page])?>
+
+        <div class="form-actions">
+            <?=Form::submit($t('create'), ['class' => 'btn btn-success'])?>
+        </div>
+    </form>
+</div>

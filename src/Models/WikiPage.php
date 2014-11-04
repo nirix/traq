@@ -60,15 +60,15 @@ class WikiPage extends Model
      * @param array   $data
      * @param boolean $is_new
      */
-    public function __construct($data = array(), $isNew = true)
+    public function __construct(array $data = [], $isNew = true)
     {
         parent::__construct($data, $isNew);
 
         if ($isNew) {
-            $this->_relationsCache['revision'] = new WikiRevision(array(
+            $this->_relationsCache['revision'] = new WikiRevision([
                 'revision' => 1,
                 'content'  => (isset($data['content']) ? $data['content'] : '')
-            ));
+            ]);
         }
     }
 
@@ -104,17 +104,17 @@ class WikiPage extends Model
         // Make sure the slug isnt in use..
         $checkSlug = static::select('id')
             ->where('id != ?', ($this->_isNew ? 0 : $this->id))
-            ->_and('slug = ?', $this->slug)
-            ->_and('project_id = ?', $this->project_id);
+            ->andWhere('slug = ?', $this->slug)
+            ->andWhere('project_id = ?', $this->project_id);
 
         if ($checkSlug->rowCount()) {
             $this->addError(
                 'slug', 'unique',
-                array('message' => "errors.validations.already_in_use")
+                ['message' => "errors.validations.already_in_use"]
             );
         }
 
-        return count($this->errors) == 0;
+        return count($this->_errors) == 0;
     }
 
     /**

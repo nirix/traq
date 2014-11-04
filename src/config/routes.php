@@ -77,6 +77,8 @@ Router::map(function($r){
 
     // Wiki
     $r->get('/:project_slug/wiki')->to("{$traq}\Wiki::show", ['slug' => 'main']);
+    $r->get('/:project_slug/wiki/_new')->to("{$traq}\Wiki::new");
+    $r->post('/:project_slug/wiki/_new')->to("{$traq}\Wiki::create");
     $r->get('/:project_slug/wiki/_pages')->to("{$traq}\Wiki::pages");
     $r->get('/:project_slug/wiki/:wiki_slug')->to("{$traq}\Wiki::show");
     $r->get('/:project_slug/wiki/:wiki_slug/_revisions')->to("{$traq}\Wiki::revisions");

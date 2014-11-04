@@ -24,9 +24,8 @@
 namespace Traq\Controllers;
 
 use Radium\Http\Request;
-use Radium\Http\Router;
+use Radium\Http\Response;
 
-use Traq\API;
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;
 use Traq\Models\Timeline;
@@ -104,6 +103,36 @@ class Wiki extends AppController
     /**
      * Displays the new wiki page form.
      */
+    public function newAction($slug = null)
+    {
+        $this->title($this->translate('new'));
+
+        $page = new WikiPage([
+            'title' => $slug,
+            'slug'  => $slug
+        ]);
+
+        return $this->render('wiki/new.phtml', [
+            'page' => $page
+        ]);
+    }
+
+    /**
+     * Create wiki page.
+     */
+    public function createAction()
+    {
+        $page = new WikiPage($this->pageParams());
+
+        if ($page->save()) {
+            $this->redirectTo($page->href());
+        } else {
+            return $this->render('wiki/new.phtml', [
+                'page' => $page
+            ]);
+        }
+    }
+
     public function action_new()
     {
         // Get slug
@@ -267,16 +296,29 @@ class Wiki extends AppController
     }
 
     /**
-     * Used by the action_view method if the page
-     * to display the new page form if the requested
-     * page doesn't exist.
+     * Used by the action_view method if the page to display the new page form
+     * if the requested page doesn't exist.
      *
      * @param string $slug The slug for the wiki page.
+     *
+     * @return Response
      */
-    private function _new_page($slug)
+    private function _newPage($slug)
     {
-        $this->render['view'] = 'wiki/new';
-        $this->action_new($slug);
+        return $this->newAction($slug);
+    }
+
+    /**
+     * @return array
+     */
+    public function pageParams()
+    {
+        return [
+            'title'      => Request::post('title'),
+            'slug'       => Request::post('slug'),
+            'content'    => Request::post('content'),
+            'project_id' => $this->project->id
+        ];
     }
 
     /**
