@@ -1,0 +1,7 @@
+{
+    "js": [
+        "components/jquery/dist/jquery.min.js",
+        "components/",
+        "js/"
+    ]
+}
