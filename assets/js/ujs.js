@@ -19,8 +19,18 @@
 
 (function() {
   $(document).ready(function() {
-    var doc;
+    var chosen_options, doc;
     doc = $(document);
+    if ($.cookie('show_ticket_filters') === 'true') {
+      $('#ticket-filters-content').show();
+    }
+    chosen_options = {
+      disable_search_threshold: 10
+    };
+    $('select:not(#new_filter)').chosen(chosen_options);
+    doc.on('shown.bs.modal', function() {
+      return $('select:not(#new_filter)').chosen(chosen_options);
+    });
     doc.on('click', '[data-confirm]', function(event) {
       var href;
       event.preventDefault();
@@ -76,7 +86,7 @@
       event.preventDefault();
       return $('#ticketlist-columns-content').slideToggle();
     });
-    doc.on('click', 'button.remove-filter', function(event) {
+    return doc.on('click', 'button.remove-filter', function(event) {
       var filterRow;
       event.preventDefault();
       filterRow = $(this).attr('data-filter');
@@ -84,9 +94,6 @@
         return $(this).remove();
       });
     });
-    if ($.cookie('show_ticket_filters') === 'true') {
-      return $('#ticket-filters-content').show();
-    }
   });
 
 }).call(this);

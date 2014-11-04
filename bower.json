@@ -5,7 +5,8 @@
     "jquery-ui": "~1.11.1",
     "jquery-cookie": "~1.4.1",
     "bootstrap": "~3.3.0",
-    "font-awesome": "~4.2.0"
+    "font-awesome": "~4.2.0",
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip"
   },
   "preen": {
     "jquery": [
@@ -23,6 +24,12 @@
     "font-awesome": [
       "css/font-awesome.min.css",
       "fonts/*"
+    ],
+    "chosen": [
+      "chosen-sprite.png",
+      "chosen-sprite@2x.png",
+      "chosen.min.css",
+      "chosen.jquery.min.js"
     ]
   }
 }
