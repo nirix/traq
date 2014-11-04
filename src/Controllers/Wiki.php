@@ -125,69 +125,22 @@ class Wiki extends AppController
         $page = new WikiPage($this->pageParams());
 
         if ($page->save()) {
+            $page->revision()->set([
+                'user_id'      => $this->user->id,
+                'wiki_page_id' => $page->id
+            ]);
+            $page->revision()->save();
+
+            $page->revision_id = $page->revision()->id;
+            $page->save();
+
+            $page->revision()->save();
             $this->redirectTo($page->href());
         } else {
             return $this->render('wiki/new.phtml', [
                 'page' => $page
             ]);
         }
-    }
-
-    public function action_new()
-    {
-        // Get slug
-        $slug = isset(Router::$params['slug']) ? Router::$params['slug'] : '';
-
-        $this->title(l('new'));
-
-        // Fetch the page from the database
-        $page = new WikiPage(array('slug' => $slug));
-
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Update the page information
-            $page->set(array(
-                'title'      => Request::post('title'),
-                'slug'       => Request::post('slug'),
-                'project_id' => $this->project->id
-            ));
-
-            // Set revision data
-            $page->revision->set(array(
-                'revision' => 1,
-                'user_id'  => $this->user->id,
-                'content'  => Request::post('body')
-            ));
-
-            // Save and redirect
-            if ($page->save()) {
-                // Save revision
-                $page->revision->wiki_page_id = $page->id;
-                $page->revision->save();
-
-                // Set pages revision ID
-                $page->revision_id = $page->revision->id;
-                $page->_is_new(false);
-                $page->save();
-
-                // Insert timeline event
-                $timeline = new Timeline(array(
-                    'project_id' => $this->project->id,
-                    'owner_id'   => $page->id,
-                    'action'     => 'wiki_page_created',
-                    'user_id'    => $this->user->id
-                ));
-                $timeline->save();
-
-                if ($this->is_api) {
-                    return \API::response(1, array('page' => $page));
-                } else {
-                    Request::redirectTo($page->href());
-                }
-            }
-        }
-
-        View::set('page', $page);
     }
 
     /**
@@ -317,7 +270,8 @@ class Wiki extends AppController
             'title'      => Request::post('title'),
             'slug'       => Request::post('slug'),
             'content'    => Request::post('content'),
-            'project_id' => $this->project->id
+            'project_id' => $this->project->id,
+            'user_id'    => $this->user->id
         ];
     }
 
