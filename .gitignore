@@ -3,6 +3,7 @@
 /config/config.php
 /config/database.php
 /assets/components
+/assets/js.js
 
 # Composer
 /vendor

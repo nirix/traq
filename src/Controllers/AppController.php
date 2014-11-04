@@ -107,6 +107,9 @@ class AppController extends Controller
             $this->layout    = false;
             $this->isOverlay = true;
         }
+
+        // Set environment
+        $this->set('environment', $_ENV['environment']);
     }
 
     /**
