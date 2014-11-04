@@ -64,7 +64,7 @@ class Errors
 
             foreach ($model->errors() as $field => $errors) {
                 foreach ($errors as $error) {
-                    $error['field'] = Language::translate($error['field']);
+                    $error['field'] = Language::translate($field);
                     $messages[] = Language::translate("errors.validations.{$error['error']}", $error);
                 }
             }
