@@ -108,10 +108,10 @@ class WikiPage extends Model
             ->andWhere('project_id = ?', $this->project_id);
 
         if ($checkSlug->rowCount()) {
-            $this->addError(
-                'slug', 'unique',
-                ['message' => "errors.validations.already_in_use"]
-            );
+            $this->addError('slug', 'unique', [
+                    'field' => 'slug',
+                    'error' => "already_in_use"
+            ]);
         }
 
         return count($this->_errors) == 0;
