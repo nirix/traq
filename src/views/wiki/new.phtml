@@ -2,6 +2,8 @@
 <div class="new-wiki-page container">
     <h1 class="page-header"><?=$t('new_page')?></h1>
 
+    <?=Errors::messagesFor($page)?>
+
     <form action="<?=Request::basePath($project->href('wiki/_new'))?>" method="post" class="form-horizontal">
         <?=View::render('wiki/_form.phtml', ['page' => $page])?>
 
