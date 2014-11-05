@@ -169,7 +169,7 @@ class AppController extends Controller
         $this->executeAction = false;
         return new Response(function($resp){
             $resp->status = 401;
-            $resp->body   = $this->renderView('errors/no_permission', [
+            $resp->body   = $this->renderView('errors/no_permission.phtml', [
                 '_layout' => $this->layout
             ]);
         });
