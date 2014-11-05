@@ -26,7 +26,7 @@ namespace Traq\Controllers;
 use Radium\Action\Controller;
 use Radium\Http\Response;
 use Radium\Http\Request;
-use Radium\Http\Router;
+use Radium\Routing\Router;
 use Radium\Action\View;
 use Radium\Language;
 use Avalon\Database\ConnectionManager;

@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Radium\Http\Router;
+use Radium\Routing\Router;
 
 Router::map(function($r){
     Router::$extensions[] = '.js';

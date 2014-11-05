@@ -24,8 +24,6 @@
 namespace Traq\Controllers;
 
 use Radium\Http\Request;
-use Radium\Http\Router;
-
 use Traq\Models\Ticket;
 use Traq\Models\TicketRelationship;
 use Traq\Models\Subscription;
