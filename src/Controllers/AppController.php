@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers;
 
-use Radium\Action\Controller;
+use Radium\Http\Controller;
 use Radium\Http\Response;
 use Radium\Http\Request;
 use Radium\Routing\Router;
