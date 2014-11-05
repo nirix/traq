@@ -7,16 +7,16 @@
 			<?=HTML::link($t('pages'), "{$project->slug}/wiki/_pages")?>
 		</li>
 
-		<?php if (current_user()->permission($project->id, 'create_wiki_page')): ?>
+		<?php if ($currentUser->permission($project->id, 'create_wiki_page')): ?>
 			<li><?=HTML::link(TWBS::fa('plus', $t('new_page')), $project->href('wiki/_new'))?></li>
 		<?php endif; ?>
-		<?php if (isset($page) && current_user()->permission($project->id, 'edit_wiki_page')): ?>
+		<?php if (isset($page) && $page && $currentUser->permission($project->id, 'edit_wiki_page')): ?>
 			<li><?=HTML::link(TWBS::fa('pencil', $t('edit_page')), $page->href('_edit'))?></li>
 		<?php endif; ?>
-		<?php if (isset($page) && current_user()->permission($project->id, 'delete_wiki_page')): ?>
+		<?php if (isset($page) && $page && $currentUser->permission($project->id, 'delete_wiki_page')): ?>
 			<li><?=HTML::link(TWBS::fa('trash', $t('delete_page')), $page->href('_delete'))?></li>
 		<?php endif; ?>
-		<?php if (isset($page)): ?>
+		<?php if (isset($page) && $page): ?>
 			<li><?=HTML::link(TWBS::fa('file-text-o', $t('revisions')), $page->href('_revisions'))?></li>
 		<?php endif; ?>
 	</ul>
