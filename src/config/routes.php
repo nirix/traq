@@ -81,7 +81,10 @@ Router::map(function($r){
     $r->post('/:project_slug/wiki/_new')->to("{$traq}\Wiki::create");
     $r->get('/:project_slug/wiki/_pages')->to("{$traq}\Wiki::pages");
     $r->get('/:project_slug/wiki/:wiki_slug')->to("{$traq}\Wiki::show");
+    $r->get('/:project_slug/wiki/:wiki_slug/_edit')->to("{$traq}\Wiki::edit");
+    $r->post('/:project_slug/wiki/:wiki_slug/_edit')->to("{$traq}\Wiki::save");
     $r->get('/:project_slug/wiki/:wiki_slug/_revisions')->to("{$traq}\Wiki::revisions");
+    $r->get('/:project_slug/wiki/:wiki_slug/_revisions/(?<revision>[\d]+)')->to("{$traq}\Wiki::revision");
 
     // Changelog
     $r->get('/:project_slug/changelog')->to("{$traq}\Projects::changelog");
