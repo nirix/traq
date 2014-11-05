@@ -230,14 +230,18 @@ class Wiki extends AppController
      * @param string  $slug
      * @param integer $revision
      */
-    public function action_revision($slug, $revision)
+    public function revisionAction($slug, $revision)
     {
-        $page = WikiPage::select()->where('project_id', $this->project->id)->where('slug', $slug)->exec()->fetch();
-        $page->revision = $page->revisions->where('revision', $revision)->exec()->fetch();
+        $revision = $this->page->revisions()->where('revision = ?', $revision)->fetch();
 
-        View::set(compact('page'));
+        if (!$revision) {
+            return $this->show404();
+        }
 
-        $this->render['view'] = 'wiki/view';
+        $this->title($this->translate('revision_x', [$revision->revision]));
+        $this->page->setRevision($revision);
+
+        return $this->render('wiki/show.phtml');
     }
 
     /**
