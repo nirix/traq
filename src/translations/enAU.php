@@ -116,6 +116,7 @@ $enAU = new Language(function($t){
         // Misc
         'ascending'  => "Ascending",
         'descending' => "Descending",
+        'x_by_x'     => "{1} by {2}",
 
         // --------------------------------------------------------------------
         // Pagination
