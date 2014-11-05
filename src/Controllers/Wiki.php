@@ -53,6 +53,11 @@ class Wiki extends AppController
             ['new', 'create', 'edit', 'save', 'delete'],
             'checkPermission'
         );
+
+        $this->before(
+            ['show', 'revisions', 'revision', 'edit', 'save', 'delete'],
+            'getPage'
+        );
     }
 
     /**
@@ -60,21 +65,11 @@ class Wiki extends AppController
      */
     public function showAction($slug)
     {
-        // Get the page
-        $page = $this->project->wikiPages()->where('slug = ?', $slug)->fetch();
-
-        // Check if the page exists
-        if (!$page) {
-            // it doesnt, show the new page form if the user has permission
-            // otherwise display the 404 page.
-            return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_newPage($slug) : $this->show404();
-        }
-
-        return $this->respondTo(function($format) use($page) {
+        return $this->respondTo(function($format){
             if ($format == 'html') {
-                return $this->render('wiki/show.phtml', ['page' => $page]);
+                return $this->render('wiki/show.phtml');
             } elseif ($format == 'json') {
-                return API::response(200, $page->__toArray());
+                return $this->jsonResponse($this->page->toArray());
             }
         });
     }
@@ -254,7 +249,7 @@ class Wiki extends AppController
      *
      * @return Response
      */
-    private function _newPage($slug)
+    protected function newPage($slug)
     {
         return $this->newAction($slug);
     }
@@ -271,6 +266,28 @@ class Wiki extends AppController
             'project_id' => $this->project->id,
             'user_id'    => $this->user->id
         ];
+    }
+
+    /**
+     * Gets the current wiki page.
+     */
+    public function getPage()
+    {
+        $this->page = $this->project->wikiPages()->where('slug = ?', $this->route['params']['slug'])->fetch();
+
+        if (
+            !$this->page
+            && $this->route['method'] == 'show'
+            && $this->user->permission($this->project->id, 'create_wiki_page')
+        ) {
+            return $this->newPage($this->route['params']['slug']);
+        } elseif (!$this->page) {
+            return $this->show404();
+        }
+
+        $this->title($this->translate($this->page->title));
+
+        $this->set('page', $this->page);
     }
 
     /**
