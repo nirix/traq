@@ -85,6 +85,16 @@ class WikiPage extends Model
     }
 
     /**
+     * Set revision.
+     *
+     * @param WikiRevision $revision
+     */
+    public function setRevision(WikiRevision $revision)
+    {
+        $this->_relationsCache['revision'] = $revision;
+    }
+
+    /**
      * Removes spaces from the slug.
      */
     protected function _setSlug()
