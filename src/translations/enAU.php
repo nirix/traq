@@ -216,6 +216,8 @@ $enAU = new Language(function($t){
         'edit_page'   => "Edit Page",
         'delete_page' => "Delete Page",
         'revisions'   => "Revisions",
-        'revision_x'  => "Revision {1}"
+        'revision_x'  => "Revision {1}",
+        'title'       => "Title",
+        'content'     => "Content"
     );
 });
