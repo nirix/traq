@@ -220,9 +220,8 @@ class Wiki extends AppController
      */
     public function revisionsAction($slug)
     {
-        // $page = WikiPage::select()->where('project_id = ?', $this->project->id)->where('slug', $slug)->exec()->fetch();
-        $page = $this->project->wikiPages()->where('slug = ?', $slug)->fetch();
-        $this->set(compact('page'));
+        $this->title($this->translate('revisions'));
+        return $this->render('wiki/revisions.phtml');
     }
 
     /**

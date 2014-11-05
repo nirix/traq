@@ -1,0 +1,15 @@
+<?php echo View::render('wiki/_nav.phtml'); ?>
+<div class="wiki-pages-revisions container">
+    <h1 class="page-header"><?=$page->title?></h1>
+
+    <ul class="wiki-pages">
+    <?php foreach ($page->revisions()->fetchAll() as $revision): ?>
+        <li>
+            <?=$t('x_by_x', [
+                HTML::link($t('revision_x', [$revision->revision]), $revision),
+                HTML::link($revision->user()->name, $revision->user())
+            ])?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>
