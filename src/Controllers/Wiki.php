@@ -39,13 +39,6 @@ use Traq\Models\Timeline;
  */
 class Wiki extends AppController
 {
-    // Before filters
-    public $before = array(
-        'new'    => array('_check_permission'),
-        'edit'   => array('_check_permission'),
-        'delete' => array('_check_permission')
-    );
-
     /**
      * Wiki controller constructor.
      */
@@ -55,6 +48,8 @@ class Wiki extends AppController
 
         // Set the title
         $this->title($this->translate('wiki'));
+
+        $this->before(['new', 'edit', 'delete'], 'checkPermission');
     }
 
     /**
@@ -278,15 +273,14 @@ class Wiki extends AppController
     /**
      * Used to check the permission for the requested action.
      */
-    public function _check_permission()
+    public function checkPermission()
     {
-        $action = (Router::$method == 'new' ? 'create' : Router::$method);
+        $action = ($this->route['method'] == 'new' ? 'create' : $this->route['method']);
 
         // Check if the user has permission
-        if (!current_user()->permission($this->project->id, "{$action}_wiki_page")) {
+        if (!$this->user->permission($this->project->id, "{$action}_wiki_page")) {
             // oh noes! display the no permission page.
-            $this->show_no_permission();
-            return false;
+            return $this->showNoPermission();
         }
     }
 }
