@@ -132,7 +132,7 @@ class WikiPage extends Model
      *
      * @return array
      */
-    public function __toArray()
+    public function toArray()
     {
         return [
             'id' => $this->id,
@@ -140,7 +140,9 @@ class WikiPage extends Model
             'slug'       => $this->slug,
             'main'       => $this->main,
             'project_id' => $this->project_id,
-            'revision'   => $this->revision()->__toArray()
+            'revision'   => $this->revision()->toArray(),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }
