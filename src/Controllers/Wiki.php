@@ -49,7 +49,10 @@ class Wiki extends AppController
         // Set the title
         $this->title($this->translate('wiki'));
 
-        $this->before(['new', 'edit', 'delete'], 'checkPermission');
+        $this->before(
+            ['new', 'create', 'edit', 'save', 'delete'],
+            'checkPermission'
+        );
     }
 
     /**
