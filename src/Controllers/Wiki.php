@@ -139,59 +139,40 @@ class Wiki extends AppController
     /**
      * Displays the edit wiki page form.
      */
-    public function action_edit()
+    public function editAction($slug)
     {
-        // Get slug
-        $slug = \avalon\http\Router::$params['slug'];
+        $this->title($this->translate('edit'));
+        return $this->render('wiki/edit.phtml');
+    }
 
-        $this->title(l('edit'));
+    /**
+     * Save wiki page.
+     */
+    public function saveAction($slug)
+    {
+        $this->page->set($this->pageParams());
 
-        // Fetch the page from the database
-        $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
-
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Update the page information
-            $page->set(array(
-                'title'      => Request::post('title'),
-                'slug'       => Request::post('slug'),
-                'project_id' => $this->project->id
+        if (Request::post('content') != $this->page->revision()->content) {
+            $revision = new WikiRevision(array(
+                'wiki_page_id' => $this->page->id,
+                'revision'     => $this->page->revision()->revision + 1,
+                'content'      => Request::post('content'),
+                'user_id'      => $this->user->id
             ));
-
-            if (Request::post('body') != $page->revision->content) {
-                $page->revision = new WikiRevision(array(
-                    'wiki_page_id' => $page->id,
-                    'revision'     => $page->revision->revision + 1,
-                    'content'      => Request::post('body'),
-                    'user_id'      => $this->user->id
-                ));
-            }
-
-            // Save and redirect
-            if ($page->save()) {
-                // Update revision
-                $page->revision->save();
-                $page->revision_id = $page->revision->id;
-                $page->save();
-
-                // Insert timeline event
-                $timeline = new Timeline(array(
-                    'project_id' => $this->project->id,
-                    'owner_id'   => $page->id,
-                    'action'     => 'wiki_page_edited',
-                    'user_id'    => $this->user->id
-                ));
-                $timeline->save();
-
-                if ($this->is_api) {
-                    return \API::response(1, array('page' => $page));
-                } else {
-                    Request::redirectTo($page->href());
-                }
-            }
         }
 
-        View::set('page', $page);
+        if ($this->page->save()) {
+            if (isset($revision)) {
+                $revision->save();
+                $this->page->revision_id = $revision->id;
+            }
+
+            $this->page->save();
+
+            $this->redirectTo($this->page->href());
+        } else {
+            return $this->render('wiki/edit.phtml');
+        }
     }
 
     /**
