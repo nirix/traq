@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2012-2014 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,35 +21,41 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
-use avalon\http\Request;
-use avalon\output\View;
-
-use traq\models\Severity;
+use Radium\Http\Request;
+use Traq\Models\Severity;
 
 /**
  * Severities controller
  *
  * @author Jack P.
- * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @since 3.0.0
  */
 class Severities extends AppController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->title(l('severities'));
+        $this->title($this->translate('severities'));
     }
 
     /**
      * Severity listing.
      */
-    public function action_index()
+    public function indexAction()
     {
-        View::set('severities', Severity::fetch_all());
+        $severities = Severity::all();
+
+        return $this->respondTo(function($format) use ($severities) {
+            if ($format == 'html') {
+                return $this->render('admin/severities/index.phtml', [
+                    'severities' => $severities
+                ]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse($severities);
+            }
+        });
     }
 
     /**

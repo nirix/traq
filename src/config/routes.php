@@ -75,6 +75,9 @@ Router::map(function($r){
     $r->post('/:project_slug/issues/set-columns')->to("{$traq}\TicketListing::setColumns");
     $r->post('/:project_slug/issues/update-filters')->to("{$traq}\TicketListing::updateFilters");
 
+    $r->get('/:project_slug/issues/new')->to("{$traq}\Tickets::new");
+    $r->post('/:project_slug/issues/new')->to("{$traq}\Tickets::create");
+
     // Wiki
     $r->get('/:project_slug/wiki')->to("{$traq}\Wiki::show", ['slug' => 'main']);
     $r->get('/:project_slug/wiki/_new')->to("{$traq}\Wiki::new");

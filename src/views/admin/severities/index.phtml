@@ -1,0 +1,36 @@
+<div class="admin severities container">
+    <h1 class="page-header"><?=$t('severities')?></h1>
+
+    <div class="page-actions">
+        <?=HTML::link(TWBS::fa('plus', $t('new_severity')), "admin/severities/new", [
+            'class'        => 'btn btn-success',
+            'data-overlay' => true
+        ])?>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th><?=$t('name')?></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($severities as $severity): ?>
+            <tr>
+                <td><?=HTML::link($severity->name, "admin/severities/{$severity->id}/edit")?></td>
+                <td class="actions">
+                    <?=HTML::link(TWBS::fa('edit', $t('edit')), "admin/severities/{$severity->id}/edit", [
+                        'class'   => 'btn btn-xs btn-warning',
+                        'data-overlay' => true
+                    ])?>
+                    <?=HTML::link(TWBS::fa('times', $t('delete')), "admin/severities/{$severity->id}/delete", [
+                        'class'        => 'btn btn-xs btn-danger',
+                        'data-confirm' => $t('confirm.delete')
+                    ])?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
