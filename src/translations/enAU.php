@@ -134,6 +134,13 @@ $enAU = new Language(function($t){
         'disable'   => "Disable",
 
         // --------------------------------------------------------------------
+        // Priorities
+
+        'priorities'    => "Priorities",
+        'new_priority'  => "New Priority",
+        'edit_priority' => "Edit Priority",
+
+        // --------------------------------------------------------------------
         // Projects
         'projects'      => "Projects",
         'new_project'   => "New Project",
