@@ -112,9 +112,15 @@ Router::map(function($r){
     $r->get('/admin/statuses')->to("{$traq}\Admin\Statuses::index");
     $r->get('/admin/statuses/new')->to("{$traq}\Admin\Statuses::new");
     $r->post('/admin/statuses/new')->to("{$traq}\Admin\Statuses::create");
-
     $r->get('/admin/statuses/:id/edit')->to("{$traq}\Admin\Statuses::edit");
     $r->post('/admin/statuses/:id/edit')->to("{$traq}\Admin\Statuses::save");
-
     $r->get('/admin/statuses/:id/delete')->to("{$traq}\Admin\Statuses::destroy");
+
+    // Priorities
+    $r->get('/admin/priorities')->to("{$traq}\Admin\Priorities::index");
+    $r->get('/admin/priorities/new')->to("{$traq}\Admin\Priorities::new");
+    $r->post('/admin/priorities/new')->to("{$traq}\Admin\Priorities::create");
+    $r->get('/admin/priorities/:id/edit')->to("{$traq}\Admin\Priorities::edit");
+    $r->post('/admin/priorities/:id/edit')->to("{$traq}\Admin\Priorities::save");
+    $r->get('/admin/priorities/:id/delete')->to("{$traq}\Admin\Priorities::destroy");
 });
