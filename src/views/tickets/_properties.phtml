@@ -1,0 +1,90 @@
+<div class="issue-property">
+	<label class="property-label"><?=$t('type')?></label>
+	<span class="property-value">
+		<?=$issue->type()->name?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('reported_by')?></label>
+	<span class="property-value">
+		<?=$issue->user()->name?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('assigned_to')?></label>
+	<span class="property-value">
+		<?=($issue->assignedTo() ? $issue->assignedTo()->name : $t('no_one'))?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('milestone')?></label>
+	<span class="property-value">
+		<?=$issue->milestone()->name?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('version')?></label>
+	<span class="property-value">
+		<?=($issue->version() ? $issue->version()->name : $t('none'))?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('status')?></label>
+	<span class="property-value">
+		<?=$issue->status()->name?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('component')?></label>
+	<span class="property-value">
+		<?=($issue->component() ? $issue->component()->name : $t('none'))?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('priority')?></label>
+	<span class="property-value">
+		<?=$issue->priority()->name?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('severity')?></label>
+	<span class="property-value">
+		<?=$issue->severity()->name?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('votes')?></label>
+	<span class="property-value">
+		<?=$issue->votes?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('related_tickets')?></label>
+	<span class="property-value">
+		...
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('created_at')?></label>
+	<span class="property-value">
+		<?=$t('time.x_ago', [Time::agoInWords($issue->created_at)])?>
+	</span>
+</div>
+
+<div class="issue-property">
+	<label class="property-label"><?=$t('updated_at')?></label>
+	<span class="property-value">
+		<?=$t('time.x_ago', [Time::agoInWords($issue->updated_at)])?>
+	</span>
+</div>

@@ -72,6 +72,22 @@ class Tickets extends AppController
      *
      * @param integer $ticket_id
      */
+    public function showAction($ticket_id)
+    {
+        $issue = $this->project->tickets()->where('ticket_id = ?', $ticket_id)->fetch();
+
+        $this->title($this->translate('issue.page-title', [$issue->ticket_id, $issue->summary]));
+        $this->set(compact('issue'));
+
+        return $this->respondTo(function($format){
+            if ($format == 'html') {
+                return $this->render('tickets/show.phtml');
+            } elseif ($format == 'json') {
+
+            }
+        });
+    }
+
     public function action_view($ticket_id)
     {
         // Fetch the ticket from the database and send it to the view.

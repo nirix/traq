@@ -71,7 +71,10 @@ Router::map(function($r){
 
     // Issues
     $r->get('/:project_slug/tickets')->to("{$traq}\TicketListing::index");
+    $r->get('/:project_slug/tickets/(?P<ticket_id>[\d]+)')->to("{$traq}\Tickets::show");
+
     $r->get('/:project_slug/issues')->to("{$traq}\TicketListing::index");
+    $r->get('/:project_slug/issues(?P<ticket_id>[\d]+)')->to("{$traq}\Tickets::show");
     $r->post('/:project_slug/issues/set-columns')->to("{$traq}\TicketListing::setColumns");
     $r->post('/:project_slug/issues/update-filters')->to("{$traq}\TicketListing::updateFilters");
 

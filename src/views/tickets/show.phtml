@@ -1,3 +1,26 @@
+<div class="show-issue container">
+	<div id="issue" class="well well-sm">
+		<div class="issue-actions pull-right">
+			<?=Subscription::linkFor($issue)?>
+		</div>
+
+		<h1 class="page-header"><?=$t('issue.page-header', [$issue->ticket_id, $issue->summary])?></h1>
+
+		<div class="issue-properties">
+			<?=View::render('tickets/_properties.phtml')?>
+		</div>
+
+		<div class="issue-summary">
+
+		</div>
+
+		<div class="issue-attachments">
+
+		</div>
+	</div>
+</div>
+
+<?php if (false) { ?>
 <div id="ticket_info">
 	<div class="ticket_actions">
 		<?php echo subscription_link_for($ticket); ?>
@@ -160,3 +183,4 @@
 <?php } ?>
 </div>
 <?php echo View::render('tickets/_update_ticket_form'); ?>
+<?php } ?>

@@ -50,7 +50,7 @@ class Ticket extends Model
         'priority', 'severity', 'type', 'status',
 
         // Relations with different models and such
-        'assigned_to' => array('model' => 'User'),
+        'assignedTo' => array('model' => 'User'),
         'version'     => array('model' => 'Milestone'),
     );
 

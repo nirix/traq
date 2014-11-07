@@ -83,11 +83,13 @@ $enAU = new Language(function($t){
 
         // --------------------------------------------------------------------
         // Issues
-        'issues'       => "Issues",
-        'create_issue' => "Create Issue",
-        'open'         => "Open",
-        'closed'       => "Closed",
-        'total'        => "Total",
+        'issues'            => "Issues",
+        'create_issue'      => "Create Issue",
+        'open'              => "Open",
+        'closed'            => "Closed",
+        'total'             => "Total",
+        'issue.page-title'  => "#{1} - {2}",
+        'issue.page-header' => "#{1} - {2}",
 
         // Issue properties
         'id'          => "ID",
