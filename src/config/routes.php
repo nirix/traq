@@ -126,4 +126,7 @@ Router::map(function($r){
     $r->get('/admin/priorities/:id/edit')->to("{$traq}\Admin\Priorities::edit");
     $r->post('/admin/priorities/:id/edit')->to("{$traq}\Admin\Priorities::save");
     $r->get('/admin/priorities/:id/delete')->to("{$traq}\Admin\Priorities::destroy");
+
+    // Severities
+    $r->get('/admin/severities')->to("{$traq}\Admin\Severities::index");
 });
