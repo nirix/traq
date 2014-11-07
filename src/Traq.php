@@ -116,6 +116,7 @@ class Traq extends Application
         // Radium helpers
         class_alias("Radium\Helpers\HTML", "HTML");
         class_alias("Radium\Helpers\Form", "Form");
+        class_alias("Radium\Helpers\Time", "Time");
         class_alias("Radium\Http\Request", "Request");
 
         // Traq helpers
