@@ -10,8 +10,8 @@
 			<?=View::render('tickets/_properties.phtml')?>
 		</div>
 
-		<div class="issue-summary">
-
+		<div class="issue-description">
+				<?=Format::text($issue->body)?>
 		</div>
 
 		<div class="issue-attachments">
@@ -33,54 +33,6 @@
 	</div>
 	<h2 id="ticket_summary"><?php echo htmlspecialchars($ticket->summary); ?></h2>
 	<section class="properties">
-		<div class="property">
-			<?php echo Form::label(l('ticket_id')); ?>
-			<span class="value"><?php echo $ticket->ticket_id; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('type')); ?>
-			<span class="value"><?php echo $ticket->type->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('owner')); ?>
-			<span class="value"><?php echo HTML::link(strshorten($ticket->user->name, 20), $ticket->user->href()); ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('assigned_to')); ?>
-			<span class="value"><?php echo $ticket->assigned_to ? HTML::link(strshorten($ticket->assigned_to->name, 20), $ticket->assigned_to->href()) : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('milestone')); ?>
-			<span class="value"><?php echo $ticket->milestone ? HTML::link($ticket->milestone->name, $ticket->milestone->href()) : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('version')); ?>
-			<span class="value"><?php echo $ticket->version ? $ticket->version->name : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('component')); ?>
-			<span class="value"><?php echo $ticket->component ? $ticket->component->name : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('status')); ?>
-			<span class="value"><?php echo $ticket->status->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('priority')); ?>
-			<span class="value"><?php echo $ticket->priority->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('severity')); ?>
-			<span class="value"><?php echo $ticket->severity->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('reported')); ?>
-			<span class="value"><?php echo time_ago($ticket->created_at, false, true); ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('updated')); ?>
-			<span class="value" id="updated_at"><?php echo $ticket->updated_at > $ticket->created_at ? time_ago($ticket->updated_at, false, true) : l('never'); ?></span>
-		</div>
 		<div class="property">
 			<?php echo Form::label(l('votes')); ?>
 			<span class="value">
