@@ -1,0 +1,12 @@
+<div class="new-ticket container">
+    <h1 class="page-header"><?=$t('new_issue')?></h1>
+
+    <?=Errors::messagesFor($ticket)?>
+
+    <form action="<?=$project->href('issues/new')?>" method="post" class="form-horizontal">
+        <?=View::render('tickets/_form.phtml', ['ticket' => $ticket])?>
+        <div class="form-actions">
+            <?=Form::submit($t('create'), ['class' => 'btn btn-success'])?>
+        </div>
+    </form>
+</div>

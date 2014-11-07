@@ -28,6 +28,9 @@ use Traq\Models\Ticket;
 use Traq\Models\TicketRelationship;
 use Traq\Models\Subscription;
 use Traq\Models\Timeline;
+use Traq\Models\CustomField;
+use Traq\Models\Type;
+use Traq\Models\Status;
 
 /**
  * Ticket controller.
@@ -59,6 +62,9 @@ class Tickets extends AppController
         // Custom fields
         $this->customFields = CustomField::forProject($this->project->id);
         $this->set('customFields', $this->customFields);
+
+        $this->set('typeSelectOptions', Type::selectOptions());
+        $this->set('statusSelectOptions', Status::selectOptions());
     }
 
     /**
@@ -157,6 +163,21 @@ class Tickets extends AppController
     /**
      * Handles the new ticket page and ticket creation.
      */
+    public function newAction()
+    {
+        $this->title($this->translate('new'));
+
+        if ($this->isOverlay) {
+            return $this->render('tickets/new.overlay.phtml', [
+                'ticket' => new Ticket
+            ]);
+        } else {
+            return $this->render('tickets/new.phtml', [
+                'ticket' => new Ticket
+            ]);
+        }
+    }
+
     public function action_new()
     {
         // Set the title
