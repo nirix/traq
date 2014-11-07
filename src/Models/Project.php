@@ -126,11 +126,11 @@ class Project extends Model
      *
      * @return array
      */
-    public function member_select_options()
+    public function memberSelectOptions()
     {
-        $options = array();
-        foreach (UserRole::project_members($this->id) as $user) {
-            $options[] = array('label' => $user->name, 'value' => $user->id);
+        $options = [];
+        foreach (UserRole::projectMembers($this->id) as $user) {
+            $options[] = ['label' => $user->name, 'value' => $user->id];
         }
         return $options;
     }
