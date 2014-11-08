@@ -168,6 +168,12 @@ $enAU = new Language(function($t){
         'x_closed'  => "{1} closed",
 
         // --------------------------------------------------------------------
+        // Severities
+        'severities'    => "Severity",
+        'new_severity'  => "New Severity",
+        'edit_severity' => "Edit Severity",
+
+        // --------------------------------------------------------------------
         // Statuses
         'statuses'          => "Statuses",
         'status.type.0'     => "Closed",
