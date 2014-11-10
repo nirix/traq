@@ -61,27 +61,35 @@ class Severities extends AppController
     /**
      * New severity.
      */
-    public function action_new()
+    public function newAction()
     {
-        // Create the severity
-        $severity = new Severity();
+        $this->title($this->translate('new'));
 
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Set the name
-            $severity->set('name', Request::post('name'));
-
-            // Save and redirect
-            if ($severity->save()) {
-                if ($this->is_api) {
-                    return \API::response(1, array('severity' => $severity));
-                } else {
-                    Request::redirectTo('/admin/severities');
-                }
-            }
+        if ($this->isOverlay) {
+            return $this->render('admin/severities/new.overlay.phtml', [
+                'severity' => new Severity
+            ]);
+        } else {
+            return $this->render('admin/severities/new.phtml', [
+                'severity' => new Severity
+            ]);
         }
+    }
 
-        View::set('severity', $severity);
+    /**
+     * Create severity.
+     */
+    public function createAction()
+    {
+        $severity = new Severity($this->severityParams());
+
+        if ($severity->save()) {
+            $this->redirectTo('admin/severities');
+        } else {
+            return $this->render('admin/severities/new.phtml', [
+                'severity' => $severity
+            ]);
+        }
     }
 
     /**
@@ -127,5 +135,16 @@ class Severities extends AppController
         } else {
             Request::redirectTo('/admin/severities');
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function severityParams()
+    {
+        return [
+            'name'  => Request::post('name'),
+            'level' => Request::post('level')
+        ];
     }
 }
