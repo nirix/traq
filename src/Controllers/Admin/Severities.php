@@ -97,27 +97,43 @@ class Severities extends AppController
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function editAction($id)
     {
-        // Get the severity
         $severity = Severity::find($id);
 
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Set the name
-            $severity->set('name', Request::post('name', $severity->name));
-
-            // Save and redirect
-            if ($severity->save()) {
-                if ($this->is_api) {
-                    return \API::response(1, array('severity' => $severity));
-                } else {
-                    Request::redirectTo('/admin/severities');
+        if ($this->isOverlay) {
+            return $this->render('admin/severities/edit.overlay.phtml', [
+                'severity' => $severity
+            ]);
+        } else {
+            return $this->respondTo(function($format) use ($severity) {
+                if ($format == 'html') {
+                    return $this->render('admin/severities/edit.phtml', [
+                        'severity' => $severity
+                    ]);
+                } elseif ($format == 'json') {
+                    return $this->jsonResponse($severity->toArray());
                 }
-            }
+            });
         }
+    }
 
-        View::set('severity', $severity);
+    /**
+     * Save severity.
+     */
+    public function saveAction($id)
+    {
+        $severity = Severity::find($id);
+
+        $severity->set($this->severityParams());
+
+        if ($severity->save()) {
+            $this->redirectTo('admin/severities');
+        } else {
+            return $this->render('admin/severities/edit.phtml', [
+                'severity' => $severity
+            ]);
+        }
     }
 
     /**

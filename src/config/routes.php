@@ -134,4 +134,6 @@ Router::map(function($r){
     $r->get('/admin/severities')->to("{$traq}\Admin\Severities::index");
     $r->get('/admin/severities/new')->to("{$traq}\Admin\Severities::new");
     $r->post('/admin/severities/new')->to("{$traq}\Admin\Severities::create");
+    $r->get('/admin/severities/:id/edit')->to("{$traq}\Admin\Severities::edit");
+    $r->post('/admin/severities/:id/edit')->to("{$traq}\Admin\Severities::save");
 });

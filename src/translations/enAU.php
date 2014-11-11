@@ -169,7 +169,7 @@ $enAU = new Language(function($t){
 
         // --------------------------------------------------------------------
         // Severities
-        'severities'    => "Severity",
+        'severities'    => "Severities",
         'new_severity'  => "New Severity",
         'edit_severity' => "Edit Severity",
 
