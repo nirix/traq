@@ -1,13 +1,15 @@
 Traq
 ======
 
-Traq is an open-source Project and Issue tracking system written in PHP.
+Traq is a PHP powered project manager and issue tracker featuring multiple projects,
+milestones, custom fields, per-project permissions, email notifications and much more.
 
 Requirements
 ------------
 
 - PHP 5.4 or later
-- MySQL, PostreSQL or SQLite
+- Database supported by [Doctrine](http://www.doctrine-project.org)
+  - PostgreSQL or MariaDB/MySQL recommended
 - A modern browser that supports JavaScript
 
 If you're using Apache, rename `htaccess.txt` to `.htaccess`, otherwise you will
