@@ -79,7 +79,8 @@ $output = str_replace(':baseuri:', Request::base(), $output);
 
 // Remove comments and such from the output.
 $output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
-$output = preg_replace('/\s*(,|;|:|{|})\s*/', '$1', $output);
+$output = preg_replace('!\s*(,|;|:|{|})\s*!', '$1', $output);
+$output = preg_replace('!;}!', '}', $output);
 
 // Minify the CSS.
 echo str_replace(array("\t", "\n"), '', $output);
