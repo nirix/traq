@@ -4,7 +4,6 @@
     "require": {
         "php": ">=5.4.0",
         "radium/framework": "2.0.*",
-        "radium/schema-builder": "1.0.*",
         "erusev/parsedown": "1.0.*",
         "erusev/parsedown-extra": "0.1.*",
         "traq/markdown-plugin": "v2.0",
