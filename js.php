@@ -19,12 +19,11 @@
  */
 
 // Set content type and charset.
-header("content-type: text/javascript; charset=UTF-8");
+header("Content-Type: text/javascript; charset=UTF-8");
 
 // Check if we can gzip the page or not/
 if (extension_loaded('zlib')) {
     // We can!
-    ob_end_clean();
     ob_start('ob_gzhandler');
 }
 

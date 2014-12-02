@@ -24,12 +24,11 @@
 require __DIR__ . '/vendor/autoload.php';
 
 // Set the content type and charset.
-header("content-type: text/css; charset: UTF-8;");
+header("Content-Type: text/css; charset=UTF-8");
 
 // Check if we can gzip the page or not/
 if (extension_loaded('zlib')) {
     // We can!
-    ob_end_clean();
     ob_start('ob_gzhandler');
 }
 
@@ -80,7 +79,8 @@ $output = str_replace(':baseuri:', Request::base(), $output);
 
 // Remove comments and such from the output.
 $output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
-$output = preg_replace('/\s*(,|;|:|{|})\s*/', '$1', $output);
+$output = preg_replace('!\s*(,|;|:|{|})\s*!', '$1', $output);
+$output = preg_replace('!;}!', '}', $output);
 
 // Minify the CSS.
 echo str_replace(array("\t", "\n"), '', $output);
