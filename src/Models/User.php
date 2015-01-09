@@ -33,6 +33,7 @@ use Avalon\Database\Model\SecurePassword;
  */
 class User extends Model
 {
+    protected $securePasswordField = 'password';
     use SecurePassword;
 
     protected static $_validates = [
