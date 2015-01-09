@@ -110,6 +110,14 @@ class AppController extends Controller
 
         // Set environment
         $this->set('environment', $_ENV['environment']);
+
+        if ($this->project) {
+            $this->set(
+                'activeMilestones',
+                $this->project->milestones()->where('status = ?', 1)
+                    ->orderBy('display_order', 'ASC')
+            );
+        }
     }
 
     /**
