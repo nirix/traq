@@ -72,7 +72,9 @@ class Sessions extends AppController
         and $user->authenticate(Request::$post['password'])) {
             if ($user->isActivated()) {
                 setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-                $this->redirectTo(isset(Request::$post['redirect']) ? Request::$post['redirect'] : '/');
+                return $this->redirectTo(
+                    Request::post('redirect', $this->generateUrl('root'))
+                );
             } else {
                 $activationRequired = true;
             }
@@ -89,6 +91,6 @@ class Sessions extends AppController
     public function destroyAction()
     {
         setcookie('_traq', sha1(time()), time() + 5, '/');
-        $this->redirectTo('/');
+        return $this->redirectTo($this->generateUrl('root'));
     }
 }
