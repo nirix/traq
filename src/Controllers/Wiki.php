@@ -128,7 +128,7 @@ class Wiki extends AppController
             $page->save();
 
             $page->revision()->save();
-            $this->redirectTo($page->href());
+            return $this->redirectTo($page->href());
         } else {
             return $this->render('wiki/new.phtml', [
                 'page' => $page
@@ -169,7 +169,7 @@ class Wiki extends AppController
 
             $this->page->save();
 
-            $this->redirectTo($this->page->href());
+            return $this->redirectTo($this->page->href());
         } else {
             return $this->render('wiki/edit.phtml');
         }
