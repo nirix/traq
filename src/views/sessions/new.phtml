@@ -4,7 +4,7 @@
 			<h1><?=$t('login')?></h1>
 
 			<?php if (Request::method() == 'POST'): ?>
-				<?php if (isset($activationRequired)): ?>
+				<?php if (isset($activationRequired) && $activationRequired): ?>
 					<?=TWBS::alert($t('errors.account.activation_required'), 'danger', false)?>
 				<?php else: ?>
 					<?=TWBS::alert($t('errors.invalid_username_or_password'), 'danger', false)?>
