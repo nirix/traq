@@ -28,7 +28,6 @@ use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\Type;
 use Traq\Models\Status;
-use Traq\API;
 
 /**
  * Project controller.
@@ -47,7 +46,7 @@ class Projects extends AppController
             if ($format == 'html') {
                 return $this->render('projects/index.phtml');
             } elseif ($format == 'json') {
-                return API::response(200, $this->projects);
+                return $this->jsonResponse($this->projects);
             }
         });
     }
@@ -72,7 +71,7 @@ class Projects extends AppController
             if ($format == 'html') {
                 return $this->render('projects/show.phtml');
             } elseif ($format == 'json') {
-                return API::response(200, $this->project);
+                return $this->jsonResponse($this->currentProject->toArray());
             }
         });
     }
