@@ -30,9 +30,7 @@ Router::map(function($r){
 
     // URL tokens
     $r->addToken('project_slug', '(?P<project_slug>[^/]+)');
-    $r->addToken('project_id',   '(?P<project_id>[\d]+)');
     $r->addToken('slug',         '(?P<slug>[^/]+?)');
-    $r->addToken('wiki_slug',    '(?P<slug>[^/]+?)');
     $r->addToken('event_id',     '(?P<event_id>[\d]+)');
     $r->addToken('ticket_id',    '(?P<ticket_id>[\d]+)');
     $r->addToken('revision',     '(?P<revision>[\d]+)');
