@@ -24,85 +24,86 @@
 namespace Traq\Controllers;
 
 use Radium\Http\Controller;
-use Radium\Http\Response;
 use Radium\Http\Request;
-use Radium\Routing\Router;
-use Radium\Action\View;
-use Radium\Language;
+use Radium\Http\Response;
 use Avalon\Database\ConnectionManager;
-use Traq\Models\Setting;
-use Traq\Models\User;
 use Traq\Models\Project;
-use Traq\API;
+use Traq\Models\User;
+use Traq\Models\Setting;
 
 /**
  * App controller
  *
  * @author Jack P.
  * @since 3.0
- * @package Traq
- * @subpackage Controllers
  */
 class AppController extends Controller
 {
-    public $project;
-    public $projects;
-    public $user;
-    public $isApi = false;
-    public $title = array();
-    public $feeds = array();
+    /**
+     * Current user.
+     *
+     * @var User
+     */
+    protected $currentUser;
 
     /**
-     * @var bool
+     * Current project.
+     *
+     * @var Project
+     */
+    protected $currentProject;
+
+    /**
+     * Projects the user has access to.
+     *
+     * @var Project[]
+     */
+    protected $projects = [];
+
+    /**
+     * Page title.
+     *
+     * @var string[]
+     */
+    public $title = [];
+
+    /**
+     * Atom feeds.
+     *
+     * @var string[]
+     */
+    public $feeds = [];
+
+    /**
+     * Overlay view request.
+     *
+     * @var boolean
      */
     protected $isOverlay = false;
 
     public function __construct()
     {
-        // Call the controller class constructor
         parent::__construct();
 
         // Get database connection
         $this->db = ConnectionManager::getConnection();
 
-        // Set the title
-        $this->title(Setting::get('title')->value);
+        // Append installation title to page title
+        $this->title($this->setting('title'));
 
-        // Get the user info
+        // Get current user
         $this->getUser();
 
-        // Set the theme, title and pass the app object to the view.
-        $this->set('traq', $this);
-
-        // Check if we're on a project page and get the project info
-        $route = Router::currentRoute();
-        if (isset($route['params']['project_slug'])
-        and $this->project = is_project($route['params']['project_slug'])) {
-            if ($this->user->permission($this->project->id, 'view')) {
-                // Add project name to page title
-                $this->title($this->project->name);
-
-                // Send the project object to the view
-                $this->set('project', $this->project);
-            } else {
-                $this->showNoPermission();
+        // Get current project
+        $this->getProject();
+        $this->before('*', function(){
+            // Make sure the user has permission to view the project
+            if (LOGGEDIN && !$this->currentUser->permission($this->currentProject->id, 'view')) {
+                return $this->showNoPermission();
             }
-        }
+        });
 
-        // Fetch all projects and make sure the user has permission
-        // to access the project then pass them to the view.
-        $this->projects = array();
-        foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
-            // Check if the user has access to view the project...
-            if ($this->user->permission($project->id, 'view')) {
-                $this->projects[] = $project;
-            }
-        }
-        $this->set('projects', $this->projects);
-
-        $this->set('app', $this);
-
-        // No layout for overlays
+        // No layouts for overlays
         if (Request::header('X-Overlay')) {
             $this->layout    = false;
             $this->isOverlay = true;
@@ -111,36 +112,29 @@ class AppController extends Controller
         // Set environment
         $this->set('environment', $_ENV['environment']);
 
-        if ($this->project) {
-            $this->set(
-                'activeMilestones',
-                $this->project->milestones()->where('status = ?', 1)
-                    ->orderBy('display_order', 'ASC')
-            );
+        // Fetch all projects and make sure the user has permission to view them
+        foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
+            if ($this->currentUser->permission($project->id, 'view')) {
+                $this->projects[] = $project;
+            }
         }
+
+        $this->set('projects', $this->projects);
+        $this->set('traq', $this);
     }
 
     /**
-     * Adds to or returns the page title array.
+     * Append the string to the page title.
      *
-     * @param mixed $add
-     *
-     * @return mixed
+     * @param string $title
      */
-    public function title($add = null)
+    protected function title($title)
     {
-        // Check if we're adding or returning
-        if ($add === null) {
-            // We're returning
-            return $this->title;
-        }
-
-        // Add the title
-        $this->title[] = $add;
+        $this->title[] = $title;
     }
 
     /**
-     * Returns the value of the setting.
+     * Returns the setting value.
      *
      * @param string $setting
      *
@@ -152,6 +146,60 @@ class AppController extends Controller
     }
 
     /**
+     * Get the current user from cookie or request header.
+     */
+    protected function getUser()
+    {
+        // Check cookie
+        if (isset($_COOKIE['traq']) && $user = User::find('login_hash', $_COOKIE['traq'])) {
+            $this->currentUser = $user;
+        }
+
+        // Check headers
+        if ($apiKey = Request::header('X-Access-Token') && $user = User::find('api_key', $apiKey)) {
+            $this->currentUser = $user;
+        }
+
+        if ($this->currentUser) {
+            define("LOGGEDIN", true);
+            Language::setCurrent($this->currentUser->locale);
+        } else {
+            define("LOGGEDIN", false);
+            $this->currentUser = User::anonymousUser();
+        }
+
+        $this->set('currentUser', $this->currentUser);
+    }
+
+    /**
+     * Get the current project.
+     *
+     * @return mixed
+     */
+    public function getProject()
+    {
+        if (
+            isset($this->route->params['project_slug'])
+            && $this->currentProject = Project::find('slug', $this->route->params['project_slug'])
+        ) {
+            $GLOBALS['currentProject'] = $this->currentProject;
+
+            // Add project name to page title
+            $this->title($this->currentProject->name);
+
+            // Set project view variable
+            $this->set('project', $this->currentProject);
+
+            // Active milestones
+            $this->set(
+                'activeMilestones',
+                $this->currentProject->milestones()->where('status = ?', 1)
+                    ->orderBy('display_order', 'ASC')
+            );
+        }
+    }
+
+    /**
      * Sets the response to a 404 Not Found
      */
     public function show404()
@@ -159,12 +207,17 @@ class AppController extends Controller
         $default = parent::show404();
 
         return $this->respondTo(function($format) use ($default) {
-            if ($format === 'html') {
-                return $default;
-            } elseif ($format === 'json') {
-                return API::response(404, [
+            if ($format === 'json') {
+                $response = $this->jsonResponse([
                     'message' => $this->translate('errors.404.message', [Request::pathInfo()])
                 ]);
+
+                // Set 404 status
+                $response->status = 404;
+
+                return $response;
+            } else {
+                return $default;
             }
         });
     }
@@ -172,7 +225,7 @@ class AppController extends Controller
     /**
      * Used to display the no permission page.
      */
-    public function showNoPermission()
+    public function show403()
     {
         $this->executeAction = false;
         return new Response(function($resp){
@@ -181,48 +234,6 @@ class AppController extends Controller
                 '_layout' => $this->layout
             ]);
         });
-    }
-
-    /**
-     * Used to display the login page.
-     */
-    public function showLogin()
-    {
-        $this->render['action'] = false;
-        $this->render['view'] = 'users/login' . ($this->is_api ? '.api' :'');
-    }
-
-    /**
-     * Does the checking for the session cookie and fetches the users info.
-     *
-     * @author Jack P.
-     * @since 3.0
-     * @access private
-     */
-    protected function getUser()
-    {
-        $route = Router::currentRoute();
-
-        // Regular request
-        if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq'])) {
-            $this->user = $user;
-        }
-        // Check for
-        else if ($apiKey = API::getKey()) {
-            $this->user = User::find('api_key', $apiKey);
-            $this->isApi = true;
-            // $this->setView($this->view . ".json");
-        }
-
-        if ($this->user) {
-            define("LOGGEDIN", true);
-            Language::setCurrent($this->user->locale);
-        } else {
-            define("LOGGEDIN", false);
-            $this->user = User::anonymousUser();
-        }
-
-        $this->set('currentUser', $this->user);
     }
 
     /**
