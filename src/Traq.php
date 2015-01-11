@@ -27,6 +27,7 @@ use Exception;
 use Radium\Application;
 use Radium\Language;
 use Radium\Templating\View;
+use Radium\Helpers\Assets;
 use Avalon\Database\ConnectionManager;
 use Traq\Models\Setting;
 use Traq\Models\Plugin;
@@ -100,7 +101,12 @@ class Traq extends Application
             View::addPath(__DIR__ . "/../vendor/traq/themes/{$theme}", true);
         }
 
+        // Old common functions
         require __DIR__ . "/common.php";
+
+        // Asset directory
+        Assets::setDirectory(DOCROOT . '/assets');
+        Assets::setDebug($this->environment == 'development');
 
         $this->loadPlugins();
     }
@@ -117,6 +123,7 @@ class Traq extends Application
         class_alias("Radium\Helpers\HTML", "HTML");
         class_alias("Radium\Helpers\Form", "Form");
         class_alias("Radium\Helpers\Time", "Time");
+        class_alias("Radium\Helpers\Assets", "Assets");
         class_alias("Radium\Http\Request", "Request");
 
         // Traq helpers
@@ -127,7 +134,6 @@ class Traq extends Application
         class_alias("Traq\Helpers\Gravatar", "Gravatar");
         class_alias("Traq\Helpers\Ticketlist", "Ticketlist");
         class_alias("Traq\Helpers\TicketFilters", "TicketFilters");
-        class_alias("Traq\Helpers\Assets", "Assets");
     }
 
     /**
