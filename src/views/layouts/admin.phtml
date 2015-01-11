@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<head>
 		<?=View::render('layouts/_head.phtml')?>
-		<?php Hook::run('template:layouts/default:head'); ?>
+		<?php Hook::run('template:layouts/admin:head'); ?>
 	</head>
 	<body>
 		<?=View::render('layouts/_admin_header.phtml')?>
@@ -9,5 +9,6 @@
 <?=$content?>
 		</main>
 		<?=View::render('layouts/_footer.phtml')?>
+		<?php Hook::run('template:layouts/admin:foot'); ?>
 	</body>
 </html>

@@ -9,5 +9,6 @@
 <?=$content?>
 		</main>
 		<?=View::render('layouts/_footer.phtml')?>
+		<?php Hook::run('template:layouts/default:foot'); ?>
 	</body>
 </html>
