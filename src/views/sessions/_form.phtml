@@ -1,18 +1,18 @@
 <div class="form-group">
-	<?php echo Form::label(
+	<?=Form::label(
 		$t('username'), 'username',
-		array('class' => 'col-md-4 control-label')
-	); ?>
+		['class' => 'col-md-4 control-label']
+	)?>
 	<div class="col-md-8">
-		<?php echo Form::text('username', array('class' => 'form-control')); ?>
+		<?=Form::text('username', ['class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?php echo Form::label(
+	<?=Form::label(
 		$t('password'), 'password',
-		array('class' => 'col-md-4 control-label')
-	); ?>
+		['class' => 'col-md-4 control-label']
+	)?>
 	<div class="col-md-8">
-		<?php echo Form::password('password', array('class' => 'form-control')); ?>
+		<?=Form::password('password', ['class' => 'form-control'])?>
 	</div>
 </div>

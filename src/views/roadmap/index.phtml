@@ -24,7 +24,7 @@
 					<small><em class="project-codename"><?=$milestone->codename?></em></small>
 				<?php endif; ?>
 			</h2>
-			<?=View::render('roadmap/_progress_bar.phtml', array('milestone' => $milestone))?>
+			<?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
 			<ul class="issue-counts">
 				<li>
 					<?=HTML::link(

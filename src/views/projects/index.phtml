@@ -1,29 +1,29 @@
 <div class="project-listing container">
-	<h1 class="page-header"><?php echo $t('projects'); ?></h1>
+	<h1 class="page-header"><?=$t('projects')?></h1>
 	<ul id="project-list">
-		<?php foreach($projects as $project) { ?>
+		<?php foreach($projects as $project): ?>
 		<li>
 			<h2>
-				<?php echo HTML::link($project->name, $project->slug); ?>
+				<?=HTML::link($project->name, $project->slug)?>
 				<?php if ($project->codename !== null): ?>
 				<small>
-					<em class="project-codename"><?php echo $project->codename; ?></em>
+					<em class="project-codename"><?=$project->codename?></em>
 				</small>
 				<?php endif; ?>
 			</h2>
 			<nav>
 				<ul class="nav nav-justified nav-pills">
-					<li><?php echo HTML::link($t('roadmap'), "{$project->slug}/roadmap"); ?></li>
-					<li><?php echo HTML::link($t('issues'), "{$project->slug}/issues"); ?></li>
-					<li><?php echo HTML::link($t('timeline'), "{$project->slug}/timeline"); ?></li>
-					<?php Hook::run('template:projects/index/project/nav', array($project)); ?>
+					<li><?=HTML::link($t('roadmap'), "{$project->slug}/roadmap")?></li>
+					<li><?=HTML::link($t('issues'), "{$project->slug}/issues")?></li>
+					<li><?=HTML::link($t('timeline'), "{$project->slug}/timeline")?></li>
+					<?php Hook::run('template:projects/index/project/nav', [$project]); ?>
 				</ul>
 			</nav>
 			<div class="description">
-				<?php echo Format::text($project->info); ?>
+				<?=Format::text($project->info)?>
 			</div>
-			<?php Hook::run('template:projects/index/project', array($project)); ?>
+			<?php Hook::run('template:projects/index/project', [$project]); ?>
 		</li>
-		<?php } ?>
+		<?php endforeach; ?>
 	</ul>
 </div>

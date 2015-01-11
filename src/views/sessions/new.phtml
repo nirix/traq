@@ -13,7 +13,7 @@
 			<form action="<?=Request::basePath('login')?>" method="post" class="form-horizontal">
 				<?=View::render('sessions/_form.phtml')?>
 				<div class="form-actions">
-					<?=Form::submit($t('login'), array('class' => 'btn btn-success'))?>
+					<?=Form::submit($t('login'), ['class' => 'btn btn-success'])?>
 				</div>
 			</form>
 		</div>
