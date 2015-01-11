@@ -4,5 +4,5 @@
 		<?=HTML::cssLinkTag('assets/components/font-awesome/css/font-awesome.min.css')?>
 		<?=HTML::cssLinkTag('assets/components/chosen/chosen.min.css')?>
 		<?php Hook::run('template:layouts/global/head'); ?>
-<?php foreach ($app->feeds as $feed) { ?><link type="application/atom+xml" rel ="alternate" href="<?=$feed[0]?>">
+<?php foreach ($traq->feeds as $title => $feed) { ?><link type="application/atom+xml" rel="alternate" title="<?=$title?>" href="<?=$feed[0]?>">
 <?php } ?>
