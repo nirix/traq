@@ -49,7 +49,7 @@ class Roadmap extends AppController
      */
     public function indexAction($filter = 'active')
     {
-        $milestones = $this->project->milestones()
+        $milestones = $this->currentProject->milestones()
             ->orderBy('display_order', 'ASC');
 
         if ($filter == 'active') {
@@ -83,7 +83,7 @@ class Roadmap extends AppController
      */
     public function showAction($slug)
     {
-        $milestone = $this->project->milestones()
+        $milestone = $this->currentProject->milestones()
             ->where('slug = ?', $slug)->fetch();
 
         $this->title($milestone->name);
