@@ -25,7 +25,6 @@ namespace Traq\Controllers;
 
 use Radium\Http\Request;
 use Radium\Http\Response;
-
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;
 use Traq\Models\Timeline;
@@ -80,7 +79,7 @@ class Wiki extends AppController
     public function pagesAction()
     {
         // Fetch all the projects wiki pages
-        $pages = $this->project->wikiPages()->fetchAll();
+        $pages = $this->currentProject->wikiPages()->fetchAll();
 
         $this->title($this->translate('pages'));
 
@@ -119,7 +118,7 @@ class Wiki extends AppController
 
         if ($page->save()) {
             $page->revision()->set([
-                'user_id'      => $this->user->id,
+                'user_id'      => $this->currentUser->id,
                 'wiki_page_id' => $page->id
             ]);
             $page->revision()->save();
@@ -157,7 +156,7 @@ class Wiki extends AppController
                 'wiki_page_id' => $this->page->id,
                 'revision'     => $this->page->revision()->revision + 1,
                 'content'      => Request::post('content'),
-                'user_id'      => $this->user->id
+                'user_id'      => $this->currentUser->id
             ));
         }
 
@@ -184,13 +183,13 @@ class Wiki extends AppController
         $slug = \avalon\http\Router::$params['slug'];
 
         // Delete the page
-        $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
+        $this->currentProject->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
 
         // Redirect to main page
         if ($this->is_api) {
             return \API::response(1);
         } else {
-            Request::redirectTo($this->project->href('wiki'));
+            Request::redirectTo($this->currentProject->href('wiki'));
         }
     }
 
@@ -247,8 +246,8 @@ class Wiki extends AppController
             'title'      => Request::post('title'),
             'slug'       => Request::post('slug'),
             'content'    => Request::post('content'),
-            'project_id' => $this->project->id,
-            'user_id'    => $this->user->id
+            'project_id' => $this->currentProject->id,
+            'user_id'    => $this->currentUser->id
         ];
     }
 
@@ -257,14 +256,14 @@ class Wiki extends AppController
      */
     public function getPage()
     {
-        $this->page = $this->project->wikiPages()->where('slug = ?', $this->route['params']['slug'])->fetch();
+        $this->page = $this->currentProject->wikiPages()->where('slug = ?', $this->route->params['slug'])->fetch();
 
         if (
             !$this->page
-            && $this->route['method'] == 'show'
-            && $this->user->permission($this->project->id, 'create_wiki_page')
+            && $this->route->action == 'show'
+            && $this->currentUser->permission($this->currentProject->id, 'create_wiki_page')
         ) {
-            return $this->newPage($this->route['params']['slug']);
+            return $this->newPage($this->route->params['slug']);
         } elseif (!$this->page) {
             return $this->show404();
         }
@@ -279,10 +278,10 @@ class Wiki extends AppController
      */
     public function checkPermission()
     {
-        $action = ($this->route['method'] == 'new' ? 'create' : $this->route['method']);
+        $action = ($this->route->action == 'new' ? 'create' : $this->route->action);
 
         // Check if the user has permission
-        if (!$this->user->permission($this->project->id, "{$action}_wiki_page")) {
+        if (!$this->currentUser->permission($this->currentProject->id, "{$action}_wiki_page")) {
             // oh noes! display the no permission page.
             return $this->showNoPermission();
         }
