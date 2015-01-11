@@ -49,6 +49,10 @@ class Roadmap extends AppController
      */
     public function indexAction($filter = 'active')
     {
+        if ($filter !== 'active') {
+            $this->title($this->translate($filter));
+        }
+
         $milestones = $this->currentProject->milestones()
             ->orderBy('display_order', 'ASC');
 
