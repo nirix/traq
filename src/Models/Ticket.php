@@ -71,7 +71,7 @@ class Ticket extends Model
      */
     public function href($uri = null)
     {
-        return "/{$this->project()->slug}/tickets/{$this->ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
+        return "/{$this->project()->slug}/issues/{$this->ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
     }
 
     /**
