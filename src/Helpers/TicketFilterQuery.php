@@ -417,12 +417,12 @@ class TicketFilterQuery
                 if ($condition == 'NOT') {
                     $conditions[] = $this->builder()->expr()->notLike(
                         'body',
-                        $this->builder->getConnection->quite("%{$value}%")
+                        $this->builder->getConnection()->quote("%{$value}%")
                     );
                 } else {
                     $conditions[] = $this->builder()->expr()->like(
                         'body',
-                        $this->builder->getConnection->quite("%{$value}%")
+                        $this->builder->getConnection()->quote("%{$value}%")
                     );
                 }
             }
