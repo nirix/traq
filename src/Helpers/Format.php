@@ -69,7 +69,7 @@ class Format extends \Radium\Helpers\Format
 
                 // Replace project#123
                 if (isset($match[1]) and $project = Project::find('slug', $match[0])) {
-                    return HTML::link("{$project->slug}#{$match[1]}", $project->href("tickets/{$match[1]}"));
+                    return HTML::link("{$project->slug}#{$match[1]}", $project->href("issues/{$match[1]}"));
                 }
                 // Replace #123
                 elseif (isset($GLOBALS['currentProject'])) {
