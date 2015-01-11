@@ -54,14 +54,10 @@ class Ticket extends Model
         'version'     => array('model' => 'Milestone'),
     );
 
-    protected static $_after = array(
-        'construct' => array('processDataRead')
-    );
-
-    protected static $_filters_before = array(
-        'create' => array('processDataWrite'),
-        'save'   => array('processDataWrite')
-    );
+    protected static $_dataTypes = [
+        'extra' => 'json_array',
+        'tasks' => 'json_array'
+    ];
 
     protected $_changes            = array();
     protected $_save_queue         = array();
@@ -620,43 +616,6 @@ class Ticket extends Model
         }
 
         return $ticket_ids;
-    }
-
-    /**
-     * Processes the data when reading from the database.
-     *
-     * @access private
-     */
-    protected function processDataRead()
-    {
-        $this->extra = json_decode($this->extra, true);
-
-        // Set the voted array
-        if (!isset($this->extra['voted']) or !is_array($this->extra['voted'])) {
-            $this->extra['voted'] = array();
-        }
-
-        // Decode tasks
-        if (!is_array($this->tasks)) {
-            $this->tasks = json_decode($this->tasks, true);
-        }
-    }
-
-    /**
-     * Processes the data when saving to the database.
-     *
-     * @access private
-     */
-    protected function processDataWrite()
-    {
-        if (isset($this->extra) and is_array($this->extra)) {
-            $this->extra = json_encode($this->extra);
-        }
-
-        // Encode ticket tasks
-        if (is_array($this->tasks)) {
-            $this->tasks = json_encode($this->tasks);
-        }
     }
 
     /**
