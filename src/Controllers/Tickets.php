@@ -40,15 +40,6 @@ use Traq\Models\Status;
  */
 class Tickets extends AppController
 {
-    // Before filters
-    public $before = array(
-        'view' => array('_check_permission'),
-        'new' => array('_check_permission'),
-        'edit' => array('_check_permission'),
-        'update' => array('_check_permission'),
-        'delete' => array('_check_permission')
-    );
-
     /**
      * Custom constructor, we need to do extra stuff.
      */
@@ -65,6 +56,9 @@ class Tickets extends AppController
 
         $this->set('typeSelectOptions', Type::selectOptions());
         $this->set('statusSelectOptions', Status::selectOptions());
+
+        // Check permission
+        $this->before(['new', 'create', 'view', 'edit', 'update', 'delete'], [$this, 'checkPermission']);
     }
 
     /**
@@ -685,41 +679,41 @@ class Tickets extends AppController
     /**
      * Used to check the permission for the requested action.
      */
-    public function _check_permission($method)
+    public function checkPermission()
     {
         // Set the proper action depending on the method
-        switch($method) {
-            // View ticket
-            case 'view':
-                $action = 'view_tickets';
-                break;
-
+        switch($this->route->action) {
             // Create ticket
             case 'new':
-                $action = 'create_tickets';
+            case 'create':
+                $permission = 'create_tickets';
+                break;
+
+            // View ticket
+            case 'view':
+                $permission = 'view_tickets';
                 break;
 
             // Edit ticket description
             case 'edit':
-                $action = 'edit_ticket_description';
+                $permission = 'edit_ticket_description';
                 break;
 
             // Update ticket properties
             case 'update':
-                $action = 'update_tickets';
+                $permission = 'update_tickets';
                 break;
 
             // Delete tickets
             case 'delete':
-                $action = 'delete_tickets';
+                $permission = 'delete_tickets';
                 break;
         }
 
         // Check if the user has permission
-        if (!current_user()->permission($this->project->id, $action)) {
+        if (!$this->currentUser->permission($this->currentProject->id, $permission)) {
             // oh noes! display the no permission page.
-            $this->show_no_permission();
-            return false;
+            return $this->show403();
         }
     }
 }
