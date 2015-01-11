@@ -72,8 +72,8 @@ class Format extends \Radium\Helpers\Format
                     return HTML::link("{$project->slug}#{$match[1]}", $project->href("tickets/{$match[1]}"));
                 }
                 // Replace #123
-                elseif (isset(Radium::controller()->project->name)) {
-                    return HTML::link("#{$match[1]}", Radium::controller()->project->href("tickets/{$match[1]}"));
+                elseif (isset($GLOBALS['currentProject'])) {
+                    return HTML::link("#{$match[1]}", $GLOBALS['currentProject']->href("issues/{$match[1]}"));
                 }
                 // No project found, don't link it
                 else {
