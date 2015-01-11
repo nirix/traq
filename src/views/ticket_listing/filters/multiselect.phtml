@@ -1,0 +1,20 @@
+<tr id="filter-<?=$name?>">
+	<td class="filter-name"><?=$t($name)?></td>
+	<td class="filter-condition">
+		<?=Form::select("filters[{$name}][prefix]", TicketFilters::isIsNotSelectOptions(), [
+			'value' => $filter['prefix'],
+			'id'	=> false,
+			'class' => 'form-control'
+		])?>
+	</td>
+	<td class="filter-value">
+		<?=Form::select("filters[{$name}][values][]", TicketFilters::selectOptionsFor($name, $project), [
+			'value'	=> $filter['values'],
+			'multiple' => true,
+			'class'	=> 'form-control'
+		])?>
+	</td>
+	<td class="filter-actions">
+		<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>">-</button>
+	</td>
+</tr>

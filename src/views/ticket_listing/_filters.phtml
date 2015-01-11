@@ -1,79 +1,3 @@
-<?php $multiSelectFilter = function ($name, $filter) use ($t, $project) { ?>
-<tr id="filter-<?=$name?>">
-	<td class="filter-name"><?=$t($name)?></td>
-	<td class="filter-condition">
-		<?=Form::select("filters[{$name}][prefix]", TicketFilters::isIsNotSelectOptions(), [
-			'value' => $filter['prefix'],
-			'id'    => false,
-			'class' => 'form-control'
-		])?>
-	</td>
-	<td class="filter-value">
-		<?=Form::select("filters[{$name}][values][]", TicketFilters::selectOptionsFor($name, $project), [
-			'value'    => $filter['values'],
-			'multiple' => true,
-			'class'    => 'form-control'
-		])?>
-	</td>
-	<td class="filter-actions">
-		<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>">-</button>
-	</td>
-</tr>
-<?php } ?>
-<?php $containsFilter = function ($name, $filter) use ($t, $project) { ?>
-	<?php foreach ($filter['values'] as $key => $value): ?>
-	<tr id="filter-<?=$name?>-<?=$key?>">
-		<td class="filter-name"><?=($key === 0 ? $t($name) : '')?></td>
-		<td class="filter-condition">
-		<?php if ($key === 0): ?>
-			<?=Form::select("filters[{$name}][prefix]", TicketFilters::containsFilterSelectOptions(), [
-				'value' => $filter['prefix'],
-				'id'    => false,
-				'class' => 'form-control'
-			])?>
-		<?php else: ?>
-			<?=$t('or')?>
-		<?php endif; ?>
-		</td>
-		<td class="filter-value">
-			<?=Form::text("filters[{$name}][values][]", [
-				'value' => $filter['values'][$key],
-				'class' => 'form-control'
-			])?>
-		</td>
-		<td class="filter-actions">
-			<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
-		</td>
-	</tr>
-	<?php endforeach; ?>
-<?php } ?>
-<?php $isIsNotFilter = function ($name, $filter) use ($t, $project) { ?>
-	<?php foreach ($filter['values'] as $key => $value): ?>
-	<tr id="filter-<?=$name?>-<?=$key?>">
-		<td class="filter-name"><?=($key === 0 ? $t($name) : '')?></td>
-		<td class="filter-condition">
-		<?php if ($key === 0): ?>
-			<?=Form::select("filters[{$name}][prefix]", TicketFilters::isIsNotSelectOptions(), [
-				'value' => $filter['prefix'],
-				'id'    => false,
-				'class' => 'form-control'
-			])?>
-		<?php else: ?>
-			<?=$t('or')?>
-		<?php endif; ?>
-		</td>
-		<td class="filter-value">
-			<?=Form::text("filters[{$name}][values][]", [
-				'value' => $filter['values'][$key],
-				'class' => 'form-control'
-			])?>
-		</td>
-		<td class="filter-actions">
-			<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
-		</td>
-	</tr>
-	<?php endforeach; ?>
-<?php } ?>
 <form action="<?=Request::basePath($project->href('issues/update-filters'))?>" method="post">
 	<fieldset id="ticket-filters">
 		<legend><a href="#" id="ticket-filters-toggle"><?=$t('filters')?></a></legend>
@@ -83,11 +7,26 @@
 				<tbody>
 				<?php foreach ($filters as $filterName => $filter): ?>
 					<?php if (in_array($filterName, ['milestone', 'status', 'version', 'type', 'component', 'priority', 'severity'])): ?>
-						<?=$multiSelectFilter($filterName, $filter)?>
+						<?=View::render('ticket_listing/filters/multiselect.phtml', [
+							'name'    => $filterName,
+							'filter'  => $filter,
+							't'       => $t,
+							'project' => $project
+						])?>
 					<?php elseif(in_array($filterName, ['summary', 'description'])): ?>
-						<?=$containsFilter($filterName, $filter)?>
+						<?=View::render('ticket_listing/filters/contains.phtml', [
+							'name'    => $filterName,
+							'filter'  => $filter,
+							't'       => $t,
+							'project' => $project
+						])?>
 					<?php elseif(in_array($filterName, ['owner', 'assigned_to'])): ?>
-						<?=$isIsNotFilter($filterName, $filter)?>
+						<?=View::render('ticket_listing/filters/is_is_not.phtml', [
+							'name'    => $filterName,
+							'filter'  => $filter,
+							't'       => $t,
+							'project' => $project
+						])?>
 					<?php endif; ?>
 				<?php endforeach; ?>
 				</tbody>

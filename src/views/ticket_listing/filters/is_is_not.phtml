@@ -1,0 +1,25 @@
+<?php foreach ($filter['values'] as $key => $value): ?>
+<tr id="filter-<?=$name?>-<?=$key?>">
+	<td class="filter-name"><?=($key === 0 ? $t($name) : '')?></td>
+	<td class="filter-condition">
+	<?php if ($key === 0): ?>
+		<?=Form::select("filters[{$name}][prefix]", TicketFilters::isIsNotSelectOptions(), [
+			'value' => $filter['prefix'],
+			'id'	=> false,
+			'class' => 'form-control'
+		])?>
+	<?php else: ?>
+		<?=$t('or')?>
+	<?php endif; ?>
+	</td>
+	<td class="filter-value">
+		<?=Form::text("filters[{$name}][values][]", [
+			'value' => $filter['values'][$key],
+			'class' => 'form-control'
+		])?>
+	</td>
+	<td class="filter-actions">
+		<button class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
+	</td>
+</tr>
+<?php endforeach; ?>
