@@ -1,16 +1,16 @@
 <?php if ($pagination->paginate): ?>
 <div class="text-center">
 	<ul class="pagination">
-		<li class="previous<?php echo !$pagination->prevPageUri ? ' disabled' : ''; ?>">
-			<?php echo HTML::link($t('previous'), $pagination->prevPageUri); ?>
+		<li class="previous<?=!$pagination->prevPageUri ? ' disabled' : ''?>">
+			<?=HTML::link($t('previous'), $pagination->prevPageUri)?>
 		</li>
 		<?php foreach ($pagination->pageLinks as $page): ?>
-		<li<?php echo $page['page'] == $pagination->page ? ' class="active"' : '' ?>>
-			<?php echo HTML::link($page['page'], $page['uri']); ?>
+		<li<?=$page['page'] == $pagination->page ? ' class="active"' : '' ?>>
+			<?=HTML::link($page['page'], $page['uri'])?>
 		</li>
 		<?php endforeach; ?>
-		<li class="next<?php echo !$pagination->nextPageUri ? ' disabled' : ''; ?>">
-			<?php echo HTML::link($t('next'), $pagination->nextPageUri); ?>
+		<li class="next<?=!$pagination->nextPageUri ? ' disabled' : ''?>">
+			<?=HTML::link($t('next'), $pagination->nextPageUri)?>
 		</li>
 	</ul>
 </div>
