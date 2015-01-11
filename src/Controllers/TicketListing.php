@@ -180,7 +180,7 @@ class TicketListing extends AppController
     public function setColumnsAction()
     {
         $this->getColumns();
-        $this->redirectTo($this->project->href('issues') . Request::buildQueryString(null, false));
+        return $this->redirectTo($this->project->href('issues') . Request::buildQueryString(null, false));
     }
 
 
@@ -247,6 +247,6 @@ class TicketListing extends AppController
 
         $_SESSION['ticket_filters'] = [];
 
-        $this->redirectTo($this->project->href('issues') . Request::buildQueryString($queryString, false));
+        return $this->redirectTo($this->project->href('issues') . Request::buildQueryString($queryString, false));
     }
 }
