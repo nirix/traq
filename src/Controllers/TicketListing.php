@@ -46,7 +46,7 @@ class TicketListing extends AppController
         $this->title($this->translate('issues'));
 
         // Custom fields
-        $this->customFields = CustomField::forProject($this->project->id);
+        $this->customFields = CustomField::forProject($this->currentProject->id);
         $this->set('customFields', $this->customFields);
     }
 
@@ -58,13 +58,13 @@ class TicketListing extends AppController
         // Atom feed
         $this->feeds[] = [
             Request::requestUri() . ".atom",
-            $this->translate('x_ticket_feed', [$this->project->name])
+            $this->translate('x_ticket_feed', [$this->currentProject->name])
         ];
 
         // Create ticket filter query
-        $filterQuery = new TicketFilterQuery($this->project);
+        $filterQuery = new TicketFilterQuery($this->currentProject);
 
-        $ticketFilters = array_keys(TicketFilters::filtersFor($this->project));
+        $ticketFilters = array_keys(TicketFilters::filtersFor($this->currentProject));
 
         // Process filters from request
         foreach (Request::$request as $filter => $value) {
@@ -77,16 +77,16 @@ class TicketListing extends AppController
         if (
             !count($filterQuery->filters())
             && isset($_SESSION['ticket_filters'])
-            && isset($_SESSION['ticket_filters'][$this->project->id])
+            && isset($_SESSION['ticket_filters'][$this->currentProject->id])
         ) {
-            $filterValues = json_decode($_SESSION['ticket_filters'][$this->project->id], true);
+            $filterValues = json_decode($_SESSION['ticket_filters'][$this->currentProject->id], true);
             foreach ($filterValues as $filter => $value) {
                 if (in_array($filter, $ticketFilters)) {
                     $filterQuery->process($filter, $value);
                 }
             }
         } else {
-            $_SESSION['ticket_filters'][$this->project->id] = json_encode(Request::$request);
+            $_SESSION['ticket_filters'][$this->currentProject->id] = json_encode(Request::$request);
         }
 
         // Get query builder
@@ -96,7 +96,7 @@ class TicketListing extends AppController
 
         return $this->respondTo(function($format) use ($tickets) {
             if ($format == 'html' || $format == 'json') {
-                $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
+                $sorting = Ticketlist::sortOrder($this->currentProject->default_ticket_sorting);
                 $tickets->orderBy($sorting[0], $sorting[1]);
             }
 
@@ -180,7 +180,7 @@ class TicketListing extends AppController
     public function setColumnsAction()
     {
         $this->getColumns();
-        $this->redirectTo($this->project->href('issues') . Request::buildQueryString(null, false));
+        $this->redirectTo($this->currentProject->href('issues') . Request::buildQueryString(null, false));
     }
 
 
@@ -204,7 +204,7 @@ class TicketListing extends AppController
         }
 
         foreach (Request::post('filters', []) as $name => $filter) {
-            if (!in_array($name, array_keys(TicketFilters::filtersFor($this->project)))) {
+            if (!in_array($name, array_keys(TicketFilters::filtersFor($this->currentProject)))) {
                 continue;
             }
 
@@ -247,6 +247,6 @@ class TicketListing extends AppController
 
         $_SESSION['ticket_filters'] = [];
 
-        $this->redirectTo($this->project->href('issues') . Request::buildQueryString($queryString, false));
+        $this->redirectTo($this->currentProject->href('issues') . Request::buildQueryString($queryString, false));
     }
 }
