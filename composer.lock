@@ -846,12 +846,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/radiumphp/http.git",
-                "reference": "b8bde427aad4f3f71936a6447470668052dbcaf7"
+                "reference": "52657d89734c5daa4813d1fbba5c3eaac0e0945c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/http/zipball/b8bde427aad4f3f71936a6447470668052dbcaf7",
-                "reference": "b8bde427aad4f3f71936a6447470668052dbcaf7",
+                "url": "https://api.github.com/repos/radiumphp/http/zipball/52657d89734c5daa4813d1fbba5c3eaac0e0945c",
+                "reference": "52657d89734c5daa4813d1fbba5c3eaac0e0945c",
                 "shasum": ""
             },
             "require": {
@@ -884,7 +884,7 @@
                 "http",
                 "radium"
             ],
-            "time": "2014-12-12 03:11:07"
+            "time": "2015-01-09 12:10:01"
         },
         {
             "name": "radium/kernel",
@@ -892,12 +892,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/radiumphp/kernel.git",
-                "reference": "83fd22c3e0f19ecfe854e60210ce5b1bd3a244a3"
+                "reference": "f3bf3aaad4b9a3f6a2caad3c05cb11025d79c0e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/kernel/zipball/83fd22c3e0f19ecfe854e60210ce5b1bd3a244a3",
-                "reference": "83fd22c3e0f19ecfe854e60210ce5b1bd3a244a3",
+                "url": "https://api.github.com/repos/radiumphp/kernel/zipball/f3bf3aaad4b9a3f6a2caad3c05cb11025d79c0e4",
+                "reference": "f3bf3aaad4b9a3f6a2caad3c05cb11025d79c0e4",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +930,7 @@
                 "kernel",
                 "radium"
             ],
-            "time": "2014-12-18 23:07:46"
+            "time": "2015-01-09 12:09:23"
         },
         {
             "name": "radium/language",
@@ -985,12 +985,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/radiumphp/routing.git",
-                "reference": "56dfac711b3ba1108d6cf4c4d87d51df7fa59df9"
+                "reference": "f6a78da07aa470b42590d5ee20e2f36cdfd11d2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/routing/zipball/56dfac711b3ba1108d6cf4c4d87d51df7fa59df9",
-                "reference": "56dfac711b3ba1108d6cf4c4d87d51df7fa59df9",
+                "url": "https://api.github.com/repos/radiumphp/routing/zipball/f6a78da07aa470b42590d5ee20e2f36cdfd11d2a",
+                "reference": "f6a78da07aa470b42590d5ee20e2f36cdfd11d2a",
                 "shasum": ""
             },
             "require": {
@@ -1023,7 +1023,7 @@
                 "radium",
                 "routing"
             ],
-            "time": "2014-12-18 23:08:26"
+            "time": "2015-01-11 05:16:22"
         },
         {
             "name": "radium/templating",
