@@ -67,7 +67,7 @@ class Timeline extends AppController
         // Atom feed
         $this->feeds[] = [
             Request::pathInfo() . ".atom",
-            $this->translate('x_timeline_feed', [$this->currentProject->name])
+            $this->translate('x_timeline_feed', [$this->project->name])
         ];
 
         // Fetch the different days with a nicely formatted
@@ -82,7 +82,7 @@ class Timeline extends AppController
                 created_at
 
             FROM timeline
-            WHERE `project_id` = '{$this->currentProject->id}'
+            WHERE `project_id` = '{$this->project->id}'
             AND `action` IN ('" . implode("','", $events) . "')
 
             GROUP BY
@@ -123,7 +123,7 @@ class Timeline extends AppController
 
             // Fetch the activity for this day
             $fetchActivity = TimelineModel::select()
-                ->where('project_id = ?', $this->currentProject->id)
+                ->where('project_id = ?', $this->project->id)
                 ->andWhere("created_at LIKE '" . $date . " %'")
                 ->andWhere("action IN ('".implode("','", $events)."')")
                 ->orderBy('created_at', 'DESC');
@@ -156,7 +156,7 @@ class Timeline extends AppController
      */
     public function deleteEventAction($event_id)
     {
-        if (!$this->currentUser->permission($this->currentProject->id, 'delete_timeline_events')) {
+        if (!$this->currentUser->permission($this->project->id, 'delete_timeline_events')) {
             return $this->showNoPermission();
         }
 
@@ -165,7 +165,7 @@ class Timeline extends AppController
 
         return $this->respondTo(function($format) use($event) {
             if ($format == 'html') {
-                return Request::redirectTo($this->currentProject->href('timeline'));
+                return Request::redirectTo($this->project->href('timeline'));
             } elseif ($format == 'js') {
                 return new Response(function($resp) use ($event) {
                     $resp->contentType = 'text/javascript';

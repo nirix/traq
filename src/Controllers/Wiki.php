@@ -79,7 +79,7 @@ class Wiki extends AppController
     public function pagesAction()
     {
         // Fetch all the projects wiki pages
-        $pages = $this->currentProject->wikiPages()->fetchAll();
+        $pages = $this->project->wikiPages()->fetchAll();
 
         $this->title($this->translate('pages'));
 
@@ -183,13 +183,13 @@ class Wiki extends AppController
         $slug = \avalon\http\Router::$params['slug'];
 
         // Delete the page
-        $this->currentProject->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
+        $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
 
         // Redirect to main page
         if ($this->is_api) {
             return \API::response(1);
         } else {
-            Request::redirectTo($this->currentProject->href('wiki'));
+            Request::redirectTo($this->project->href('wiki'));
         }
     }
 
@@ -246,7 +246,7 @@ class Wiki extends AppController
             'title'      => Request::post('title'),
             'slug'       => Request::post('slug'),
             'content'    => Request::post('content'),
-            'project_id' => $this->currentProject->id,
+            'project_id' => $this->project->id,
             'user_id'    => $this->currentUser->id
         ];
     }
@@ -256,12 +256,12 @@ class Wiki extends AppController
      */
     public function getPage()
     {
-        $this->page = $this->currentProject->wikiPages()->where('slug = ?', $this->route->params['slug'])->fetch();
+        $this->page = $this->project->wikiPages()->where('slug = ?', $this->route->params['slug'])->fetch();
 
         if (
             !$this->page
             && $this->route->action == 'show'
-            && $this->currentUser->permission($this->currentProject->id, 'create_wiki_page')
+            && $this->currentUser->permission($this->project->id, 'create_wiki_page')
         ) {
             return $this->newPage($this->route->params['slug']);
         } elseif (!$this->page) {
@@ -281,7 +281,7 @@ class Wiki extends AppController
         $action = ($this->route->action == 'new' ? 'create' : $this->route->action);
 
         // Check if the user has permission
-        if (!$this->currentUser->permission($this->currentProject->id, "{$action}_wiki_page")) {
+        if (!$this->currentUser->permission($this->project->id, "{$action}_wiki_page")) {
             // oh noes! display the no permission page.
             return $this->showNoPermission();
         }

@@ -57,7 +57,7 @@ class Projects extends AppController
     public function showAction()
     {
         // Make sure this is a project
-        if (!$this->currentProject) {
+        if (!$this->project) {
             return $this->show404();
         }
 
@@ -71,7 +71,7 @@ class Projects extends AppController
             if ($format == 'html') {
                 return $this->render('projects/show.phtml');
             } elseif ($format == 'json') {
-                return $this->jsonResponse($this->currentProject->toArray());
+                return $this->jsonResponse($this->project->toArray());
             }
         });
     }
@@ -84,7 +84,7 @@ class Projects extends AppController
         // Atom feed
         $this->feeds[] = [
             Request::requestUri() . ".atom",
-            $this->translate('x_changelog_feed', [$this->currentProject->name])
+            $this->translate('x_changelog_feed', [$this->project->name])
         ];
 
         // Fetch ticket types
@@ -93,7 +93,7 @@ class Projects extends AppController
             $types[$type->id] = $type;
         }
 
-        $milestones = $this->currentProject->milestones()->where('status = ?', 2)
+        $milestones = $this->project->milestones()->where('status = ?', 2)
             ->orderBy('display_order', 'DESC')
             ->fetchAll();
 

@@ -51,7 +51,7 @@ class AppController extends Controller
      *
      * @var Project
      */
-    protected $currentProject;
+    protected $project;
 
     /**
      * Projects the user has access to.
@@ -98,7 +98,7 @@ class AppController extends Controller
         $this->getProject();
         $this->before('*', function(){
             // Make sure the user has permission to view the project
-            if (LOGGEDIN && !$this->currentUser->permission($this->currentProject->id, 'view')) {
+            if (LOGGEDIN && !$this->currentUser->permission($this->project->id, 'view')) {
                 return $this->showNoPermission();
             }
         });
@@ -180,20 +180,20 @@ class AppController extends Controller
     {
         if (
             isset($this->route->params['project_slug'])
-            && $this->currentProject = Project::find('slug', $this->route->params['project_slug'])
+            && $this->project = Project::find('slug', $this->route->params['project_slug'])
         ) {
-            $GLOBALS['currentProject'] = $this->currentProject;
+            $GLOBALS['project'] = $this->project;
 
             // Add project name to page title
-            $this->title($this->currentProject->name);
+            $this->title($this->project->name);
 
             // Set project view variable
-            $this->set('project', $this->currentProject);
+            $this->set('project', $this->project);
 
             // Active milestones
             $this->set(
                 'activeMilestones',
-                $this->currentProject->milestones()->where('status = ?', 1)
+                $this->project->milestones()->where('status = ?', 1)
                     ->orderBy('display_order', 'ASC')
             );
         }
