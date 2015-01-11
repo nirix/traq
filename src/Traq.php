@@ -85,7 +85,7 @@ class Traq extends Application
 
         // Include version file
         require __DIR__ . "/version.php";
-        static::$version = TRAQ_VER;
+        static::$version = TRAQ_VERSION;
 
         // Alias classes
         $this->aliasClasses();
