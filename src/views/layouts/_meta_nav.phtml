@@ -5,7 +5,7 @@
 			<li><?=HTML::link(settings('site_name'), settings('site_url'))?></li>
 		<?php endif; ?>
 		<?php if (isset($project) or Request::matches('/admin.*')): ?>
-			<li><?=HTML::link(settings('title'), '/')?></li>
+			<li><?=HTML::link(settings('title'), $route('root'))?></li>
 		<?php endif; ?>
 		</ul>
 		<ul class="links-user nav navbar-nav navbar-right">
@@ -21,7 +21,7 @@
 					<li><?=HTML::link($t('project_settings'), $project->href('settings'))?></li>
 				<?php endif; ?>
 				<?php if ($currentUser->group()->is_admin): ?>
-					<li><?=HTML::link($t('admincp'), '/admin')?></li>
+					<li><?=HTML::link($t('admincp'), $route('admin'))?></li>
 				<?php endif; ?>
 				</ul>
 			</li>
@@ -33,19 +33,19 @@
 				)?>
 				<ul class="dropdown-menu">
 					<li><?=HTML::link($t('profile'), $currentUser->href())?></li>
-					<li><?=HTML::link($t('usercp'), '/usercp')?></li>
-					<li><?=HTML::link($t('logout'), '/logout')?></li>
+					<li><?=HTML::link($t('usercp'), $route('usercp'))?></li>
+					<li><?=HTML::link($t('logout'), $route('logout'))?></li>
 				</ul>
 			</li>
 		<?php else: ?>
 			<li class="dropdown">
 				<?=HTML::link(
-					TWBS::fa('user') . " " . TWBS::caret(), '/usercp',
+					TWBS::fa('user') . " " . TWBS::caret(), $route('usercp'),
 					array('class' => "dropdown-toggle", 'data-toggle' => "dropdown")
 				)?>
 				<ul class="dropdown-menu">
-					<li><?=HTML::link($t('login'), '/login', array('data-overlay' => true))?></li>
-					<li><?=HTML::link($t('register'), '/register')?></li>
+					<li><?=HTML::link($t('login'), $route('login'), ['data-overlay' => true])?></li>
+					<li><?=HTML::link($t('register'), $route('register'))?></li>
 				</ul>
 			</li>
 		<?php endif; ?>
