@@ -29,10 +29,13 @@ Router::map(function($r){
     $traq = "Traq\Controllers";
 
     // URL tokens
-    $r->registerToken('project_slug', '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
-    $r->registerToken('project_id', '(?P<project_id>[\d]+)');
-    $r->registerToken('slug', '(?P<slug>[a-zA-Z0-9\-\_\.]+)');
-    $r->registerToken('wiki_slug', '(?P<slug>[\w\d\-_]+)');
+    $r->addToken('project_slug', '(?P<project_slug>[^/]+)');
+    $r->addToken('project_id',   '(?P<project_id>[\d]+)');
+    $r->addToken('slug',         '(?P<slug>[^/]+?)');
+    $r->addToken('wiki_slug',    '(?P<slug>[^/]+?)');
+    $r->addToken('event_id',     '(?P<event_id>[\d]+)');
+    $r->addToken('ticket_id',    '(?P<ticket_id>[\d]+)');
+    $r->addToken('revision',     '(?P<revision>[\d]+)');
 
     $r->root("{$traq}\Projects::index");
     $r->get('/admin')->to("{$traq}\Admin\Dashboard::index");
