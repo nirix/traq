@@ -131,16 +131,6 @@ function activeNav($uri)
 }
 
 /**
- * Returns the logged in users model.
- *
- * @return object
- */
-function current_user()
-{
-    return Radium::controller()->user;
-}
-
-/**
  * Checks the condition and returns the respective value.
  *
  * @param bool $condition
