@@ -35,7 +35,12 @@ use Traq\Helpers\Format;
  */
 class Roadmap extends AppController
 {
-    protected $before = ['*' => 'setTitle'];
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->before('*', [$this, 'setTitle']);
+    }
 
     /**
      * Roadmap index
