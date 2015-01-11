@@ -71,11 +71,11 @@ class Roadmap extends AppController
         $milestones = $milestones->fetchAll();
         $this->set(compact('milestones'));
 
-        return  $this->respondTo(function($format, $controller) use ($milestones) {
+        return  $this->respondTo(function($format) use ($milestones){
             if ($format == 'html') {
                 return $this->render('roadmap/index.phtml');
             } elseif ($format == 'json') {
-                return API::response(200, Format::toJson($milestones));
+                return $this->jsonResponse($milestones);
             }
         });
     }
