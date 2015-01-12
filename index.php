@@ -21,14 +21,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define('START_TIME', microtime(true));
-define('START_MEM',  memory_get_usage());
-define('VENDORDIR', __DIR__ . '/vendor');
-define("DOCROOT", __DIR__);
-
 require __DIR__ . '/vendor/autoload.php';
 
-use Traq\Traq;
+define('START_TIME', microtime(true));
+define('START_MEM',  memory_get_usage());
+define('VENDORDIR',  __DIR__ . '/vendor');
+define("DOCROOT",    __DIR__);
 
-$traq = new Traq;
-$traq->run();
+(new Traq\Traq)->run();
