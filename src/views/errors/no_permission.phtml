@@ -1,9 +1,9 @@
-<div class="error no-permission container">
+<div class="no-permission-error container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<h1 class="page-header"><?php echo $t('errors.no_permission.title'); ?></h1>
+			<h1 class="page-header"><?=$t('errors.no_permission.title')?></h1>
 			<p class="error-message">
-				<?php echo $t('errors.no_permission.message', array(Request::$requestUri)); ?>
+				<?=$t('errors.no_permission.message', [Request::$requestUri])?>
 			</p>
 		</div>
 	</div>
