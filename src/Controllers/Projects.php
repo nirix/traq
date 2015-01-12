@@ -24,6 +24,7 @@
 namespace Traq\Controllers;
 
 use Radium\Http\Request;
+use Radium\Http\Response;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\Type;
@@ -103,6 +104,14 @@ class Projects extends AppController
                     'milestones' => $milestones,
                     'types'      => $types
                 ]);
+            } elseif ($format == 'txt') {
+                return new Response(function($resp) use ($milestones, $types){
+                    $resp->contentType = 'text/plain';
+                    $resp->body = $this->renderView('projects/changelog.txt.php', [
+                        'milestones' => $milestones,
+                        'types'      => $types
+                    ]);
+                });
             }
         });
     }

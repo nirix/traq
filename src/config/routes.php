@@ -25,6 +25,7 @@ use Radium\Routing\Router;
 
 Router::map(function($r){
     Router::$extensions[] = '.js';
+    Router::$extensions[] = '.txt';
 
     $traq = "Traq\Controllers";
 
