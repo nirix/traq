@@ -200,7 +200,9 @@ class AppController extends Controller
     }
 
     /**
-     * Sets the response to a 404 Not Found
+     * Returns 404 response.
+     *
+     * @return Response
      */
     public function show404()
     {
@@ -223,7 +225,9 @@ class AppController extends Controller
     }
 
     /**
-     * Used to display the no permission page.
+     * Returns 403 response.
+     *
+     * @return Response
      */
     public function show403()
     {
