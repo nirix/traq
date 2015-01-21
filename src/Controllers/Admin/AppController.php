@@ -46,10 +46,12 @@ class AppController extends \Traq\Controllers\AppController
         $this->title($this->translate('admincp'));
 
         // Make sure the user is logged in and is an admin.
-        if (LOGGEDIN and !$this->user->group()->is_admin) {
-            $this->showNoPermission();
-        } elseif (!LOGGEDIN) {
-            $this->showLogin(Request::requestUri());
-        }
+        $this->before('*', function(){
+            if (LOGGEDIN and !$this->currentUser->group()->is_admin) {
+                return $this->show403();
+            } elseif (!LOGGEDIN) {
+                return $this->showLogin(Request::$requestUri);
+            }
+        });
     }
 }
