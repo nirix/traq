@@ -84,7 +84,7 @@ class Projects extends AppController
         $project = new Project($this->projectParams());
 
         if ($project->save()) {
-            $this->redirectTo('/admin/projects');
+            return $this->redirectTo('/admin/projects');
         }
 
         return $this->respondTo(function($format) use($project) {
@@ -133,7 +133,7 @@ class Projects extends AppController
         $project->set($this->projectParams());
 
         if ($project->save()) {
-            $this->redirectTo('/admin/projects');
+            return $this->redirectTo('/admin/projects');
         } else {
             return $this->render('admin/projects/edit.phtml', [
                 'project' => $project
@@ -155,7 +155,7 @@ class Projects extends AppController
         if ($this->isApi) {
             return API::response(200);
         } else {
-            Request::redirectTo('admin/projects');
+            return Request::redirectTo('admin/projects');
         }
     }
 
