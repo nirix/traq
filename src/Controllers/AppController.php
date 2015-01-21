@@ -98,7 +98,7 @@ class AppController extends Controller
         $this->getProject();
         $this->before('*', function(){
             // Make sure the user has permission to view the project
-            if (LOGGEDIN && !$this->currentUser->permission($this->project->id, 'view')) {
+            if (LOGGEDIN && $this->project && !$this->currentUser->permission($this->project->id, 'view')) {
                 return $this->showNoPermission();
             }
         });
