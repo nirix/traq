@@ -71,7 +71,7 @@ class Sessions extends AppController
         if ($user = User::find('username', Request::$post['username'])
         and $user->authenticate(Request::$post['password'])) {
             if ($user->isActivated()) {
-                setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+                setcookie('traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
                 return $this->redirectTo(
                     Request::post('redirect', $this->generateUrl('root'))
                 );
