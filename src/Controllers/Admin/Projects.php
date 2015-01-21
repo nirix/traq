@@ -153,7 +153,9 @@ class Projects extends AppController
 
         // Is this an API request?
         if ($this->isApi) {
-            return API::response(200);
+            return $this->jsonResponse([
+                'deleted' => true
+            ]);
         } else {
             return Request::redirectTo('admin/projects');
         }
