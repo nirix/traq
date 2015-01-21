@@ -193,13 +193,7 @@ class Traq extends Application
      */
     protected function loadDatabaseConfig()
     {
-        $this->databaseConfigFile = "{$this->generalConfigDir}/database.php";
-
-        if (file_exists($this->databaseConfigFile)) {
-            $this->databaseConfig = require $this->databaseConfigFile;
-        } else {
-            parent::loadDatabaseConfig();
-        }
+        $this->databaseConfig = $this->config['database'];
     }
 
     /**
