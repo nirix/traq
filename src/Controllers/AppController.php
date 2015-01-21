@@ -26,6 +26,7 @@ namespace Traq\Controllers;
 use Radium\Http\Controller;
 use Radium\Http\Request;
 use Radium\Http\Response;
+use Radium\Language;
 use Avalon\Database\ConnectionManager;
 use Traq\Models\Project;
 use Traq\Models\User;
@@ -238,6 +239,19 @@ class AppController extends Controller
                 '_layout' => $this->layout
             ]);
         });
+    }
+
+    /**
+     * Returns login form view.
+     *
+     * @param string $redirect
+     *
+     * @return Response
+     */
+    public function showLogin($redirect = null) {
+        return $this->render('sessions/new.phtml', [
+            'redirect' => $redirect
+        ]);
     }
 
     /**
