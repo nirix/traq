@@ -1,24 +1,62 @@
 <div class="content">
 	<?php echo HTML::link(l('new_user'), '/admin/users/new', array('class' => 'button_new', 'data-overlay' => true)); ?>
 </div>
-<div>
-	<table class="list">
-		<thead>
-			<th class="fixed_username"><?php echo l('username'); ?></th>
-			<th class="usergroup"><?php echo l('group'); ?></th>
-			<th class="actions"><?php echo l('actions'); ?></th>
-		</thead>
-		<tbody>
-		<?php foreach ($users as $user) { ?>
-			<tr>
-				<td><?php echo HTML::link($user->username, "/admin/users/{$user->id}/edit", array('data-overlay' => true)); ?></td>
-				<td><?php echo $user->group->name; ?></td>
-				<td>
-					<?php echo HTML::link(l('edit'), "/admin/users/{$user->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>
-					<?php echo HTML::link(l('delete'), "/admin/users/{$user->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $user->username))); ?>
-				</td>
-			</tr>
-		<?php } ?>
-		</tbody>
-	</table>
+<div id="users">
+	<form action="<?php echo Request::base('/admin/users/mass_actions'); ?>" method="post">
+		<table class="list">
+			<thead>
+				<th class="mass_actions">
+					<?php echo Form::checkbox('all_users', 1, array('id' => "select_all_users"))?>
+				</th>
+				<th class="fixed_username"><?php echo l('username'); ?></th>
+				<th class="usergroup"><?php echo l('group'); ?></th>
+				<th class="actions"><?php echo l('actions'); ?></th>
+			</thead>
+			<tbody>
+			<?php foreach ($users as $user) { ?>
+				<tr>
+					<td class="mass_actions">
+						<input type="checkbox" name="users[]" value="<?php echo $user->id; ?>" />
+					</td>
+					<td><?php echo HTML::link($user->username, "/admin/users/{$user->id}/edit", array('data-overlay' => true)); ?></td>
+					<td><?php echo $user->group->name; ?></td>
+					<td>
+						<?php echo HTML::link(l('edit'), "/admin/users/{$user->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>
+						<?php echo HTML::link(l('delete'), "/admin/users/{$user->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $user->username))); ?>
+					</td>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
+
+		<div id="mass_actions" class="content">
+			<div class="column span-5">
+				<?php echo Form::label(l('delete_user'), 'delete_user'); ?>
+				<?php echo Form::checkbox('delete_user', 1); ?>
+			</div>
+
+			<div class="column span-5">
+				<?php echo Form::label(l('delete_tickets'), 'delete_tickets'); ?>
+				<?php echo Form::checkbox('delete_tickets', 1); ?>
+			</div>
+
+			<div class="column span-5">
+				<?php echo Form::label(l('delete_comments'), 'delete_comments'); ?>
+				<?php echo Form::checkbox('delete_comments', 1); ?>
+			</div>
+
+			<div class="column span-5">
+				<?php echo Form::label(l('delete_activity'), 'delete_activity'); ?>
+				<?php echo Form::checkbox('delete_activity', 1); ?>
+			</div>
+
+			<div class="clearfix"></div>
+
+			<div class="actions">
+				<?php echo Form::submit(l('submit')); ?>
+			</div>
+
+
+		</div>
+	</form>
 </div>

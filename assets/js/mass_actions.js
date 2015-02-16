@@ -23,6 +23,9 @@ $(document).ready(function(){
 	// Get selected tickets.
 	var selected_tickets = $.cookie('selected_tickets');
 
+	// Selected users
+	var selected_users = [];
+
 	// If there are none, set empty array.
 	if (!selected_tickets) {
 		selected_tickets = [];
@@ -53,7 +56,7 @@ $(document).ready(function(){
 		$('#mass_actions').show();
 	});
 
-	$('.mass_actions #select_all_tickets').on('click', function(){
+	$('#tickets .mass_actions #select_all_tickets').on('click', function(){
 		var select_all = $(this).is(':checked');
 		$('#tickets input[type="checkbox"][name^="tickets"]').each(function(){
 			var ticket_id = $(this).val();
@@ -69,7 +72,7 @@ $(document).ready(function(){
 	});
 
 	// Loop over checkboxes
-	$('.mass_actions input[type="checkbox"][name^="tickets"]').each(function(){
+	$('#tickets .mass_actions input[type="checkbox"][name^="tickets"]').each(function(){
 		// Add click event
 		$(this).on('click', function(){
 			var ticket_id = $(this).val();
@@ -82,6 +85,35 @@ $(document).ready(function(){
 				$('#tickets #select_all_tickets').prop('checked', false);
 			}
 			saveSelectedTickets();
+		});
+	});
+
+	// I'm not particularly proud of the code below, but then again I'm not at all
+	// proud of the 3.x codebase, so screw it, I'll make it better in 4.x.
+
+	$('#select_all_users').on('click', function(){
+		if ($(this).is(':checked')) {
+			$('#users .mass_actions input').each(function(){
+				$(this).prop('checked', true);
+			});
+
+			// $('#mass_actions').slideDown('fast');
+		} else {
+			$('#users .mass_actions input').each(function(){
+				$(this).prop('checked', false);
+			});
+
+			// $('#mass_actions').slideUp('fast');
+		}
+	});
+
+	$('#users .mass_actions input').each(function(){
+		$(this).on('click', function(){
+			if ($('#users .mass_actions input:checked').length > 0) {
+				$('#mass_actions').slideDown('fast');
+			} else {
+				$('#mass_actions').slideUp('fast');
+			}
 		});
 	});
 });
