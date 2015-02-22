@@ -1,8 +1,11 @@
 <title><?=implode(' / ', $traq->title)?></title>
-		<meta charset="UTF-8" />
-		<?=HTML::cssLinkTag('assets/css/default.css')?>
+		<meta charset="UTF-8">
+
+		<?=HTML::cssLinkTag("assets/css/traq.css")?>
 		<?=HTML::cssLinkTag('assets/components/font-awesome/css/font-awesome.min.css')?>
-		<?=HTML::cssLinkTag('assets/components/chosen/chosen.min.css')?>
+
 		<?php Hook::run('template:layouts/global/head'); ?>
-<?php foreach ($traq->feeds as $title => $feed) { ?><link type="application/atom+xml" rel="alternate" title="<?=$title?>" href="<?=$feed[0]?>">
-<?php } ?>
+
+<?php foreach ($traq->feeds as $feed): ?>
+		<link type="application/atom+xml" rel="alternate" title="<?=$feed[1]?>" href="<?=$feed[0]?>">
+<?php endforeach; ?>
