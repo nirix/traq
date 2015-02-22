@@ -25,6 +25,7 @@ namespace Traq\Controllers\Admin;
 
 use Traq\Models\User;
 use Traq\Models\Ticket;
+use Traq\Models\Setting;
 
 /**
  * AdminCP Dashboard
@@ -40,20 +41,25 @@ class Dashboard extends AppController
     public function indexAction()
     {
         // Check for update
-        $this->checkForUpdate();
+        $lastUpdateCheck = Setting::get('last_update_check');
+        if ($lastUpdateCheck->value <= (time() - 86400)) {
+            $this->checkForUpdate();
+            $lastUpdateCheck->value = time();
+            $lastUpdateCheck->save();
+        }
 
         // Get information
-        $info = array(
+        $info = [
             'users'       => User::select()->rowCount(),
-            'latest_user' => User::select()->orderBy('id', 'DESC')->fetch(),
+            'newestUser'  => User::select()->orderBy('id', 'DESC')->fetch(),
             'projects'    => User::select()->rowCount(),
-        );
+        ];
 
-        // Tickets
-        $info['tickets'] = array(
+        // Issues
+        $info['issues'] = [
             'open'   => Ticket::select()->where('is_closed = ?', 0)->rowCount(),
             'closed' => Ticket::select()->where('is_closed = ?', 1)->rowCount(),
-        );
+        ];
 
         return $this->render('admin/dashboard/index.phtml', $info);
     }
