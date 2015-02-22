@@ -28,7 +28,6 @@
     "chosen": [
       "chosen-sprite.png",
       "chosen-sprite@2x.png",
-      "chosen.min.css",
       "chosen.jquery.min.js"
     ]
   }
