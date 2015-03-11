@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -63,9 +63,14 @@ class Projects extends AppController
         }
 
         // Get open and closed ticket counts.
-        $this->set('ticket_count', [
-            'open'   => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->rowCount(),
-            'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->rowCount()
+        $this->set('ticketCount', [
+            'open'   => Ticket::select()->where('project_id = ?', $this->project->id)
+                        ->andWhere('is_closed = ?', 0)
+                        ->rowCount(),
+
+            'closed' => Ticket::select()->where('project_id = ?', $this->project->id)
+                        ->andWhere('is_closed = ?', 1)
+                        ->rowCount()
         ]);
 
         return $this->respondTo(function($format){
