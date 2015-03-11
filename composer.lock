@@ -12,16 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "a9573419b6b62d685c797a847acee7c472a44be2"
+                "reference": "3229730461dc0b24b0359de7c19af51cbe1a00f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/a9573419b6b62d685c797a847acee7c472a44be2",
-                "reference": "a9573419b6b62d685c797a847acee7c472a44be2",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/3229730461dc0b24b0359de7c19af51cbe1a00f8",
+                "reference": "3229730461dc0b24b0359de7c19af51cbe1a00f8",
                 "shasum": ""
             },
             "require": {
-                "doctrine/dbal": "2.4.*"
+                "doctrine/dbal": "2.5.*"
             },
             "require-dev": {
                 "nirix/phail-safe": "0.2.*"
@@ -53,7 +53,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-11-06 08:40:02"
+            "time": "2015-03-11 08:47:49"
         },
         {
             "name": "doctrine/annotations",
@@ -125,16 +125,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.3.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "cf483685798a72c93bf4206e3dd6358ea07d64e7"
+                "reference": "2346085d2b027b233ae1d5de59b07440b9f288c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/cf483685798a72c93bf4206e3dd6358ea07d64e7",
-                "reference": "cf483685798a72c93bf4206e3dd6358ea07d64e7",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/2346085d2b027b233ae1d5de59b07440b9f288c8",
+                "reference": "2346085d2b027b233ae1d5de59b07440b9f288c8",
                 "shasum": ""
             },
             "require": {
@@ -145,6 +145,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": ">=3.7",
+                "predis/predis": "~0.8",
                 "satooshi/php-coveralls": "~0.6"
             },
             "type": "library",
@@ -190,7 +191,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2014-09-17 14:24:04"
+            "time": "2015-01-15 20:38:55"
         },
         {
             "name": "doctrine/collections",
@@ -340,30 +341,38 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.4.3",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "0368bc031976126e5d36d37d2c56155092b6575b"
+                "reference": "628c2256b646ae2417d44e063bce8aec5199d48d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/0368bc031976126e5d36d37d2c56155092b6575b",
-                "reference": "0368bc031976126e5d36d37d2c56155092b6575b",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/628c2256b646ae2417d44e063bce8aec5199d48d",
+                "reference": "628c2256b646ae2417d44e063bce8aec5199d48d",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "~2.4",
+                "doctrine/common": ">=2.4,<2.6-dev",
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*",
-                "symfony/console": "~2.0"
+                "phpunit/phpunit": "4.*",
+                "symfony/console": "2.*"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
             },
+            "bin": [
+                "bin/doctrine-dbal"
+            ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Doctrine\\DBAL\\": "lib/"
@@ -399,7 +408,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2014-10-16 11:56:49"
+            "time": "2015-01-12 21:52:47"
         },
         {
             "name": "doctrine/inflector",
@@ -754,12 +763,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/radiumphp/helpers.git",
-                "reference": "a5a8996c5d46bb137b0faf17e87d1a76b9bf4698"
+                "reference": "4a10ff3bffa8cb0e835e0dce1e3b51af9bd7e9aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/helpers/zipball/a5a8996c5d46bb137b0faf17e87d1a76b9bf4698",
-                "reference": "a5a8996c5d46bb137b0faf17e87d1a76b9bf4698",
+                "url": "https://api.github.com/repos/radiumphp/helpers/zipball/4a10ff3bffa8cb0e835e0dce1e3b51af9bd7e9aa",
+                "reference": "4a10ff3bffa8cb0e835e0dce1e3b51af9bd7e9aa",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +782,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Radium\\Helpers\\": ""
+                    "Radium\\Helpers\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -792,7 +801,7 @@
                 "helpers",
                 "radium"
             ],
-            "time": "2014-12-12 03:11:53"
+            "time": "2015-02-15 00:49:28"
         },
         {
             "name": "radium/hook",
@@ -1077,12 +1086,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/radiumphp/util.git",
-                "reference": "82660b4e42ae19fc63343cae80b61b2c14c01392"
+                "reference": "fb7d016d78c11b2b11b8fc6d8ba4769f496c34ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/util/zipball/82660b4e42ae19fc63343cae80b61b2c14c01392",
-                "reference": "82660b4e42ae19fc63343cae80b61b2c14c01392",
+                "url": "https://api.github.com/repos/radiumphp/util/zipball/fb7d016d78c11b2b11b8fc6d8ba4769f496c34ca",
+                "reference": "fb7d016d78c11b2b11b8fc6d8ba4769f496c34ca",
                 "shasum": ""
             },
             "require": {
@@ -1096,7 +1105,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Radium\\Util\\": ""
+                    "Radium\\Util\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1115,7 +1124,7 @@
                 "radium",
                 "util"
             ],
-            "time": "2014-11-05 12:25:24"
+            "time": "2015-02-15 03:32:34"
         },
         {
             "name": "traq/markdown-plugin",
@@ -1155,16 +1164,16 @@
     "packages-dev": [
         {
             "name": "filp/whoops",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "a85fab9a98f1f9b8ebcdbe71733f0d910e5b9adf"
+                "reference": "dcce91553e2e056857f1ea844949e9a8a71b613d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/a85fab9a98f1f9b8ebcdbe71733f0d910e5b9adf",
-                "reference": "a85fab9a98f1f9b8ebcdbe71733f0d910e5b9adf",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/dcce91553e2e056857f1ea844949e9a8a71b613d",
+                "reference": "dcce91553e2e056857f1ea844949e9a8a71b613d",
                 "shasum": ""
             },
             "require": {
@@ -1209,7 +1218,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2014-10-26 09:05:09"
+            "time": "2015-02-17 15:50:31"
         }
     ],
     "aliases": [],
