@@ -4,12 +4,12 @@
 	</div>
 </footer>
 <div id="overlay"></div>
-<?php if ($environment == 'development'): ?>
-    <?php foreach (Assets::jsAssets() as $file): ?>
-        <?=HTML::jsIncTag("/assets/{$file}")?>
-    <?php endforeach; ?>
-<?php else: ?>
-    <?=HTML::jsIncTag('assets/js.js')?>
-<?php endif; ?>
+<?=HTML::jsIncTag('assets/js/components/jquery/dist/jquery.min.js')?>
+<?=HTML::jsIncTag('assets/js/components/jquery-ui/jquery-ui.min.js')?>
+<?=HTML::jsIncTag('assets/js/components/jquery-cookie/jquery.cookie.js')?>
+<?=HTML::jsIncTag('assets/js/components/bootstrap/dist/js/bootstrap.min.js')?>
+<?=HTML::jsIncTag('assets/js/components/chosen/chosen.jquery.min.js')?>
+<?=HTML::jsIncTag('assets/js/traq.js')?>
+<?=HTML::jsIncTag('assets/js/ujs.js')?>
 <?=HTML::jsIncTag($route('internal_js'))?>
 <!-- <?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb -->
