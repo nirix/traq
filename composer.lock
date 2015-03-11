@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f5d02cc5432d8e5fad25c8c8965c2800",
+    "hash": "95d83310b77df91c62e83f2902c2f50b",
     "packages": [
         {
             "name": "avalon/database",
@@ -54,6 +54,474 @@
                 "orm"
             ],
             "time": "2015-03-11 08:47:49"
+        },
+        {
+            "name": "avalon/event-dispatcher",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/event-dispatcher.git",
+                "reference": "2ac827a796a1a0c2203555cafa0645f8da6d1440"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/event-dispatcher/zipball/2ac827a796a1a0c2203555cafa0645f8da6d1440",
+                "reference": "2ac827a796a1a0c2203555cafa0645f8da6d1440",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Event Dispatcher Component.",
+            "keywords": [
+                "avalon",
+                "event dispatcher"
+            ],
+            "time": "2015-02-02 06:58:01"
+        },
+        {
+            "name": "avalon/framework",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/metapackage.git",
+                "reference": "16d727fd8c18aaf36bd58afb19f13b9965b23dc6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/metapackage/zipball/16d727fd8c18aaf36bd58afb19f13b9965b23dc6",
+                "reference": "16d727fd8c18aaf36bd58afb19f13b9965b23dc6",
+                "shasum": ""
+            },
+            "require": {
+                "avalon/database": "2.0.*",
+                "avalon/event-dispatcher": "2.0.*",
+                "avalon/helpers": "2.0.*",
+                "avalon/hook": "2.0.*",
+                "avalon/http": "2.0.*",
+                "avalon/kernel": "2.0.*",
+                "avalon/language": "2.0.*",
+                "avalon/routing": "2.0.*",
+                "avalon/templating": "2.0.*",
+                "avalon/util": "2.0.*",
+                "php": ">=5.4.0"
+            },
+            "suggest": {
+                "avalon/twig-templating": "Use Twig for views"
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "The Avalon framework.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "mvc"
+            ],
+            "time": "2015-02-02 07:18:41"
+        },
+        {
+            "name": "avalon/helpers",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/helpers.git",
+                "reference": "a8976e8ca64f37696552fdd7e362859796039ba9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/a8976e8ca64f37696552fdd7e362859796039ba9",
+                "reference": "a8976e8ca64f37696552fdd7e362859796039ba9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Helpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Helpers Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "helpers"
+            ],
+            "time": "2015-02-15 04:29:20"
+        },
+        {
+            "name": "avalon/hook",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/hook.git",
+                "reference": "6485a7e9f865cc24779c006f252a36de16af2d75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/hook/zipball/6485a7e9f865cc24779c006f252a36de16af2d75",
+                "reference": "6485a7e9f865cc24779c006f252a36de16af2d75",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Hook Component.",
+            "keywords": [
+                "HOOK",
+                "avalon",
+                "plugin"
+            ],
+            "time": "2015-02-15 03:51:10"
+        },
+        {
+            "name": "avalon/http",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/http.git",
+                "reference": "bf5188b9cfe098ebf79f5340e18d961edae65d5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/http/zipball/bf5188b9cfe098ebf79f5340e18d961edae65d5b",
+                "reference": "bf5188b9cfe098ebf79f5340e18d961edae65d5b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Http\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon HTTP Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "http"
+            ],
+            "time": "2015-02-15 12:34:26"
+        },
+        {
+            "name": "avalon/kernel",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/kernel.git",
+                "reference": "8e8ab54015d1d4d6d0397dd09b830d60e335bf7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/kernel/zipball/8e8ab54015d1d4d6d0397dd09b830d60e335bf7d",
+                "reference": "8e8ab54015d1d4d6d0397dd09b830d60e335bf7d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon framework kernel.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "kernel"
+            ],
+            "time": "2015-02-15 05:25:20"
+        },
+        {
+            "name": "avalon/language",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/language.git",
+                "reference": "481de4285ee30d0642eeea505dec93cfcdeea389"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/language/zipball/481de4285ee30d0642eeea505dec93cfcdeea389",
+                "reference": "481de4285ee30d0642eeea505dec93cfcdeea389",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Language component.",
+            "keywords": [
+                "avalon",
+                "component",
+                "language",
+                "translations"
+            ],
+            "time": "2015-02-15 04:30:32"
+        },
+        {
+            "name": "avalon/routing",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/routing.git",
+                "reference": "b741cc3dca98c37b7ba25d0f07176250b248de3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/routing/zipball/b741cc3dca98c37b7ba25d0f07176250b248de3d",
+                "reference": "b741cc3dca98c37b7ba25d0f07176250b248de3d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Routing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Routing Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "routing"
+            ],
+            "time": "2015-02-15 04:30:58"
+        },
+        {
+            "name": "avalon/templating",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/templating.git",
+                "reference": "ed1e6eaea5f59590d06282290464c5b8bb84027c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/templating/zipball/ed1e6eaea5f59590d06282290464c5b8bb84027c",
+                "reference": "ed1e6eaea5f59590d06282290464c5b8bb84027c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Templating\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Templating Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "templating"
+            ],
+            "time": "2015-02-02 07:01:52"
+        },
+        {
+            "name": "avalon/util",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/util.git",
+                "reference": "8fd7f0388422632a0ef0a1ba6f3211ec3177e5df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/util/zipball/8fd7f0388422632a0ef0a1ba6f3211ec3177e5df",
+                "reference": "8fd7f0388422632a0ef0a1ba6f3211ec3177e5df",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Util\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Util Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "util"
+            ],
+            "time": "2015-02-15 04:15:47"
         },
         {
             "name": "doctrine/annotations",
@@ -613,518 +1081,6 @@
                 "parser"
             ],
             "time": "2014-06-18 23:58:16"
-        },
-        {
-            "name": "radium/asset-helper",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/asset-helper.git",
-                "reference": "0c8d2701de94650e26f99d5a96218d2f8a0bb60f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/asset-helper/zipball/0c8d2701de94650e26f99d5a96218d2f8a0bb60f",
-                "reference": "0c8d2701de94650e26f99d5a96218d2f8a0bb60f",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Asset helper for Radium.",
-            "keywords": [
-                "assets",
-                "helper",
-                "radium"
-            ],
-            "time": "2014-12-10 10:35:11"
-        },
-        {
-            "name": "radium/event-dispatcher",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/event-dispatcher.git",
-                "reference": "fab1e507259dca76bd89a5e619d4152d5814480a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/event-dispatcher/zipball/fab1e507259dca76bd89a5e619d4152d5814480a",
-                "reference": "fab1e507259dca76bd89a5e619d4152d5814480a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium Event Dispatcher Component.",
-            "keywords": [
-                "event dispatcher",
-                "radium"
-            ],
-            "time": "2014-12-11 11:14:57"
-        },
-        {
-            "name": "radium/framework",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/metapackage.git",
-                "reference": "7609dffada28edb13e6d1b8fedaf54d71bc5c928"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/metapackage/zipball/7609dffada28edb13e6d1b8fedaf54d71bc5c928",
-                "reference": "7609dffada28edb13e6d1b8fedaf54d71bc5c928",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "radium/event-dispatcher": "2.0.*",
-                "radium/helpers": "2.0.*",
-                "radium/hook": "2.0.*",
-                "radium/http": "2.0.*",
-                "radium/kernel": "2.0.*",
-                "radium/language": "2.0.*",
-                "radium/routing": "2.0.*",
-                "radium/templating": "2.0.*",
-                "radium/util": "2.0.*"
-            },
-            "suggest": {
-                "radium/asset-helper": "Asset management.",
-                "radium/twig-templating": "Use Twig for views"
-            },
-            "type": "metapackage",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "The Radium framework.",
-            "homepage": "http://radiumphp.org",
-            "keywords": [
-                "framework",
-                "mvc",
-                "radium"
-            ],
-            "time": "2014-12-12 02:27:25"
-        },
-        {
-            "name": "radium/helpers",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/helpers.git",
-                "reference": "4a10ff3bffa8cb0e835e0dce1e3b51af9bd7e9aa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/helpers/zipball/4a10ff3bffa8cb0e835e0dce1e3b51af9bd7e9aa",
-                "reference": "4a10ff3bffa8cb0e835e0dce1e3b51af9bd7e9aa",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\Helpers\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium Helpers Component.",
-            "keywords": [
-                "framework",
-                "helpers",
-                "radium"
-            ],
-            "time": "2015-02-15 00:49:28"
-        },
-        {
-            "name": "radium/hook",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/hook.git",
-                "reference": "5b61fad2f352feb4736b436c4e74f03cb73088b2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/hook/zipball/5b61fad2f352feb4736b436c4e74f03cb73088b2",
-                "reference": "5b61fad2f352feb4736b436c4e74f03cb73088b2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium Hook Component.",
-            "keywords": [
-                "HOOK",
-                "plugin",
-                "radium"
-            ],
-            "time": "2014-12-12 02:24:37"
-        },
-        {
-            "name": "radium/http",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/http.git",
-                "reference": "52657d89734c5daa4813d1fbba5c3eaac0e0945c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/http/zipball/52657d89734c5daa4813d1fbba5c3eaac0e0945c",
-                "reference": "52657d89734c5daa4813d1fbba5c3eaac0e0945c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\Http\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium HTTP Component.",
-            "keywords": [
-                "framework",
-                "http",
-                "radium"
-            ],
-            "time": "2015-01-09 12:10:01"
-        },
-        {
-            "name": "radium/kernel",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/kernel.git",
-                "reference": "f3bf3aaad4b9a3f6a2caad3c05cb11025d79c0e4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/kernel/zipball/f3bf3aaad4b9a3f6a2caad3c05cb11025d79c0e4",
-                "reference": "f3bf3aaad4b9a3f6a2caad3c05cb11025d79c0e4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium framework kernel.",
-            "keywords": [
-                "framework",
-                "kernel",
-                "radium"
-            ],
-            "time": "2015-01-09 12:09:23"
-        },
-        {
-            "name": "radium/language",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/language.git",
-                "reference": "8d36e74f61fa95feed88ffa4c727b9f6eecfbde8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/language/zipball/8d36e74f61fa95feed88ffa4c727b9f6eecfbde8",
-                "reference": "8d36e74f61fa95feed88ffa4c727b9f6eecfbde8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium Language component.",
-            "keywords": [
-                "component",
-                "language",
-                "radium",
-                "translations"
-            ],
-            "time": "2014-12-10 13:27:54"
-        },
-        {
-            "name": "radium/routing",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/routing.git",
-                "reference": "f6a78da07aa470b42590d5ee20e2f36cdfd11d2a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/routing/zipball/f6a78da07aa470b42590d5ee20e2f36cdfd11d2a",
-                "reference": "f6a78da07aa470b42590d5ee20e2f36cdfd11d2a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\Routing\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium Routing Component.",
-            "keywords": [
-                "framework",
-                "radium",
-                "routing"
-            ],
-            "time": "2015-01-11 05:16:22"
-        },
-        {
-            "name": "radium/templating",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/templating.git",
-                "reference": "98681b1ea6b090c295add6e27b62fb1fa048e558"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/templating/zipball/98681b1ea6b090c295add6e27b62fb1fa048e558",
-                "reference": "98681b1ea6b090c295add6e27b62fb1fa048e558",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\Templating\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium Templating Component.",
-            "keywords": [
-                "framework",
-                "radium",
-                "templating"
-            ],
-            "time": "2014-12-12 03:12:53"
-        },
-        {
-            "name": "radium/util",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/radiumphp/util.git",
-                "reference": "fb7d016d78c11b2b11b8fc6d8ba4769f496c34ca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/radiumphp/util/zipball/fb7d016d78c11b2b11b8fc6d8ba4769f496c34ca",
-                "reference": "fb7d016d78c11b2b11b8fc6d8ba4769f496c34ca",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Radium\\Util\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Radium Util Component.",
-            "keywords": [
-                "framework",
-                "radium",
-                "util"
-            ],
-            "time": "2015-02-15 03:32:34"
         },
         {
             "name": "traq/markdown-plugin",
