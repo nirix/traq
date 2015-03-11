@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Traq.io
- * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2009-2015 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 namespace Traq\Helpers;
 
-use Radium\Helpers\HTML;
+use Avalon\Helpers\HTML;
 use Traq\Models\User;
 
 /**
