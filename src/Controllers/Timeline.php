@@ -24,10 +24,10 @@
 namespace Traq\Controllers;
 
 use Avalon\Database;
-use Radium\Http\Request;
-use Radium\Http\Response;
-use Radium\Helpers\Pagination;
-use Radium\Helpers\Time;
+use Avalon\Http\Request;
+use Avalon\Http\Response;
+use Avalon\Helpers\Pagination;
+use Avalon\Helpers\Time;
 use Traq\Models\Timeline as TimelineModel;
 
 /**
@@ -56,9 +56,7 @@ class Timeline extends AppController
             // Fetch filters
             $timelineFilters = Request::post(
                 'filters',
-                isset($_SESSION['timeline_filters'])
-                    ? $_SESSION['timeline_filters']
-                    : []
+                isset($_SESSION['timeline_filters']) ? $_SESSION['timeline_filters'] : []
             );
 
             // Process filters
@@ -140,7 +138,7 @@ class Timeline extends AppController
         $event = TimelineModel::find($event_id);
         $event->delete();
 
-        return $this->respondTo(function($format) use($event) {
+        return $this->respondTo(function($format) use ($event) {
             if ($format == 'html') {
                 return Request::redirectTo($this->project->href('timeline'));
             } elseif ($format == 'js') {
