@@ -23,8 +23,8 @@
 
 namespace Traq\Controllers;
 
-use Radium\Http\Request;
-use Radium\Http\Response;
+use Avalon\Http\Request;
+use Avalon\Http\Response;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\Type;
@@ -43,7 +43,7 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        return $this->respondTo(function($format){
+        return $this->respondTo(function($format) {
             if ($format == 'html') {
                 return $this->render('projects/index.phtml');
             } elseif ($format == 'json') {
@@ -73,7 +73,7 @@ class Projects extends AppController
                         ->rowCount()
         ]);
 
-        return $this->respondTo(function($format){
+        return $this->respondTo(function($format) {
             if ($format == 'html') {
                 return $this->render('projects/show.phtml');
             } elseif ($format == 'json') {
@@ -110,7 +110,7 @@ class Projects extends AppController
                     'types'      => $types
                 ]);
             } elseif ($format == 'txt') {
-                return new Response(function($resp) use ($milestones, $types){
+                return new Response(function($resp) use ($milestones, $types) {
                     $resp->contentType = 'text/plain';
                     $resp->body = $this->renderView('projects/changelog.txt.php', [
                         'milestones' => $milestones,
