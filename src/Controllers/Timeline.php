@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,9 +23,11 @@
 
 namespace Traq\Controllers;
 
+use Avalon\Database;
 use Radium\Http\Request;
 use Radium\Http\Response;
 use Radium\Helpers\Pagination;
+use Radium\Helpers\Time;
 use Traq\Models\Timeline as TimelineModel;
 
 /**
@@ -40,7 +42,7 @@ class Timeline extends AppController
      */
     public function indexAction()
     {
-        $rows = [];
+        $days = [];
 
         // Filters
         $filters = array_keys(TimelineModel::timelineFilters());
@@ -52,7 +54,12 @@ class Timeline extends AppController
             $events  = [];
 
             // Fetch filters
-            $timelineFilters = (isset(Request::$post['filters']) ? Request::$post['filters'] : $_SESSION['timeline_filters']);
+            $timelineFilters = Request::post(
+                'filters',
+                isset($_SESSION['timeline_filters'])
+                    ? $_SESSION['timeline_filters']
+                    : []
+            );
 
             // Process filters
             foreach ($timelineFilters as $filter => $value) {
@@ -70,79 +77,49 @@ class Timeline extends AppController
             $this->translate('x_timeline_feed', [$this->project->name])
         ];
 
-        // Fetch the different days with a nicely formatted
-        // query for everyone to read easily, unlike the one
-        // from 2.x and earlier, that was completely ugly.
-        $query = "
-            SELECT
-            DISTINCT
-                YEAR(created_at) AS 'year',
-                MONTH(created_at) AS 'month',
-                DAY(created_at) AS 'day',
-                created_at
-
-            FROM timeline
-            WHERE `project_id` = '{$this->project->id}'
-            AND `action` IN ('" . implode("','", $events) . "')
-
-            GROUP BY
-                YEAR(created_at),
-                MONTH(created_at),
-                DAY(created_at)
-
-            ORDER BY created_at DESC
-        ";
+        $query = TimelineModel::select()->where('project_id = ?', $this->project->id);
+        $query->andWhere($query->expr()->in('action', $query->quote($events)))
+            ->orderBy('created_at', 'DESC')
+            ->addGroupBy("YEAR(created_at)")
+            ->addGroupBy("MONTH(created_at)")
+            ->addGroupBy("DAY(created_at)");
 
         // Pagination
         $pagination = new Pagination(
             (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
             settings('timeline_days_per_page'), // Per page
-            $this->db->query($query)->rowCount() // Row count
+            $query->rowCount()
         );
 
         // Limit?
         if ($pagination->paginate) {
-            $daysQuery = $this->db->query($query . " LIMIT {$pagination->limit}, " . $pagination->perPage);
-        } else {
-            $daysQuery = $this->db->query($query);
+            $query->limit($pagination->limit, $pagination->perPage);
         }
 
         $this->set(compact('pagination'));
 
-        // Loop through the days and get their activity
-        foreach ($daysQuery as $info) {
-            // Construct the array for the day
-            $day = [
-                'created_at' => $info['created_at'],
-                'activity' => []
+        foreach ($query->fetchAll() as $day) {
+            $activity = TimelineModel::select()->where('project_id = ?', $this->project->id);
+            $activity->andWhere($activity->expr()->in('action', $query->quote($events)))
+                ->orderBy('created_at', 'DESC')
+                ->andWhere($activity->expr()->like(
+                    'created_at',
+                    $activity->getConnection()->quote(date("Y-m-d", Time::toUnix($day->created_at)) . '%')
+                ));
+
+            $days[] = [
+                'created_at' => $day->created_at,
+                'activity'   => $activity->fetchAll()
             ];
-
-            // Get the date, without the time
-            $date = explode(' ', $info['created_at']);
-            $date = $date[0];
-
-            // Fetch the activity for this day
-            $fetchActivity = TimelineModel::select()
-                ->where('project_id = ?', $this->project->id)
-                ->andWhere("created_at LIKE '" . $date . " %'")
-                ->andWhere("action IN ('".implode("','", $events)."')")
-                ->orderBy('created_at', 'DESC');
-
-            $day['activity'] = $fetchActivity->fetchAll();
-
-            // Push the days data to the
-            // rows array,
-            $rows[] = $day;
         }
 
-        // Send the days and events to the view.
         $this->set([
-            'days'    => $rows,
+            'days'    => $days,
             'filters' => $filters,
             'events'  => $events
         ]);
 
-        return $this->respondTo(function($format){
+        return $this->respondTo(function($format) {
             if ($format == 'html') {
                 return $this->render('timeline/index.phtml');
             }
