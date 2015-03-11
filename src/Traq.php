@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,12 +23,8 @@
 
 namespace Traq;
 
-use Exception;
-use Radium\Application;
-use Radium\Language;
-use Radium\Templating\View;
-use Radium\Helpers\Assets;
-use Avalon\Database\ConnectionManager;
+use Avalon\AppKernel;
+use Avalon\Language;
 use Traq\Models\Setting;
 use Traq\Models\Plugin;
 
@@ -38,7 +34,7 @@ use Traq\Models\Plugin;
  * @author Jack Polgar <jack@polgar.id.au>
  * @package Traq
  */
-class Traq extends Application
+class Traq extends AppKernel
 {
     /**
      * @var string
@@ -52,28 +48,8 @@ class Traq extends Application
      */
     protected static $loader;
 
-    /**
-     * Path to user set configuration directory.
-     *
-     * @var string
-     */
-    protected $generalConfigDir;
-
-    /**
-     * Main configuration.
-     *
-     * @var array
-     */
-    protected $config;
-
     public function __construct()
     {
-        // General configuration directory
-        $this->generalConfigDir = __DIR__ . '/../config';
-
-        // Load main configuration file
-        $this->loadConfig();
-
         // We'll need the autoloader instance
         static::$loader = require VENDORDIR . '/autoload.php';
 
@@ -91,40 +67,25 @@ class Traq extends Application
         $this->aliasClasses();
 
         // Load default language
-        require __DIR__ . "/translations/enAU.php";
-        Language::setCurrent(Setting::get('locale')->value);
-
-        // Add theme to view search path.
-        $theme = Setting::get('theme')->value;
-
-        if ($theme !== 'default') {
-            View::addPath(__DIR__ . "/../vendor/traq/themes/{$theme}", true);
-        }
+        $this->setupLanguage();
 
         // Old common functions
         require __DIR__ . "/common.php";
 
-        // Asset directory
-        Assets::setDirectory(DOCROOT . '/assets');
-        Assets::setDebug($this->environment == 'development');
-
+        // And finally, load the plugins
         $this->loadPlugins();
     }
 
-    /**
-     * Alias classes for use in views.
-     */
     protected function aliasClasses()
     {
-        class_alias("Radium\Hook", "Hook");
-        class_alias("Radium\Templating\View", "View");
+        class_alias("Avalon\Hook", "Hook");
+        class_alias("Avalon\Templating\View", "View");
 
-        // Radium helpers
-        class_alias("Radium\Helpers\HTML", "HTML");
-        class_alias("Radium\Helpers\Form", "Form");
-        class_alias("Radium\Helpers\Time", "Time");
-        class_alias("Radium\Helpers\Assets", "Assets");
-        class_alias("Radium\Http\Request", "Request");
+        // Avalon helpers
+        class_alias("Avalon\Helpers\HTML", "HTML");
+        class_alias("Avalon\Helpers\Form", "Form");
+        class_alias("Avalon\Helpers\Time", "Time");
+        class_alias("Avalon\Http\Request", "Request");
 
         // Traq helpers
         class_alias("Traq\Helpers\Format", "Format");
@@ -134,6 +95,15 @@ class Traq extends Application
         class_alias("Traq\Helpers\Gravatar", "Gravatar");
         class_alias("Traq\Helpers\Ticketlist", "Ticketlist");
         class_alias("Traq\Helpers\TicketFilters", "TicketFilters");
+    }
+
+    /**
+     * Loads and sets the language.
+     */
+    protected function setupLanguage()
+    {
+        require __DIR__ . "/translations/enAU.php";
+        Language::setCurrent(Setting::get('locale')->value);
     }
 
     /**
@@ -169,50 +139,40 @@ class Traq extends Application
         static::$loader->addPsr4($namespace, $directory);
     }
 
-    /**
-     * Loads main configuration file.
-     */
-    protected function loadConfig()
-    {
-        $path = "{$this->generalConfigDir}/config.php";
-        if (file_exists($path)) {
-            $this->config = require $path;
-
-            $this->environment = isset($this->config['environment']) ? $this->config['environment'] : 'dev';
-        } else {
-            throw new Exception("Unable to load main configuration file.");
-        }
-    }
-
-    // -------------------------------------------------------------------------
-    // Database related methods
-
-
-    /**
-     * Loads the database configuration file.
-     */
-    protected function loadDatabaseConfig()
-    {
-        $this->databaseConfig = $this->config['database'];
-    }
-
-    /**
-     * Connects to the configured database.
-     */
-    protected function connectDatabase()
-    {
-        if (!$this->databaseConfig) {
-            return null;
-        }
-
-        $this->databaseConnection = ConnectionManager::create($this->databaseConfig);
-    }
-
-    /**
-     * @return string
-     */
     public static function version()
     {
         return static::$version;
+    }
+
+    // =========================================================================
+    // Overwritten functions
+
+    /**
+     * Loads the applications configuration.
+     */
+    protected function loadConfiguration()
+    {
+        $path = dirname($this->path) . "/config/config.php";
+
+        if (file_exists($path)) {
+            $this->config = require $path;
+        } else {
+            throw new Exception("Error loading configuration file: [{$path}]");
+        }
+    }
+
+    /**
+     * Setup templating.
+     */
+    protected function setupTemplating()
+    {
+        parent::setupTemplating();
+
+        // Add theme to view search path.
+        $theme = Setting::get('theme')->value;
+
+        if ($theme !== 'default') {
+            View::addPath(__DIR__ . "/../vendor/traq/themes/{$theme}", true);
+        }
     }
 }
