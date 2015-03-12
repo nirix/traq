@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,12 +23,11 @@
 
 namespace Traq\Helpers;
 
-use Radium\Kernel as Radium;
-use Radium\Hook;
-use Radium\Helpers\HTML;
+use Avalon\Hook;
+use Avalon\Helpers\HTML;
 use Traq\Models\Project;
 
-class Format extends \Radium\Helpers\Format
+class Format extends \Avalon\Helpers\Format
 {
     /**
      * Formats the supplied text.
