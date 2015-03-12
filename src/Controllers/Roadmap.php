@@ -92,7 +92,7 @@ class Roadmap extends AppController
 
         $this->title($milestone->name);
 
-        return $this->respondTo(function($format) use ($milestone){
+        return $this->respondTo(function($format) use ($milestone) {
             if ($format == 'html') {
                 return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
             } elseif ($format == 'json') {
