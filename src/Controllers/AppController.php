@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,10 +23,10 @@
 
 namespace Traq\Controllers;
 
-use Radium\Http\Controller;
-use Radium\Http\Request;
-use Radium\Http\Response;
-use Radium\Language;
+use Avalon\Http\Controller;
+use Avalon\Http\Request;
+use Avalon\Http\Response;
+use Avalon\Language;
 use Avalon\Database\ConnectionManager;
 use Traq\Models\Project;
 use Traq\Models\User;
@@ -97,7 +97,7 @@ class AppController extends Controller
 
         // Get current project
         $this->getProject();
-        $this->before('*', function(){
+        $this->before('*', function() {
             // Make sure the user has permission to view the project
             if (LOGGEDIN && $this->project && !$this->currentUser->permission($this->project->id, 'view')) {
                 return $this->showNoPermission();
@@ -233,7 +233,7 @@ class AppController extends Controller
     public function show403()
     {
         $this->executeAction = false;
-        return new Response(function($resp){
+        return new Response(function($resp) {
             $resp->status = 401;
             $resp->body   = $this->renderView('errors/no_permission.phtml', [
                 '_layout' => $this->layout
@@ -248,7 +248,8 @@ class AppController extends Controller
      *
      * @return Response
      */
-    public function showLogin($redirect = null) {
+    public function showLogin($redirect = null)
+    {
         return $this->render('sessions/new.phtml', [
             'redirect' => $redirect
         ]);
