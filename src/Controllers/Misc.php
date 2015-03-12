@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,9 +23,9 @@
 
 namespace Traq\Controllers;
 
-use Radium\Http\Controller;
-use Radium\Http\Request;
-use Radium\Http\Response;
+use Avalon\Http\Controller;
+use Avalon\Http\Request;
+use Avalon\Http\Response;
 use Traq\Models\Type;
 use Traq\Models\User;
 
@@ -45,7 +45,7 @@ class Misc extends Controller
      */
     public function javascriptAction()
     {
-        return new Response(function($resp){
+        return new Response(function($resp) {
             $resp->contentType = 'text/javascript';
             $resp->body = $this->renderView('javascript.php');
         });
