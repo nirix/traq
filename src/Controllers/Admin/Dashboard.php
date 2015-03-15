@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -31,7 +31,7 @@ use Traq\Models\Setting;
  * AdminCP Dashboard
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  */
 class Dashboard extends AppController
 {
@@ -52,13 +52,13 @@ class Dashboard extends AppController
         $info = [
             'users'       => User::select()->rowCount(),
             'newestUser'  => User::select()->orderBy('id', 'DESC')->fetch(),
-            'projects'    => User::select()->rowCount(),
+            'projects'    => User::select()->rowCount()
         ];
 
         // Issues
-        $info['issues'] = [
+        $info['tickets'] = [
             'open'   => Ticket::select()->where('is_closed = ?', 0)->rowCount(),
-            'closed' => Ticket::select()->where('is_closed = ?', 1)->rowCount(),
+            'closed' => Ticket::select()->where('is_closed = ?', 1)->rowCount()
         ];
 
         return $this->render('admin/dashboard/index.phtml', $info);

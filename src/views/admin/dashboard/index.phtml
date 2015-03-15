@@ -2,11 +2,11 @@
 	<h1 class="page-header"><?=$t('dashboard')?></h1>
 
 	<div id="update">
-	<?php if (settings('check_for_update')) { ?>
+	<?php if (settings('check_for_update')): ?>
 		<?=View::render('admin/dashboard/_update.phtml')?>
-	<?php } else { ?>
+	<?php else: ?>
 		<strong><?=HTML::link($t('check_for_update'), '/admin/check_for_update')?></strong>
-	<?php } ?>
+	<?php endif; ?>
 	</div>
 
 	<div class="row">
@@ -34,7 +34,7 @@
 					<dd><?=$users?></dd>
 
 					<dt><?=$t('newest')?></dt>
-					<dd><?=HTML::link($latest_user->username, $latest_user->href())?></dd>
+					<dd><?=HTML::link($newestUser->username, $newestUser->href())?></dd>
 				</dl>
 			</div>
 		</div>
