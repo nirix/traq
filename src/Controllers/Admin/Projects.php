@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers\Admin;
 
-use Radium\Http\Request;
+use Avalon\Http\Request;
 use Traq\Models\Project;
 
 /**
@@ -87,7 +87,7 @@ class Projects extends AppController
             return $this->redirectTo('/admin/projects');
         }
 
-        return $this->respondTo(function($format) use($project) {
+        return $this->respondTo(function($format) use ($project) {
             if ($format == 'html') {
                 return $this->render('admin/projects/new.phtml', [
                     'project' => $project
@@ -157,7 +157,7 @@ class Projects extends AppController
                 'deleted' => true
             ]);
         } else {
-            return Request::redirectTo('admin/projects');
+            return $this->redirectTo('admin/projects');
         }
     }
 
