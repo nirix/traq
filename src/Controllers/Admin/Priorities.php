@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers\Admin;
 
-use Radium\Http\Request;
+use Avalon\Http\Request;
 use Traq\Models\Priority;
 
 /**
@@ -81,7 +81,7 @@ class Priorities extends AppController
         $priority = new Priority($this->priorityParams());
 
         if ($priority->save()) {
-            $this->redirectTo('admin/priorities');
+            return $this->redirectTo('admin/priorities');
         } else {
             return $this->render('admin/priorities/new.phtml', [
                 'priority' => $priority
@@ -129,7 +129,7 @@ class Priorities extends AppController
         $priority->set($this->priorityParams());
 
         if ($priority->save()) {
-            $this->redirectTo('admin/priorities');
+            return $this->redirectTo('admin/priorities');
         } else {
             return $this->render('admin/priorities/edit.phtml', [
                 'priority' => $priority
@@ -146,7 +146,7 @@ class Priorities extends AppController
     {
         $priority = Priority::find($id);
         $priority->delete();
-        $this->redirectTo("admin/priorities");
+        return $this->redirectTo("admin/priorities");
     }
 
     /**
