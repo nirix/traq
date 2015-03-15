@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,8 +23,7 @@
 
 namespace Traq\Controllers\Admin;
 
-use Radium\Http\Request;
-
+use Avalon\Http\Request;
 use Traq\Models\Status;
 
 /**
@@ -88,7 +87,7 @@ class Statuses extends AppController
         $status = new Status($this->statusParams());
 
         if ($status->save()) {
-            $this->redirectTo('admin/statuses');
+            return $this->redirectTo('admin/statuses');
         } else {
             return $this->render('admin/statuses/new.phtml', [
                 'status' => $status
@@ -136,7 +135,7 @@ class Statuses extends AppController
         $status->set($this->statusParams());
 
         if ($status->save()) {
-            $this->redirectTo('admin/statuses');
+            return $this->redirectTo('admin/statuses');
         } else {
             return $this->render('admin/statuses/edit.phtml', [
                 'status' => $status
@@ -153,7 +152,7 @@ class Statuses extends AppController
     {
         $status = Status::find($id);
         $status->delete();
-        $this->redirectTo("admin/statuses");
+        return $this->redirectTo("admin/statuses");
     }
 
     /**
