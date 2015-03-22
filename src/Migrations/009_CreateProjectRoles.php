@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,23 +23,21 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
-class CreateWikiRevisions extends Migration
+class CreateProjectRoles extends Migration
 {
     public function up()
     {
-        $this->createTable('wiki_revisions', function($t){
-            $t->int('wiki_page_id', array('nullable' => false));
-            $t->int('revision', array('nullable' => false, 'default' => 1));
-            $t->longtext('content');
-            $t->int('user_id', array('nullable' => false));
-            $t->timestamps();
+        $this->createTable("project_roles", function($t) {
+            $t->addColumn("name", "string");
+            $t->addColumn("is_assignable", "boolean");
+            $t->addColumn("project_id", "bigint");
         });
     }
 
     public function down()
     {
-        $this->dropTable('wiki_revisions');
+        $this->dropTable("project_roles");
     }
 }

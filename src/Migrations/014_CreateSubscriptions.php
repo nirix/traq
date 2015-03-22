@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,24 +23,22 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
-class CreateTimeline extends Migration
+class CreateSubscriptions extends Migration
 {
     public function up()
     {
-        $this->createTable('timeline', function($t){
-            $t->int('project_id', array('nullable' => false));
-            $t->int('owner_id', array('nullable' => false));
-            $t->varchar('action', array('nullable' => false));
-            $t->longtext('data');
-            $t->int('user_id', array('nullable' => false));
-            $t->timestamps();
+        $this->createTable("subscriptions", function($t) {
+            $t->addColumn("type", "string");
+            $t->addColumn("user_id", "bigint");
+            $t->addColumn("project_id", "bigint");
+            $t->addColumn("object_id", "bigint");
         });
     }
 
     public function down()
     {
-        $this->dropTable('timeline');
+        $this->dropTable("subscriptions");
     }
 }

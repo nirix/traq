@@ -25,19 +25,22 @@ namespace Traq\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateCustomFieldValues extends Migration
+class CreateWikiRevisions extends Migration
 {
     public function up()
     {
-        $this->createTable("custom_field_values", function($t) {
-            $t->addColumn("custom_field_if", "integer");
-            $t->addColumn("ticket_id", "bigint");
-            $t->addColumn("value", "text");
+        $this->createTable("wiki_revisions", function($t) {
+            $t->addColumn("wiki_page_id", "integer");
+            $t->addColumn("revision", "integer", ['default' => 1]);
+            $t->addColumn("content", "string");
+            $t->addColumn("user_id", "bigint");
+
+            $this->timestamps($t);
         });
     }
 
     public function down()
     {
-        $this->dropTable("custom_field_values");
+        $this->dropTable("wiki_revisions");
     }
 }

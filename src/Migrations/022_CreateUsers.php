@@ -25,19 +25,28 @@ namespace Traq\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateCustomFieldValues extends Migration
+class CreateUsers extends Migration
 {
     public function up()
     {
-        $this->createTable("custom_field_values", function($t) {
-            $t->addColumn("custom_field_if", "integer");
-            $t->addColumn("ticket_id", "bigint");
-            $t->addColumn("value", "text");
+        $this->createTable("users", function($t) {
+            $t->addColumn("username", "string");
+            $t->addColumn("password", "string");
+            // $t->addColumn("password_ver", "string", ['default' => "crpyt"]);
+            $t->addColumn("name", "string");
+            $t->addColumn("email", "string");
+            $t->addColumn("group_id", "integer");
+            $t->addColumn("language", "string", ['default' => "enAU"]);
+            $t->addColumn("options", "text");
+            $t->addColumn("login_hash", "string");
+            $t->addColumn("api_key", "string");
+
+            $this->timestamps($t);
         });
     }
 
     public function down()
     {
-        $this->dropTable("custom_field_values");
+        $this->dropTable("users");
     }
 }

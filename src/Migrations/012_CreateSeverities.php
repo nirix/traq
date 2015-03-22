@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,20 +23,20 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
-class CreateUsergroups extends Migration
+class CreateSeverities extends Migration
 {
     public function up()
     {
-        $this->createTable('usergroups', function($t){
-            $t->varchar('name', array('nullable' => false));
-            $t->tinyint('is_admin', array('nullable' => false, 'default' => false));
+        $this->createTable("severities", function($t) {
+            $t->addColumn("name", "string");
+            $t->addColumn("level", "integer", ['default' => 3]);
         });
     }
 
     public function down()
     {
-        $this->dropTable('usergroups');
+        $this->dropTable("severities");
     }
 }

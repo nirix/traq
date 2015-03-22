@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,19 +23,23 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
-class CreatePriorities extends Migration
+class CreatePermissions extends Migration
 {
     public function up()
     {
-        $this->createTable('priorities', function($t){
-            $t->varchar('name', array('nullable' => false));
+        $this->createTable("permissions", function($t) {
+            $t->addColumn("project_id", "bigint");
+            $t->addColumn("type", "string");
+            $t->addColumn("type_id", "integer");
+            $t->addColumn("action", "string");
+            $t->addColumn("value", "smallint");
         });
     }
 
     public function down()
     {
-        $this->dropTable('priorities');
+        $this->dropTable("permissions");
     }
 }

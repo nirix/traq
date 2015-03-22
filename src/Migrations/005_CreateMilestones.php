@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,30 +23,31 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
 class CreateMilestones extends Migration
 {
     public function up()
     {
-        $this->createTable('milestones', function($t){
-            $t->varchar('name', array('nullable' => false));
-            $t->varchar('slug', array('nullable' => false));
-            $t->varchar('codename');
-            $t->longtext('info');
-            $t->longtext('changelog');
-            $t->datetime('due');
-            $t->datetime('completed_at');
-            $t->int('status', array('nullable' => false, 'default' => 1));
-            $t->bool('is_locked', array('nullable' => false, 'default' => false));
-            $t->int('project_id', array('nullable' => false));
-            $t->int('display_order', array('default' => 0));
-            $t->timestamps();
+        $this->createTable("milestones", function($t) {
+            $t->addColumn("name", "string");
+            $t->addColumn("slug", "string");
+            $t->addColumn("codename", "string");
+            $t->addColumn("info", "text");
+            $t->addColumn("changelog", "text");
+            $t->addColumn("due", "datetime");
+            $t->addColumn("completed_at", "datetime");
+            $t->addColumn("status", "integer", ['default' => 1]);
+            $t->addColumn("is_locked", "boolean", ['default' => false]);
+            $t->addColumn("project_id", "integer");
+            $t->addColumn("display_order", "integer");
+
+            $this->timestamps($t);
         });
     }
 
     public function down()
     {
-        $this->dropTable('milestones');
+        $this->dropTable("milestones");
     }
 }

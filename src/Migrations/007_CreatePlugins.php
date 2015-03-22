@@ -25,19 +25,21 @@ namespace Traq\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateCustomFieldValues extends Migration
+class CreatePlugins extends Migration
 {
     public function up()
     {
-        $this->createTable("custom_field_values", function($t) {
-            $t->addColumn("custom_field_if", "integer");
-            $t->addColumn("ticket_id", "bigint");
-            $t->addColumn("value", "text");
+        $this->createTable("plugins", function($t) {
+            $t->addColumn("directory", "string");
+            $t->addColumn("version", "string");
+            $t->addColumn("namespace", "string");
+            $t->addColumn("class", "string");
+            $t->addColumn("is_enabled", "boolean", ['default' => true]);
         });
     }
 
     public function down()
     {
-        $this->dropTable("custom_field_values");
+        $this->dropTable("plugins");
     }
 }

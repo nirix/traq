@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,30 +23,30 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
 class CreateCustomFields extends Migration
 {
     public function up()
     {
-        $this->createTable('custom_fields', function($t){
-            $t->varchar('name', array('nullable' => false));
-            $t->varchar('slug', array('nullable' => false));
-            $t->varchar('type', array('nullable' => false));
-            $t->longtext('values');
-            $t->tinyint('multiple', array('nullable' => false, 'default' => 0));
-            $t->varchar('default_value');
-            $t->varchar('regex');
-            $t->int('min_length');
-            $t->int('max_length');
-            $t->bool('is_required', array('nullable' => false, 'default' => false));
-            $t->int('project_id', array('nullable' => false));
-            $t->varchar('ticket_type_ids', array('nullable' => false));
+        $this->createTable("custom_fields", function($t) {
+            $t->addColumn("name", "string");
+            $t->addColumn("slug", "string");
+            $t->addColumn("type", "string");
+            $t->addColumn("values", "text");
+            $t->addColumn("multiple", "boolean", ['default' => false]);
+            $t->addColumn("default_value", "string");
+            $t->addColumn("regex", "string");
+            $t->addColumn("min_length", "integer");
+            $t->addColumn("max_length", "integer");
+            $t->addColumn("is_required", "boolean", ['default' => false]);
+            $t->addColumn("project_id", "bigint");
+            $t->addColumn("ticket_type_ids", "string");
         });
     }
 
     public function down()
     {
-        $this->dropTable('custom_fields');
+        $this->dropTable("custom_fields");
     }
 }

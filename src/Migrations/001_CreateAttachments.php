@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,25 +23,26 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
 class CreateAttachments extends Migration
 {
     public function up()
     {
-        $this->createTable('attachments', function($t){
-            $t->varchar('name', array('nullable' => false));
-            $t->longtext('contents', array('nullable' => false));
-            $t->varchar('type', array('nullable' => false));
-            $t->bigint('size', array('nullable' => false));
-            $t->int('user_id', array('nullable' => false));
-            $t->int('ticket_id', array('nullable' => false));
-            $t->timestamps();
+        $this->createTable("attachments", function($t) {
+            $t->addColumn("name", "string", ['length' => 255]);
+            $t->addColumn("contents", "text");
+            $t->addColumn("type", "string");
+            $t->addColumn("size", "bigint");
+            $t->addColumn("user_id", "bigint");
+            $t->addColumn("ticket_id", "bigint");
+
+            $this->timestamps($t);
         });
     }
 
     public function down()
     {
-        $this->dropTable('attachments');
+        $this->dropTable("attachments");
     }
 }

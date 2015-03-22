@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,23 +23,20 @@
 
 namespace Traq\Migrations;
 
-use Radium\Database\Schema\Migration;
+use Avalon\Database\Migration;
 
-class CreateWikiPages extends Migration
+class CreateSettings extends Migration
 {
     public function up()
     {
-        $this->createTable('wiki_pages', function($t){
-            $t->int('project_id', array('nullable' => false));
-            $t->varchar('title', array('nullable' => false));
-            $t->varchar('slug', array('nullable' => false));
-            $t->bool('is_index', array('nullable' => false, 'default' => false));
-            $t->int('revision_id', array('nullable' => false));
+        $this->createTable("settings", function($t) {
+            $t->addColumn("setting", "string");
+            $t->addColumn("value", "text");
         });
     }
 
     public function down()
     {
-        $this->dropTable('wiki_pages');
+        $this->dropTable("settings");
     }
 }
