@@ -1,12 +1,12 @@
 {
   "name": "traq",
   "dependencies": {
-    "jquery": "~2.1.1",
-    "jquery-ui": "~1.11.1",
-    "jquery-cookie": "~1.4.1",
+    "jquery": "~2.1.0",
+    "jquery-ui": "~1.11.0",
+    "jquery-cookie": "~1.4.0",
     "bootstrap": "~3.3.0",
-    "font-awesome": "~4.2.0",
-    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip"
+    "font-awesome": "~4.3.0",
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.4.1/chosen_v1.4.1.zip"
   },
   "preen": {
     "jquery": [
