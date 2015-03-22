@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "95d83310b77df91c62e83f2902c2f50b",
+    "hash": "1edcef93237d27012350473ce5ac2c62",
     "packages": [
         {
             "name": "avalon/database",
@@ -54,6 +54,53 @@
                 "orm"
             ],
             "time": "2015-03-11 08:47:49"
+        },
+        {
+            "name": "avalon/database-migrations",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/database-migrations.git",
+                "reference": "6e0bfd6ec3ec560b30b9bfd1cfdec22c83a71ea9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/6e0bfd6ec3ec560b30b9bfd1cfdec22c83a71ea9",
+                "reference": "6e0bfd6ec3ec560b30b9bfd1cfdec22c83a71ea9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Database migrations for Avalon.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "migrations",
+                "schema"
+            ],
+            "time": "2015-03-22 05:14:02"
         },
         {
             "name": "avalon/event-dispatcher",

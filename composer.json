@@ -4,6 +4,7 @@
     "require": {
         "php": ">=5.4.0",
         "avalon/framework": "2.0.*",
+        "avalon/database-migrations": "1.0.*",
         "traq/markdown-plugin": "v2.0"
     },
     "require-dev": {
