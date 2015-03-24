@@ -20,13 +20,7 @@
 			<h1 class="page-header">Database Information</h1>
 
 			<?php if (isset($errors)): ?>
-			<div class="alert alert-danger">
-				<ul>
-				<?php foreach ($errors as $error): ?>
-					<li><?=$error?></li>
-				<?php endforeach; ?>
-				</ul>
-			</div>
+				<?=View::render('partials/errors.phtml', ['errors' => $errors])?>
 			<?php endif; ?>
 
 			<form action="<?=$installStep("account_info")?>" method="post" class="form-horizontal">

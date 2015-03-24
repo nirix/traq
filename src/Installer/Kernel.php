@@ -37,6 +37,7 @@ class Kernel extends AppKernel
     {
         parent::__construct();
 
+        class_alias("Avalon\\Templating\\View", "View");
         class_alias("Avalon\\Http\\Request", "Request");
         class_alias("Avalon\\Helpers\\HTML", "HTML");
     }
