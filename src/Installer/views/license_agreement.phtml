@@ -1,16 +1,21 @@
 <div class="container">
-	<h1 class="page-title">License Agreement</h1>
+	<style type="text/css">
+		.license {
+			font-family: monospace;
+			max-height: 400px;
+			overflow: auto;
+		}
+	</style>
 
-	<form action="<?=$installStep("step1")?>" method="post">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<pre class="license"><?=htmlentities($license)?></pre>
-			</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h1 class="page-title">License Agreement</h1>
+
+			<form action="<?=$installStep("database_info")?>" method="post">
+					<pre class="license"><?=htmlentities($license)?></pre>
+					<button class="btn btn-block btn-primary">Accept</button>
+				</div>
+			</form>
 		</div>
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<button class="btn btn-block btn-primary">Accept</button>
-			</div>
-		</div>
-	</form>
+	</div>
 </div>
