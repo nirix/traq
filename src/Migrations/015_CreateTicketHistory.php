@@ -32,8 +32,8 @@ class CreateTicketHistory extends Migration
         $this->createTable("ticket_history", function($t) {
             $t->addColumn("user_id", "integer");
             $t->addColumn("ticket_id", "integer");
-            $t->addColumn("changes", "text");
-            $t->addColumn("comment", "text");
+            $t->addColumn("changes", "text", ['notnull' => false]);
+            $t->addColumn("comment", "text", ['notnull' => false]);
 
             $this->timestamps($t);
         });

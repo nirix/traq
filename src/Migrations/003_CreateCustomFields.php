@@ -33,15 +33,15 @@ class CreateCustomFields extends Migration
             $t->addColumn("name", "string");
             $t->addColumn("slug", "string");
             $t->addColumn("type", "string");
-            $t->addColumn("values", "text");
+            $t->addColumn("values", "text", ['notnull' => false]);
             $t->addColumn("multiple", "boolean", ['default' => false]);
-            $t->addColumn("default_value", "string");
-            $t->addColumn("regex", "string");
-            $t->addColumn("min_length", "integer");
-            $t->addColumn("max_length", "integer");
+            $t->addColumn("default_value", "string", ['notnull' => false]);
+            $t->addColumn("regex", "string", ['notnull' => false]);
+            $t->addColumn("min_length", "integer", ['notnull' => false]);
+            $t->addColumn("max_length", "integer", ['notnull' => false]);
             $t->addColumn("is_required", "boolean", ['default' => false]);
             $t->addColumn("project_id", "bigint");
-            $t->addColumn("ticket_type_ids", "string");
+            $t->addColumn("ticket_type_ids", "string", ['notnull' => false]);
         });
     }
 

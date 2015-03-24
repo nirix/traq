@@ -32,10 +32,10 @@ class CreateMilestones extends Migration
         $this->createTable("milestones", function($t) {
             $t->addColumn("name", "string");
             $t->addColumn("slug", "string");
-            $t->addColumn("codename", "string");
-            $t->addColumn("info", "text");
-            $t->addColumn("changelog", "text");
-            $t->addColumn("due", "datetime");
+            $t->addColumn("codename", "string", ['notnull' => false]);
+            $t->addColumn("info", "text", ['notnull' => false]);
+            $t->addColumn("changelog", "text", ['notnull' => false]);
+            $t->addColumn("due", "datetime", ['notnull' => false]);
             $t->addColumn("completed_at", "datetime");
             $t->addColumn("status", "integer", ['default' => 1]);
             $t->addColumn("is_locked", "boolean", ['default' => false]);

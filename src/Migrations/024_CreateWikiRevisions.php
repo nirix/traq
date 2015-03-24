@@ -32,7 +32,7 @@ class CreateWikiRevisions extends Migration
         $this->createTable("wiki_revisions", function($t) {
             $t->addColumn("wiki_page_id", "integer");
             $t->addColumn("revision", "integer", ['default' => 1]);
-            $t->addColumn("content", "string");
+            $t->addColumn("content", "string", ['notnull' => false]);
             $t->addColumn("user_id", "bigint");
 
             $this->timestamps($t);
