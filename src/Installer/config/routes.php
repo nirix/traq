@@ -36,5 +36,5 @@ Router::map(function($r) {
     $r->post("/confirm", "confirm")->to("Traq\\Installer\\Controllers\\Steps::confirmInformation");
 
     // Install
-    $r->post("/install", "install")->to("Traq\\Installer\\Controllers\\Steps::install");
+    $r->post("/install", "install")->to("Traq\\Installer\\Controllers\\Install::install");
 });

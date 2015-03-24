@@ -62,6 +62,19 @@ class AppController extends Controller
     }
 
     /**
+     * Load migrations.
+     */
+    protected function loadMigrations()
+    {
+        $migrationsDir = dirname(dirname(__DIR__)) . '/Migrations';
+        foreach (scandir($migrationsDir) as $file) {
+            if ($file !== '.' && $file !== '..') {
+                require "{$migrationsDir}/{$file}";
+            }
+        }
+    }
+
+    /**
      * Check the database form fields and connection.
      *
      * @access protected
