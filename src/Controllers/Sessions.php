@@ -41,7 +41,7 @@ class Sessions extends AppController
 
         $this->before(['new', 'create'], function() {
             if (LOGGEDIN) {
-                $this->redirectTo('/');
+                $this->redirectTo('root');
             }
         });
     }
@@ -73,7 +73,7 @@ class Sessions extends AppController
         and $user->authenticate(Request::$post['password'])) {
             if ($user->isActivated()) {
                 setcookie('traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-                return $this->redirectTo(
+                return $this->redirect(
                     Request::post('redirect', $this->generateUrl('root'))
                 );
             } else {
@@ -92,6 +92,6 @@ class Sessions extends AppController
     public function destroyAction()
     {
         setcookie('_traq', sha1(time()), time() + 5, '/');
-        return $this->redirectTo($this->generateUrl('root'));
+        return $this->redirectTo('root');
     }
 }
