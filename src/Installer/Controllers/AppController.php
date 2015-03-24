@@ -83,10 +83,6 @@ class AppController extends Controller
                 $errors[] = "Username is required";
             }
 
-            if (!$this->request->post('password')) {
-                $errors[] = "Password is required";
-            }
-
             if (!$this->request->post('dbname')) {
                 $errors[] = "Database name is required";
             }
