@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -140,7 +140,7 @@ class Timeline extends AppController
 
         return $this->respondTo(function($format) use ($event) {
             if ($format == 'html') {
-                return Request::redirectTo($this->project->href('timeline'));
+                return Request::redirect($this->project->href('timeline'));
             } elseif ($format == 'js') {
                 return new Response(function($resp) use ($event) {
                     $resp->contentType = 'text/javascript';
