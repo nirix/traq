@@ -31,7 +31,7 @@ class CreateSettings extends Migration
     {
         $this->createTable("settings", function($t) {
             $t->addColumn("setting", "string");
-            $t->addColumn("value", "text");
+            $t->addColumn("value", "text", ['notnull' => false]);
         });
     }
 

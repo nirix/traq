@@ -33,7 +33,7 @@ class CreateTypes extends Migration
             $t->addColumn("name", "string");
             $t->addColumn("bullet", "string");
             $t->addColumn("show_on_changelog", "boolean", ['default' => true]);
-            $t->addColumn("template", "text");
+            $t->addColumn("template", "text", ['notnull' => false]);
         });
     }
 
