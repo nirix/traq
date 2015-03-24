@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1edcef93237d27012350473ce5ac2c62",
+    "hash": "fc3ca37f7fefb8a8c4736b1631782271",
     "packages": [
         {
             "name": "avalon/database",
@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/http.git",
-                "reference": "bf5188b9cfe098ebf79f5340e18d961edae65d5b"
+                "reference": "59d87a53b5f937a6fc6d64e46d06a6604bd377e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/http/zipball/bf5188b9cfe098ebf79f5340e18d961edae65d5b",
-                "reference": "bf5188b9cfe098ebf79f5340e18d961edae65d5b",
+                "url": "https://api.github.com/repos/avalonphp/http/zipball/59d87a53b5f937a6fc6d64e46d06a6604bd377e8",
+                "reference": "59d87a53b5f937a6fc6d64e46d06a6604bd377e8",
                 "shasum": ""
             },
             "require": {
@@ -337,7 +337,7 @@
                 "framework",
                 "http"
             ],
-            "time": "2015-02-15 12:34:26"
+            "time": "2015-03-24 04:46:19"
         },
         {
             "name": "avalon/kernel",
@@ -438,12 +438,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/routing.git",
-                "reference": "b741cc3dca98c37b7ba25d0f07176250b248de3d"
+                "reference": "5c43a0b763077ffaf888203f83e96275f47e520c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/routing/zipball/b741cc3dca98c37b7ba25d0f07176250b248de3d",
-                "reference": "b741cc3dca98c37b7ba25d0f07176250b248de3d",
+                "url": "https://api.github.com/repos/avalonphp/routing/zipball/5c43a0b763077ffaf888203f83e96275f47e520c",
+                "reference": "5c43a0b763077ffaf888203f83e96275f47e520c",
                 "shasum": ""
             },
             "require": {
@@ -476,7 +476,7 @@
                 "framework",
                 "routing"
             ],
-            "time": "2015-02-15 04:30:58"
+            "time": "2015-03-24 04:46:59"
         },
         {
             "name": "avalon/templating",
