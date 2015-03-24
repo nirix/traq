@@ -48,5 +48,20 @@ class Steps extends AppController
         if ($databaseInfo) {
             return $databaseInfo;
         }
+
+        $this->title("Admin Account");
+        return $this->render("steps/account_information.phtml");
+    }
+
+    /**
+     * Confirm information
+     */
+    public function confirmInformationAction()
+    {
+        $accountInfo = $this->checkAccountInformation();
+
+        if ($accountInfo) {
+            return $accountInfo;
+        }
     }
 }

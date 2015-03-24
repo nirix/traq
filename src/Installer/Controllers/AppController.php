@@ -137,4 +137,39 @@ class AppController extends Controller
 
         $_SESSION['db'] = $info;
     }
+
+    /**
+     * Check admin account information.
+     *
+     * @access protected
+     */
+    protected function checkAccountInformation()
+    {
+        $errors = [];
+
+        if (!$this->request->post('username')) {
+            $errors[] = "Username is required";
+        }
+
+        if (!$this->request->post('password')) {
+            $errors[] = "Password is required";
+        }
+
+        if (!$this->request->post('email')) {
+            $errors[] = "Email is required";
+        }
+
+        if (count($errors)) {
+            $this->title("Admin Account");
+            return $this->render("steps/account_information.phtml", [
+                'errors' => $errors
+            ]);
+        }
+
+        $_SESSION['admin'] = [
+            'username' => $this->request->post('username'),
+            'password' => $this->request->post('password'),
+            'email'    => $this->request->post('email')
+        ];
+    }
 }

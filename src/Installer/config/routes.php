@@ -28,4 +28,10 @@ Router::map(function($r) {
 
     // Database
     $r->post("/step/1", "database_info")->to("Traq\\Installer\\Controllers\\Steps::databaseInformation");
+
+    // Admin account
+    $r->post("/step/2", "account_info")->to("Traq\\Installer\\Controllers\\Steps::accountInformation");
+
+    // Confirm information
+    $r->post("/confirm", "confirm")->to("Traq\\Installer\\Controllers\\Steps::confirmInformation");
 });
