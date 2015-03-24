@@ -84,7 +84,7 @@ class Projects extends AppController
         $project = new Project($this->projectParams());
 
         if ($project->save()) {
-            return $this->redirectTo('/admin/projects');
+            return $this->redirectTo('admin_projects');
         }
 
         return $this->respondTo(function($format) use ($project) {
@@ -99,11 +99,11 @@ class Projects extends AppController
     /**
      * Edit project page.
      */
-    public function editAction($project_id)
+    public function editAction($id)
     {
         $this->title($this->translate('edit'));
 
-        $project = Project::find($project_id);
+        $project = Project::find($id);
 
         if ($this->isOverlay) {
             return $this->render('admin/projects/edit.overlay.phtml', [
@@ -125,15 +125,15 @@ class Projects extends AppController
     /**
      * Save project.
      */
-    public function saveAction($project_id)
+    public function saveAction($id)
     {
         $this->title($this->translate('edit'));
 
-        $project = Project::find($project_id);
+        $project = Project::find($id);
         $project->set($this->projectParams());
 
         if ($project->save()) {
-            return $this->redirectTo('/admin/projects');
+            return $this->redirectTo('admin_projects');
         } else {
             return $this->render('admin/projects/edit.phtml', [
                 'project' => $project
@@ -146,9 +146,9 @@ class Projects extends AppController
      *
      * @param integer $id Project ID.
      */
-    public function deleteAction($project_id)
+    public function deleteAction($id)
     {
-        $project = Project::find($project_id);
+        $project = Project::find($id);
         $project->delete();
 
         // Is this an API request?
@@ -157,7 +157,7 @@ class Projects extends AppController
                 'deleted' => true
             ]);
         } else {
-            return $this->redirectTo('admin/projects');
+            return $this->redirectTo('admin_projects');
         }
     }
 
