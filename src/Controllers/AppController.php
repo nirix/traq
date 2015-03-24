@@ -163,7 +163,7 @@ class AppController extends Controller
 
         if ($this->currentUser) {
             define("LOGGEDIN", true);
-            Language::setCurrent($this->currentUser->locale);
+            Language::setCurrent($this->currentUser->language);
         } else {
             define("LOGGEDIN", false);
             $this->currentUser = User::anonymousUser();
