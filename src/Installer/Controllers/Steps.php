@@ -63,5 +63,8 @@ class Steps extends AppController
         if ($accountInfo) {
             return $accountInfo;
         }
+
+        $this->title("Confirm Information");
+        return $this->render("steps/confirm_information.phtml");
     }
 }

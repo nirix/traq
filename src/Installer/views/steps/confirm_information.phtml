@@ -1,0 +1,88 @@
+<div class="container">
+	<h1 class="page-header">Confirm Information</h1>
+
+	<form action="<?=$installStep("install")?>" method="post" class="form-horizontal">
+		<div class="row">
+			<div class="col-md-6">
+				<fieldset>
+					<legend>Database Information</legend>
+
+					<div class="form-group">
+						<label for="type" class="control-label col-md-3">Database Type</label>
+						<div class="col-md-9">
+							<p class="form-control-static">
+								<?=$drivers[$_SESSION['db']['driver']]?>
+							</p>
+						</div>
+					</div>
+
+				<?php if ($_SESSION['db']['driver'] == 'pdo_pgsql' || $_SESSION['db']['driver'] == 'pdo_mysql'): ?>
+					<div class="form-group">
+						<label for="email" class="control-label col-md-3">Server</label>
+						<div class="col-md-9">
+							<p class="form-control-static">
+								<?=$_SESSION['db']['host']?>
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="email" class="control-label col-md-3">Username</label>
+						<div class="col-md-9">
+							<p class="form-control-static">
+								<?=$_SESSION['db']['user']?>
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="email" class="control-label col-md-3">Database Name</label>
+						<div class="col-md-9">
+							<p class="form-control-static">
+								<?=$_SESSION['db']['dbname']?>
+							</p>
+						</div>
+					</div>
+				<?php elseif ($_SESSION['db']['driver'] == 'pdo_sqlite'): ?>
+					<div class="form-group">
+						<label for="email" class="control-label col-md-3">Database Path</label>
+						<div class="col-md-9">
+							<p class="form-control-static">
+								<?=$_SESSION['db']['path']?>
+							</p>
+						</div>
+					</div>
+				<?php endif; ?>
+				</fieldset>
+			</div>
+
+			<div class="col-md-6">
+				<fieldset>
+					<legend>Admin Account</legend>
+
+					<div class="form-group">
+						<label for="username" class="control-label col-md-3">Username</label>
+						<div class="col-md-9">
+							<p class="form-control-static">
+								<?=$_SESSION['admin']['username']?>
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="email" class="control-label col-md-3">Email</label>
+						<div class="col-md-9">
+							<p class="form-control-static">
+								<?=$_SESSION['admin']['email']?>
+							</p>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Install</button>
+		</div>
+	</form>
+</div>
