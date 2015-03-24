@@ -75,12 +75,12 @@ class Timeline extends AppController
             $this->translate('x_timeline_feed', [$this->project->name])
         ];
 
-        $query = TimelineModel::select()->where('project_id = ?', $this->project->id);
+        $query = TimelineModel::select('DATE(created_at)')
+            ->where('project_id = ?', $this->project->id);
+
         $query->andWhere($query->expr()->in('action', $query->quote($events)))
-            ->orderBy('created_at', 'DESC')
-            ->addGroupBy("YEAR(created_at)")
-            ->addGroupBy("MONTH(created_at)")
-            ->addGroupBy("DAY(created_at)");
+            ->orderBy('date', 'DESC')
+            ->groupBy('DATE(created_at)');
 
         // Pagination
         $pagination = new Pagination(
@@ -100,13 +100,10 @@ class Timeline extends AppController
             $activity = TimelineModel::select()->where('project_id = ?', $this->project->id);
             $activity->andWhere($activity->expr()->in('action', $query->quote($events)))
                 ->orderBy('created_at', 'DESC')
-                ->andWhere($activity->expr()->like(
-                    'created_at',
-                    $activity->getConnection()->quote(date("Y-m-d", Time::toUnix($day->created_at)) . '%')
-                ));
+                ->andWhere('DATE(created_at) = ?', $day->date);
 
             $days[] = [
-                'created_at' => $day->created_at,
+                'created_at' => $day->date,
                 'activity'   => $activity->fetchAll()
             ];
         }
