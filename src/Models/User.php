@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -37,7 +37,7 @@ class User extends Model
     use SecurePassword;
 
     protected static $_validates = [
-        'username' => ['required', 'unique', 'minLength' => 25],
+        'username' => ['required', 'unique'],
         'name'     => ['required'],
         'password' => ['required'],
         'email'    => ['required', 'unique']
@@ -45,7 +45,7 @@ class User extends Model
 
     // Things to do before certain things
     protected static $_before = [
-        'create' => ['preparePassword', 'createLoginHash', 'setName'],
+        'create' => ['preparePassword', 'createLoginHash', 'createName'],
     ];
 
     // Belongs-to relationships
@@ -226,12 +226,12 @@ class User extends Model
     //--------------------------------------------------------------------------
     // Before and after filters
 
-    protected function setLoginHash()
+    protected function createLoginHash()
     {
         $this->login_hash = sha1(time() . $this->username . rand(0, 1000));
     }
 
-    protected function setName()
+    protected function createName()
     {
         if (empty($this->name) || !isset($this->name)) {
             $this->name = $this->username;
