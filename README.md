@@ -8,9 +8,9 @@ Requirements
 ------------
 
 - PHP 5.4 or later
+- Mcrypt
 - Database supported by [Doctrine](http://www.doctrine-project.org)
   - PostgreSQL or MariaDB/MySQL recommended
-- A modern browser that supports JavaScript
 
 If you're using Apache, rename `htaccess.txt` to `.htaccess`, otherwise you will
 need to configure your server to use `index.php` as the 404 page.
@@ -24,7 +24,7 @@ Licenses
 -------
 
 * Traq is released under the GNU GPL license, _version 3 only_.
-* Radium is released under the Apache License 2.0.
+* Avalon is released under the Apache License 2.0.
 
 ### Terminated Licenses ###
 
