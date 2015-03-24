@@ -38,6 +38,14 @@ class AppController extends Controller
         $this->set("installStep", function($routeName) {
             return $this->request->basePath("index.php") . $this->generateUrl($routeName);
         });
+
+        $this->set("drivers", [
+            'pdo_mysql'  => "MySQL",
+            'pdo_pgsql'  => "PostgreSQL",
+            'pdo_sqlite' => "SQLite",
+            // 'pdo_sqlsrv' => "SQL Server",
+            // 'pdo_oci'    => "Oracle"
+        ]);
     }
 
     /**

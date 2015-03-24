@@ -21,11 +21,24 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Avalon\Routing\Router;
+namespace Traq\Installer\Controllers;
 
-Router::map(function($r) {
-    $r->root("Traq\\Installer\\Controllers\\Checks::licenseAgreement");
+use PDOException;
+use Doctrine\DBAL\DBALException;
+use Avalon\Database\ConnectionManager;
 
-    // Database
-    $r->post("/step/1", "database_info")->to("Traq\\Installer\\Controllers\\Steps::databaseInformation");
-});
+/**
+ * @author Jack P.
+ * @since 4.0.0
+ */
+class Steps extends AppController
+{
+    /**
+     * Database information form.
+     */
+    public function databaseInformationAction()
+    {
+        $this->title("Database Information");
+        return $this->render("steps/database_information.phtml");
+    }
+}
