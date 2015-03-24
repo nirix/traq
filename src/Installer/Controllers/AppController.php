@@ -23,7 +23,10 @@
 
 namespace Traq\Installer\Controllers;
 
+use PDOException;
+use Doctrine\DBAL\DBALException;
 use Avalon\Http\Controller;
+use Avalon\Database\ConnectionManager;
 
 /**
  * @author Jack P.
@@ -56,5 +59,82 @@ class AppController extends Controller
     protected function title($title)
     {
         $this->set("stepTitle", $title);
+    }
+
+    /**
+     * Check the database form fields and connection.
+     *
+     * @access protected
+     */
+    protected function checkDatabaseInformation()
+    {
+        $this->title("Database Information");
+
+        $errors = [];
+        $driver = $this->request->post('driver');
+
+        // Check fields
+        if ($driver == "pdo_pgsql" || $driver == "pdo_mysql") {
+            if (!$this->request->post('host')) {
+                $errors[] = "Server is required";
+            }
+
+            if (!$this->request->post('user')) {
+                $errors[] = "Username is required";
+            }
+
+            if (!$this->request->post('password')) {
+                $errors[] = "Password is required";
+            }
+
+            if (!$this->request->post('dbname')) {
+                $errors[] = "Database name is required";
+            }
+        } elseif ($driver == "pdo_sqlite") {
+            if (!$this->request->post('path')) {
+                $errors[] = "Database path is required";
+            }
+        }
+
+        // Check connection
+        if (!count($errors)) {
+            $info = [
+                'driver' => $driver,
+            ];
+
+            switch ($driver) {
+                case "pdo_pgsql":
+                case "pdo_mysql":
+                    $info = $info + [
+                        'host'     => $this->request->post('host'),
+                        'user'     => $this->request->post('user'),
+                        'password' => $this->request->post('password'),
+                        'dbname'   => $this->request->post('dbname')
+                    ];
+                    break;
+
+                case "pdo_sqlite":
+                    $info['path'] = $this->request->post('path');
+                    break;
+            }
+
+            try {
+                // Lets try to do a few things with the database to confirm a connection.
+                $db = ConnectionManager::create($info);
+                $sm = $db->getSchemaManager();
+                $sm->listTables();
+            } catch (DBALException $e) {
+                $errors[] = "Unable to connect to database: " . $e->getMessage();
+            }
+        }
+
+        if (count($errors)) {
+            $this->title("Database Information");
+            return $this->render("steps/database_information.phtml", [
+                'errors' => $errors
+            ]);
+        }
+
+        $_SESSION['db'] = $info;
     }
 }

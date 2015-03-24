@@ -23,10 +23,6 @@
 
 namespace Traq\Installer\Controllers;
 
-use PDOException;
-use Doctrine\DBAL\DBALException;
-use Avalon\Database\ConnectionManager;
-
 /**
  * @author Jack P.
  * @since 4.0.0
@@ -40,5 +36,17 @@ class Steps extends AppController
     {
         $this->title("Database Information");
         return $this->render("steps/database_information.phtml");
+    }
+
+    /**
+     * Admin account information form.
+     */
+    public function accountInformationAction()
+    {
+        $databaseInfo = $this->checkDatabaseInformation();
+
+        if ($databaseInfo) {
+            return $databaseInfo;
+        }
     }
 }
