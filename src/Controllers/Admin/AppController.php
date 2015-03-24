@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers\Admin;
 
-use Radium\Http\Request;
+use Avalon\Http\Request;
 
 /**
  * AdminCP controller
