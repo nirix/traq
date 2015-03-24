@@ -42,6 +42,8 @@ class Kernel extends AppKernel
         class_alias("Avalon\\Templating\\View", "View");
         class_alias("Avalon\\Http\\Request", "Request");
         class_alias("Avalon\\Helpers\\HTML", "HTML");
+
+        require dirname(__DIR__) . "/version.php";
     }
 
     /**
