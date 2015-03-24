@@ -30,7 +30,7 @@ const TRAQ_VERSION = "4.0.0-dev";
 // 1.12.1 -> 11201
 // 1.2.11 -> 10211
 const TRAQ_VERSION_ID    = 40000; // Used to check for new versions
-const TRAQ_DB_VERSION_ID = 30500; // Database version
+const TRAQ_DB_VERSION_ID = 40000; // Database version
 
 // API version
 const TRAQ_API_VERSION = 2.0;
