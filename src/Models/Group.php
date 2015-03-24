@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -43,6 +43,11 @@ class Group extends Model
     protected static $_hasMany = array(
         'users' => array('foreignKey' => 'group_id')
     );
+
+    // Data types
+    protected static $_dataTypes = [
+        'is_admin' => "boolean"
+    ];
 
     /**
      * @return boolean

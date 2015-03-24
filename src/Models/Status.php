@@ -37,6 +37,11 @@ class Status extends Model
         'name' => ['required', 'unique']
     );
 
+    // Data types
+    protected static $_dataTypes = [
+        'show_on_changelog' => "boolean"
+    ];
+
     /**
      * @return Status[]
      */
