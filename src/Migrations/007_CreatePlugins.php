@@ -32,8 +32,8 @@ class CreatePlugins extends Migration
         $this->createTable("plugins", function($t) {
             $t->addColumn("directory", "string");
             $t->addColumn("version", "string");
-            $t->addColumn("namespace", "string");
-            $t->addColumn("class", "string");
+            $t->addColumn("autoload", "text");
+            $t->addColumn("main", "string");
             $t->addColumn("is_enabled", "boolean", ['default' => true]);
         });
     }
