@@ -283,7 +283,7 @@ class Wiki extends AppController
         // Check if the user has permission
         if (!$this->currentUser->permission($this->project->id, "{$action}_wiki_page")) {
             // oh noes! display the no permission page.
-            return $this->showNoPermission();
+            return $this->show403();
         }
     }
 }
