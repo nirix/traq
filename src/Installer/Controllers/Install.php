@@ -86,16 +86,22 @@ class Install extends AppController
             "return [",
             "    'environment' => \"production\",",
             "    'database' => [",
-            "        'production' => [",
-            "            'driver' => \"{$_SESSION['db']['driver']}\",",
-            "            'host' => \"{$_SESSION['db']['host']}\",",
-            "            'user' => \"{$_SESSION['db']['user']}\",",
-            "            'password' => \"{$_SESSION['db']['password']}\",",
-            "            'dbname' => \"{$_SESSION['db']['dbname']}\"",
-            "        ]",
-            "    ]",
-            "];"
+            "        'production' => ["
         ];
+
+        if ($_SESSION['db']['driver'] == "pdo_pgsql" || $_SESSION['db']['driver'] == "pdo_mysql") {
+            $config[] = "            'driver' => \"{$_SESSION['db']['driver']}\",";
+            $config[] = "            'host' => \"{$_SESSION['db']['host']}\",";
+            $config[] = "            'user' => \"{$_SESSION['db']['user']}\",";
+            $config[] = "            'password' => \"{$_SESSION['db']['password']}\",";
+            $config[] = "            'dbname' => \"{$_SESSION['db']['dbname']}\"";
+        } elseif ($_SESSION['db']['driver'] == "pdo_sqlite") {
+            $config[] = "            'path' => \"{$_SESSION['db']['path']}\"";
+        }
+
+        $config[] = "        ]";
+        $config[] = "    ]";
+        $config[] = "];";
 
         return htmlentities(implode(PHP_EOL, $config));
     }
