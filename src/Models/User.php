@@ -58,10 +58,7 @@ class User extends Model
     ];
 
     // Users group and role ermissions
-    protected $permissions = array(
-        'project' => array(),
-        'role' => array()
-    );
+    protected $permissions;
 
     protected static $_dataTypes = [
         'options' => 'json_array'
@@ -106,34 +103,24 @@ class User extends Model
      */
     public function permission($project_id, $action)
     {
-        // Check if user is admin and return true
-        // as admins have the right to do anything.
+        // With great power, comes great responsibility.
         if ($this->group()->is_admin) {
             return true;
         }
 
-        // Check if the projects permissions has been fetched
-        // if not, fetch them.
-        if (!isset($this->permissions['project'][$project_id])) {
-            $this->permissions['project'][$project_id] = Permission::getPermissions($project_id, $this->group_id);
+        if (isset($this->permissions)) {
+            return isset($this->permissions[$action])
+                ? $this->permissions[$action]
+                : false;
         }
 
-        // Check if the user has a role for the project and
-        // fetch the permissions if not already done so...
-        $role_id = $this->getProjectRole($project_id);
-        if ($role_id and !isset($this->permissions['role'][$project_id])) {
-            $this->permissions['role'][$project_id] = Permission::getPermissions($project_id, $role_id, 'role');
-        } elseif (!isset($this->permissions['role'][$project_id])) {
-            $this->permissions['role'][$project_id] = array();
-        }
+        // Get group permissions
+        $group = Permission::getPermissions($project_id, $this->group()->id);
 
-        $perms = array_merge($this->permissions['project'][$project_id], $this->permissions['role'][$project_id]);
+        // Get role permissions
+        $role = Permission::getPermissions($project_id, $this->getProjectRole($project_id), 'role');
 
-        if (!isset($perms[$action])) {
-            return false;
-        }
-
-        return $perms[$action]->value;
+        $this->permissions = array_merge($group, $role);
     }
 
     /**

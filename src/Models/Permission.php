@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -32,70 +32,33 @@ use Avalon\Database\Model;
  */
 class Permission extends Model
 {
-    /**
-     * Returns the permissions for the group and project.
-     *
-     * @param integer $group_id
-     * @param integer $type_id
-     * @param string $type
-     *
-     * @return array
-     */
-    public static function getPermissions($project_id, $type_id = 0, $type = 'usergroup')
+    protected static $_dataTypes = [
+        'permissions' => "json_array"
+    ];
+
+     /**
+      * Returns the permissions for the group and project.
+      *
+      * @param integer $project_id Project ID
+      * @param integer $type_id    Group or Role ID
+      * @param string  $type       Permission type (group or role)
+      *
+      * @return array
+      */
+    public static function getPermissions($project_id, $type_id, $type = 'usergroup')
     {
-        // Fetch the permission rows and merge them with the defaults
-        $rows = static::select()
-            ->where('project_id = ?', $project_id)
+        $permissions = [];
+
+        $query = static::select();
+        $query->where($query->expr()->in('project_id', [0, $project_id]))
             ->andWhere('type = ?', $type)
-            ->andWhere('type_id = ?', $type_id)
-            ->fetchAll();
+            ->andWhere($query->expr()->in('type_id', [0, $type_id]))
+            ->orderBy("project_id, type_id", "ASC");
 
-        $rows = array_merge(static::defaults($project_id, $type_id, $type), $rows);
-
-        // Loop over the permissions and make it
-        // easy to access the permission values.
-        $permissions = array();
-        foreach ($rows as $permission) {
-            $permissions[$permission->action] = $permission;
+        foreach ($query->fetchAll() as $row) {
+            $permissions = array_merge($permissions, $row->permissions);
         }
 
-        // And return them...
-        return $permissions;
-    }
-
-    /**
-     * Returns the default permissions.
-     *
-     * @param integer $project_id
-     * @param integer $type_id
-     * @param string $type
-     *
-     * @return array
-     */
-    public static function defaults($project_id = 0, $type_id = 0, $type = 'usergroup')
-    {
-        // Fetch the defaults
-        $defaults = static::select()
-            ->where('type = ?', $type)
-            ->andWhere('type_id = ?', $type_id)
-            ->andWhere('project_id IN (' . ($project_id > 0 ? "0,{$project_id}" : '0') . ')')
-            ->fetchAll();
-
-        // If we're fetching a specific group,
-        // also fetch the defaults for all groups.
-        if ($type_id > 0) {
-            $defaults = array_merge(static::defaults($project_id, 0, $type), $defaults);
-        }
-
-        // Loop over the defaults and push them to a new array
-        // this will stop duplicates from the overall defaults
-        // and the defaults for specific groups.
-        $permissions = array();
-        foreach ($defaults as $permission) {
-            $permissions[$permission->action] = $permission;
-        }
-
-        // And return them...
         return $permissions;
     }
 }
