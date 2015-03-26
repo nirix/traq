@@ -45,7 +45,8 @@ class Plugin extends Model
     );
 
     protected static $_dataTypes = [
-        'autoload' => 'json_array'
+        'autoload'   => "json_array",
+        'is_enabled' => "boolean"
     ];
 
     /**
