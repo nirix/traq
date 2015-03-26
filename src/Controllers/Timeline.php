@@ -75,7 +75,7 @@ class Timeline extends AppController
             $this->translate('x_timeline_feed', [$this->project->name])
         ];
 
-        $query = TimelineModel::select('DATE(created_at)')
+        $query = TimelineModel::select('DATE(created_at) AS date')
             ->where('project_id = ?', $this->project->id);
 
         $query->andWhere($query->expr()->in('action', $query->quote($events)))
