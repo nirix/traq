@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -87,7 +87,7 @@ class Statuses extends AppController
         $status = new Status($this->statusParams());
 
         if ($status->save()) {
-            return $this->redirectTo('admin/statuses');
+            return $this->redirectTo('admin_statuses');
         } else {
             return $this->render('admin/statuses/new.phtml', [
                 'status' => $status
@@ -135,7 +135,7 @@ class Statuses extends AppController
         $status->set($this->statusParams());
 
         if ($status->save()) {
-            return $this->redirectTo('admin/statuses');
+            return $this->redirectTo('admin_statuses');
         } else {
             return $this->render('admin/statuses/edit.phtml', [
                 'status' => $status
@@ -152,7 +152,7 @@ class Statuses extends AppController
     {
         $status = Status::find($id);
         $status->delete();
-        return $this->redirectTo("admin/statuses");
+        return $this->redirectTo("admin_statuses");
     }
 
     /**
@@ -163,7 +163,7 @@ class Statuses extends AppController
         return [
             'name'      => Request::post('name'),
             'status'    => Request::post('type'),
-            'changelog' => Request::post('changelog', false)
+            'show_on_changelog' => Request::post('show_on_changelog', false)
         ];
     }
 }
