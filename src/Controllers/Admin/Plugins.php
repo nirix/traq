@@ -98,7 +98,7 @@ class Plugins extends AppController
             (new Plugin($info))->save();
         }
 
-        return $this->redirectTo('/admin/plugins');
+        return $this->redirectTo('admin_plugins');
     }
 
     /**
@@ -118,7 +118,7 @@ class Plugins extends AppController
         }
 
         $plugin->delete();
-        return $this->redirectTo('/admin/plugins');
+        return $this->redirectTo('admin_plugins');
     }
 
     /**
@@ -137,7 +137,7 @@ class Plugins extends AppController
             $plugin->save();
         }
 
-        return $this->redirectTo('/admin/plugins');
+        return $this->redirectTo('admin_plugins');
     }
 
     /**
@@ -154,6 +154,6 @@ class Plugins extends AppController
             $plugin->save();
         }
 
-        return $this->redirectTo('/admin/plugins');
+        return $this->redirectTo('admin_plugins');
     }
 }
