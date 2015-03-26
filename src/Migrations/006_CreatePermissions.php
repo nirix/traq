@@ -32,9 +32,8 @@ class CreatePermissions extends Migration
         $this->createTable("permissions", function($t) {
             $t->addColumn("project_id", "bigint");
             $t->addColumn("type", "string");
-            $t->addColumn("type_id", "integer");
-            $t->addColumn("action", "string");
-            $t->addColumn("value", "smallint");
+            $t->addColumn("type_id", "bigint");
+            $t->addColumn("permissions", "text");
         });
     }
 
