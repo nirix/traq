@@ -271,11 +271,6 @@ class User extends Model
         }
     }
 
-    protected function decodeOptions()
-    {
-        $this->options = json_decode($this->options, true);
-    }
-
     //--------------------------------------------------------------------------
     // Static methods
 
@@ -284,11 +279,7 @@ class User extends Model
      */
     public static function anonymousUser()
     {
-        return new static([
-            'id'       => Setting::get('anonymous_user_id')->value,
-            'username' => "Guest",
-            'group_id' => 3
-        ]);
+        return static::find(Setting::get('anonymous_user_id')->value);
     }
 
     /**
