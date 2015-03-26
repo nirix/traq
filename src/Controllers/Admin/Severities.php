@@ -141,16 +141,21 @@ class Severities extends AppController
      *
      * @param integer $id
      */
-    public function action_delete($id)
+    public function destroyAction($id)
     {
         // Get the severity and delete
         $severity = Severity::find($id)->delete();
 
-        if ($this->is_api) {
-            return \API::response(1);
-        } else {
-            Request::redirectTo('/admin/severities');
-        }
+        return $this->respondTo(function($format) use ($severity) {
+            if ($format == 'html') {
+                return $this->redirectTo('admin_severities');
+            } elseif ($format == 'json') {
+                return $this->jsonResponse([
+                    'deleted'  => true,
+                    'severity' => $severity->toArray()
+                ]);
+            }
+        });
     }
 
     /**
