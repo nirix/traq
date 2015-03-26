@@ -30,7 +30,7 @@ class CreateAttachments extends Migration
     public function up()
     {
         $this->createTable("attachments", function($t) {
-            $t->addColumn("name", "string", ['length' => 255]);
+            $t->addColumn("name", "string");
             $t->addColumn("contents", "text");
             $t->addColumn("type", "string");
             $t->addColumn("size", "bigint");

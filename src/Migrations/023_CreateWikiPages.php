@@ -34,7 +34,7 @@ class CreateWikiPages extends Migration
             $t->addColumn("title", "string");
             $t->addColumn("slug", "string");
             // $t->addColumn("is_index", "boolean", ['default' => false]);
-            $t->addColumn("revision_id", "integer");
+            $t->addColumn("revision_id", "integer", ['notnull' => false]);
         });
     }
 
