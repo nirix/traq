@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -81,7 +81,7 @@ class Priorities extends AppController
         $priority = new Priority($this->priorityParams());
 
         if ($priority->save()) {
-            return $this->redirectTo('admin/priorities');
+            return $this->redirectTo('admin_priorities');
         } else {
             return $this->render('admin/priorities/new.phtml', [
                 'priority' => $priority
@@ -129,7 +129,7 @@ class Priorities extends AppController
         $priority->set($this->priorityParams());
 
         if ($priority->save()) {
-            return $this->redirectTo('admin/priorities');
+            return $this->redirectTo('admin_priorities');
         } else {
             return $this->render('admin/priorities/edit.phtml', [
                 'priority' => $priority
@@ -146,7 +146,7 @@ class Priorities extends AppController
     {
         $priority = Priority::find($id);
         $priority->delete();
-        return $this->redirectTo("admin/priorities");
+        return $this->redirectTo('admin_priorities');
     }
 
     /**
