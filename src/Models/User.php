@@ -108,19 +108,24 @@ class User extends Model
             return true;
         }
 
-        if (isset($this->permissions)) {
-            return isset($this->permissions[$action])
-                ? $this->permissions[$action]
-                : false;
+        // No need to fetch permissions if we already have
+        if ($this->permissions === null) {
+            // Get group permissions
+            $group = Permission::getPermissions($project_id, $this->group()->id);
+
+            // Get role permissions
+            $role = [];
+            if ($projectRoleId = $this->getProjectRole($project_id)) {
+                $role = Permission::getPermissions($project_id, $projectRoleId, 'role');
+            }
+
+            // Merge group and role permissions
+            $this->permissions = array_merge($group, $role);
         }
 
-        // Get group permissions
-        $group = Permission::getPermissions($project_id, $this->group()->id);
-
-        // Get role permissions
-        $role = Permission::getPermissions($project_id, $this->getProjectRole($project_id), 'role');
-
-        $this->permissions = array_merge($group, $role);
+        return isset($this->permissions[$action])
+                ? $this->permissions[$action]
+                : null;
     }
 
     /**
