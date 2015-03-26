@@ -33,9 +33,20 @@ use Avalon\Database\Model\SecurePassword;
  */
 class User extends Model
 {
-    protected $securePasswordField = 'password';
     use SecurePassword;
 
+    /**
+     * Property to use for the secure password trait.
+     *
+     * @var string
+     */
+    protected $securePasswordField = 'password';
+
+    /**
+     * Validations
+     *
+     * @var array
+     */
     protected static $_validates = [
         'username' => ['required', 'unique'],
         'name'     => ['required'],
@@ -43,23 +54,44 @@ class User extends Model
         'email'    => ['required', 'unique']
     ];
 
-    // Things to do before certain things
+    /**
+     * Before filters.
+     *
+     * @var array
+     */
     protected static $_before = [
         'create' => ['preparePassword', 'createLoginHash', 'createName'],
     ];
 
-    // Belongs-to relationships
+    /**
+     * Belongs-to relationships.
+     *
+     * @var array
+     */
     protected static $_belongsTo = ['group'];
 
-    // Has many relationships
+    /**
+     * Has-many relationships.
+     *
+     * @var array
+     */
     protected static $_hasMany = [
         'ticket_updates',
         'assigned_tickets' => ['foreignKey' => 'asssigned_to_id']
     ];
 
-    // Users group and role ermissions
+    /**
+     * Cached permissions.
+     *
+     * @var array
+     */
     protected $permissions;
 
+    /**
+     * Property data types.
+     *
+     * @var array
+     */
     protected static $_dataTypes = [
         'options' => 'json_array'
     ];
@@ -159,6 +191,9 @@ class User extends Model
         return !isset($this->options['activationKey']);
     }
 
+    /**
+     * Generates the users activation key.
+     */
     public function generateActivationKey()
     {
         $this->options['activationKey'] = sha1(
@@ -218,11 +253,17 @@ class User extends Model
     //--------------------------------------------------------------------------
     // Before and after filters
 
+    /**
+     * Creates the users login hash.
+     */
     protected function createLoginHash()
     {
         $this->login_hash = sha1(time() . $this->username . rand(0, 1000));
     }
 
+    /**
+     * Set the users username as their name if they didn't provide one.
+     */
     protected function createName()
     {
         if (empty($this->name) || !isset($this->name)) {
@@ -238,6 +279,9 @@ class User extends Model
     //--------------------------------------------------------------------------
     // Static methods
 
+    /**
+     * Returns the anonymous user.
+     */
     public static function anonymousUser()
     {
         return new static([
