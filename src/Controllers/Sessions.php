@@ -91,7 +91,7 @@ class Sessions extends AppController
      */
     public function destroyAction()
     {
-        setcookie('_traq', sha1(time()), time() + 5, '/');
+        setcookie('traq', sha1(time()), time() + 5, '/');
         return $this->redirectTo('root');
     }
 }
