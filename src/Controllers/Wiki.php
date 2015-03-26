@@ -87,7 +87,7 @@ class Wiki extends AppController
             if ($format == 'html') {
                 return $this->render('wiki/pages.phtml', ['pages' => $pages]);
             } elseif ($format == 'json') {
-                return API::response(200, $pages);
+                return $this->jsonResponse($pages);
             }
         });
     }
