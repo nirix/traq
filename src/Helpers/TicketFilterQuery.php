@@ -116,8 +116,11 @@ class TicketFilterQuery
 
         switch($filter) {
             case 'milestone':
-            case 'version':
                 $values = $this->filterMilestone($condition, $values);
+                break;
+
+            case 'version':
+                $values = $this->filterMilestone($condition, $values, 'version_id');
                 break;
 
             case 'status':
@@ -170,10 +173,11 @@ class TicketFilterQuery
      *
      * @param string $condition
      * @param array  $values
+     * @param string $field     Filter by `milestone_id` or `version_id`
      *
      * @return array
      */
-    protected function filterMilestone($condition, $values)
+    protected function filterMilestone($condition, $values, $field = 'milestone_id')
     {
         $ids = [];
 
@@ -185,9 +189,9 @@ class TicketFilterQuery
 
         if (count($ids)) {
             if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('milestone_id', $ids);
+                $in = $this->builder->expr()->notIn($field, $ids);
             } else {
-                $in = $this->builder->expr()->in('milestone_id', $ids);
+                $in = $this->builder->expr()->in($field, $ids);
             }
 
             $this->builder->andWhere($in);
