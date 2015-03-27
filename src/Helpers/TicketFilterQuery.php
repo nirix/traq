@@ -532,59 +532,6 @@ class TicketFilterQuery
         return $values;
     }
 
-    private function add_old($field, $condition, $values)
-    {
-
-        // Owner and Assigned to
-        if (in_array($field, array('owner', 'assigned_to'))) {
-            $column = ($field == 'owner') ? 'user' : $field;
-
-            $query_values[] = 0;
-            foreach ($values as $value) {
-                if (!empty($value)) {
-                    if ($user = User::find('username', $value)) {
-                        $query_values[] = $user->id;
-                    }
-                }
-            }
-
-            // Sort values low to high
-            asort($query_values);
-
-            // Value
-            $value = "IN (" . implode(',', $query_values) . ")";
-
-            // Add to query if there's any values
-            if (count($query_values)) {
-                $this->sql[] = "`{$column}_id` {$condition} {$value}";
-                $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
-            }
-        }
-        // Search
-        elseif ($field == 'search') {
-            $value = str_replace('*', '%', implode('%', $values));
-            $this->sql[] = "(`summary` LIKE '%{$value}%' OR `body` LIKE '%{$value}%')";
-            $this->filters['search']['values'] = $values;
-        }
-        // Custom fields
-        elseif (in_array($field, array_keys(custom_field_filters_for($this->project)))) {
-            $custom_field = CustomField::find('slug', $field);
-            $this->filters[$field]['label'] = $custom_field->name;
-            $this->filters[$field]['values'] = $values;
-
-            // Sort values low to high
-            asort($values);
-
-            if (count($values) == 1 && !empty($values[0])) {
-                $this->custom_field_sql[] = "
-                    `fields`.`custom_field_id` = {$custom_field->id}
-                    AND `fields`.`value` IN ('" . implode("','", $values) . "')
-                    AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
-                ";
-            }
-        }
-    }
-
     /**
      * Returns filters.
      *
@@ -603,27 +550,5 @@ class TicketFilterQuery
     public function builder()
     {
         return $this->builder;
-    }
-
-    /**
-     * Returns the query.
-     *
-     * @return string
-     */
-    public function sql()
-    {
-        $sql = array();
-
-        if (count($this->custom_field_sql)) {
-            $sql[] = "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields` ON (" . implode(' AND ', $this->custom_field_sql) . ")";
-        }
-
-        $sql[] = " WHERE `project_id` = {$this->project->id}";
-
-        if (count($this->sql)) {
-            $sql[] = "AND " . implode(" AND ", $this->sql);
-        }
-
-        return implode(" ", $sql);
     }
 }
