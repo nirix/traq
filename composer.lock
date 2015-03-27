@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fc3ca37f7fefb8a8c4736b1631782271",
+    "hash": "e16d7ce79aae45a101cfcc11f23275a7",
     "packages": [
         {
             "name": "avalon/database",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "3229730461dc0b24b0359de7c19af51cbe1a00f8"
+                "reference": "1fa881f265d152366025a90bac2e8e69dcb30159"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/3229730461dc0b24b0359de7c19af51cbe1a00f8",
-                "reference": "3229730461dc0b24b0359de7c19af51cbe1a00f8",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/1fa881f265d152366025a90bac2e8e69dcb30159",
+                "reference": "1fa881f265d152366025a90bac2e8e69dcb30159",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-03-11 08:47:49"
+            "time": "2015-03-26 06:35:52"
         },
         {
             "name": "avalon/database-migrations",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database-migrations.git",
-                "reference": "6e0bfd6ec3ec560b30b9bfd1cfdec22c83a71ea9"
+                "reference": "b6d064b7a4f8a98d165e887f1de1b40401dd9ae1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/6e0bfd6ec3ec560b30b9bfd1cfdec22c83a71ea9",
-                "reference": "6e0bfd6ec3ec560b30b9bfd1cfdec22c83a71ea9",
+                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/b6d064b7a4f8a98d165e887f1de1b40401dd9ae1",
+                "reference": "b6d064b7a4f8a98d165e887f1de1b40401dd9ae1",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "migrations",
                 "schema"
             ],
-            "time": "2015-03-22 05:14:02"
+            "time": "2015-03-26 06:33:37"
         },
         {
             "name": "avalon/event-dispatcher",
@@ -1048,16 +1048,16 @@
         },
         {
             "name": "erusev/parsedown",
-            "version": "1.0.1",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "d24439ada0704948deef0d3eda2ea20fd8db1747"
+                "reference": "9da19c1108c39df9b42adc42e39b8371070652d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/d24439ada0704948deef0d3eda2ea20fd8db1747",
-                "reference": "d24439ada0704948deef0d3eda2ea20fd8db1747",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/9da19c1108c39df9b42adc42e39b8371070652d0",
+                "reference": "9da19c1108c39df9b42adc42e39b8371070652d0",
                 "shasum": ""
             },
             "type": "library",
@@ -1083,24 +1083,24 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2014-05-21 20:20:46"
+            "time": "2015-01-24 13:01:47"
         },
         {
             "name": "erusev/parsedown-extra",
-            "version": "0.1.0",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown-extra.git",
-                "reference": "bcd3930f7f10915e40513e1951a253f061d75463"
+                "reference": "11a44e076d02ffcc4021713398a60cd73f78b6f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/bcd3930f7f10915e40513e1951a253f061d75463",
-                "reference": "bcd3930f7f10915e40513e1951a253f061d75463",
+                "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/11a44e076d02ffcc4021713398a60cd73f78b6f5",
+                "reference": "11a44e076d02ffcc4021713398a60cd73f78b6f5",
                 "shasum": ""
             },
             "require": {
-                "erusev/parsedown": "~1.0"
+                "erusev/parsedown": "~1.4"
             },
             "type": "library",
             "autoload": {
@@ -1127,27 +1127,32 @@
                 "parsedown",
                 "parser"
             ],
-            "time": "2014-06-18 23:58:16"
+            "time": "2015-01-25 14:52:34"
         },
         {
             "name": "traq/markdown-plugin",
-            "version": "v2.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/traq/markdown-plugin.git",
-                "reference": "1c9bff2dd5ceb3c9f97061323b586891d1d9fd31"
+                "reference": "b6e99957711dfa4029e3b728038085da1144f777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/traq/markdown-plugin/zipball/1c9bff2dd5ceb3c9f97061323b586891d1d9fd31",
-                "reference": "1c9bff2dd5ceb3c9f97061323b586891d1d9fd31",
+                "url": "https://api.github.com/repos/traq/markdown-plugin/zipball/b6e99957711dfa4029e3b728038085da1144f777",
+                "reference": "b6e99957711dfa4029e3b728038085da1144f777",
                 "shasum": ""
             },
             "require": {
-                "erusev/parsedown": "1.0.*",
-                "erusev/parsedown-extra": "0.1.*"
+                "erusev/parsedown": "1.5.*",
+                "erusev/parsedown-extra": "0.7.*"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
@@ -1161,7 +1166,7 @@
                 "plugin",
                 "traq"
             ],
-            "time": "2014-08-25 18:14:33"
+            "time": "2015-03-27 00:29:19"
         }
     ],
     "packages-dev": [
