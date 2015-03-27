@@ -26,6 +26,7 @@ namespace Traq\Controllers;
 use Avalon\Http\Controller;
 use Avalon\Http\Request;
 use Avalon\Http\Response;
+use Avalon\Routing\Router;
 use Avalon\Language;
 use Avalon\Database\ConnectionManager;
 use Traq\Models\Project;
@@ -99,8 +100,13 @@ class AppController extends Controller
         $this->getProject();
         $this->before('*', function() {
             // Make sure the user has permission to view the project
-            if (LOGGEDIN && $this->project && !$this->currentUser->permission($this->project->id, 'view')) {
-                return $this->showNoPermission();
+            if (LOGGEDIN && $this->project && !$this->currentUser->permission($this->project->id, 'view_project')) {
+                return $this->show403();
+            }
+
+            // Make sure there is a project is the `project_slug` is found.
+            if (!$this->project && isset(Router::$params['project_slug'])) {
+                return $this->show404();
             }
         });
 
