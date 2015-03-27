@@ -72,6 +72,9 @@ class Install extends AppController
         $this->insertTypes();
         $this->insertGroups();
 
+        // Remove database and account details from the session.
+        unset($_SESSION['db'], $_SESSION['admin']);
+
         $this->title("Complete");
         return $this->render("complete.phtml");
     }
