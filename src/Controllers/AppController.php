@@ -121,7 +121,7 @@ class AppController extends Controller
 
         // Fetch all projects and make sure the user has permission to view them
         foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
-            if ($this->currentUser->permission($project->id, 'view')) {
+            if ($this->currentUser->permission($project->id, 'view_project')) {
                 $this->projects[] = $project;
             }
         }
