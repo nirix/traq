@@ -25,6 +25,7 @@ namespace Traq\Models;
 
 use Avalon\Database\Model;
 use Avalon\Database\Model\SecurePassword;
+use Traq\Permissions;
 
 /**
  * User model.
@@ -152,7 +153,7 @@ class User extends Model
             }
 
             // Merge group and role permissions
-            $this->permissions = array_merge($group, $role);
+            $this->permissions = Permissions::getPermissions() + array_merge($group, $role);
         }
 
         return isset($this->permissions[$action])
