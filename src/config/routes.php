@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -184,4 +184,12 @@ Router::map(function($r) {
     $r->get('/admin/severities/{id}/edit')->to("{$traq}\Admin\Severities::edit");
     $r->post('/admin/severities/{id}/edit')->to("{$traq}\Admin\Severities::save");
     $r->get('/admin/severities/{id}/delete')->to("{$traq}\Admin\Severities::destroy");
+
+    // Types
+    $r->get('/admin/types', 'admin_types')->to("{$traq}\Admin\Types::index");
+    $r->get('/admin/types/new', 'new_admin_type')->to("{$traq}\Admin\Types::new");
+    $r->post('/admin/types/new')->to("{$traq}\Admin\Types::create");
+    $r->get('/admin/types/{id}/edit', 'edit_admin_type')->to("{$traq}\Admin\Types::edit");
+    $r->post('/admin/types/{id}/edit')->to("{$traq}\Admin\Types::save");
+    $r->get('/admin/types/{id}/delete', 'delete_admin_type')->to("{$traq}\Admin\Types::destroy");
 });

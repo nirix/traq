@@ -1,0 +1,16 @@
+<div class="modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form action="<?=Request::basePath($route('new_admin_type'))?>" method="post" class="form-horizontal">
+				<?=TWBS::modalHeader($t('new_type'))?>
+				<div class="modal-body">
+					<?=View::render('admin/types/_form.phtml', ['type' => $type])?>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success"><?=$t('create')?></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?=$t('cancel')?></button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

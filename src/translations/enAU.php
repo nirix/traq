@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -210,6 +210,14 @@ $enAU = new Language(function($t) {
         'timeline.filters.ticket_moves'          => "Ticket migrations",
         'timeline.filters.milestones'            => "Milestones",
         'timeline.filters.wiki_pages'            => "Wiki pages",
+
+        // --------------------------------------------------------------------
+        // Types
+        'types'     => "Types",
+        'new_type'  => "New Type",
+        'edit_type' => "Edit Type",
+        'bullet'    => "Bullet",
+        'template'  => "Template",
 
         // --------------------------------------------------------------------
         // Users
