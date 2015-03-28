@@ -38,6 +38,10 @@ class ProjectRole extends Model
 
     protected static $_belongsTo = ['project'];
 
+    protected static $_dataTypes = [
+        'is_assignable' => "boolean"
+    ];
+
     /**
      * Returns an array formatted for the Form::select() method.
      *

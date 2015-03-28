@@ -192,4 +192,12 @@ Router::map(function($r) {
     $r->get('/admin/types/{id}/edit', 'edit_admin_type')->to("{$traq}\Admin\Types::edit");
     $r->post('/admin/types/{id}/edit')->to("{$traq}\Admin\Types::save");
     $r->get('/admin/types/{id}/delete', 'delete_admin_type')->to("{$traq}\Admin\Types::destroy");
+
+    // Project Roles
+    $r->get('/admin/roles', 'admin_project_roles')->to("{$traq}\Admin\ProjectRoles::index");
+    $r->get('/admin/roles/new', 'new_admin_project_role')->to("{$traq}\Admin\ProjectRoles::new");
+    $r->post('/admin/roles/new')->to("{$traq}\Admin\ProjectRoles::create");
+    $r->get('/admin/roles/{id}/edit', 'edit_admin_project_role')->to("{$traq}\Admin\ProjectRoles::edit");
+    $r->post('/admin/roles/{id}/edit')->to("{$traq}\Admin\ProjectRoles::save");
+    $r->get('/admin/roles/{id}/delete', 'delete_admin_project_role')->to("{$traq}\Admin\ProjectRoles::destroy");
 });

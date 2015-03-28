@@ -145,6 +145,7 @@ $enAU = new Language(function($t) {
         // --------------------------------------------------------------------
         // Projects
         'projects'      => "Projects",
+        'project'       => "Project",
         'new_project'   => "New Project",
         'edit_project'  => "Edit Project",
         'name'          => "Name",
@@ -155,6 +156,12 @@ $enAU = new Language(function($t) {
         'display_order' => "Display Order",
         'default_ticket_type'    => "Default ticket type",
         'default_ticket_sorting' => "Default ticket sorting",
+
+        // --------------------------------------------------------------------
+        // Project Roles
+        'roles'    => "Roles",
+        'new_role' => "New Role",
+        'assignable' => "Assignable",
 
         // --------------------------------------------------------------------
         // Roadmap
