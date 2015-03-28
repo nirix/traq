@@ -49,6 +49,14 @@ class AppController extends Controller
             // 'pdo_sqlsrv' => "SQL Server",
             // 'pdo_oci'    => "Oracle"
         ]);
+
+        $this->before('*', function() {
+            $configDir = dirname(dirname(dirname(__DIR__))) . '/config';
+            $this->title("Configuration File Exists");
+            if (file_exists($configDir . '/config.php')) {
+                return $this->render("config_exists.phtml");
+            }
+        });
     }
 
     /**
