@@ -1,16 +1,16 @@
 <div class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form action="<?=Request::basePath("/admin/statuses/{$status->id}/edit")?>" method="post" class="form-horizontal">
-                <?=TWBS::modalHeader($t('edit_status'))?>
-                <div class="modal-body">
-                    <?=View::render('admin/statuses/_form.phtml', ['status' => $status])?>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success"><?=$t('save')?></button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=$t('cancel')?></button>
-                </div>
-            </form>
-        </div>
-    </div>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form action="<?=Request::basePath($route('edit_admin_status'))?>" method="post" class="form-horizontal">
+				<?=TWBS::modalHeader($t('edit_status'))?>
+				<div class="modal-body">
+					<?=View::render('admin/statuses/_form.phtml', ['status' => $status])?>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success"><?=$t('save')?></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?=$t('cancel')?></button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

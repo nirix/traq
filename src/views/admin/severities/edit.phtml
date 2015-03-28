@@ -1,7 +1,7 @@
 <div class="admin-severities container">
 	<h1 class="page-header"><?=$t('edit_status')?></h1>
 
-	<form action="<?=Request::basePath("/admin/severities/{$severity->id}/edit")?>" method="post" class="form-horizontal">
+	<form action="<?=Request::basePath($route('edit_admin_severity'))?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($severity)?>
 		<?=View::render('admin/severities/_form.phtml', ['severity' => $severity])?>
 		<div class="form-actions">

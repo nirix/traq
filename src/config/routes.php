@@ -175,7 +175,7 @@ Router::map(function($r) {
     $r->post('/admin/priorities/new')->to("{$traq}\Admin\Priorities::create");
     $r->get('/admin/priorities/{id}/edit', 'edit_admin_priority')->to("{$traq}\Admin\Priorities::edit");
     $r->post('/admin/priorities/{id}/edit')->to("{$traq}\Admin\Priorities::save");
-    $r->get('/admin/priorities/{id}/delete', 'edit_admin_priority')->to("{$traq}\Admin\Priorities::destroy");
+    $r->get('/admin/priorities/{id}/delete', 'delete_admin_priority')->to("{$traq}\Admin\Priorities::destroy");
 
     // Severities
     $r->get('/admin/severities', 'admin_severities')->to("{$traq}\Admin\Severities::index");

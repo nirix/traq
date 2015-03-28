@@ -1,7 +1,7 @@
 <div class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<form action="<?=Request::basePath("/admin/severities/{$severity->id}/edit")?>" method="post" class="form-horizontal">
+			<form action="<?=Request::basePath($route('edit_admin_severity'))?>" method="post" class="form-horizontal">
 				<?=TWBS::modalHeader($t('edit_severity'))?>
 				<div class="modal-body">
 					<?=View::render('admin/severities/_form.phtml', ['severity' => $severity])?>

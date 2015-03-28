@@ -3,7 +3,7 @@
 
 	<div class="page-actions">
 		<?=HTML::link(
-			TWBS::fa('plus', $t('new_project')), '/admin/projects/new', [
+			TWBS::fa('plus', $t('new_project')), $route('new_admin_project'), [
 				'data-overlay' => true,
 				'class' => 'btn btn-success'
 		])?>
@@ -20,7 +20,7 @@
 			<tr>
 				<td>
 					<?=HTML::link(
-						$project->name, "/admin/projects/{$project->id}/edit",
+						$project->name, $route('edit_admin_project', ['id' => $project->id]),
 						['data-overlay' => true]
 					)?>
 				</td>
@@ -31,11 +31,11 @@
 				</td>
 				<td class="actions">
 					<?=HTML::link(
-						TWBS::fa('edit', $t('edit')), "/admin/projects/{$project->id}/edit",
+						TWBS::fa('edit', $t('edit')), $route('edit_admin_project', ['id' => $project->id]),
 						['data-overlay' => true, 'class' => 'btn btn-xs btn-warning']
 					)?>
 					<?=HTML::link(
-						TWBS::fa('times', $t('delete')), "/admin/projects/{$project->id}/delete",
+						TWBS::fa('times', $t('delete')), $route('delete_admin_project', ['id' => $project->id]),
 						['data-confirm' => $t('confirm.delete'), 'class' => 'btn btn-xs btn-danger']
 					)?>
 				</td>
