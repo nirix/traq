@@ -147,9 +147,9 @@ Router::map(function($r) {
 
     // Projects
     $r->get('/admin/projects', 'admin_projects')->to("{$traq}\Admin\Projects::index");
-    $r->get('/admin/projects/new')->to("{$traq}\Admin\Projects::new");
-    $r->get('/admin/projects/{id}/edit')->to("{$traq}\Admin\Projects::edit");
-    $r->get('/admin/projects/{id}/delete')->to("{$traq}\Admin\Projects::delete");
+    $r->get('/admin/projects/new', 'new_admin_project')->to("{$traq}\Admin\Projects::new");
+    $r->get('/admin/projects/{id}/edit', 'edit_admin_project')->to("{$traq}\Admin\Projects::edit");
+    $r->get('/admin/projects/{id}/delete', 'delete_admin_project')->to("{$traq}\Admin\Projects::delete");
 
     $r->post('/admin/projects/new')->to("{$traq}\Admin\Projects::create");
     $r->post('/admin/projects/{id}/edit')->to("{$traq}\Admin\Projects::save");
@@ -163,27 +163,27 @@ Router::map(function($r) {
 
     // Statuses
     $r->get('/admin/statuses', 'admin_statuses')->to("{$traq}\Admin\Statuses::index");
-    $r->get('/admin/statuses/new')->to("{$traq}\Admin\Statuses::new");
+    $r->get('/admin/statuses/new', 'new_admin_status')->to("{$traq}\Admin\Statuses::new");
     $r->post('/admin/statuses/new')->to("{$traq}\Admin\Statuses::create");
-    $r->get('/admin/statuses/{id}/edit')->to("{$traq}\Admin\Statuses::edit");
+    $r->get('/admin/statuses/{id}/edit', 'edit_admin_status')->to("{$traq}\Admin\Statuses::edit");
     $r->post('/admin/statuses/{id}/edit')->to("{$traq}\Admin\Statuses::save");
-    $r->get('/admin/statuses/{id}/delete')->to("{$traq}\Admin\Statuses::destroy");
+    $r->get('/admin/statuses/{id}/delete', 'delete_admin_status')->to("{$traq}\Admin\Statuses::destroy");
 
     // Priorities
     $r->get('/admin/priorities', 'admin_priorities')->to("{$traq}\Admin\Priorities::index");
-    $r->get('/admin/priorities/new')->to("{$traq}\Admin\Priorities::new");
+    $r->get('/admin/priorities/new', 'new_admin_priority')->to("{$traq}\Admin\Priorities::new");
     $r->post('/admin/priorities/new')->to("{$traq}\Admin\Priorities::create");
-    $r->get('/admin/priorities/{id}/edit')->to("{$traq}\Admin\Priorities::edit");
+    $r->get('/admin/priorities/{id}/edit', 'edit_admin_priority')->to("{$traq}\Admin\Priorities::edit");
     $r->post('/admin/priorities/{id}/edit')->to("{$traq}\Admin\Priorities::save");
-    $r->get('/admin/priorities/{id}/delete')->to("{$traq}\Admin\Priorities::destroy");
+    $r->get('/admin/priorities/{id}/delete', 'edit_admin_priority')->to("{$traq}\Admin\Priorities::destroy");
 
     // Severities
     $r->get('/admin/severities', 'admin_severities')->to("{$traq}\Admin\Severities::index");
-    $r->get('/admin/severities/new')->to("{$traq}\Admin\Severities::new");
+    $r->get('/admin/severities/new', 'new_admin_severity')->to("{$traq}\Admin\Severities::new");
     $r->post('/admin/severities/new')->to("{$traq}\Admin\Severities::create");
-    $r->get('/admin/severities/{id}/edit')->to("{$traq}\Admin\Severities::edit");
+    $r->get('/admin/severities/{id}/edit', 'edit_admin_severity')->to("{$traq}\Admin\Severities::edit");
     $r->post('/admin/severities/{id}/edit')->to("{$traq}\Admin\Severities::save");
-    $r->get('/admin/severities/{id}/delete')->to("{$traq}\Admin\Severities::destroy");
+    $r->get('/admin/severities/{id}/delete', 'delete_admin_severity')->to("{$traq}\Admin\Severities::destroy");
 
     // Types
     $r->get('/admin/types', 'admin_types')->to("{$traq}\Admin\Types::index");
