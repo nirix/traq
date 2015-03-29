@@ -202,4 +202,12 @@ Router::map(function($r) {
     $r->get('/admin/roles/{id}/edit', 'edit_admin_project_role')->to("{$traq}\Admin\ProjectRoles::edit");
     $r->post('/admin/roles/{id}/edit')->to("{$traq}\Admin\ProjectRoles::save");
     $r->get('/admin/roles/{id}/delete', 'delete_admin_project_role')->to("{$traq}\Admin\ProjectRoles::destroy");
+
+    // Groups
+    $r->get('/admin/groups', 'admin_groups')->to("{$traq}\Admin\Groups::index");
+    $r->get('/admin/groups/new', 'new_admin_group')->to("{$traq}\Admin\Groups::new");
+    $r->post('/admin/groups/new')->to("{$traq}\Admin\Groups::create");
+    $r->get('/admin/groups/{id}/edit', 'edit_admin_group')->to("{$traq}\Admin\Groups::edit");
+    $r->post('/admin/groups/{id}/edit')->to("{$traq}\Admin\Groups::save");
+    $r->get('/admin/groups/{id}/delete', 'delete_admin_group')->to("{$traq}\Admin\Groups::destroy");
 });
