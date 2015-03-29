@@ -145,6 +145,9 @@ Router::map(function($r) {
     // --------------------------------------------------
     // AdminCP
 
+    // Settings
+    $r->get('/admin/settings', 'admin_settings')->to("{$traq}\Admin\Settings::index");
+
     // Projects
     $r->get('/admin/projects', 'admin_projects')->to("{$traq}\Admin\Projects::index");
     $r->get('/admin/projects/new', 'new_admin_project')->to("{$traq}\Admin\Projects::new");
