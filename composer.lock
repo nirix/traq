@@ -207,12 +207,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/helpers.git",
-                "reference": "a8976e8ca64f37696552fdd7e362859796039ba9"
+                "reference": "97224466faca3d57e181c4c9228995f314fbbf21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/a8976e8ca64f37696552fdd7e362859796039ba9",
-                "reference": "a8976e8ca64f37696552fdd7e362859796039ba9",
+                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/97224466faca3d57e181c4c9228995f314fbbf21",
+                "reference": "97224466faca3d57e181c4c9228995f314fbbf21",
                 "shasum": ""
             },
             "require": {
@@ -245,7 +245,7 @@
                 "framework",
                 "helpers"
             ],
-            "time": "2015-02-15 04:29:20"
+            "time": "2015-03-29 02:59:38"
         },
         {
             "name": "avalon/hook",
@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/http.git",
-                "reference": "59d87a53b5f937a6fc6d64e46d06a6604bd377e8"
+                "reference": "60056f84371d970de5ef202c3e8ee7660a3a6310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/http/zipball/59d87a53b5f937a6fc6d64e46d06a6604bd377e8",
-                "reference": "59d87a53b5f937a6fc6d64e46d06a6604bd377e8",
+                "url": "https://api.github.com/repos/avalonphp/http/zipball/60056f84371d970de5ef202c3e8ee7660a3a6310",
+                "reference": "60056f84371d970de5ef202c3e8ee7660a3a6310",
                 "shasum": ""
             },
             "require": {
@@ -337,7 +337,7 @@
                 "framework",
                 "http"
             ],
-            "time": "2015-03-24 04:46:19"
+            "time": "2015-03-29 02:18:28"
         },
         {
             "name": "avalon/kernel",
@@ -438,12 +438,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/routing.git",
-                "reference": "5c43a0b763077ffaf888203f83e96275f47e520c"
+                "reference": "f10be559fb4938cc087c9752afe1db0d89856683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/routing/zipball/5c43a0b763077ffaf888203f83e96275f47e520c",
-                "reference": "5c43a0b763077ffaf888203f83e96275f47e520c",
+                "url": "https://api.github.com/repos/avalonphp/routing/zipball/f10be559fb4938cc087c9752afe1db0d89856683",
+                "reference": "f10be559fb4938cc087c9752afe1db0d89856683",
                 "shasum": ""
             },
             "require": {
@@ -476,7 +476,7 @@
                 "framework",
                 "routing"
             ],
-            "time": "2015-03-24 04:46:59"
+            "time": "2015-03-29 02:30:38"
         },
         {
             "name": "avalon/templating",
@@ -1048,16 +1048,16 @@
         },
         {
             "name": "erusev/parsedown",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "9da19c1108c39df9b42adc42e39b8371070652d0"
+                "reference": "468d1e3da8bde049debee7f484a4f9c4b26b41ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/9da19c1108c39df9b42adc42e39b8371070652d0",
-                "reference": "9da19c1108c39df9b42adc42e39b8371070652d0",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/468d1e3da8bde049debee7f484a4f9c4b26b41ba",
+                "reference": "468d1e3da8bde049debee7f484a4f9c4b26b41ba",
                 "shasum": ""
             },
             "type": "library",
@@ -1083,7 +1083,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2015-01-24 13:01:47"
+            "time": "2015-03-18 18:44:57"
         },
         {
             "name": "erusev/parsedown-extra",
