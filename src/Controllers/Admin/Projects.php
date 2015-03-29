@@ -146,19 +146,21 @@ class Projects extends AppController
      *
      * @param integer $id Project ID.
      */
-    public function deleteAction($id)
+    public function destroyAction($id)
     {
-        $project = Project::find($id);
-        $project->delete();
+        // Find the project, delete and redirect.
+        $project = Project::find($id)->delete();
 
-        // Is this an API request?
-        if ($this->isApi) {
-            return $this->jsonResponse([
-                'deleted' => true
-            ]);
-        } else {
-            return $this->redirectTo('admin_projects');
-        }
+        return $this->respondTo(function($format) use ($project) {
+            if ($format == "html") {
+                return $this->redirectTo('admin_projects');
+            } elseif ($format == "json") {
+                return $this->jsonResponse([
+                    'deleted' => true,
+                    'project'    => $project->toArray()
+                ]);
+            }
+        });
     }
 
     /**
