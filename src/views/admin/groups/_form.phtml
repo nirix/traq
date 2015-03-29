@@ -1,0 +1,12 @@
+<div class="form-group">
+	<?=Form::label($t('name'), 'name', ['class' => 'control-label col-md-3'])?>
+	<div class="col-md-9">
+		<?=Form::text('name', ['value' => $group->name, 'class' => 'form-control'])?>
+	</div>
+</div>
+<div class="form-group">
+	<?=Form::label($t('is_admin'), 'is_admin', ['class' => 'control-label col-md-3'])?>
+	<div class="col-md-9">
+		<?=Form::checkbox('is_admin', 1, ['checked' => $group->is_admin])?>
+	</div>
+</div>

@@ -82,6 +82,13 @@ $enAU = new Language(function($t) {
         'delete' => "Delete",
 
         // --------------------------------------------------------------------
+        // Groups
+        'groups'     => "Groups",
+        'new_group'  => "New Group",
+        'edit_group' => "Edit Group",
+        'is_admin'   => "Is Admin",
+
+        // --------------------------------------------------------------------
         // Issues
         'issues'            => "Issues",
         'create_issue'      => "Create Issue",
