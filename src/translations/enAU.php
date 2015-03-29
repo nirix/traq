@@ -116,6 +116,27 @@ $enAU = new Language(function($t) {
         'created'     => "Created",
         'updated'     => "Updated",
 
+        // --------------------------------------------------------------------
+        // Settings
+        'settings'                          => "Settings",
+        'traq_settings'                     => "Traq Settings",
+        'settings.title'                    => "Traq Title",
+        'settings.default_language'         => "Default Language",
+        'settings.theme'                    => "Theme",
+        'settings.site'                     => "Site Settings",
+        'settings.site.name'                => "Site Name",
+        'settings.site.url'                 => "Site URL",
+        'settings.users.allow_registration' => "Allow Registration",
+        'settings.users.email_validation'   => "Email Validation",
+        'settings.date_and_time'            => "Date and Time",
+        'settings.date_time_format'         => "Date Time Format",
+        'settings.date_format'              => "Date Format",
+        'settings.timeline.day_format'      => "Timeline Day Format",
+        'settings.timeline.time_format'     => "Timeline Time Format",
+        'settings.notifications.from_email' => "From Email",
+        'settings.issues.history_sorting'   => "History Sorting",
+        'settings.issues.creation_delay'    => "Creation Delay",
+
         // Ticket listing
         'filters' => "Filters",
         'columns' => "Columns",
@@ -126,6 +147,7 @@ $enAU = new Language(function($t) {
         'ascending'  => "Ascending",
         'descending' => "Descending",
         'x_by_x'     => "{1} by {2}",
+        'notifications' => "Notifications",
 
         // --------------------------------------------------------------------
         // Pagination
