@@ -56,6 +56,13 @@ class Project extends Model
     );
 
     /**
+     * @var array
+     */
+    protected static $_dataTypes = [
+        'enable_wiki' => "boolean"
+    ];
+
+    /**
      * Returns the URI for the project.
      *
      * @param mixed $uri Extra URI segments to add after the project URI.
@@ -70,13 +77,13 @@ class Project extends Model
      *
      * @return array
      */
-    public static function select_options()
+    public static function selectOptions()
     {
-        $options = array();
+        $options = [];
 
         // Get all the rows and make a Form::select() friendly array
-        foreach (static::fetch_all() as $row) {
-            $options[] = array('label' => $row->name, 'value' => $row->id);
+        foreach (static::all() as $row) {
+            $options[] = ['label' => $row->name, 'value' => $row->id];
         }
 
         return $options;
