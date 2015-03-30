@@ -43,27 +43,6 @@ class Users extends AppController
     ];
 
     /**
-     * User profile page.
-     *
-     * @param integer $user_id
-     */
-    public function viewAction($userId)
-    {
-        // If the user doesn't exist
-        // display the 404 page.
-        if (!$user = User::find($user_id)) {
-            return $this->show_404();
-        }
-
-        // Set the title
-        $this->title(l('users'));
-        $this->title(l('xs_profile', $user->name));
-
-        Load::helper('tickets');
-        View::set('profile', $user);
-    }
-
-    /**
      * Handles the register page and account creation.
      */
     public function newAction()
