@@ -58,14 +58,14 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Errors
-        'errors.404.title'       => "I accidentally the whole page...",
-        'errors.404.message'     => "It appears the page '{1}' doesn't exist.",
-        'errors.404.modal.title' => "Oh, it's a popup!",
-        'errors.no_permission.title'   => "You shall not pass!",
-        'errors.no_permission.message' => "You don't have permission to access this page.",
+        'errors.404.title'                    => "I accidentally the whole page...",
+        'errors.404.message'                  => "It appears the page '{1}' doesn't exist.",
+        'errors.404.modal.title'              => "Oh, it's a popup!",
+        'errors.no_permission.title'          => "You shall not pass!",
+        'errors.no_permission.message'        => "You don't have permission to access this page.",
         'errors.invalid_username_or_password' => "Invalid username and/or password.",
         'errors.account.activation_required'  => "You must first activate your account.",
-        'errors.correct_the_following' => "Please correct the following issues",
+        'errors.correct_the_following'        => "Please correct the following issues",
 
         // --------------------------------------------------------------------
         // Filters
@@ -174,16 +174,16 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Projects
-        'projects'      => "Projects",
-        'project'       => "Project",
-        'new_project'   => "New Project",
-        'edit_project'  => "Edit Project",
-        'name'          => "Name",
-        'slug'          => "Slug",
-        'codename'      => "Codename",
-        'description'   => "Description",
-        'enable_wiki'   => "Enable Wiki",
-        'display_order' => "Display Order",
+        'projects'               => "Projects",
+        'project'                => "Project",
+        'new_project'            => "New Project",
+        'edit_project'           => "Edit Project",
+        'name'                   => "Name",
+        'slug'                   => "Slug",
+        'codename'               => "Codename",
+        'description'            => "Description",
+        'enable_wiki'            => "Enable Wiki",
+        'display_order'          => "Display Order",
         'default_ticket_type'    => "Default ticket type",
         'default_ticket_sorting' => "Default ticket sorting",
 
@@ -218,7 +218,7 @@ $enAU = new Language(function($t) {
         'status.type.1'     => "Open",
         'status.type.2'     => "Started",
         'new_status'        => "New Status",
-        'edit_status'        => "Edit Status",
+        'edit_status'       => "Edit Status",
         'show_on_changelog' => "Show on Changelog",
 
         // --------------------------------------------------------------------
