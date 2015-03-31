@@ -258,15 +258,18 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Users
-        'users'    => "Users",
-        'newest'   => "Newest",
-        'profile'  => "Profile",
-        'usercp'   => "UserCP",
-        'register' => "Register",
-        'login'    => "Login",
-        'logout'   => "Logout",
-        'username' => "Username",
-        'password' => "Password",
+        'users'     => "Users",
+        'new_user'  => "New User",
+        'edit_user' => "Edit User",
+        'newest'    => "Newest",
+        'profile'   => "Profile",
+        'usercp'    => "UserCP",
+        'register'  => "Register",
+        'login'     => "Login",
+        'logout'    => "Logout",
+        'username'  => "Username",
+        'password'  => "Password",
+        'email'     => "Email",
 
         // --------------------------------------------------------------------
         // Wiki

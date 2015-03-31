@@ -156,6 +156,14 @@ Router::map(function($r) {
     $r->post('/admin/projects/{id}/edit')->to("{$traq}\Admin\Projects::save");
     $r->get('/admin/projects/{id}/delete', 'delete_admin_project')->to("{$traq}\Admin\Projects::destroy");
 
+    // Users
+    $r->get('/admin/users', 'admin_users')->to("{$traq}\Admin\Users::index");
+    $r->get('/admin/users/new', 'new_admin_user')->to("{$traq}\Admin\Users::new");
+    $r->post('/admin/users/new')->to("{$traq}\Admin\Users::create");
+    $r->get('/admin/users/{id}/edit', 'edit_admin_user')->to("{$traq}\Admin\Users::edit");
+    $r->post('/admin/users/{id}/edit')->to("{$traq}\Admin\Users::save");
+    $r->get('/admin/users/{id}/delete', 'delete_admin_user')->to("{$traq}\Admin\Users::destroy");
+
     // Plugins
     $r->get('/admin/plugins', 'admin_plugins')->to("{$traq}\Admin\Plugins::index");
     $r->get('/admin/plugins/install')->to("{$traq}\Admin\Plugins::install");
