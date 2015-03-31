@@ -54,6 +54,8 @@ Router::map(function($r) {
     $r->get('/usercp', 'usercp')->to("{$traq}\UserCP::index");
     $r->post('/usercp')->to("{$traq}\UserCP::save");
 
+    $r->get('/users/{id}')->to("{$traq}\Profile::show");
+
     // --------------------------------------------------
     // Projects
     $r->get("/projects", 'projects')->to("{$traq}\Projects::index");
