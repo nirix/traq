@@ -108,6 +108,17 @@ class User extends Model
     }
 
     /**
+     * Update the users password.
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        $this->preparePassword();
+    }
+
+    /**
      * Returns an array containing an array of the project and role
      * the user belongs to.
      *
