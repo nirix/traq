@@ -145,10 +145,11 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Misc
-        'ascending'  => "Ascending",
-        'descending' => "Descending",
-        'x_by_x'     => "{1} by {2}",
-        'notifications' => "Notifications",
+        'ascending'               => "Ascending",
+        'descending'              => "Descending",
+        'x_by_x'                  => "{1} by {2}",
+        'notifications'           => "Notifications",
+        'leave_blank_for_current' => "Leave blank for current",
 
         // --------------------------------------------------------------------
         // Pagination
