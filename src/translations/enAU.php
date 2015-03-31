@@ -137,6 +137,7 @@ $enAU = new Language(function($t) {
         'settings.issues.history_sorting'   => "History Sorting",
         'settings.issues.creation_delay'    => "Creation Delay",
 
+        // --------------------------------------------------------------------
         // Ticket listing
         'filters' => "Filters",
         'columns' => "Columns",
@@ -166,7 +167,6 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Priorities
-
         'priorities'    => "Priorities",
         'new_priority'  => "New Priority",
         'edit_priority' => "Edit Priority",
