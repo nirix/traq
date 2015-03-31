@@ -152,7 +152,7 @@ class TicketListing extends AppController
             return $newColumns;
         }
         // Columns from request
-        elseif (isset(Request::$get['columns'])) {
+        elseif (isset(Request::$query['columns'])) {
             $columns = [];
 
             foreach (explode(',', Request::$request['columns']) as $column) {
