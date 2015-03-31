@@ -82,7 +82,7 @@ class Plugins extends AppController
      */
     public function installAction()
     {
-        $info = Registry::infoFor(Request::$get['plugin']);
+        $info = Registry::infoFor(Request::$query['plugin']);
 
         // Register autoload paths
         foreach ($info['autoload'] as $namespace => $directory) {
@@ -106,8 +106,8 @@ class Plugins extends AppController
      */
     public function uninstallAction()
     {
-        $plugin = Plugin::find('directory', Request::$get['plugin']);
-        $info   = Registry::infoFor(Request::$get['plugin']);
+        $plugin = Plugin::find('directory', Request::$query['plugin']);
+        $info   = Registry::infoFor(Request::$query['plugin']);
 
         if (class_exists($info['main'])) {
             if ($plugin->isEnabled()) {
@@ -126,8 +126,8 @@ class Plugins extends AppController
      */
     public function enableAction()
     {
-        $plugin = Plugin::find('directory', Request::$get['plugin']);
-        $info   = Registry::infoFor(Request::$get['plugin']);
+        $plugin = Plugin::find('directory', Request::$query['plugin']);
+        $info   = Registry::infoFor(Request::$query['plugin']);
 
         $plugin->registerWithAutoloader();
 
@@ -145,8 +145,8 @@ class Plugins extends AppController
      */
     public function disableAction()
     {
-        $plugin = Plugin::find('directory', Request::$get['plugin']);
-        $info   = Registry::infoFor(Request::$get['plugin']);
+        $plugin = Plugin::find('directory', Request::$query['plugin']);
+        $info   = Registry::infoFor(Request::$query['plugin']);
 
         if (class_exists($info['main'])) {
             $info['main']::__disable();
