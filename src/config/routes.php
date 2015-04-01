@@ -145,6 +145,26 @@ Router::map(function($r) {
     $r->get('/{project_slug}/changelog', 'changelog')->to("{$traq}\Projects::changelog");
 
     // --------------------------------------------------
+    // Project Settings
+    $r->get('/{project_slug}/settings', 'project_settings')->to("{$traq}\ProjectSettings\Options::index");
+    $r->post('/{project_slug}/settings')->to("{$traq}\ProjectSettings\Options::save");
+
+    // Milestones
+    $r->get('/{project_slug}/milestones', 'project_settings_milestones')->to("{$traq}\ProjectSettings\Milestones::index");
+
+    // Components
+    $r->get('/{project_slug}/components', 'project_settings_components')->to("{$traq}\ProjectSettings\Components::index");
+
+    // Members
+    $r->get('/{project_slug}/members', 'project_settings_members')->to("{$traq}\ProjectSettings\Members::index");
+
+    // Custom Fields
+    $r->get('/{project_slug}/custom-fields', 'project_settings_custom_fields')->to("{$traq}\ProjectSettings\CustomFields::index");
+
+    // Permissions
+    $r->get('/{project_slug}/permissions', 'project_settings_permissions')->to("{$traq}\ProjectSettings\Permissions::index");
+
+    // --------------------------------------------------
     // AdminCP
 
     // Settings
