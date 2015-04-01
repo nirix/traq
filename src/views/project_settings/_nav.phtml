@@ -1,0 +1,20 @@
+<nav id="project-settings-nav" class="container">
+	<ul class="nav nav-tabs" role="tablist">
+		<li<?=iif(activeNav('/:slug/settings'), ' class="active"')?>>
+			<?=HTML::link($t('information'), $route('project_settings'))?>
+		</li>
+		<li<?=iif(activeNav('/:slug/milestones(.*)'), ' class="active"')?>>
+			<?=HTML::link($t('milestones'), $route('project_settings_milestones'))?>
+		</li>
+		<li<?=iif(activeNav('/:slug/components(.*)'), ' class="active"')?>>
+			<?=HTML::link($t('components'), $route('project_settings_components'))?>
+		</li>
+		<li<?=iif(activeNav('/:slug/members(.*)'), ' class="active"')?>>
+			<?=HTML::link($t('members'), $route('project_settings_members'))?>
+		</li>
+		<li<?=iif(activeNav('/:slug/custom_fields(.*)'), ' class="active"')?>>
+			<?=HTML::link($t('custom_fields'), $route('project_settings_custom_fields'))?>
+		</li>
+		<?=Hook::run('template:project_settings/_nav', [$project])?>
+	</ul>
+</nav>
