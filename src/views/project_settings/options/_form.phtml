@@ -37,12 +37,18 @@
 <div class="form-group">
 	<?=Form::label($t('default_ticket_type'), 'default_ticket_type_id', ['class' => 'col-sm-3 control-label'])?>
 	<div class="col-sm-9">
-		<?=Form::select('default_ticket_type_id', Traq\Models\Type::selectOptions(), ['value' => $project->default_ticket_type_id])?>
+		<?=Form::select('default_ticket_type_id', Traq\Models\Type::selectOptions(), [
+			'value' => $project->default_ticket_type_id,
+			'class' => "form-control"
+		])?>
 	</div>
 </div>
 <div class="form-group">
 	<?=Form::label($t('default_ticket_sorting'), 'default_ticket_sorting', ['class' => 'col-sm-3 control-label'])?>
 	<div class="col-sm-9">
-		<?=Form::select('default_ticket_sorting', Ticketlist::sortingSelectOptions(), ['value' => $project->default_ticket_sorting])?>
+		<?=Form::select('default_ticket_sorting', Ticketlist::sortingSelectOptions(), [
+			'value' => $project->default_ticket_sorting,
+			'class' => "form-control"
+		])?>
 	</div>
 </div>
