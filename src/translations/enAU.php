@@ -51,6 +51,14 @@ $enAU = new Language(function($t) {
         'changelog' => "Changelog",
 
         // --------------------------------------------------------------------
+        // Components
+        'components' => "Components",
+
+        // --------------------------------------------------------------------
+        // Custom Fields
+        'custom_fields' => "Custom Fields",
+
+        // --------------------------------------------------------------------
         // Confirmations:
         'confirm.yes'    => "Yes",
         'confirm.no'     => "No",
@@ -144,10 +152,15 @@ $enAU = new Language(function($t) {
         'update'  => "Update",
 
         // --------------------------------------------------------------------
+        // Milestones
+        'milestones' => "Milestones",
+
+        // --------------------------------------------------------------------
         // Misc
         'ascending'               => "Ascending",
         'descending'              => "Descending",
         'x_by_x'                  => "{1} by {2}",
+        'information'             => "Information",
         'notifications'           => "Notifications",
         'leave_blank_for_current' => "Leave blank for current",
 
@@ -186,6 +199,10 @@ $enAU = new Language(function($t) {
         'display_order'          => "Display Order",
         'default_ticket_type'    => "Default ticket type",
         'default_ticket_sorting' => "Default ticket sorting",
+
+        // Project Settings
+        'project_settings' => "Project Settings",
+        'members'          => "Members",
 
         // --------------------------------------------------------------------
         // Project Roles
