@@ -66,13 +66,15 @@ class Milestones extends AppController
     {
         $this->title($this->translate('new'));
 
+        $milestone = new Milestone(['display_order' => 0]);
+
         if ($this->isOverlay) {
             return $this->render('project_settings/milestones/new.overlay.phtml', [
-                'milestone' => new Milestone
+                'milestone' => $milestone
             ]);
         } else {
             return $this->render('project_settings/milestones/new.phtml', [
-                'milestone' => new Milestone
+                'milestone' => $milestone
             ]);
         }
     }

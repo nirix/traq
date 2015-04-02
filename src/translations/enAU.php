@@ -153,7 +153,9 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Milestones
-        'milestones' => "Milestones",
+        'milestones'     => "Milestones",
+        'new_milestone'  => "New Milestone",
+        'due_date'       => "Due Date",
 
         // --------------------------------------------------------------------
         // Misc
