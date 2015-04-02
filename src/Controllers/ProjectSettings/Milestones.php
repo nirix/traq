@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
+ * https://github.com/nirix
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,73 +21,60 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers\ProjectSettings;
 
-use avalon\http\Request;
-use avalon\output\View;
-
-use traq\models\Milestone;
+use Avalon\Http\Request;
+use Traq\Models\Milestone;
 
 /**
  * Milestones controller
  *
  * @author Jack P.
- * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @since 3.0.0
+ * @package Traq\Controllers\ProjectSettings
  */
 class Milestones extends AppController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->title(l('milestones'));
+        $this->title($this->translate('milestones'));
     }
 
     /**
      * Milestones listing page.
      */
-    public function action_index()
+    public function indexAction()
     {
-        View::set('milestones', $this->project->milestones->order_by('displayorder', 'ASC'));
+        $milestones = Milestone::all();
+
+        return $this->respondTo(function($format) use ($milestones) {
+            if ($format == 'html') {
+                return $this->render('project_settings/milestones/index.phtml', [
+                    'milestones' => $milestones
+                ]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse($milestones);
+            }
+        });
     }
 
     /**
      * New milestone page.
      */
-    public function action_new()
+    public function newAction()
     {
-        $this->title(l('new'));
+        $this->title($this->translate('new'));
 
-        $milestone = new Milestone();
-
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Set the information
-            $milestone->set(array(
-                'name'         => Request::post('name'),
-                'slug'         => Request::post('slug'),
-                'codename'     => Request::post('codename'),
-                'info'         => Request::post('info'),
-                'due'          => Request::post('due') != '' ? Request::post('due') : 'NULL',
-                'project_id'   => $this->project->id,
-                'displayorder' => Request::post('displayorder')
-            ));
-
-            // Check if the data is valid
-            if ($milestone->is_valid()) {
-                // Save and redirect
-                $milestone->save();
-
-                if ($this->is_api) {
-                    return \API::response(1, array('milestone' => $milestone));
-                } else {
-                    Request::redirectTo("{$this->project->slug}/settings/milestones");
-                }
-            }
+        if ($this->isOverlay) {
+            return $this->render('project_settings/milestones/new.overlay.phtml', [
+                'milestone' => new Milestone
+            ]);
+        } else {
+            return $this->render('project_settings/milestones/new.phtml', [
+                'milestone' => new Milestone
+            ]);
         }
-
-       View::set(compact('milestone'));
     }
 
     /**
