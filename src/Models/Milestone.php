@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -24,8 +24,8 @@
 namespace Traq\Models;
 
 use Avalon\Database\Model;
-use Radium\Kernel as Radium;
-use Radium\Helpers\Time;
+use Avalon\Helpers\Time;
+use Avalon\Language;
 
 /**
  * Milestone model.
@@ -149,16 +149,17 @@ class Milestone extends Model
     }
 
     /**
-     * Returns an array of milestone statuses
-     * formatted for the Form::select() helper.
+     * Returns an array of milestone statuses formatted for the Form::select() helper.
+     *
+     * @return array
      */
     public static function statusSelectOptions()
     {
-        return array(
-            array('label' => l('active'),    'value' => 1),
-            array('label' => l('completed'), 'value' => 2),
-            array('label' => l('cancelled'), 'value' => 0),
-        );
+        return [
+            ['label' => Language::translate('active'),    'value' => 1],
+            ['label' => Language::translate('completed'), 'value' => 2],
+            ['label' => Language::translate('cancelled'), 'value' => 0],
+        ];
     }
 
     /**
