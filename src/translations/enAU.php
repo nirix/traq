@@ -52,7 +52,9 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Components
-        'components' => "Components",
+        'components'     => "Components",
+        'new_component'  => "New Component",
+        'edit_component' => "Edit Component",
 
         // --------------------------------------------------------------------
         // Custom Fields
