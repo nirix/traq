@@ -12,6 +12,8 @@
 		<thead>
 			<tr>
 				<th><?=$t('name')?></th>
+				<th><?=$t('codename')?></th>
+				<th><?=$t('status')?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -19,6 +21,13 @@
 		<?php foreach ($milestones as $milestone): ?>
 			<tr>
 				<td><?=HTML::link($milestone->name, $route('edit_project_settings_milestone', ['id' => $milestone->id]))?></td>
+				<td><?=$milestone->codename?></td>
+				<td>
+					<?=$milestone->status == 0
+							? $t('cancelled') : $milestone->status == 1
+							? $t('active') : $t('completed');
+					?>
+				</td>
 				<td class="actions">
 					<?=HTML::link(TWBS::fa('edit', $t('edit')), $route('edit_project_settings_milestone', ['id' => $milestone->id]), [
 						'class' => 'btn btn-xs btn-warning',
