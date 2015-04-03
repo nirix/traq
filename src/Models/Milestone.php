@@ -130,8 +130,8 @@ class Milestone extends Model
      */
     public function startedTicketCount()
     {
-        return $this->tickets()->innerJoin('tickets', 'statuses', 'statuses', "statuses.id = tickets.status_id")
-            ->where("`statuses`.`status` = ?", 2)
+        return $this->tickets()->join('tickets', 'statuses', 'statuses', "statuses.id = tickets.status_id")
+            ->where("statuses.status = ?", 2)
             ->rowCount();
     }
 
