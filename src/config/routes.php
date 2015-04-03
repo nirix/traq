@@ -150,29 +150,29 @@ Router::map(function($r) {
     $r->post('/{project_slug}/settings')->to("{$traq}\ProjectSettings\Options::save");
 
     // Milestones
-    $r->get('/{project_slug}/milestones', 'project_settings_milestones')->to("{$traq}\ProjectSettings\Milestones::index");
-    $r->get('/{project_slug}/milestones/new', 'new_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::new");
-    $r->post('/{project_slug}/milestones/new')->to("{$traq}\ProjectSettings\Milestones::create");
-    $r->get('/{project_slug}/milestones/{id}/edit', 'edit_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::edit");
-    $r->post('/{project_slug}/milestones/{id}/edit')->to("{$traq}\ProjectSettings\Milestones::save");
-    $r->get('/{project_slug}/milestones/{id}/delete', 'delete_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::destroy");
+    $r->get('/{project_slug}/settings/milestones', 'project_settings_milestones')->to("{$traq}\ProjectSettings\Milestones::index");
+    $r->get('/{project_slug}/settings/milestones/new', 'new_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::new");
+    $r->post('/{project_slug}/settings/milestones/new')->to("{$traq}\ProjectSettings\Milestones::create");
+    $r->get('/{project_slug}/settings/milestones/{id}/edit', 'edit_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::edit");
+    $r->post('/{project_slug}/settings/milestones/{id}/edit')->to("{$traq}\ProjectSettings\Milestones::save");
+    $r->get('/{project_slug}/settings/milestones/{id}/delete', 'delete_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::destroy");
 
     // Components
-    $r->get('/{project_slug}/components', 'project_settings_components')->to("{$traq}\ProjectSettings\Components::index");
-    $r->get('/{project_slug}/components/new', 'new_project_settings_component')->to("{$traq}\ProjectSettings\Components::new");
-    $r->post('/{project_slug}/components/new')->to("{$traq}\ProjectSettings\Components::create");
-    $r->get('/{project_slug}/components/{id}/edit', 'edit_project_settings_component')->to("{$traq}\ProjectSettings\Components::edit");
-    $r->post('/{project_slug}/components/{id}/edit')->to("{$traq}\ProjectSettings\Components::save");
-    $r->get('/{project_slug}/components/{id}/delete', 'delete_project_settings_component')->to("{$traq}\ProjectSettings\Components::destroy");
+    $r->get('/{project_slug}/settings/components', 'project_settings_components')->to("{$traq}\ProjectSettings\Components::index");
+    $r->get('/{project_slug}/settings/components/new', 'new_project_settings_component')->to("{$traq}\ProjectSettings\Components::new");
+    $r->post('/{project_slug}/settings/components/new')->to("{$traq}\ProjectSettings\Components::create");
+    $r->get('/{project_slug}/settings/components/{id}/edit', 'edit_project_settings_component')->to("{$traq}\ProjectSettings\Components::edit");
+    $r->post('/{project_slug}/settings/components/{id}/edit')->to("{$traq}\ProjectSettings\Components::save");
+    $r->get('/{project_slug}/settings/components/{id}/delete', 'delete_project_settings_component')->to("{$traq}\ProjectSettings\Components::destroy");
 
     // Members
-    $r->get('/{project_slug}/members', 'project_settings_members')->to("{$traq}\ProjectSettings\Members::index");
+    $r->get('/{project_slug}/settings/members', 'project_settings_members')->to("{$traq}\ProjectSettings\Members::index");
 
     // Custom Fields
-    $r->get('/{project_slug}/custom-fields', 'project_settings_custom_fields')->to("{$traq}\ProjectSettings\CustomFields::index");
+    $r->get('/{project_slug}/settings/custom-fields', 'project_settings_custom_fields')->to("{$traq}\ProjectSettings\CustomFields::index");
 
     // Permissions
-    $r->get('/{project_slug}/permissions', 'project_settings_permissions')->to("{$traq}\ProjectSettings\Permissions::index");
+    $r->get('/{project_slug}/settings/permissions', 'project_settings_permissions')->to("{$traq}\ProjectSettings\Permissions::index");
 
     // --------------------------------------------------
     // AdminCP
