@@ -159,6 +159,11 @@ Router::map(function($r) {
 
     // Components
     $r->get('/{project_slug}/components', 'project_settings_components')->to("{$traq}\ProjectSettings\Components::index");
+    $r->get('/{project_slug}/components/new', 'new_project_settings_component')->to("{$traq}\ProjectSettings\Components::new");
+    $r->post('/{project_slug}/components/new')->to("{$traq}\ProjectSettings\Components::create");
+    $r->get('/{project_slug}/components/{id}/edit', 'edit_project_settings_component')->to("{$traq}\ProjectSettings\Components::edit");
+    $r->post('/{project_slug}/components/{id}/edit')->to("{$traq}\ProjectSettings\Components::save");
+    $r->get('/{project_slug}/components/{id}/delete', 'delete_project_settings_component')->to("{$traq}\ProjectSettings\Components::destroy");
 
     // Members
     $r->get('/{project_slug}/members', 'project_settings_members')->to("{$traq}\ProjectSettings\Members::index");

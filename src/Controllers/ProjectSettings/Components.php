@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
+ * https://github.com/nirix
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,35 +21,42 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers\ProjectSettings;
 
-use avalon\http\Request;
-use avalon\output\View;
-
-use traq\models\Component;
+use Avalon\Http\Request;
+use Traq\Models\Component;
 
 /**
- * Components controller
+ * Components controller.
  *
  * @author Jack P.
- * @since 3.0
- * @package Traq
- * @subpackage Controllers
+ * @since 3.0.0
+ * @package Traq\Controllers\ProjectSettings
  */
 class Components extends AppController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->title(l('components'));
+        $this->title($this->translate('components'));
     }
 
     /**
      * Components listing page.
      */
-    public function action_index()
+    public function indexAction()
     {
-        View::set('components', $this->project->components);
+        $components = Component::all();
+
+        return $this->respondTo(function($format) use ($components) {
+            if ($format == "html") {
+                return $this->render("project_settings/components/index.phtml", [
+                    'components' => $components
+                ]);
+            } elseif ($format == "json") {
+                return $this->jsonResponse($components);
+            }
+        });
     }
 
     /**
