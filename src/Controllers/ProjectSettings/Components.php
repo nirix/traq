@@ -160,26 +160,20 @@ class Components extends AppController
 
     /**
      * Delete component.
-     *
-     * @param integer $id Component ID
      */
-    public function action_delete($id)
+    public function destroyAction()
     {
-        // Fetch the component
-        $component = Component::find($id);
-
-        if ($component->project_id !== $this->project->id) {
-            return $this->show_no_permission();
-        }
-
-        // Delete component
-        $component->delete();
-
-        if ($this->is_api) {
-            return \API::response(1);
-        } else {
-            Request::redirectTo($this->project->href("settings/components"));
-        }
+        $this->component->delete();
+        return $this->respondTo(function($format) {
+            if ($format == "html") {
+                return $this->redirectTo("project_settings_components");
+            } elseif ($format == "json") {
+                return $this->jsonResponse([
+                    'deleted'   => true,
+                    'component' => $component
+                ]);
+            }
+        });
     }
 
     /**
