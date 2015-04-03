@@ -23,6 +23,7 @@
 
 namespace Traq\Models;
 
+use DateTime;
 use Avalon\Database\Model;
 use Avalon\Helpers\Time;
 use Avalon\Language;
@@ -34,42 +35,42 @@ use Avalon\Language;
  */
 class Milestone extends Model
 {
-    // Validations
-    protected static $_validates = array(
-        'name' => array('required'),
-        'slug' => array('required')
-    );
-
-    // Before filters
-    protected static $_before = array(
-        'create' => array('_beforeCreate'),
-        'save'   => array('_beforeSave')
-    );
-
-    // After filters
-    protected static $_after = array(
-        'construct' => array('_afterConstruct')
-    );
+    /**
+     * @var array
+     */
+    protected static $_belongsTo = [
+        'project'
+    ];
 
     /**
-     * Project relation.
-     *
-     * @return Traq\Models\Project
+     * @var array
      */
-    public function project()
-    {
-        return $this->belongsTo('Project');
-    }
+    protected static $_hasMany = [
+        'tickets'
+    ];
 
     /**
-     * Tickets relation.
-     *
-     * @return array
+     * @var array
      */
-    public function tickets()
-    {
-        return $this->hasMany('Ticket');
-    }
+    protected static $_validates = [
+        'name' => ['required'],
+        'slug' => ['required']
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $_after = [
+        'construct' => ['afterConstruct']
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $_dataTypes = [
+        'is_locked'    => "boolean",
+        'completed_at' => "datetime"
+    ];
 
     /**
      * Easily get the URI to the milestone.
@@ -87,7 +88,7 @@ class Milestone extends Model
      */
     public function selectOption()
     {
-        return array(array('label' => $this->name, 'value' => $this->id));
+        return [['label' => $this->name, 'value' => $this->id]];
     }
 
     public function ticketPercent($status = 'closed')
@@ -130,7 +131,7 @@ class Milestone extends Model
     public function startedTicketCount()
     {
         return $this->tickets()->innerJoin('tickets', 'statuses', 'statuses', "statuses.id = tickets.status_id")
-            ->where("`statuses`.`status` = 2")
+            ->where("`statuses`.`status` = ?", 2)
             ->rowCount();
     }
 
@@ -163,48 +164,17 @@ class Milestone extends Model
     }
 
     /**
-     * Checks if the models data is valid.
-     *
-     * @return bool
-     */
-    public function is_valid()
-    {
-        $errors = array();
-
-        // Check if the slug is in use
-        $milestone_slug = Milestone::select('slug')->where('id', $this->_is_new() ? 0 : $this->_data['id'], '!=')
-            ->where('slug', $this->_data['slug'])->where('project_id', $this->project_id);
-
-        if ($milestone_slug->exec()->row_count()) {
-            $errors['slug'] = l('errors.slug_in_use');
-        }
-
-        $this->errors = $errors;
-        return !count($errors) > 0;
-    }
-
-    /**
      * Custom save method.
      */
     public function save()
     {
         // Set completed date
-        if ($this->_data['status'] != 1 and $this->completed_on == null) {
-            $this->set('completed_on', "NOW()");
+        if ($this->status != 1 and $this->completed_at == null) {
+            $this->is_locked    = true;
+            $this->completed_at = new DateTime;
         }
 
         if (parent::save()) {
-            // Check if the status has been changed, if it has, is it completed or cancelled?
-            if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1) {
-                $timeline = new Timeline(array(
-                    'project_id' => $this->project_id,
-                    'owner_id' => $this->id,
-                    'action' => $this->_data['status'] == 2 ? 'milestone_completed' : 'milestone_cancelled',
-                    'user_id' => Avalon::app()->user->id
-                ));
-                $timeline->save();
-            }
-
             return true;
         }
 
@@ -212,42 +182,13 @@ class Milestone extends Model
     }
 
     /**
-     * Converts the slug to be URI safe.
-     */
-    protected function _createSlug()
-    {
-        $this->slug = URI::createSlug($this->slug);
-    }
-
-    /**
-     * Does required things before creating the row.
-     */
-    protected function _beforeCreate()
-    {
-        $this->_create_slug();
-    }
-
-    /**
-     * Does required things before saving the data.
-     */
-    protected function _beforeSave()
-    {
-        $this->_create_slug();
-    }
-
-    /**
      * Clones the status for use in the save method.
      */
-    protected function _afterConstruct()
+    protected function afterConstruct()
     {
         // Status
         if (isset($this->status)) {
             $this->original_status = $this->status;
-        }
-
-        // Completed on date from GMT to local
-        if (!$this->_isNew and $this->completed_on != null) {
-            $this->completed_on = Time::gmtToLocal($this->completed_on);
         }
     }
 }
