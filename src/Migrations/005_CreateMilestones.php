@@ -36,7 +36,7 @@ class CreateMilestones extends Migration
             $t->addColumn("info", "text", ['notnull' => false]);
             $t->addColumn("changelog", "text", ['notnull' => false]);
             $t->addColumn("due", "datetime", ['notnull' => false]);
-            $t->addColumn("completed_at", "datetime");
+            $t->addColumn("completed_at", "datetime", ['notnull' => false]);
             $t->addColumn("status", "integer", ['default' => 1]);
             $t->addColumn("is_locked", "boolean", ['default' => false]);
             $t->addColumn("project_id", "integer");
