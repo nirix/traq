@@ -49,11 +49,11 @@ class Milestones extends AppController
         $milestones = Milestone::all();
 
         return $this->respondTo(function($format) use ($milestones) {
-            if ($format == 'html') {
-                return $this->render('project_settings/milestones/index.phtml', [
+            if ($format == "html") {
+                return $this->render("project_settings/milestones/index.phtml", [
                     'milestones' => $milestones
                 ]);
-            } elseif ($format == 'json') {
+            } elseif ($format == "json") {
                 return $this->jsonResponse($milestones);
             }
         });
@@ -64,16 +64,16 @@ class Milestones extends AppController
      */
     public function newAction()
     {
-        $this->title($this->translate('new'));
+        $this->title($this->translate("new"));
 
         $milestone = new Milestone(['display_order' => 0]);
 
         if ($this->isOverlay) {
-            return $this->render('project_settings/milestones/new.overlay.phtml', [
+            return $this->render("project_settings/milestones/new.overlay.phtml", [
                 'milestone' => $milestone
             ]);
         } else {
-            return $this->render('project_settings/milestones/new.phtml', [
+            return $this->render("project_settings/milestones/new.phtml", [
                 'milestone' => $milestone
             ]);
         }
