@@ -1,0 +1,11 @@
+<div class="project-settings milestones container">
+	<h1 class="page-header"><?=$t('edit_milestone')?></h1>
+
+	<form action="<?=Request::basePath($route('edit_project_settings_milestone'))?>" method="post" class="form-horizontal">
+		<?=Errors::messagesFor($milestone)?>
+		<?=View::render('project_settings/milestones/_form.phtml', ['milestone' => $milestone])?>
+		<div class="form-actions">
+			<?=Form::submit($t('save'), ['class' => 'btn btn-success'])?>
+		</div>
+	</form>
+</div>
