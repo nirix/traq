@@ -62,33 +62,45 @@ class Components extends AppController
     /**
      * New component page.
      */
-    public function action_new()
+    public function newAction()
     {
-        $this->title(l('new'));
+        $this->title($this->translate("new"));
 
-        $component = new Component();
+        $component = new Component;
 
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Set the information
-            $component->set(array(
-                'name'       => Request::post('name'),
-                'project_id' => $this->project->id
-            ));
-
-            // Check if the data is valid
-            if ($component->is_valid()) {
-                // Save and redirect
-                $component->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('component' => $component));
-                } else {
-                    Request::redirectTo("{$this->project->slug}/settings/components");
-                }
-            }
+        if ($this->isOverlay) {
+            return $this->render("project_settings/components/new.overlay.phtml", [
+                'component' => $component
+            ]);
+        } else {
+            return $this->render("project_settings/components/new.phtml", [
+                'component' => $component
+            ]);
         }
+    }
 
-        View::set('component', $component);
+    /**
+     * Create component.
+     */
+    public function createAction()
+    {
+        $this->title($this->translate("new"));
+
+        $component = new Component($this->componentParams());
+
+        if ($component->save()) {
+            return $this->respondTo(function($format) use ($component) {
+                if ($format == "html") {
+                    return $this->redirectTo("project_settings_components");
+                } elseif ($format == "json") {
+                    return $this->jsonResponse($component);
+                }
+            });
+        } else {
+            return $this->render("project_settings/components/new.phtml", [
+                'component' => $component
+            ]);
+        }
     }
 
     /**
@@ -151,5 +163,16 @@ class Components extends AppController
         } else {
             Request::redirectTo($this->project->href("settings/components"));
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function componentParams()
+    {
+        return [
+            'name'       => Request::post('name'),
+            'project_id' => $this->project->id
+        ];
     }
 }
