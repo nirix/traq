@@ -152,9 +152,9 @@ Router::map(function($r) {
     // Milestones
     $r->get('/{project_slug}/milestones', 'project_settings_milestones')->to("{$traq}\ProjectSettings\Milestones::index");
     $r->get('/{project_slug}/milestones/new', 'new_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::new");
-
+    $r->post('/{project_slug}/milestones/new')->to("{$traq}\ProjectSettings\Milestones::create");
     $r->get('/{project_slug}/milestones/{id}/edit', 'edit_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::edit");
-
+    $r->post('/{project_slug}/milestones/{id}/edit')->to("{$traq}\ProjectSettings\Milestones::save");
     $r->get('/{project_slug}/milestones/{id}/delete', 'delete_project_settings_milestone')->to("{$traq}\ProjectSettings\Milestones::destroy");
 
     // Components

@@ -35,10 +35,23 @@ use Traq\Models\Milestone;
  */
 class Milestones extends AppController
 {
+    /**
+     * @var Milestone
+     */
+    protected $milestone;
+
     public function __construct()
     {
         parent::__construct();
         $this->title($this->translate('milestones'));
+
+        $this->before(['edit', 'save', 'delete', 'destroy'], function() {
+            $this->milestone = Milestone::find(Request::$request['id']);
+
+            if (!$this->milestone || $this->milestone->project_id != $this->project->id) {
+                return $this->show404();
+            }
+        });
     }
 
     /**
@@ -80,49 +93,69 @@ class Milestones extends AppController
     }
 
     /**
-     * Edit milestone page.
-     *
-     * @param integer $id Milestone ID
+     * Create milestone.
      */
-    public function action_edit($id)
+    public function createAction()
     {
-        $this->title(l('edit'));
+        $this->title($this->translate("new"));
 
-        // Fetch the milestone
-        $milestone = Milestone::find($id);
+        $milestone = new Milestone($this->milestoneParams());
 
-        if ($milestone->project_id !== $this->project->id) {
-            return $this->show_no_permission();
-        }
-
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Update the information
-            $milestone->set(array(
-                'name'         => Request::post('name', $milestone->name),
-                'slug'         => Request::post('slug', $milestone->slug),
-                'codename'     => Request::post('codename', $milestone->codename),
-                'info'         => Request::post('info', $milestone->info),
-                'due'          => Request::post('due') != '' ? Request::post('due') : 'NULL',
-                'status'       => Request::post('status', $milestone->status),
-                'displayorder' => Request::post('displayorder', $milestone->displayorder)
-            ));
-
-            // Make sure the data is valid
-            if ($milestone->is_valid()) {
-                // Save and redirect
-                $milestone->save();
-
-                if ($this->is_api) {
-                    return \API::response(1, array('milestone' => $milestone));
-                } else {
-                    Request::redirectTo("{$this->project->slug}/settings/milestones");
+        if ($milestone->save()) {
+            return $this->respondTo(function($format) use ($milestone) {
+                if ($format == "html") {
+                    return $this->redirectTo("project_settings_milestones");
+                } elseif ($format == "json") {
+                    return $this->jsonResponse($milestone);
                 }
-            }
+            });
+        } else {
+            return $this->render("project_settings/milestones/new.phtml", [
+                'milestone' => $milestone
+            ]);
         }
+    }
 
-        //View::set('milestone', $milestone);
-        View::set(compact('milestone'));
+    /**
+     * Edit milestone page.
+     */
+    public function editAction()
+    {
+        $this->title($this->translate("edit"));
+
+        if ($this->isOverlay) {
+            return $this->render("project_settings/milestones/edit.overlay.phtml", [
+                'milestone' => $this->milestone
+            ]);
+        } else {
+            return $this->render("project_settings/milestones/edit.phtml", [
+                'milestone' => $this->milestone
+            ]);
+        }
+    }
+
+    /**
+     * Create milestone.
+     */
+    public function saveAction()
+    {
+        $this->title($this->translate("edit"));
+
+        $this->milestone->set($this->milestoneParams());
+
+        if ($this->milestone->save()) {
+            return $this->respondTo(function($format) {
+                if ($format == "html") {
+                    return $this->redirectTo("project_settings_milestones");
+                } elseif ($format == "json") {
+                    return $this->jsonResponse($this->milestone);
+                }
+            });
+        } else {
+            return $this->render("project_settings/milestones/edit.phtml", [
+                'milestone' => $this->milestone
+            ]);
+        }
     }
 
     /**
@@ -165,5 +198,23 @@ class Milestones extends AppController
         }
 
         View::set(compact('milestone', 'milestones'));
+    }
+
+    /**
+     * @return array
+     */
+    protected function milestoneParams()
+    {
+        return [
+            'name'          => Request::post('name'),
+            'slug'          => Request::post('slug'),
+            'codename'      => Request::post('codename'),
+            'due'           => Request::post('due'),
+            'status'        => Request::post('status'),
+            'info'          => Request::post('info'),
+            'changelog'     => Request::post('changelog'),
+            'display_order' => Request::post('display_order'),
+            'project_id'    => $this->project->id
+        ];
     }
 }
