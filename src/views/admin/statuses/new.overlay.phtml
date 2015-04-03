@@ -1,7 +1,7 @@
 <div class="modal fade">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
-			<form action="<?=Request::basePath($route['new_admin_status'])?>" method="post" class="form-horizontal">
+			<form action="<?=Request::basePath($route('new_admin_status'))?>" method="post" class="form-horizontal">
 				<?=TWBS::modalHeader($t('new_status'))?>
 				<div class="modal-body">
 					<?=View::render('admin/statuses/_form.phtml', ['status' => $status])?>
