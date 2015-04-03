@@ -67,7 +67,7 @@ class TicketListing extends AppController
         $ticketFilters = array_keys(TicketFilters::filtersFor($this->project));
 
         // Process filters from request
-        foreach (Request::$request as $filter => $value) {
+        foreach (Request::$query as $filter => $value) {
             if (in_array($filter, $ticketFilters)) {
                 $filterQuery->process($filter, $value);
             }
