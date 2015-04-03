@@ -35,10 +35,23 @@ use Traq\Models\Component;
  */
 class Components extends AppController
 {
+    /**
+     * @var Component
+     */
+    protected $component;
+
     public function __construct()
     {
         parent::__construct();
         $this->title($this->translate('components'));
+
+        $this->before(['edit', 'save', 'destroy'], function() {
+            $this->component = Component::find(Request::$request['id']);
+
+            if (!$this->component || $this->component->project_id != $this->project->id) {
+                return $this->show404();
+            }
+        });
     }
 
     /**
@@ -105,40 +118,44 @@ class Components extends AppController
 
     /**
      * Edit component page.
-     *
-     * @param integer $id Component ID
      */
-    public function action_edit($id)
+    public function editAction()
     {
-        $this->title(l('edit'));
+        $this->title($this->translate("edit"));
 
-        // Fetch the component
-        $component = Component::find($id);
-
-        if ($component->project_id !== $this->project->id) {
-            return $this->show_no_permission();
+        if ($this->isOverlay) {
+            return $this->render("project_settings/components/edit.overlay.phtml", [
+                'component' => $this->component
+            ]);
+        } else {
+            return $this->render("project_settings/components/edit.phtml", [
+                'component' => $this->component
+            ]);
         }
+    }
 
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Update the information
-            $component->set(array(
-                'name' => Request::post('name'),
-            ));
+    /**
+     * Save component.
+     */
+    public function saveAction()
+    {
+        $this->title($this->translate("edit"));
 
-            // Check if the data is valid
-            if ($component->is_valid()) {
-                // Save and redirect
-                $component->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('component' => $component));
-                } else {
-                    Request::redirectTo("{$this->project->slug}/settings/components");
+        $this->component->set($this->componentParams());
+
+        if ($this->component->save()) {
+            return $this->respondTo(function($format) {
+                if ($format == "html") {
+                    return $this->redirectTo("project_settings_components");
+                } elseif ($format == "json") {
+                    return $this->jsonResponse($this->component);
                 }
-            }
+            });
+        } else {
+            return $this->render("project_settings/components/edit.phtml", [
+                'component' => $this->component
+            ]);
         }
-
-        View::set('component', $component);
     }
 
     /**
