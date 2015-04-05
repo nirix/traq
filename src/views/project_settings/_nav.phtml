@@ -3,16 +3,16 @@
 		<li<?=iif(activeNav('/:slug/settings'), ' class="active"')?>>
 			<?=HTML::link($t('information'), $route('project_settings'))?>
 		</li>
-		<li<?=iif(activeNav('/:slug/milestones(.*)'), ' class="active"')?>>
+		<li<?=iif(activeNav('/:slug/settings/milestones(.*)'), ' class="active"')?>>
 			<?=HTML::link($t('milestones'), $route('project_settings_milestones'))?>
 		</li>
-		<li<?=iif(activeNav('/:slug/components(.*)'), ' class="active"')?>>
+		<li<?=iif(activeNav('/:slug/settings/components(.*)'), ' class="active"')?>>
 			<?=HTML::link($t('components'), $route('project_settings_components'))?>
 		</li>
-		<li<?=iif(activeNav('/:slug/members(.*)'), ' class="active"')?>>
+		<li<?=iif(activeNav('/:slug/settings/members(.*)'), ' class="active"')?>>
 			<?=HTML::link($t('members'), $route('project_settings_members'))?>
 		</li>
-		<li<?=iif(activeNav('/:slug/custom_fields(.*)'), ' class="active"')?>>
+		<li<?=iif(activeNav('/:slug/settings/custom_fields(.*)'), ' class="active"')?>>
 			<?=HTML::link($t('custom_fields'), $route('project_settings_custom_fields'))?>
 		</li>
 		<?=Hook::run('template:project_settings/_nav', [$project])?>
