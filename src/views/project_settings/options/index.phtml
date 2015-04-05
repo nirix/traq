@@ -1,8 +1,4 @@
 <div class="project settings container">
-	<h1 class="page-header"><?=$t('project_settings')?></h1>
-</div>
-<?php echo View::render('project_settings/_nav.phtml'); ?>
-<div class="project settings container">
 	<form action="<?=Request::basePath($route('project_settings'))?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($proj)?>
 		<?=View::render('project_settings/options/_form.phtml', ['project' => $proj])?>
