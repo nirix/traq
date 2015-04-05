@@ -32,6 +32,11 @@ namespace Traq\Controllers\ProjectSettings;
  */
 class AppController extends \Traq\Controllers\AppController
 {
+    /**
+     * @var string
+     */
+    protected $layout = "project_settings.phtml";
+
     public function __construct()
     {
         parent::__construct();
