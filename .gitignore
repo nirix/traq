@@ -15,3 +15,5 @@
 .settings
 .buildpath
 .htaccess
+
+.idea/
