@@ -47,12 +47,14 @@ class ProjectRole extends Model
      *
      * @return array
      */
-    public static function selectOptions()
+    public static function selectOptions($projectId = null)
     {
         $options = [];
+
         foreach (static::all() as $role) {
             $options[] = ['label' => $role->name, 'value' => $role->id];
         }
+
         return $options;
     }
 }
