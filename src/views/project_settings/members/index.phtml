@@ -1,0 +1,38 @@
+<div class="project-settings members container">
+	<form action="<?=Request::basePath($route("new_project_settings_member"))?>" method="post" class="form-inline">
+		<div class="form-group">
+			<?=Form::label($t("username"), "username")?>
+			<?=Form::text("username", ['class' => "form-control"])?>
+		</div>
+		<div class="form-group">
+			<?=Form::label($t("role"), "role_id")?>
+			<?=Form::select('role_id', Traq\Models\ProjectRole::selectOptions($project->id))?>
+		</div>
+
+		<?=Form::submit($t("add"), ['class' => "btn btn-success"])?>
+	</form>
+
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th><?=$t('name')?></th>
+				<th><?=$t('role')?></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($userRoles as $relation): ?>
+			<tr>
+				<td><?=$relation->user()->username?></td>
+				<td><?=$relation->role()->name?></td>
+				<td class="actions">
+					<?=HTML::link(TWBS::fa('times', $t('delete')), $route('delete_project_settings_member', ['id' => $relation->user_id]), [
+						'class' => 'btn btn-xs btn-danger',
+						'data-confirm' => $t('confirm.delete')
+					])?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>

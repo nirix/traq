@@ -166,7 +166,11 @@ Router::map(function($r) {
     $r->get('/{project_slug}/settings/components/{id}/delete', 'delete_project_settings_component')->to("{$traq}\ProjectSettings\Components::destroy");
 
     // Members
-    $r->get('/{project_slug}/settings/members', 'project_settings_members')->to("{$traq}\ProjectSettings\Members::index");
+    $r->get('/{project_slug}/settings/members', 'project_settings_members')
+        ->to("{$traq}\ProjectSettings\Members::index");
+
+    $r->post('/{project_slug}/settings/members/new')->to("{$traq}\ProjectSettings\Members::create");
+
 
     // Custom Fields
     $r->get('/{project_slug}/settings/custom-fields', 'project_settings_custom_fields')->to("{$traq}\ProjectSettings\CustomFields::index");
