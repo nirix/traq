@@ -164,20 +164,17 @@ class Members extends AppController
         }
     }
 
-    public function action_delete($user_id)
+    public function destroyAction($id)
     {
-        if ($user_role = UserRole::select('id')->where(array(array('project_id', $this->project->id), array('user_id', $user_id)))->exec()->fetch()) {
-            $user_role->delete();
-        }
+        $userRole = UserRole::select()->where('project_id = ?', $this->project->id)
+            ->andWhere('user_id = ?', $id)
+            ->fetch();
 
-        if ($this->is_api) {
-            if ($user_role) {
-                return \API::response(1);
-            } else {
-                return \API::response(0);
-            }
+        if (!$userRole) {
+            return $this->show404();
         } else {
-            Request::redirectTo($this->project->href('settings/members'));
+            $userRole->delete();
+            return $this->redirectTo('project_settings_members');
         }
     }
 }

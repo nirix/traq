@@ -171,6 +171,8 @@ Router::map(function($r) {
 
     $r->post('/{project_slug}/settings/members/new')->to("{$traq}\ProjectSettings\Members::create");
 
+    $r->get('/{project_slug}/settings/members/{id}/delete', 'delete_project_settings_member')
+        ->to("{$traq}\ProjectSettings\Members::destroy");
 
     // Custom Fields
     $r->get('/{project_slug}/settings/custom-fields', 'project_settings_custom_fields')->to("{$traq}\ProjectSettings\CustomFields::index");
