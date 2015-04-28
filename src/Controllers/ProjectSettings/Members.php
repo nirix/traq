@@ -111,47 +111,6 @@ class Members extends AppController
         }
     }
 
-    public function action_new()
-    {
-        // Get the user
-        $user = User::find('username', Request::$post['username']);
-
-        // Check the username...
-        $errors = array();
-
-        // User exists?
-        if ($user === false) {
-            $errors['username'] = l('errors.users.doesnt_exist');
-        }
-        // Username entered?
-        elseif (!isset(Request::$post['username']) or Request::$post['username'] == '') {
-            $errors['username'] = l('errors.users.username_blank');
-        }
-        // Already a project member?
-        elseif (UserRole::select('id')->where(array(array('project_id', $this->project->id), array('user_id', $user->id)))->exec()->row_count()) {
-            $errors['username'] = l('errors.users.already_a_project_member');
-        }
-
-
-        // Any errors?
-        if (count($errors)) {
-            $this->action_index();
-            $this->render['view'] = 'project_settings/members/index';
-            View::set('errors', $errors);
-        }
-        // Create role
-        else {
-            $user_role = new UserRole(array(
-                'project_id' => $this->project->id,
-                'user_id' => $user->id,
-                'project_role_id' => Request::$post['role']
-            ));
-            $user_role->save();
-
-            Request::redirectTo($this->project->href('settings/members'));
-        }
-    }
-
     public function action_save()
     {
         if (Request::method() == 'post') {
