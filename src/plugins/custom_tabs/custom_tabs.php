@@ -83,7 +83,7 @@ class CustomTabs extends \traq\libraries\Plugin
      */
     public static function admin_nav()
     {
-        echo '<li' . iif(active_nav('/admin/custom_tabs'), ' class="active"') . '>' . HTML::link(l('custom_tabs'), "/admin/custom_tabs") . '</li>';
+        echo '<li' , iif(active_nav('/admin/custom_tabs'), ' class="active"') , '>' , HTML::link(l('custom_tabs'), "/admin/custom_tabs") , '</li>';
     }
 
     /**
