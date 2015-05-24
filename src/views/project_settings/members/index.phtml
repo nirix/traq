@@ -24,7 +24,9 @@
 		<?php foreach ($userRoles as $relation): ?>
 			<tr>
 				<td><?=$relation->user()->username?></td>
-				<td><?=$relation->role()->name?></td>
+				<td>
+					<?=Form::select("user[{$relation->user_id}][role_id]", Traq\Models\ProjectRole::selectOptions($project->id), ['value' => $relation->project_role_id])?>
+				</td>
 				<td class="actions">
 					<?=HTML::link(TWBS::fa('times', $t('delete')), $route('delete_project_settings_member', ['id' => $relation->user_id]), [
 						'class' => 'btn btn-xs btn-danger',
