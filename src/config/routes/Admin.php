@@ -42,6 +42,7 @@ class Admin
 
         // Settings
         $r->get('/admin/settings', 'admin_settings')->to("{$traq}\Admin\Settings::index");
+        $r->post('/admin/settings')->to("{$traq}\\Admin\\Settings::save");
 
         // Projects
         $r->get('/admin/projects', 'admin_projects')->to("{$traq}\Admin\Projects::index");
