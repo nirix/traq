@@ -37,6 +37,9 @@ use Traq\Models\ProjectRole;
  */
 class Members extends AppController
 {
+    /**
+     * @return \Avalon\Http\Response
+     */
     public function indexAction()
     {
         $userRoles = UserRole::select()->where('project_id = ?', $this->project->id)->fetchAll();
@@ -52,6 +55,11 @@ class Members extends AppController
         });
     }
 
+    /**
+     * Add project member.
+     *
+     * @return \Avalon\Http\RedirectResponse|\Avalon\Http\Response
+     */
     public function createAction()
     {
         $errors = [];
@@ -130,6 +138,13 @@ class Members extends AppController
         return $this->redirectTo("project_settings_members");
     }
 
+    /**
+     * Remove project member.
+     *
+     * @param $id User ID
+     *
+     * @return \Avalon\Http\RedirectResponse|\Avalon\Http\Response
+     */
     public function destroyAction($id)
     {
         $userRole = UserRole::select()->where('project_id = ?', $this->project->id)
