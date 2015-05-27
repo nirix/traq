@@ -19,7 +19,7 @@
 			<div class="form-group">
 				<?=Form::label($t('settings.default_language'), 'settings[language]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					{language select}
+					<?=Form::select("settings[language]", Avalon\Language::selectOptions(), ['value' => settings('locale'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 

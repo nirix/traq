@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers\Admin;
 
-use Avalon\Http\Request;
+use Traq\Language;
 use Traq\Models\Setting;
 
 /**
@@ -39,6 +39,8 @@ class Settings extends AppController
     {
         parent::__construct();
         $this->title($this->translate('settings'));
+
+        Language::loadAll();
     }
 
     /**
