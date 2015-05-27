@@ -38,12 +38,12 @@ class Projects
         $traq = "Traq\\Controllers";
 
         // Index and show
-        $r->get("/projects", 'projects')->to("{$traq}\Projects::index");
-        $r->get('/{project_slug}', 'show_project')->to("{$traq}\Projects::show");
+        $r->get("/projects", 'projects')->to("{$traq}\\Projects::index");
+        $r->get('/{project_slug}', 'show_project')->to("{$traq}\\Projects::show");
 
         // --------------------------------------------------
         // Timeline
-        $r->route('/{project_slug}/timeline', 'timeline')->to("{$traq}\Timeline::index")
+        $r->route('/{project_slug}/timeline', 'timeline')->to("{$traq}\\Timeline::index")
             ->method(['get','post']);
         $r->get('/{project_slug}/timeline/{event_id}/delete', 'delete_timeline_event')
             ->to("{$traq}\Timeline::deleteEvent");
@@ -51,77 +51,77 @@ class Projects
         // --------------------------------------------------
         // Roadmap
         $r->get('/{project_slug}/roadmap', 'roadmap')
-            ->to("{$traq}\Roadmap::index");
+            ->to("{$traq}\\Roadmap::index");
 
         $r->get('/{project_slug}/roadmap/all', 'roadmap_all')
-            ->to("{$traq}\Roadmap::index", ['filter' => 'all']);
+            ->to("{$traq}\\Roadmap::index", ['filter' => 'all']);
 
         $r->get('/{project_slug}/roadmap/completed', 'roadmap_completed')
-            ->to("{$traq}\Roadmap::index", ['filter' => 'completed']);
+            ->to("{$traq}\\Roadmap::index", ['filter' => 'completed']);
 
         $r->get('/{project_slug}/roadmap/cancelled', 'roadmap_cancelled')
-            ->to("{$traq}\Roadmap::index", ['filter' => 'cancelled']);
+            ->to("{$traq}\\Roadmap::index", ['filter' => 'cancelled']);
 
         $r->get('/{project_slug}/milestone/{slug}', 'show_milestone')
-            ->to("{$traq}\Roadmap::show");
+            ->to("{$traq}\\Roadmap::show");
 
         // --------------------------------------------------
         // Issues
-        $r->get('/{project_slug}/tickets')->to("{$traq}\TicketListing::index");
-        $r->get('/{project_slug}/tickets/{ticket_id}')->to("{$traq}\Tickets::show");
+        $r->get('/{project_slug}/tickets')->to("{$traq}\\TicketListing::index");
+        $r->get('/{project_slug}/tickets/{ticket_id}')->to("{$traq}\\Tickets::show");
 
         $r->get('/{project_slug}/issues', 'issues')
-            ->to("{$traq}\TicketListing::index");
+            ->to("{$traq}\\TicketListing::index");
 
         $r->get('/{project_slug}/issues/{ticket_id}', 'show_issue')
-            ->to("{$traq}\Tickets::show");
+            ->to("{$traq}\\Tickets::show");
 
-        $r->get('/{project_slug}/issues/new', 'new_issue')->to("{$traq}\Tickets::new");
-        $r->post('/{project_slug}/issues/new')->to("{$traq}\Tickets::create");
+        $r->get('/{project_slug}/issues/new', 'new_issue')->to("{$traq}\\Tickets::new");
+        $r->post('/{project_slug}/issues/new')->to("{$traq}\\Tickets::create");
 
         // --------------------------------------------------
         // Issue filters
         $r->post('/{project_slug}/issues/set-columns', 'set_issue_filter_columns')
-            ->to("{$traq}\TicketListing::setColumns");
+            ->to("{$traq}\\TicketListing::setColumns");
 
         $r->post('/{project_slug}/issues/update-filters', 'update_issue_filters')
-            ->to("{$traq}\TicketListing::updateFilters");
+            ->to("{$traq}\\TicketListing::updateFilters");
 
         // --------------------------------------------------
         // Wiki
         $r->get('/{project_slug}/wiki', 'wiki')
-            ->to("{$traq}\Wiki::show", ['slug' => 'main']);
+            ->to("{$traq}\\Wiki::show", ['slug' => 'main']);
 
         // New page
         $r->get('/{project_slug}/wiki/_new', 'new_wiki_page')
-            ->to("{$traq}\Wiki::new");
+            ->to("{$traq}\\Wiki::new");
 
-        $r->post('/{project_slug}/wiki/_new')->to("{$traq}\Wiki::create");
+        $r->post('/{project_slug}/wiki/_new')->to("{$traq}\\Wiki::create");
 
         // Pages listing
         $r->get('/{project_slug}/wiki/_pages', 'wiki_pages')
-            ->to("{$traq}\Wiki::pages");
+            ->to("{$traq}\\Wiki::pages");
 
         // Show page
         $r->get('/{project_slug}/wiki/{slug}', 'show_wiki_page')
-            ->to("{$traq}\Wiki::show");
+            ->to("{$traq}\\Wiki::show");
 
         // Edit page
         $r->get('/{project_slug}/wiki/{slug}/_edit', 'edit_wiki_page')
-            ->to("{$traq}\Wiki::edit");
+            ->to("{$traq}\\Wiki::edit");
 
-        $r->post('/{project_slug}/wiki/{slug}/_edit')->to("{$traq}\Wiki::save");
+        $r->post('/{project_slug}/wiki/{slug}/_edit')->to("{$traq}\\Wiki::save");
 
         // List revisions
         $r->get('/{project_slug}/wiki/{slug}/_revisions', 'wiki_page_revisions')
-            ->to("{$traq}\Wiki::revisions");
+            ->to("{$traq}\\Wiki::revisions");
 
         // Show revision
         $r->get('/{project_slug}/wiki/{slug}/_revisions/{revision}', 'show_wiki_page_revision')
-            ->to("{$traq}\Wiki::revision");
+            ->to("{$traq}\\Wiki::revision");
 
         // --------------------------------------------------
         // Changelog
-        $r->get('/{project_slug}/changelog', 'changelog')->to("{$traq}\Projects::changelog");
+        $r->get('/{project_slug}/changelog', 'changelog')->to("{$traq}\\Projects::changelog");
     }
 }
