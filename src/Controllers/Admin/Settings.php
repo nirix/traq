@@ -41,6 +41,12 @@ class Settings extends AppController
         $this->title($this->translate('settings'));
 
         Language::loadAll();
+
+        // Ticket history sorting select options
+        $this->set('historySortingSelectOptions', [
+            ['label' => $this->translate("oldest_first"), 'value' => "oldest_first"],
+            ['label' => $this->translate("newest_first"), 'value' => "newest_first"]
+        ]);
     }
 
     /**

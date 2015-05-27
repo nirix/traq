@@ -116,7 +116,7 @@
 			<div class="form-group">
 				<?=Form::label($t('settings.issues.history_sorting'), 'settings[ticket_history_sorting]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					{history sorting select}
+					<?=Form::select('settings[ticket_history_sorting]', $historySortingSelectOptions, ['value' => settings('ticket_history_sorting'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 

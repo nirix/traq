@@ -167,6 +167,8 @@ $enAU = new Language(function($t) {
         'descending'              => "Descending",
         'x_by_x'                  => "{1} by {2}",
         'information'             => "Information",
+        'oldest_first'            => "Oldest First",
+        'newest_first'            => "Newest First",
         'notifications'           => "Notifications",
         'leave_blank_for_current' => "Leave blank for current",
 
