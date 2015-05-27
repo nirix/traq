@@ -24,6 +24,7 @@
 use Avalon\Routing\Router;
 use Traq\config\routes\Admin as AdminRoutes;
 use Traq\config\routes\Projects as ProjectRoutes;
+use Traq\config\routes\ProjectSettings as ProjectSettingRoutes;
 
 Router::map(function($r) {
     Router::$extensions[] = '.js';
@@ -67,41 +68,5 @@ Router::map(function($r) {
 
     // --------------------------------------------------
     // Project Settings
-    $r->get('/{project_slug}/settings', 'project_settings')->to("{$traq}\\ProjectSettings\\Options::index");
-    $r->post('/{project_slug}/settings')->to("{$traq}\\ProjectSettings\\Options::save");
-
-    // Milestones
-    $r->get('/{project_slug}/settings/milestones', 'project_settings_milestones')->to("{$traq}\\ProjectSettings\\Milestones::index");
-    $r->get('/{project_slug}/settings/milestones/new', 'new_project_settings_milestone')->to("{$traq}\\ProjectSettings\\Milestones::new");
-    $r->post('/{project_slug}/settings/milestones/new')->to("{$traq}\\ProjectSettings\\Milestones::create");
-    $r->get('/{project_slug}/settings/milestones/{id}/edit', 'edit_project_settings_milestone')->to("{$traq}\\ProjectSettings\\Milestones::edit");
-    $r->post('/{project_slug}/settings/milestones/{id}/edit')->to("{$traq}\\ProjectSettings\\Milestones::save");
-    $r->get('/{project_slug}/settings/milestones/{id}/delete', 'delete_project_settings_milestone')->to("{$traq}\\ProjectSettings\\Milestones::destroy");
-
-    // Components
-    $r->get('/{project_slug}/settings/components', 'project_settings_components')->to("{$traq}\\ProjectSettings\\Components::index");
-    $r->get('/{project_slug}/settings/components/new', 'new_project_settings_component')->to("{$traq}\\ProjectSettings\\Components::new");
-    $r->post('/{project_slug}/settings/components/new')->to("{$traq}\\ProjectSettings\\Components::create");
-    $r->get('/{project_slug}/settings/components/{id}/edit', 'edit_project_settings_component')->to("{$traq}\ProjectSettings\\Components::edit");
-    $r->post('/{project_slug}/settings/components/{id}/edit')->to("{$traq}\\ProjectSettings\\Components::save");
-    $r->get('/{project_slug}/settings/components/{id}/delete', 'delete_project_settings_component')->to("{$traq}\\ProjectSettings\\Components::destroy");
-
-    // Members
-    $r->get('/{project_slug}/settings/members', 'project_settings_members')
-        ->to("{$traq}\\ProjectSettings\\Members::index");
-    $r->post('/{project_slug}/settings/members')
-        ->to("{$traq}\\ProjectSettings\\Members::save");
-
-    $r->get('/{project_slug}/settings/members/new', 'new_project_settings_member')
-        ->to("{$traq}\\ProjectSettings\\Members::new");
-    $r->post('/{project_slug}/settings/members/new')->to("{$traq}\\ProjectSettings\\Members::create");
-
-    $r->get('/{project_slug}/settings/members/{id}/delete', 'delete_project_settings_member')
-        ->to("{$traq}\\ProjectSettings\\Members::destroy");
-
-    // Custom Fields
-    $r->get('/{project_slug}/settings/custom-fields', 'project_settings_custom_fields')->to("{$traq}\\ProjectSettings\\CustomFields::index");
-
-    // Permissions
-    $r->get('/{project_slug}/settings/permissions', 'project_settings_permissions')->to("{$traq}\\ProjectSettings\\Permissions::index");
+    ProjectSettingRoutes::register($r);
 });
