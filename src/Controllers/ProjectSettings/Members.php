@@ -37,6 +37,12 @@ use Traq\Models\ProjectRole;
  */
 class Members extends AppController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title($this->translate("members"));
+    }
+
     /**
      * @return \Avalon\Http\Response
      */
