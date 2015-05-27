@@ -111,16 +111,23 @@ class Members extends AppController
         }
     }
 
-    public function action_save()
+    /**
+     * Save project member roles.
+     *
+     * @return \Avalon\Http\RedirectResponse
+     */
+    public function saveAction()
     {
-        if (Request::method() == 'post') {
-            foreach (Request::$post['role'] as $role_id => $value) {
-                $role = UserRole::find($role_id);
-                $role->project_role_id = $value;
-                $role->save();
-            }
-            Request::redirectTo($this->project->href('settings/members'));
+        foreach ($this->request->post('user') as $userId => $info) {
+            $userRole = UserRole::select()->where('project_id = ?', $this->project->id)
+                ->andWhere('user_id = ?', $userId)
+                ->fetch();
+
+            $userRole->project_role_id = $info['role_id'];
+            $userRole->save();
         }
+
+        return $this->redirectTo("project_settings_members");
     }
 
     public function destroyAction($id)

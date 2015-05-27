@@ -89,6 +89,8 @@ Router::map(function($r) {
     // Members
     $r->get('/{project_slug}/settings/members', 'project_settings_members')
         ->to("{$traq}\\ProjectSettings\\Members::index");
+    $r->post('/{project_slug}/settings/members')
+        ->to("{$traq}\\ProjectSettings\\Members::save");
 
     $r->get('/{project_slug}/settings/members/new', 'new_project_settings_member')
         ->to("{$traq}\\ProjectSettings\\Members::new");
