@@ -391,12 +391,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/language.git",
-                "reference": "481de4285ee30d0642eeea505dec93cfcdeea389"
+                "reference": "b07455e0b9fb3fdc196f11d921cfdcc1328066f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/language/zipball/481de4285ee30d0642eeea505dec93cfcdeea389",
-                "reference": "481de4285ee30d0642eeea505dec93cfcdeea389",
+                "url": "https://api.github.com/repos/avalonphp/language/zipball/b07455e0b9fb3fdc196f11d921cfdcc1328066f5",
+                "reference": "b07455e0b9fb3fdc196f11d921cfdcc1328066f5",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +430,7 @@
                 "language",
                 "translations"
             ],
-            "time": "2015-02-15 04:30:32"
+            "time": "2015-05-27 04:23:05"
         },
         {
             "name": "avalon/routing",
@@ -438,12 +438,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/routing.git",
-                "reference": "f10be559fb4938cc087c9752afe1db0d89856683"
+                "reference": "ae8a754e88c4a966a45fd4940074423ef14a3daa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/routing/zipball/f10be559fb4938cc087c9752afe1db0d89856683",
-                "reference": "f10be559fb4938cc087c9752afe1db0d89856683",
+                "url": "https://api.github.com/repos/avalonphp/routing/zipball/ae8a754e88c4a966a45fd4940074423ef14a3daa",
+                "reference": "ae8a754e88c4a966a45fd4940074423ef14a3daa",
                 "shasum": ""
             },
             "require": {
@@ -476,7 +476,7 @@
                 "framework",
                 "routing"
             ],
-            "time": "2015-03-29 02:30:38"
+            "time": "2015-05-27 03:48:54"
         },
         {
             "name": "avalon/templating",
