@@ -43,44 +43,36 @@ class UserCP extends AppController
     }
 
     /**
-     * The index page.
+     * @return \Avalon\Http\Response
      */
     public function indexAction()
     {
-        // Make sure the user is logged in
-        if (!LOGGEDIN) {
-            $this->showNoPermission();
-        }
+        return $this->render("usercp/index.phtml");
+    }
 
-        // Clone the logged in user object
-        $user = clone $this->user;
+    public function saveAction()
+    {
+        $data = array(
+            'name'   => Request::post('name', $user->name),
+            'email'  => Request::post('email', $user->email),
+            'locale' => Request::post('locale', $user->locale)
+        );
 
-        // Has the form been submitted?
-        if (Request::method() == 'post') {
-            $data = array(
-                'name'   => Request::post('name', $user->name),
-                'email'  => Request::post('email', $user->email),
-                'locale' => Request::post('locale', $user->locale)
-            );
+        FishHook::add('controller:users::usercp/save', array(&$data));
 
-            FishHook::add('controller:users::usercp/save', array(&$data));
+        // Set the info
+        $user->set($data);
+        $user->option('watch_created_tickets', Request::post('watch_created_tickets'));
 
-            // Set the info
-            $user->set($data);
-            $user->option('watch_created_tickets', Request::post('watch_created_tickets'));
-
-            // Save the user
-            if ($user->save()) {
-                // Redirect if successful
-                if ($this->is_api) {
-                    return \API::response(1, array('user' => $user));
-                } else {
-                    Request::redirect(Request::requestUri());
-                }
+        // Save the user
+        if ($user->save()) {
+            // Redirect if successful
+            if ($this->is_api) {
+                return \API::response(1, array('user' => $user));
+            } else {
+                Request::redirect(Request::requestUri());
             }
         }
-
-        View::set('user', $user);
     }
 
     /**
