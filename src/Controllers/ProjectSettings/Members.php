@@ -73,7 +73,7 @@ class Members extends AppController
         $role   = ProjectRole::find(Request::post('role_id'));
 
         // Check if they entered a username
-        if (empty(Request::post('username'))) {
+        if (!isset(Request::$post['username']) || empty(Request::$post['username'])) {
             $errors['username'] = $this->translate('errors.validations.required', [
                 'field' => $this->translate('username')
             ]);
