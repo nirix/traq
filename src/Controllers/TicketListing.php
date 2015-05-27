@@ -86,7 +86,7 @@ class TicketListing extends AppController
                 }
             }
         } else {
-            $_SESSION['ticket_filters'][$this->project->id] = json_encode(Request::$request);
+            $_SESSION['ticket_filters'][$this->project->id] = json_encode(Request::$query);
         }
 
         // Get query builder
