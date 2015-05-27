@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -78,23 +78,23 @@ class Traq extends AppKernel
 
     protected function aliasClasses()
     {
-        class_alias("Avalon\Hook", "Hook");
-        class_alias("Avalon\Templating\View", "View");
+        class_alias("Avalon\\Hook", "Hook");
+        class_alias("Avalon\\Templating\\View", "View");
 
         // Avalon helpers
-        class_alias("Avalon\Helpers\HTML", "HTML");
-        class_alias("Avalon\Helpers\Form", "Form");
-        class_alias("Avalon\Helpers\Time", "Time");
-        class_alias("Avalon\Http\Request", "Request");
+        class_alias("Avalon\\Helpers\\HTML", "HTML");
+        class_alias("Avalon\\Helpers\\Form", "Form");
+        class_alias("Avalon\\Helpers\\Time", "Time");
+        class_alias("Avalon\\Http\\Request", "Request");
 
         // Traq helpers
-        class_alias("Traq\Helpers\Format", "Format");
-        class_alias("Traq\Helpers\Subscription", "Subscription");
-        class_alias("Traq\Helpers\TWBS", "TWBS");
-        class_alias("Traq\Helpers\Errors", "Errors");
-        class_alias("Traq\Helpers\Gravatar", "Gravatar");
-        class_alias("Traq\Helpers\Ticketlist", "Ticketlist");
-        class_alias("Traq\Helpers\TicketFilters", "TicketFilters");
+        class_alias("Traq\\Helpers\\Format", "Format");
+        class_alias("Traq\\Helpers\\Subscription", "Subscription");
+        class_alias("Traq\\Helpers\\TWBS", "TWBS");
+        class_alias("Traq\\Helpers\\Errors", "Errors");
+        class_alias("Traq\\Helpers\\Gravatar", "Gravatar");
+        class_alias("Traq\\Helpers\\Ticketlist", "Ticketlist");
+        class_alias("Traq\\Helpers\\TicketFilters", "TicketFilters");
     }
 
     /**
