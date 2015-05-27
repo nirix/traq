@@ -208,6 +208,10 @@ class TicketListing extends AppController
                 continue;
             }
 
+            if (!isset($filter['values'])) {
+                $filter['values'] = [];
+            }
+
             switch ($name) {
                 case 'summary':
                 case 'description':
@@ -232,6 +236,7 @@ class TicketListing extends AppController
                     }
 
                     $values = [];
+
                     foreach ($filter['values'] as $value) {
                         $values[] = $class::find($value)->{$field};
                     }
