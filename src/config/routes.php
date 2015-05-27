@@ -53,10 +53,14 @@ Router::map(function($r) {
     $r->get('/register', 'register')->to("{$traq}\\Users::new");
     $r->post('/register')->to("{$traq}\\Users::create");
 
+    $r->get('/users/{id}')->to("{$traq}\\Profile::show");
+
+    // UserCP
     $r->get('/usercp', 'usercp')->to("{$traq}\\UserCP::index");
     $r->post('/usercp')->to("{$traq}\\UserCP::save");
 
-    $r->get('/users/{id}')->to("{$traq}\\Profile::show");
+    $r->get('/usercp/password', 'usercp_password')->to("{$traq}\\UserCP::password");
+    $r->get('/usercp/subscriptions', 'usercp_subscriptions')->to("{$traq}\\UserCP::subscriptions");
 
     // --------------------------------------------------
     // AdminCP
