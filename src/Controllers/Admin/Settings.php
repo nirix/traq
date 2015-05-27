@@ -43,6 +43,8 @@ class Settings extends AppController
 
     /**
      * Traq Settings page.
+     *
+     * @return \Avalon\Http\Response
      */
     public function indexAction()
     {
