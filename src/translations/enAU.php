@@ -212,6 +212,7 @@ $enAU = new Language(function($t) {
 
         // --------------------------------------------------------------------
         // Project Roles
+        'role'       => "Role",
         'roles'      => "Roles",
         'new_role'   => "New Role",
         'edit_role'  => "Edit Role",
