@@ -48,4 +48,23 @@ class Settings extends AppController
     {
         return $this->render('admin/settings/index.phtml');
     }
+
+    /**
+     * Save settings.
+     *
+     * @return \Avalon\Http\RedirectResponse
+     */
+    public function saveAction()
+    {
+        foreach ($this->request->post('settings', []) as $setting => $value) {
+            $setting = Setting::find("setting", $setting);
+
+            if ($setting) {
+                $setting->value = $value;
+                $setting->save();
+            }
+        }
+
+        return $this->redirectTo("admin_settings");
+    }
 }

@@ -35,16 +35,16 @@
 			<legend><?=$t('settings.site')?></legend>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.site.name'), 'setting[site_name]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.site.name'), 'settings[site_name]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[site_name]', ['value' => settings('site_name'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[site_name]', ['value' => settings('site_name'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.site.url'), 'setting[site_url]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.site.url'), 'settings[site_url]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[site_url]', ['value' => settings('site_url'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[site_url]', ['value' => settings('site_url'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 		</fieldset>
@@ -53,16 +53,16 @@
 			<legend><?=$t('users')?></legend>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.users.allow_registration'), 'setting[allow_registration]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.users.allow_registration'), 'settings[allow_registration]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::checkbox('setting[allow_registration]', 1, ['checked' => settings('allow_registration')])?>
+					<?=Form::checkbox('settings[allow_registration]', 1, ['checked' => settings('allow_registration')])?>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.users.email_validation'), 'setting[email_validation]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.users.email_validation'), 'settings[email_validation]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::checkbox('setting[email_validation]', 1, ['checked' => settings('email_validation')])?>
+					<?=Form::checkbox('settings[email_validation]', 1, ['checked' => settings('email_validation')])?>
 				</div>
 			</div>
 		</fieldset>
@@ -71,30 +71,30 @@
 			<legend><?=$t('settings.date_and_time')?></legend>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.date_time_format'), 'setting[date_time_format]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.date_time_format'), 'settings[date_time_format]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[date_time_format]', ['value' => settings('date_time_format'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[date_time_format]', ['value' => settings('date_time_format'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.date_format'), 'setting[date_format]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.date_format'), 'settings[date_format]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[date_format]', ['value' => settings('date_format'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[date_format]', ['value' => settings('date_format'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.timeline.day_format'), 'setting[timeline_day_format]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.timeline.day_format'), 'settings[timeline_day_format]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[timeline_day_format]', ['value' => settings('timeline_day_format'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[timeline_day_format]', ['value' => settings('timeline_day_format'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.timeline.time_format'), 'setting[timeline_time_format]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.timeline.time_format'), 'settings[timeline_time_format]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[timeline_time_format]', ['value' => settings('timeline_time_format'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[timeline_time_format]', ['value' => settings('timeline_time_format'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 		</fieldset>
@@ -103,9 +103,9 @@
 			<legend><?=$t('notifications')?></legend>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.notifications.from_email'), 'setting[notification_from_email]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.notifications.from_email'), 'settings[notification_from_email]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[notification_from_email]', ['value' => settings('notification_from_email'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[notification_from_email]', ['value' => settings('notification_from_email'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 		</fieldset>
@@ -114,18 +114,22 @@
 			<legend><?=$t('issues')?></legend>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.issues.history_sorting'), 'setting[ticket_history_sorting]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.issues.history_sorting'), 'settings[ticket_history_sorting]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
 					{history sorting select}
 				</div>
 			</div>
 
 			<div class="form-group">
-				<?=Form::label($t('settings.issues.creation_delay'), 'setting[ticket_creation_delay]', ['class' => 'control-label col-md-3'])?>
+				<?=Form::label($t('settings.issues.creation_delay'), 'settings[ticket_creation_delay]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					<?=Form::text('setting[ticket_creation_delay]', ['value' => settings('ticket_creation_delay'), 'class' => 'form-control'])?>
+					<?=Form::text('settings[ticket_creation_delay]', ['value' => settings('ticket_creation_delay'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 		</fieldset>
+
+		<div class="form-actions">
+			<?=Form::submit($t('save'), ['class' => "btn btn-success"])?>
+		</div>
 	</form>
 </div>
