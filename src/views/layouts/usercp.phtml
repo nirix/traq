@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+	<head>
+		<?=View::render('layouts/_head.phtml')?>
+		<?php Hook::run('template:layouts/project_settings:head'); ?>
+	</head>
+	<body>
+		<?=View::render('layouts/_header.phtml')?>
+		<main id="page">
+			<div class="container">
+				<h1 class="page-header"><?=$t('usercp')?></h1>
+			</div>
+			<?php echo View::render('usercp/_nav.phtml'); ?>
+<?=$content?>
+		</main>
+		<?=View::render('layouts/_footer.phtml')?>
+		<?php Hook::run('template:layouts/project_settings:foot'); ?>
+	</body>
+</html>
