@@ -391,12 +391,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/language.git",
-                "reference": "b07455e0b9fb3fdc196f11d921cfdcc1328066f5"
+                "reference": "4a1c2bbe3e6d64bb5d0d3f4797611147f8aa30c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/language/zipball/b07455e0b9fb3fdc196f11d921cfdcc1328066f5",
-                "reference": "b07455e0b9fb3fdc196f11d921cfdcc1328066f5",
+                "url": "https://api.github.com/repos/avalonphp/language/zipball/4a1c2bbe3e6d64bb5d0d3f4797611147f8aa30c8",
+                "reference": "4a1c2bbe3e6d64bb5d0d3f4797611147f8aa30c8",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +430,7 @@
                 "language",
                 "translations"
             ],
-            "time": "2015-05-27 04:23:05"
+            "time": "2015-05-27 05:22:28"
         },
         {
             "name": "avalon/routing",
