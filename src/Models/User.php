@@ -51,7 +51,7 @@ class User extends Model
     protected static $_validates = [
         'username' => ['required', 'unique'],
         'name'     => ['required'],
-        'password' => ['required'],
+        'password' => ['required', 'confirm' => "confirm_password"],
         'email'    => ['required', 'unique']
     ];
 
