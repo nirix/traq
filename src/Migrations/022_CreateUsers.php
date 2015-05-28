@@ -35,7 +35,7 @@ class CreateUsers extends Migration
             // $t->addColumn("password_ver", "string", ['default' => "crpyt"]);
             $t->addColumn("name", "string");
             $t->addColumn("email", "string");
-            $t->addColumn("group_id", "integer");
+            $t->addColumn("group_id", "integer", ['default' => 2]);
             $t->addColumn("language", "string", ['default' => "enAU"]);
             $t->addColumn("options", "text", ['notnull' => false]);
             $t->addColumn("login_hash", "string");
