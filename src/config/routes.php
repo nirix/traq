@@ -62,6 +62,9 @@ Router::map(function($r) {
     $r->get('/usercp/password', 'usercp_password')->to("{$traq}\\UserCP::password");
     $r->get('/usercp/subscriptions', 'usercp_subscriptions')->to("{$traq}\\UserCP::subscriptions");
 
+    // Account activation
+    $r->get('/users/activate/{activation_code}', 'account_activation')->to("{$traq}\\Users::activate");
+
     // --------------------------------------------------
     // AdminCP
     AdminRoutes::register($r);

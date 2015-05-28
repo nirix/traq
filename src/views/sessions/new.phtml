@@ -5,7 +5,7 @@
 
 			<?php if (Request::method() == 'POST'): ?>
 				<?php if (isset($activationRequired) && $activationRequired): ?>
-					<?=TWBS::alert($t('errors.account.activation_required'), 'danger', false)?>
+					<?=TWBS::alert($t('errors.account.activation_required'), 'warning', false)?>
 				<?php else: ?>
 					<?=TWBS::alert($t('errors.invalid_username_or_password'), 'danger', false)?>
 				<?php endif; ?>

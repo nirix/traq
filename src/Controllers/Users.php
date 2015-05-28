@@ -66,16 +66,16 @@ class Users extends AppController
         ]);
 
         // Account activation
-        if (settings('accountActivation')) {
-            $user->generateActivationKey();
+        if (settings('email_validation')) {
+            $user->generateActivationCode();
         }
 
         // Check if the model is valid
         if ($user->save()) {
             // Send validation email?
-            if (settings('account_activation')) {
-                die("We're supposed to send an account activation email,
-                     but that part isn't completed yet.");
+            if (settings('email_validation')) {
+                Notification::accountActivation($user)->send();
+                return $this->render("sessions/new.phtml", ['activationRequired' => true]);
             } else {
                 return $this->redirectTo('login');
             }

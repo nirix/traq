@@ -112,6 +112,17 @@ $enAU = new Language(function($t) {
         'updated'     => "Updated",
 
         // --------------------------------------------------------------------
+        // Notifications
+        'notifications.hello_x' => "Hello {name}",
+
+        // Account Activation
+        'notifications.account_activation.subject'  => "{title} Account Activation",
+        'notifications.account_activation.body.txt' => "Someone recently created an account at {title} with this " .
+                                                        "email address, if this wasn't you, feel free to ignore this " .
+                                                        "email, otherwise to activate your account please visit the " .
+                                                        "URL below.",
+
+        // --------------------------------------------------------------------
         // Settings
         'settings'                          => "Settings",
         'traq_settings'                     => "Traq Settings",
