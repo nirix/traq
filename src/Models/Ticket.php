@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -45,14 +45,20 @@ class Ticket extends Model
         'ticket_relationships' => array('model' => 'TicketRelationship')
     );
 
-    protected static $_belongsTo = array(
-        'user', 'project', 'milestone', 'component',
-        'priority', 'severity', 'type', 'status',
+    protected static $_belongsTo = [
+        'component',
+        'milestone',
+        'priority',
+        'project',
+        'severity',
+        'status',
+        'type',
+        'user',
 
         // Relations with different models and such
-        'assignedTo' => array('model' => 'User'),
-        'version'     => array('model' => 'Milestone'),
-    );
+        'assignedTo' => ['model' => 'User'],
+        'version'    => ['model' => 'Milestone']
+    ];
 
     protected static $_dataTypes = [
         'extra' => 'json_array',
