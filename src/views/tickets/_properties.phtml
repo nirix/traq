@@ -22,7 +22,7 @@
 <div class="issue-property">
 	<label class="property-label"><?=$t('milestone')?></label>
 	<span class="property-value">
-		<?=$issue->milestone()->name?>
+		<?=($issue->milestone() ? $issue->milestone()->name : $t('none'))?>
 	</span>
 </div>
 
