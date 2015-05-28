@@ -27,6 +27,10 @@ use Avalon\AppKernel;
 use Avalon\Language;
 use Traq\Models\Setting;
 use Traq\Models\Plugin;
+use Traq\Helpers\Notification;
+use Swift_SmtpTransport;
+use Swift_SendmailTransport;
+use Swift_Mailer;
 
 /**
  * The heart of Traq.
@@ -74,6 +78,9 @@ class Traq extends AppKernel
 
         // And finally, load the plugins
         $this->loadPlugins();
+
+        // Setup notifications
+        $this->setupNotifications();
     }
 
     protected function aliasClasses()
@@ -126,6 +133,39 @@ class Traq extends AppKernel
         foreach ($queue as $plugin) {
             $plugin::enable();
         }
+    }
+
+    /**
+     * Setup Swiftmailer and notification class.
+     */
+    protected function setupNotifications()
+    {
+        // Do nothing unless email config is set
+        if (!isset($this->config['email'])) {
+            return false;
+        }
+
+        // Configure based on SMTP or Sendmail
+        switch ($this->config['email']['type']) {
+            case "SMTP":
+                $this->mailerTransport = Swift_SmtpTransport::newInstance(
+                    $this->config['email']['server'],
+                    $this->config['email']['port'],
+                    (isset($this->config['email']['security']) ? $this->config['email']['security'] : null)
+                );
+
+                $this->mailerTransport->setUsername($this->config['email']['username']);
+                $this->mailerTransport->setPassword($this->config['email']['password']);
+                break;
+
+            case "sendmail":
+                $this->mailerTransport = Swift_SendmailTransport::newInstance($this->config['email']['path']);
+                break;
+        }
+
+        // Configure the mailer and Notification helper.
+        $this->mailer = Swift_Mailer::newInstance($this->mailerTransport);
+        Notification::setMailer($this->mailer);
     }
 
     /**

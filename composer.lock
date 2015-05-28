@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e16d7ce79aae45a101cfcc11f23275a7",
+    "hash": "e6b3ba12e24a3df9653b8ec739367feb",
     "packages": [
         {
             "name": "avalon/database",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "756229b86bb63956dd2efde71c8cc1759a3e9526"
+                "reference": "2c8b31d9f990fdf1bc6cc538aa7de21b2634abde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/756229b86bb63956dd2efde71c8cc1759a3e9526",
-                "reference": "756229b86bb63956dd2efde71c8cc1759a3e9526",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/2c8b31d9f990fdf1bc6cc538aa7de21b2634abde",
+                "reference": "2c8b31d9f990fdf1bc6cc538aa7de21b2634abde",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-05-28 09:29:03"
+            "time": "2015-05-28 10:43:25"
         },
         {
             "name": "avalon/database-migrations",
@@ -1121,6 +1121,58 @@
                 "parser"
             ],
             "time": "2015-01-25 14:52:34"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "31454f258f10329ae7c48763eb898a75c39e0a9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/31454f258f10329ae7c48763eb898a75c39e0a9f",
+                "reference": "31454f258f10329ae7c48763eb898a75c39e0a9f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "mail",
+                "mailer"
+            ],
+            "time": "2015-03-14 06:06:39"
         },
         {
             "name": "traq/markdown-plugin",

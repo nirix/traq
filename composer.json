@@ -5,7 +5,8 @@
         "php": ">=5.4.0",
         "avalon/framework": "2.0.*",
         "avalon/database-migrations": "1.0.*",
-        "traq/markdown-plugin": "2.0.*"
+        "traq/markdown-plugin": "2.0.*",
+        "swiftmailer/swiftmailer": "5.4.*"
     },
     "require-dev": {
         "filp/whoops": "1.1.*"
