@@ -61,12 +61,6 @@ $enAU = new Language(function($t) {
         'custom_fields' => "Custom Fields",
 
         // --------------------------------------------------------------------
-        // Confirmations:
-        'confirm.yes'    => "Yes",
-        'confirm.no'     => "No",
-        'confirm.delete' => "Are you sure?",
-
-        // --------------------------------------------------------------------
         // Errors
         'errors.404.title'                    => "I accidentally the whole page...",
         'errors.404.message'                  => "It appears the page '{1}' doesn't exist.",
@@ -81,15 +75,6 @@ $enAU = new Language(function($t) {
         // Filters
         'filter_events' => "Filter Events",
         'apply_filters' => "Apply Filters",
-
-        // --------------------------------------------------------------------
-        // Forms
-        'create' => "Create",
-        'save'   => "Save",
-        'cancel' => "Cancel",
-        'close'  => "Close",
-        'edit'   => "Edit",
-        'delete' => "Delete",
 
         // --------------------------------------------------------------------
         // Groups
@@ -172,11 +157,6 @@ $enAU = new Language(function($t) {
         'newest_first'            => "Newest First",
         'notifications'           => "Notifications",
         'leave_blank_for_current' => "Leave blank for current",
-
-        // --------------------------------------------------------------------
-        // Pagination
-        'next'     => "Next",
-        'previous' => "Previous",
 
         // --------------------------------------------------------------------
         // Plugins
