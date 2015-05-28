@@ -20,9 +20,11 @@
 		<tbody>
 		<?php foreach ($tickets as $ticket): ?>
 			<tr>
+			<?php if($currentUser->permission($project->id, 'perform_mass_actions')): ?>
 				<td class="mass-actions">
 					<?=Form::checkbox('tickets[]', $ticket->ticket_id, ['id' => "mass-action-ticket-{$ticket->ticket_id}"])?>
 				</td>
+			<?php endif; ?>
 			<?php foreach ($columns as $column): ?>
 				<?php if ($column == 'priority'): ?>
 					<td class="<?=Ticketlist::priorityClass($ticket)?>">
