@@ -206,9 +206,9 @@ class User extends Model
     /**
      * Generates the users activation key.
      */
-    public function generateActivationKey()
+    public function generateActivationCode()
     {
-        $this->options['activationKey'] = sha1(
+        $this->activation_code = sha1(
             (microtime() + rand(0, 1000)) . $this->id . time()
         );
     }
