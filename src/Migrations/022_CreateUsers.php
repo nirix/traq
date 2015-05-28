@@ -40,6 +40,7 @@ class CreateUsers extends Migration
             $t->addColumn("options", "text", ['notnull' => false]);
             $t->addColumn("login_hash", "string");
             $t->addColumn("api_key", "string", ['notnull' => false]);
+            $t->addColumn("activation_code", "string", ['notnull' => false]);
 
             $this->timestamps($t);
         });
