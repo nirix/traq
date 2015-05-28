@@ -15,5 +15,18 @@ return [
             'dbname'   => 'traq',      // Database name.
             //'port'   => 3306         // Database server port
         ]
+    ],
+
+    // Email config
+    'email' => [
+        // SMTP
+        // 'type'     => "SMTP",
+        // 'server'   => "smtp.mysite.com",
+        // 'port'     => 25,
+        // 'security' => "ssl"
+
+        // Sendmail
+        'type' => "sendmail",
+        'path' => "/usr/bin/sendmail -bs"
     ]
 ];
