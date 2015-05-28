@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "2c8b31d9f990fdf1bc6cc538aa7de21b2634abde"
+                "reference": "ccf0bfd030fdb6b2ed616186909621e6ba773665"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/2c8b31d9f990fdf1bc6cc538aa7de21b2634abde",
-                "reference": "2c8b31d9f990fdf1bc6cc538aa7de21b2634abde",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/ccf0bfd030fdb6b2ed616186909621e6ba773665",
+                "reference": "ccf0bfd030fdb6b2ed616186909621e6ba773665",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-05-28 10:43:25"
+            "time": "2015-05-28 11:24:18"
         },
         {
             "name": "avalon/database-migrations",
@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/http.git",
-                "reference": "60056f84371d970de5ef202c3e8ee7660a3a6310"
+                "reference": "2b27227ce36c713da1e3a20cd99527526331f8f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/http/zipball/60056f84371d970de5ef202c3e8ee7660a3a6310",
-                "reference": "60056f84371d970de5ef202c3e8ee7660a3a6310",
+                "url": "https://api.github.com/repos/avalonphp/http/zipball/2b27227ce36c713da1e3a20cd99527526331f8f7",
+                "reference": "2b27227ce36c713da1e3a20cd99527526331f8f7",
                 "shasum": ""
             },
             "require": {
@@ -337,7 +337,7 @@
                 "framework",
                 "http"
             ],
-            "time": "2015-03-29 02:18:28"
+            "time": "2015-05-28 15:43:14"
         },
         {
             "name": "avalon/kernel",
