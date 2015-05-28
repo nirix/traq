@@ -23,9 +23,6 @@
 
 namespace Traq\Controllers;
 
-use Radium\Action\View;
-use Radium\Core\Load;
-use Radium\Http\Request;
 use Traq\Helpers\Notification;
 use Traq\Models\User;
 
@@ -33,15 +30,11 @@ use Traq\Models\User;
  * User controller
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  * @package Traq\Controllers
  */
 class Users extends AppController
 {
-    public $before = [
-        'new' => ['alreadyLoggedIn']
-    ];
-
     /**
      * Handles the register page and account creation.
      */
