@@ -85,6 +85,6 @@
 <div class="issue-property">
 	<label class="property-label"><?=$t('updated_at')?></label>
 	<span class="property-value">
-		<?=$t('time.x_ago', [Time::agoInWords($issue->updated_at)])?>
+	<?=($issue->updated_at ? $t('time.x_ago', [Time::agoInWords($issue->updated_at)]) : $t('never'))?>
 	</span>
 </div>
