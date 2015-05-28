@@ -139,6 +139,9 @@ class Traq extends AppKernel
         static::$loader->addPsr4($namespace, $directory);
     }
 
+    /**
+     * @return string
+     */
     public static function version()
     {
         return static::$version;
