@@ -54,14 +54,15 @@ class Users extends AppController
      */
     public function createAction()
     {
-        $this->view = 'Users/new';
+        $this->title($this->translate('register'));
 
         // Create a model with the data
         $user = new User([
-            'username' => Request::$post['username'],
-            'name'     => Request::$post['name'],
-            'password' => Request::$post['password'],
-            'email'    => Request::$post['email']
+            'username'         => $this->request->post('username'),
+            'name'             => $this->request->post('name'),
+            'password'         => $this->request->post('password'),
+            'confirm_password' => $this->request->post('confirm_password'),
+            'email'            => $this->request->post('email')
         ]);
 
         // Account activation
@@ -71,18 +72,16 @@ class Users extends AppController
 
         // Check if the model is valid
         if ($user->save()) {
-            // Send validation email
-            if (settings('accountActivation')) {
+            // Send validation email?
+            if (settings('account_activation')) {
                 die("We're supposed to send an account activation email,
                      but that part isn't completed yet.");
+            } else {
+                return $this->redirectTo('login');
             }
-            // Redirect to login page
-            else {
-                $this->redirectTo('login');
-            }
+        } else {
+            return $this->render("users/new.phtml", ['user' => $user]);
         }
-
-        $this->set('user', $user);
     }
 
     /**
