@@ -46,7 +46,7 @@ class Users extends AppController
 
         $this->title($this->translate('register'));
 
-        $this->set('user', new User);
+        return $this->render("users/new.phtml", ['user' => new User]);
     }
 
     /**
