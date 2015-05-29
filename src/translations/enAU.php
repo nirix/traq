@@ -33,7 +33,7 @@ use Avalon\Language;
  * @copyright (C) Jack P.
  * @package Traq\Translations
  */
-$enAU = new Language(function($t) {
+$enAU = new Language(function ($t) {
     $t->name   = "English (Australian)";
     $t->locale = "enAU";
 
