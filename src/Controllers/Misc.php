@@ -33,7 +33,7 @@ use Traq\Models\User;
  * Misc controller
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  * @package Traq\Controllers
  */
 class Misc extends Controller
@@ -45,7 +45,7 @@ class Misc extends Controller
      */
     public function javascriptAction()
     {
-        return new Response(function($resp) {
+        return new Response(function ($resp) {
             $resp->contentType = 'text/javascript';
             $resp->body = $this->renderView('javascript.php');
         });

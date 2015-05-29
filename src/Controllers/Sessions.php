@@ -31,7 +31,7 @@ use Traq\Models\User;
  *
  * @author Jack P.
  * @package Traq\Controllers
- * @since 4.0
+ * @since 4.0.0
  */
 class Sessions extends AppController
 {
@@ -39,7 +39,7 @@ class Sessions extends AppController
     {
         parent::__construct();
 
-        $this->before(['new', 'create'], function() {
+        $this->before(['new', 'create'], function () {
             if (LOGGEDIN) {
                 $this->redirectTo('root');
             }
@@ -51,7 +51,7 @@ class Sessions extends AppController
      */
     public function newAction()
     {
-        return $this->respondTo(function($format) {
+        return $this->respondTo(function ($format) {
             if ($format == 'html') {
                 if ($this->isOverlay) {
                     return $this->render('sessions/new.overlay.phtml');

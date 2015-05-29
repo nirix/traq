@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -31,7 +31,7 @@ use Traq\Helpers\Format;
  *
  * @author Jack P.
  * @package Traq\Controllers
- * @since 4.0
+ * @since 4.0.0
  */
 class Roadmap extends AppController
 {
@@ -56,22 +56,19 @@ class Roadmap extends AppController
         $milestones = $this->project->milestones()
             ->orderBy('display_order', 'ASC');
 
+        // Filter by active, completed and cancelled milestones
         if ($filter == 'active') {
             $milestones = $milestones->where('status = ?', 1);
-        }
-        // Completed milestones
-        elseif ($filter == 'completed') {
+        } elseif ($filter == 'completed') {
             $milestones = $milestones->where('status = ?', 2);
-        }
-        // Just the cancelled ones?
-        else if ($filter == 'cancelled') {
+        } elseif ($filter == 'cancelled') {
             $milestones = $milestones->where('status = ?', 0);
         }
 
         $milestones = $milestones->fetchAll();
         $this->set(compact('milestones'));
 
-        return  $this->respondTo(function($format) use ($milestones){
+        return  $this->respondTo(function ($format) use ($milestones){
             if ($format == 'html') {
                 return $this->render('roadmap/index.phtml');
             } elseif ($format == 'json') {
@@ -92,7 +89,7 @@ class Roadmap extends AppController
 
         $this->title($milestone->name);
 
-        return $this->respondTo(function($format) use ($milestone) {
+        return $this->respondTo(function ($format) use ($milestone) {
             if ($format == 'html') {
                 return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
             } elseif ($format == 'json') {

@@ -37,7 +37,7 @@ use Traq\Models\Setting;
  * App controller
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  */
 class AppController extends Controller
 {
@@ -98,7 +98,7 @@ class AppController extends Controller
 
         // Get current project
         $this->getProject();
-        $this->before('*', function() {
+        $this->before('*', function () {
             // Make sure the user has permission to view the project
             if (LOGGEDIN && $this->project && !$this->currentUser->permission($this->project->id, 'view_project')) {
                 return $this->show403();
@@ -185,10 +185,8 @@ class AppController extends Controller
      */
     public function getProject()
     {
-        if (
-            isset($this->route->params['project_slug'])
-            && $this->project = Project::find('slug', $this->route->params['project_slug'])
-        ) {
+        if (isset($this->route->params['project_slug'])
+        && $this->project = Project::find('slug', $this->route->params['project_slug'])) {
             $GLOBALS['project'] = $this->project;
 
             // Add project name to page title
@@ -215,7 +213,7 @@ class AppController extends Controller
     {
         $default = parent::show404();
 
-        return $this->respondTo(function($format) use ($default) {
+        return $this->respondTo(function ($format) use ($default) {
             if ($format === 'json') {
                 $response = $this->jsonResponse([
                     'message' => $this->translate('errors.404.message', [Request::pathInfo()])
@@ -239,7 +237,7 @@ class AppController extends Controller
     public function show403()
     {
         $this->executeAction = false;
-        return new Response(function($resp) {
+        return new Response(function ($resp) {
             $resp->status = 401;
             $resp->body   = $this->renderView('errors/no_permission.phtml', [
                 '_layout' => $this->layout
@@ -270,7 +268,7 @@ class AppController extends Controller
      */
     protected function jsonResponse(array $data)
     {
-        return new Response(function($resp) use ($data) {
+        return new Response(function ($resp) use ($data) {
             $resp->contentType = 'application/json';
             $resp->body = json_encode($data);
         });

@@ -48,7 +48,7 @@ class Users extends AppController
     {
         $users = User::all();
 
-        return $this->respondTo(function($format) use ($users) {
+        return $this->respondTo(function ($format) use ($users) {
             if ($format == 'html') {
                 return $this->render('admin/users/index.phtml', [
                     'users' => $users
@@ -90,7 +90,7 @@ class Users extends AppController
             return $this->redirectTo('admin_users');
         } else {
             $this->set('user', $user);
-            return $this->respondTo(function($format) {
+            return $this->respondTo(function ($format) {
                 if ($format == "html") {
                     return $this->render('admin/users/new.phtml');
                 } elseif ($format == "json") {
@@ -151,7 +151,7 @@ class Users extends AppController
             return $this->redirectTo('admin_users');
         } else {
             $this->set('user', $user);
-            return $this->respondTo(function($format) use ($user) {
+            return $this->respondTo(function ($format) use ($user) {
                 if ($format == "html") {
                     return $this->render('admin/users/edit.phtml');
                 } elseif ($format == "json") {
@@ -171,7 +171,7 @@ class Users extends AppController
         // Find the user, delete and redirect.
         $user = User::find($id)->delete();
 
-        return $this->respondTo(function($format) use ($user) {
+        return $this->respondTo(function ($format) use ($user) {
             if ($format == "html") {
                 return $this->redirectTo('admin_users');
             } elseif ($format == "json") {

@@ -45,7 +45,7 @@ class Components extends AppController
         parent::__construct();
         $this->title($this->translate('components'));
 
-        $this->before(['edit', 'save', 'destroy'], function() {
+        $this->before(['edit', 'save', 'destroy'], function () {
             $this->component = Component::find(Request::$request['id']);
 
             if (!$this->component || $this->component->project_id != $this->project->id) {
@@ -61,7 +61,7 @@ class Components extends AppController
     {
         $components = Component::all();
 
-        return $this->respondTo(function($format) use ($components) {
+        return $this->respondTo(function ($format) use ($components) {
             if ($format == "html") {
                 return $this->render("project_settings/components/index.phtml", [
                     'components' => $components
@@ -102,7 +102,7 @@ class Components extends AppController
         $component = new Component($this->componentParams());
 
         if ($component->save()) {
-            return $this->respondTo(function($format) use ($component) {
+            return $this->respondTo(function ($format) use ($component) {
                 if ($format == "html") {
                     return $this->redirectTo("project_settings_components");
                 } elseif ($format == "json") {
@@ -144,7 +144,7 @@ class Components extends AppController
         $this->component->set($this->componentParams());
 
         if ($this->component->save()) {
-            return $this->respondTo(function($format) {
+            return $this->respondTo(function ($format) {
                 if ($format == "html") {
                     return $this->redirectTo("project_settings_components");
                 } elseif ($format == "json") {
@@ -164,7 +164,7 @@ class Components extends AppController
     public function destroyAction()
     {
         $this->component->delete();
-        return $this->respondTo(function($format) {
+        return $this->respondTo(function ($format) {
             if ($format == "html") {
                 return $this->redirectTo("project_settings_components");
             } elseif ($format == "json") {

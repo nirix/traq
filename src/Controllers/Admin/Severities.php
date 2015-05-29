@@ -47,7 +47,7 @@ class Severities extends AppController
     {
         $severities = Severity::all();
 
-        return $this->respondTo(function($format) use ($severities) {
+        return $this->respondTo(function ($format) use ($severities) {
             if ($format == 'html') {
                 return $this->render('admin/severities/index.phtml', [
                     'severities' => $severities
@@ -106,7 +106,7 @@ class Severities extends AppController
                 'severity' => $severity
             ]);
         } else {
-            return $this->respondTo(function($format) use ($severity) {
+            return $this->respondTo(function ($format) use ($severity) {
                 if ($format == 'html') {
                     return $this->render('admin/severities/edit.phtml', [
                         'severity' => $severity
@@ -146,7 +146,7 @@ class Severities extends AppController
         // Get the severity and delete
         $severity = Severity::find($id)->delete();
 
-        return $this->respondTo(function($format) use ($severity) {
+        return $this->respondTo(function ($format) use ($severity) {
             if ($format == 'html') {
                 return $this->redirectTo('admin_severities');
             } elseif ($format == 'json') {

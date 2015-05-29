@@ -45,7 +45,7 @@ class Milestones extends AppController
         parent::__construct();
         $this->title($this->translate('milestones'));
 
-        $this->before(['edit', 'save', 'delete', 'destroy'], function() {
+        $this->before(['edit', 'save', 'delete', 'destroy'], function () {
             $this->milestone = Milestone::find(Request::$request['id']);
 
             if (!$this->milestone || $this->milestone->project_id != $this->project->id) {
@@ -61,7 +61,7 @@ class Milestones extends AppController
     {
         $milestones = Milestone::all();
 
-        return $this->respondTo(function($format) use ($milestones) {
+        return $this->respondTo(function ($format) use ($milestones) {
             if ($format == "html") {
                 return $this->render("project_settings/milestones/index.phtml", [
                     'milestones' => $milestones
@@ -102,7 +102,7 @@ class Milestones extends AppController
         $milestone = new Milestone($this->milestoneParams());
 
         if ($milestone->save()) {
-            return $this->respondTo(function($format) use ($milestone) {
+            return $this->respondTo(function ($format) use ($milestone) {
                 if ($format == "html") {
                     return $this->redirectTo("project_settings_milestones");
                 } elseif ($format == "json") {
@@ -144,7 +144,7 @@ class Milestones extends AppController
         $this->milestone->set($this->milestoneParams());
 
         if ($this->milestone->save()) {
-            return $this->respondTo(function($format) {
+            return $this->respondTo(function ($format) {
                 if ($format == "html") {
                     return $this->redirectTo("project_settings_milestones");
                 } elseif ($format == "json") {

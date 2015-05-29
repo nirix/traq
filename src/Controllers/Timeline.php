@@ -34,6 +34,7 @@ use Traq\Models\Timeline as TimelineModel;
  * Timeline controller.
  *
  * @author Jack P.
+ * @since 3.0.0
  */
 class Timeline extends AppController
 {
@@ -114,7 +115,7 @@ class Timeline extends AppController
             'events'  => $events
         ]);
 
-        return $this->respondTo(function($format) {
+        return $this->respondTo(function ($format) {
             if ($format == 'html') {
                 return $this->render('timeline/index.phtml');
             }
@@ -135,11 +136,11 @@ class Timeline extends AppController
         $event = TimelineModel::find($event_id);
         $event->delete();
 
-        return $this->respondTo(function($format) use ($event) {
+        return $this->respondTo(function ($format) use ($event) {
             if ($format == 'html') {
                 return Request::redirect($this->project->href('timeline'));
             } elseif ($format == 'js') {
-                return new Response(function($resp) use ($event) {
+                return new Response(function ($resp) use ($event) {
                     $resp->contentType = 'text/javascript';
                     $resp->body = $this->renderView('timeline/delete_event.js.php', [
                         '_layout' => false,

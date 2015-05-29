@@ -74,11 +74,9 @@ class TicketListing extends AppController
         }
 
         // Process filters from the session
-        if (
-            !count($filterQuery->filters())
-            && isset($_SESSION['ticket_filters'])
-            && isset($_SESSION['ticket_filters'][$this->project->id])
-        ) {
+        if (!count($filterQuery->filters())
+        && isset($_SESSION['ticket_filters'])
+        && isset($_SESSION['ticket_filters'][$this->project->id])) {
             $filterValues = json_decode($_SESSION['ticket_filters'][$this->project->id], true);
             foreach ($filterValues as $filter => $value) {
                 if (in_array($filter, $ticketFilters)) {
@@ -94,7 +92,7 @@ class TicketListing extends AppController
 
         $this->set('filters', $filterQuery->filters() ?: []);
 
-        return $this->respondTo(function($format) use ($tickets) {
+        return $this->respondTo(function ($format) use ($tickets) {
             if ($format == 'html' || $format == 'json') {
                 $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
                 $tickets->orderBy($sorting[0], $sorting[1]);
@@ -140,8 +138,8 @@ class TicketListing extends AppController
             $allowedColumns[] = $field->id;
         }
 
-        // Columns from form
         if (Request::method() == 'POST' && Request::post('update_columns')) {
+            // Columns from POST
             $newColumns = [];
 
             foreach (Request::$post['columns'] as $column) {
@@ -150,9 +148,8 @@ class TicketListing extends AppController
 
             $_SESSION['columns'] = Request::$request['columns'] = $newColumns;
             return $newColumns;
-        }
-        // Columns from request
-        elseif (isset(Request::$query['columns'])) {
+        } elseif (isset(Request::$query['columns'])) {
+            // Columns from request
             $columns = [];
 
             foreach (explode(',', Request::$request['columns']) as $column) {
@@ -163,13 +160,11 @@ class TicketListing extends AppController
             }
 
             return $columns;
-        }
-        // Columns from session
-        elseif (isset($_SESSION['columns'])) {
+        } elseif (isset($_SESSION['columns'])) {
+            // Columns from session
             return $_SESSION['columns'];
-        }
-        // Use default columns
-        else {
+        } else {
+            // Use default columns
             return Ticketlist::defaultColumns();
         }
     }

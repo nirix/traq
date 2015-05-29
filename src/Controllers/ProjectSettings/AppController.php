@@ -45,10 +45,10 @@ class AppController extends \Traq\Controllers\AppController
         $this->title($this->translate('settings'));
 
         // Make sure this is a project and the user has the correct permission to access the area.
-        $this->before('*', function(){
-            if (
-                !$this->project
-                || (!$this->currentUser->permission($this->project->id, 'project_settings') && !$this->currentUser->group()->is_admin)
+        $this->before('*', function () {
+            if (!$this->project
+            || (!$this->currentUser->permission($this->project->id, 'project_settings')
+                && !$this->currentUser->group()->is_admin)
             ) {
                 return $this->show403();
             }

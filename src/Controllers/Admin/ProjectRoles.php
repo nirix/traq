@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -48,7 +48,7 @@ class ProjectRoles extends AppController
     {
         $roles = ProjectRole::all();
 
-        return $this->respondTo(function($format) use ($roles) {
+        return $this->respondTo(function ($format) use ($roles) {
             if ($format == 'html') {
                 return $this->render('admin/project_roles/index.phtml', [
                     'roles' => $roles
@@ -79,7 +79,7 @@ class ProjectRoles extends AppController
         $role = new ProjectRole($this->roleParams());
 
         if ($role->save()) {
-            return $this->respondTo(function($format) use ($role) {
+            return $this->respondTo(function ($format) use ($role) {
                 if ($format == "html") {
                     return $this->redirectTo('admin_project_roles');
                 } else {
@@ -117,7 +117,7 @@ class ProjectRoles extends AppController
         $role->set($this->roleParams());
 
         if ($role->save()) {
-            return $this->respondTo(function($format) use ($role) {
+            return $this->respondTo(function ($format) use ($role) {
                 if ($format == "html") {
                     return $this->redirectTo('admin_project_roles');
                 } else {
@@ -137,7 +137,7 @@ class ProjectRoles extends AppController
         // Find the role, delete and redirect.
         $role = ProjectRole::find($id)->delete();
 
-        return $this->respondTo(function($format) use ($role) {
+        return $this->respondTo(function ($format) use ($role) {
             if ($format == "html") {
                 return $this->redirectTo('admin_project_roles');
             } elseif ($format == "json") {

@@ -45,7 +45,7 @@ class Types extends AppController
     {
         $types = Type::all();
 
-        return $this->respondTo(function($format) use ($types) {
+        return $this->respondTo(function ($format) use ($types) {
             if ($format == 'html') {
                 return $this->render('admin/types/index.phtml', [
                     'types' => $types
@@ -87,7 +87,7 @@ class Types extends AppController
             return $this->redirectTo('admin_types');
         } else {
             $this->set('type', $type);
-            return $this->respondTo(function($format) {
+            return $this->respondTo(function ($format) {
                 if ($format == "html") {
                     return $this->render('admin/types/new.phtml', ['error' => true]);
                 } elseif ($format == "json") {
@@ -137,7 +137,7 @@ class Types extends AppController
             return $this->redirectTo('admin_types');
         } else {
             $this->set('type', $type);
-            return $this->respondTo(function($format) use ($type) {
+            return $this->respondTo(function ($format) use ($type) {
                 if ($format == "html") {
                     return $this->render('admin/types/edit.phtml', ['error' => true]);
                 } elseif ($format == "json") {
@@ -157,7 +157,7 @@ class Types extends AppController
         // Find the type, delete and redirect.
         $type = Type::find($id)->delete();
 
-        return $this->respondTo(function($format) use ($type) {
+        return $this->respondTo(function ($format) use ($type) {
             if ($format == "html") {
                 return $this->redirectTo('admin_types');
             } elseif ($format == "json") {

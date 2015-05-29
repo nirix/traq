@@ -33,7 +33,7 @@ use Traq\Models\Timeline;
  * Wiki controller
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  * @package Traq\Controllers
  */
 class Wiki extends AppController
@@ -64,7 +64,7 @@ class Wiki extends AppController
      */
     public function showAction($slug)
     {
-        return $this->respondTo(function($format){
+        return $this->respondTo(function ($format) {
             if ($format == 'html') {
                 return $this->render('wiki/show.phtml');
             } elseif ($format == 'json') {
@@ -83,7 +83,7 @@ class Wiki extends AppController
 
         $this->title($this->translate('pages'));
 
-        return $this->respondTo(function($format) use ($pages) {
+        return $this->respondTo(function ($format) use ($pages) {
             if ($format == 'html') {
                 return $this->render('wiki/pages.phtml', ['pages' => $pages]);
             } elseif ($format == 'json') {
@@ -258,11 +258,9 @@ class Wiki extends AppController
     {
         $this->page = $this->project->wikiPages()->where('slug = ?', $this->route->params['slug'])->fetch();
 
-        if (
-            !$this->page
-            && $this->route->action == 'show'
-            && $this->currentUser->permission($this->project->id, 'create_wiki_page')
-        ) {
+        if (!$this->page
+        && $this->route->action == 'show'
+        && $this->currentUser->permission($this->project->id, 'create_wiki_page')) {
             return $this->newPage($this->route->params['slug']);
         } elseif (!$this->page) {
             return $this->show404();

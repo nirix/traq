@@ -44,7 +44,7 @@ class Priorities extends AppController
     {
         $priorities = Priority::all();
 
-        return $this->respondTo(function($format) use ($priorities) {
+        return $this->respondTo(function ($format) use ($priorities) {
             if ($format == 'html') {
                 return $this->render('admin/priorities/index.phtml', [
                     'priorities' => $priorities
@@ -105,7 +105,7 @@ class Priorities extends AppController
                 'priority' => $priority
             ]);
         } else {
-            return $this->respondTo(function($format) use ($priority) {
+            return $this->respondTo(function ($format) use ($priority) {
                 if ($format == 'html') {
                     return $this->render('admin/priorities/edit.phtml', [
                         'priority' => $priority

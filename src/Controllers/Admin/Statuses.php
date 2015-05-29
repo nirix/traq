@@ -50,7 +50,7 @@ class Statuses extends AppController
     {
         $statuses = Status::all();
 
-        return $this->respondTo(function($format) use ($statuses) {
+        return $this->respondTo(function ($format) use ($statuses) {
             if ($format == 'html') {
                 return $this->render('admin/statuses/index.phtml', [
                     'statuses' => $statuses
@@ -111,7 +111,7 @@ class Statuses extends AppController
                 'status' => $status
             ]);
         } else {
-            return $this->respondTo(function($format) use ($status) {
+            return $this->respondTo(function ($format) use ($status) {
                 if ($format == 'html') {
                     return $this->render('admin/statuses/edit.phtml', [
                         'status' => $status

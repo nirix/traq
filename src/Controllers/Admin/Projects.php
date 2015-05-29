@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -30,7 +30,7 @@ use Traq\Models\Project;
  * Admin Projects controller
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  * @package Traq\Controllers
  */
 class Projects extends AppController
@@ -45,7 +45,7 @@ class Projects extends AppController
     {
         $projects = Project::all();
 
-        return $this->respondTo(function($format) use ($projects) {
+        return $this->respondTo(function ($format) use ($projects) {
             if ($format == 'html') {
                 return $this->render('admin/projects/index.phtml', [
                     'projects' => $projects
@@ -87,7 +87,7 @@ class Projects extends AppController
             return $this->redirectTo('admin_projects');
         }
 
-        return $this->respondTo(function($format) use ($project) {
+        return $this->respondTo(function ($format) use ($project) {
             if ($format == 'html') {
                 return $this->render('admin/projects/new.phtml', [
                     'project' => $project
@@ -110,7 +110,7 @@ class Projects extends AppController
                 'project' => $project
             ]);
         } else {
-            return $this->respondTo(function($format) use ($project) {
+            return $this->respondTo(function ($format) use ($project) {
                 if ($format == 'html') {
                     return $this->render('admin/projects/edit.phtml', [
                         'project' => $project
@@ -151,7 +151,7 @@ class Projects extends AppController
         // Find the project, delete and redirect.
         $project = Project::find($id)->delete();
 
-        return $this->respondTo(function($format) use ($project) {
+        return $this->respondTo(function ($format) use ($project) {
             if ($format == "html") {
                 return $this->redirectTo('admin_projects');
             } elseif ($format == "json") {

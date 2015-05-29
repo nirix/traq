@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -43,7 +43,7 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        return $this->respondTo(function($format) {
+        return $this->respondTo(function ($format) {
             if ($format == 'html') {
                 return $this->render('projects/index.phtml');
             } elseif ($format == 'json') {
@@ -73,7 +73,7 @@ class Projects extends AppController
                         ->rowCount()
         ]);
 
-        return $this->respondTo(function($format) {
+        return $this->respondTo(function ($format) {
             if ($format == 'html') {
                 return $this->render('projects/show.phtml');
             } elseif ($format == 'json') {
@@ -103,14 +103,14 @@ class Projects extends AppController
             ->orderBy('display_order', 'DESC')
             ->fetchAll();
 
-        return $this->respondTo(function($format) use ($milestones, $types) {
+        return $this->respondTo(function ($format) use ($milestones, $types) {
             if ($format == 'html') {
                 return $this->render('projects/changelog.phtml', [
                     'milestones' => $milestones,
                     'types'      => $types
                 ]);
             } elseif ($format == 'txt') {
-                return new Response(function($resp) use ($milestones, $types) {
+                return new Response(function ($resp) use ($milestones, $types) {
                     $resp->contentType = 'text/plain';
                     $resp->body = $this->renderView('projects/changelog.txt.php', [
                         'milestones' => $milestones,

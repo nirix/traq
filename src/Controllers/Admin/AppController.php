@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -29,7 +29,7 @@ use Avalon\Http\Request;
  * AdminCP controller
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  */
 class AppController extends \Traq\Controllers\AppController
 {
@@ -46,7 +46,7 @@ class AppController extends \Traq\Controllers\AppController
         $this->title($this->translate('admincp'));
 
         // Make sure the user is logged in and is an admin.
-        $this->before('*', function(){
+        $this->before('*', function () {
             if (LOGGEDIN and !$this->currentUser->group()->is_admin) {
                 return $this->show403();
             } elseif (!LOGGEDIN) {

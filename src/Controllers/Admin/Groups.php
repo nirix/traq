@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2015 Jack Polgar
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -48,7 +48,7 @@ class Groups extends AppController
     {
         $groups = Group::all();
 
-        return $this->respondTo(function($format) use ($groups) {
+        return $this->respondTo(function ($format) use ($groups) {
             if ($format == 'html') {
                 return $this->render('admin/groups/index.phtml', [
                     'groups' => $groups
@@ -90,7 +90,7 @@ class Groups extends AppController
             return $this->redirectTo('admin_groups');
         } else {
             $this->set('group', $group);
-            return $this->respondTo(function($format) {
+            return $this->respondTo(function ($format) {
                 if ($format == "html") {
                     return $this->render('admin/groups/new.phtml');
                 } elseif ($format == "json") {
@@ -140,7 +140,7 @@ class Groups extends AppController
             return $this->redirectTo('admin_groups');
         } else {
             $this->set('group', $group);
-            return $this->respondTo(function($format) use ($group) {
+            return $this->respondTo(function ($format) use ($group) {
                 if ($format == "html") {
                     return $this->render('admin/groups/edit.phtml');
                 } elseif ($format == "json") {
@@ -160,7 +160,7 @@ class Groups extends AppController
         // Find the group, delete and redirect.
         $group = Group::find($id)->delete();
 
-        return $this->respondTo(function($format) use ($group) {
+        return $this->respondTo(function ($format) use ($group) {
             if ($format == "html") {
                 return $this->redirectTo('admin_groups');
             } elseif ($format == "json") {
