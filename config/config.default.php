@@ -23,6 +23,8 @@ return [
         // 'type'     => "SMTP",
         // 'server'   => "smtp.mysite.com",
         // 'port'     => 25,
+        // 'username' => "me@mysite.com",
+        // 'password' => "mypassword"
         // 'security' => "ssl"
 
         // Sendmail
