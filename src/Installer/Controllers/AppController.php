@@ -184,9 +184,10 @@ class AppController extends Controller
         }
 
         $_SESSION['admin'] = [
-            'username' => $this->request->post('username'),
-            'password' => $this->request->post('password'),
-            'email'    => $this->request->post('email')
+            'username'         => $this->request->post('username'),
+            'password'         => $this->request->post('password'),
+            'confirm_password' => $this->request->post('password'),
+            'email'            => $this->request->post('email')
         ];
     }
 }
