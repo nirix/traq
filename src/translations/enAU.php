@@ -291,6 +291,14 @@ $enAU = new Language(function ($t) {
         'email'          => "Email",
         'create_account' => "Create Account",
 
+        // UserCP
+        'options'          => "Options",
+        'api_key'          => "API Key",
+        'current_password' => "Current Password",
+        'language'         => "Language",
+        'subscriptions'    => "Subscriptions",
+
+
         // --------------------------------------------------------------------
         // Wiki
         'wiki'        => "Wiki",

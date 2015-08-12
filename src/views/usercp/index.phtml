@@ -6,26 +6,35 @@
 					<legend><?=$t("information")?></legend>
 
 					<div class="form-group">
-						<?=Form::label($t("name"), "user[name]", ['class' => "control-label col-md-3"])?>
-						<div class="col-md-9">
+						<?=Form::label($t("name"), "user[name]", ['class' => "control-label col-md-4"])?>
+						<div class="col-md-8">
 							<?=Form::text("user[name]", ['class' => "form-control", 'value' => $user->name])?>
 						</div>
 					</div>
 					<div class="form-group">
-						<?=Form::label($t("email"), "user[email]", ['class' => "control-label col-md-3"])?>
-						<div class="col-md-9">
+						<?=Form::label($t("email"), "user[email]", ['class' => "control-label col-md-4"])?>
+						<div class="col-md-8">
 							<?=Form::text("user[email]", ['class' => "form-control", 'value' => $user->email])?>
 						</div>
 					</div>
 					<div class="form-group">
-						<?=Form::label($t("api_key"), "user[api_key]", ['class' => "control-label col-md-3"])?>
-						<div class="col-md-9">
-
+						<?=Form::label($t("api_key"), "user[api_key]", ['class' => "control-label col-md-4"])?>
+						<div class="col-md-8">
+							<?php if ($user->api_key != null): ?>
+								<?=Form::text('api_key', [
+									'value' => $user->api_key,
+									'readonly' => true,
+									'class' => "form-control"
+								])?>
+							<?php endif; ?>
+							<?=HTML::link($t($user->api_key ? 'renew' : 'create'), 'usercp/create_api_key', [
+								'class' => 'btn btn-default btn-sm'
+							])?>
 						</div>
 					</div>
 					<div class="form-group">
-						<?=Form::label($t("current_password"), "user[current_password]", ['class' => "control-label col-md-3"])?>
-						<div class="col-md-9">
+						<?=Form::label($t("current_password"), "user[current_password]", ['class' => "control-label col-md-4"])?>
+						<div class="col-md-8">
 							<?=Form::text("user[current_password]", ['class' => "form-control"])?>
 						</div>
 					</div>
@@ -34,6 +43,13 @@
 
 			<div class="col-md-6">
 				<legend><?=$t("options")?></legend>
+
+				<div class="form-group">
+					<?=Form::label($t("language"), "user[locale]", ['class' => "control-label col-md-4"])?>
+					<div class="col-md-8">
+
+					</div>
+				</div>
 			</div>
 		</form>
 	</div>
