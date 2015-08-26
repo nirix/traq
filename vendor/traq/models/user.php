@@ -371,7 +371,8 @@ class User extends Model
     /**
      * Moves ticket and timeline data to the anonymous user before deleting the user.
      */
-    public function delete() {
+    public function delete()
+    {
         $anon_id = Setting::find('setting', 'anonymous_user_id')->value;
 
         // Update attachments, tickets, ticket updates and timeline events
@@ -388,6 +389,9 @@ class User extends Model
 
         // Delete user project roles
         static::db()->delete()->from('user_roles')->where('user_id', $this->id)->exec();
+
+        // Delete timeline events
+        static::db()->delete()->from('timeline')->where('user_id', $this->id)->exec();
 
         // Delete user
         parent::delete();

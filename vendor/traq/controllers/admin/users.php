@@ -24,6 +24,7 @@ use avalon\http\Request;
 use avalon\output\View;
 
 use traq\models\User;
+use traq\models\Setting;
 
 /**
  * Admin Users controller
@@ -156,5 +157,56 @@ class Users extends AppController
         } else {
             Request::redirect(Request::base('/admin/users'));
         }
+    }
+
+    /**
+     * Mass Action processing.
+     */
+    public function action_mass_actions()
+    {
+        // Make sure there are some users...
+        if (!isset(Request::$post['users']) || empty(Request::$post['users'])) {
+            Request::redirect(Request::base('/admin/users'));
+            exit;
+        }
+
+        // Get anonymous user ID
+        $anon_id = Setting::find('setting', 'anonymous_user_id')->value;
+
+        // What are we deleting?
+        $delete_user     = Request::post('delete_user') == 1 ? true : false;
+        $delete_tickets  = Request::post('delete_tickets') == 1 ? true : false;
+        $delete_comments = Request::post('delete_comments') == 1 ? true : false;
+
+        // Loop over users
+        foreach (Request::$post['users'] as $user_id) {
+            $user = User::find($user_id);
+
+            // Delete tickets?
+            if ($delete_tickets) {
+                foreach ($user->tickets->exec()->fetch_all() as $ticket) {
+                    $ticket->delete();
+                }
+            }
+
+            // Delete comments
+            if ($delete_user || $delete_comments) {
+                foreach ($user->ticket_updates->exec()->fetch_all() as $update) {
+                    if ($delete_comments) {
+                        $update->delete();
+                    } elseif ($delete_user) {
+                        $update->set('user_id', $anon_id);
+                        $update->save();
+                    }
+                }
+            }
+
+            // Delete user
+            if ($delete_user) {
+                $user->delete();
+            }
+        }
+
+        Request::redirect(Request::base('/admin/users'));
     }
 }
