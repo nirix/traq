@@ -270,6 +270,9 @@ class enUS extends \traq\libraries\Locale
             'reset'                => "Reset",
             'api_key'              => "API Key",
             'account_validated'    => "Your account has been validated",
+            'delete_user'          => "Delete User",
+            'delete_tickets'       => "Delete Tickets",
+            'delete_comments'      => "Delete Comments",
             'please_validate_your_account' => "Your account has been created, check your email for the activation link.",
 
             // Password reset
