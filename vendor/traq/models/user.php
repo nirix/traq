@@ -321,6 +321,11 @@ class User extends Model
             $this->errors['email'] = l('errors.users.email_invalid');
         }
 
+        // Require unique email
+        if ($this->_is_new() and static::find('email', $this->_data['email'])) {
+            $this->errors['email'] = l('errors.users.email_in_use');
+        }
+
         // Check if we're valid or not...
         if (count($this->errors) > 0) {
             $this->errors = $this->errors;

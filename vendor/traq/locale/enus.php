@@ -533,6 +533,7 @@ class enUS extends \traq\libraries\Locale
                     'invalid_confirm_password' => "Your confirmation password doesn't match your new password",
                     'invalid_password'         => "Invalid password",
                     'email_invalid'            => "Invalid email address",
+                    'email_in_use'             => "That email is already registered",
                     'doesnt_exist'             => "User doesn't exist",
                     'already_a_project_member' => "User is already a project member",
                     'password_same'            => "Your new password cannot be the same as your current password",
