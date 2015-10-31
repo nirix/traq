@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -22,14 +22,14 @@
  */
 
 // Version
-define("TRAQ_VER", "3.5.2"); // Pretty obvious...
+define("TRAQ_VER", "3.6.0"); // Pretty obvious...
 
 // Version code
 // 1.2.3   -> 10203
 // 1.3(.0) -> 10300
 // 1.12.1  -> 11201
 // 1.2.11  -> 10211
-define("TRAQ_VER_CODE", 30502); // Used to check for new versions
+define("TRAQ_VER_CODE", 30600); // Used to check for new versions
 define("TRAQ_DB_VER", 30500);   // Database version
 
 // API version
