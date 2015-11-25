@@ -53,7 +53,21 @@ trait CRUD
     protected function findObject($id)
     {
         $model = $this->model;
-        return $this->object = $model::find($id);
+        return $model::find($id);
+    }
+
+    /**
+     * Get the object, or find it if it doesn't exist.
+     *
+     * @return Model
+     */
+    protected function getObject($id = null)
+    {
+        if ($this->object) {
+            return $this->object;
+        } else {
+            return $this->object = $this->findObject($id);
+        }
     }
 
     /**
@@ -150,7 +164,7 @@ trait CRUD
         $this->title($this->translate('edit'));
 
         // Find the row
-        $object = $this->findObject($id);
+        $object = $this->getObject($id);
 
         if ($this->isOverlay) {
             return $this->render("{$this->viewsDir}/edit.overlay.phtml", [
@@ -173,7 +187,7 @@ trait CRUD
         $this->title($this->translate('edit'));
 
         // Find the row and update
-        $object = $this->findObject($id);
+        $object = $this->getObject($id);
         $object->set($this->modelParams());
 
         if ($object->save()) {
@@ -198,7 +212,7 @@ trait CRUD
     public function destroyAction($id)
     {
         // Find the group, delete and redirect.
-        $object = $this->findObject($id)->delete();
+        $object = $this->getObject($id)->delete();
 
         return $this->respondTo(function ($format) use ($object) {
             if ($format == "html") {

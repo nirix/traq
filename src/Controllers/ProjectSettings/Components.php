@@ -51,15 +51,20 @@ class Components extends AppController
     protected $afterSaveRedirect    = 'project_settings_components';
     protected $afterDestroyRedirect = 'project_settings_components';
 
+    /**
+     * @var Component
+     */
+    protected $object;
+
     public function __construct()
     {
         parent::__construct();
         $this->title($this->translate('components'));
 
         $this->before(['edit', 'save', 'destroy'], function () {
-            $component = Component::find(Request::$request['id']);
+            $this->object = Component::find(Request::$request['id']);
 
-            if (!$component || $component->project_id != $this->project->id) {
+            if (!$this->object || $this->object->project_id != $this->project->id) {
                 return $this->show404();
             }
         });
