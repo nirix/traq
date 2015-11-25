@@ -33,7 +33,7 @@ use Avalon\Database\Model;
 class Component extends Model
 {
     protected static $_validates = [
-        'name' => ['required', 'unique']
+        'name' => ['required']
     ];
 
     /**
