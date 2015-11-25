@@ -66,6 +66,16 @@ class Components extends AppController
     }
 
     /**
+     * Override to only get the relevant projects milestones.
+     *
+     * @return array
+     */
+    protected function getAllRows()
+    {
+        return $this->project->components()->fetchAll();
+    }
+
+    /**
      * @return array
      */
     protected function modelParams()
