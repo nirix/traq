@@ -211,6 +211,7 @@ class AppController extends Controller
      */
     public function show404()
     {
+        $this->layout = 'default.phtml';
         $default = parent::show404();
 
         return $this->respondTo(function ($format) use ($default) {
