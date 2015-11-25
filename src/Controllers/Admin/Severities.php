@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -25,15 +25,32 @@ namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
 use Traq\Models\Severity;
+use Traq\Traits\Controllers\CRUD;
 
 /**
  * Severities controller
  *
  * @author Jack P.
  * @since 3.0.0
+* @package Traq\Controllers\Admin
  */
 class Severities extends AppController
 {
+    use CRUD;
+
+    // Model class and views directory
+    protected $model    = '\Traq\Models\Severity';
+    protected $viewsDir = 'admin/severities';
+
+    // Singular and plural form
+    protected $singular = 'severity';
+    protected $plural   = 'severities';
+
+    // Redirect route names
+    protected $afterCreateRedirect  = 'admin_severities';
+    protected $afterSaveRedirect    = 'admin_severities';
+    protected $afterDestroyRedirect = 'admin_severities';
+
     public function __construct()
     {
         parent::__construct();
@@ -41,127 +58,9 @@ class Severities extends AppController
     }
 
     /**
-     * Severity listing.
-     */
-    public function indexAction()
-    {
-        $severities = Severity::all();
-
-        return $this->respondTo(function ($format) use ($severities) {
-            if ($format == 'html') {
-                return $this->render('admin/severities/index.phtml', [
-                    'severities' => $severities
-                ]);
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($severities);
-            }
-        });
-    }
-
-    /**
-     * New severity.
-     */
-    public function newAction()
-    {
-        $this->title($this->translate('new'));
-
-        if ($this->isOverlay) {
-            return $this->render('admin/severities/new.overlay.phtml', [
-                'severity' => new Severity
-            ]);
-        } else {
-            return $this->render('admin/severities/new.phtml', [
-                'severity' => new Severity
-            ]);
-        }
-    }
-
-    /**
-     * Create severity.
-     */
-    public function createAction()
-    {
-        $severity = new Severity($this->severityParams());
-
-        if ($severity->save()) {
-            return $this->redirectTo('admin_severities');
-        } else {
-            return $this->render('admin/severities/new.phtml', [
-                'severity' => $severity
-            ]);
-        }
-    }
-
-    /**
-     * Edit severity.
-     *
-     * @param integer $id
-     */
-    public function editAction($id)
-    {
-        $severity = Severity::find($id);
-
-        if ($this->isOverlay) {
-            return $this->render('admin/severities/edit.overlay.phtml', [
-                'severity' => $severity
-            ]);
-        } else {
-            return $this->respondTo(function ($format) use ($severity) {
-                if ($format == 'html') {
-                    return $this->render('admin/severities/edit.phtml', [
-                        'severity' => $severity
-                    ]);
-                } elseif ($format == 'json') {
-                    return $this->jsonResponse($severity->toArray());
-                }
-            });
-        }
-    }
-
-    /**
-     * Save severity.
-     */
-    public function saveAction($id)
-    {
-        $severity = Severity::find($id);
-
-        $severity->set($this->severityParams());
-
-        if ($severity->save()) {
-            return $this->redirectTo('admin_severities');
-        } else {
-            return $this->render('admin/severities/edit.phtml', [
-                'severity' => $severity
-            ]);
-        }
-    }
-
-    /**
-     * Delete severity.
-     *
-     * @param integer $id
-     */
-    public function destroyAction($id)
-    {
-        // Get the severity and delete
-        $severity = Severity::find($id)->delete();
-
-        return $this->respondTo(function ($format) use ($severity) {
-            if ($format == 'html') {
-                return $this->redirectTo('admin_severities');
-            } elseif ($format == 'json') {
-                return $this->jsonResponse([
-                    'deleted'  => true,
-                    'severity' => $severity->toArray()
-                ]);
-            }
-        });
-    }
-
-    /**
      * @return array
      */
-    protected function severityParams()
+    protected function modelParams()
     {
         return [
             'name'  => Request::post('name'),

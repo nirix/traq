@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -25,134 +25,42 @@ namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
 use Traq\Models\Priority;
+use Traq\Traits\Controllers\CRUD;
 
 /**
  * Admin Priorities controller.
  *
  * @author Jack P.
  * @since 3.0.0
+ * @package Traq\Controllers\Admin
  */
 class Priorities extends AppController
 {
+    use CRUD;
+
+    // Model class and views directory
+    protected $model    = '\Traq\Models\Priority';
+    protected $viewsDir = 'admin/priorities';
+
+    // Singular and plural form
+    protected $singular = 'priority';
+    protected $plural   = 'priorities';
+
+    // Redirect route names
+    protected $afterCreateRedirect  = 'admin_priorities';
+    protected $afterSaveRedirect    = 'admin_priorities';
+    protected $afterDestroyRedirect = 'admin_priorities';
+
     public function __construct()
     {
         parent::__construct();
         $this->title($this->translate('priorities'));
     }
 
-    public function indexAction()
-    {
-        $priorities = Priority::all();
-
-        return $this->respondTo(function ($format) use ($priorities) {
-            if ($format == 'html') {
-                return $this->render('admin/priorities/index.phtml', [
-                    'priorities' => $priorities
-                ]);
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($priorities);
-            }
-        });
-    }
-
-    /**
-     * New priority page.
-     */
-    public function newAction()
-    {
-        $this->title($this->translate('new'));
-
-        if ($this->isOverlay) {
-            return $this->render('admin/priorities/new.overlay.phtml', [
-                'priority' => new Priority
-            ]);
-        } else {
-            return $this->render('admin/priorities/new.phtml', [
-                'priority' => new Priority
-            ]);
-        }
-    }
-
-    /**
-     * Create priority.
-     */
-    public function createAction()
-    {
-        $priority = new Priority($this->priorityParams());
-
-        if ($priority->save()) {
-            return $this->redirectTo('admin_priorities');
-        } else {
-            return $this->render('admin/priorities/new.phtml', [
-                'priority' => $priority
-            ]);
-        }
-    }
-
-    /**
-     * Edit priority page.
-     *
-     * @param integer $id
-     */
-    public function editAction($id)
-    {
-        $this->title($this->translate('edit'));
-
-        $priority = Priority::find($id);
-
-        if ($this->isOverlay) {
-            return $this->render('admin/priorities/edit.overlay.phtml', [
-                'priority' => $priority
-            ]);
-        } else {
-            return $this->respondTo(function ($format) use ($priority) {
-                if ($format == 'html') {
-                    return $this->render('admin/priorities/edit.phtml', [
-                        'priority' => $priority
-                    ]);
-                } elseif ($format == 'json') {
-                    return $this->jsonResponse($priority->toArray());
-                }
-            });
-        }
-    }
-
-    /**
-     * Save priority.
-     *
-     * @param integer $id
-     */
-    public function saveAction($id)
-    {
-        $priority = Priority::find($id);
-
-        $priority->set($this->priorityParams());
-
-        if ($priority->save()) {
-            return $this->redirectTo('admin_priorities');
-        } else {
-            return $this->render('admin/priorities/edit.phtml', [
-                'priority' => $priority
-            ]);
-        }
-    }
-
-    /**
-     * Delete status page.
-     *
-     * @param integer $id
-     */
-    public function destroyAction($id)
-    {
-        $priority = Priority::find($id);
-        $priority->delete();
-        return $this->redirectTo('admin_priorities');
-    }
-
     /**
      * @return array
      */
-    protected function priorityParams()
+    protected function modelParams()
     {
         return [
             'name' => Request::post('name')

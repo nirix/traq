@@ -25,148 +25,42 @@ namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
 use Traq\Models\Project;
+use Traq\Traits\Controllers\CRUD;
 
 /**
  * Admin Projects controller
  *
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers
+ * @package Traq\Controllers\Admin
  */
 class Projects extends AppController
 {
+    use CRUD;
+
+    // Model class and views directory
+    protected $model    = '\Traq\Models\Project';
+    protected $viewsDir = 'admin/projects';
+
+    // Singular and plural form
+    protected $singular = 'project';
+    protected $plural   = 'projects';
+
+    // Redirect route names
+    protected $afterCreateRedirect  = 'admin_projects';
+    protected $afterSaveRedirect    = 'admin_projects';
+    protected $afterDestroyRedirect = 'admin_projects';
+
     public function __construct()
     {
         parent::__construct();
         $this->title($this->translate('projects'));
     }
 
-    public function indexAction()
-    {
-        $projects = Project::all();
-
-        return $this->respondTo(function ($format) use ($projects) {
-            if ($format == 'html') {
-                return $this->render('admin/projects/index.phtml', [
-                    'projects' => $projects
-                ]);
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($projects);
-            }
-        });
-    }
-
-    /**
-     * Create a new project page.
-     */
-    public function newAction()
-    {
-        $this->title($this->translate('new'));
-
-        if ($this->isOverlay) {
-            return $this->render('admin/projects/new.overlay.phtml', [
-                'project' => new Project
-            ]);
-        } else {
-            return $this->render('admin/projects/new.phtml', [
-                'project' => new Project
-            ]);
-        }
-    }
-
-    /**
-     * Create new project.
-     */
-    public function createAction()
-    {
-        $this->title($this->translate('new'));
-
-        $project = new Project($this->projectParams());
-
-        if ($project->save()) {
-            return $this->redirectTo('admin_projects');
-        }
-
-        return $this->respondTo(function ($format) use ($project) {
-            if ($format == 'html') {
-                return $this->render('admin/projects/new.phtml', [
-                    'project' => $project
-                ]);
-            }
-        });
-    }
-
-    /**
-     * Edit project page.
-     */
-    public function editAction($id)
-    {
-        $this->title($this->translate('edit'));
-
-        $project = Project::find($id);
-
-        if ($this->isOverlay) {
-            return $this->render('admin/projects/edit.overlay.phtml', [
-                'project' => $project
-            ]);
-        } else {
-            return $this->respondTo(function ($format) use ($project) {
-                if ($format == 'html') {
-                    return $this->render('admin/projects/edit.phtml', [
-                        'project' => $project
-                    ]);
-                } elseif ($format == 'json') {
-                    return $this->jsonResponse($project->toArray());
-                }
-            });
-        }
-    }
-
-    /**
-     * Save project.
-     */
-    public function saveAction($id)
-    {
-        $this->title($this->translate('edit'));
-
-        $project = Project::find($id);
-        $project->set($this->projectParams());
-
-        if ($project->save()) {
-            return $this->redirectTo('admin_projects');
-        } else {
-            return $this->render('admin/projects/edit.phtml', [
-                'project' => $project
-            ]);
-        }
-    }
-
-    /**
-     * Delete a project.
-     *
-     * @param integer $id Project ID.
-     */
-    public function destroyAction($id)
-    {
-        // Find the project, delete and redirect.
-        $project = Project::find($id)->delete();
-
-        return $this->respondTo(function ($format) use ($project) {
-            if ($format == "html") {
-                return $this->redirectTo('admin_projects');
-            } elseif ($format == "json") {
-                return $this->jsonResponse([
-                    'deleted' => true,
-                    'project'    => $project->toArray()
-                ]);
-            }
-        });
-    }
-
     /**
      * @return array
      */
-    protected function projectParams()
+    protected function modelParams()
     {
         return [
             'name'                   => Request::$post['name'],
