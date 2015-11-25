@@ -27,4 +27,4 @@ define('START_TIME', microtime(true));
 define('START_MEM',  memory_get_usage());
 define("DOCROOT",    __DIR__);
 
-(new Traq\Traq)->run();
+(new Traq\Traq)->run()->send();
