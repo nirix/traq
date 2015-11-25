@@ -40,7 +40,7 @@ class Sessions extends AppController
         parent::__construct();
 
         $this->before(['new', 'create'], function () {
-            if (LOGGEDIN) {
+            if ($this->currentUser) {
                 $this->redirectTo('root');
             }
         });

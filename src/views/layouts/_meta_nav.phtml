@@ -9,7 +9,7 @@
 		<?php endif; ?>
 		</ul>
 		<ul class="links-user nav navbar-nav navbar-right">
-		<?php if (LOGGEDIN): ?>
+		<?php if ($currentUser): ?>
 			<?php if ($currentUser->group()->is_admin or (isset($project) and $currentUser->permission($project->id, 'project_settings'))): ?>
 			<li class="dropdown">
 				<?=HTML::link(

@@ -100,7 +100,7 @@ class AppController extends Controller
         $this->getProject();
         $this->before('*', function () {
             // Make sure the user has permission to view the project
-            if (LOGGEDIN && $this->project && !$this->currentUser->permission($this->project->id, 'view_project')) {
+            if ($this->currentUser && $this->project && !$this->currentUser->permission($this->project->id, 'view_project')) {
                 return $this->show403();
             }
 
@@ -168,10 +168,8 @@ class AppController extends Controller
         }
 
         if ($this->currentUser) {
-            define("LOGGEDIN", true);
             Language::setCurrent($this->currentUser->language);
         } else {
-            define("LOGGEDIN", false);
             $this->currentUser = User::anonymousUser();
         }
 
