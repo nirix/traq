@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -25,6 +25,7 @@ namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
 use Traq\Models\Component;
+use Traq\Traits\Controllers\CRUD;
 
 /**
  * Components controller.
@@ -35,10 +36,20 @@ use Traq\Models\Component;
  */
 class Components extends AppController
 {
-    /**
-     * @var Component
-     */
-    protected $component;
+    use CRUD;
+
+    // Model class and views directory
+    protected $model    = '\Traq\Models\Component';
+    protected $viewsDir = 'project_settings/components';
+
+    // Singular and plural form
+    protected $singular = 'component';
+    protected $plural   = 'components';
+
+    // Redirect route names
+    protected $afterCreateRedirect  = 'project_settings_components';
+    protected $afterSaveRedirect    = 'project_settings_components';
+    protected $afterDestroyRedirect = 'project_settings_components';
 
     public function __construct()
     {
@@ -46,132 +57,10 @@ class Components extends AppController
         $this->title($this->translate('components'));
 
         $this->before(['edit', 'save', 'destroy'], function () {
-            $this->component = Component::find(Request::$request['id']);
+            $component = Component::find(Request::$request['id']);
 
-            if (!$this->component || $this->component->project_id != $this->project->id) {
+            if (!$component || $component->project_id != $this->project->id) {
                 return $this->show404();
-            }
-        });
-    }
-
-    /**
-     * Components listing page.
-     */
-    public function indexAction()
-    {
-        $components = Component::all();
-
-        return $this->respondTo(function ($format) use ($components) {
-            if ($format == "html") {
-                return $this->render("project_settings/components/index.phtml", [
-                    'components' => $components
-                ]);
-            } elseif ($format == "json") {
-                return $this->jsonResponse($components);
-            }
-        });
-    }
-
-    /**
-     * New component page.
-     */
-    public function newAction()
-    {
-        $this->title($this->translate("new"));
-
-        $component = new Component;
-
-        if ($this->isOverlay) {
-            return $this->render("project_settings/components/new.overlay.phtml", [
-                'component' => $component
-            ]);
-        } else {
-            return $this->render("project_settings/components/new.phtml", [
-                'component' => $component
-            ]);
-        }
-    }
-
-    /**
-     * Create component.
-     */
-    public function createAction()
-    {
-        $this->title($this->translate("new"));
-
-        $component = new Component($this->componentParams());
-
-        if ($component->save()) {
-            return $this->respondTo(function ($format) use ($component) {
-                if ($format == "html") {
-                    return $this->redirectTo("project_settings_components");
-                } elseif ($format == "json") {
-                    return $this->jsonResponse($component);
-                }
-            });
-        } else {
-            return $this->render("project_settings/components/new.phtml", [
-                'component' => $component
-            ]);
-        }
-    }
-
-    /**
-     * Edit component page.
-     */
-    public function editAction()
-    {
-        $this->title($this->translate("edit"));
-
-        if ($this->isOverlay) {
-            return $this->render("project_settings/components/edit.overlay.phtml", [
-                'component' => $this->component
-            ]);
-        } else {
-            return $this->render("project_settings/components/edit.phtml", [
-                'component' => $this->component
-            ]);
-        }
-    }
-
-    /**
-     * Save component.
-     */
-    public function saveAction()
-    {
-        $this->title($this->translate("edit"));
-
-        $this->component->set($this->componentParams());
-
-        if ($this->component->save()) {
-            return $this->respondTo(function ($format) {
-                if ($format == "html") {
-                    return $this->redirectTo("project_settings_components");
-                } elseif ($format == "json") {
-                    return $this->jsonResponse($this->component);
-                }
-            });
-        } else {
-            return $this->render("project_settings/components/edit.phtml", [
-                'component' => $this->component
-            ]);
-        }
-    }
-
-    /**
-     * Delete component.
-     */
-    public function destroyAction()
-    {
-        $this->component->delete();
-        return $this->respondTo(function ($format) {
-            if ($format == "html") {
-                return $this->redirectTo("project_settings_components");
-            } elseif ($format == "json") {
-                return $this->jsonResponse([
-                    'deleted'   => true,
-                    'component' => $component
-                ]);
             }
         });
     }
@@ -179,7 +68,7 @@ class Components extends AppController
     /**
      * @return array
      */
-    protected function componentParams()
+    protected function modelParams()
     {
         return [
             'name'       => Request::post('name'),

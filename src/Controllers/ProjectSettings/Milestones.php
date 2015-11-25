@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -25,6 +25,7 @@ namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
 use Traq\Models\Milestone;
+use Traq\Traits\Controllers\CRUD;
 
 /**
  * Milestones controller
@@ -35,6 +36,21 @@ use Traq\Models\Milestone;
  */
 class Milestones extends AppController
 {
+    use CRUD;
+
+    // Model class and views directory
+    protected $model    = '\Traq\Models\Milestone';
+    protected $viewsDir = 'project_settings/milestones';
+
+    // Singular and plural form
+    protected $singular = 'milestone';
+    protected $plural   = 'milestones';
+
+    // Redirect route names
+    protected $afterCreateRedirect  = 'project_settings_milestones';
+    protected $afterSaveRedirect    = 'project_settings_milestones';
+    protected $afterDestroyRedirect = 'project_settings_milestones';
+
     /**
      * @var Milestone
      */
@@ -55,155 +71,19 @@ class Milestones extends AppController
     }
 
     /**
-     * Milestones listing page.
-     */
-    public function indexAction()
-    {
-        $milestones = Milestone::all();
-
-        return $this->respondTo(function ($format) use ($milestones) {
-            if ($format == "html") {
-                return $this->render("project_settings/milestones/index.phtml", [
-                    'milestones' => $milestones
-                ]);
-            } elseif ($format == "json") {
-                return $this->jsonResponse($milestones);
-            }
-        });
-    }
-
-    /**
-     * New milestone page.
-     */
-    public function newAction()
-    {
-        $this->title($this->translate("new"));
-
-        $milestone = new Milestone(['display_order' => 0]);
-
-        if ($this->isOverlay) {
-            return $this->render("project_settings/milestones/new.overlay.phtml", [
-                'milestone' => $milestone
-            ]);
-        } else {
-            return $this->render("project_settings/milestones/new.phtml", [
-                'milestone' => $milestone
-            ]);
-        }
-    }
-
-    /**
-     * Create milestone.
-     */
-    public function createAction()
-    {
-        $this->title($this->translate("new"));
-
-        $milestone = new Milestone($this->milestoneParams());
-
-        if ($milestone->save()) {
-            return $this->respondTo(function ($format) use ($milestone) {
-                if ($format == "html") {
-                    return $this->redirectTo("project_settings_milestones");
-                } elseif ($format == "json") {
-                    return $this->jsonResponse($milestone);
-                }
-            });
-        } else {
-            return $this->render("project_settings/milestones/new.phtml", [
-                'milestone' => $milestone
-            ]);
-        }
-    }
-
-    /**
-     * Edit milestone page.
-     */
-    public function editAction()
-    {
-        $this->title($this->translate("edit"));
-
-        if ($this->isOverlay) {
-            return $this->render("project_settings/milestones/edit.overlay.phtml", [
-                'milestone' => $this->milestone
-            ]);
-        } else {
-            return $this->render("project_settings/milestones/edit.phtml", [
-                'milestone' => $this->milestone
-            ]);
-        }
-    }
-
-    /**
-     * Create milestone.
-     */
-    public function saveAction()
-    {
-        $this->title($this->translate("edit"));
-
-        $this->milestone->set($this->milestoneParams());
-
-        if ($this->milestone->save()) {
-            return $this->respondTo(function ($format) {
-                if ($format == "html") {
-                    return $this->redirectTo("project_settings_milestones");
-                } elseif ($format == "json") {
-                    return $this->jsonResponse($this->milestone);
-                }
-            });
-        } else {
-            return $this->render("project_settings/milestones/edit.phtml", [
-                'milestone' => $this->milestone
-            ]);
-        }
-    }
-
-    /**
-     * Delete milestone page.
+     * Override to only get the relevant projects milestones.
      *
-     * @param integer $id Milestone ID
+     * @return array
      */
-    public function action_delete($id)
+    protected function getAllRows()
     {
-        $this->title(l('delete'));
-
-        // Fetch the milestone
-        $milestone = Milestone::find($id);
-
-        if ($milestone->project_id !== $this->project->id) {
-            return $this->show_no_permission();
-        }
-
-        // Fetch all but current milestone
-        $milestones = array();
-        $rows = Milestone::select()->where('id', $id, '!=')->where('status', '1')->exec()->fetch_all();
-        foreach ($rows as $row) {
-            $milestones[] = array('label' => $row->name, 'value' => $row->id);
-        }
-
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            // Move tickets
-            $this->db->update('tickets')->set(array('milestone_id' => Request::$post['milestone']))->where('milestone_id', $id)->exec();
-
-            // Delete milestone
-            $milestone->delete();
-
-            // Redirect
-            if ($this->is_api) {
-                return \API::response(1);
-            } else {
-                Request::redirectTo("{$this->project->slug}/settings/milestones");
-            }
-        }
-
-        View::set(compact('milestone', 'milestones'));
+        return $this->project->milestones()->fetchAll();
     }
 
     /**
      * @return array
      */
-    protected function milestoneParams()
+    protected function modelParams()
     {
         return [
             'name'          => Request::post('name'),
