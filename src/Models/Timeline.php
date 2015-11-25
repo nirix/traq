@@ -113,7 +113,8 @@ class Timeline extends Model
      *
      * @return object
      */
-    public function otherProject() {
+    public function otherProject()
+    {
         if (!isset($this->_other_project)) {
             $this->_other_project = Project::find($this->data);
         }
@@ -169,5 +170,20 @@ class Timeline extends Model
         }
 
         return $filters;
+    }
+
+    /**
+     * Creates a new Timeline object relating to a milestone completion event.
+     *
+     * @return Timeline
+     */
+    public static function milestoneCompletedEvent($user, $milestone)
+    {
+        return new static([
+            'project_id' => $milestone->project_id,
+            'owner_id'   => $milestone->id,
+            'user_id'    => $user->id,
+            'action'     => "milestone_completed",
+        ]);
     }
 }

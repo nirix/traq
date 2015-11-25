@@ -53,7 +53,7 @@ trait CRUD
     protected function findObject($id)
     {
         $model = $this->model;
-        return $model::find($id);
+        return $this->object = $model::find($id);
     }
 
     /**

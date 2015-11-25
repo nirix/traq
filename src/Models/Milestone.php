@@ -73,6 +73,13 @@ class Milestone extends Model
     ];
 
     /**
+     * Is the Milestone being marked as completed?
+     *
+     * @var boolean
+     */
+    public $isBeingCompleted = false;
+
+    /**
      * Easily get the URI to the milestone.
      *
      * @return string
@@ -170,8 +177,12 @@ class Milestone extends Model
     {
         // Set completed date
         if ($this->status != 1 and $this->completed_at == null) {
-            $this->is_locked    = true;
-            $this->completed_at = new DateTime;
+            $this->is_locked        = true;
+            $this->completed_at     = new DateTime;
+            $this->isBeingCompleted = true;
+        } elseif ($this->status == 1) {
+            $this->is_locked    = false;
+            $this->completed_at = null;
         }
 
         if (parent::save()) {

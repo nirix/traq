@@ -25,6 +25,7 @@ namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
 use Traq\Models\Milestone;
+use Traq\Models\Timeline;
 use Traq\Traits\Controllers\CRUD;
 
 /**
@@ -57,10 +58,22 @@ class Milestones extends AppController
         $this->title($this->translate('milestones'));
 
         $this->before(['edit', 'save', 'delete', 'destroy'], function () {
-            $milestone = Milestone::find(Request::$request['id']);
+            $this->object = Milestone::find(Request::$request['id']);
 
-            if (!$milestone || $milestone->project_id != $this->project->id) {
+            if (!$this->object || $this->object->project_id != $this->project->id) {
                 return $this->show404();
+            }
+        });
+
+        $this->before('save', function () {
+            // echo "<pre>";
+            // var_dump($this->object);
+            // exit;
+        });
+
+        $this->after('save', function () {
+            if ($this->object->isBeingCompleted) {
+                Timeline::milestoneCompletedEvent($this->currentUser, $this->object)->save();
             }
         });
     }

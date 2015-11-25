@@ -33,7 +33,7 @@ class CreateTimeline extends Migration
             $t->addColumn("project_id", "bigint");
             $t->addColumn("owner_id", "bigint");
             $t->addColumn("action", "string");
-            $t->addColumn("data", "text");
+            $t->addColumn("data", "text", ['notnull' => false]);
             $t->addColumn("user_id", "bigint");
 
             $this->timestamps($t);
