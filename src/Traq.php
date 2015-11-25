@@ -201,9 +201,13 @@ class Traq extends AppKernel
         if (file_exists($path)) {
             $this->config = require $path;
 
-            if (isset($this->config['environment'])) {
+            if (isset($_ENV['environment'])) {
+                $this->config['environment'] = $_ENV['environment'];
+            } elseif (isset($this->config['environment'])) {
                 $_ENV['environment'] = $this->config['environment'];
+            }
 
+            if (isset($this->config['environment'])) {
                 // Load environment
                 $environemntPath = "{$this->path}/config/environment/{$_ENV['environment']}.php";
                 if (file_exists($environemntPath)) {
