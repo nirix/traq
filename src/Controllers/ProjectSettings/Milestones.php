@@ -51,20 +51,15 @@ class Milestones extends AppController
     protected $afterSaveRedirect    = 'project_settings_milestones';
     protected $afterDestroyRedirect = 'project_settings_milestones';
 
-    /**
-     * @var Milestone
-     */
-    protected $milestone;
-
     public function __construct()
     {
         parent::__construct();
         $this->title($this->translate('milestones'));
 
         $this->before(['edit', 'save', 'delete', 'destroy'], function () {
-            $this->milestone = Milestone::find(Request::$request['id']);
+            $milestone = Milestone::find(Request::$request['id']);
 
-            if (!$this->milestone || $this->milestone->project_id != $this->project->id) {
+            if (!$milestone || $milestone->project_id != $this->project->id) {
                 return $this->show404();
             }
         });
