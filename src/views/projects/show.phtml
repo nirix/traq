@@ -1,8 +1,10 @@
 <div class="project-show container">
 	<h1 class="page-header"><?=$project->name?></h1>
+	<?php if ($currentUser): ?>
 	<div>
 		<?=Subscription::linkFor($project)?>
 	</div>
+	<?php endif; ?>
 	<div class="project_info">
 		<?=Format::text($project->info)?>
 	</div>

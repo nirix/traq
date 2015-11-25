@@ -59,11 +59,6 @@ class Subscription
      */
     public static function linkFor($object)
     {
-        // Do nothing if the user is not logged in.
-        if (!LOGGEDIN) {
-            return false;
-        }
-
         $class = new ReflectionClass(get_class($object));
         return View::render('subscriptions/_subscribe.phtml', [
             'type'   => strtolower($class->getShortName()),
