@@ -34,7 +34,7 @@
 					<li><?=HTML::link($t('wiki'), $project->href('wiki'))?></li>
 				<?php endif; ?>
 			</ul>
-			<?php if (LOGGEDIN): ?>
+			<?php if ($currentUser): ?>
 			<div class="navbar-left">
 				<?=HTML::link(
 					$t('create_issue'), $project->href('issues/new'),
