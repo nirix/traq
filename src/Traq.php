@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -36,7 +36,7 @@ use Swift_Mailer;
 /**
  * The heart of Traq.
  *
- * @author Jack Polgar <jack@polgar.id.au>
+ * @author Jack P.
  * @package Traq
  */
 class Traq extends AppKernel
@@ -56,7 +56,7 @@ class Traq extends AppKernel
     public function __construct()
     {
         // We'll need the autoloader instance
-        static::$loader = require VENDORDIR . '/autoload.php';
+        static::$loader = require __DIR__ . '/../vendor/autoload.php';
 
         // This line looks weird without a comment
         parent::__construct();
