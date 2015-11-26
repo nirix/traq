@@ -21,6 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+if (defined("TRAQ_VERSION")) {
+    return;
+}
+
 // Version
 const TRAQ_VERSION = "4.0.0-dev";
 
