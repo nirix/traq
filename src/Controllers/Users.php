@@ -157,7 +157,7 @@ class Users extends AppController
      */
     public function alreadyLoggedIn()
     {
-        if (LOGGEDIN) {
+        if ($this->currentUser) {
             $this->redirectTo('root');
         }
     }

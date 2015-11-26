@@ -43,7 +43,7 @@ class UserCP extends AppController
 
         $this->before('*', function () {
             // Make sure the user is logged in
-            if (!LOGGEDIN) {
+            if (!$this->currentUser) {
                 $this->layout = "default.phtml";
                 return $this->show403();
             }
