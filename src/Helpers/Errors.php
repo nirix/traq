@@ -62,11 +62,8 @@ class Errors
         if (is_object($model) and count($model->errors())) {
             $messages = [];
 
-            foreach ($model->errors() as $field => $errors) {
-                foreach ($errors as $error) {
-                    $error['field'] = Language::translate($field);
-                    $messages[] = Language::translate("errors.validations.{$error['error']}", $error);
-                }
+            foreach ($model->getErrorMessages() as $field => $fieldMessages) {
+                $messages = array_merge($messages, $fieldMessages);
             }
 
             return View::render('errors/_messages_for.phtml', array(
