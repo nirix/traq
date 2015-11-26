@@ -68,6 +68,7 @@ $enAU = new Language(function ($t) {
         'errors.no_permission.title'          => "You shall not pass!",
         'errors.no_permission.message'        => "You don't have permission to access this page.",
         'errors.invalid_username_or_password' => "Invalid username and/or password.",
+        'errors.incorrect_password'           => "Incorrect password",
         'errors.account.activation_required'  => "You must first activate your account.",
         'errors.correct_the_following'        => "Please correct the following issues",
 
