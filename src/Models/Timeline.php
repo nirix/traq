@@ -186,4 +186,19 @@ class Timeline extends Model
             'action'     => "milestone_completed",
         ]);
     }
+
+    /**
+     * Creates a new Timeline object relating to a new wiki page event.
+     *
+     * @return Timeline
+     */
+    public static function wikiPageCreatedEvent($user, $page)
+    {
+        return new static([
+            'project_id' => $page->project_id,
+            'owner_id'   => $page->id,
+            'user_id'    => $user->id,
+            'action'     => "wiki_page_created",
+        ]);
+    }
 }

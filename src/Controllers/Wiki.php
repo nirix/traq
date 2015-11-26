@@ -127,6 +127,10 @@ class Wiki extends AppController
             $page->save();
 
             $page->revision()->save();
+
+            // Create timeline event
+            Timeline::wikiPageCreatedEvent($this->currentUser, $page)->save();
+
             return $this->redirect($page->href());
         } else {
             return $this->render('wiki/new.phtml', [
