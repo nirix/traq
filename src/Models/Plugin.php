@@ -55,10 +55,11 @@ class Plugin extends Model
     public function registerWithAutoloader()
     {
         // Register namespace with autoloader
+        $vendorDir = __DIR__ . '/../../vendor';
         foreach ($this->autoload as $namespace => $directory) {
             Traq::registerNamespace(
                 $namespace,
-                VENDORDIR . "/{$this->directory}/{$directory}"
+                $vendorDir . "/{$this->directory}/{$directory}"
             );
         }
     }

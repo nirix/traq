@@ -66,11 +66,13 @@ class Registry
     {
         $files = array();
 
-        foreach (glob(VENDORDIR . '/*/plugin.json') as $file) {
+        $vendorDir = __DIR__ . '/../../vendor';
+
+        foreach (glob($vendorDir . '/*/plugin.json') as $file) {
             $files[] = $file;
         }
 
-        foreach (glob(VENDORDIR . '/*/*/plugin.json') as $file) {
+        foreach (glob($vendorDir . '/*/*/plugin.json') as $file) {
             $files[] = $file;
         }
 
@@ -82,7 +84,7 @@ class Registry
             }
 
             // Get directory without the vendor directory path
-            $info['directory'] = trim(str_replace(VENDORDIR, '', dirname($file)), '/');
+            $info['directory'] = trim(str_replace($vendorDir, '', dirname($file)), '/');
 
             static::registerPlugin($info);
         }

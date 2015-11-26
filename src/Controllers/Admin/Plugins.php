@@ -84,11 +84,13 @@ class Plugins extends AppController
     {
         $info = Registry::infoFor(Request::$query['plugin']);
 
+        $vendorDir = __DIR__ . '/../../../vendor';
+
         // Register autoload paths
         foreach ($info['autoload'] as $namespace => $directory) {
             Traq::registerNamespace(
                 $namespace,
-                VENDORDIR . "/{$info['directory']}/{$directory}"
+                $vendorDir . "/{$info['directory']}/{$directory}"
             );
         }
 
