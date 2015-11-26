@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,6 +23,7 @@
 
 namespace Traq\Controllers;
 
+use Traq\Models\User;
 use Traq\Models\Subscription;
 
 /**
@@ -60,26 +61,36 @@ class UserCP extends AppController
 
     public function saveAction()
     {
+        $user = User::find($this->currentUser->id);
+
         $data = array(
-            'name'   => Request::post('name', $user->name),
-            'email'  => Request::post('email', $user->email),
-            'locale' => Request::post('locale', $user->locale)
+            'name'     => $this->request->post('name', $user->name),
+            'email'    => $this->request->post('email', $user->email),
+            'language' => $this->request->post('language', $user->language)
         );
 
-        FishHook::add('controller:users::usercp/save', array(&$data));
+        $correctPassword = false;
+        if (!$user->authenticate($this->request->post('current_password'))) {
+            $user->addError('password', ['error' => "errors.incorrect_password"]);
+        } else {
+            $correctPassword = true;
+        }
 
         // Set the info
         $user->set($data);
-        $user->option('watch_created_tickets', Request::post('watch_created_tickets'));
+        $user->validates();
 
         // Save the user
-        if ($user->save()) {
-            // Redirect if successful
-            if ($this->is_api) {
-                return \API::response(1, array('user' => $user));
-            } else {
-                Request::redirect(Request::requestUri());
-            }
+        if ($correctPassword && $user->save()) {
+            return $this->respondTo(function ($format) {
+                if ($format == "html") {
+                    return $this->redirectTo('usercp');
+                } else {
+                    return $this->jsonResponse($user);
+                }
+            });
+        } else {
+            return $this->render("usercp/index.phtml", ['user' => $user]);
         }
     }
 
