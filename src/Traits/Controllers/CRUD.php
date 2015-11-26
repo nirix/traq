@@ -63,7 +63,7 @@ trait CRUD
      */
     protected function getObject($id = null)
     {
-        if ($this->object) {
+        if (isset($this->object) && $this->object) {
             return $this->object;
         } else {
             return $this->object = $this->findObject($id);
