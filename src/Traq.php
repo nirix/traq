@@ -110,7 +110,12 @@ class Traq extends AppKernel
      */
     protected function setupLanguage()
     {
-        require __DIR__ . "/translations/enAU.php";
+        foreach (scandir(__DIR__ . '/translations') as $lang) {
+            if ($lang !== '.' && $lang !== '..') {
+                require __DIR__ . "/translations/{$lang}";
+            }
+        }
+
         Language::setCurrent(Setting::get('locale')->value);
     }
 
