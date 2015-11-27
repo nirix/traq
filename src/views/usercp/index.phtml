@@ -35,7 +35,7 @@
 							])?>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group <?=($user->hasError('password') ? ' has-error' : '')?>">
 						<?=Form::label($t("current_password"), "current_password", ['class' => "control-label col-md-4"])?>
 						<div class="col-md-8">
 							<?=Form::password("current_password", ['class' => "form-control"])?>
@@ -50,7 +50,7 @@
 				<div class="form-group">
 					<?=Form::label($t("language"), "locale", ['class' => "control-label col-md-4"])?>
 					<div class="col-md-8">
-
+						<?=Form::select("language", Avalon\Language::selectOptions(), ['value' => $user->language, 'class' => 'form-control'])?>
 					</div>
 				</div>
 			</div>
