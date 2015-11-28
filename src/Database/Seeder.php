@@ -200,12 +200,12 @@ class Seeder
         $password = rand(0, 9999) . time() . microtime();
 
         $user = new User([
-            'name'             => "Anonymous",
-            'username'         => "Anonymous",
-            'password'         => $password,
-            'confirm_password' => $password,
-            'email'            => "noreply@" . $_SERVER['HTTP_HOST'],
-            'group_id'         => 3
+            'name'                  => "Anonymous",
+            'username'              => "Anonymous",
+            'password'              => $password,
+            'password_confirmation' => $password,
+            'email'                 => "noreply@" . $_SERVER['HTTP_HOST'],
+            'group_id'              => 3
         ]);
         $user->save();
 
