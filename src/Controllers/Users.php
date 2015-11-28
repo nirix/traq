@@ -58,11 +58,11 @@ class Users extends AppController
 
         // Create a model with the data
         $user = new User([
-            'username'         => $this->request->post('username'),
-            'name'             => $this->request->post('name'),
-            'password'         => $this->request->post('password'),
-            'confirm_password' => $this->request->post('confirm_password'),
-            'email'            => $this->request->post('email')
+            'username'              => $this->request->post('username'),
+            'name'                  => $this->request->post('name'),
+            'password'              => $this->request->post('password'),
+            'password_confirmation' => $this->request->post('password_confirmation'),
+            'email'                 => $this->request->post('email')
         ]);
 
         // Account activation
