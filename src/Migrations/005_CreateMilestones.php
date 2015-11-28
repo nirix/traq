@@ -29,7 +29,7 @@ class CreateMilestones extends Migration
 {
     public function up()
     {
-        $this->createTable("milestones", function($t) {
+        $this->createTable("milestones", function ($t) {
             $t->addColumn("name", "string");
             $t->addColumn("slug", "string");
             $t->addColumn("codename", "string", ['notnull' => false]);
@@ -40,7 +40,7 @@ class CreateMilestones extends Migration
             $t->addColumn("status", "integer", ['default' => 1]);
             $t->addColumn("is_locked", "boolean", ['default' => false]);
             $t->addColumn("project_id", "integer");
-            $t->addColumn("display_order", "integer");
+            $t->addColumn("display_order", "integer", ['default' => 0]);
 
             $this->timestamps($t);
         });
