@@ -23,6 +23,7 @@
 
 namespace Traq\Controllers;
 
+use Avalon\Http\Response;
 use Traq\Models\User;
 use Traq\Models\Subscription;
 
@@ -95,6 +96,32 @@ class UserCP extends AppController
         } else {
             return $this->render("usercp/index.phtml", ['user' => $user]);
         }
+    }
+
+    /**
+     * Generate a (new) API key.
+     *
+     * @return Response
+     */
+    public function createApiKeyAction()
+    {
+        $user = User::find($this->currentUser->id);
+        $user->generateApiKey();
+        $user->save();
+
+        return $this->respondTo(function ($format) use ($user) {
+            if ($format == "html") {
+                return $this->redirectTo('usercp');
+            } elseif ($format == "js") {
+                return new Response(function ($resp) use ($user) {
+                    $resp->contentType = 'text/javascript';
+                    $resp->body = $this->renderView('usercp/create_api_key.js.php', [
+                        '_layout' => false,
+                        'user'    => $user
+                    ]);
+                });
+            }
+        });
     }
 
     /**

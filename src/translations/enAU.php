@@ -161,6 +161,7 @@ $enAU = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Misc
         'add'                     => "Add",
+        'renew'                   => "Renew",
         'ascending'               => "Ascending",
         'descending'              => "Descending",
         'x_by_x'                  => "{1} by {2}",

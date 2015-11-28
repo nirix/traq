@@ -58,6 +58,7 @@ Router::map(function($r) {
     // UserCP
     $r->get('/usercp', 'usercp')->to("{$traq}\\UserCP::index");
     $r->post('/usercp')->to("{$traq}\\UserCP::save");
+    $r->get('/usercp/create_api_key', 'usercp_create_api_key')->to("{$traq}\\UserCP::createApiKey");
 
     $r->get('/usercp/password', 'usercp_password')->to("{$traq}\\UserCP::password");
     $r->post('/usercp/password')->to("{$traq}\\UserCP::savePassword");
