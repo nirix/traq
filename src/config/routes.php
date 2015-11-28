@@ -60,6 +60,8 @@ Router::map(function($r) {
     $r->post('/usercp')->to("{$traq}\\UserCP::save");
 
     $r->get('/usercp/password', 'usercp_password')->to("{$traq}\\UserCP::password");
+    $r->post('/usercp/password')->to("{$traq}\\UserCP::savePassword");
+
     $r->get('/usercp/subscriptions', 'usercp_subscriptions')->to("{$traq}\\UserCP::subscriptions");
 
     // Account activation

@@ -59,6 +59,9 @@ class UserCP extends AppController
         return $this->render("usercp/index.phtml");
     }
 
+    /**
+     * @return \Avalon\Http\Response
+     */
     public function saveAction()
     {
         $user = User::find($this->currentUser->id);
@@ -96,41 +99,48 @@ class UserCP extends AppController
 
     /**
      * Password page.
+     *
+     * @return \Avalon\Http\Response
      */
-    public function action_password()
+    public function passwordAction()
     {
-        // Make sure the user is logged in
-        if (!LOGGEDIN or $this->is_api) {
-            return $this->show_no_permission();
-        }
-
         // Clone the logged in user object
-        $user = clone $this->user;
+        $user = User::find($this->currentUser->id);
+        $this->set(compact('user'));
 
-        if (Request::method() == 'post') {
-            $data = array(
-                'old_password'     => Request::$post['password'],
-                'new_password'     => Request::$post['new_password'],
-                'confirm_password' => Request::$post['confirm_password']
-            );
+        return $this->render('usercp/password.phtml');
+    }
 
-            FishHook::add('controller:users::usercp/password/save', array(&$data));
+    /**
+     * Update password.
+     *
+     * @return \Avalon\Http\Response
+     */
+    public function savePasswordAction()
+    {
+        $user = User::find($this->currentUser->id);
+        $this->set(compact('user'));
 
-            // Set the info
-            $user->set($data);
+        // Authenticate current password
+        if (!$user->authenticate($this->request->post('current_password'))) {
+            $user->addError('password', ['error' => "errors.incorrect_password"]);
+        } else {
+            // Confirm passwords
+            if ($this->request->post('password') !== $this->request->post('password_confirmation')) {
+                $user->addError('password', ['error' => "errors.validations.fields_dont_match"]);
+            } else {
+                // Update password
+                $user->setPassword($this->request->post('password'));
 
-            if($user->is_valid()) {
-                $user->set_password($data['new_password']);
-
-                // Save the user
+                // Save and redirect
                 if ($user->save()) {
-                    // Redirect if successful
-                    Request::redirect(Request::requestUri());
+                    return $this->redirectTo('usercp_password');
                 }
             }
         }
 
-        View::set('user', $user);
+        // Incorrect password or new passwords don't match.
+        return $this->render('usercp/password.phtml');
     }
 
     /**
