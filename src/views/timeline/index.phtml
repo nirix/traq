@@ -22,7 +22,7 @@
 	<dl>
 	<?php foreach ($day['activity'] as $event): ?>
 		<dt class="timeline_event_<?=$event->id?>">
-			<?php if ($currentUser and $currentUser->permission($project->id, 'delete_timeline_events')): ?>
+			<?php if ($loggedin and $currentUser->permission($project->id, 'delete_timeline_events')): ?>
 			<a class="btn btn-xs btn-danger" data-ajax-confirm="<?=$t('confirm.delete')?>" href="<?=Request::basePath($event->href('delete'))?>">
 				<?=TWBS::fa('minus-circle')?><span class="sr-only"><?=$t('delete')?></span>
 			</a>

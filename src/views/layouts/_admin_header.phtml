@@ -5,7 +5,7 @@
 			<?=HTML::link($t('admincp'), '/admin', ['class' => "navbar-brand"])?>
 		</div>
 		<nav id="nav-main">
-		<?php if ($currentUser and $currentUser->group()->isAdmin()): ?>
+		<?php if ($loggedin and $currentUser->group()->isAdmin()): ?>
 			<ul class="nav navbar-nav navbar-left">
 				<li><?=HTML::link($t('settings'), '/admin/settings')?></li>
 				<li><?=HTML::link($t('projects'), '/admin/projects')?></li>

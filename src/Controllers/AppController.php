@@ -100,7 +100,7 @@ class AppController extends Controller
         $this->getProject();
         $this->before('*', function () {
             // Make sure the user has permission to view the project
-            if ($this->currentUser && $this->project && !$this->currentUser->permission($this->project->id, 'view_project')) {
+            if ($this->currentUser && $this->project && !$this->hasPermission($this->project->id, 'view_project')) {
                 return $this->show403();
             }
 
@@ -121,13 +121,26 @@ class AppController extends Controller
 
         // Fetch all projects and make sure the user has permission to view them
         foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
-            if ($this->currentUser->permission($project->id, 'view_project')) {
+            if ($this->hasPermission($project->id, 'view_project')) {
                 $this->projects[] = $project;
             }
         }
 
         $this->set('projects', $this->projects);
         $this->set('traq', $this);
+    }
+
+    /**
+     * Check if the user has permission to perform the specified action.
+     *
+     * @param integer $projectId
+     * @param string  $action
+     *
+     * @return boolean
+     */
+    public function hasPermission($projectId, $action)
+    {
+        return $this->currentUser->permission($projectId, $action);
     }
 
     /**
@@ -169,11 +182,16 @@ class AppController extends Controller
 
         if ($this->currentUser) {
             Language::setCurrent($this->currentUser->language);
+            $this->loggedin = true;
         } else {
             $this->currentUser = User::anonymousUser();
+            $this->loggedin = false;
         }
 
-        $this->set('currentUser', $this->currentUser);
+        $this->set([
+            'currentUser' => $this->currentUser,
+            'loggedin'    => $this->loggedin
+        ]);
     }
 
     /**
