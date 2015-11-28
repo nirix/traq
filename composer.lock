@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0960ba54d8a114900749c41f4b6e0ac6",
-    "content-hash": "dc333581ea8770028ef2a1718f2ede48",
+    "hash": "5cae91a05cd6a8378031a2debcda7f16",
+    "content-hash": "36d09934cba1e4e4ccf5ba8f3c3a622b",
     "packages": [
         {
             "name": "avalon/database",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "14dac49b2bec70f38579fac72eed3b5db9d813c4"
+                "reference": "005546325b1dadb3d9cd8917f771ed45a79b12a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/14dac49b2bec70f38579fac72eed3b5db9d813c4",
-                "reference": "14dac49b2bec70f38579fac72eed3b5db9d813c4",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/005546325b1dadb3d9cd8917f771ed45a79b12a0",
+                "reference": "005546325b1dadb3d9cd8917f771ed45a79b12a0",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-11-25 18:21:11"
+            "time": "2015-11-28 04:33:06"
         },
         {
             "name": "avalon/database-migrations",
@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database-migrations.git",
-                "reference": "b6d064b7a4f8a98d165e887f1de1b40401dd9ae1"
+                "reference": "c5d700775de74f7db990e385f05b376b542d76a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/b6d064b7a4f8a98d165e887f1de1b40401dd9ae1",
-                "reference": "b6d064b7a4f8a98d165e887f1de1b40401dd9ae1",
+                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/c5d700775de74f7db990e385f05b376b542d76a2",
+                "reference": "c5d700775de74f7db990e385f05b376b542d76a2",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
                 "migrations",
                 "schema"
             ],
-            "time": "2015-03-26 06:33:37"
+            "time": "2015-11-26 08:57:06"
         },
         {
             "name": "avalon/event-dispatcher",
@@ -300,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/http.git",
-                "reference": "2b27227ce36c713da1e3a20cd99527526331f8f7"
+                "reference": "9b0533ec0dd9deaa62db364bfd7283e8e868aad3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/http/zipball/2b27227ce36c713da1e3a20cd99527526331f8f7",
-                "reference": "2b27227ce36c713da1e3a20cd99527526331f8f7",
+                "url": "https://api.github.com/repos/avalonphp/http/zipball/9b0533ec0dd9deaa62db364bfd7283e8e868aad3",
+                "reference": "9b0533ec0dd9deaa62db364bfd7283e8e868aad3",
                 "shasum": ""
             },
             "require": {
@@ -338,7 +338,7 @@
                 "framework",
                 "http"
             ],
-            "time": "2015-05-28 15:43:14"
+            "time": "2015-11-28 16:16:13"
         },
         {
             "name": "avalon/kernel",
@@ -439,12 +439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/routing.git",
-                "reference": "ae8a754e88c4a966a45fd4940074423ef14a3daa"
+                "reference": "573b351b630795f2a8132055d13181a28a31e879"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/routing/zipball/ae8a754e88c4a966a45fd4940074423ef14a3daa",
-                "reference": "ae8a754e88c4a966a45fd4940074423ef14a3daa",
+                "url": "https://api.github.com/repos/avalonphp/routing/zipball/573b351b630795f2a8132055d13181a28a31e879",
+                "reference": "573b351b630795f2a8132055d13181a28a31e879",
                 "shasum": ""
             },
             "require": {
@@ -477,7 +477,7 @@
                 "framework",
                 "routing"
             ],
-            "time": "2015-05-27 03:48:54"
+            "time": "2015-11-28 16:17:05"
         },
         {
             "name": "avalon/templating",
@@ -524,51 +524,6 @@
                 "templating"
             ],
             "time": "2015-02-02 07:01:52"
-        },
-        {
-            "name": "avalon/testing",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/avalonphp/testing.git",
-                "reference": "6120d4ad46d12c41f520a48f3d626f1f09fe0d7b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/testing/zipball/6120d4ad46d12c41f520a48f3d626f1f09fe0d7b",
-                "reference": "6120d4ad46d12c41f520a48f3d626f1f09fe0d7b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Avalon\\Testing\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack"
-                }
-            ],
-            "description": "Avalon Testing Component.",
-            "keywords": [
-                "avalon",
-                "framework",
-                "testing"
-            ],
-            "time": "2015-11-25 22:44:03"
         },
         {
             "name": "avalon/util",
@@ -1262,6 +1217,51 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "avalon/testing",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/testing.git",
+                "reference": "02042258dd74d9518ea6a7ccc8a8a98194e53afc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/testing/zipball/02042258dd74d9518ea6a7ccc8a8a98194e53afc",
+                "reference": "02042258dd74d9518ea6a7ccc8a8a98194e53afc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Testing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack"
+                }
+            ],
+            "description": "Avalon Testing Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "testing"
+            ],
+            "time": "2015-11-28 16:22:57"
+        },
         {
             "name": "filp/whoops",
             "version": "1.1.10",
