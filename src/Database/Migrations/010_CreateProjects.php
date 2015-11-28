@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
@@ -29,7 +29,7 @@ class CreateProjects extends Migration
 {
     public function up()
     {
-        $this->createTable("projects", function($t) {
+        $this->createTable("projects", function ($t) {
             $t->addColumn("name", "string");
             $t->addColumn("slug", "string");
             $t->addColumn("codename", "string", ['notnull' => false]);

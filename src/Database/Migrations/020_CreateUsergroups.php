@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,24 +21,22 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateSubscriptions extends Migration
+class CreateUsergroups extends Migration
 {
     public function up()
     {
-        $this->createTable("subscriptions", function($t) {
-            $t->addColumn("type", "string");
-            $t->addColumn("user_id", "bigint");
-            $t->addColumn("project_id", "bigint");
-            $t->addColumn("object_id", "bigint");
+        $this->createTable("usergroups", function ($t) {
+            $t->addColumn("name", "string");
+            $t->addColumn("is_admin", "boolean", ['default' => false]);
         });
     }
 
     public function down()
     {
-        $this->dropTable("subscriptions");
+        $this->dropTable("usergroups");
     }
 }

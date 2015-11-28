@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,22 +21,24 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateSeverities extends Migration
+class CreateTypes extends Migration
 {
     public function up()
     {
-        $this->createTable("severities", function($t) {
+        $this->createTable("types", function ($t) {
             $t->addColumn("name", "string");
-            $t->addColumn("level", "integer", ['default' => 3]);
+            $t->addColumn("bullet", "string");
+            $t->addColumn("show_on_changelog", "boolean", ['default' => true]);
+            $t->addColumn("template", "text", ['notnull' => false]);
         });
     }
 
     public function down()
     {
-        $this->dropTable("severities");
+        $this->dropTable("types");
     }
 }

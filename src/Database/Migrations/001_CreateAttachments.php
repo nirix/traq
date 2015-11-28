@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,25 +21,28 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreatePlugins extends Migration
+class CreateAttachments extends Migration
 {
     public function up()
     {
-        $this->createTable("plugins", function($t) {
-            $t->addColumn("directory", "string");
-            $t->addColumn("version", "string");
-            $t->addColumn("autoload", "text");
-            $t->addColumn("main", "string");
-            $t->addColumn("is_enabled", "boolean", ['default' => true]);
+        $this->createTable("attachments", function ($t) {
+            $t->addColumn("name", "string");
+            $t->addColumn("contents", "text");
+            $t->addColumn("type", "string");
+            $t->addColumn("size", "bigint");
+            $t->addColumn("user_id", "bigint");
+            $t->addColumn("ticket_id", "bigint");
+
+            $this->timestamps($t);
         });
     }
 
     public function down()
     {
-        $this->dropTable("plugins");
+        $this->dropTable("attachments");
     }
 }

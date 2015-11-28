@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,23 +21,33 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateStatuses extends Migration
+class CreateMilestones extends Migration
 {
     public function up()
     {
-        $this->createTable("statuses", function($t) {
+        $this->createTable("milestones", function ($t) {
             $t->addColumn("name", "string");
+            $t->addColumn("slug", "string");
+            $t->addColumn("codename", "string", ['notnull' => false]);
+            $t->addColumn("info", "text", ['notnull' => false]);
+            $t->addColumn("changelog", "text", ['notnull' => false]);
+            $t->addColumn("due", "datetime", ['notnull' => false]);
+            $t->addColumn("completed_at", "datetime", ['notnull' => false]);
             $t->addColumn("status", "integer", ['default' => 1]);
-            $t->addColumn("show_on_changelog", "boolean", ['default' => true]);
+            $t->addColumn("is_locked", "boolean", ['default' => false]);
+            $t->addColumn("project_id", "integer");
+            $t->addColumn("display_order", "integer", ['default' => 0]);
+
+            $this->timestamps($t);
         });
     }
 
     public function down()
     {
-        $this->dropTable("statuses");
+        $this->dropTable("milestones");
     }
 }

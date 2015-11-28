@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,22 +21,21 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateTicketRelationships extends Migration
+class CreatePriorities extends Migration
 {
     public function up()
     {
-        $this->createTable("ticket_relationships", function($t) {
-            $t->addColumn("ticket_id", "bigint");
-            $t->addColumn("related_ticket_id", "bigint");
+        $this->createTable("priorities", function ($t) {
+            $t->addColumn("name", "string");
         });
     }
 
     public function down()
     {
-        $this->dropTable("ticket_relationships");
+        $this->dropTable("priorities");
     }
 }

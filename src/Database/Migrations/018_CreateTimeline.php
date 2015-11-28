@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,26 +21,20 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateUsers extends Migration
+class CreateTimeline extends Migration
 {
     public function up()
     {
-        $this->createTable("users", function($t) {
-            $t->addColumn("username", "string");
-            $t->addColumn("password", "string");
-            // $t->addColumn("password_ver", "string", ['default' => "crpyt"]);
-            $t->addColumn("name", "string");
-            $t->addColumn("email", "string");
-            $t->addColumn("group_id", "integer", ['default' => 2]);
-            $t->addColumn("language", "string", ['default' => "enAU"]);
-            $t->addColumn("options", "text", ['notnull' => false]);
-            $t->addColumn("login_hash", "string");
-            $t->addColumn("api_key", "string", ['notnull' => false]);
-            $t->addColumn("activation_code", "string", ['notnull' => false]);
+        $this->createTable("timeline", function ($t) {
+            $t->addColumn("project_id", "bigint");
+            $t->addColumn("owner_id", "bigint");
+            $t->addColumn("action", "string");
+            $t->addColumn("data", "text", ['notnull' => false]);
+            $t->addColumn("user_id", "bigint");
 
             $this->timestamps($t);
         });
@@ -48,6 +42,6 @@ class CreateUsers extends Migration
 
     public function down()
     {
-        $this->dropTable("users");
+        $this->dropTable("timeline");
     }
 }

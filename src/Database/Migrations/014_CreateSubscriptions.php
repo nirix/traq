@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,27 +21,24 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateTimeline extends Migration
+class CreateSubscriptions extends Migration
 {
     public function up()
     {
-        $this->createTable("timeline", function($t) {
-            $t->addColumn("project_id", "bigint");
-            $t->addColumn("owner_id", "bigint");
-            $t->addColumn("action", "string");
-            $t->addColumn("data", "text", ['notnull' => false]);
+        $this->createTable("subscriptions", function ($t) {
+            $t->addColumn("type", "string");
             $t->addColumn("user_id", "bigint");
-
-            $this->timestamps($t);
+            $t->addColumn("project_id", "bigint");
+            $t->addColumn("object_id", "bigint");
         });
     }
 
     public function down()
     {
-        $this->dropTable("timeline");
+        $this->dropTable("subscriptions");
     }
 }

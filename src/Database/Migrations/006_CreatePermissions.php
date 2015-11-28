@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -21,23 +21,24 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Migrations;
+namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateUserRoles extends Migration
+class CreatePermissions extends Migration
 {
     public function up()
     {
-        $this->createTable("user_roles", function($t) {
-            $t->addColumn("user_id", "bigint");
+        $this->createTable("permissions", function ($t) {
             $t->addColumn("project_id", "bigint");
-            $t->addColumn("project_role_id", "integer");
+            $t->addColumn("type", "string");
+            $t->addColumn("type_id", "bigint");
+            $t->addColumn("permissions", "text");
         });
     }
 
     public function down()
     {
-        $this->dropTable("user_roles");
+        $this->dropTable("permissions");
     }
 }
