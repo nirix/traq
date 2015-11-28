@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -26,7 +26,7 @@ use Traq\config\routes\Admin as AdminRoutes;
 use Traq\config\routes\Projects as ProjectRoutes;
 use Traq\config\routes\ProjectSettings as ProjectSettingRoutes;
 
-Router::map(function($r) {
+Router::map(function ($r) {
     Router::$extensions[] = '.js';
     Router::$extensions[] = '.txt';
 
@@ -34,10 +34,10 @@ Router::map(function($r) {
 
     // URL tokens
     $r->addToken('project_slug', '(?P<project_slug>[^/]+)');
-    $r->addToken('slug',         '(?P<slug>[^/]+?)');
-    $r->addToken('event_id',     '(?P<event_id>[\d]+)');
-    $r->addToken('ticket_id',    '(?P<ticket_id>[\d]+)');
-    $r->addToken('revision',     '(?P<revision>[\d]+)');
+    $r->addToken('slug', '(?P<slug>[^/]+?)');
+    $r->addToken('event_id', '(?P<event_id>[\d]+)');
+    $r->addToken('ticket_id', '(?P<ticket_id>[\d]+)');
+    $r->addToken('revision', '(?P<revision>[\d]+)');
 
     $r->root("{$traq}\\Projects::index");
 
