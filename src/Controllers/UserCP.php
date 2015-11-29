@@ -41,9 +41,10 @@ class UserCP extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->set('user', clone $this->currentUser);
 
         $this->before('*', function () {
+            $this->set('user', clone $this->currentUser);
+
             // Make sure the user is logged in
             if (!$this->currentUser) {
                 $this->layout = "default.phtml";

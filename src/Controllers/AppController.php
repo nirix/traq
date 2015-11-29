@@ -87,18 +87,21 @@ class AppController extends Controller
     {
         parent::__construct();
 
+        $this->set('traq', $this);
+
         // Get database connection
         $this->db = ConnectionManager::getConnection();
 
         // Append installation title to page title
         $this->title($this->setting('title'));
 
-        // Get current user
-        $this->getUser();
-
-        // Get current project
-        $this->getProject();
         $this->before('*', function () {
+            // Get current user
+            $this->getUser();
+
+            // Get current project
+            $this->getProject();
+
             // Make sure the user has permission to view the project
             if ($this->currentUser && $this->project && !$this->hasPermission($this->project->id, 'view_project')) {
                 return $this->show403();
@@ -108,26 +111,22 @@ class AppController extends Controller
             if (!$this->project && isset(Router::$params['project_slug'])) {
                 return $this->show404();
             }
-        });
 
-        // No layouts for overlays
-        if (Request::header('X-Overlay')) {
-            $this->layout    = false;
-            $this->isOverlay = true;
-        }
-
-        // Set environment
-        $this->set('environment', $_ENV['environment']);
-
-        // Fetch all projects and make sure the user has permission to view them
-        foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
-            if ($this->hasPermission($project->id, 'view_project')) {
-                $this->projects[] = $project;
+            // No layouts for overlays
+            if (Request::header('X-Overlay')) {
+                $this->layout    = false;
+                $this->isOverlay = true;
             }
-        }
 
-        $this->set('projects', $this->projects);
-        $this->set('traq', $this);
+            // Fetch all projects and make sure the user has permission to view them
+            foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
+                if ($this->hasPermission($project->id, 'view_project')) {
+                    $this->projects[] = $project;
+                }
+            }
+
+            $this->set('projects', $this->projects);
+        });
     }
 
     /**
