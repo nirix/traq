@@ -25,7 +25,8 @@ namespace Traq;
 
 use Exception;
 use Avalon\AppKernel;
-use Avalon\Language;
+use Avalon\Language as AvalonLanguage;
+use Traq\Language;
 use Traq\Models\Setting;
 use Traq\Models\Plugin;
 use Traq\Helpers\Notification;
@@ -110,13 +111,8 @@ class Traq extends AppKernel
      */
     protected function setupLanguage()
     {
-        foreach (scandir(__DIR__ . '/translations') as $lang) {
-            if ($lang !== '.' && $lang !== '..') {
-                require __DIR__ . "/translations/{$lang}";
-            }
-        }
-
-        Language::setCurrent(Setting::get('locale')->value);
+        Language::loadAll();
+        AvalonLanguage::setCurrent(Setting::get('locale')->value);
     }
 
     /**
