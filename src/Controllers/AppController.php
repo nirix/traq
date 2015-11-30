@@ -95,38 +95,36 @@ class AppController extends Controller
         // Append installation title to page title
         $this->title($this->setting('title'));
 
-        $this->before('*', function () {
-            // Get current user
-            $this->getUser();
+        // Get current user
+        $this->getUser();
 
-            // Get current project
-            $this->getProject();
+        // Get current project
+        $this->getProject();
 
-            // Make sure the user has permission to view the project
-            if ($this->currentUser && $this->project && !$this->hasPermission($this->project->id, 'view_project')) {
-                return $this->show403();
+        // Make sure the user has permission to view the project
+        if ($this->currentUser && $this->project && !$this->hasPermission($this->project->id, 'view_project')) {
+            return $this->show403();
+        }
+
+        // Make sure there is a project is the `project_slug` is found.
+        if (!$this->project && isset(Router::$params['project_slug'])) {
+            return $this->show404();
+        }
+
+        // No layouts for overlays
+        if (Request::header('X-Overlay')) {
+            $this->layout    = false;
+            $this->isOverlay = true;
+        }
+
+        // Fetch all projects and make sure the user has permission to view them
+        foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
+            if ($this->hasPermission($project->id, 'view_project')) {
+                $this->projects[] = $project;
             }
+        }
 
-            // Make sure there is a project is the `project_slug` is found.
-            if (!$this->project && isset(Router::$params['project_slug'])) {
-                return $this->show404();
-            }
-
-            // No layouts for overlays
-            if (Request::header('X-Overlay')) {
-                $this->layout    = false;
-                $this->isOverlay = true;
-            }
-
-            // Fetch all projects and make sure the user has permission to view them
-            foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
-                if ($this->hasPermission($project->id, 'view_project')) {
-                    $this->projects[] = $project;
-                }
-            }
-
-            $this->set('projects', $this->projects);
-        });
+        $this->set('projects', $this->projects);
     }
 
     /**
