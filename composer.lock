@@ -300,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/http.git",
-                "reference": "9b0533ec0dd9deaa62db364bfd7283e8e868aad3"
+                "reference": "07b68e1de3055c16796a4b64ee6fb057f8d3caf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/http/zipball/9b0533ec0dd9deaa62db364bfd7283e8e868aad3",
-                "reference": "9b0533ec0dd9deaa62db364bfd7283e8e868aad3",
+                "url": "https://api.github.com/repos/avalonphp/http/zipball/07b68e1de3055c16796a4b64ee6fb057f8d3caf8",
+                "reference": "07b68e1de3055c16796a4b64ee6fb057f8d3caf8",
                 "shasum": ""
             },
             "require": {
@@ -338,7 +338,7 @@
                 "framework",
                 "http"
             ],
-            "time": "2015-11-28 16:16:13"
+            "time": "2015-11-30 10:24:32"
         },
         {
             "name": "avalon/kernel",
@@ -346,12 +346,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/kernel.git",
-                "reference": "b4305c1fa4b58466b44b4573810fe71daf6c8e35"
+                "reference": "31621528d8805a7291f13d129911208525c38535"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/kernel/zipball/b4305c1fa4b58466b44b4573810fe71daf6c8e35",
-                "reference": "b4305c1fa4b58466b44b4573810fe71daf6c8e35",
+                "url": "https://api.github.com/repos/avalonphp/kernel/zipball/31621528d8805a7291f13d129911208525c38535",
+                "reference": "31621528d8805a7291f13d129911208525c38535",
                 "shasum": ""
             },
             "require": {
@@ -384,7 +384,7 @@
                 "framework",
                 "kernel"
             ],
-            "time": "2015-11-25 22:39:39"
+            "time": "2015-11-30 10:24:41"
         },
         {
             "name": "avalon/language",
@@ -439,12 +439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/routing.git",
-                "reference": "573b351b630795f2a8132055d13181a28a31e879"
+                "reference": "8172032101e42c76de9b6654991f69a3d8f1dfa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/routing/zipball/573b351b630795f2a8132055d13181a28a31e879",
-                "reference": "573b351b630795f2a8132055d13181a28a31e879",
+                "url": "https://api.github.com/repos/avalonphp/routing/zipball/8172032101e42c76de9b6654991f69a3d8f1dfa8",
+                "reference": "8172032101e42c76de9b6654991f69a3d8f1dfa8",
                 "shasum": ""
             },
             "require": {
@@ -477,7 +477,7 @@
                 "framework",
                 "routing"
             ],
-            "time": "2015-11-28 16:17:05"
+            "time": "2015-11-30 10:24:07"
         },
         {
             "name": "avalon/templating",
@@ -1223,12 +1223,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/testing.git",
-                "reference": "02042258dd74d9518ea6a7ccc8a8a98194e53afc"
+                "reference": "94791f19f1b44cc48c706699c578c197271c1098"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/testing/zipball/02042258dd74d9518ea6a7ccc8a8a98194e53afc",
-                "reference": "02042258dd74d9518ea6a7ccc8a8a98194e53afc",
+                "url": "https://api.github.com/repos/avalonphp/testing/zipball/94791f19f1b44cc48c706699c578c197271c1098",
+                "reference": "94791f19f1b44cc48c706699c578c197271c1098",
                 "shasum": ""
             },
             "require": {
@@ -1260,7 +1260,7 @@
                 "framework",
                 "testing"
             ],
-            "time": "2015-11-28 16:22:57"
+            "time": "2015-11-30 10:23:29"
         },
         {
             "name": "filp/whoops",
