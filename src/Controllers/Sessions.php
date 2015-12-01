@@ -41,7 +41,7 @@ class Sessions extends AppController
 
         $this->before(['new', 'create'], function () {
             if ($this->currentUser) {
-                $this->redirectTo('root');
+                return $this->redirectTo('root');
             }
         });
     }
