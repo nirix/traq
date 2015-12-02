@@ -112,7 +112,7 @@ class AppController extends Controller
         }
 
         // No layouts for overlays
-        if (Request::header('X-Overlay')) {
+        if (Request::$headers->get('X-Overlay')) {
             $this->layout    = false;
             $this->isOverlay = true;
         }
@@ -173,7 +173,7 @@ class AppController extends Controller
         }
 
         // Check headers
-        if ($apiKey = Request::header('X-Access-Token') && $user = User::find('api_key', $apiKey)) {
+        if ($apiKey = Request::$headers->get('X-Access-Token') && $user = User::find('api_key', $apiKey)) {
             $this->currentUser = $user;
         }
 
