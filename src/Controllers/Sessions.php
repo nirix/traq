@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -74,7 +74,7 @@ class Sessions extends AppController
             if ($user->isActivated()) {
                 setcookie('traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
                 return $this->redirect(
-                    Request::post('redirect', $this->generateUrl('root'))
+                    Request::$post->get('redirect', $this->generateUrl('root'))
                 );
             } else {
                 $activationRequired = true;
