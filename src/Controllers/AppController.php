@@ -26,7 +26,6 @@ namespace Traq\Controllers;
 use Avalon\Http\Controller;
 use Avalon\Http\Request;
 use Avalon\Http\Response;
-use Avalon\Routing\Router;
 use Avalon\Language;
 use Avalon\Database\ConnectionManager;
 use Traq\Models\Project;
@@ -102,29 +101,24 @@ class AppController extends Controller
         $this->getProject();
 
         // Make sure the user has permission to view the project
-        if ($this->currentUser && $this->project && !$this->hasPermission($this->project->id, 'view_project')) {
-            return $this->show403();
-        }
+        $this->before('*', function () {
+            if ($this->currentUser
+            && $this->project
+            && !$this->hasPermission($this->project->id, 'view_project')) {
+                return $this->show403();
+            }
 
-        // Make sure there is a project is the `project_slug` is found.
-        if (!$this->project && isset(Router::$params['project_slug'])) {
-            return $this->show404();
-        }
+            // Make sure there is a project is the `project_slug` is found.
+            if (!$this->project && Request::$properties->has('project_slug')) {
+                return $this->show404();
+            }
+        });
 
         // No layouts for overlays
         if (Request::$headers->get('X-Overlay')) {
             $this->layout    = false;
             $this->isOverlay = true;
         }
-
-        // Fetch all projects and make sure the user has permission to view them
-        foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
-            if ($this->hasPermission($project->id, 'view_project')) {
-                $this->projects[] = $project;
-            }
-        }
-
-        $this->set('projects', $this->projects);
     }
 
     /**
@@ -198,8 +192,8 @@ class AppController extends Controller
      */
     public function getProject()
     {
-        if (isset($this->route->params['project_slug'])
-        && $this->project = Project::find('slug', $this->route->params['project_slug'])) {
+        if (Request::$properties->has('project_slug')
+        && $this->project = Project::find('slug', Request::$properties->get('project_slug'))) {
             $GLOBALS['project'] = $this->project;
 
             // Add project name to page title
