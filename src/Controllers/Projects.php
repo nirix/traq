@@ -25,6 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Response;
+use Traq\Models\Project;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\Type;
@@ -43,11 +44,19 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        return $this->respondTo(function ($format) {
+        // Fetch all projects and make sure the user has permission to view them
+        $projects = [];
+        foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
+            if ($this->hasPermission($project->id, 'view_project')) {
+                $projects[] = $project;
+            }
+        }
+
+        return $this->respondTo(function ($format) use ($projects) {
             if ($format == 'html') {
-                return $this->render('projects/index.phtml');
+                return $this->render('projects/index.phtml', ['projects' => $projects]);
             } elseif ($format == 'json') {
-                return $this->jsonResponse($this->projects);
+                return $this->jsonResponse($projects);
             }
         });
     }
