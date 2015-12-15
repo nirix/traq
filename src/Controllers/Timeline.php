@@ -55,10 +55,11 @@ class Timeline extends AppController
             $events  = [];
 
             // Fetch filters
-            $timelineFilters = Request::post(
-                'filters',
-                isset($_SESSION['timeline_filters']) ? $_SESSION['timeline_filters'] : []
-            );
+            if (Request::$post->has('filters')) {
+                $timelineFilters = Request::$post->get('filters')->getProperties();
+            } else {
+                $timelineFilters = isset($_SESSION['timeline_filters']) ? $_SESSION['timeline_filters'] : [];
+            }
 
             // Process filters
             foreach ($timelineFilters as $filter => $value) {
@@ -85,7 +86,7 @@ class Timeline extends AppController
 
         // Pagination
         $pagination = new Pagination(
-            (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
+            (isset(Request::$query['page']) ? Request::$query['page'] : 1), // Page
             settings('timeline_days_per_page'), // Per page
             $query->rowCount()
         );
