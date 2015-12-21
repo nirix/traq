@@ -23,109 +23,105 @@
 
 namespace Traq;
 
-use Exception;
+use PDO;
 use Avalon\AppKernel;
-use Avalon\Language as AvalonLanguage;
-use Traq\Language;
-use Traq\Models\Setting;
-use Traq\Models\Plugin;
+use Avalon\Templating\View;
+use Avalon\Database\ConnectionManager;
 use Traq\Helpers\Notification;
-use Swift_SmtpTransport;
-use Swift_SendmailTransport;
-use Swift_Mailer;
 
 /**
  * The heart of Traq.
  *
- * @author Jack P.
  * @package Traq
+ * @author Jack P.
  */
-class Traq extends AppKernel
+class Kernel extends AppKernel
 {
-    /**
-     * @var string
-     */
-    protected static $version;
-
-    /**
-     * The composer autoloader instance.
-     *
-     * @var object
-     */
     protected static $loader;
 
     public function __construct()
     {
-        // We'll need the autoloader instance
-        static::$loader = require __DIR__ . '/../vendor/autoload.php';
-
-        // This line looks weird without a comment
+        global $autoloader;
         parent::__construct();
 
-        // Start session
-        session_start();
+        static::$loader = $autoloader;
 
-        // Include version file
-        require __DIR__ . "/version.php";
-        static::$version = TRAQ_VERSION;
+        require __DIR__ . '/version.php';
 
-        // Alias classes
-        $this->aliasClasses();
+        // Connect to the database
+        $db = $this->config['db'][$this->config['environment']];
+        // $GLOBALS['db'] = DriverManager::getConnection([
+        $GLOBALS['db'] = ConnectionManager::create([
+            'dbname'   => $db['database'],
+            'user'     => $db['username'],
+            'password' => $db['password'],
+            'host'     => $db['host'],
+            'driver'   => $db['driver'],
+            'prefix'   => $db['prefix']
+        ]);
+        define('PREFIX', $db['prefix']);
+        unset($db);
 
-        // Load default language
-        $this->setupLanguage();
+        // Alias some commonly used classes
+        class_alias('Avalon\\Templating\\View', 'View');
+        class_alias('Avalon\\Http\\Request', 'Request');
+        class_alias('Avalon\\Hook', 'Hook');
 
-        // Old common functions
-        require __DIR__ . "/common.php";
+        class_alias('Traq\\Helpers\\Errors', 'Errors');
+        class_alias('Traq\\Helpers\\Format', 'Format');
+        class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
 
-        // And finally, load the plugins
+        class_alias('Avalon\\Helpers\\HTML', 'HTML');
+        class_alias('Avalon\\Helpers\\Form', 'Form');
+        class_alias('Avalon\\Helpers\\TWBS', 'TWBS');
+        class_alias('Avalon\\Helpers\\Gravatar', 'Gravatar');
+
+        // Load commonly used functions
+        require __DIR__ . '/common.php';
+
+        View::loadFunctions();
+
+        $this->loadTranslations();
         $this->loadPlugins();
 
-        // Setup notifications
-        $this->setupNotifications();
+        // Set mailer config
+        if (isset($this->config['email'])) {
+            Notification::setConfig($this->config['email']);
+        }
     }
 
-    protected function aliasClasses()
+    protected function loadTranslations()
     {
-        class_alias("Avalon\\Hook", "Hook");
-        class_alias("Avalon\\Templating\\View", "View");
+        foreach (scandir("{$this->path}/translations") as $file) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            }
 
-        // Avalon helpers
-        class_alias("Avalon\\Helpers\\HTML", "HTML");
-        class_alias("Avalon\\Helpers\\Form", "Form");
-        class_alias("Avalon\\Helpers\\Time", "Time");
-        class_alias("Avalon\\Http\\Request", "Request");
-
-        // Traq helpers
-        class_alias("Traq\\Helpers\\Format", "Format");
-        class_alias("Traq\\Helpers\\Subscription", "Subscription");
-        class_alias("Traq\\Helpers\\TWBS", "TWBS");
-        class_alias("Traq\\Helpers\\Errors", "Errors");
-        class_alias("Traq\\Helpers\\Gravatar", "Gravatar");
-        class_alias("Traq\\Helpers\\Ticketlist", "Ticketlist");
-        class_alias("Traq\\Helpers\\TicketFilters", "TicketFilters");
+            require "{$this->path}/translations/{$file}";
+        }
     }
 
-    /**
-     * Loads and sets the language.
-     */
-    protected function setupLanguage()
-    {
-        Language::loadAll();
-        AvalonLanguage::setCurrent(Setting::get('locale')->value);
-    }
-
-    /**
-     * Load enabled plugins.
-     */
     protected function loadPlugins()
     {
-        $queue = array();
+        global $autoloader;
 
-        foreach (Plugin::allEnabled() as $plugin) {
-            $plugin->registerWithAutoloader();
+        $queue = [];
 
-            $class = $plugin->main;
+        $plugins = queryBuilder()->select('*')->from(PREFIX . 'plugins')
+            ->where('is_enabled = 1')
+            ->execute()
+            ->fetchAll();
+
+        foreach ($plugins as $plugin) {
+            $vendorDir = __DIR__ . '/../vendor';
+            foreach (json_decode($plugin['autoload'], true) as $namespace => $directory) {
+                $autoloader->addPsr4(
+                    $namespace,
+                    $vendorDir . "/{$plugin['directory']}/{$directory}"
+                );
+            }
+
+            $class = $plugin['main'];
             if (class_exists($class)) {
                 $class::init();
                 $queue[] = $class;
@@ -135,39 +131,6 @@ class Traq extends AppKernel
         foreach ($queue as $plugin) {
             $plugin::enable();
         }
-    }
-
-    /**
-     * Setup Swiftmailer and notification class.
-     */
-    protected function setupNotifications()
-    {
-        // Do nothing unless email config is set
-        if (!isset($this->config['email'])) {
-            return false;
-        }
-
-        // Configure based on SMTP or Sendmail
-        switch ($this->config['email']['type']) {
-            case "SMTP":
-                $this->mailerTransport = Swift_SmtpTransport::newInstance(
-                    $this->config['email']['server'],
-                    $this->config['email']['port'],
-                    (isset($this->config['email']['security']) ? $this->config['email']['security'] : null)
-                );
-
-                $this->mailerTransport->setUsername($this->config['email']['username']);
-                $this->mailerTransport->setPassword($this->config['email']['password']);
-                break;
-
-            case "sendmail":
-                $this->mailerTransport = Swift_SendmailTransport::newInstance($this->config['email']['path']);
-                break;
-        }
-
-        // Configure the mailer and Notification helper.
-        $this->mailer = Swift_Mailer::newInstance($this->mailerTransport);
-        Notification::setMailer($this->mailer);
     }
 
     /**
@@ -181,57 +144,30 @@ class Traq extends AppKernel
         static::$loader->addPsr4($namespace, $directory);
     }
 
-    /**
-     * @return string
-     */
-    public static function version()
-    {
-        return static::$version;
-    }
-
-    // =========================================================================
-    // Overwritten functions
+    // -------------------------------------------------------------------------
+    // Overwritten methods
 
     /**
-     * Loads the applications configuration.
+     * Load routes.
      */
-    protected function loadConfiguration()
+    protected function loadRoutes()
     {
-        $path = dirname($this->path) . "/config/config.php";
-
-        if (file_exists($path)) {
-            $this->config = require $path;
-
-            if (isset($_ENV['environment'])) {
-                $this->config['environment'] = $_ENV['environment'];
-            } elseif (isset($this->config['environment'])) {
-                $_ENV['environment'] = $this->config['environment'];
-            }
-
-            if (isset($this->config['environment'])) {
-                // Load environment
-                $environemntPath = "{$this->path}/config/environment/{$_ENV['environment']}.php";
-                if (file_exists($environemntPath)) {
-                    require $environemntPath;
-                }
-            }
+        if (file_exists("{$this->path}/config/routes.php")) {
+            require "{$this->path}/config/routes.php";
         } else {
-            throw new Exception("Error loading configuration file: [{$path}]");
+            throw new Exception("Unable to load routes file");
         }
     }
 
     /**
-     * Setup templating.
+     * Load the environment configuration file.
      */
-    protected function setupTemplating()
+    protected function configureEnvironment()
     {
-        parent::setupTemplating();
-
-        // Add theme to view search path.
-        $theme = Setting::get('theme')->value;
-
-        if ($theme !== 'default') {
-            View::addPath(__DIR__ . "/../vendor/traq/themes/{$theme}", true);
+        if (isset($this->config['environment'])) {
+            if (file_exists("{$this->path}/config/environment/{$this->config['environment']}.php")) {
+                require "{$this->path}/config/environment/{$this->config['environment']}.php";
+            }
         }
     }
 }
