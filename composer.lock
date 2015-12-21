@@ -4,9 +4,105 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5cae91a05cd6a8378031a2debcda7f16",
-    "content-hash": "36d09934cba1e4e4ccf5ba8f3c3a622b",
+    "hash": "04d8ba2b852e2e5c24817a3214b4f937",
+    "content-hash": "ec3154a8e99d27be8ca7ffa07c7d0388",
     "packages": [
+        {
+            "name": "avalon/core",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/avalon.git",
+                "reference": "fe3729a7f297173f0d8a8267e3a228d20da77785"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/fe3729a7f297173f0d8a8267e3a228d20da77785",
+                "reference": "fe3729a7f297173f0d8a8267e3a228d20da77785",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\": "src/Kernel/src/",
+                    "Avalon\\Http\\": "src/Http/src/",
+                    "Avalon\\Routing\\": "src/Routing/src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nirix"
+                }
+            ],
+            "description": "The Avalon framework core.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "mvc"
+            ],
+            "time": "2015-12-21 12:13:08"
+        },
+        {
+            "name": "avalon/database",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/database.git",
+                "reference": "2c0f6ab76d09a41b6ae586f24166b97ea5193ec2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/2c0f6ab76d09a41b6ae586f24166b97ea5193ec2",
+                "reference": "2c0f6ab76d09a41b6ae586f24166b97ea5193ec2",
+                "shasum": ""
+            },
+            "require": {
+                "avalon/validation": "^2.0",
+                "doctrine/dbal": "^2.5"
+            },
+            "require-dev": {
+                "nirix/phail-safe": "0.2.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nirix"
+                }
+            ],
+            "description": "Avalon Database Component",
+            "keywords": [
+                "avalon",
+                "database",
+                "orm"
+            ],
+            "time": "2015-12-20 17:47:37"
+        },
         {
             "name": "avalon/database-migrations",
             "version": "dev-master",
@@ -59,39 +155,27 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/avalonphp/avalon.git",
-                "reference": "820f0e10404d122c58b655adc6c40976c772abbf"
+                "url": "https://github.com/avalonphp/metapackage.git",
+                "reference": "1b31a8d94a9d8f788fdaf665ce8ed44b0d22cf4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/820f0e10404d122c58b655adc6c40976c772abbf",
-                "reference": "820f0e10404d122c58b655adc6c40976c772abbf",
+                "url": "https://api.github.com/repos/avalonphp/metapackage/zipball/1b31a8d94a9d8f788fdaf665ce8ed44b0d22cf4b",
+                "reference": "1b31a8d94a9d8f788fdaf665ce8ed44b0d22cf4b",
                 "shasum": ""
             },
             "require": {
-                "avalon/language": "2.0.*",
-                "avalon/templating": "2.0.*",
-                "doctrine/dbal": "2.5.*",
-                "php": ">=5.4.0"
+                "avalon/core": "^2.0",
+                "avalon/database": "^2.0",
+                "avalon/helpers": "^2.0",
+                "avalon/hook": "^2.0",
+                "avalon/language": "^2.0",
+                "avalon/templating": "^2.0"
             },
-            "type": "library",
+            "type": "metapackage",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Avalon\\Database\\": "src/Database/src/",
-                    "Avalon\\": [
-                        "src/EventDispatcher/src/",
-                        "src/Hook/src/",
-                        "src/Kernel/src/"
-                    ],
-                    "Avalon\\Helpers\\": "src/Helpers/src/",
-                    "Avalon\\Http\\": "src/Http/src/",
-                    "Avalon\\Routing\\": "src/Routing/src/",
-                    "Avalon\\Util\\": "src/Util/src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -104,25 +188,66 @@
                 }
             ],
             "description": "The Avalon framework.",
-            "keywords": [
-                "avalon",
-                "framework",
-                "mvc"
-            ],
-            "time": "2015-12-15 23:33:43"
+            "time": "2015-12-21 10:34:40"
         },
         {
-            "name": "avalon/language",
+            "name": "avalon/helpers",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/avalonphp/language.git",
-                "reference": "c72ff8be17453eb22d61e261d516508125aff0eb"
+                "url": "https://github.com/avalonphp/helpers.git",
+                "reference": "97224466faca3d57e181c4c9228995f314fbbf21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/language/zipball/c72ff8be17453eb22d61e261d516508125aff0eb",
-                "reference": "c72ff8be17453eb22d61e261d516508125aff0eb",
+                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/97224466faca3d57e181c4c9228995f314fbbf21",
+                "reference": "97224466faca3d57e181c4c9228995f314fbbf21",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Helpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack P.",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Helpers Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "helpers"
+            ],
+            "time": "2015-03-29 02:59:38"
+        },
+        {
+            "name": "avalon/hook",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/hook.git",
+                "reference": "a5624461e274557c07b899eb93a89581cae0c14c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/hook/zipball/a5624461e274557c07b899eb93a89581cae0c14c",
+                "reference": "a5624461e274557c07b899eb93a89581cae0c14c",
                 "shasum": ""
             },
             "require": {
@@ -145,8 +270,53 @@
             ],
             "authors": [
                 {
-                    "name": "Jack Polgar",
+                    "name": "Jack P.",
                     "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Avalon Hook Component.",
+            "keywords": [
+                "HOOK",
+                "avalon",
+                "plugin"
+            ],
+            "time": "2015-07-14 04:06:26"
+        },
+        {
+            "name": "avalon/language",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/language.git",
+                "reference": "07c820eccc4b85cf2f097ae8eee0bccec4158c55"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/language/zipball/07c820eccc4b85cf2f097ae8eee0bccec4158c55",
+                "reference": "07c820eccc4b85cf2f097ae8eee0bccec4158c55",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nirix"
                 }
             ],
             "description": "Avalon Language component.",
@@ -156,7 +326,7 @@
                 "language",
                 "translations"
             ],
-            "time": "2015-05-28 09:46:49"
+            "time": "2015-12-21 10:26:24"
         },
         {
             "name": "avalon/templating",
@@ -164,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/templating.git",
-                "reference": "ed1e6eaea5f59590d06282290464c5b8bb84027c"
+                "reference": "ee575b2c86bf2db94673f52a1a1c79b03cefb0d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/templating/zipball/ed1e6eaea5f59590d06282290464c5b8bb84027c",
-                "reference": "ed1e6eaea5f59590d06282290464c5b8bb84027c",
+                "url": "https://api.github.com/repos/avalonphp/templating/zipball/ee575b2c86bf2db94673f52a1a1c79b03cefb0d0",
+                "reference": "ee575b2c86bf2db94673f52a1a1c79b03cefb0d0",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +372,50 @@
                 "framework",
                 "templating"
             ],
-            "time": "2015-02-02 07:01:52"
+            "time": "2015-12-21 10:25:05"
+        },
+        {
+            "name": "avalon/validation",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/validation.git",
+                "reference": "daf6f14a33e36d014b91894c47961d5ded3c7b4a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/validation/zipball/daf6f14a33e36d014b91894c47961d5ded3c7b4a",
+                "reference": "daf6f14a33e36d014b91894c47961d5ded3c7b4a",
+                "shasum": ""
+            },
+            "require": {
+                "respect/validation": "^1.0"
+            },
+            "require-dev": {
+                "filp/whoops": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Validation\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nirix"
+                }
+            ],
+            "description": "Avalon validation component.",
+            "time": "2015-12-20 15:16:11"
         },
         {
             "name": "doctrine/annotations",
@@ -274,16 +487,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.5.2",
+            "version": "v1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "47c7128262da274f590ae6f86eb137a7a64e82af"
+                "reference": "47cdc76ceb95cc591d9c79a36dc3794975b5d136"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/47c7128262da274f590ae6f86eb137a7a64e82af",
-                "reference": "47c7128262da274f590ae6f86eb137a7a64e82af",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/47cdc76ceb95cc591d9c79a36dc3794975b5d136",
+                "reference": "47cdc76ceb95cc591d9c79a36dc3794975b5d136",
                 "shasum": ""
             },
             "require": {
@@ -340,7 +553,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-12-03 10:50:37"
+            "time": "2015-12-19 05:03:47"
         },
         {
             "name": "doctrine/collections",
@@ -757,6 +970,70 @@
             "time": "2015-11-01 10:19:22"
         },
         {
+            "name": "respect/validation",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Respect/Validation.git",
+                "reference": "0c536453114987b7e0f6f72369d3be0af8dd1109"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/0c536453114987b7e0f6f72369d3be0af8dd1109",
+                "reference": "0c536453114987b7e0f6f72369d3be0af8dd1109",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "egulias/email-validator": "~1.2",
+                "malkusch/bav": "~1.0",
+                "mikey179/vfsstream": "^1.5",
+                "phpunit/phpunit": "~4.0",
+                "symfony/validator": "~2.6.9",
+                "zendframework/zend-validator": "~2.3"
+            },
+            "suggest": {
+                "egulias/email-validator": "Strict (RFC compliant) email validation",
+                "ext-bcmath": "Arbitrary Precision Mathematics",
+                "ext-mbstring": "Multibyte String Functions",
+                "fabpot/php-cs-fixer": "Fix PSR2 and other coding style issues",
+                "malkusch/bav": "German bank account validation",
+                "symfony/validator": "Use Symfony validator through Respect\\Validation",
+                "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Respect\\Validation\\": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD Style"
+            ],
+            "authors": [
+                {
+                    "name": "Respect/Validation Contributors",
+                    "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+                }
+            ],
+            "description": "The most awesome validation engine ever created for PHP",
+            "homepage": "http://respect.li",
+            "keywords": [
+                "respect",
+                "validation",
+                "validator"
+            ],
+            "time": "2015-11-25 20:03:11"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.1",
             "source": {
@@ -836,7 +1113,7 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Jack Polgar",
+                    "name": "Jack P.",
                     "email": "jack@polgar.id.au"
                 }
             ],
@@ -856,12 +1133,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/testing.git",
-                "reference": "94791f19f1b44cc48c706699c578c197271c1098"
+                "reference": "2acb199090e5e5e47ae2fbce2decc195c31bdd57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/testing/zipball/94791f19f1b44cc48c706699c578c197271c1098",
-                "reference": "94791f19f1b44cc48c706699c578c197271c1098",
+                "url": "https://api.github.com/repos/avalonphp/testing/zipball/2acb199090e5e5e47ae2fbce2decc195c31bdd57",
+                "reference": "2acb199090e5e5e47ae2fbce2decc195c31bdd57",
                 "shasum": ""
             },
             "require": {
@@ -870,7 +1147,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -893,7 +1170,7 @@
                 "framework",
                 "testing"
             ],
-            "time": "2015-11-30 10:23:29"
+            "time": "2015-12-21 12:27:08"
         },
         {
             "name": "filp/whoops",
@@ -960,7 +1237,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4.0"
+        "php": ">=5.5"
     },
     "platform-dev": []
 }
