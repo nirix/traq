@@ -2,33 +2,17 @@
   "name": "traq",
   "dependencies": {
     "jquery": "~2.1.0",
-    "jquery-ui": "~1.11.0",
-    "jquery-cookie": "~1.4.0",
-    "bootstrap": "~3.3.0",
-    "font-awesome": "~4.3.0",
-    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.4.1/chosen_v1.4.1.zip"
+    "font-awesome": "~4.5.0",
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
   },
   "preen": {
-    "jquery": [
-      "dist/jquery.min.js"
-    ],
-    "jquery-ui": [
-      "jquery-ui.min.js"
-    ],
-    "jquery-cookie": [
-      "jquery.cookie.js"
-    ],
-    "bootstrap": [
-      "dist/js/bootstrap.min.js"
-    ],
     "font-awesome": [
       "css/font-awesome.min.css",
       "fonts/*"
     ],
     "chosen": [
       "chosen-sprite.png",
-      "chosen-sprite@2x.png",
-      "chosen.jquery.min.js"
+      "chosen-sprite@2x.png"
     ]
   }
 }
