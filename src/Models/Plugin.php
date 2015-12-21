@@ -24,7 +24,7 @@
 namespace Traq\Models;
 
 use Avalon\Database\Model;
-use Traq\Traq;
+use Traq\Kernel as Traq;
 
 /**
  * Plugin model.
