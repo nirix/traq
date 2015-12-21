@@ -1,6 +1,11 @@
+<?php
+$totalTickets = $milestone['open_tickets'] + $milestone['closed_tickets'];
+$closedPercent = get_percent($milestone['closed_tickets'], $totalTickets);
+$startedPercent = get_percent($milestone['started_tickets'], $totalTickets);
+$openPercent = get_percent($milestone['open_tickets'] - $milestone['started_tickets'], $totalTickets);
+?>
 <div class="progress">
-	<?=TWBS::progressBar(
-		$milestone->ticketPercent('closed'),
-		['style' => "progress-bar-success"]
-	)?>
+	<div class="progress-bar progress-bar-success" role="progressbar" style="width: <?=$closedPercent?>%;"></div>
+	<div class="progress-bar progress-bar-warning" role="progressbar" style="width: <?=$startedPercent?>%;"></div>
+	<!-- <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?=$openPercent?>%;"></div> -->
 </div>

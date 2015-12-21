@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,9 +23,6 @@
 
 namespace Traq\Controllers;
 
-use Traq\API;
-use Traq\Helpers\Format;
-
 /**
  * Roadmap controller.
  *
@@ -39,67 +36,95 @@ class Roadmap extends AppController
     {
         parent::__construct();
 
-        $this->before('*', [$this, 'setTitle']);
+        $this->title($this->translate('roadmap'));
     }
 
     /**
      * Roadmap index
      *
-     * @param string $filter Which milestones to display.
+     * @param string $filter which milestones to display.
      */
     public function indexAction($filter = 'active')
     {
-        if ($filter !== 'active') {
-            $this->title($this->translate($filter));
-        }
+        $openQuery = queryBuilder()->select('COUNT(ot.id)')
+            ->from(PREFIX . 'tickets', 'ot')
+            ->where('ot.milestone_id = m.id')
+            ->andWhere('ot.is_closed = 0');
 
-        $milestones = $this->project->milestones()
-            ->orderBy('display_order', 'ASC');
+        $startedQuery = queryBuilder()->select('COUNT(st.id)')
+            ->from(PREFIX . 'tickets', 'st')
+            ->where('st.milestone_id = m.id')
+            ->andWhere('s.status = 2')
+            ->leftJoin('st', PREFIX . 'statuses', 's', 's.id = st.status_id');
 
-        // Filter by active, completed and cancelled milestones
+        $closedQuery = queryBuilder()->select('COUNT(ct.id)')
+            ->from(PREFIX . 'tickets', 'ct')
+            ->where('ct.milestone_id = m.id')
+            ->andWhere('ct.is_closed = 1');
+
+        $query = queryBuilder()->select('*')
+            ->addSelect("({$openQuery}) AS open_tickets")
+            ->addSelect("({$startedQuery}) AS started_tickets")
+            ->addSelect("({$closedQuery}) AS closed_tickets")
+            ->from(PREFIX . 'milestones', 'm')
+            ->where('project_id = ?');
+
         if ($filter == 'active') {
-            $milestones = $milestones->where('status = ?', 1);
+            $query->andWhere('status = 1');
         } elseif ($filter == 'completed') {
-            $milestones = $milestones->where('status = ?', 2);
+            $query->andWhere('status = 2');
         } elseif ($filter == 'cancelled') {
-            $milestones = $milestones->where('status = ?', 0);
+            $query->andWhere('status = 0');
         }
 
-        $milestones = $milestones->fetchAll();
-        $this->set(compact('milestones'));
+        $query->orderBy('display_order', 'ASC');
+        $query->setParameter(0, $this->currentProject['id']);
 
-        return  $this->respondTo(function ($format) use ($milestones){
-            if ($format == 'html') {
-                return $this->render('roadmap/index.phtml');
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($milestones);
-            }
-        });
+        $milestones = $query->execute()->fetchAll();
+
+        // echo "<pre>";
+        // var_dump($milestones);
+        // exit;
+
+        return $this->render('roadmap/index.phtml', ['milestones' => $milestones]);
     }
 
     /**
      * Milestone info page.
      *
-     * @param string $milestone Milestone slug
+     * @param string $mslug milestone slug
      */
-    public function showAction($slug)
+    public function showAction($mslug)
     {
-        $milestone = $this->project->milestones()
-            ->where('slug = ?', $slug)->fetch();
+        $openQuery = queryBuilder()->select('COUNT(ot.id)')
+            ->from(PREFIX . 'tickets', 'ot')
+            ->where('ot.milestone_id = m.id')
+            ->andWhere('ot.is_closed = 0');
 
-        $this->title($milestone->name);
+        $startedQuery = queryBuilder()->select('COUNT(st.id)')
+            ->from(PREFIX . 'tickets', 'st')
+            ->where('st.milestone_id = m.id')
+            ->andWhere('s.status = 2')
+            ->leftJoin('st', PREFIX . 'statuses', 's', 's.id = st.status_id');
 
-        return $this->respondTo(function ($format) use ($milestone) {
-            if ($format == 'html') {
-                return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($milestone->toArray());
-            }
-        });
-    }
+        $closedQuery = queryBuilder()->select('COUNT(ct.id)')
+            ->from(PREFIX . 'tickets', 'ct')
+            ->where('ct.milestone_id = m.id')
+            ->andWhere('ct.is_closed = 1');
 
-    public function setTitle()
-    {
-        $this->title($this->translate('roadmap'));
+        $milestone = queryBuilder()->select('*')->from(PREFIX . 'milestones', 'm')
+            ->addSelect("({$openQuery}) AS open_tickets")
+            ->addSelect("({$startedQuery}) AS started_tickets")
+            ->addSelect("({$closedQuery}) AS closed_tickets")
+            ->where('project_id = ?')
+            ->andWhere('slug = ?')
+            ->setParameter(0, $this->currentProject['id'])
+            ->setParameter(1, $mslug);
+
+        $milestone = $milestone->execute()->fetch();
+
+        $this->title($milestone['name']);
+
+        return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
     }
 }

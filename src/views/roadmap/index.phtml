@@ -1,54 +1,45 @@
 <div class="roadmap container">
-	<h1 class="page-header"><?=$t('roadmap')?></h1>
+	<h1 class="page-header"><?=t('roadmap')?></h1>
 
 	<nav>
 		<ul class="nav nav-tabs">
-			<li<?=activeNav('/:slug/roadmap') ? ' class="active"' : ''?>>
-				<?=HTML::link($t('active'), $project->href('roadmap'))?>
+			<li<?=Request::matches('/{pslug}/roadmap') ? ' class="active"' : ''?>>
+				<a href="<?=routeUrl('roadmap')?>"><?=t('active')?></a>
 			</li>
-			<li<?=activeNav('/:slug/roadmap/completed') ? ' class="active"' : ''?>>
-				<?=HTML::link($t('completed'), $project->href('roadmap/completed'))?>
+			<li<?=Request::matches('/{pslug}/roadmap/completed') ? ' class="active"' : ''?>>
+				<a href="<?=routeUrl('roadmap_completed')?>"><?=t('completed')?></a>
 			</li>
-			<li<?=activeNav('/:slug/roadmap/all') ? ' class="active"' : ''?>>
-				<?=HTML::link($t('all'), $project->href('roadmap/all'))?>
+			<li<?=Request::matches('/{pslug}/roadmap/all') ? ' class="active"' : ''?>>
+				<a href="<?=routeUrl('roadmap_all')?>"><?=t('all')?></a>
 			</li>
 		</ul>
 	</nav>
 
 	<ul class="milestones">
-<?php foreach ($milestones as $milestone): ?>
+	<?php foreach ($milestones as $milestone) : ?>
 		<li>
 			<h2>
-				<?=HTML::link($milestone->name, $milestone)?>
-				<?php if ($milestone->codename): ?>
-					<small><em class="project-codename"><?=$milestone->codename?></em></small>
-				<?php endif; ?>
+				<a href="<?=routeUrl('milestone', ['mslug' => $milestone['slug']])?>"><?=$milestone['name']?></a>
+				<?php if ($milestone['codename']) : ?>
+					<small><em class="project-codename"><?=$milestone['codename']?></em></small>
+				<?php endif ?>
 			</h2>
 			<?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
 			<ul class="issue-counts">
 				<li>
-					<?=HTML::link(
-						$t('x_open', [$milestone->openTicketCount()]),
-						$project->href('issues/?open')
-					)?>
+					<a href="<?=routeUrl('tickets')?>?open&amp;milestone=<?=$milestone['slug']?>"><?=t('x_open', $milestone['open_tickets'])?></a>
 				</li>
 				<li>
-					<?=HTML::link(
-						$t('x_started', [$milestone->startedTicketCount()]),
-						$project->href('issues/?started')
-					)?>
+					<a href="<?=routeUrl('tickets')?>?started&amp;milestone=<?=$milestone['slug']?>"><?=t('x_started', $milestone['started_tickets'])?></a>
 				</li>
 				<li>
-					<?=HTML::link(
-						$t('x_closed', [$milestone->closedTicketCount()]),
-						$project->href('issues/?closed')
-					)?>
+					<a href="<?=routeUrl('tickets')?>?closed&amp;milestone=<?=$milestone['slug']?>"><?=t('x_closed', $milestone['closed_tickets'])?></a>
 				</li>
 			</ul>
 			<div>
-				<?=Format::text($milestone->info)?>
+				<?=Format::text($milestone['info'])?>
 			</div>
 		</li>
-<?php endforeach; ?>
+	<?php endforeach ?>
 	</ul>
 </div>
