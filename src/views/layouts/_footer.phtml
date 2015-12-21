@@ -1,15 +1,11 @@
 <footer id="footer">
 	<div class="container">
-		<span class="text-muted"><?=$t('copyright')?></span>
+		<?php if ($_ENV['environment'] === 'development') : ?>
+		<div class="text-muted pull-right">
+			<?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb
+		</div>
+		<?php endif ?>
+		<div class="text-muted">Powered by Traq <?=TRAQ_VERSION?> &copy 2009-<?=date("Y")?> Traq.io</div>
 	</div>
 </footer>
 <div id="overlay"></div>
-<?=HTML::jsIncTag('assets/components/jquery/dist/jquery.min.js')?>
-<?=HTML::jsIncTag('assets/components/jquery-ui/jquery-ui.min.js')?>
-<?=HTML::jsIncTag('assets/components/jquery-cookie/jquery.cookie.js')?>
-<?=HTML::jsIncTag('assets/components/bootstrap/dist/js/bootstrap.min.js')?>
-<?=HTML::jsIncTag('assets/components/chosen/chosen.jquery.min.js')?>
-<?=HTML::jsIncTag('assets/js/traq.js')?>
-<?=HTML::jsIncTag('assets/js/ujs.js')?>
-<?=HTML::jsIncTag($route('internal_js'))?>
-<!-- <?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb -->

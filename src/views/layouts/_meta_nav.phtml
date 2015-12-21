@@ -1,54 +1,42 @@
-<nav id="nav-meta" class="navbar navbar-inverse navbar-static-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-static-top">
 	<div class="container">
-		<ul class="links-site nav navbar-nav navbar-left">
-		<?php if (settings('site_name')): ?>
-			<li><?=HTML::link(settings('site_name'), settings('site_url'))?></li>
-		<?php endif; ?>
-		<?php if (isset($project) or Request::matches('/admin.*')): ?>
-			<li><?=HTML::link(settings('title'), $route('root'))?></li>
-		<?php endif; ?>
-		</ul>
-		<ul class="links-user nav navbar-nav navbar-right">
-		<?php if ($loggedin): ?>
-			<?php if ($currentUser->group()->is_admin or (isset($project) and $currentUser->permission($project->id, 'project_settings'))): ?>
-			<li class="dropdown">
-				<?=HTML::link(
-					TWBS::fa('cog') . " " . TWBS::caret(), '#',
-					array('class' => "dropdown-toggle", 'data-toggle' => "dropdown")
-				)?>
-				<ul class="dropdown-menu">
-				<?php if (isset($project)): ?>
-					<li><?=HTML::link($t('project_settings'), $project->href('settings'))?></li>
-				<?php endif; ?>
-				<?php if ($currentUser->group()->is_admin): ?>
-					<li><?=HTML::link($t('admincp'), $route('admin'))?></li>
-				<?php endif; ?>
-				</ul>
-			</li>
-			<?php endif; ?>
-			<li class="dropdown">
-				<?=HTML::link(
-					Gravatar::forUser($currentUser, 18) . " " . TWBS::caret(), '/usercp',
-					array('class' => "dropdown-toggle", 'data-toggle' => "dropdown")
-				)?>
-				<ul class="dropdown-menu">
-					<li><?=HTML::link($t('profile'), $currentUser->href())?></li>
-					<li><?=HTML::link($t('usercp'), $route('usercp'))?></li>
-					<li><?=HTML::link($t('logout'), $route('logout'))?></li>
-				</ul>
-			</li>
-		<?php else: ?>
-			<li class="dropdown">
-				<?=HTML::link(
-					TWBS::fa('user') . " " . TWBS::caret(), $route('usercp'),
-					array('class' => "dropdown-toggle", 'data-toggle' => "dropdown")
-				)?>
-				<ul class="dropdown-menu">
-					<li><?=HTML::link($t('login'), $route('login'), ['data-overlay' => true])?></li>
-					<li><?=HTML::link($t('register'), $route('register'))?></li>
-				</ul>
-			</li>
-		<?php endif; ?>
-		</ul>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2" aria-expanded="false">
+				<span class="sr-only"><?=t('toggle_navigation')?></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+
+		<div class="collapse navbar-collapse" id="navbar-collapse-2">
+			<div class="nav navbar-nav">
+			<?php if (setting('site_url')) : ?>
+				<li><a href="<?=setting('site_url')?>"><?=setting('site_name')?></a></li>
+			<?php endif ?>
+			<?php if (current_project() || Request::matches('/admin(.*)')) : ?>
+				<li><a href="<?=routeUrl('root')?>"><?=setting('title')?></a></li>
+			<?php endif ?>
+			</div>
+
+			<div class="nav navbar-nav navbar-right">
+			<?php if (current_user()) : ?>
+				<?php if ($currentUser['is_admin']) : ?>
+				<li><a href="<?=routeUrl('admin')?>"><?=t('admincp')?></a></li>
+				<?php endif ?>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<?=Gravatar::img($currentUser['email'], 15)?> <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="<?=routeUrl('session_destroy')?>"><?=t('logout')?></a></li>
+					</ul>
+				</li>
+			<?php else: ?>
+				<li><a href="<?=routeUrl('session_new')?>"><?=t('login')?></a></li>
+				<li><a href="<?=routeUrl('user_new')?>"><?=t('register')?></a></li>
+			<?php endif ?>
+			</div>
+		</div>
 	</div>
 </nav>

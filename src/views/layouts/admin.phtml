@@ -4,11 +4,34 @@
 		<?php Hook::run('template:layouts/admin:head'); ?>
 	</head>
 	<body>
-		<?=View::render('layouts/_admin_header.phtml')?>
+		<?php require __DIR__ . '/_meta_nav.phtml'; ?>
+		<nav id="header" class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="<?=routeUrl('admin')?>" class="navbar-brand"><?=t('admincp')?></a>
+				</div>
+				<nav id="nav-main">
+				<?php if ($currentUser && $currentUser['is_admin']) : ?>
+					<ul class="nav navbar-nav navbar-left">
+						<li><a href="<?=routeUrl('admin_settings')?>"><?=t('settings')?></a></li>
+						<li><a href="<?=routeUrl('admin_projects')?>"><?=t('projects')?></a></li>
+						<li><a href="<?=routeUrl('admin_roles')?>"><?=t('roles')?></a></li>
+						<li><a href="<?=routeUrl('admin_users')?>"><?=t('users')?></a></li>
+						<li><a href="<?=routeUrl('admin_groups')?>"><?=t('groups')?></a></li>
+						<li><a href="<?=routeUrl('admin_plugins')?>"><?=t('plugins')?></a></li>
+						<li><a href="<?=routeUrl('admin_types')?>"><?=t('types')?></a></li>
+						<li><a href="<?=routeUrl('admin_statuses')?>"><?=t('statuses')?></a></li>
+						<li><a href="<?=routeUrl('admin_priorities')?>"><?=t('priorities')?></a></li>
+						<li><a href="<?=routeUrl('admin_severities')?>"><?=t('severities')?></a></li>
+					</ul>
+				<?php endif ?>
+				</nav>
+			</div>
+		</nav>
 		<main id="page">
 <?=$content?>
 		</main>
-		<?=View::render('layouts/_footer.phtml')?>
+		<?php require __DIR__ . '/_footer.phtml'; ?>
 		<?php Hook::run('template:layouts/admin:foot'); ?>
 	</body>
 </html>
