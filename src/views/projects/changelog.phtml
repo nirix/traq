@@ -1,24 +1,25 @@
 <div class="changelog container">
-    <h1 class="page-header"><?=$t('changelog')?></h1>
+	<h1 class="page-header"><?=t('changelog')?></h1>
 
-<?php foreach ($milestones as $milestone): ?>
-    <div class="changeset">
-        <h2><?=$milestone->name?></h2>
-        <ul>
-        <?php foreach ($milestone->tickets()->fetchAll() as $ticket): ?>
-            <li class="type_<?=$ticket->type_id?>">
-                <?=HTML::link($ticket->summary, $ticket)?>
-            </li>
-        <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endforeach; ?>
+	<?php foreach ($milestones as $milestone) : ?>
+		<div class="changeset">
+			<h2><?=$milestone['name']?></h2>
+			<ul>
+			<?php foreach ($milestone['changes'] as $ticket) : ?>
+				<li class="type_<?=$ticket['type_id']?>">
+					<a href="<?=routeUrl('ticket', ['id' => $ticket['ticket_id']])?>"><?=$ticket['summary']?></a>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php endforeach ?>
+	</div>
+
+	<style>
+		<?php foreach ($types as $type => $bullet) : ?>
+			.type_<?=$type?>:before {
+				content: "<?=utf8_encode($bullet)?>";
+			}
+		<?php endforeach ?>
+	</style>
 </div>
-
-<style>
-    <?php foreach ($types as $type): ?>
-        .type_<?=$type->id?>:before {
-            content: "<?=utf8_encode($type->bullet)?>";
-        }
-    <?php endforeach; ?>
-</style>

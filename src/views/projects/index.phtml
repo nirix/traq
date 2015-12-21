@@ -1,29 +1,33 @@
 <div class="project-listing container">
-	<h1 class="page-header"><?=$t('projects')?></h1>
-	<ul id="project-list">
-		<?php foreach($projects as $project): ?>
-		<li>
-			<h2>
-				<?=HTML::link($project->name, $project->slug)?>
-				<?php if ($project->codename !== null): ?>
-				<small>
-					<em class="project-codename"><?=$project->codename?></em>
-				</small>
-				<?php endif; ?>
-			</h2>
-			<nav>
-				<ul class="nav nav-justified nav-pills">
-					<li><?=HTML::link($t('roadmap'), "{$project->slug}/roadmap")?></li>
-					<li><?=HTML::link($t('issues'), "{$project->slug}/issues")?></li>
-					<li><?=HTML::link($t('timeline'), "{$project->slug}/timeline")?></li>
-					<?php Hook::run('template:projects/index/project/nav', [$project]); ?>
-				</ul>
-			</nav>
-			<div class="description">
-				<?=Format::text($project->info)?>
-			</div>
-			<?php Hook::run('template:projects/index/project', [$project]); ?>
-		</li>
-		<?php endforeach; ?>
-	</ul>
+    <h1 class="page-header"><?=t('projects')?></h1>
+    <ul id="project-list">
+        <?php foreach ($projects as $project) :
+            if (!has_permission($project['id'], 'view_project', true)) {
+                continue;
+            }
+        ?>
+        <li>
+            <h2>
+                <a href="<?=routeUrl('project', ['pslug' => $project['slug']])?>"><?=$project['name']?></a>
+                <?php if ($project['codename']) : ?>
+                <small>
+                    <em class="project-codename"><?=$project['codename']?></em>
+                </small>
+                <?php endif ?>
+            </h2>
+            <nav>
+                <ul class="nav nav-justified nav-pills">
+                    <li><a href="<?=routeUrl('roadmap', ['pslug' => $project['slug']])?>"><?=t('roadmap')?></a></li>
+                    <li><a href="<?=routeUrl('tickets', ['pslug' => $project['slug']])?>"><?=t('tickets')?></a></li>
+                    <li><a href="<?=routeUrl('timeline', ['pslug' => $project['slug']])?>"><?=t('timeline')?></a></li>
+                    <?php Hook::run('template:projects/index/project/nav', [$project]); ?>
+                </ul>
+            </nav>
+            <div class="description">
+                <?=Format::text($project['info'])?>
+            </div>
+            <?php Hook::run('template:projects/index/project', [$project]); ?>
+        </li>
+        <?php endforeach ?>
+    </ul>
 </div>

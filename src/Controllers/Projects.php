@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,19 +23,11 @@
 
 namespace Traq\Controllers;
 
-use Avalon\Http\Request;
-use Avalon\Http\Response;
-use Traq\Models\Project;
-use Traq\Models\Ticket;
-use Traq\Models\Milestone;
-use Traq\Models\Type;
-use Traq\Models\Status;
-
 /**
  * Project controller.
  *
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  */
 class Projects extends AppController
 {
@@ -44,21 +36,15 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        // Fetch all projects and make sure the user has permission to view them
-        $projects = [];
-        foreach (Project::select()->orderBy('display_order', 'ASC')->fetchAll() as $project) {
-            if ($this->hasPermission($project->id, 'view_project')) {
-                $projects[] = $project;
-            }
-        }
+        $projects = queryBuilder()->select('*')
+            ->from(PREFIX . 'projects')
+            ->orderBy('display_order', 'ASC')
+            ->execute()
+            ->fetchAll();
 
-        return $this->respondTo(function ($format) use ($projects) {
-            if ($format == 'html') {
-                return $this->render('projects/index.phtml', ['projects' => $projects]);
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($projects);
-            }
-        });
+        return $this->render('projects/index.phtml', [
+            'projects' => $projects
+        ]);
     }
 
     /**
@@ -66,29 +52,7 @@ class Projects extends AppController
      */
     public function showAction()
     {
-        // Make sure this is a project
-        if (!$this->project) {
-            return $this->show404();
-        }
-
-        // Get open and closed ticket counts.
-        $this->set('ticketCount', [
-            'open'   => Ticket::select()->where('project_id = ?', $this->project->id)
-                        ->andWhere('is_closed = ?', 0)
-                        ->rowCount(),
-
-            'closed' => Ticket::select()->where('project_id = ?', $this->project->id)
-                        ->andWhere('is_closed = ?', 1)
-                        ->rowCount()
-        ]);
-
-        return $this->respondTo(function ($format) {
-            if ($format == 'html') {
-                return $this->render('projects/show.phtml');
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($this->project->toArray());
-            }
-        });
+        return $this->render('projects/show.phtml', ['project' => $this->currentProject]);
     }
 
     /**
@@ -96,37 +60,40 @@ class Projects extends AppController
      */
     public function changelogAction()
     {
-        // Atom feed
-        $this->feeds[] = [
-            Request::requestUri() . ".atom",
-            $this->translate('x_changelog_feed', [$this->project->name])
-        ];
+        $issues = [];
+        $query = queryBuilder()->select('summary', 'ticket_id', 'milestone_id', 'type_id')
+            ->from(PREFIX . 'tickets')
+            ->where('project_id = ?')
+            ->orderBy('type_id', 'ASC')
+            ->setParameter(0, $this->currentProject['id'])
+            ->execute();
 
-        // Fetch ticket types
-        $types = [];
-        foreach (Type::all() as $type) {
-            $types[$type->id] = $type;
+        foreach ($query->fetchAll() as $row) {
+            $issues[$row['milestone_id']][] = $row;
         }
 
-        $milestones = $this->project->milestones()->where('status = ?', 2)
+        $milestones = queryBuilder()->select('id', 'name', 'slug')
+            ->from(PREFIX . 'milestones')
+            ->where('project_id = ?')
+            ->andWhere('status = 2')
             ->orderBy('display_order', 'DESC')
+            ->setParameter(0, $this->currentProject['id'])
+            ->execute()
             ->fetchAll();
 
-        return $this->respondTo(function ($format) use ($milestones, $types) {
-            if ($format == 'html') {
-                return $this->render('projects/changelog.phtml', [
-                    'milestones' => $milestones,
-                    'types'      => $types
-                ]);
-            } elseif ($format == 'txt') {
-                return new Response(function ($resp) use ($milestones, $types) {
-                    $resp->contentType = 'text/plain';
-                    $resp->body = $this->renderView('projects/changelog.txt.php', [
-                        'milestones' => $milestones,
-                        'types'      => $types
-                    ]);
-                });
-            }
-        });
+        foreach ($milestones as $index => $milestone) {
+            $milestones[$index]['changes'] = isset($issues[$milestone['id']]) ? $issues[$milestone['id']] : [];
+        }
+
+        $types = [];
+        $query = queryBuilder()->select('id', 'bullet')->from(PREFIX . 'types')->execute();
+        foreach ($query->fetchAll() as $row) {
+            $types[$row['id']] = $row['bullet'];
+        }
+
+        return $this->render('projects/changelog.phtml', [
+            'milestones' => $milestones,
+            'types'      => $types
+        ]);
     }
 }
