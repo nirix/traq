@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/avalon.git",
-                "reference": "fe3729a7f297173f0d8a8267e3a228d20da77785"
+                "reference": "dd70aacc6406de6b6d65e5a8b1f69edb51a6f2d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/fe3729a7f297173f0d8a8267e3a228d20da77785",
-                "reference": "fe3729a7f297173f0d8a8267e3a228d20da77785",
+                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/dd70aacc6406de6b6d65e5a8b1f69edb51a6f2d3",
+                "reference": "dd70aacc6406de6b6d65e5a8b1f69edb51a6f2d3",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "framework",
                 "mvc"
             ],
-            "time": "2015-12-21 12:13:08"
+            "time": "2015-12-21 13:06:32"
         },
         {
             "name": "avalon/database",
