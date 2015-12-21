@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,7 +23,7 @@
 
 namespace Traq\Translations;
 
-use Traq\Traq;
+use Traq\Kernel;
 use Avalon\Language;
 
 /**
@@ -38,7 +38,7 @@ $enAU = new Language(function ($t) {
     $t->locale = "enAU";
 
     $t->strings = array(
-        'copyright' => "Powered by Traq " . Traq::version() . " &copy; 2009-" . date("Y") . " Traq.io",
+        'copyright' => "Powered by Traq " . TRAQ_VERSION . " &copy; 2009-" . date("Y") . " Traq.io",
 
         // --------------------------------------------------------------------
         // AdminCP
@@ -85,14 +85,14 @@ $enAU = new Language(function ($t) {
         'is_admin'   => "Is Admin",
 
         // --------------------------------------------------------------------
-        // Issues
-        'issues'            => "Issues",
-        'create_issue'      => "Create Issue",
-        'open'              => "Open",
-        'closed'            => "Closed",
-        'total'             => "Total",
-        'issue.page-title'  => "#{1} - {2}",
-        'issue.page-header' => "#{1} - {2}",
+        // Tickets
+        'tickets'            => "Issues",
+        'create_ticket'      => "Create Issue",
+        'open'               => "Open",
+        'closed'             => "Closed",
+        'total'              => "Total",
+        'ticket.page-title'  => "#{1} - {2}",
+        'ticket.page-header' => "#{1} - {2}",
 
         // Issue properties
         'id'          => "ID",
@@ -141,8 +141,8 @@ $enAU = new Language(function ($t) {
         'settings.timeline.day_format'      => "Timeline Day Format",
         'settings.timeline.time_format'     => "Timeline Time Format",
         'settings.notifications.from_email' => "From Email",
-        'settings.issues.history_sorting'   => "History Sorting",
-        'settings.issues.creation_delay'    => "Creation Delay",
+        'settings.tickets.history_sorting'  => "History Sorting",
+        'settings.tickets.creation_delay'   => "Creation Delay",
 
         // --------------------------------------------------------------------
         // Ticket listing
