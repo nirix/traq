@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,12 +23,9 @@
 
 namespace Traq\Controllers;
 
-use Avalon\Database;
+use DateTime;
 use Avalon\Http\Request;
-use Avalon\Http\Response;
 use Avalon\Helpers\Pagination;
-use Avalon\Helpers\Time;
-use Traq\Models\Timeline as TimelineModel;
 
 /**
  * Timeline controller.
@@ -38,6 +35,12 @@ use Traq\Models\Timeline as TimelineModel;
  */
 class Timeline extends AppController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->title($this->translate('timeline'));
+    }
+
     /**
      * Handles the timeline page.
      */
@@ -45,110 +48,158 @@ class Timeline extends AppController
     {
         $days = [];
 
-        // Filters
-        $filters = array_keys(TimelineModel::timelineFilters());
-        $events  = TimelineModel::timelineEvents();
+        $filters = array_keys(timeline_filters());
+        $timelineEvents = timeline_events();
 
         // Check if filters are set
-        if (isset(Request::$post['filters']) or isset($_SESSION['timeline_filters'])) {
+        if (isset($_SESSION['timeline_filters'])) {
             $filters = [];
-            $events  = [];
-
-            // Fetch filters
-            if (Request::$post->has('filters')) {
-                $timelineFilters = Request::$post->get('filters')->getProperties();
-            } else {
-                $timelineFilters = isset($_SESSION['timeline_filters']) ? $_SESSION['timeline_filters'] : [];
-            }
+            $timelineEvents  = [];
 
             // Process filters
-            foreach ($timelineFilters as $filter => $value) {
+            foreach ($_SESSION['timeline_filters'] as $filter) {
                 $filters[] = $filter;
-                $events = array_merge($events, TimelineModel::timelineFilters($filter));
+                $timelineEvents = array_merge($timelineEvents, timeline_filters($filter));
             }
-
-            // Save filters to session
-            $_SESSION['timeline_filters'] = $timelineFilters;
         }
 
-        // Atom feed
-        $this->feeds[] = [
-            Request::pathInfo() . ".atom",
-            $this->translate('x_timeline_feed', [$this->project->name])
-        ];
+        // Quote the events
+        $timelineEvents = array_map([$this->db, 'quote'], $timelineEvents);
 
-        $query = TimelineModel::select('DATE(created_at) AS date')
-            ->where('project_id = ?', $this->project->id);
-
-        $query->andWhere($query->expr()->in('action', $query->quote($events)))
+        $query = queryBuilder()->select('DATE(t.created_at) AS date');
+        $query->from(PREFIX . 'timeline', 't')
+            ->where('t.project_id = :project_id')
+            ->andWhere($query->expr()->in('t.action', $timelineEvents))
             ->orderBy('date', 'DESC')
-            ->groupBy('DATE(created_at)');
+            ->groupBy('DATE(t.created_at)')
+            ->setParameter('project_id', $this->currentProject['id']);
 
         // Pagination
         $pagination = new Pagination(
-            (isset(Request::$query['page']) ? Request::$query['page'] : 1), // Page
-            settings('timeline_days_per_page'), // Per page
-            $query->rowCount()
+            Request::$query->get('page', 1), // Page
+            setting('timeline_days_per_page'), // Per page
+            $query->execute()->rowCount()
         );
 
         // Limit?
         if ($pagination->paginate) {
-            $query->limit($pagination->limit, $pagination->perPage);
+            $query->setFirstResult($pagination->limit);
+            $query->setMaxResults(setting('timeline_days_per_page'));
         }
 
-        $this->set(compact('pagination'));
+        $ids = [
+            'tickets'    => [],
+            'milestones' => [],
+            'wiki'       => []
+        ];
 
-        foreach ($query->fetchAll() as $day) {
-            $activity = TimelineModel::select()->where('project_id = ?', $this->project->id);
-            $activity->andWhere($activity->expr()->in('action', $query->quote($events)))
-                ->orderBy('created_at', 'DESC')
-                ->andWhere('DATE(created_at) = ?', $day->date);
+        foreach ($query->execute()->fetchAll() as $day) {
+            $events = queryBuilder()->select('t.*', 'u.name AS user_name', 'u.email AS user_email')
+            ->from(PREFIX . 'timeline', 't')
+            ->where('t.project_id = :project_id')
+            ->andWhere($query->expr()->in('action', $timelineEvents))
+            ->andWhere($query->expr()->eq('DATE(t.created_at)', $this->db->quote($day['date'])))
+            ->leftJoin('t', PREFIX . 'users', 'u', 'u.id = t.user_id')
+            ->orderBy('t.created_at', 'DESC')
+            ->setParameter('project_id', $this->currentProject['id'])
+            ->execute()
+            ->fetchAll();
 
-            $days[] = [
-                'created_at' => $day->date,
-                'activity'   => $activity->fetchAll()
-            ];
-        }
+            $day['events'] = [];
 
-        $this->set([
-            'days'    => $days,
-            'filters' => $filters,
-            'events'  => $events
-        ]);
+            foreach ($events as $event) {
+                if (strpos($event['action'], 'ticket_') === 0) {
+                    $ids['tickets'][] = $event['owner_id'];
+                } elseif (strpos($event['action'], 'milestone_') === 0) {
+                    $ids['milestones'][] = $event['owner_id'];
+                }
 
-        return $this->respondTo(function ($format) {
-            if ($format == 'html') {
-                return $this->render('timeline/index.phtml');
+                $day['events'][] = $event;
             }
-        });
+
+            $days[] = $day;
+        }
+
+        $tickets    = $this->getTickets($ids['tickets']);
+        $milestones = $this->getMilestones($ids['milestones']);
+
+        return $this->render('timeline/index.phtml', [
+            'days'       => $days,
+            'tickets'    => $tickets,
+            'milestones' => $milestones,
+            'filters'    => $filters,
+            'pagination' => $pagination
+        ]);
     }
 
-    /**
-     * Delete timeline event.
-     *
-     * @param integer $event_id
-     */
-    public function deleteEventAction($event_id)
+    public function setFiltersAction()
     {
-        if (!$this->currentUser->permission($this->project->id, 'delete_timeline_events')) {
-            return $this->showNoPermission();
+        $filters = [];
+        foreach (Request::$post->get('filters')->getProperties() as $filter => $value) {
+            if ($value) {
+                $filters[] = $filter;
+            }
         }
 
-        $event = TimelineModel::find($event_id);
-        $event->delete();
+        $_SESSION['timeline_filters'] = $filters;
 
-        return $this->respondTo(function ($format) use ($event) {
-            if ($format == 'html') {
-                return Request::redirect($this->project->href('timeline'));
-            } elseif ($format == 'js') {
-                return new Response(function ($resp) use ($event) {
-                    $resp->contentType = 'text/javascript';
-                    $resp->body = $this->renderView('timeline/delete_event.js.php', [
-                        '_layout' => false,
-                        'event'   => $event
-                    ]);
-                });
+        return $this->redirectTo('timeline', ['pslug' => $this->currentProject['slug']]);
+    }
+
+    protected function getFilteredEvents()
+    {
+        if (!isset($_SESSION['timelineFilters'])) {
+            return timeline_events();
+        }
+
+        // Process filters
+        $events = [];
+        foreach ($_SESSION['timelineFilters'] as $filter => $value) {
+            if ($value) {
+                $filters[] = $filter;
+                $events = array_merge($events, timeline_filters($filter));
             }
-        });
+        }
+
+        return [$filters, $events];
+    }
+
+    protected function getTickets($ids)
+    {
+        if (!count($ids)) {
+            return;
+        }
+
+        $query = ticketQuery();
+
+        $query->andWhere(
+            $query->expr()->in('t.id', $ids)
+        );
+
+        $tickets = [];
+        foreach ($query->execute()->fetchAll() as $ticket) {
+            $tickets[$ticket['id']] = $ticket;
+        }
+
+        return $tickets;
+    }
+
+    protected function getMilestones($ids)
+    {
+        if (!count($ids)) {
+            return;
+        }
+
+        $query = queryBuilder()->select('*')->from(PREFIX . 'milestones');
+        $query->where(
+            $query->expr()->in('id', $ids)
+        );
+
+        $milestones = [];
+        foreach ($query->execute()->fetchAll() as $milestone) {
+            $milestones[$milestone['id']] = $milestone;
+        }
+
+        return $milestones;
     }
 }

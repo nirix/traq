@@ -1,75 +1,70 @@
-<div id="timeline" class="container">
-	<h1 class="page-header"><?=$t('timeline')?></h1>
+<?php $lastUserId = null; ?>
+<div id="timeline" class="timeline container">
+	<h1 class="page-header"><?=t('timeline')?></h1>
 
 	<div id="timeline-filters" class="pull-right">
-		<form action="<?=Request::basePath($project->href('timeline'))?>" method="post">
+		<form action="<?=routeUrl('timeline')?>" method="post">
 			<fieldset>
-				<legend><?=$t('filter_events')?></legend>
-				<?php foreach (Traq\Models\Timeline::timelineFilters() as $filter => $filter_events): ?>
+				<legend><?=t('filter_events')?></legend>
+				<?php foreach (timeline_filters() as $filter => $filterEvents) : ?>
 					<?=Form::checkbox("filters[{$filter}]", 1, ['checked' => in_array($filter, $filters)])?>
-					<?=Form::label($t("timeline.filters.{$filter}"), "filters[{$filter}]")?><br />
+					<?=Form::label(t("timeline.filters.{$filter}"), "filters[{$filter}]")?><br />
 				<?php endforeach; ?>
 				<div class="actions">
-					<?=Form::submit($t('apply_filters'), array('class' => 'btn btn-sm btn-default btn-block'))?>
+					<button type="submit" class="btn btn-sm btn-default btn-block"><?=t('apply_filters')?></button>
 				</div>
 			</fieldset>
 		</form>
 	</div>
 
-<?php foreach ($days as $day): ?>
-	<h2><?=$l(settings('timeline_day_format'), $day['created_at'])?></h2>
+<?php foreach ($days as $day) : ?>
+	<h2><?=l(setting('timeline_day_format'), $day['date'])?></h2>
 
 	<dl>
-	<?php foreach ($day['activity'] as $event): ?>
-		<dt class="timeline_event_<?=$event->id?>">
-			<?php if ($loggedin and $currentUser->permission($project->id, 'delete_timeline_events')): ?>
-			<a class="btn btn-xs btn-danger" data-ajax-confirm="<?=$t('confirm.delete')?>" href="<?=Request::basePath($event->href('delete'))?>">
-				<?=TWBS::fa('minus-circle')?><span class="sr-only"><?=$t('delete')?></span>
-			</a>
-			<?php endif; ?>
-			<span class="text-muted time"><?=$l(settings('timeline_time_format'), $event->created_at)?></span>
-
-		<?php if (in_array($event->action, array('ticket_created','ticket_closed','ticket_reopened','ticket_updated'))): ?>
-			<?=HTML::link(
-				$t(
-					"timeline.{$event->action}", [
-						'id'      => $event->ticket()->ticket_id,
-						'summary' => $event->ticket()->summary,
-						'type'    => $event->ticket()->type()->name,
-						'status'  => $event->ticketStatus()->name
-					]
-				),
-				$event->ticket()
-			)?>
-		<?php elseif ($event->action == 'ticket_comment'): ?>
-			<?=$t(
-				'timeline.ticket_comment', [
-					'link' => HTML::link($event->ticket()->summary, $event->ticket()),
-					'ticket_id' => $event->ticket()->ticket_id
-				]
-			)?>
-		<?php elseif (in_array($event->action, array('milestone_completed', 'milestone_cancelled'))): ?>
-			<?=$t(
-				"timeline.{$event->action}",
-				array('name' => $event->milestone()->name)
-			)?>
-		<?php elseif ($event->action == 'wiki_page_created' or $event->action == 'wiki_page_edited'): ?>
-			<?=$t(
-				"timeline.{$event->action}", [
-					'title' => HTML::link($event->wikiPage()->title, $event->wikiPage()),
-					'slug' => $event->wikiPage()->slug
-				]
-			)?>
-		<?php endif; ?>
+	<?php foreach ($day['events'] as $event) : ?>
+		<dt class="timeline_event_<?=$event['id']?>">
+			<span class="text-muted time"><?=l(setting('timeline_time_format'), $event['created_at'])?></span>
+			<span class="text-muted divider">-</span>
+			<span class="event">
+			<?php if (in_array($event['action'], ['ticket_created', 'ticket_closed', 'ticket_reopened', 'ticket_updated'])) : ?>
+				<a href="<?=routeUrl('ticket', ['id' => $event['owner_id']])?>">
+				<?=t(
+                    "timeline.{$event['action']}",
+                    [
+                        'id' => $tickets[$event['owner_id']]['ticket_id'],
+                        'summary' => $tickets[$event['owner_id']]['summary'],
+                        'type' => $tickets[$event['owner_id']]['type_name'],
+                        'status' => $tickets[$event['owner_id']]['status_name'],
+                    ]
+                )?>
+				</a>
+			<?php elseif ($event['action'] == 'ticket_comment') : ?>
+			<?=t(
+                'timeline.ticket_comment',
+                [
+                    'link' => HTML::link(
+                        $tickets[$event['owner_id']]['summary'],
+                        routePath('ticket', ['pslug' => $currentProject['slug'], 'id' => $tickets[$event['owner_id']]['ticket_id']])
+                    ),
+                    'ticket_id' => $tickets[$event['owner_id']]['ticket_id'],
+                ]
+            )?>
+		<?php elseif (in_array($event['action'], ['milestone_completed', 'milestone_cancelled'])) : ?>
+			<?=t(
+                "timeline.{$event['action']}",
+                ['name' => $milestones[$event['owner_id']]['name']]
+            )?>
+			<?php endif ?>
+			</span>
 		</dt>
-		<dd class="timeline_event_<?=$event->id?>">
-			<span class="text-muted">
-				<?=$t('timeline.by_x', [HTML::link(Gravatar::withUsername($event->user(), 15), $event->user())])?>
+		<dd>
+			<span class="user">
+				<?=t('timeline.by_x', gravatar_profile_link($event['user_email'], $event['user_name'], $event['user_id'], 15))?>
 			</span>
 		</dd>
-	<?php endforeach; ?>
+	<?php endforeach ?>
 	</dl>
-<?php endforeach; ?>
+<?php endforeach ?>
 
-	<?=View::render('layouts/_pagination.phtml')?>
+	<?=View::render('layouts/_pagination.phtml', ['pagination' => $pagination])?>
 </div>
