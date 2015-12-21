@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -28,25 +28,23 @@ use Avalon\Templating\View;
 use Traq\Models\User;
 use Traq\Models\Setting;
 use Swift_Mailer;
+use Swift_SendmailTransport;
+use Swift_SmtpTransport;
 use Swift_Message;
 
 /**
  * Notification email class.
  *
- * @author Jack Polgar <jack@polgar.id.au>
- * @since 3.0.0
  * @package Traq\Helpers
+ * @author Jack P.
+ * @since 3.0.0
  */
 class Notification
 {
-    /**
-     * @var \Swift_Mailer
-     */
+    protected static $config;
+    protected static $initialised = false;
     protected static $mailer;
-
-    /**
-     * @var \Swift_Message
-     */
+    protected static $mailerTransport;
     protected $message;
 
     /**
@@ -57,8 +55,52 @@ class Notification
      */
     public function __construct($subject = null, $body = null, $contentType = null, $charset = null)
     {
+        $this->setup();
         $this->message = Swift_Message::newInstance($subject, $body, $contentType, $charset);
-        $this->message->setFrom(Setting::get("notification_from_email")->value, Setting::get("title")->value);
+        $this->message->setFrom(setting('notification_from_email'), setting('title'));
+    }
+
+    /**
+     * Set mailer config.
+     *
+     * @param array $config
+     */
+    public static function setConfig(array $config)
+    {
+        static::$config = $config;
+    }
+
+    /**
+     * Setup Swiftmailer.
+     */
+    public static function setup()
+    {
+        // Do nothing unless email config is set or it's already setup
+        if (!static::$config || static::$initialised === false) {
+            return false;
+        }
+
+        // Configure based on SMTP or Sendmail
+        switch (static::$config['type']) {
+            case "SMTP":
+                $mailerTransport = Swift_SmtpTransport::newInstance(
+                    static::$config['server'],
+                    static::$config['port'],
+                    (isset(static::$config['security']) ? static::$config['security'] : null)
+                );
+
+                $mailerTransport->setUsername(static::$config['username']);
+                $mailerTransport->setPassword(static::$config['password']);
+                break;
+
+            case "sendmail":
+                $mailerTransport = Swift_SendmailTransport::newInstance(static::$config['path']);
+                break;
+        }
+
+        // Set the mailer
+        static::$mailer = Swift_Mailer::newInstance($mailerTransport);
+        static::$initialised = true;
     }
 
     /**
@@ -103,11 +145,14 @@ class Notification
      *
      * @return Notification
      */
-    public static function accountActivation(User $user)
+    public static function accountActivation(User $user, $activationCode)
     {
         $message = new static(
-            Language::translate("notifications.account_activation.subject", ['title' => Setting::get("title")->value]),
-            View::render("notifications/account_activation.txt.php", ['user' => $user])
+            Language::translate('notifications.account_activation.subject', ['title' => setting('title')]),
+            View::render('notifications/account_activation.txt.php', [
+                'user' => $user,
+                'activationCode' => $activationCode
+            ])
         );
 
         $message->setTo($user->email, $user->name);
