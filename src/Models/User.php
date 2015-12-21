@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,6 +23,7 @@
 
 namespace Traq\Models;
 
+use DateTime;
 use Avalon\Database\Model;
 use Avalon\Database\Model\SecurePassword;
 use Traq\Permissions;
@@ -30,284 +31,142 @@ use Traq\Permissions;
 /**
  * User model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class User extends Model
 {
+    protected $securePasswordField = 'password';
     use SecurePassword;
 
-    /**
-     * Property to use for the secure password trait.
-     *
-     * @var string
-     */
-    protected $securePasswordField = 'password';
+    protected static $_tableAlias = 'u';
 
-    /**
-     * Validations
-     *
-     * @var array
-     */
-    protected static $_validates = [
-        'username' => ['required', 'unique'],
-        'name'     => ['required'],
-        'password' => ['required', 'confirm' => ['onlyNew' => true]],
-        'email'    => ['required', 'unique']
+    protected static $_validations = [
+        'username' => ['unique', 'minLength' => 2, 'noWhitespace', 'alnum'],
+        'email'    => ['unique', 'email'],
+        'password' => ['minLength' => 5]
     ];
 
-    /**
-     * Before filters.
-     *
-     * @var array
-     */
     protected static $_before = [
-        'create' => ['preparePassword', 'createLoginHash', 'createName'],
+        'create' => ['prepareCreation', 'preparePassword']
     ];
 
-    /**
-     * Belongs-to relationships.
-     *
-     * @var array
-     */
-    protected static $_belongsTo = ['group'];
-
-    /**
-     * Has-many relationships.
-     *
-     * @var array
-     */
-    protected static $_hasMany = [
-        'ticket_updates',
-        'assigned_tickets' => ['foreignKey' => 'asssigned_to_id']
-    ];
-
-    /**
-     * Cached permissions.
-     *
-     * @var array
-     */
     protected $permissions;
 
     /**
-     * Property data types.
-     *
-     * @var array
-     */
-    protected static $_dataTypes = [
-        'options' => 'json_array'
-    ];
-
-    /**
-     * Returns the URI for the users profile.
-     *
-     * @return string
-     */
-    public function href()
-    {
-        return "/users/{$this->id}";
-    }
-
-    /**
-     * Update the users password.
+     * Authenticates the password with the users current password.
      *
      * @param string $password
+     *
+     * @return boolean
      */
-    public function setPassword($password)
+    public function authenticate($password)
     {
-        $this->password = $password;
-        $this->preparePassword();
+        if ($this->password_ver == 'crypt') {
+            return $this->password === crypt($password, $this->password);
+        } else {
+
+        }
     }
 
     /**
-     * Returns an array containing an array of the project and role
-     * the user belongs to.
+     * Check if the user is validated.
      *
-     * @return array
+     * @return boolean
      */
-    public function projects()
+    public function isActivated()
     {
-        $projects = [];
-
-        // Loop over the relations and add the project and role to the array
-        UserRole::select()->where('user_id', $this->id)->fetchAll();
-        foreach ($roles as $relation) {
-            $projects[] = [$relation->project, $relation->role];
-        }
-
-        return $projects;
+        return ! queryBuilder()->select('id')->from(PREFIX . 'user_activation_codes')
+            ->where('user_id = ?')
+            ->andWhere('type = ?')
+            ->setParameter(0, $this->id)
+            ->setParameter(1, 'email_validation')
+            ->execute()
+            ->rowCount();
     }
 
     /**
      * Check if the user can perform the requested action.
      *
-     * @param integer $proejct_id
-     * @param string $action
+     * @param integer $project_id
+     * @param string  $action
+     * @param boolean $fetchProjectRoles
      *
      * @return bool
      */
-    public function permission($project_id, $action)
+    public function hasPermission($projectId, $action, $fetchProjectRoles = false)
     {
-        // With great power, comes great responsibility.
-        if ($this->group()->is_admin) {
+        // Admins are godlike
+        if ($this->is_admin) {
             return true;
         }
 
+        if (!isset($this->permissions[$projectId])) {
+            $this->permissions[$projectId] = null;
+        }
+
         // No need to fetch permissions if we already have
-        if ($this->permissions === null) {
+        if ($this->permissions[$projectId] === null) {
             // Get group permissions
-            $group = Permission::getPermissions($project_id, $this->group()->id);
+            $group = Permission::getPermissions($projectId, $this->group_id);
 
             // Get role permissions
             $role = [];
-            if ($projectRoleId = $this->getProjectRole($project_id)) {
-                $role = Permission::getPermissions($project_id, $projectRoleId, 'role');
+            if (!$fetchProjectRoles && isset($this->project_role_id) && $this->project_role_id) {
+                $role = Permission::getPermissions($projectId, $this->project_role_id, 'role');
+            } else {
+                $roles = $this->fetchProjectRolesIds();
+                if (isset($roles[$projectId])) {
+                    $role = Permission::getPermissions($projectId, $roles[$projectId], 'role');
+                }
             }
 
             // Merge group and role permissions
-            $this->permissions = Permissions::getPermissions() + array_merge($group, $role);
+            $this->permissions[$projectId] = array_merge(Permissions::getPermissions(), array_merge($group, $role));
         }
 
-        return isset($this->permissions[$action])
-                ? $this->permissions[$action]
+        return isset($this->permissions[$projectId][$action])
+                ? $this->permissions[$projectId][$action]
                 : null;
     }
 
-    /**
-     * Fetches the users project role.
-     *
-     * @param integer $project_id
-     *
-     * @return integer
-     */
-    public function getProjectRole($project_id)
+    protected function fetchProjectRolesIds()
     {
-        $role = UserRole::select()
-            ->where('project_id = ?', $project_id)
-            ->andWhere('user_id = ?', $this->id)
-            ->execute();
+        $ids = [];
+        $roles = queryBuilder()->select('project_id', 'project_role_id')->from(PREFIX . 'user_roles')
+            ->where('user_id = ?')->setParameter(0, $this->id);
 
-        if ($role->rowCount() > 0) {
-            return $role->fetch()->project_role_id;
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Checks if the user has activated their account.
-     *
-     * @return bool
-     */
-    public function isActivated()
-    {
-        return !isset($this->options['activationKey']);
-    }
-
-    /**
-     * Generates the users activation key.
-     */
-    public function generateActivationCode()
-    {
-        $this->activation_code = sha1(
-            (microtime() + rand(0, 1000)) . $this->id . time()
-        );
-    }
-
-    /**
-     * Generates the users API key.
-     */
-    public function generateApiKey()
-    {
-        $this->api_key = sha1(
-            (microtime() + rand(0, 1000)) . $this->id . (time() + rand(0, 1000))
-        );
-    }
-
-    /**
-     * Returns an array of the users data.
-     *
-     * @param array $fields Fields to return
-     *
-     * @return array
-     */
-    public function __toArray($fields = null)
-    {
-        $data = parent::__toArray($fields);
-        unset($data['password'], $data['email'], $data['login_hash']);
-        return $data;
-    }
-
-    /**
-     * Moves ticket and timeline data to the anonymous user before deleting the user.
-     */
-    public function delete() {
-        $anon_id = Setting::find('setting', 'anonymous_user_id')->value;
-
-        // Update attachments, tickets, ticket updates and timeline events
-        $tables = array('attachments', 'tickets', 'ticket_history', 'timeline');
-        foreach ($tables as $table) {
-            static::db()->update($table)->set(array('user_id' => $anon_id))->where('user_id', $this->id)->exec();
+        foreach ($roles->execute()->fetchAll() as $row) {
+            $ids[$row['project_id']] = $row['project_role_id'];
         }
 
-        // Update assigned tickets
-        static::db()->update('tickets')->set(array('assigned_to_id' => 0))->where('assigned_to_id', $this->id)->exec();
-
-        // Delete subscriptions
-        static::db()->delete()->from('subscriptions')->where('user_id', $this->id)->exec();
-
-        // Delete user project roles
-        static::db()->delete()->from('user_roles')->where('user_id', $this->id)->exec();
-
-        // Delete user
-        parent::delete();
+        return $ids;
     }
 
-    //--------------------------------------------------------------------------
-    // Before and after filters
-
-    /**
-     * Creates the users login hash.
-     */
-    protected function createLoginHash()
+    protected function prepareCreation()
     {
-        $this->login_hash = sha1(time() . $this->username . rand(0, 1000));
-    }
-
-    /**
-     * Set the users username as their name if they didn't provide one.
-     */
-    protected function createName()
-    {
-        if (empty($this->name) || !isset($this->name)) {
+        if (!$this->name) {
             $this->name = $this->username;
         }
+
+        $this->login_hash = sha1(microtime() . random_hash() . rand(0, 5000));
     }
 
-    //--------------------------------------------------------------------------
-    // Static methods
+    // ------------------------------------------------------------------------
+    // Overwritten functions
 
     /**
-     * Returns the anonymous user.
+     * Add password confirmation validation.
      */
-    public static function anonymousUser()
+    public function validate()
     {
-        return static::find(Setting::get('anonymous_user_id')->value);
-    }
+        $parent = parent::validate();
 
-    /**
-     * Returns an array formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public static function selectOptions()
-    {
-        $options = [];
-
-        // Get all users and make a Form::select() friendly array
-        foreach (static::all() as $user) {
-            $options[] = ['label' => $user->name, 'value' => $user->id];
+        if (isset($this->password_confirmation) && $this->password_confirmation !== $this->password) {
+            $this->addValidationError('password', 'confirm');
         }
 
-        return $options;
+        return $parent;
     }
 }
