@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -30,7 +30,7 @@ use Avalon\Language;
  * Error helpers.
  *
  * @author Jack P.
- * @since 4.0
+ * @since 4.0.0
  */
 class Errors
 {
@@ -41,9 +41,9 @@ class Errors
      */
     public static function show($errors)
     {
-        return View::render('Errors/_list', array(
-            'errors' => is_array($errors) ? $errors : array($errors)
-        ));
+        return View::render('Errors/_list', [
+            'errors' => (array) $errors
+        ]);
     }
 
     /**
@@ -62,7 +62,7 @@ class Errors
         if (is_object($model) and count($model->errors())) {
             $messages = [];
 
-            foreach ($model->getErrorMessages() as $field => $fieldMessages) {
+            foreach ($model->errors() as $field => $fieldMessages) {
                 $messages = array_merge($messages, $fieldMessages);
             }
 
