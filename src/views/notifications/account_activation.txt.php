@@ -1,13 +1,13 @@
-<?=$t("notifications.hello_x", ['name' => $user->name]) . PHP_EOL?>
+<?=t('notifications.hello_x', ['name' => $user->name]) . PHP_EOL?>
 
-<?=$t("notifications.account_activation.body.txt", [
-    'title' => settings("title"),
+<?=t('notifications.account_activation.body.txt', [
+    'title' => setting("title"),
     'host'  => Request::schemeAndHttpHost(),
-    'path'  => Request::basePath($route("account_activation", [
-        'activation_code' => $user->activation_code
-    ]))
+    'path'  => routeUrl('account_activation', [
+        'activation_code' => $activationCode
+    ])
 ]) . PHP_EOL?>
 
-<?=Request::schemeAndHttpHost() . Request::basePath($route("account_activation", [
-        'activation_code' => $user->activation_code
-]))?>
+<?=Request::schemeAndHttpHost() . routeUrl('account_activation', [
+    'activation_code' => $activationCode
+])?>
