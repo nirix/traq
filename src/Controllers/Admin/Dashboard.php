@@ -50,15 +50,15 @@ class Dashboard extends AppController
 
         // Get information
         $info = [
-            'users'       => User::select()->rowCount(),
-            'newestUser'  => User::select()->orderBy('id', 'DESC')->fetch(),
-            'projects'    => User::select()->rowCount()
+            'users'       => User::select('id')->rowCount(),
+            'newestUser'  => User::select('id', 'name')->orderBy('id', 'DESC')->execute()->fetch(),
+            'projects'    => User::select('id')->rowCount()
         ];
 
         // Issues
         $info['tickets'] = [
-            'open'   => Ticket::select()->where('is_closed = ?', 0)->rowCount(),
-            'closed' => Ticket::select()->where('is_closed = ?', 1)->rowCount()
+            'open'   => Ticket::select('id')->where('is_closed = ?')->setParameter(0, 0)->rowCount(),
+            'closed' => Ticket::select('id')->where('is_closed = ?')->setParameter(0, 1)->rowCount()
         ];
 
         return $this->render('admin/dashboard/index.phtml', $info);
