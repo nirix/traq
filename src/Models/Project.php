@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -28,33 +28,26 @@ use Avalon\Database\Model;
 /**
  * Project model.
  *
+ * @package Traq\Models
  * @author Jack P.
  * @since 3.0.0
  */
 class Project extends Model
 {
-    protected static $_validates = array(
-        'name'          => array('unique', 'required'),
-        'slug'          => array('unique', 'required'),
-        'enable_wiki'   => array('required'),
-        'display_order' => array('required', 'numeric'),
-        'default_ticket_type_id' => array('required'),
-        'default_ticket_sorting' => array('required')
-    );
-
-    // Has many relationships
-    protected static $_hasMany = array(
-        'roles' => ['model' => 'ProjectRole'],
-
-        'tickets', 'milestones', 'components', 'subscriptions', 'permissions',
-        'wikiPages', 'userRoles', 'customFields',
+    protected static $_validations = array(
+        'name'          => ['unique', 'required'],
+        'slug'          => ['unique', 'required'],
+        'enable_wiki'   => ['boolean'],
+        'display_order' => ['numeric'],
+        'default_ticket_type_id' => ['required'],
+        'default_ticket_sorting' => ['required']
     );
 
     // Filters
-    protected static $_filters_before = array(
-        'create' => array('_before_create'),
-        'save'   => array('_before_save')
-    );
+    protected static $_filters_before = [
+        'create' => ['_before_create'],
+        'save'   => ['_before_save']
+    ];
 
     /**
      * @var array
@@ -62,158 +55,4 @@ class Project extends Model
     protected static $_dataTypes = [
         'enable_wiki' => "boolean"
     ];
-
-    /**
-     * Returns the URI for the project.
-     *
-     * @param mixed $uri Extra URI segments to add after the project URI.
-     */
-    public function href($uri = null)
-    {
-        return $this->slug . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
-    }
-
-    /**
-     * Returns an array formatted for the Form::select() options.
-     *
-     * @return array
-     */
-    public static function selectOptions()
-    {
-        $options = [];
-
-        // Get all the rows and make a Form::select() friendly array
-        foreach (static::all() as $row) {
-            $options[] = ['label' => $row->name, 'value' => $row->id];
-        }
-
-        return $options;
-    }
-
-    /**
-     * Returns an array of milestones formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public function milestoneSelectOptions($status = null, $sort = 'ASC')
-    {
-        $milestones = $this->milestones()->orderBy('display_order', $sort);
-
-        // Check if we're fetching active, completed or cancelled milestones
-        if ($status == 'open') {
-            $milestones = $milestones->where('status = ?', 1);
-        } elseif ($status == 'closed') {
-            $milestones = $milestones->where('status = ?', 2);
-        } elseif ($status == 'cancelled') {
-            $milestones = $milestones->where('status = ?', 0);
-        }
-
-        $options = array();
-        foreach ($milestones->fetchAll() as $milestone) {
-            $options[] = ['label' => $milestone->name, 'value' => $milestone->id];
-        }
-
-        return $options;
-    }
-
-    /**
-     * Returns an array of components belonging to the project formatted
-     * for the Form::select method.
-     */
-    public function componentSelectOptions()
-    {
-        return Component::selectOptions($this->id);
-    }
-
-    /**
-     * Returns an array formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public function memberSelectOptions()
-    {
-        $options = [];
-        foreach (UserRole::projectMembers($this->id) as $user) {
-            $options[] = ['label' => $user->name, 'value' => $user->id];
-        }
-        return $options;
-    }
-
-    /**
-     * Returns an array of members belonging to a role that tickets can
-     * be assigned to, formatted for the Form::select() helper.
-     *
-     * @return array
-     */
-    public function assignable_member_select_options()
-    {
-        $options = array();
-        foreach ($this->user_roles->exec()->fetch_all() as $relation) {
-            if ($relation->role->assignable) {
-                $options[] = array('label' => $relation->user->name, 'value' => $relation->user->id);
-            }
-        }
-        return $options;
-    }
-
-    /**
-     * Converts the slug to be URI safe.
-     */
-    protected function _create_slug()
-    {
-        $this->slug = create_slug($this->slug);
-    }
-
-    /**
-     * Things required before creating the table row.
-     */
-    protected function _before_create()
-    {
-        $this->_data['private_key'] = random_hash();
-        $this->_create_slug();
-    }
-
-    /**
-     * Do required stuff before saving.
-     */
-    protected function _before_save()
-    {
-        $this->_create_slug();
-    }
-
-    /**
-     * Things to do before deleting the project...
-     */
-    public function delete()
-    {
-        $relations = [];
-
-        foreach (static::$_hasMany as $index => $relation) {
-            if (is_numeric($index)) {
-                $relations = array_merge($relations, $this->{$relation}()->fetchAll());
-            } else {
-                $relations = array_merge($relations, $this->{$index}()->fetchAll());
-            }
-        }
-
-        if (parent::delete()) {
-            foreach ($relations as $relation) {
-                $relation->delete();
-            }
-        }
-    }
-
-    /**
-     * Returns an array of the project data.
-     *
-     * @param array $fields Fields to return
-     *
-     * @return array
-     */
-    public function __toArray($fields = null)
-    {
-        $data = parent::__toArray($fields);
-        unset($data['private_key'], $data['next_tid']);
-        return $data;
-    }
 }
