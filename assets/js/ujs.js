@@ -86,13 +86,22 @@
       event.preventDefault();
       return $('#ticketlist-columns-content').slideToggle();
     });
-    return doc.on('click', 'button.remove-filter', function(event) {
+    doc.on('click', 'button.remove-filter', function(event) {
       var filterRow;
       event.preventDefault();
       filterRow = $(this).attr('data-filter');
       return $('#filter-' + filterRow).fadeOut(function() {
         return $(this).remove();
       });
+    });
+    return $('[data-moment]').each(function() {
+      var n, orig;
+      orig = $(this).attr('data-moment');
+      if (orig) {
+        n = moment(orig).fromNow();
+        $(this).html(n);
+        return $(this).attr('title', orig);
+      }
     });
   });
 
