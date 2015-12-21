@@ -28,12 +28,13 @@ use Avalon\Http\Request;
 /**
  * AdminCP controller
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
  */
 class AppController extends \Traq\Controllers\AppController
 {
-    public $layout = 'admin.phtml';
+    protected $layout = 'admin.phtml';
 
     /**
      * Constructor!
@@ -47,7 +48,7 @@ class AppController extends \Traq\Controllers\AppController
 
         // Make sure the user is logged in and is an admin.
         $this->before('*', function () {
-            if ($this->currentUser and !$this->currentUser->group()->is_admin) {
+            if ($this->currentUser and !$this->currentUser['is_admin']) {
                 return $this->show403();
             } elseif (!$this->currentUser) {
                 return $this->showLogin(Request::$requestUri);
