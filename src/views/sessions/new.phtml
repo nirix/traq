@@ -1,19 +1,21 @@
 <div class="new-session container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<h1><?=$t('login')?></h1>
+			<h1 class="page-header"><?=t('login')?></h1>
 
-			<?php if (Request::method() == 'POST'): ?>
-				<?php if (isset($activationRequired) && $activationRequired): ?>
-					<?=TWBS::alert($t('errors.account.activation_required'), 'warning', false)?>
-				<?php else: ?>
-					<?=TWBS::alert($t('errors.invalid_username_or_password'), 'danger', false)?>
+			<?php if (Request::$method == 'POST') : ?>
+				<?php if (isset($activationRequired) && $activationRequired) : ?>
+					<?=TWBS::alert(t('errors.account.activation_required'), 'warning', false)?>
+				<?php elseif (isset($error) && $error) : ?>
+					<?=TWBS::alert(t('errors.invalid_username_or_password'), 'danger', false)?>
 				<?php endif; ?>
-			<?php endif; ?>
-			<form action="<?=Request::basePath('login')?>" method="post" class="form-horizontal">
+			<?php endif ?>
+
+			<form action="<?=routeUrl('session_create')?>" method="post" class="form-horizontal">
 				<?=View::render('sessions/_form.phtml')?>
+
 				<div class="form-actions">
-					<?=Form::submit($t('login'), ['class' => 'btn btn-success'])?>
+					<button type="submit" class="btn btn-success"><?=t('login')?></button>
 				</div>
 			</form>
 		</div>

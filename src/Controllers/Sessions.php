@@ -25,6 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Traq\Models\User;
+use Avalon\Http\RedirectResponse;
 
 /**
  * User sessions controller.
@@ -35,31 +36,12 @@ use Traq\Models\User;
  */
 class Sessions extends AppController
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->before(['new', 'create'], function () {
-            if ($this->currentUser) {
-                return $this->redirectTo('root');
-            }
-        });
-    }
-
     /**
      * Login form
      */
     public function newAction()
     {
-        return $this->respondTo(function ($format) {
-            if ($format == 'html') {
-                if ($this->isOverlay) {
-                    return $this->render('sessions/new.overlay.phtml');
-                } else {
-                    return $this->render('sessions/new.phtml');
-                }
-            }
-        });
+        return $this->render('sessions/new.phtml');
     }
 
     /**
@@ -67,23 +49,20 @@ class Sessions extends AppController
      */
     public function createAction()
     {
-        $activationRequired = false;
-
-        if ($user = User::find('username', Request::$post['username'])
-        and $user->authenticate(Request::$post['password'])) {
-            if ($user->isActivated()) {
-                setcookie('traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-                return $this->redirect(
-                    Request::$post->get('redirect', $this->generateUrl('root'))
-                );
-            } else {
-                $activationRequired = true;
+        $user = User::find('username', Request::$post->get('username'));
+        if ($user && $user->authenticate(Request::$post->get('password'))) {
+            // Check account activation
+            if (setting('email_validation') && !$user->isActivated()) {
+                return $this->render("sessions/new.phtml", ['activationRequired' => true]);
             }
-        }
 
-        return $this->render('sessions/new.phtml', [
-            'activationRequired' => $activationRequired
-        ]);
+            $response = new RedirectResponse(routeUrl('root'));
+            $response->addCookie('traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+
+            return $response;
+        } else {
+            return $this->render('sessions/new.phtml', ['error' => true]);
+        }
     }
 
     /**
@@ -91,7 +70,8 @@ class Sessions extends AppController
      */
     public function destroyAction()
     {
-        setcookie('traq', sha1(time()), time() + 5, '/');
-        return $this->redirectTo('root');
+        $response = new RedirectResponse(routeUrl('root'));
+        $response->addCookie('traq', '', time(), '/');
+        return $response;
     }
 }
