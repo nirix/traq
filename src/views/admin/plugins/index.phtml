@@ -1,53 +1,49 @@
 <div class="plugins container">
-	<h1 class="page-header"><?=$t('plugins')?></h1>
+	<h1 class="page-header"><?=t('plugins')?></h1>
 
 	<table class="table table-striped table-hover">
 		<thead>
-			<th class="name"><?=$t('name')?></th>
-			<th class="authors"><?=$t('authors')?></th>
-			<th class="version"><?=$t('version')?></th>
+			<th class="name"><?=t('name')?></th>
+			<th class="authors"><?=t('authors')?></th>
+			<th class="version"><?=t('version')?></th>
 			<th class="actions"></th>
 		</thead>
 		<tbody>
-		<?php foreach ($plugins as $plugin): ?>
+		<?php foreach ($plugins as $plugin) : ?>
 			<tr class="plugin-<?=$plugin['status']?>">
 				<td><?=$plugin['name']?></td>
 				<td>
-				<?php if (count($plugin['authors'])): ?>
+				<?php if (count($plugin['authors'])) : ?>
 					<ul>
-					<?php foreach ($plugin['authors'] as $author): ?>
+					<?php foreach ($plugin['authors'] as $author) : ?>
 						<li><?=$author['name']?></li>
-					<?php endforeach; ?>
+					<?php endforeach ?>
 					</ul>
-				<?php endif; ?>
+				<?php endif ?>
 				</td>
 				<td><?=$plugin['version']?></td>
 				<td>
-					<?php if (!$plugin['installed']): ?>
-						<?=HTML::link(
-							TWBS::fa('plus', $t('install')), "/admin/plugins/install?plugin={$plugin['directory']}",
-							['class' => 'btn btn-xs btn-success']
-						)?>
-					<?php else: ?>
-						<?=HTML::link(
-							TWBS::fa('power-off', $t('uninstall')), "/admin/plugins/uninstall?plugin={$plugin['directory']}",
-							['class' => 'btn btn-xs btn-danger']
-						)?>
-						<?php if ($plugin['is_enabled']): ?>
-							<?=HTML::link(
-								TWBS::fa('minus', $t('disable')), "/admin/plugins/disable?plugin={$plugin['directory']}",
-								['class' => 'btn btn-xs btn-warning']
-							)?>
-						<?php else: ?>
-							<?=HTML::link(
-								TWBS::fa('check', $t('enable')), "/admin/plugins/enable?plugin={$plugin['directory']}",
-								['class' => 'btn btn-xs btn-success']
-							)?>
-						<?php endif; ?>
-					<?php endif; ?>
+					<?php if (!$plugin['installed']) : ?>
+						<a href="<?=routeUrl('admin_plugins_install')?>?plugin=<?=$plugin['directory']?>" class="btn btn-xs btn-success">
+							<span class="fa fa-plus"></span> <?=t('install')?>
+						</a>
+					<?php else : ?>
+						<a href="<?=routeUrl('admin_plugins_uninstall')?>?plugin=<?=$plugin['directory']?>" class="btn btn-xs btn-danger">
+							<span class="fa fa-power-off"></span> <?=t('uninstall')?>
+						</a>
+						<?php if ($plugin['is_enabled']) : ?>
+							<a href="<?=routeUrl('admin_plugins_disable')?>?plugin=<?=$plugin['directory']?>" class="btn btn-xs btn-warning">
+								<span class="fa fa-minus"></span> <?=t('disable')?>
+							</a>
+						<?php else : ?>
+							<a href="<?=routeUrl('admin_plugins_enable')?>?plugin=<?=$plugin['directory']?>" class="btn btn-xs btn-success">
+								<span class="fa fa-check"></span> <?=t('enable')?>
+							</a>
+						<?php endif ?>
+					<?php endif ?>
 				</td>
 			</tr>
-		<?php endforeach; ?>
+		<?php endforeach ?>
 		</tbody>
 	</table>
 </div>

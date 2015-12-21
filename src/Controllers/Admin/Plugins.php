@@ -24,7 +24,7 @@
 namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Traq\Traq;
+use Traq\Kernel as Traq;
 use Traq\Models\Plugin;
 use Traq\Plugin\Registry;
 
