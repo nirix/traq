@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -28,7 +28,9 @@ use Avalon\Database\Model;
 /**
  * Permission model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class Permission extends Model
 {
@@ -49,11 +51,12 @@ class Permission extends Model
     {
         $permissions = [];
 
-        $query = static::select();
+        $query = static::select('permissions');
         $query->where($query->expr()->in('project_id', [0, $project_id]))
-            ->andWhere('type = ?', $type)
+            ->andWhere('type = :type')
             ->andWhere($query->expr()->in('type_id', [0, $type_id]))
-            ->orderBy("project_id, type_id", "ASC");
+            ->setParameter('type', $type)
+            ->orderBy('project_id, type_id', 'ASC');
 
         foreach ($query->fetchAll() as $row) {
             $permissions = array_merge($permissions, $row->permissions);
