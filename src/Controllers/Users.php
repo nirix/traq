@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack P.
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,142 +23,84 @@
 
 namespace Traq\Controllers;
 
-use Traq\Helpers\Notification;
+use Avalon\Http\Request;
 use Traq\Models\User;
+use Traq\Models\UserActivationCode;
+use Traq\Helpers\Notification;
 
 /**
- * User controller
+ * User controller.
  *
+ * @package Traq\Controllers
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers
  */
 class Users extends AppController
 {
     /**
-     * Handles the register page and account creation.
+     * Registration form.
      */
     public function newAction()
     {
-        if (!settings('allow_registration')) {
-            return $this->show404();
-        }
-
         $this->title($this->translate('register'));
-
-        return $this->render("users/new.phtml", ['user' => new User]);
+        return $this->render('users/new.phtml', ['user' => new User]);
     }
 
     /**
-     * Create user.
+     * Validate and create account.
      */
     public function createAction()
     {
-        $this->title($this->translate('register'));
+        // Validate user
+        $user = new User($this->userParams());
 
-        // Create a model with the data
-        $user = new User([
-            'username'              => $this->request->post('username'),
-            'name'                  => $this->request->post('name'),
-            'password'              => $this->request->post('password'),
-            'password_confirmation' => $this->request->post('password_confirmation'),
-            'email'                 => $this->request->post('email')
-        ]);
+        // Check for errors
+        if ($user->validate()) {
+            $user->save();
 
-        // Account activation
-        if (settings('email_validation')) {
-            $user->generateActivationCode();
-        }
+            // Is email validation turned on?
+            if (setting('email_validation')) {
+                // Insert validation row
+                $activationCode = random_hash();
+                $this->db->insert(PREFIX . 'user_activation_codes', [
+                    'user_id'         => $user->id,
+                    'activation_code' => $activationCode,
+                    'type'            => 'email_validation'
+                ]);
 
-        // Check if the model is valid
-        if ($user->save()) {
-            // Send validation email?
-            if (settings('email_validation')) {
-                Notification::accountActivation($user)->send();
+                // Send notification and render login form
+                Notification::accountActivation($user, $activationCode)->send();
                 return $this->render("sessions/new.phtml", ['activationRequired' => true]);
-            } else {
-                return $this->redirectTo('login');
             }
+
+            return $this->redirectTo('session_new');
         } else {
-            return $this->render("users/new.phtml", ['user' => $user]);
+            $this->title($this->translate('register'));
+            return $this->render('users/new.phtml', ['user' => $user]);
         }
     }
 
     /**
-     * Account validation.
+     * Activate account.
      */
-    public function action_validate($key)
+    public function activateAction($activation_code)
     {
-        $user = User::select()->where('options', '%"validation_key":"' . $key . '"%', 'LIKE')->exec()->fetch();
-        $user->option('validation_key', null);
-        $user->save();
-
-        $this->render['view'] = 'users/login';
-        View::set('validated', true);
-    }
-
-    /**
-     * Forgot/Reset password page.
-     */
-    public function action_reset_password($key = null)
-    {
-        // Reset key provided?
-        if ($key !== null) {
-            // Find user
-            if ($user = User::select()->where('options', '%"reset_password_key":"' . $key . '"%', 'LIKE')->exec()->fetch()) {
-                // Generate new password
-                $new_password = substr(random_hash(), 0, 10);
-
-                // Set new password, clear reset key and save
-                $user->set_password($new_password);
-                $user->option('reset_password_key', null);
-                $user->save();
-
-                // Send data to the view
-                View::set('password_reset', true);
-                View::set('new_password', $new_password);
-            }
-        }
-        // Find user and generate key
-        else {
-            // Check if the form has been submitted
-            if (Request::method() == 'post') {
-                // Generate key
-                if ($user = User::find('username', Request::$post['username'])) {
-                    // Generate reset key
-                    $key = random_hash();
-
-                    // Set reset key option
-                    $user->option('reset_password_key', $key);
-                    $user->save();
-
-                    // Send email
-                    Notification::send(
-                        $user, // User object
-                        l('notifications.password_reset.subject'),     // Subject
-                        l('notifications.password_reset.message',    // Message
-                            settings('title'), // Installation title
-                            $user->name,       // Users name
-                            $user->username,   // Users username
-                            "http://" . $_SERVER['HTTP_HOST'] . Request::base("/login/resetpassword/{$key}"), // Reset password URL
-                            $_SERVER['REMOTE_ADDR'] // IP of reset request
-                        )
-                    );
-                    View::set('reset_email_sent', true);
-                } else {
-                    View::set('error', true);
-                }
-            }
+        if ($activation = UserActivationCode::get('email_validation', $activation_code)) {
+            $activation->delete();
+            return $this->redirectTo('session_new');
+        } else {
+            return $this->show404();
         }
     }
 
-    /**
-     * Redirect to the front page if the user is logged in.
-     */
-    public function alreadyLoggedIn()
+    protected function userParams()
     {
-        if ($this->currentUser) {
-            $this->redirectTo('root');
-        }
+        return [
+            'name'     => Request::$post->get('name'),
+            'username' => Request::$post->get('username'),
+            'email'    => Request::$post->get('email'),
+            'password' => Request::$post->get('password'),
+            'password_confirmation' => Request::$post->get('password_confirmation')
+        ];
     }
 }

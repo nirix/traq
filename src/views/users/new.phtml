@@ -1,47 +1,47 @@
 <div class="register container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<h1 class="page-header"><?=$t("register")?></h1>
+			<h1 class="page-header"><?=t("register")?></h1>
 
 			<?=Errors::messagesFor($user)?>
 
-			<form action="<?=Request::basePath($route("register"))?>" method="post" class="form-horizontal">
+			<form action="<?=routeUrl('user_create')?>" method="post" class="form-horizontal">
 				<div class="form-group">
-					<?=Form::label($t("name"), 'name', ['class' => 'col-md-3 control-label'])?>
+					<label for="name" class="col-md-3 control-label"><?=t('name')?></label>
 					<div class="col-md-9">
 						<?=Form::text('name', ['value' => $user->name, 'class' => "form-control"])?>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<?=Form::label($t("username"), 'username', ['class' => 'col-md-3 control-label'])?>
+				<div class="form-group <?=$user->hasError('username') ? 'has-error' : ''?>">
+					<label for="username" class="col-md-3 control-label"><?=t('username')?></label>
 					<div class="col-md-9">
 						<?=Form::text('username', ['value' => $user->username, 'class' => "form-control"])?>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<?=Form::label($t("email"), 'email', ['class' => 'col-md-3 control-label'])?>
+				<div class="form-group <?=$user->hasError('email') ? 'has-error' : ''?>">
+					<label for="email" class="col-md-3 control-label"><?=t('email')?></label>
 					<div class="col-md-9">
 						<?=Form::text('email', ['value' => $user->email, 'class' => "form-control"])?>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<?=Form::label($t("password"), 'password', ['class' => 'col-md-3 control-label'])?>
+				<div class="form-group <?=$user->hasError('password') ? 'has-error' : ''?>">
+					<label for="password" class="col-md-3 control-label"><?=t('password')?></label>
 					<div class="col-md-9">
 						<?=Form::password('password', ['class' => "form-control"])?>
 					</div>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group <?=$user->hasError('password') ? 'has-error' : ''?>">
 					<div class="col-md-9 col-md-offset-3">
-						<?=Form::password('password_confirmation', [ 'class' => "form-control", 'placeholder' => $t("confirm_password")])?>
+						<?=Form::password('password_confirmation', ['class' => "form-control", 'placeholder' => t("confirm_password")])?>
 					</div>
 				</div>
 
 				<div class="form-actions">
-					<?=Form::submit($t("create_account"), ['class' => "btn btn-success"])?>
+					<button type="submit" class="btn btn-success"><?=t('create_account')?></button>
 				</div>
 			</form>
 		</div>
