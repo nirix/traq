@@ -1,7 +1,7 @@
 <?=View::render('wiki/_nav.phtml')?>
 <div class="wiki container">
-	<h1 class="page-header"><?=$page->title?></h1>
+	<h1 class="page-header"><?=$page['title']?></h1>
 	<div>
-		<?=Format::text($page->revision()->content)?>
+		<?=Format::text($page['content'])?>
 	</div>
 </div>

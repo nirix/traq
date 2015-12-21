@@ -1,23 +1,16 @@
 <nav id="wiki-nav" class="container">
 	<ul class="nav nav-tabs" role="tablist">
-		<li<?=iif(activeNav('/:slug/wiki'), ' class="active"')?>>
-			<?=HTML::link($t('home'), "{$project->slug}/wiki")?>
+		<li<?=Request::matches('/{pslug}/wiki') ? ' class="active"' :''?>>
+			<a href="<?=routeUrl('wiki')?>"><?=t('home')?></a>
 		</li>
-		<li<?=iif(activeNav('/:slug/wiki/_pages'), ' class="active"')?>>
-			<?=HTML::link($t('pages'), "{$project->slug}/wiki/_pages")?>
+		<li<?=Request::matches('/{pslug}/wiki/_pages') ? ' class="active"' :''?>>
+			<a href="<?=routeUrl('wiki_pages')?>"><?=t('pages')?></a>
 		</li>
 
-		<?php if ($currentUser->permission($project->id, 'create_wiki_page')): ?>
-			<li><?=HTML::link(TWBS::fa('plus', $t('new_page')), $project->href('wiki/_new'))?></li>
-		<?php endif; ?>
-		<?php if (isset($page) && $page && $currentUser->permission($project->id, 'edit_wiki_page')): ?>
-			<li><?=HTML::link(TWBS::fa('pencil', $t('edit_page')), $page->href('_edit'))?></li>
-		<?php endif; ?>
-		<?php if (isset($page) && $page && $currentUser->permission($project->id, 'delete_wiki_page')): ?>
-			<li><?=HTML::link(TWBS::fa('trash', $t('delete_page')), $page->href('_delete'))?></li>
-		<?php endif; ?>
-		<?php if (isset($page) && $page): ?>
-			<li><?=HTML::link(TWBS::fa('file-text-o', $t('revisions')), $page->href('_revisions'))?></li>
-		<?php endif; ?>
+		<?php if (isset($page) && $page) : ?>
+			<li><a href="<?=routeUrl('wiki_revisions', ['slug' => $page['slug']])?>">
+				<span class="fa fa-files-o"></span> <?=t('revisions')?>
+			</a></li>
+		<?php endif ?>
 	</ul>
 </nav>
