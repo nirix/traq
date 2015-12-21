@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -25,12 +25,8 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Controller;
 use Avalon\Http\Request;
-use Avalon\Http\Response;
-use Avalon\Language;
-use Avalon\Database\ConnectionManager;
-use Traq\Models\Project;
+use Avalon\Templating\View;
 use Traq\Models\User;
-use Traq\Models\Setting;
 
 /**
  * App controller
@@ -41,244 +37,126 @@ use Traq\Models\Setting;
 class AppController extends Controller
 {
     /**
-     * Current user.
-     *
      * @var User
      */
     protected $currentUser;
 
     /**
-     * Current project.
-     *
-     * @var Project
+     * @var User
      */
-    protected $project;
+    protected $anonymousUser;
 
     /**
-     * Projects the user has access to.
-     *
-     * @var Project[]
+     * @var array
      */
-    protected $projects = [];
+    protected $currentProject;
 
     /**
-     * Page title.
-     *
-     * @var string[]
+     * @var array
      */
-    public $title = [];
+    protected $title = [];
 
-    /**
-     * Atom feeds.
-     *
-     * @var string[]
-     */
-    public $feeds = [];
-
-    /**
-     * Overlay view request.
-     *
-     * @var boolean
-     */
     protected $isOverlay = false;
 
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
 
+        session_start();
+
+        $this->db = $GLOBALS['db'];
+        $this->title(setting('title'));
         $this->set('traq', $this);
 
-        // Get database connection
-        $this->db = ConnectionManager::getConnection();
-
-        // Append installation title to page title
-        $this->title($this->setting('title'));
-
-        // Get current user
-        $this->getUser();
-
-        // Get current project
-        $this->getProject();
-
-        // Make sure the user has permission to view the project
-        $this->before('*', function () {
-            if ($this->currentUser
-            && $this->project
-            && !$this->hasPermission($this->project->id, 'view_project')) {
-                return $this->show403();
-            }
-
-            // Make sure there is a project is the `project_slug` is found.
-            if (!$this->project && Request::$properties->has('project_slug')) {
-                return $this->show404();
-            }
-        });
-
-        // No layouts for overlays
-        if (Request::$headers->get('X-Overlay')) {
-            $this->layout    = false;
+        if (Request::$headers->has('X-Overlay')) {
             $this->isOverlay = true;
-        }
-    }
-
-    /**
-     * Check if the user has permission to perform the specified action.
-     *
-     * @param integer $projectId
-     * @param string  $action
-     *
-     * @return boolean
-     */
-    public function hasPermission($projectId, $action)
-    {
-        return $this->currentUser->permission($projectId, $action);
-    }
-
-    /**
-     * Append the string to the page title.
-     *
-     * @param string $title
-     */
-    protected function title($title)
-    {
-        $this->title[] = $title;
-    }
-
-    /**
-     * Returns the setting value.
-     *
-     * @param string $setting
-     *
-     * @return mixed
-     */
-    protected function setting($setting)
-    {
-        return Setting::get($setting)->value;
-    }
-
-    /**
-     * Get the current user from cookie or request header.
-     */
-    protected function getUser()
-    {
-        // Check cookie
-        if (isset($_COOKIE['traq']) && $user = User::find('login_hash', $_COOKIE['traq'])) {
-            $this->currentUser = $user;
+            $this->layout = false;
         }
 
-        // Check headers
-        if ($apiKey = Request::$headers->get('X-Access-Token') && $user = User::find('api_key', $apiKey)) {
-            $this->currentUser = $user;
-        }
-
-        if ($this->currentUser) {
-            Language::setCurrent($this->currentUser->language);
-            $this->loggedin = true;
-        } else {
-            $this->currentUser = User::anonymousUser();
-            $this->loggedin = false;
-        }
-
-        $this->set([
-            'currentUser' => $this->currentUser,
-            'loggedin'    => $this->loggedin
-        ]);
-    }
-
-    /**
-     * Get the current project.
-     *
-     * @return mixed
-     */
-    public function getProject()
-    {
-        if (Request::$properties->has('project_slug')
-        && $this->project = Project::find('slug', Request::$properties->get('project_slug'))) {
-            $GLOBALS['project'] = $this->project;
-
-            // Add project name to page title
-            $this->title($this->project->name);
-
-            // Set project view variable
-            $this->set('project', $this->project);
-
-            // Active milestones
-            $this->set(
-                'activeMilestones',
-                $this->project->milestones()->where('status = ?', 1)
-                    ->orderBy('display_order', 'ASC')
-            );
-        }
-    }
-
-    /**
-     * Returns 404 response.
-     *
-     * @return Response
-     */
-    public function show404()
-    {
-        $this->layout = 'default.phtml';
-        $default = parent::show404();
-
-        return $this->respondTo(function ($format) use ($default) {
-            if ($format === 'json') {
-                $response = $this->jsonResponse([
-                    'message' => $this->translate('errors.404.message', [Request::pathInfo()])
-                ]);
-
-                // Set 404 status
-                $response->status = 404;
-
-                return $response;
-            } else {
-                return $default;
+        $this->before('*', function () {
+            // Are we on a project page?
+            if ($projectSlug = Request::$properties->get('pslug')) {
+                $this->currentProject = queryBuilder()->select('*')->from(PREFIX . 'projects')
+                    ->where('slug = ?')
+                    ->setParameter(0, $projectSlug)
+                    ->execute()
+                    ->fetch();
             }
+
+            // Is the user logged in?
+            if ((isset($_COOKIE['traq']) && $sessionHash = $_COOKIE['traq'])) {
+                $user = User::select('u.*', 'g.is_admin')
+                    ->leftJoin('u', PREFIX . 'usergroups', 'g', 'g.id = u.group_id');
+
+                // Project role
+                if ($this->currentProject) {
+                    $user->addSelect('r.project_role_id')
+                        ->leftJoin('u', PREFIX . 'user_roles', 'r', 'r.user_id = u.id');
+                }
+
+                // By session
+                if ($sessionHash) {
+                    $user->where('u.login_hash = :login_hash')
+                        ->setParameter('login_hash', $sessionHash);
+                }
+
+                // By API key
+                // if ($apiKey) {
+
+                // }
+
+                $this->currentUser = $user->fetch();
+            }
+
+            $GLOBALS['currentUser'] = $this->currentUser;
+            $this->set('currentUser', $this->currentUser);
+
+            // Check if project exists
+            if (($projectSlug && !$this->currentProject)
+            || ($projectSlug && !$this->hasPermission($this->currentProject['id'], 'view_project'))) {
+                return $this->show404();
+            } else {
+                $this->title($this->currentProject['name']);
+            }
+
+            $GLOBALS['currentProject'] = $this->currentProject;
+            $this->set('currentProject', $this->currentProject);
         });
     }
 
-    /**
-     * Returns 403 response.
-     *
-     * @return Response
-     */
-    public function show403()
+    protected function hasPermission($projectId, $action)
     {
-        $this->executeAction = false;
-        return new Response(function ($resp) {
-            $resp->status = 401;
-            $resp->body   = $this->renderView('errors/no_permission.phtml', [
-                '_layout' => $this->layout
-            ]);
-        });
+        if (!$user = current_user()) {
+            $user = anonymous_user();
+        }
+
+        return $user->hasPermission($projectId, $action);
     }
 
     /**
-     * Returns login form view.
+     * Set or get the page title.
      *
-     * @param string $redirect
+     * @param string|null $title
      *
-     * @return Response
+     * @return null|string
      */
-    public function showLogin($redirect = null)
+    public function title($title = null)
+    {
+        if ($title) {
+            $this->title[] = $title;
+        } else {
+            return $this->title;
+        }
+    }
+
+    /**
+     * Show the login form.
+     */
+    protected function showLogin($goto = null)
     {
         return $this->render('sessions/new.phtml', [
-            'redirect' => $redirect
+            '_layout' => 'default.phtml',
+            'goto'    => $goto
         ]);
-    }
-
-    /**
-     * Returns a new JSON response.
-     *
-     * @param array $data
-     *
-     * @return Response
-     */
-    protected function jsonResponse(array $data)
-    {
-        return new Response(function ($resp) use ($data) {
-            $resp->contentType = 'application/json';
-            $resp->body = json_encode($data);
-        });
     }
 }
