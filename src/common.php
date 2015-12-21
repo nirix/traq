@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack P.
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -21,211 +21,281 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Radium\Kernel as Radium;
-
-use Traq\Models\Setting;
-use Traq\Models\Project;
+use Avalon\Helpers\HTML;
+use Traq\Models\User;
 
 /**
- * Returns the value of the requested setting.
- *
- * @param string $setting The setting to fetch
- *
- * @return string
- *
- * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
+ * Shortcut for creating a query builder.
  */
-function settings($setting) {
-    static $CACHE = array();
-
-    if (isset($CACHE[$setting])) {
-        return $CACHE[$setting];
-    }
-
-    $data = Setting::get($setting);
-
-    $CACHE[$setting] = $data ? $data->value : null;
-    return $CACHE[$setting];
-}
-
-/**
- * Returns a list of available localisations formatted
- * for the Form::select() helper.
- *
- * @return array
- */
-function locale_select_options()
+function queryBuilder()
 {
-    $options = array();
-
-    foreach (scandir(APPPATH . '/locale') as $file) {
-        if (substr($file, -4) == '.php') {
-            // Clean the name and set the class
-            $name = substr($file, 0, -4);
-            $class = "\\traq\locale\\{$name}";
-
-            // Make sure the locale class
-            // isn't already loaded
-            if ($name != settings('locale') and $name != Avalon::app()->user->locale) {
-                require APPPATH . '/locale/' . $file;
-            }
-
-            // Get the info
-            $info = $class::info();
-
-            // Add it to the options
-            $options[] = array(
-                'label' => "{$info['name']} ({$info['language_short']}{$info['locale']})",
-                'value' => substr($file, 0, -4)
-            );
-        }
-    }
-
-    return $options;
+    return $GLOBALS['db']->createQueryBuilder();
 }
 
 /**
- * Returns a list of available themes formatted
- * for the Form::select() helper.
+ * Get the setting value.
  *
- * @return array
- */
-function theme_select_options()
-{
-    $options = array();
-
-    foreach (scandir(APPPATH . '/views') as $file) {
-        $path = APPPATH . '/views/' . $file;
-
-        // Make sure this is a directory
-        // and theres an _theme.php file
-        if (is_dir($path) and file_exists($path . '/_theme.php')) {
-            $info = require ($path . '/_theme.php');
-            $options[] = array(
-                'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
-                'value' => $file
-            );
-        }
-    }
-
-    return $options;
-}
-
-/**
- * Checks if the given regex matches the request
- *
- * @param string $uri
- *
- * @return bool
- */
-function activeNav($uri)
-{
-    $uri = str_replace(
-        array(':slug', ':any', ':num'),
-        array('([a-zA-Z0-9\-\_]+)', '(.*)', '([0-9]+)'),
-        $uri
-    );
-    return Request::matches($uri);
-}
-
-/**
- * Checks the condition and returns the respective value.
- *
- * @param bool $condition
- * @param mixed $true
- * @param mixed $false
+ * @param string $setting
  *
  * @return mixed
  */
-function iif($condition, $true, $false = null)
+function setting($setting)
 {
-    return $condition ? $true : $false;
+    static $settings;
+
+    if (!$settings) {
+        $rows = queryBuilder()->select('setting', 'value')->from(PREFIX . 'settings')->execute()->fetchAll();
+        foreach ($rows as $row) {
+            $settings[$row['setting']] = $row['value'];
+        }
+        unset($rows, $row);
+    }
+
+    return $settings[$setting];
 }
 
 /**
- * Returns an array of the available permissions.
+ * Get the current user information.
  *
  * @return array
  */
-function permission_actions()
+function current_user()
 {
-    global $locale;
-
-    // Fetch the locale strings
-    $locale_strings = $locale->locale();
-
-    // Loop over them and get the permissions...
-    $actions = array();
-    foreach ($locale_strings['permissions'] as $action => $string) {
-        // Is this a grouped set of permissions?
-        if (is_array($string)) {
-            // Add them to the actions array
-            foreach ($string as $act => $str) {
-                $actions[$action][] = $act;
-            }
-        }
-        // Non group permission
-        else {
-            $actions[] = $action;
-        }
-    }
-
-    return $actions;
+    return isset($GLOBALS['currentUser']) ? $GLOBALS['currentUser'] : null;
 }
 
 /**
- * Checks if the specified field is a project or not.
+ * Get the current project information.
  *
- * @param mixed $find Value [or column] to search for.
- * @param mixed $field Column [or value].
- *
- * @return object
- *
- * @author Jack P.
- * @copyright Copyright (c) Jack P.
- * @package Traq
+ * @return array
  */
-function is_project($find, $field = 'slug') {
-    if ($project = Project::find($field, $find)) {
-        return $project;
+function current_project()
+{
+    return isset($GLOBALS['currentProject']) ? $GLOBALS['currentProject'] : null;
+}
+
+/**
+ * Check if the user has permission to perform the action.
+ *
+ * @param integer $projectId
+ * @param string  $action
+ *
+ * @return boolean
+ */
+function has_permission($projectId, $action, $fetchProjectRoles = false)
+{
+    if (!$user = current_user()) {
+        $user = anonymous_user();
+    }
+
+    return $user->hasPermission($projectId, $action, $fetchProjectRoles);
+}
+
+/**
+ * Get the anonymous user.
+ *
+ * @return User
+ */
+function anonymous_user()
+{
+    static $anonymousUser;
+
+    if (!$anonymousUser) {
+        $anonymousUser = User::select('u.*', 'g.is_admin')
+            ->leftJoin('u', PREFIX . 'usergroups', 'g', 'g.id = u.group_id')
+            ->where('u.id = :id')
+            ->setParameter('id', setting('anonymous_user_id'))
+            ->fetch();
+    }
+
+    return $anonymousUser;
+}
+
+/**
+ * Calculate percent.
+ *
+ * @param integer $min
+ * @param integer $max
+ * @param boolean $full
+ *
+ * @return mixed
+ */
+function get_percent($min, $max, $full = true)
+{
+    // Make sure we don't divide by zero and end the entire universe
+    if ($min == 0 and $max == 0) {
+        return 0;
+    }
+
+    $calculate = ($min / $max * 100);
+
+    if ($full) {
+        return $calculate;
     } else {
-        return false;
+        $split = explode('.', $calculate);
+        return $split[0];
     }
 }
 
 /**
- * Used to generate a random hash.
+ * Get a profile link with the users gravatar.
+ *
+ * @param  string  $userEmail
+ * @param  string  $userName
+ * @param  integer $userId
+ * @param  integer $size
  *
  * @return string
  */
-function random_hash()
+function gravatar_profile_link($userEmail, $userName, $userId, $size = null)
 {
-    $chars = "qwertyuiopasdfghjklzxcvbnm[];',./{}|:<>?1234567890!@#$%^&*()";
-    return sha1(time() . rand(0, 1000) . $chars[rand(0, count($chars))] . microtime());
+    return HTML::link(
+        Gravatar::withString($userEmail, $userName, $size),
+        routePath('user', ['id' => $userId])
+    );
 }
 
 /**
- * Calculates the percent of two numbers,
- * if both numbers are the same, 100(%) is returned.
+ * Get an array of allowed timeline events.
  *
- * @param integer $min Lowest number
- * @param integer $max Highest number
- *
- * @return integer
+ * @return array
  */
-function get_percent($min, $max)
+function timeline_events()
 {
-    // Make sure we don't divide by zero
-    // and end the entire universe
-    if ($min == 0 and $max == 0) return 0;
+    return [
+        'ticket_created',
+        'ticket_closed',
+        'ticket_reopened',
+        'ticket_updated',
+        'ticket_comment',
+        'milestone_completed',
+        'milestone_cancelled',
+        'ticket_moved_from',
+        'ticket_moved_to',
+        'wiki_page_created',
+        'wiki_page_edited'
+    ];
+}
 
-    // We're good, calcuate it like a boss,
-    // toss out the crap we dont want.
-    $calculate = ($min/$max*100);
-    $split = explode('.',$calculate);
+/**
+ * Returns an array of timeline filters.
+ *
+ * @param string $filter
+ *
+ * @since 3.1.0
+ * @return array
+ */
+function timeline_filters($filter = null)
+{
+    $filters = [
+        'new_tickets'           => ['ticket_created'],
+        'tickets_opened_closed' => ['ticket_closed', 'ticket_reopened'],
+        'ticket_updates'        => ['ticket_updated'],
+        'ticket_comments'       => ['ticket_comment'],
+        'ticket_moves'          => ['ticket_moved_from', 'ticket_moved_to'],
+        'milestones'            => ['milestone_completed', 'milestone_cancelled'],
+        'wiki_pages'            => ['wiki_page_created', 'wiki_page_edited']
+    ];
 
-    // Return it like a pro.
-    return $split[0];
+    // Return events for specific filter
+    if ($filter) {
+        return $filters[$filter];
+    }
+
+    return $filters;
+}
+
+/**
+ * Work out the locale for Moment.js
+ *
+ * @return string
+ */
+function moment_locale()
+{
+    $current = Avalon\Language::current()->locale;
+
+    if (strlen($current) == 2) {
+        return $current;
+    } else {
+        return substr($current, 0, 2) . '-' . substr($current, 2);
+    }
+}
+
+/**
+ * In no way is this a secure random hash, don't use it for security stuff.
+ */
+function random_hash()
+{
+    return sha1(microtime() . memory_get_usage() . time() . rand(0, 5000) . microtime(true));
+}
+
+/**
+ * Get a query builder object pre-built with all the necessary ticket information.
+ */
+function ticketQuery()
+{
+    $ticket = queryBuilder();
+    $ticket->select(
+        't.id',
+        't.ticket_id',
+        't.summary',
+        't.user_id',
+        't.milestone_id',
+        't.version_id',
+        't.component_id',
+        't.type_id',
+        't.priority_id',
+        't.severity_id',
+        't.assigned_to_id',
+        't.votes',
+        't.created_at',
+        't.updated_at',
+        'u.name AS user_name',
+        'm.name AS milestone_name',
+        'm.slug AS milestone_slug',
+        'v.name AS version_name',
+        'v.slug AS version_slug',
+        'c.name AS component_name',
+        'tp.name AS type_name',
+        's.name AS status_name',
+        'p.name AS priority_name',
+        'sv.name AS severity_name',
+        'at.name AS assigned_to_name'
+    )
+    ->from(PREFIX . 'tickets', 't')
+
+    ->leftJoin('t', PREFIX . 'users', 'u', 'u.id = t.user_id')
+    ->leftJoin('t', PREFIX . 'milestones', 'm', 'm.id = t.milestone_id')
+    ->leftJoin('t', PREFIX . 'milestones', 'v', 'v.id = t.version_id')
+    ->leftJoin('t', PREFIX . 'components', 'c', 'c.id = t.component_id')
+    ->leftJoin('t', PREFIX . 'types', 'tp', 'tp.id = t.type_id')
+    ->leftJoin('t', PREFIX . 'statuses', 's', 's.id = t.status_id')
+    ->leftJoin('t', PREFIX . 'priorities', 'p', 'p.id = t.priority_id')
+    ->leftJoin('t', PREFIX . 'severities', 'sv', 'sv.id = t.severity_id')
+    ->leftJoin('t', PREFIX . 'users', 'at', 'at.id = t.assigned_to_id');
+
+    $ticket->groupBy('t.id')
+        ->addGroupBy('u.name')
+        ->addGroupBy('m.name')
+        ->addGroupBy('m.slug')
+        ->addGroupBy('v.name')
+        ->addGroupBy('v.slug')
+        ->addGroupBy('c.name')
+        ->addGroupBy('tp.name')
+        ->addGroupBy('s.name')
+        ->addGroupBy('p.name')
+        ->addGroupBy('sv.name')
+        ->addGroupBy('at.name');
+
+    return $ticket;
+}
+
+/**
+ * Dump and die
+ */
+function dd()
+{
+    echo "<pre>";
+    call_user_func_array('var_dump', func_get_args());
+    exit;
 }
