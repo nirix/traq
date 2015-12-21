@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack P.
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,532 +23,142 @@
 
 namespace Traq\Helpers;
 
-use Avalon\Database\QueryBuilder;
-use Traq\Models\Project;
-use Traq\Models\Milestone;
-use Traq\Models\Status;
-use Traq\Models\Type;
-use Traq\Models\Ticket;
-use Traq\Models\User;
-use Traq\Models\Component;
-use Traq\Models\Priority;
-use Traq\Models\Severity;
-use Traq\Models\CustomField;
-
 /**
- * Ticket filter query builder.
+ * Ticket filtering.
  *
+ * @package Traq\Helpers
  * @author Jack P.
- * @since 3.0
+ * @since 3.0.0
  */
 class TicketFilterQuery
 {
-    /**
-     * @var Project
-     */
-    protected $project;
-
-    /**
-     * @var QueryBuilder
-     */
     protected $builder;
+    protected $expr;
+    public $query;
+    public $filters = [];
 
-    /**
-     * @var array
-     */
-    protected $filters;
-
-    public function __construct(Project $project)
+    public function __construct($builder, $query)
     {
-        $this->project = $project;
-        $this->builder = $project->tickets();
+        $this->builder = $builder;
+        $this->expr    = $builder->expr();
+        $this->query   = $query;
+
+        $this->filter();
     }
 
-    /**
-     * Processes a filter.
-     *
-     * @param string $filter
-     * @param array $values
-     */
-    public function process($filter, $values)
+    public function filter(array $query = null)
     {
-        if ($filter == 'search') {
-            $values = is_array($values) ? $values : [$values];
-        } elseif (!is_array($values)) {
-            $values = explode(',', $values);
+        if (!$query) {
+            $query = $this->query;
+        } else {
+            $this->query = $query;
         }
 
-        $condition = '';
-        if (substr($values[0], 0, 1) == '!') {
-            $condition = 'NOT';
-            $values[0] = substr($values[0], 1);
+        if (isset($query['open'])) {
+            $this->allOpen();
+        } elseif (isset($query['started'])) {
+            $this->allStarted();
+        } elseif (isset($query['closed'])) {
+            $this->allClosed();
         }
 
-        // Add to filters array
-        $this->filters[$filter] = [
-            'prefix' => ($condition == 'NOT' ? '!' :''),
-            'values' => []
-        ];
-
-        if ($values[0] == '' or end($values) == '') {
-            $this->filters[$filter]['values'][] = '';
-        }
-
-        if (count($values)) {
-            $this->add($filter, $condition, $values);
-        }
-    }
-
-    /**
-     * Checks the values and constructs the query.
-     *
-     * @param string $filter
-     * @param string $condition
-     * @param array  $values
-     */
-    protected function add($filter, $condition, $values)
-    {
-        $queryValues = [];
-
-        if (!count($values)) {
-            return false;
-        }
-
-        switch($filter) {
-            case 'milestone':
-                $values = $this->filterMilestone($condition, $values);
-                break;
-
-            case 'version':
-                $values = $this->filterMilestone($condition, $values, 'version_id');
-                break;
-
-            case 'status':
-                $values = $this->filterStatus($condition, $values);
-                break;
-
-            case 'type':
-                $values = $this->filterType($condition, $values);
-                break;
-
-            case 'component':
-                $values = $this->filterComponent($condition, $values);
-                break;
-
-            case 'priority':
-                $values = $this->filterComponent($condition, $values);
-                break;
-
-            case 'severity':
-                $values = $this->filterSeverity($condition, $values);
-                break;
-
-            case 'summary':
-                $values = $this->filterSummary($condition, $values);
-                break;
-
-            case 'description':
-                $values = $this->filterDescription($condition, $values);
-                break;
-
-            case 'owner':
-                $values = $this->filterOwner($condition, $values);
-                break;
-
-            case 'assigned_to':
-                $values = $this->filterAssignedTo($condition, $values);
-                break;
-
-            case 'search':
-                $values = $this->filterSummary($condition, $values);
-                $this->filterDescription($condition, $values);
-                break;
-        }
-
-        $this->filters[$filter]['values'] = $values;
-    }
-
-    /**
-     * Process milestone filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     * @param string $field     Filter by `milestone_id` or `version_id`
-     *
-     * @return array
-     */
-    protected function filterMilestone($condition, $values, $field = 'milestone_id')
-    {
-        $ids = [];
-
-        foreach ($values as $value) {
-            if ($milestone = Milestone::find('slug', $value)) {
-                $ids[] = $milestone->id;
+        foreach (array_keys($query) as $method) {
+            if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
+                $this->{$method}();
             }
         }
+    }
 
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn($field, $ids);
+    protected function milestone()
+    {
+        $info = $this->extract('milestone');
+
+        $info['value'] = explode(',', $info['value']);
+        $values = array_map([$this, 'quote'], $info['value']);
+
+        foreach ($values as $slug) {
+            if ($info['cond']) {
+                $expr = $this->expr->in('m.slug', $values);
             } else {
-                $in = $this->builder->expr()->in($field, $ids);
+                $expr = $this->expr->notIn('m.slug', $values);
             }
-
-            $this->builder->andWhere($in);
         }
 
-        return $ids;
+        $this->builder->andWhere($expr);
+
+        $this->filters['milestone'] = $info;
     }
 
-    /**
-     * Process status filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterStatus($condition, $values)
+    protected function allOpen()
     {
+        $statuses = queryBuilder()->select('id')->from(PREFIX . 'statuses')
+            ->where('status >= 1')
+            ->execute();
+
         $ids = [];
-
-        // All open statuses
-        if ($values[0] == 'all.open') {
-            foreach (Status::allOpen() as $status) {
-                $ids[] = $status->id;
-            }
-        }
-        // All closed statuses
-        elseif ($values[0] == 'all.closed') {
-            foreach (Status::allClosed() as $status) {
-                $ids[] = $status->id;
-            }
-        }
-        // Statuses from request
-        else {
-            foreach ($values as $value) {
-                if ($status = Status::find('name', $value)) {
-                    $ids[] = $status->id;
-                }
-            }
+        foreach ($statuses->fetchAll() as $status) {
+            $ids[] = $status['id'];
         }
 
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('status_id', $ids);
-            } else {
-                $in = $this->builder->expr()->in('status_id', $ids);
-            }
+        $this->builder->andWhere(
+            $this->expr->in('t.status_id', $ids)
+        );
 
-            $this->builder->andWhere($in);
-        }
-
-        return $ids;
+        $this->filters['status'] = ['cond' => true, 'value' => $ids];
     }
 
-    /**
-     * Process ticket type filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterType($condition, $values)
+    protected function allStarted()
     {
+        $statuses = queryBuilder()->select('id')->from(PREFIX . 'statuses')
+            ->where('status = 2')
+            ->execute();
+
         $ids = [];
-
-        foreach ($values as $value) {
-            if ($type = Type::find('name', $value)) {
-                $ids[] = $type->id;
-            }
+        foreach ($statuses->fetchAll() as $status) {
+            $ids[] = $status['id'];
         }
 
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('type_id', $ids);
-            } else {
-                $in = $this->builder->expr()->in('type_id', $ids);
-            }
+        $this->builder->andWhere(
+            $this->expr->in('t.status_id', $ids)
+        );
 
-            $this->builder->andWhere($in);
-        }
-
-        return $ids;
+        $this->filters['status'] = ['cond' => true, 'value' => $ids];
     }
 
-    /**
-     * Process ticket component filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterComponent($condition, $values)
+    protected function allClosed()
     {
+        $statuses = queryBuilder()->select('id')->from(PREFIX . 'statuses')
+            ->where('status <= 0')
+            ->execute();
+
         $ids = [];
-
-        foreach ($values as $value) {
-            if ($component = Component::find('name', $value)) {
-                $ids[] = $component->id;
-            }
+        foreach ($statuses->fetchAll() as $status) {
+            $ids[] = $status['id'];
         }
 
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('component_id', $ids);
-            } else {
-                $in = $this->builder->expr()->in('component_id', $ids);
-            }
+        $this->builder->andWhere(
+            $this->expr->in('t.status_id', $ids)
+        );
 
-            $this->builder->andWhere($in);
-        }
-
-        return $ids;
+        $this->filters['status'] = ['cond' => true, 'value' => $ids];
     }
 
-    /**
-     * Process ticket priority filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterPriority($condition, $values)
+    protected function extract($filter)
     {
-        $ids = [];
+        if (isset($this->query[$filter])) {
+            $info = [
+                'cond' => $this->query[$filter][0] == '!' ? false : true
+            ];
+            $info['value'] = $info['cond'] ? $this->query[$filter] : substr($this->query[$filter], 1);
 
-        foreach ($values as $value) {
-            if ($priority = Priority::find('name', $value)) {
-                $ids[] = $priority->id;
-            }
+            return $info;
         }
 
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('priority_id', $ids);
-            } else {
-                $in = $this->builder->expr()->in('priority_id', $ids);
-            }
-
-            $this->builder->andWhere($in);
-        }
-
-        return $ids;
+        return false;
     }
 
-    /**
-     * Process ticket severity filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterSeverity($condition, $values)
+    protected function quote($string)
     {
-        $ids = [];
-
-        foreach ($values as $value) {
-            if ($severity = Severity::find('name', $value)) {
-                $ids[] = $severity->id;
-            }
-        }
-
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('severity_id', $ids);
-            } else {
-                $in = $this->builder->expr()->in('severity_id', $ids);
-            }
-
-            $this->builder->andWhere($in);
-        }
-
-        return $ids;
-    }
-
-    /**
-     * Process ticket summary filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterSummary($condition, $values)
-    {
-        $conditions = [];
-
-        foreach ($values as $value) {
-            $value = str_replace('*', '%', $value);
-
-            if ($value !== '') {
-                if ($condition == 'NOT') {
-                    $conditions[] = $this->builder()->expr()->notLike('summary', "'%{$value}%'");
-                } else {
-                    $conditions[] = $this->builder()->expr()->like('summary', "'%{$value}%'");
-                }
-            }
-        }
-
-        if (count($conditions)) {
-            $orX = call_user_func_array([$this->builder()->expr(), 'orX'], $conditions);
-            $this->builder()->andWhere($orX);
-        }
-
-        return $values;
-    }
-
-    /**
-     * Process ticket description filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterDescription($condition, $values)
-    {
-        $conditions = [];
-
-        foreach ($values as $value) {
-            $value = str_replace('*', '%', $value);
-
-            if ($value !== '') {
-                if ($condition == 'NOT') {
-                    $conditions[] = $this->builder()->expr()->notLike(
-                        'body',
-                        $this->builder->getConnection()->quote("%{$value}%")
-                    );
-                } else {
-                    $conditions[] = $this->builder()->expr()->like(
-                        'body',
-                        $this->builder->getConnection()->quote("%{$value}%")
-                    );
-                }
-            }
-        }
-
-        if (count($conditions)) {
-            $orX = call_user_func_array([$this->builder()->expr(), 'orX'], $conditions);
-            $this->builder()->andWhere($orX);
-        }
-
-        return $values;
-    }
-
-    /**
-     * Process ticket owner filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterOwner($condition, $values)
-    {
-        $ids = [];
-
-        foreach ($values as $value) {
-            if ($value !== '' && $user = User::find('name', $value)) {
-                $ids[] = $user->id;
-            }
-        }
-
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('user_id', $ids);
-            } else {
-                $in = $this->builder->expr()->in('user_id', $ids);
-            }
-
-            $this->builder->andWhere($in);
-        }
-
-        return $values;
-    }
-
-    /**
-     * Process ticket assignee filter.
-     *
-     * @param string $condition
-     * @param array  $values
-     *
-     * @return array
-     */
-    protected function filterAssignedTo($condition, $values)
-    {
-        $ids = [];
-
-        foreach ($values as $value) {
-            if ($value !== '' && $user = User::find('name', $value)) {
-                $ids[] = $user->id;
-            }
-        }
-
-        if (count($ids)) {
-            if ($condition == 'NOT') {
-                $in = $this->builder->expr()->notIn('assigned_to_id', $ids);
-            } else {
-                $in = $this->builder->expr()->in('assigned_to_id', $ids);
-            }
-
-            $this->builder->andWhere($in);
-        }
-
-        return $values;
-    }
-
-    protected function filterOwnerWIP($condition, $values)
-    {
-        $conditions = [];
-
-        $this->builder->join('tickets', 'users', 'owner', 'owner.id = tickets.user_id');
-
-        foreach ($values as $value) {
-            if ($value !== '') {
-                if ($condition == 'NOT') {
-                    $conditions[] = $this->builder()->expr()->neq(
-                        'owner.name',
-                        $this->builder->getConnection()->quote("{$value}")
-                    );
-                } else {
-                    $conditions[] = $this->builder()->expr()->eq(
-                        'owner.name',
-                        $this->builder->getConnection()->quote("{$value}")
-                    );
-                }
-            }
-        }
-
-        if (count($conditions)) {
-            $orX = call_user_func_array([$this->builder()->expr(), 'orX'], $conditions);
-            $this->builder()->andWhere($orX);
-        }
-
-        return $values;
-    }
-
-    /**
-     * Returns filters.
-     *
-     * @return array
-     */
-    public function filters()
-    {
-        return $this->filters;
-    }
-
-    /**
-     * Returns the query builder.
-     *
-     * @return QueryBuilder
-     */
-    public function builder()
-    {
-        return $this->builder;
+        return $GLOBALS['db']->quote($string);
     }
 }

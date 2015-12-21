@@ -1,90 +1,90 @@
 <div class="issue-property">
-	<label class="property-label"><?=$t('type')?></label>
+	<label class="property-label"><?=t('type')?></label>
 	<span class="property-value">
-		<?=$issue->type()->name?>
+		<?=$ticket['type_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('reported_by')?></label>
+	<label class="property-label"><?=t('reported_by')?></label>
 	<span class="property-value">
-		<?=$issue->user()->name?>
+		<?=$ticket['user_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('assigned_to')?></label>
+	<label class="property-label"><?=t('assigned_to')?></label>
 	<span class="property-value">
-		<?=($issue->assignedTo() ? $issue->assignedTo()->name : $t('no_one'))?>
+		<?=$ticket['assigned_to_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('milestone')?></label>
+	<label class="property-label"><?=t('milestone')?></label>
 	<span class="property-value">
-		<?=($issue->milestone() ? $issue->milestone()->name : $t('none'))?>
+		<?=$ticket['milestone_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('version')?></label>
+	<label class="property-label"><?=t('version')?></label>
 	<span class="property-value">
-		<?=($issue->version() ? $issue->version()->name : $t('none'))?>
+		<?=$ticket['version_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('status')?></label>
+	<label class="property-label"><?=t('status')?></label>
 	<span class="property-value">
-		<?=$issue->status()->name?>
+		<?=$ticket['status_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('component')?></label>
+	<label class="property-label"><?=t('component')?></label>
 	<span class="property-value">
-		<?=($issue->component() ? $issue->component()->name : $t('none'))?>
+		<?=$ticket['component_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('priority')?></label>
+	<label class="property-label"><?=t('priority')?></label>
 	<span class="property-value">
-		<?=$issue->priority()->name?>
+		<?=$ticket['priority_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('severity')?></label>
+	<label class="property-label"><?=t('severity')?></label>
 	<span class="property-value">
-		<?=$issue->severity()->name?>
+		<?=$ticket['severity_name']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('votes')?></label>
+	<label class="property-label"><?=t('votes')?></label>
 	<span class="property-value">
-		<?=$issue->votes?>
+		<?=$ticket['votes']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('related_tickets')?></label>
+	<label class="property-label"><?=t('related_tickets')?></label>
 	<span class="property-value">
 		...
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('created_at')?></label>
-	<span class="property-value">
-		<?=$t('time.x_ago', [Time::agoInWords($issue->created_at)])?>
+	<label class="property-label"><?=t('created_at')?></label>
+	<span class="property-value" data-moment="<?=$ticket['created_at']?>">
+		<?=$ticket['created_at']?>
 	</span>
 </div>
 
 <div class="issue-property">
-	<label class="property-label"><?=$t('updated_at')?></label>
-	<span class="property-value">
-	<?=($issue->updated_at ? $t('time.x_ago', [Time::agoInWords($issue->updated_at)]) : $t('never'))?>
+	<label class="property-label"><?=t('updated_at')?></label>
+	<span class="property-value" data-moment="<?=$ticket['updated_at']?>">
+		<?=$ticket['updated_at']?>
 	</span>
 </div>

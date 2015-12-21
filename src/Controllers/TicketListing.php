@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -26,9 +26,6 @@ namespace Traq\Controllers;
 use Avalon\Http\Request;
 use Avalon\Helpers\Pagination;
 use Traq\Helpers\TicketFilterQuery;
-use Traq\Helpers\Ticketlist;
-use Traq\Helpers\TicketFilters;
-use Traq\Models\CustomField;
 
 /**
  * Ticket listing controller.
@@ -41,13 +38,7 @@ class TicketListing extends AppController
     public function __construct()
     {
         parent::__construct();
-
-        // Set the title and load the helper
-        $this->title($this->translate('issues'));
-
-        // Custom fields
-        $this->customFields = CustomField::forProject($this->project->id);
-        $this->set('customFields', $this->customFields);
+        $this->title($this->translate('tickets'));
     }
 
     /**
@@ -55,198 +46,94 @@ class TicketListing extends AppController
      */
     public function indexAction()
     {
-        // Atom feed
-        $this->feeds[] = [
-            Request::requestUri() . ".atom",
-            $this->translate('x_ticket_feed', [$this->project->name])
+        // Only get the current projects tickets
+        $tickets = ticketQuery()
+            ->where('t.project_id = ?')
+            ->setParameter(0, $this->currentProject['id']);
+
+        // Sort tickets by the projects sorting setting or by the users selection
+        $this->sortTickets($tickets);
+
+        // Filter tickets
+        $filter = new TicketFilterQuery($tickets, $this->getFilters());
+        $queryString = $filter->query;
+
+        // Paginate tickets
+        $pagination = new Pagination(
+            Request::$query->get('page', 1),
+            setting('tickets_per_page'),
+            $tickets->execute()->rowCount(),
+            $filter->query
+        );
+
+        if ($pagination->paginate) {
+            $tickets->setFirstResult($pagination->limit);
+            $tickets->setMaxResults(setting('tickets_per_page'));
+        }
+
+        // Fetch all tickets
+        $tickets = $tickets->execute()->fetchAll();
+
+        $columns = [
+            'ticket_id',
+            'summary',
+            'status',
+            'owner',
+            'type',
+            'component',
+            'milestone',
+            // 'version',
+            // 'assigned_to',
+            // 'priority',
+            // 'severity',
+            // 'votes',
+            'created_at',
+            // 'updated_at'
         ];
 
-        // Create ticket filter query
-        $filterQuery = new TicketFilterQuery($this->project);
-
-        $ticketFilters = array_keys(TicketFilters::filtersFor($this->project));
-
-        // Process filters from request
-        foreach (Request::$query as $filter => $value) {
-            if (in_array($filter, $ticketFilters)) {
-                $filterQuery->process($filter, $value);
-            }
-        }
-
-        // Process filters from the session
-        if (!count($filterQuery->filters())
-        && isset($_SESSION['ticket_filters'])
-        && isset($_SESSION['ticket_filters'][$this->project->id])) {
-            $filterValues = json_decode($_SESSION['ticket_filters'][$this->project->id], true);
-            foreach ($filterValues as $filter => $value) {
-                if (in_array($filter, $ticketFilters)) {
-                    $filterQuery->process($filter, $value);
-                }
-            }
-        } else {
-            $_SESSION['ticket_filters'][$this->project->id] = json_encode(Request::$query);
-        }
-
-        // Get query builder
-        $tickets = $filterQuery->builder();
-
-        $this->set('filters', $filterQuery->filters() ?: []);
-
-        return $this->respondTo(function ($format) use ($tickets) {
-            if ($format == 'html' || $format == 'json') {
-                $sorting = Ticketlist::sortOrder($this->project->default_ticket_sorting);
-                $tickets->orderBy($sorting[0], $sorting[1]);
-            }
-
-            if ($format == 'html') {
-                // Paginate tickets
-                $pagination = new Pagination(
-                    Request::request('page', 1),
-                    $this->setting('tickets_per_page'),
-                    $tickets->execute()->rowCount()
-                );
-
-                if ($pagination->paginate) {
-                    $tickets->setFirstResult($pagination->limit);
-                    $tickets->setMaxResults($this->setting('tickets_per_page'));
-                }
-
-                return $this->render('ticket_listing/index.phtml', [
-                    'tickets'    => $tickets->fetchAll(),
-                    'pagination' => $pagination,
-                    'columns'    => $this->getColumns()
-                ]);
-            } elseif ($format == 'json') {
-                return $this->jsonResponse($tickets->fetchAll());
-            } elseif ($format == 'atom') {
-                throw new \Exception("Not implemented");
-            }
-        });
+        return $this->render('ticket_listing/index.phtml', [
+            'columns'     => $columns,
+            'tickets'     => $tickets,
+            'pagination'  => $pagination
+        ]);
     }
 
     /**
-     * Get columns for the ticket listing page.
-     *
-     * @return array
+     * Sort tickets.
      */
-    protected function getColumns()
+    protected function sortTickets($tickets)
     {
-        $allowedColumns = Ticketlist::allowedColumns();
+        $sorting = explode('.', $this->currentProject['default_ticket_sorting']);
 
-        // Add custom fields
-        foreach ($this->customFields as $field) {
-            $allowedColumns[] = $field->id;
+        if ($sorting[0] == 'priority') {
+            $sortColumn = 'priority_id';
+        } elseif ($sorting[0] == 'ticket_id') {
+            $sortColumn = 'ticket_id';
         }
 
-        if (Request::method() == 'POST' && Request::post('update_columns')) {
-            // Columns from POST
-            $newColumns = [];
-
-            foreach (Request::$post['columns'] as $column) {
-                $newColumns[] = $column;
-            }
-
-            $_SESSION['columns'] = Request::$request['columns'] = $newColumns;
-            return $newColumns;
-        } elseif (isset(Request::$query['columns'])) {
-            // Columns from request
-            $columns = [];
-
-            foreach (explode(',', Request::$request['columns']) as $column) {
-                // Make sure it's a valid column
-                if (in_array($column, $allowedColumns)) {
-                    $columns[] = $column;
-                }
-            }
-
-            return $columns;
-        } elseif (isset($_SESSION['columns'])) {
-            // Columns from session
-            return $_SESSION['columns'];
-        } else {
-            // Use default columns
-            return Ticketlist::defaultColumns();
-        }
+        $tickets->orderBy("t.{$sortColumn}, t.ticket_id", $sorting[1]);
     }
 
-    /**
-     * Set columns to be displayed on the ticket listing page.
-     */
-    public function setColumnsAction()
+    protected function getFilters()
     {
-        $this->getColumns();
-        return $this->redirect($this->project->href('issues') . Request::buildQueryString(null, false));
-    }
+        $allowedFilters = [
+            'open',
+            'started',
+            'closed',
+            'milestone'
+        ];
 
-
-    /**
-     * Processes the ticket filters form and builds the query string.
-     */
-    public function updateFiltersAction()
-    {
-        $queryString = [];
-
-        // Add filter
-        if ($newFilter = Request::post('new_filter') and $newFilter !== '') {
-            if (!isset(Request::$post['filters'][$newFilter])) {
-                Request::$post['filters'][$newFilter] = [
-                    'prefix' => '',
-                    'values' => []
-                ];
-            } else {
-                Request::$post['filters'][$newFilter]['values'][] = '';
+        $query = [];
+        foreach ($allowedFilters as $filter) {
+            if (Request::$query->has($filter)) {
+                $query[$filter] = Request::$query->get($filter);
             }
         }
 
-        foreach (Request::post('filters', []) as $name => $filter) {
-            if (!in_array($name, array_keys(TicketFilters::filtersFor($this->project)))) {
-                continue;
-            }
-
-            if (!isset($filter['values'])) {
-                $filter['values'] = [];
-            }
-
-            switch ($name) {
-                case 'summary':
-                case 'description':
-                case 'owner':
-                case 'assigned_to':
-                    $queryString[$name] = $filter['prefix'] . implode(',', $filter['values']);
-                    break;
-
-                case 'milestone':
-                case 'version':
-                case 'type':
-                case 'status':
-                case 'component':
-                case 'priority':
-                case 'severity':
-                    $class = "\Traq\\Models\\" . ($name == 'version' ? 'Milestone' : ucfirst($name));
-
-                    if ($name == 'milestone' || $name == 'version') {
-                        $field = 'slug';
-                    } else {
-                        $field = 'name';
-                    }
-
-                    $values = [];
-
-                    foreach ($filter['values'] as $value) {
-                        $values[] = $class::find($value)->{$field};
-                    }
-
-                    $queryString[$name] = $filter['prefix'] . implode(',', $values);
-                    break;
-            }
-
-            if ($field = CustomField::find('slug', $name)) {
-                $queryString[$name] = $filter['prefix'] . implode(',', $filter['values']);
-            }
+        if (!count($query) && isset($_SESSION['ticketFilters'])) {
+            $query = json_decode($_SESSION['ticketFilters'], true);
         }
 
-        $_SESSION['ticket_filters'] = [];
-
-        return $this->redirect($this->project->href('issues') . Request::buildQueryString($queryString, false));
+        return $query;
     }
 }
