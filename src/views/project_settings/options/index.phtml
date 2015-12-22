@@ -1,9 +1,9 @@
 <div class="project settings container">
-	<form action="<?=Request::basePath($route('project_settings'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('project_settings_save')?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($proj)?>
 		<?=View::render('project_settings/options/_form.phtml', ['project' => $proj])?>
 		<div class="form-actions">
-			<?=Form::submit($t('save'), ['class' => "btn btn-success"])?>
+			<?=Form::submit(t('save'), ['class' => "btn btn-success"])?>
 		</div>
 	</form>
 </div>

@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -28,9 +28,9 @@ use Avalon\Http\Request;
 /**
  * Project settings controller
  *
+ * @package Traq\Controllers\ProjectSettings
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\ProjectSettings
  */
 class Options extends AppController
 {
@@ -39,7 +39,7 @@ class Options extends AppController
      */
     public function indexAction()
     {
-        return $this->render('project_settings/options/index.phtml', ['proj' => $this->project]);
+        return $this->render('project_settings/options/index.phtml', ['proj' => $this->currentProject]);
     }
 
     /**
@@ -47,7 +47,7 @@ class Options extends AppController
      */
     public function saveAction()
     {
-        $project = clone $this->project;
+        $project = clone $this->currentProject;
         $project->set($this->projectParams());
 
         if ($project->save()) {
@@ -69,10 +69,10 @@ class Options extends AppController
             'slug'                   => Request::$post['slug'],
             'codename'               => Request::$post['codename'],
             'info'                   => Request::$post['info'],
-            'enable_wiki'            => (bool) Request::post('enable_wiki', false),
+            'enable_wiki'            => (bool) Request::$post->get('enable_wiki', false),
             'default_ticket_type_id' => Request::$post['default_ticket_type_id'],
             'default_ticket_sorting' => Request::$post['default_ticket_sorting'],
-            'display_order'          => (int) Request::post('display_order', 0)
+            'display_order'          => (int) Request::$post->get('display_order', 0)
         ];
     }
 }

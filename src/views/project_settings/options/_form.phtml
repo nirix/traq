@@ -1,44 +1,44 @@
 <div class="form-group">
 	<label for="name" class="col-md-3 control-label"><?=t('name')?></label>
 	<div class="col-sm-9">
-		<?=Form::text('name', ['value' => $project->name, 'class' => 'form-control'])?>
+		<?=Form::text('name', ['value' => $project['name'], 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="slug" class="col-md-3 control-label"><?=t('slug')?></label>
 	<div class="col-sm-9">
-		<?=Form::text('slug', ['value' => $project->slug, 'class' => 'form-control'])?>
+		<?=Form::text('slug', ['value' => $project['slug'], 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="codename" class="col-md-3 control-label"><?=t('codename')?></label>
 	<div class="col-sm-9">
-		<?=Form::text('codename', ['value' => $project->codename, 'class' => 'form-control'])?>
+		<?=Form::text('codename', ['value' => $project['codename'], 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="info" class="col-md-3 control-label"><?=t('description')?></label>
 	<div class="col-sm-9">
-		<?=Form::textarea('info', ['value' => $project->info, 'class' => 'form-control'])?>
+		<?=Form::textarea('info', ['value' => $project['info'], 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="enable_wiki" class="col-md-3 control-label"><?=t('enable_wiki')?></label>
 	<div class="col-sm-9">
-		<?=Form::checkbox('enable_wiki', 1, array('checked' => $project->enable_wiki == 1 ? true : false))?>
+		<?=Form::checkbox('enable_wiki', 1, array('checked' => $project['enable_wiki'] == 1 ? true : false))?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="display_order" class="col-md-3 control-label"><?=t('display_order')?></label>
 	<div class="col-sm-9">
-		<?=Form::text('display_order', ['value' => $project->display_order, 'class' => 'form-control'])?>
+		<?=Form::text('display_order', ['value' => $project['display_order'], 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="default_ticket_type" class="col-md-3 control-label"><?=t('default_ticket_type')?></label>
 	<div class="col-sm-9">
 		<?=Form::select('default_ticket_type_id', Traq\Models\Type::selectOptions(), [
-			'value' => $project->default_ticket_type_id,
+			'value' => $project['default_ticket_type_id'],
 			'class' => "form-control"
 		])?>
 	</div>
@@ -47,7 +47,7 @@
 	<label for="default_ticket_sorting" class="col-md-3 control-label"><?=t('default_ticket_sorting')?></label>
 	<div class="col-sm-9">
 		<?=Form::select('default_ticket_sorting', Ticketlist::sortingSelectOptions(), [
-			'value' => $project->default_ticket_sorting,
+			'value' => $project['default_ticket_sorting'],
 			'class' => "form-control"
 		])?>
 	</div>
