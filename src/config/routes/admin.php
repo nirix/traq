@@ -11,7 +11,8 @@ Router::get('admin_projects', '/admin/projects', "{$ns}\\Admin\\Projects::index"
 Router::get('admin_new_project', '/admin/projects/new', "{$ns}\\Admin\\Projects::new");
 Router::post('admin_create_project', '/admin/projects/new', "{$ns}\\Admin\\Projects::create");
 Router::get('admin_edit_project', '/admin/projects/{id}/edit', "{$ns}\\Admin\\Projects::edit");
-Router::get('admin_delete_project', '/admin/projects/{id}/delete', "{$ns}\\Admin\\Projects::delete");
+Router::post('admin_save_project', '/admin/projects/{id}/edit', "{$ns}\\Admin\\Projects::save");
+Router::get('admin_delete_project', '/admin/projects/{id}/delete', "{$ns}\\Admin\\Projects::destroy");
 
 // Roles
 Router::get('admin_roles', '/admin/project-roles', "{$ns}\\Admin\\ProjectRoles::index");

@@ -1,11 +1,11 @@
 <div class="admin-projects container">
-	<h1 class="page-header"><?=$t('edit_project')?></h1>
+	<h1 class="page-header"><?=t('edit_project')?></h1>
 
-	<form action="<?=Request::basePath($route('edit_admin_project'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('admin_save_project', ['id' => $project['id']])?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($project)?>
 		<?=View::render('project_settings/options/_form.phtml', ['project' => $project])?>
 		<div class="form-actions">
-			<?=Form::submit($t('save'), array('class' => 'btn btn-success'))?>
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
