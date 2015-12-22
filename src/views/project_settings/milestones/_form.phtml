@@ -1,23 +1,23 @@
 <div class="form-group">
-	<?=Form::label($t('name'), 'name', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('name'), 'name', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('name', ['value' => $milestone->name, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('slug'), 'slug', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('slug'), 'slug', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('slug', ['value' => $milestone->slug, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('codename'), 'codename', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('codename'), 'codename', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('codename', ['value' => $milestone->codename, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('due_date'), 'due', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('due_date'), 'due', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('due', [
 			'value' => $milestone->due,
@@ -27,7 +27,7 @@
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('status'), 'status', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('status'), 'status', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::select('status', Traq\Models\Milestone::statusSelectOptions(), [
 			'value' => $milestone->isNew() ? 1 : $milestone->status,
@@ -36,19 +36,19 @@
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('description'), 'info', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('description'), 'info', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::textarea('info', ['value' => $milestone->info, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('changelog'), 'changelog', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('changelog'), 'changelog', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::textarea('changelog', ['value' => $milestone->changelog, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('display_order'), 'display_order', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('display_order'), 'display_order', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('display_order', ['value' => $milestone->display_order, 'class' => 'form-control'])?>
 	</div>

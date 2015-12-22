@@ -63,9 +63,9 @@ class Milestones extends AppController
         $this->title($this->translate('milestones'));
 
         $this->before(['edit', 'save', 'delete', 'destroy'], function () {
-            $this->object = Milestone::find(Request::$request['id']);
+            $this->object = Milestone::find(Request::$properties->get('id'));
 
-            if (!$this->object || $this->object->project_id != $this->project->id) {
+            if (!$this->object || $this->object->project_id != $this->currentProject['id']) {
                 return $this->show404();
             }
         });
@@ -84,7 +84,17 @@ class Milestones extends AppController
      */
     protected function getAllRows()
     {
-        return $this->project->milestones()->fetchAll();
+        return Milestone::select('id', 'name', 'codename', 'status')
+            ->where('project_id = ?')
+            ->orderBy('display_order', 'ASC')
+            ->setParameter(0, $this->currentProject['id'])
+            ->execute()
+            ->fetchAll();
+    }
+
+    public function destroyAction()
+    {
+        throw new \Exception("Not destroying milestone, need to handle deletion of tickets first.");
     }
 
     /**
@@ -93,15 +103,15 @@ class Milestones extends AppController
     protected function modelParams()
     {
         return [
-            'name'          => Request::post('name'),
-            'slug'          => Request::post('slug'),
-            'codename'      => Request::post('codename'),
-            'due'           => Request::post('due'),
-            'status'        => Request::post('status'),
-            'info'          => Request::post('info'),
-            'changelog'     => Request::post('changelog'),
-            'display_order' => Request::post('display_order'),
-            'project_id'    => $this->project->id
+            'name'          => Request::$post->get('name'),
+            'slug'          => Request::$post->get('slug'),
+            'codename'      => Request::$post->get('codename'),
+            'due'           => Request::$post->get('due'),
+            'status'        => Request::$post->get('status'),
+            'info'          => Request::$post->get('info'),
+            'changelog'     => Request::$post->get('changelog'),
+            'display_order' => Request::$post->get('display_order'),
+            'project_id'    => $this->currentProject['id']
         ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -31,28 +31,16 @@ use Avalon\Language;
 /**
  * Milestone model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class Milestone extends Model
 {
     /**
      * @var array
      */
-    protected static $_belongsTo = [
-        'project'
-    ];
-
-    /**
-     * @var array
-     */
-    protected static $_hasMany = [
-        'tickets'
-    ];
-
-    /**
-     * @var array
-     */
-    protected static $_validates = [
+    protected static $_validations = [
         'name' => ['required'],
         'slug' => ['required']
     ];
@@ -96,64 +84,6 @@ class Milestone extends Model
     public function selectOption()
     {
         return [['label' => $this->name, 'value' => $this->id]];
-    }
-
-    public function ticketPercent($status = 'closed')
-    {
-        $total = $this->tickets()->rowCount();
-        $count = $this->ticketCount($status);
-
-        if ($total > 0 and $count > 0) {
-            return round($count / $total * 100);
-        }
-
-        return 0;
-    }
-
-    /**
-     * Returns the count of open tickets.
-     *
-     * @return integer
-     */
-    public function openTicketCount()
-    {
-        return $this->ticketCount('open');
-    }
-
-    /**
-     * Returns the count of closed tickets.
-     *
-     * @return integer
-     */
-    public function closedTicketCount()
-    {
-        return $this->ticketCount('closed');
-    }
-
-    /**
-     * Returns the count of started tickets.
-     *
-     * @return integer
-     */
-    public function startedTicketCount()
-    {
-        return $this->tickets()->join('tickets', 'statuses', 'statuses', "statuses.id = tickets.status_id")
-            ->where("statuses.status = ?", 2)
-            ->rowCount();
-    }
-
-    /**
-     * Returns the number of tickets for the specified status.
-     *
-     * @param string $status
-     *
-     * @return integer
-     */
-    public function ticketCount($status = 'closed')
-    {
-        return $count = $this->tickets()
-            ->where('is_closed = ?', ($status == 'open' ? 0 : 1))
-            ->rowCount();
     }
 
     /**
