@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -26,15 +26,12 @@ namespace Traq\Controllers\ProjectSettings;
 /**
  * Project settings controller
  *
+ * @package Traq\Controllers\ProjectSettings
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\ProjectSettings
  */
 class AppController extends \Traq\Controllers\AppController
 {
-    /**
-     * @var string
-     */
     protected $layout = "project_settings.phtml";
 
     public function __construct()
@@ -46,10 +43,11 @@ class AppController extends \Traq\Controllers\AppController
 
         // Make sure this is a project and the user has the correct permission to access the area.
         $this->before('*', function () {
-            if (!$this->project
-            || (!$this->currentUser->permission($this->project->id, 'project_settings')
-                && !$this->currentUser->group()->is_admin)
+            if (!$this->currentProject
+            || (!$this->hasPermission($this->currentProject['id'], 'project_settings')
+                && !$this->currentUser['is_admin'])
             ) {
+                $this->layout = 'default.phtml';
                 return $this->show403();
             }
         });
