@@ -24,6 +24,7 @@
 namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
+use Traq\Models\Project;
 
 /**
  * Project settings controller
@@ -47,7 +48,7 @@ class Options extends AppController
      */
     public function saveAction()
     {
-        $project = clone $this->currentProject;
+        $project = Project::find($this->currentProject['id']);
         $project->set($this->projectParams());
 
         if ($project->save()) {
