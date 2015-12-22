@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -31,9 +31,9 @@ use Traq\Models\ProjectRole;
 /**
  * Project members controller
  *
+ * @package Traq\Controllers\ProjectSettings
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\ProjectSettings
  */
 class Members extends AppController
 {
@@ -48,7 +48,20 @@ class Members extends AppController
      */
     public function indexAction()
     {
-        $userRoles = UserRole::select()->where('project_id = ?', $this->project->id)->fetchAll();
+        $userRoles = queryBuilder()->select(
+            'u.id AS user_id',
+            'u.name AS user_name',
+            'r.id AS role_id',
+            'r.name AS role_name',
+            'ur.project_role_id'
+        )
+        ->from(PREFIX . 'user_roles', 'ur')
+        ->where('ur.project_id = ?')
+        ->leftJoin('ur', PREFIX . 'users', 'u', 'u.id = ur.user_id')
+        ->leftJoin('ur', PREFIX . 'project_roles', 'r', 'r.id = ur.project_role_id')
+        ->setParameter(0, $this->currentProject['id'])
+        ->execute()
+        ->fetchAll();
 
         return $this->respondTo(function ($format) use ($userRoles) {
             if ($format == "html") {
@@ -69,11 +82,11 @@ class Members extends AppController
     public function createAction()
     {
         $errors = [];
-        $user   = User::find('username', Request::post('username'));
-        $role   = ProjectRole::find(Request::post('role_id'));
+        $user   = User::find('username', Request::$post->get('username'));
+        $role   = ProjectRole::find(Request::$post->get('role_id'));
 
         // Check if they entered a username
-        if (!isset(Request::$post['username']) || empty(Request::$post['username'])) {
+        if (!Request::$post->has('username') || Request::$post->get('username') == '') {
             $errors['username'] = $this->translate('errors.validations.required', [
                 'field' => $this->translate('username')
             ]);
@@ -84,8 +97,9 @@ class Members extends AppController
         // Check if the user is already a member of the project
         if ($user) {
             $member = UserRole::select('id')
-                ->where('project_id = ?', $this->project->id)
-                ->andWhere('user_id = ?', $user->id);
+                ->where('project_id = ?')->setParameter(0, $this->currentProject['id'])
+                ->andWhere('user_id = ?')->setParameter(1, $user->id)
+                ->execute();
         }
 
         if ($user && isset($member) && $member->rowCount() > 0) {
@@ -93,7 +107,7 @@ class Members extends AppController
         }
 
         // Check if they chose a role
-        if (Request::post('role_id', '') == '') {
+        if (Request::$post->get('role_id', '') == '') {
             $errors['role_id'] = $this->translate('errors.validations.required', [
                 'field' => $this->translate('role')
             ]);
@@ -105,7 +119,7 @@ class Members extends AppController
         }
 
         // Check if the role belongs to the project
-        if ($role && ($role->project_id != 0 && $role->project_id != $this->project->id)) {
+        if ($role && ($role->project_id != 0 && $role->project_id != $this->currentProject['id'])) {
             $errors['role'] = $this->translate('errors.roles.invalid_role');
         }
 
@@ -115,7 +129,7 @@ class Members extends AppController
             ]);
         } else {
             $userRole = new UserRole([
-                'project_id'      => $this->project->id,
+                'project_id'      => $this->currentProject['id'],
                 'project_role_id' => $role->id,
                 'user_id'         => $user->id
             ]);
@@ -130,11 +144,13 @@ class Members extends AppController
      *
      * @return \Avalon\Http\RedirectResponse
      */
-    public function saveAction()
+    public function saveAllAction()
     {
-        foreach ($this->request->post('user') as $userId => $info) {
-            $userRole = UserRole::select()->where('project_id = ?', $this->project->id)
-                ->andWhere('user_id = ?', $userId)
+        foreach (Request::$post->get('user', [], false) as $userId => $info) {
+            $userRole = UserRole::select()->where('project_id = ?')
+                ->andWhere('user_id = ?')
+                ->setParameter(0, $this->currentProject['id'])
+                ->setParameter(1, $userId)
                 ->fetch();
 
             $userRole->project_role_id = $info['role_id'];
@@ -153,8 +169,10 @@ class Members extends AppController
      */
     public function destroyAction($id)
     {
-        $userRole = UserRole::select()->where('project_id = ?', $this->project->id)
-            ->andWhere('user_id = ?', $id)
+        $userRole = UserRole::select()->where('project_id = ?')
+            ->andWhere('user_id = ?')
+            ->setParameter(0, $this->currentProject['id'])
+            ->setParameter(1, $id)
             ->fetch();
 
         if (!$userRole) {

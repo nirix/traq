@@ -23,6 +23,9 @@ Router::get('project_settings_delete_component', '/{pslug}/settings/components/{
 
 // Members
 Router::get('project_settings_members', '/{pslug}/settings/members', "{$ns}\\ProjectSettings\\Members::index");
+Router::post('project_settings_create_member', '/{pslug}/settings/members/new', "{$ns}\\ProjectSettings\\Members::create");
+Router::post('project_settings_save_members', '/{pslug}/settings/members/save', "{$ns}\\ProjectSettings\\Members::saveAll");
+Router::get('project_settings_delete_member', '/{pslug}/settings/members/{id}/delete', "{$ns}\\ProjectSettings\\Members::destroy");
 
 // Custom fields
 Router::get('project_settings_custom_fields', '/{pslug}/settings/custom-fields', "{$ns}\\ProjectSettings\\CustomFields::index");

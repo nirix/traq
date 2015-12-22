@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -28,42 +28,10 @@ use Avalon\Database\Model;
 /**
  * Users<>Roles model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class UserRole extends Model
 {
-    // Allow easy access to the project and role models
-    protected static $_belongsTo = array(
-        'project', 'user',
-
-        'role' => array(
-            'model'    => 'ProjectRole',
-            'localKey' => 'project_role_id'
-        )
-    );
-
-    /**
-     * Returns an array of the project members.
-     *
-     * @return array
-     */
-    public static function projectMembers($project_id)
-    {
-        $members = [];
-
-        // Loop over the relations and add the user to the array
-        foreach (static::where('project_id = ?', $project_id)->fetchAll() as $relation) {
-            $members[] = $relation->user();
-        }
-
-        return $members;
-    }
-
-    public function __toArray($fields = null)
-    {
-        $data = parent::__toArray($fields);
-        $data['user'] = $this->user()->__toArray();
-        $data['role'] = $this->role()->__toArray();
-        return $data;
-    }
 }

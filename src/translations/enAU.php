@@ -62,15 +62,16 @@ $enAU = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Errors
-        'errors.404.title'                    => 'I accidentally the whole page...',
-        'errors.404.message'                  => "It appears the page '{1}' doesn't exist.",
-        'errors.404.modal.title'              => "Oh, it's a popup!",
-        'errors.403.title'                    => 'You shall not pass!',
-        'errors.403.message'                  => "You don't have permission to access this page.",
-        'errors.invalid_username_or_password' => "Invalid username and/or password.",
-        'errors.incorrect_password'           => 'Incorrect password',
-        'errors.account.activation_required'  => 'You must first activate your account.',
-        'errors.correct_the_following'        => 'Please correct the following issues',
+        'errors.404.title'                      => 'I accidentally the whole page...',
+        'errors.404.message'                    => "It appears the page '{1}' doesn't exist.",
+        'errors.404.modal.title'                => "Oh, it's a popup!",
+        'errors.403.title'                      => 'You shall not pass!',
+        'errors.403.message'                    => "You don't have permission to access this page.",
+        'errors.invalid_username_or_password'   => "Invalid username and/or password.",
+        'errors.incorrect_password'             => 'Incorrect password',
+        'errors.account.activation_required'    => 'You must first activate your account.',
+        'errors.correct_the_following'          => 'Please correct the following issues',
+        'errors.users.already_a_project_member' => 'User is already a member',
 
         // --------------------------------------------------------------------
         // Filters
