@@ -39,29 +39,6 @@ use traq\helpers\Notification;
  */
 class Ticket extends Model
 {
-    protected static $_hasMany = array(
-        'attachments',
-
-        'custom_fields'        => array('model' => 'CustomFieldValue'),
-        'history'              => array('model' => 'TicketHistory'),
-        'ticket_relationships' => array('model' => 'TicketRelationship')
-    );
-
-    protected static $_belongsTo = [
-        'component',
-        'milestone',
-        'priority',
-        'project',
-        'severity',
-        'status',
-        'type',
-        'user',
-
-        // Relations with different models and such
-        'assignedTo' => ['model' => 'User'],
-        'version'    => ['model' => 'Milestone']
-    ];
-
     protected static $_dataTypes = [
         'extra' => 'json_array',
         'tasks' => 'json_array'
