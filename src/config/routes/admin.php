@@ -42,7 +42,12 @@ Router::get('admin_types', '/admin/types', "{$ns}\\Admin\\Types::index");
 Router::get('admin_statuses', '/admin/statuses', "{$ns}\\Admin\\Statuses::index");
 
 // Priorities
-Router::get('admin_priorities', '/admin/priotities', "{$ns}\\Admin\\Priorities::index");
+Router::get('admin_priorities', '/admin/priorities', "{$ns}\\Admin\\Priorities::index");
+Router::get('admin_new_priority', '/admin/priorities/new', "{$ns}\\Admin\\Priorities::new");
+Router::post('admin_create_priority', '/admin/priorities/new', "{$ns}\\Admin\\Priorities::create");
+Router::get('admin_edit_priority', '/admin/priorities/{id}/edit', "{$ns}\\Admin\\Priorities::edit");
+Router::post('admin_save_priority', '/admin/priorities/{id}/edit', "{$ns}\\Admin\\Priorities::save");
+Router::get('admin_delete_priority', '/admin/priorities/{id}/delete', "{$ns}\\Admin\\Priorities::destroy");
 
 // Severities
 Router::get('admin_severities', '/admin/severities', "{$ns}\\Admin\\Severities::index");

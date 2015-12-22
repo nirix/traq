@@ -30,9 +30,9 @@ use Traq\Traits\Controllers\CRUD;
 /**
  * Admin Priorities controller.
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\Admin
  */
 class Priorities extends AppController
 {
@@ -63,7 +63,7 @@ class Priorities extends AppController
     protected function modelParams()
     {
         return [
-            'name' => Request::post('name')
+            'name' => Request::$post->get('name')
         ];
     }
 }

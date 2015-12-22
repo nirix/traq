@@ -1,33 +1,32 @@
 <div class="admin priorities container">
-	<h1 class="page-header"><?=$t('priorities')?></h1>
+	<h1 class="page-header"><?=t('priorities')?></h1>
 
 	<div class="page-actions">
-		<?=HTML::link(TWBS::fa('plus', $t('new_priority')), $route('new_admin_priority'), [
-			'class' => 'btn btn-success',
-			'data-overlay' => true
-		])?>
+		<a href="<?=routeUrl('admin_new_priority')?>" class="btn btn-success" data-overlay="1">
+			<span class="fa fa-plus"></span> <?=t('new_priority')?>
+		</a>
 	</div>
 
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<th><?=$t('name')?></th>
+				<th><?=t('name')?></th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php foreach ($priorities as $priority): ?>
 			<tr>
-				<td><?=HTML::link($priority->name, $route('edit_admin_priority', ['id' => $priority->id]))?></td>
+				<td>
+					<a href="<?=routeUrl('admin_edit_priority', ['id' => $priority['id']])?>" data-overlay="1"><?=$priority['name']?></a>
+				</td>
 				<td class="actions">
-					<?=HTML::link(TWBS::fa('edit', $t('edit')), $route('edit_admin_priority', ['id' => $priority->id]), [
-						'class' => 'btn btn-xs btn-warning',
-						'data-overlay' => true
-					])?>
-					<?=HTML::link(TWBS::fa('times', $t('delete')), $route('delete_admin_priority', ['id' => $priority->id]), [
-						'class' => 'btn btn-xs btn-danger',
-						'data-confirm' => $t('confirm.delete')
-					])?>
+					<a href="<?=routeUrl('admin_edit_priority', ['id' => $priority['id']])?>" class="btn btn-xs btn-warning" data-overlay="1">
+						<span class="fa fa-edit"></span> <?=t('edit')?>
+					</a>
+					<a href="<?=routeUrl('admin_delete_priority', ['id' => $priority['id']])?>" class="btn btn-xs btn-danger" data-confirm="<?=t('confirm.delete')?>">
+						<span class="fa fa-times"></span> <?=t('delete')?>
+					</a>
 				</td>
 			</tr>
 		<?php endforeach; ?>

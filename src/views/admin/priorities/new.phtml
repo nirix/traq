@@ -1,11 +1,11 @@
 <div class="admin-priorities container">
-	<h1 class="page-header"><?=$t('new_priority')?></h1>
+	<h1 class="page-header"><?=t('new_priority')?></h1>
 
-	<form action="<?=Request::basePath($route('new_admin_priority'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('admin_create_priority')?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($priority)?>
 		<?=View::render('admin/priorities/_form.phtml', ['priority' => $priority])?>
 		<div class="form-actions">
-			<?=Form::submit($t('create'), ['class' => 'btn btn-success'])?>
+			<?=Form::submit(t('create'), ['class' => 'btn btn-success'])?>
 		</div>
 	</form>
 </div>
