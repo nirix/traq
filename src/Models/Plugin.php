@@ -29,11 +29,13 @@ use Traq\Kernel as Traq;
 /**
  * Plugin model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class Plugin extends Model
 {
-    protected static $_validates = array(
+    protected static $_validations = array(
         'directory'  => array('required', 'unique'),
         'version'    => array('required'),
         'autoload'   => array('required'),

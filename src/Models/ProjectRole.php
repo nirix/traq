@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
+ * Copyright (C) 2009-2014 Jack P.
  * Copyright (C) 2012-2014 Traq.io
  * https://github.com/nirix
  * http://traq.io
@@ -26,9 +26,11 @@ namespace Traq\Models;
 use Avalon\Database\Model;
 
 /**
- * Users<>Roles model.
+ * Project roles model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class ProjectRole extends Model
 {
@@ -48,9 +50,16 @@ class ProjectRole extends Model
     public static function selectOptions($projectId = null)
     {
         $options = [];
+        $roles = static::select('id', 'name')->orderBy('name', 'ASC');
 
-        foreach (static::all() as $role) {
-            $options[] = ['label' => $role->name, 'value' => $role->id];
+        if ($projectId) {
+            $roles->where(
+                $roles->expr()->in('project_id', [0, $projectId])
+            );
+        }
+
+        foreach ($roles->execute()->fetchAll() as $role) {
+            $options[] = ['label' => $role['name'], 'value' => $role['id']];
         }
 
         return $options;
