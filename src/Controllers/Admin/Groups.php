@@ -30,9 +30,9 @@ use Traq\Traits\Controllers\CRUD;
 /**
  * Admin Groups controller.
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\Admin
  */
 class Groups extends AppController
 {
@@ -63,8 +63,8 @@ class Groups extends AppController
     protected function modelParams()
     {
         return [
-            'name'     => Request::post('name'),
-            'is_admin' => Request::post('is_admin', false)
+            'name'     => Request::$post->get('name'),
+            'is_admin' => Request::$post->get('is_admin', false)
         ];
     }
 }

@@ -1,14 +1,14 @@
 <div class="modal fade">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
-			<form action="<?=Request::basePath($route('new_admin_group'))?>" method="post" class="form-horizontal">
-				<?=TWBS::modalHeader($t('new_group'))?>
+			<form action="<?=routeUrl('admin_new_group')?>" method="post" class="form-horizontal">
+				<?=TWBS::modalHeader(t('new_group'))?>
 				<div class="modal-body">
 					<?=View::render('admin/groups/_form.phtml', ['group' => $group])?>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success"><?=$t('create')?></button>
-					<button type="button" class="btn btn-default" data-dismiss="modal"><?=$t('cancel')?></button>
+					<button type="submit" class="btn btn-success"><?=t('create')?></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?=t('cancel')?></button>
 				</div>
 			</form>
 		</div>

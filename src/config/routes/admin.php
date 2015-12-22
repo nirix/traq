@@ -14,14 +14,19 @@ Router::get('admin_edit_project', '/admin/projects/{id}/edit', "{$ns}\\Admin\\Pr
 Router::post('admin_save_project', '/admin/projects/{id}/edit', "{$ns}\\Admin\\Projects::save");
 Router::get('admin_delete_project', '/admin/projects/{id}/delete', "{$ns}\\Admin\\Projects::destroy");
 
+// Groups
+Router::get('admin_groups', '/admin/groups', "{$ns}\\Admin\\Groups::index");
+Router::get('admin_new_group', '/admin/groups/new', "{$ns}\\Admin\\Groups::new");
+Router::post('admin_create_group', '/admin/groups/new', "{$ns}\\Admin\\Groups::create");
+Router::get('admin_edit_group', '/admin/groups/{id}/edit', "{$ns}\\Admin\\Groups::edit");
+Router::post('admin_save_group', '/admin/groups/{id}/edit', "{$ns}\\Admin\\Groups::save");
+Router::get('admin_delete_group', '/admin/groups/{id}/delete', "{$ns}\\Admin\\Groups::destroy");
+
 // Roles
 Router::get('admin_roles', '/admin/project-roles', "{$ns}\\Admin\\ProjectRoles::index");
 
 // Users
 Router::get('admin_users', '/admin/users', "{$ns}\\Admin\\Users::index");
-
-// Groups
-Router::get('admin_groups', '/admin/groups', "{$ns}\\Admin\\Groups::index");
 
 // Plugins
 Router::get('admin_plugins', '/admin/plugins', "{$ns}\\Admin\\Plugins::index");

@@ -1,38 +1,39 @@
 <div class="admin types container">
-	<h1 class="page-header"><?=$t('groups')?></h1>
+	<h1 class="page-header"><?=t('groups')?></h1>
 
 	<div class="page-actions">
-		<?=HTML::link(TWBS::fa('plus', $t('new_group')), $route('new_admin_group'), [
-			'class' => 'btn btn-success',
-			'data-overlay' => true
-		])?>
+		<a href="<?=routeUrl('admin_new_group')?>" class="btn btn-success" data-overlay="1">
+			<span class="fa fa-plus"></span> <?=t('new_group')?>
+		</a>
 	</div>
 
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<th><?=$t('name')?></th>
-				<th><?=$t('is_admin')?></th>
+				<th><?=t('name')?></th>
+				<th><?=t('is_admin')?></th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($groups as $group): ?>
+		<?php foreach ($groups as $group) : ?>
 			<tr>
-				<td><?=HTML::link($group->name, $route('edit_admin_group', ['id' => $group->id]))?></td>
-				<td><?=$group->is_admin ? TWBS::fa('check') : TWBS::fa('times')?></td>
+				<td>
+					<a href="<?=routeUrl('admin_edit_group', ['id' => $group['id']])?>" data-overlay="1">
+						<?=$group['name']?>
+					</a>
+				</td>
+				<td><?=$group['is_admin'] ? TWBS::fa('check') : TWBS::fa('times')?></td>
 				<td class="actions">
-					<?=HTML::link(TWBS::fa('edit', $t('edit')), $route('edit_admin_group', ['id' => $group->id]), [
-						'class' => 'btn btn-xs btn-warning',
-						'data-overlay' => true
-					])?>
-					<?=HTML::link(TWBS::fa('times', $t('delete')), $route('delete_admin_group', ['id' => $group->id]), [
-						'class' => 'btn btn-xs btn-danger',
-						'data-confirm' => $t('confirm.delete')
-					])?>
+					<a href="<?=routeUrl('admin_edit_group', ['id' => $group['id']])?>" class="btn btn-xs btn-warning" data-overlay="1">
+						<span class="fa fa-edit"></span> <?=t('edit')?>
+					</a>
+					<a href="<?=routeUrl('admin_delete_group', ['id' => $group['id']])?>" class="btn btn-xs btn-danger" data-confirm="<?=t('confirm.delete')?>">
+						<span class="fa fa-times"></span> <?=t('delete')?>
+					</a>
 				</td>
 			</tr>
-		<?php endforeach; ?>
+		<?php endforeach ?>
 		</tbody>
 	</table>
 </div>

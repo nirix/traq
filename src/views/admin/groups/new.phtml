@@ -1,11 +1,11 @@
 <div class="admin groups container">
-	<h1 class="page-header"><?=$t('new_group')?></h1>
+	<h1 class="page-header"><?=t('new_group')?></h1>
 
-	<form action="<?=Request::basePath($route('new_admin_group'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('admin_create_group')?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($group)?>
 		<?=View::render('admin/groups/_form.phtml', ['group' => $group])?>
 		<div class="form-actions">
-			<?=Form::submit($t('create'), ['class' => 'btn btn-success'])?>
+			<button type="submit" class="btn btn-success"><?=t('create')?></button>
 		</div>
 	</form>
 </div>
