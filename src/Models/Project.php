@@ -55,4 +55,19 @@ class Project extends Model
     protected static $_dataTypes = [
         'enable_wiki' => "boolean"
     ];
+
+    /**
+     * @return Project[]
+     */
+    public static function selectOptions()
+    {
+        $options = [];
+        $projects = static::select('id', 'name')->execute()->fetchAll();
+
+        foreach ($projects as $project) {
+            $options[] = ['label' => $project['name'], 'value' => $project['id']];
+        }
+
+        return $options;
+    }
 }

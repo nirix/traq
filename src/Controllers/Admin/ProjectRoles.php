@@ -30,9 +30,9 @@ use Traq\Traits\Controllers\CRUD;
 /**
  * Admin Types controller
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 4.0.0
- * @package Traq\Controllers\Admin
  */
 class ProjectRoles extends AppController
 {
@@ -57,15 +57,23 @@ class ProjectRoles extends AppController
         $this->title($this->translate('project_roles'));
     }
 
+    protected function getAllRows()
+    {
+        return ProjectRole::select('project_role.*', 'project.name AS project_name')
+            ->leftJoin('project_role', PREFIX . 'projects', 'project', 'project.id = project_role.project_id')
+            ->execute()
+            ->fetchAll();
+    }
+
     /**
      * @return array
      */
     protected function modelParams()
     {
         return [
-            'name'          => Request::post('name'),
-            'is_assignable' => Request::post('is_assignable', false),
-            'project_id'    => Request::post('project_id')
+            'name'          => Request::$post->get('name'),
+            'is_assignable' => Request::$post->get('is_assignable', false),
+            'project_id'    => Request::$post->get('project_id')
         ];
     }
 }

@@ -32,11 +32,9 @@ use Avalon\Database\Model;
  */
 class ProjectRole extends Model
 {
-    protected static $_validates = [
+    protected static $_validations = [
         'name' => ['required', 'unique']
     ];
-
-    protected static $_belongsTo = ['project'];
 
     protected static $_dataTypes = [
         'is_assignable' => "boolean"
