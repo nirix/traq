@@ -28,15 +28,17 @@ use Avalon\Database\Model;
 /**
  * Setting model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class Setting extends Model
 {
     protected static $_tableAlias = 'st';
 
-    protected static $_validates = array(
-        'setting' => array('required')
-    );
+    protected static $_validations = [
+        'setting' => ['required']
+    ];
 
     public static function get($setting)
     {

@@ -5,6 +5,7 @@ Router::get('admin', '/admin', "{$ns}\\Admin\Dashboard::index");
 
 // Settings
 Router::get('admin_settings', '/admin/settings', "{$ns}\\Admin\\Settings::index");
+Router::post('admin_settings_save', '/admin/settings', "{$ns}\\Admin\\Settings::save");
 
 // Projects
 Router::get('admin_projects', '/admin/projects', "{$ns}\\Admin\\Projects::index");

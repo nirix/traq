@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,15 +23,16 @@
 
 namespace Traq\Controllers\Admin;
 
+use Avalon\Http\Request;
 use Traq\Language;
 use Traq\Models\Setting;
 
 /**
  * Admin Settings controller.
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers
  */
 class Settings extends AppController
 {
@@ -39,8 +40,6 @@ class Settings extends AppController
     {
         parent::__construct();
         $this->title($this->translate('settings'));
-
-        Language::loadAll();
 
         // Ticket history sorting select options
         $this->set('historySortingSelectOptions', [
@@ -66,7 +65,7 @@ class Settings extends AppController
      */
     public function saveAction()
     {
-        foreach ($this->request->post('settings', []) as $setting => $value) {
+        foreach (Request::$post->get('settings', [], false) as $setting => $value) {
             $setting = Setting::find("setting", $setting);
 
             if ($setting) {
