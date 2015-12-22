@@ -1,11 +1,11 @@
 <div class="admin users container">
-	<h1 class="page-header"><?=$t('edit_user')?></h1>
+	<h1 class="page-header"><?=t('edit_user')?></h1>
 
-	<form action="<?=Request::basePath($route('edit_admin_user'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('admin_save_user')?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($user)?>
 		<?=View::render('admin/users/_form.phtml', ['user' => $user])?>
 		<div class="form-actions">
-			<?=Form::submit($t('save'), ['class' => 'btn btn-success'])?>
+			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
 		</div>
 	</form>
 </div>

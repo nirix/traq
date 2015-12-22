@@ -1,32 +1,32 @@
 <div class="form-group">
-	<?=Form::label($t('username'), 'username', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('username'), 'username', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('username', ['value' => $user->username, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('name'), 'name', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('name'), 'name', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('name', ['value' => $user->name, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('password'), 'password', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('password'), 'password', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::password('password', [
 			'class' => 'form-control',
-			'placeholder' => !$user->isNew() ? $t('leave_blank_for_current') : ''
+			'placeholder' => !$user->isNew() ? t('leave_blank_for_current') : ''
 		])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('email'), 'email', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('email'), 'email', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('email', ['value' => $user->email, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('group'), 'group_id', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('group'), 'group_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::select(
 			'group_id',

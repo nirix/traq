@@ -94,7 +94,7 @@ $enAU = new Language(function ($t) {
         'ticket.page-title'  => "#{1} - {2}",
         'ticket.page-header' => "#{1} - {2}",
 
-        // Issue properties
+        // Ticket properties
         'id'          => "ID",
         'ticket_id'   => "ID",
         'summary'     => "Summary",
@@ -291,6 +291,7 @@ $enAU = new Language(function ($t) {
         'username'       => "Username",
         'password'       => "Password",
         'email'          => "Email",
+        'group'          => "Group",
         'create_account' => "Create Account",
 
         // UserCP

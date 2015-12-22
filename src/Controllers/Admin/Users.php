@@ -30,9 +30,9 @@ use Traq\Traits\Controllers\CRUD;
 /**
  * Admin Users controller.
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\Admin
  */
 class Users extends AppController
 {
@@ -67,7 +67,7 @@ class Users extends AppController
 
         // Fetch and update user
         $user   = User::find($id);
-        $params = $this->userParams();
+        $params = $this->modelParams();
 
         // Update password.
         if (!empty($params['password'])) {
@@ -97,14 +97,14 @@ class Users extends AppController
     /**
      * @return array
      */
-    protected function userParams()
+    protected function modelParams()
     {
         return [
-            'username' => Request::post('username'),
-            'password' => Request::post('password'),
-            'name'     => Request::post('name'),
-            'email'    => Request::post('email'),
-            'group_id' => Request::post('group_id')
+            'username' => Request::$post->get('username'),
+            'password' => Request::$post->get('password'),
+            'name'     => Request::$post->get('name'),
+            'email'    => Request::$post->get('email'),
+            'group_id' => Request::$post->get('group_id')
         ];
     }
 }
