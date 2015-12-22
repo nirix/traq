@@ -4,38 +4,7 @@
 		<?=View::render('layouts/_head.phtml')?>
 	</head>
 	<body>
-		<?php require __DIR__ . '/_meta_nav.phtml'; ?>
-		<nav class="navbar navbar-default navbar-static-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-						<span class="sr-only"><?=t('toggle_navigation')?></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				<?php if (current_project()) : ?>
-					<a href="<?=routeUrl('project')?>" class="navbar-brand"><?=$currentProject['name']?></a>
-				<?php else : ?>
-					<a href="<?=routeUrl('root')?>" class="navbar-brand"><?=setting('title')?></a>
-				<?php endif ?>
-				</div>
-
-				<div class="collapse navbar-collapse" id="navbar-collapse-1">
-				<?php if (current_project()) : ?>
-					<ul class="nav navbar-nav">
-						<li<?=Request::matches('/{pslug}/timeline') ? ' class="active"' :''?>><a href="<?=routeUrl('timeline')?>"><?=t('timeline')?></a></li>
-						<li<?=Request::matches('/{pslug}/roadmap(/.+)?') ? ' class="active"' :''?>><a href="<?=routeUrl('roadmap')?>"><?=t('roadmap')?></a></li>
-						<li<?=Request::matches('/{pslug}/issues(/.+)?') ? ' class="active"' :''?>><a href="<?=routeUrl('tickets')?>"><?=t('tickets')?></a></li>
-						<li<?=Request::matches('/{pslug}/changelog') ? ' class="active"' :''?>><a href="<?=routeUrl('changelog')?>"><?=t('changelog')?></a></li>
-					<?php if ($currentProject['enable_wiki']) : ?>
-						<li<?=Request::matches('/{pslug}/wiki(/.+)?') ? ' class="active"' :''?>><a href="<?=routeUrl('wiki')?>"><?=t('wiki')?></a></li>
-					<?php endif ?>
-					</ul>
-				<?php endif ?>
-				</div>
-			</div>
-		</nav>
+		<?php require __DIR__ . '/_header.phtml'; ?>
 		<main>
 			<?=$content?>
 		</main>
