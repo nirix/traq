@@ -38,5 +38,9 @@ Router::get('account_activation', '/users/activate/{activation_code}', "{$ns}\\U
 require __DIR__ . '/routes/admin.php';
 
 // -----------------------------------------------------------------------------
+// Project settings routes
+require __DIR__ . '/routes/project_settings.php';
+
+// -----------------------------------------------------------------------------
 // Project routes
 require __DIR__ . '/routes/projects.php';
