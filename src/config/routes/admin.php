@@ -55,6 +55,11 @@ Router::get('admin_delete_type', '/admin/types/{id}/delete', "{$ns}\\Admin\\Type
 
 // Statuses
 Router::get('admin_statuses', '/admin/statuses', "{$ns}\\Admin\\Statuses::index");
+Router::get('admin_new_status', '/admin/statuses/new', "{$ns}\\Admin\\Statuses::new");
+Router::post('admin_create_status', '/admin/statuses/new', "{$ns}\\Admin\\Statuses::create");
+Router::get('admin_edit_status', '/admin/statuses/{id}/edit', "{$ns}\\Admin\\Statuses::edit");
+Router::post('admin_save_status', '/admin/statuses/{id}/edit', "{$ns}\\Admin\\Statuses::save");
+Router::get('admin_delete_status', '/admin/statuses/{id}/delete', "{$ns}\\Admin\\Statuses::destroy");
 
 // Priorities
 Router::get('admin_priorities', '/admin/priorities', "{$ns}\\Admin\\Priorities::index");

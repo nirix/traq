@@ -30,9 +30,9 @@ use Traq\Traits\Controllers\CRUD;
 /**
  * Admin Statuses controller.
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\Admin
  */
 class Statuses extends AppController
 {
@@ -69,9 +69,9 @@ class Statuses extends AppController
     protected function modelParams()
     {
         return [
-            'name'              => Request::post('name'),
-            'status'            => Request::post('type'),
-            'show_on_changelog' => Request::post('show_on_changelog', false)
+            'name'              => Request::$post->get('name'),
+            'status'            => Request::$post->get('type'),
+            'show_on_changelog' => Request::$post->get('show_on_changelog', false)
         ];
     }
 }

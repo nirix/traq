@@ -1,11 +1,11 @@
 <div class="admin-statuses container">
-	<h1 class="page-header"><?=$t('new_status')?></h1>
+	<h1 class="page-header"><?=t('new_status')?></h1>
 
-	<form action="<?=Request::basePath($route('new_admin_status'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('admin_create_status')?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($status)?>
 		<?=View::render('admin/statuses/_form.phtml', ['status' => $status])?>
 		<div class="form-actions">
-			<?=Form::submit($t('create'), ['class' => 'btn btn-success'])?>
+			<?=Form::submit(t('create'), ['class' => 'btn btn-success'])?>
 		</div>
 	</form>
 </div>

@@ -33,7 +33,7 @@ use Avalon\Language;
  */
 class Status extends Model
 {
-    protected static $_validates = array(
+    protected static $_validations = array(
         'name' => ['required', 'unique']
     );
 
