@@ -71,3 +71,8 @@ Router::get('admin_delete_priority', '/admin/priorities/{id}/delete', "{$ns}\\Ad
 
 // Severities
 Router::get('admin_severities', '/admin/severities', "{$ns}\\Admin\\Severities::index");
+Router::get('admin_new_severity', '/admin/severities/new', "{$ns}\\Admin\\Severities::new");
+Router::post('admin_create_severity', '/admin/severities/new', "{$ns}\\Admin\\Severities::create");
+Router::get('admin_edit_severity', '/admin/severities/{id}/edit', "{$ns}\\Admin\\Severities::edit");
+Router::post('admin_save_severity', '/admin/severities/{id}/edit', "{$ns}\\Admin\\Severities::save");
+Router::get('admin_delete_severity', '/admin/severities/{id}/delete', "{$ns}\\Admin\\Severities::destroy");

@@ -63,8 +63,8 @@ class Severities extends AppController
     protected function modelParams()
     {
         return [
-            'name'  => Request::post('name'),
-            'level' => Request::post('level')
+            'name'  => Request::$post->get('name'),
+            'level' => Request::$post->get('level')
         ];
     }
 }
