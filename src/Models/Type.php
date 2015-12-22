@@ -38,4 +38,19 @@ class Type extends Model
         'name'   => ['required', 'unique'],
         'bullet' => ['required']
     ];
+
+    /**
+     * @return array[]
+     */
+    public static function selectOptions()
+    {
+        $options = [];
+        $types = static::select('id', 'name')->execute()->fetchAll();
+
+        foreach ($types as $type) {
+            $options[] = ['label' => $type['name'], 'value' => $type['id']];
+        }
+
+        return $options;
+    }
 }
