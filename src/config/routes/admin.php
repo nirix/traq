@@ -23,10 +23,20 @@ Router::post('admin_save_group', '/admin/groups/{id}/edit', "{$ns}\\Admin\\Group
 Router::get('admin_delete_group', '/admin/groups/{id}/delete', "{$ns}\\Admin\\Groups::destroy");
 
 // Roles
-Router::get('admin_roles', '/admin/project-roles', "{$ns}\\Admin\\ProjectRoles::index");
+Router::get('admin_project_roles', '/admin/project-roles', "{$ns}\\Admin\\ProjectRoles::index");
+Router::get('admin_new_project_role', '/admin/project-roles/new', "{$ns}\\Admin\\ProjectRoles::new");
+Router::post('admin_create_project_role', '/admin/project-roles/new', "{$ns}\\Admin\\ProjectRoles::create");
+Router::get('admin_edit_project_role', '/admin/project-roles/{id}/edit', "{$ns}\\Admin\\ProjectRoles::edit");
+Router::post('admin_save_project_role', '/admin/project-roles/{id}/edit', "{$ns}\\Admin\\ProjectRoles::save");
+Router::get('admin_delete_project_role', '/admin/project-roles/{id}/delete', "{$ns}\\Admin\\ProjectRoles::destroy");
 
 // Users
 Router::get('admin_users', '/admin/users', "{$ns}\\Admin\\Users::index");
+Router::get('admin_new_user', '/admin/users/new', "{$ns}\\Admin\\Users::new");
+Router::post('admin_create_user', '/admin/users/new', "{$ns}\\Admin\\Users::create");
+Router::get('admin_edit_user', '/admin/users/{id}/edit', "{$ns}\\Admin\\Users::edit");
+Router::post('admin_save_user', '/admin/users/{id}/edit', "{$ns}\\Admin\\Users::save");
+Router::get('admin_delete_user', '/admin/users/{id}/delete', "{$ns}\\Admin\\Users::destroy");
 
 // Plugins
 Router::get('admin_plugins', '/admin/plugins', "{$ns}\\Admin\\Plugins::index");
