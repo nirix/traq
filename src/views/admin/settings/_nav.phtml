@@ -1,7 +1,7 @@
 <nav id="admin-settings-nav" class="container">
 	<ul class="nav nav-tabs" role="tablist">
-		<li<?=iif(activeNav('/admin/settings$'), ' class="active"')?>>
-			<?=HTML::link($t('traq_settings'), $route('admin_settings'))?>
+		<li<?=Request::matches('/admin/settings$') ? ' class="active"' : ''?>>
+			<a href="<?=RouteUrl('admin_settings')?>"><?=t('traq_settings')?></a>
 		</li>
 		<?=Hook::run('template:admin/settings/_nav')?>
 	</ul>
