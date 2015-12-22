@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
@@ -25,7 +25,6 @@ namespace Traq\Helpers;
 
 use Avalon\Hook;
 use Avalon\Helpers\HTML;
-use Traq\Models\Project;
 
 class Format extends \Avalon\Helpers\Format
 {
@@ -63,19 +62,12 @@ class Format extends \Avalon\Helpers\Format
     {
         return preg_replace_callback(
             "|(?:[\w\d\-_]+)?#([\d]+)|",
-            function($matches){
+            function ($matches) {
                 $match = explode('#', $matches[0]);
 
-                // Replace project#123
-                if (isset($match[1]) and $project = Project::find('slug', $match[0])) {
-                    return HTML::link("{$project->slug}#{$match[1]}", $project->href("issues/{$match[1]}"));
-                }
-                // Replace #123
-                elseif (isset($GLOBALS['project'])) {
-                    return HTML::link("#{$match[1]}", $GLOBALS['project']->href("issues/{$match[1]}"));
-                }
-                // No project found, don't link it
-                else {
+                if (current_project()) {
+                    return HTML::link("#{$match[1]}", routePath('ticket', ['id' => $match[1]]));
+                } else {
                     return "#{$match[1]}";
                 }
             },
@@ -94,8 +86,8 @@ class Format extends \Avalon\Helpers\Format
     {
         return preg_replace_callback(
             "|\[\[(?P<page>[\w\d\-_]+)(\|(?P<text>[\s\w\d\-_]+))?\]\]|",
-            function($matches){
-                $project = Radium::controller()->project;
+            function ($matches) {
+                $project = current_project();
 
                 if (!$project) {
                     return $matches[0];
@@ -105,7 +97,7 @@ class Format extends \Avalon\Helpers\Format
                     $matches['text'] = $matches['page'];
                 }
 
-                return HTML::link($matches['text'], $project->href("wiki/{$matches['page']}"));
+                return HTML::link($matches['text'], routePath('wiki_page', ['slug' => $matches['page']]));
             },
             $text
         );
