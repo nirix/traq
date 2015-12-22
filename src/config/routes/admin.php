@@ -47,6 +47,11 @@ Router::get('admin_plugins_disable', '/admin/plugins/disable', "{$ns}\\Admin\\Pl
 
 // Types
 Router::get('admin_types', '/admin/types', "{$ns}\\Admin\\Types::index");
+Router::get('admin_new_type', '/admin/types/new', "{$ns}\\Admin\\Types::new");
+Router::post('admin_create_type', '/admin/types/new', "{$ns}\\Admin\\Types::create");
+Router::get('admin_edit_type', '/admin/types/{id}/edit', "{$ns}\\Admin\\Types::edit");
+Router::post('admin_save_type', '/admin/types/{id}/edit', "{$ns}\\Admin\\Types::save");
+Router::get('admin_delete_type', '/admin/types/{id}/delete', "{$ns}\\Admin\\Types::destroy");
 
 // Statuses
 Router::get('admin_statuses', '/admin/statuses', "{$ns}\\Admin\\Statuses::index");

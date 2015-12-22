@@ -1,23 +1,23 @@
 <div class="form-group">
-	<?=Form::label($t('name'), 'name', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('name'), 'name', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('name', ['value' => $type->name, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('bullet'), 'bullet', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('bullet'), 'bullet', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('bullet', ['value' => $type->bullet, 'class' => 'form-control'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('show_on_changelog'), 'show_on_changelog', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('show_on_changelog'), 'show_on_changelog', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::checkbox('show_on_changelog', 1, ['checked' => $type->show_on_changelog])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label($t('template'), 'template', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('template'), 'template', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::textarea('template', ['value' => $type->template, 'class' => 'form-control'])?>
 	</div>

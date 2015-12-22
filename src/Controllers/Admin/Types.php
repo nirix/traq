@@ -30,9 +30,9 @@ use Traq\Traits\Controllers\CRUD;
 /**
  * Admin Types controller
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\Admin
  */
 class Types extends AppController
 {
@@ -60,10 +60,10 @@ class Types extends AppController
     protected function modelParams()
     {
         return [
-            'name'              => $this->request->post('name'),
-            'bullet'            => $this->request->post('bullet'),
-            'show_on_changelog' => $this->request->post('show_on_changelog', true),
-            'template'          => $this->request->post('template')
+            'name'              => Request::$post->get('name'),
+            'bullet'            => Request::$post->get('bullet'),
+            'show_on_changelog' => Request::$post->get('show_on_changelog', false),
+            'template'          => Request::$post->get('template')
         ];
     }
 }
