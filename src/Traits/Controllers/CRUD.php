@@ -30,7 +30,9 @@ use Avalon\Database\Model;
  * This trait reduces the amount of code needed for simple Create, Read, Update and Delete
  * based controllers.
  *
- * @since 4.0
+ * @package Traq\Traits
+ * @author  Jack P.
+ * @since 4.0.0
  */
 trait CRUD
 {
