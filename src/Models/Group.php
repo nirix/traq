@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -28,34 +28,24 @@ use Avalon\Database\Model;
 /**
  * User group model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class Group extends Model
 {
-    protected static $_tableName = 'usergroups';
+    protected static $_tableName = PREFIX . 'usergroups';
+    protected static $_tableAlias = 'g';
 
     // Validations
-    protected static $_validates = array(
-        'name' => array('required', 'unique')
-    );
-
-    // Relations
-    protected static $_hasMany = array(
-        'users' => array('foreignKey' => 'group_id')
+    protected static $_validations = array(
+        'name' => ['required', 'unique']
     );
 
     // Data types
     protected static $_dataTypes = [
         'is_admin' => "boolean"
     ];
-
-    /**
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        return $this->is_admin == '1' ? true : false;
-    }
 
     /**
      * Returns an array of groups to be used
