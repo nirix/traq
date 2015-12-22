@@ -1,11 +1,11 @@
 <div class="project-settings components container">
-	<h2 class="page-title"><?=$t('edit_component')?></h2>
+	<h2 class="page-title"><?=t('edit_component')?></h2>
 
-	<form action="<?=Request::basePath($route('edit_project_settings_component'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('project_settings_save_component', ['id' => $component['id']])?>" method="post" class="form-horizontal">
 		<?=Errors::messagesFor($component)?>
 		<?=View::render('project_settings/components/_form.phtml', ['component' => $component])?>
 		<div class="form-actions">
-			<?=Form::submit($t('save'), ['class' => 'btn btn-success'])?>
+			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
 		</div>
 	</form>
 </div>

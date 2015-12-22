@@ -1,14 +1,14 @@
 <div class="modal fade">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
-			<form action="<?=Request::basePath($route('new_project_settings_component'))?>" method="post" class="form-horizontal">
-				<?=TWBS::modalHeader($t('new_component'))?>
+			<form action="<?=routeUrl('project_settings_create_component')?>" method="post" class="form-horizontal">
+				<?=TWBS::modalHeader(t('new_component'))?>
 				<div class="modal-body">
 					<?=View::render('project_settings/components/_form.phtml', ['component' => $component])?>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success"><?=$t('create')?></button>
-					<button type="button" class="btn btn-default" data-dismiss="modal"><?=$t('cancel')?></button>
+					<button type="submit" class="btn btn-success"><?=t('create')?></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?=t('cancel')?></button>
 				</div>
 			</form>
 		</div>

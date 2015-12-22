@@ -15,6 +15,11 @@ Router::get('project_settings_delete_milestone', '/{pslug}/settings/milestones/{
 
 // Components
 Router::get('project_settings_components', '/{pslug}/settings/components', "{$ns}\\ProjectSettings\\Components::index");
+Router::get('project_settings_new_component', '/{pslug}/settings/components/new', "{$ns}\\ProjectSettings\\Components::new");
+Router::post('project_settings_create_component', '/{pslug}/settings/components/new', "{$ns}\\ProjectSettings\\Components::create");
+Router::get('project_settings_edit_component', '/{pslug}/settings/components/{id}/edit', "{$ns}\\ProjectSettings\\Components::edit");
+Router::post('project_settings_save_component', '/{pslug}/settings/components/{id}/edit', "{$ns}\\ProjectSettings\\Components::save");
+Router::get('project_settings_delete_component', '/{pslug}/settings/components/{id}/delete', "{$ns}\\ProjectSettings\\Components::destroy");
 
 // Members
 Router::get('project_settings_members', '/{pslug}/settings/members', "{$ns}\\ProjectSettings\\Members::index");

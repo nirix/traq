@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack P.
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -28,31 +28,13 @@ use Avalon\Database\Model;
 /**
  * Component model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class Component extends Model
 {
-    protected static $_validates = [
+    protected static $_validations =[
         'name' => ['required']
     ];
-
-    /**
-     * Returns an array formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public static function selectOptions($project_id)
-    {
-        $options = [];
-
-        $rows = static::where('project_id = ?', $project_id)
-            ->orderBy('name', 'ASC')
-            ->fetchAll();
-
-        foreach ($rows as $component) {
-            $options[] = ['label' => $component->name, 'value' => $component->id];
-        }
-
-        return $options;
-    }
 }
