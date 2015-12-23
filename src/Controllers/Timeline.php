@@ -112,6 +112,8 @@ class Timeline extends AppController
                     $ids['tickets'][] = $event['owner_id'];
                 } elseif (strpos($event['action'], 'milestone_') === 0) {
                     $ids['milestones'][] = $event['owner_id'];
+                } elseif (strpos($event['action'], 'wiki_page') === 0) {
+                    $ids['wiki'][] = $event['owner_id'];
                 }
 
                 $day['events'][] = $event;
@@ -121,12 +123,14 @@ class Timeline extends AppController
         }
 
         $tickets    = $this->getTickets($ids['tickets']);
-        $milestones = $this->getMilestones($ids['milestones']);
+        $milestones = $this->getRows('milestones', $ids['milestones']);
+        $wikiPages  = $this->getRows('wiki_pages', $ids['wiki']);
 
         return $this->render('timeline/index.phtml', [
             'days'       => $days,
             'tickets'    => $tickets,
             'milestones' => $milestones,
+            'wikiPages'  => $wikiPages,
             'filters'    => $filters,
             'pagination' => $pagination
         ]);
@@ -184,22 +188,22 @@ class Timeline extends AppController
         return $tickets;
     }
 
-    protected function getMilestones($ids)
+    protected function getRows($table, $ids)
     {
         if (!count($ids)) {
             return;
         }
 
-        $query = queryBuilder()->select('*')->from(PREFIX . 'milestones');
+        $query = queryBuilder()->select('*')->from(PREFIX . $table);
         $query->where(
             $query->expr()->in('id', $ids)
         );
 
-        $milestones = [];
-        foreach ($query->execute()->fetchAll() as $milestone) {
-            $milestones[$milestone['id']] = $milestone;
+        $rows = [];
+        foreach ($query->execute()->fetchAll() as $row) {
+            $rows[$row['id']] = $row;
         }
 
-        return $milestones;
+        return $rows;
     }
 }

@@ -54,7 +54,14 @@
                 "timeline.{$event['action']}",
                 ['name' => $milestones[$event['owner_id']]['name']]
             )?>
-			<?php endif ?>
+		<?php elseif (in_array($event['action'], ['wiki_page_created'])) : ?>
+			<?=t(
+                "timeline.{$event['action']}",
+                [
+                    'title' => HTML::link($wikiPages[$event['owner_id']]['title'], routePath('wiki_page', ['slug' => $wikiPages[$event['owner_id']]['slug']]))
+                ]
+            )?>
+		<?php endif ?>
 			</span>
 		</dt>
 		<dd>
