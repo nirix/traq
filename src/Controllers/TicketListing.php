@@ -25,7 +25,9 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Helpers\Pagination;
+use Traq\Helpers\Ticketlist;
 use Traq\Helpers\TicketFilterQuery;
+use Traq\Models\CustomField;
 
 /**
  * Ticket listing controller.
@@ -39,6 +41,10 @@ class TicketListing extends AppController
     {
         parent::__construct();
         $this->title($this->translate('tickets'));
+
+        // Custom fields
+        $this->customFields = CustomField::forProject($this->currentProject['id']);
+        $this->set('customFields', $this->customFields);
     }
 
     /**
@@ -74,25 +80,8 @@ class TicketListing extends AppController
         // Fetch all tickets
         $tickets = $tickets->execute()->fetchAll();
 
-        $columns = [
-            'ticket_id',
-            'summary',
-            'status',
-            'owner',
-            'type',
-            'component',
-            'milestone',
-            // 'version',
-            // 'assigned_to',
-            // 'priority',
-            // 'severity',
-            // 'votes',
-            'created_at',
-            // 'updated_at'
-        ];
-
         return $this->render('ticket_listing/index.phtml', [
-            'columns'     => $columns,
+            'columns'     => $this->getColumns(),
             'tickets'     => $tickets,
             'pagination'  => $pagination
         ]);
@@ -135,5 +124,51 @@ class TicketListing extends AppController
         }
 
         return $query;
+    }
+
+    public function setColumnsAction()
+    {
+        $this->getColumns();
+        return $this->redirect(routeUrl('tickets', ['pslug' => $this->currentProject['slug']]) . '?' . $_SERVER['QUERY_STRING']);
+    }
+
+    protected function getColumns()
+    {
+        $allowedColumns = Ticketlist::allowedColumns();
+
+        // Add custom fields
+        foreach ($this->customFields as $field) {
+            $allowedColumns[] = $field->id;
+        }
+
+        if (Request::$method == 'POST' && Request::$post->has('update_columns')) {
+            // Columns from POST
+            $newColumns = [];
+
+            foreach (Request::$post->get('columns', [], false) as $column) {
+                $newColumns[] = $column;
+            }
+
+            $_SESSION['columns'] = Request::$post['columns'] = $newColumns;
+            return $newColumns;
+        } elseif (isset(Request::$query['columns'])) {
+            // Columns from request
+            $columns = [];
+
+            foreach (explode(',', Request::$post->get('columns', [], false)) as $column) {
+                // Make sure it's a valid column
+                if (in_array($column, $allowedColumns)) {
+                    $columns[] = $column;
+                }
+            }
+
+            return $columns;
+        } elseif (isset($_SESSION['columns'])) {
+            // Columns from session
+            return $_SESSION['columns'];
+        } else {
+            // Use default columns
+            return Ticketlist::defaultColumns();
+        }
     }
 }

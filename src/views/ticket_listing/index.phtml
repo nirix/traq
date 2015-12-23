@@ -1,39 +1,15 @@
 <div class="tickets container">
 	<h1 class="page-header"><?=t('tickets')?></h1>
 
+	<?php require __DIR__ . '/_columns.phtml'; ?>
+
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
 		<?php foreach ($columns as $column) : ?>
-			<?php if ($column == 'ticket_id') : ?>
-				<th><?=t('id')?></th>
-			<?php elseif ($column == 'summary') : ?>
-				<th><?=t('summary')?></th>
-			<?php elseif ($column == 'owner') : ?>
-				<th><?=t('owner')?></th>
-			<?php elseif ($column == 'type') : ?>
-				<th><?=t('type')?></th>
-			<?php elseif ($column == 'status') : ?>
-				<th><?=t('status')?></th>
-			<?php elseif ($column == 'milestone') : ?>
-				<th><?=t('milestone')?></th>
-			<?php elseif ($column == 'version') : ?>
-				<th><?=t('version')?></th>
-			<?php elseif ($column == 'component') : ?>
-				<th><?=t('component')?></th>
-			<?php elseif ($column == 'priority') : ?>
-				<th><?=t('priority')?></th>
-			<?php elseif ($column == 'severity') : ?>
-				<th><?=t('severity')?></th>
-			<?php elseif ($column == 'assigned_to') : ?>
-				<th><?=t('assigned_to')?></th>
-			<?php elseif ($column == 'votes') : ?>
-				<th><?=t('votes')?></th>
-			<?php elseif ($column == 'created_at') : ?>
-				<th><?=t('created_at')?></th>
-			<?php elseif ($column == 'updated_at') : ?>
-				<th><?=t('updated_at')?></th>
-			<?php endif ?>
+			<th>
+				<?=Ticketlist::headerFor($column)?>
+			</th>
 		<?php endforeach ?>
 			</tr>
 		</thead>
@@ -41,9 +17,7 @@
 		<?php foreach ($tickets as $ticket) : ?>
 			<tr>
 			<?php foreach ($columns as $column) : ?>
-				<?php if ($column == 'ticket_id') : ?>
-					<td><?=$ticket['ticket_id']?></td>
-				<?php elseif ($column == 'summary') : ?>
+				<?php if ($column == 'summary') : ?>
 					<td>
 						<a href="<?=routeUrl('ticket', ['id' => $ticket['ticket_id']])?>"><?=e($ticket['summary'])?></a>
 					</td>
@@ -53,10 +27,6 @@
 							<?=$ticket['user_name']?>
 						</a>
 					</td>
-				<?php elseif ($column == 'type') : ?>
-					<td><?=$ticket['type_name']?></td>
-				<?php elseif ($column == 'status') : ?>
-					<td><?=$ticket['status_name']?></td>
 				<?php elseif ($column == 'milestone') : ?>
 					<td>
 						<a href="<?=routeUrl('milestone', ['mslug' => $ticket['milestone_slug']])?>">
@@ -71,28 +41,18 @@
 						</a>
 					<?php endif; ?>
 					</td>
-				<?php elseif ($column == 'component') : ?>
-					<td>
-					<?php if ($ticket['component_id']) : ?>
-						<?=$ticket['component_name']?>
-					<?php endif; ?>
-					</td>
-				<?php elseif ($column == 'priority') : ?>
-					<td><?=$ticket['priority_name']?></td>
-				<?php elseif ($column == 'severity') : ?>
-					<td><?=$ticket['severity_name']?></td>
 				<?php elseif ($column == 'assigned_to') : ?>
 					<td>
 					<?php if ($ticket['assigned_to_id']) : ?>
 						<a href="<?=routeUrl('user', ['id' => $ticket['assigned_to_id']])?>"><?=$ticket['assigned_to_name']?></a>
 					<?php endif; ?>
 					</td>
-				<?php elseif ($column == 'votes') : ?>
-					<td><?=$ticket['votes']?></td>
 				<?php elseif ($column == 'created_at') : ?>
 					<td data-moment="<?=$ticket['created_at']?>"><?=$ticket['created_at']?></td>
 				<?php elseif ($column == 'updated_at') : ?>
 					<td data-moment="<?=$ticket['updated_at']?>"><?=$ticket['updated_at']?></td>
+				<?php else : ?>
+					<td><?=Ticketlist::dataFor($column, $ticket)?></td>
 				<?php endif ?>
 			<?php endforeach ?>
 			</tr>

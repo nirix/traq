@@ -16,6 +16,7 @@ Router::get('milestone', '/{pslug}/roadmap/{mslug}', "{$ns}\\Roadmap::show");
 
 // Issues
 Router::get('tickets', '/{pslug}/issues', "{$ns}\\TicketListing::index");
+Router::post('tickets_set_columns', '/{pslug}/issues/set-columns', "{$ns}\\TicketListing::setColumns");
 Router::get('ticket', '/{pslug}/issues/{id}', "{$ns}\\Tickets::show");
 
 // Changelog

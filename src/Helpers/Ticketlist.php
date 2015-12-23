@@ -27,6 +27,7 @@ use Avalon\Language;
 use Avalon\Http\Request;
 use Avalon\Helpers\Time;
 use Traq\Models\Ticket;
+use Traq\Models\CustomField;
 
 /**
  * Ticket listing helper
@@ -71,12 +72,13 @@ class Ticketlist
             'type',
             'component',
             'milestone',
+            'version',
             'assigned_to',
             'priority',
             'severity',
+            'votes',
             'created_at',
-            'updated_at',
-            'votes'
+            'updated_at'
         ];
     }
 
@@ -128,7 +130,7 @@ class Ticketlist
 
         // Check if we need to do
         // anything with the field.
-        switch($order[0]) {
+        switch ($order[0]) {
             case 'summary':
             case 'body':
             case 'votes':
@@ -270,6 +272,7 @@ class Ticketlist
             case 'type':
             case 'component':
             case 'milestone':
+            case 'version':
             case 'assigned_to':
             case 'updates':
             case 'votes':
@@ -303,88 +306,26 @@ class Ticketlist
      *
      * @return mixed
      */
-    public static function dataFor($column, $ticket) {
+    public static function dataFor($column, $ticket)
+    {
         switch ($column) {
             // Ticket ID column
             case 'ticket_id':
-                return $ticket->ticket_id;
-                break;
-
-            // Summary column
-            case 'summary':
-                return $ticket->summary;
+                return $ticket['ticket_id'];
                 break;
 
             // Status column
             case 'status':
-                return $ticket->status()->name;
-                break;
-
-            // Owner / author column
-            case 'owner':
-                return $ticket->user()->name;
-                break;
-
-            // Assigned to
-            case 'assigned_to':
-                if ($ticket->assigned_to()) {
-                    return $ticket->assigned_to()->name;
-                } else {
-                    return '';
-                }
-                break;
-
-            // Ticket type column
             case 'type':
-                return $ticket->type()->name;
-                break;
-
-            // Component column
             case 'component':
-                return $ticket->component() ? $ticket->component()->name : '';
-                break;
-
-            // Milestone column
-            case 'milestone':
-                return $ticket->milestone() ? $ticket->milestone()->name : '';
-                break;
-
-            // Updates column
-            case 'updates':
-                return $ticket->history()->execute()->rowCount();
-                break;
-
-            // Created at
-            case 'created_at':
-                return Language::translate('time.x_ago', [
-                    Time::agoInWords($ticket->created_at, false)
-                ]);
-                break;
-
-            // Updated at
-            case 'updated_at':
-                if ($ticket->updated_at) {
-                    return Language::translate('time.x_ago', [
-                        Time::agoInWords($ticket->updated_at, false)
-                    ]);
-                } else {
-                    return Language::translate('never');
-                }
+            case 'priority':
+            case 'severity':
+                return $ticket["{$column}_name"];
                 break;
 
             // Votes
             case 'votes':
-                return $ticket->votes;
-                break;
-
-            // Priority
-            case 'priority':
-                return $ticket->priority()->name;
-                break;
-
-            // Severity
-            case 'severity':
-                return $ticket->severity()->name;
+                return $ticket['votes'];
                 break;
         }
 
