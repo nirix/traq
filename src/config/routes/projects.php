@@ -23,6 +23,11 @@ Router::get('changelog', '/{pslug}/changelog', "{$ns}\\Projects::changelog");
 
 // Wiki
 Router::get('wiki', '/{pslug}/wiki', "{$ns}\\Wiki::show", ['slug' => 'main']);
+Router::get('wiki_new', '/{pslug}/wiki/_new', "{$ns}\\Wiki::new");
+Router::post('wiki_create', '/{pslug}/wiki/_new', "{$ns}\\Wiki::create");
+Router::get('wiki_edit', '/{pslug}/wiki/{slug}/_edit', "{$ns}\\Wiki::edit");
+Router::post('wiki_save', '/{pslug}/wiki/{slug}/_edit', "{$ns}\\Wiki::save");
+Router::get('wiki_delete', '/{pslug}/wiki/{slug}/_delete', "{$ns}\\Wiki::destroy");
 Router::get('wiki_pages', '/{pslug}/wiki/_pages', "{$ns}\\Wiki::pages");
 Router::get('wiki_page', '/{pslug}/wiki/{slug}', "{$ns}\\Wiki::show");
 Router::get('wiki_revisions', '/{pslug}/wiki/{slug}/_revisions', "{$ns}\\Wiki::revisions");
