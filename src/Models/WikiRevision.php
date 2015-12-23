@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack P.
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -28,17 +28,10 @@ use Avalon\Database\Model;
 /**
  * Wiki page revision database model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class WikiRevision extends Model
 {
-    protected static $_belongsTo = array(
-        'user',
-        'wikiPage'
-    );
-
-    public function href()
-    {
-        return $this->wikiPage()->href("_revisions/{$this->revision}");
-    }
 }

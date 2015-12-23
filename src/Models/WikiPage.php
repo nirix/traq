@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2015 Jack P.
+ * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -28,33 +28,23 @@ use Avalon\Database\Model;
 /**
  * Wiki Page database model.
  *
+ * @package Traq\Models
  * @author Jack P.
+ * @since 3.0.0
  */
 class WikiPage extends Model
 {
-    protected static $_table = 'wiki';
+    protected static $_validations = [
+        'title' => ['required'],
+        'slug'  => ['required'],
+    ];
 
-    protected static $_hasMany = array(
-        'revisions' => array(
-            'model'      => "WikiRevision",
-            'foreignKey' => 'wiki_page_id'
-        )
-    );
+    protected static $_before = [
+        'create' => ['_setSlug'],
+        'save'   => ['_setSlug']
+    ];
 
-    protected static $_belongsTo = array(
-        'project',
-        'revision' => array('model' => "WikiRevision")
-    );
-
-    protected static $_validates = array(
-        'title' => array('required'),
-        'slug'  => array('required'),
-    );
-
-    protected static $_before = array(
-        'create' => array('_setSlug'),
-        'save'   => array('_setSlug')
-    );
+    protected $revision;
 
     /**
      * @param array   $data
@@ -65,23 +55,20 @@ class WikiPage extends Model
         parent::__construct($data, $isNew);
 
         if ($isNew) {
-            $this->_relationsCache['revision'] = new WikiRevision([
+            $this->revision = new WikiRevision([
                 'revision' => 1,
                 'content'  => (isset($data['content']) ? $data['content'] : '')
             ]);
         }
     }
 
-    /**
-     * Returns the URI for the page.
-     *
-     * @param string $uri Extra segments to be appended to the URI.
-     *
-     * @return string
-     */
-    public function href($uri = null)
+    public function revision()
     {
-        return "/{$this->project()->slug}/wiki/{$this->slug}" . ($uri !== null ? '/' . implode('/', func_get_args()) : '');
+        if ($this->revision) {
+            return $this->revision;
+        }
+
+        return WikiRevision::find($this->revision_id);
     }
 
     /**
@@ -91,7 +78,7 @@ class WikiPage extends Model
      */
     public function setRevision(WikiRevision $revision)
     {
-        $this->_relationsCache['revision'] = $revision;
+        $this->revision = $revision;
     }
 
     /**
@@ -125,6 +112,12 @@ class WikiPage extends Model
         }
 
         return count($this->_errors) == 0;
+    }
+
+    public function delete()
+    {
+        static::connection()->delete(static::tableName(), ['id' => $this->id]);
+        static::connection()->delete(WikiRevision::tableName(), ['wiki_page_id' => $this->id]);
     }
 
     /**
