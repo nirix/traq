@@ -23,12 +23,17 @@
 
 namespace Traq\Controllers;
 
+use Avalon\Http\Request;
+use Traq\Models\WikiPage;
+use Traq\Models\WikiRevision;
+use Traq\Models\Timeline;
+
 /**
  * Wiki controller
  *
+ * @package Traq\Controllers
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers
  */
 class Wiki extends AppController
 {
@@ -36,6 +41,90 @@ class Wiki extends AppController
     {
         parent::__construct();
         $this->title($this->translate('wiki'));
+
+        $this->before(
+            ['new', 'create', 'edit', 'save', 'delete', 'destroy'],
+            [$this, 'checkPermission']
+        );
+
+        $this->before(
+            ['edit', 'save', 'delete', 'destroy'],
+            [$this, 'getPage']
+        );
+    }
+
+    public function newAction($slug = null)
+    {
+        $this->title($this->translate('new'));
+
+        $page = new WikiPage([
+            'title' => $slug,
+            'slug'  => $slug
+        ]);
+
+        return $this->render('wiki/new.phtml', [
+            'page' => $page
+        ]);
+    }
+
+    public function createAction()
+    {
+        $page = new WikiPage($this->pageParams());
+
+        if ($page->save()) {
+            $page->revision()->set([
+                'user_id'      => $this->currentUser->id,
+                'wiki_page_id' => $page->id
+            ]);
+            $page->revision()->save();
+
+            $page->revision_id = $page->revision()->id;
+            $page->save();
+
+            $page->revision()->save();
+
+            // Create timeline event
+            Timeline::wikiPageCreatedEvent($this->currentUser, $page)->save();
+
+            return $this->redirectTo('wiki_page', ['slug' => $page['slug']]);
+        } else {
+            return $this->render('wiki/new.phtml', [
+                'page' => $page
+            ]);
+        }
+    }
+
+    public function editAction($slug)
+    {
+        $this->title($this->translate('edit'));
+        return $this->render('wiki/edit.phtml');
+    }
+
+    public function saveAction($slug)
+    {
+        $this->page->set($this->pageParams());
+
+        if (Request::$post->get('content') != $this->page->revision()->content) {
+            $revision = new WikiRevision([
+                'wiki_page_id' => $this->page->id,
+                'revision'     => $this->page->revision()->revision + 1,
+                'content'      => Request::$post->get('content'),
+                'user_id'      => $this->currentUser['id']
+            ]);
+        }
+
+        if ($this->page->save()) {
+            if (isset($revision)) {
+                $revision->save();
+                $this->page->revision_id = $revision->id;
+            }
+
+            $this->page->save();
+
+            return $this->redirectTo('wiki_page', ['slug' => $this->page['slug']]);
+        } else {
+            return $this->render('wiki/edit.phtml');
+        }
     }
 
     /**
@@ -136,5 +225,53 @@ class Wiki extends AppController
 
         $this->set('page', $page);
         return $this->render('wiki/show.phtml');
+    }
+
+    public function destroyAction($slug)
+    {
+        $this->page->delete();
+        return $this->redirectTo('wiki_pages', ['pslug' => $this->currentProject['slug']]);
+    }
+
+    protected function pageParams()
+    {
+        return [
+            'title'      => Request::$post->get('title'),
+            'slug'       => Request::$post->get('slug'),
+            'content'    => Request::$post->get('content'),
+            'project_id' => $this->currentProject['id'],
+            'user_id'    => $this->currentUser->id
+        ];
+    }
+
+    public function getPage()
+    {
+        $this->page = WikiPage::where('slug = ?')->andWhere('project_id = ?')
+            ->setParameter(0, Request::$properties->get('slug'))
+            ->setParameter(1, $this->currentProject['id'])
+            ->fetch();
+
+        if (!$this->page
+        && Request::$properties->get('action') == 'show'
+        && $this->hasPermission($this->currentProject['id'], 'create_wiki_page')) {
+            return $this->newPage(Request::$properties->get('slug'));
+        } elseif (!$this->page) {
+            return $this->show404();
+        }
+
+        $this->title($this->translate($this->page->title));
+
+        $this->set('page', $this->page);
+    }
+
+    public function checkPermission()
+    {
+        $action = (Request::$properties->get('action') == 'new' ? 'create' : Request::$properties->get('action'));
+
+        // Check if the user has permission
+        if (!$this->hasPermission($this->currentProject['id'], "{$action}_wiki_page")) {
+            // oh noes! display the no permission page.
+            return $this->show403();
+        }
     }
 }

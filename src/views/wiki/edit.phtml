@@ -1,14 +1,14 @@
 <?=View::render('wiki/_nav.phtml')?>
 <div class="edit-wiki-page container">
-    <h1 class="page-header"><?=$t('edit_page')?></h1>
+    <h1 class="page-header"><?=t('edit_page')?></h1>
 
     <?=Errors::messagesFor($page)?>
 
-    <form action="<?=Request::basePath($page->href('_edit'))?>" method="post" class="form-horizontal">
+    <form action="<?=routeUrl('wiki_save', ['slug' => $page['slug']])?>" method="post" class="form-horizontal">
         <?=View::render('wiki/_form.phtml', ['page' => $page])?>
 
         <div class="form-actions">
-            <?=Form::submit($t('save'), ['class' => 'btn btn-success'])?>
+            <?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
         </div>
     </form>
 </div>

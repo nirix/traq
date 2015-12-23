@@ -1,19 +1,19 @@
 <div class="form-group">
-    <?=Form::label($t('title'), 'title', ['class' => 'control-label col-md-3'])?>
+    <?=Form::label(t('title'), 'title', ['class' => 'control-label col-md-3'])?>
     <div class="col-md-9">
         <?=Form::text('title', ['value' => $page->title, 'class' => 'form-control'])?>
     </div>
 </div>
 
 <div class="form-group">
-    <?=Form::label($t('slug'), 'slug', ['class' => 'control-label col-md-3'])?>
+    <?=Form::label(t('slug'), 'slug', ['class' => 'control-label col-md-3'])?>
     <div class="col-md-9">
         <?=Form::text('slug', ['value' => $page->slug, 'class' => 'form-control'])?>
     </div>
 </div>
 
 <div class="form-group">
-    <?=Form::label($t('content'), 'content', ['class' => 'control-label col-md-3'])?>
+    <?=Form::label(t('content'), 'content', ['class' => 'control-label col-md-3'])?>
     <div class="col-md-9">
         <?=Form::textarea('content', ['value' => $page->revision()->content, 'class' => 'form-control'])?>
     </div>
