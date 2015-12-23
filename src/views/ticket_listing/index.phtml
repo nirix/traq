@@ -1,7 +1,8 @@
 <div class="tickets container">
 	<h1 class="page-header"><?=t('tickets')?></h1>
 
-	<?php require __DIR__ . '/_columns.phtml'; ?>
+	<?=View::render('ticket_listing/_filters.phtml', ['filters' => $filters])?>
+	<?=View::render('ticket_listing/_columns.phtml', ['columns' => $columns])?>
 
 	<table class="table table-striped table-hover">
 		<thead>

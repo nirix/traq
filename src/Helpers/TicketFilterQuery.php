@@ -60,15 +60,18 @@ class TicketFilterQuery
             $this->allStarted();
         } elseif (isset($query['closed'])) {
             $this->allClosed();
-        }
-
-        foreach (array_keys($query) as $method) {
-            if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
-                $this->{$method}();
+        } else {
+            foreach (array_keys($query) as $method) {
+                if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
+                    $this->{$method}();
+                }
             }
         }
     }
 
+    /**
+     * Milestones.
+     */
     protected function milestone()
     {
         $info = $this->extract('milestone');
@@ -89,60 +92,118 @@ class TicketFilterQuery
         $this->filters['milestone'] = $info;
     }
 
+    /**
+     * Versions.
+     */
+    protected function version()
+    {
+        $info = $this->extract('version');
+
+        $info['value'] = explode(',', $info['value']);
+        $values = array_map([$this, 'quote'], $info['value']);
+
+        foreach ($values as $slug) {
+            if ($info['cond']) {
+                $expr = $this->expr->in('v.slug', $values);
+            } else {
+                $expr = $this->expr->notIn('v.slug', $values);
+            }
+        }
+
+        $this->builder->andWhere($expr);
+
+        $this->filters['version'] = $info;
+    }
+
+    /**
+     * Statuses.
+     */
+    protected function status()
+    {
+        $info = $this->extract('status');
+
+        $info['value'] = explode(',', $info['value']);
+        $values = array_map([$this, 'quote'], $info['value']);
+
+        $this->builder->andWhere(
+            $this->expr->in('s.name', $values)
+        );
+
+        $this->filters['status'] = $info;
+    }
+
+    /**
+     * All open statuses.
+     */
     protected function allOpen()
     {
-        $statuses = queryBuilder()->select('id')->from(PREFIX . 'statuses')
+        $statuses = queryBuilder()->select('id', 'name')->from(PREFIX . 'statuses')
             ->where('status >= 1')
             ->execute();
 
         $ids = [];
+        $names = [];
         foreach ($statuses->fetchAll() as $status) {
             $ids[] = $status['id'];
+            $names[] = $status['name'];
         }
 
         $this->builder->andWhere(
             $this->expr->in('t.status_id', $ids)
         );
 
-        $this->filters['status'] = ['cond' => true, 'value' => $ids];
+        $this->filters['status'] = ['cond' => true, 'value' => $names];
     }
 
+    /**
+     * All started statuses.
+     */
     protected function allStarted()
     {
-        $statuses = queryBuilder()->select('id')->from(PREFIX . 'statuses')
+        $statuses = queryBuilder()->select('id', 'name')->from(PREFIX . 'statuses')
             ->where('status = 2')
             ->execute();
 
         $ids = [];
+        $names = [];
         foreach ($statuses->fetchAll() as $status) {
             $ids[] = $status['id'];
+            $names[] = $status['name'];
         }
 
         $this->builder->andWhere(
             $this->expr->in('t.status_id', $ids)
         );
 
-        $this->filters['status'] = ['cond' => true, 'value' => $ids];
+        $this->filters['status'] = ['cond' => true, 'value' => $names];
     }
 
+    /**
+     * All closed statuses.
+     */
     protected function allClosed()
     {
-        $statuses = queryBuilder()->select('id')->from(PREFIX . 'statuses')
+        $statuses = queryBuilder()->select('id', 'name')->from(PREFIX . 'statuses')
             ->where('status <= 0')
             ->execute();
 
         $ids = [];
+        $names = [];
         foreach ($statuses->fetchAll() as $status) {
             $ids[] = $status['id'];
+            $names[] = $status['name'];
         }
 
         $this->builder->andWhere(
             $this->expr->in('t.status_id', $ids)
         );
 
-        $this->filters['status'] = ['cond' => true, 'value' => $ids];
+        $this->filters['status'] = ['cond' => true, 'value' => $names];
     }
 
+    /**
+     * Get filter information.
+     */
     protected function extract($filter)
     {
         if (isset($this->query[$filter])) {
@@ -157,6 +218,9 @@ class TicketFilterQuery
         return false;
     }
 
+    /**
+     * Quote string.
+     */
     protected function quote($string)
     {
         return $GLOBALS['db']->quote($string);

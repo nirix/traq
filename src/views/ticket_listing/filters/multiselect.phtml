@@ -1,15 +1,15 @@
 <tr id="filter-<?=$name?>">
-	<td class="filter-name"><?=$t($name)?></td>
+	<td class="filter-name"><?=t($name)?></td>
 	<td class="filter-condition">
 		<?=Form::select("filters[{$name}][prefix]", TicketFilters::isIsNotSelectOptions(), [
-			'value' => $filter['prefix'],
+			'value' => $filter['cond'] ? '' : '!',
 			'id'	=> false,
 			'class' => 'form-control'
 		])?>
 	</td>
 	<td class="filter-value">
-		<?=Form::select("filters[{$name}][values][]", TicketFilters::selectOptionsFor($name, $project), [
-			'value'	=> $filter['values'],
+		<?=Form::select("filters[{$name}][values][]", TicketFilters::selectOptionsFor($name, $currentProject), [
+			'value'	=> $filter['value'],
 			'multiple' => true,
 			'class'	=> 'form-control'
 		])?>

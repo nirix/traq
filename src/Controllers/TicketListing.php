@@ -26,6 +26,7 @@ namespace Traq\Controllers;
 use Avalon\Http\Request;
 use Avalon\Helpers\Pagination;
 use Traq\Helpers\Ticketlist;
+use Traq\Helpers\TicketFilters;
 use Traq\Helpers\TicketFilterQuery;
 use Traq\Models\CustomField;
 
@@ -81,6 +82,7 @@ class TicketListing extends AppController
         $tickets = $tickets->execute()->fetchAll();
 
         return $this->render('ticket_listing/index.phtml', [
+            'filters'     => $filter->filters,
             'columns'     => $this->getColumns(),
             'tickets'     => $tickets,
             'pagination'  => $pagination
@@ -109,8 +111,11 @@ class TicketListing extends AppController
             'open',
             'started',
             'closed',
-            'milestone'
+            'milestone',
+            'status'
         ];
+
+        $allowedFilters = array_keys(TicketFilters::filtersFor($this->currentProject));
 
         $query = [];
         foreach ($allowedFilters as $filter) {
@@ -124,6 +129,47 @@ class TicketListing extends AppController
         }
 
         return $query;
+    }
+
+    public function setFiltersAction()
+    {
+        $queryString = [];
+
+        $filters = Request::$post->get('filters', [], false);
+
+        // Add filter
+        if ($newFilter = Request::$post->get('new_filter') and $newFilter !== '') {
+            if (!isset($filters[$newFilter])) {
+                $filters[$newFilter] = [
+                    'prefix' => '',
+                    'values' => []
+                ];
+            } else {
+                $filters[$newFilter]['values'][] = '';
+            }
+        }
+
+        foreach ($filters as $name => $filter) {
+            // Is this a filter?
+            if (!in_array($name, array_keys(TicketFilters::filtersFor($this->currentProject)))) {
+                continue;
+            }
+
+            if (!isset($filter['values'])) {
+                $filter['values'] = [];
+            }
+
+            if ($field = CustomField::find('slug', $name)) {
+                $queryString[$name] = $filter['prefix'] . implode(',', $filter['values']);
+            } else {
+                $queryString[$name] =  $filter['prefix'] . implode(',', $filter['values']);
+            }
+        }
+
+        // return $this->redirect($this->project->href('issues') . Request::buildQueryString($queryString, false));
+        return $this->redirect(
+            routeUrl('tickets', ['pslug' => $this->currentProject['slug']]) . '?' . Request::buildQueryString($queryString, false)
+        );
     }
 
     public function setColumnsAction()

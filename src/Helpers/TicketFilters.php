@@ -155,11 +155,12 @@ class TicketFilters
      *
      * @return array
      */
-    public static function selectOptionsFor($filter, Project $project) {
+    public static function selectOptionsFor($filter, Project $project)
+    {
         switch ($filter) {
             // Milestone options
             case 'milestone':
-                $options = $project->milestoneSelectOptions();
+                $options = $project->milestoneSelectOptions('slug');
                 break;
 
             // Version options
@@ -169,12 +170,12 @@ class TicketFilters
 
             // Type options
             case 'type':
-                $options = Type::selectOptions();
+                $options = Type::selectOptions('name');
                 break;
 
             // Status options
             case 'status':
-                $options = Status::selectOptions();
+                $options = Status::selectOptions('name');
                 break;
 
             // Component options
