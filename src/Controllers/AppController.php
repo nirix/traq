@@ -27,6 +27,7 @@ use Avalon\Http\Controller;
 use Avalon\Http\Request;
 use Avalon\Templating\View;
 use Traq\Models\User;
+use Traq\Models\Project;
 
 /**
  * App controller
@@ -76,10 +77,8 @@ class AppController extends Controller
         $this->before('*', function () {
             // Are we on a project page?
             if ($projectSlug = Request::$properties->get('pslug')) {
-                $this->currentProject = queryBuilder()->select('*')->from(PREFIX . 'projects')
-                    ->where('slug = ?')
+                $this->currentProject = Project::where('slug = ?')
                     ->setParameter(0, $projectSlug)
-                    ->execute()
                     ->fetch();
             }
 

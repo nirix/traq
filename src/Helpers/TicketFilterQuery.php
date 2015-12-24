@@ -60,11 +60,11 @@ class TicketFilterQuery
             $this->allStarted();
         } elseif (isset($query['closed'])) {
             $this->allClosed();
-        } else {
-            foreach (array_keys($query) as $method) {
-                if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
-                    $this->{$method}();
-                }
+        }
+
+        foreach (array_keys($query) as $method) {
+            if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
+                $this->{$method}();
             }
         }
     }

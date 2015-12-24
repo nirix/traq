@@ -107,15 +107,10 @@ class TicketListing extends AppController
 
     protected function getFilters()
     {
-        $allowedFilters = [
-            'open',
-            'started',
-            'closed',
-            'milestone',
-            'status'
-        ];
-
         $allowedFilters = array_keys(TicketFilters::filtersFor($this->currentProject));
+        $allowedFilters[] = 'open';
+        $allowedFilters[] = 'started';
+        $allowedFilters[] = 'closed';
 
         $query = [];
         foreach ($allowedFilters as $filter) {
