@@ -65,7 +65,7 @@ class Status extends Model
      *
      * @return array
      */
-    public static function selectOptions()
+    public static function selectOptions($valueField = 'id')
     {
         $open   = Language::translate('open');
         $closed = Language::translate('closed');
@@ -77,8 +77,8 @@ class Status extends Model
 
         foreach (static::all() as $status) {
             $option = array(
-                'label' => $status->name,
-                'value' => $status->id
+                'label' => $status['name'],
+                'value' => $status[$valueField]
             );
 
             if ($status->status) {
