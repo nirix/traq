@@ -57,7 +57,7 @@ class Project extends Model
     ];
 
     /**
-     * @return Project[]
+     * @return array[]
      */
     public static function selectOptions()
     {
@@ -66,6 +66,21 @@ class Project extends Model
 
         foreach ($projects as $project) {
             $options[] = ['label' => $project['name'], 'value' => $project['id']];
+        }
+
+        return $options;
+    }
+
+    /**
+     * @return array[]
+     */
+    public function milestoneSelectOptions($valueField = 'id')
+    {
+        $options = [];
+        $milestones = Milestone::where('project_id = ?')->setParameter(0, $this->id)->orderBy('display_order', 'ASC');
+
+        foreach ($milestones->execute()->fetchAll() as $milestone) {
+            $options[] = ['label' => $milestone['name'], 'value' => $milestone['slug']];
         }
 
         return $options;
