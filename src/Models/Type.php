@@ -42,13 +42,13 @@ class Type extends Model
     /**
      * @return array[]
      */
-    public static function selectOptions()
+    public static function selectOptions($valueField = 'id')
     {
         $options = [];
         $types = static::select('id', 'name')->execute()->fetchAll();
 
         foreach ($types as $type) {
-            $options[] = ['label' => $type['name'], 'value' => $type['id']];
+            $options[] = ['label' => $type['name'], 'value' => $type[$valueField]];
         }
 
         return $options;
