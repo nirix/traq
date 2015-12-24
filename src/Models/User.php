@@ -87,6 +87,16 @@ class User extends Model
     }
 
     /**
+     * Generates the users API key.
+     */
+    public function generateApiKey()
+    {
+        $this->api_key = sha1(
+            (microtime() + rand(0, 1200)) . $this->id . (time() + rand(0, 2160))
+        );
+    }
+
+    /**
      * Check if the user can perform the requested action.
      *
      * @param integer $project_id

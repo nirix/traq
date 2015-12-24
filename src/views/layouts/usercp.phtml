@@ -1,18 +1,19 @@
 <!DOCTYPE html>
+<html lang="en">
 	<head>
 		<?=View::render('layouts/_head.phtml')?>
-		<?php Hook::run('template:layouts/project_settings:head'); ?>
+		<?php Hook::run('template:layouts/usercp:head'); ?>
 	</head>
 	<body>
-		<?=View::render('layouts/_header.phtml')?>
+		<?php require __DIR__ . '/_header.phtml'; ?>
 		<main id="page">
 			<div class="container">
-				<h1 class="page-header"><?=$t('usercp')?></h1>
+				<h1 class="page-header"><?=t('usercp')?></h1>
 			</div>
 			<?php echo View::render('usercp/_nav.phtml'); ?>
-<?=$content?>
+			<?=$content?>
 		</main>
-		<?=View::render('layouts/_footer.phtml')?>
-		<?php Hook::run('template:layouts/project_settings:foot'); ?>
+		<?php require __DIR__ . '/_footer.phtml'; ?>
+		<?php Hook::run('template:layouts/usercp:foot'); ?>
 	</body>
 </html>

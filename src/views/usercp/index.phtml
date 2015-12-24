@@ -1,27 +1,27 @@
 <div class="usercp container">
-	<form action="<?=Request::basePath($route('usercp'))?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('usercp_save')?>" method="post" class="form-horizontal">
 
 		<?=Errors::messagesFor($user)?>
 
 		<div class="row">
 			<div class="col-md-6">
 				<fieldset>
-					<legend><?=$t("information")?></legend>
+					<legend><?=t("information")?></legend>
 
 					<div class="form-group">
-						<?=Form::label($t("name"), "name", ['class' => "control-label col-md-4"])?>
+						<?=Form::label(t("name"), "name", ['class' => "control-label col-md-4"])?>
 						<div class="col-md-8">
 							<?=Form::text("name", ['class' => "form-control", 'value' => $user->name])?>
 						</div>
 					</div>
 					<div class="form-group">
-						<?=Form::label($t("email"), "email", ['class' => "control-label col-md-4"])?>
+						<?=Form::label(t("email"), "email", ['class' => "control-label col-md-4"])?>
 						<div class="col-md-8">
 							<?=Form::text("email", ['class' => "form-control", 'value' => $user->email])?>
 						</div>
 					</div>
 					<div class="form-group">
-						<?=Form::label($t("api_key"), "api_key", ['class' => "control-label col-md-4"])?>
+						<?=Form::label(t("api_key"), "api_key", ['class' => "control-label col-md-4"])?>
 						<div class="col-md-8">
 							<div class="input-group">
 								<?=Form::text('api_key', [
@@ -31,7 +31,7 @@
 									'id'       => "api-key"
 								])?>
 								<span class="input-group-btn">
-									<?=HTML::link($t($user->api_key ? 'renew' : 'create'), 'usercp/create_api_key', [
+									<?=HTML::link(t($user->api_key ? 'renew' : 'create'), 'usercp/create_api_key', [
 										'class'     => 'btn btn-default',
 										'id'        => "create-api-key",
 										'data-ajax' => true
@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="form-group <?=($user->hasError('password') ? ' has-error' : '')?>">
-						<?=Form::label($t("current_password"), "current_password", ['class' => "control-label col-md-4"])?>
+						<?=Form::label(t("current_password"), "current_password", ['class' => "control-label col-md-4"])?>
 						<div class="col-md-8">
 							<?=Form::password("current_password", ['class' => "form-control"])?>
 						</div>
@@ -50,10 +50,10 @@
 			</div>
 
 			<div class="col-md-6">
-				<legend><?=$t("options")?></legend>
+				<legend><?=t("options")?></legend>
 
 				<div class="form-group">
-					<?=Form::label($t("language"), "locale", ['class' => "control-label col-md-4"])?>
+					<?=Form::label(t("language"), "locale", ['class' => "control-label col-md-4"])?>
 					<div class="col-md-8">
 						<?=Form::select("language", Avalon\Language::selectOptions(), ['value' => $user->language, 'class' => 'form-control'])?>
 					</div>
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div class="row text-center">
-			<?=Form::submit($t('save'), ['class' => 'btn btn-success'])?>
+			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
 		</div>
 	</form>
 </div>

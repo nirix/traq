@@ -23,6 +23,7 @@
 
 namespace Traq\Controllers;
 
+use Avalon\Http\Request;
 use Avalon\Http\Response;
 use Traq\Models\User;
 use Traq\Models\Subscription;
@@ -30,9 +31,9 @@ use Traq\Models\Subscription;
 /**
  * UserCP controller
  *
+ * @package Traq\Controllers
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers
  */
 class UserCP extends AppController
 {
@@ -66,24 +67,24 @@ class UserCP extends AppController
      */
     public function saveAction()
     {
-        $user = User::find($this->currentUser->id);
+        $user = User::find($this->currentUser['id']);
 
         $data = array(
-            'name'     => $this->request->post('name', $user->name),
-            'email'    => $this->request->post('email', $user->email),
-            'language' => $this->request->post('language', $user->language)
+            'name'     => Request::$post->get('name', $user->name),
+            'email'    => Request::$post->get('email', $user->email),
+            'language' => Request::$post->get('language', $user->language)
         );
 
         $correctPassword = false;
-        if (!$user->authenticate($this->request->post('current_password'))) {
-            $user->addError('password', ['error' => "errors.incorrect_password"]);
+        if (!$user->authenticate(Request::$post->get('current_password'))) {
+            $user->addError('password', $this->translate('errors.incorrect_password'));
         } else {
             $correctPassword = true;
         }
 
         // Set the info
         $user->set($data);
-        $user->validates();
+        $user->validate();
 
         // Save the user
         if ($correctPassword && $user->save()) {
@@ -104,9 +105,9 @@ class UserCP extends AppController
      *
      * @return Response
      */
-    public function createApiKeyAction()
+    public function generateApiKeyAction()
     {
-        $user = User::find($this->currentUser->id);
+        $user = User::find($this->currentUser['id']);
         $user->generateApiKey();
         $user->save();
 
@@ -114,13 +115,13 @@ class UserCP extends AppController
             if ($format == "html") {
                 return $this->redirectTo('usercp');
             } elseif ($format == "js") {
-                return new Response(function ($resp) use ($user) {
-                    $resp->contentType = 'text/javascript';
-                    $resp->body = $this->renderView('usercp/create_api_key.js.php', [
-                        '_layout' => false,
-                        'user'    => $user
-                    ]);
-                });
+                $resp = new Response($this->renderView('usercp/create_api_key.js.php', [
+                    '_layout' => false,
+                    'user'    => $user
+                ]));
+
+                $resp->contentType = 'text/javascript';
+                return $resp;
             }
         });
     }

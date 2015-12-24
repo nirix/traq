@@ -1,13 +1,13 @@
 <nav id="usercp-nav" class="container">
 	<ul class="nav nav-tabs" role="tablist">
-		<li<?=iif(activeNav('/usercp'), ' class="active"')?>>
-		<?=HTML::link($t('information'), $route('usercp'))?>
+		<li<?=Request::matches('/usercp$') ? ' class="active"' :''?>>
+			<a href="<?=routeUrl('usercp')?>"><?=t('information')?></a>
 		</li>
-		<li<?=iif(activeNav('/usercp/password'), ' class="active"')?>>
-		<?=HTML::link($t('password'), $route('usercp_password'))?>
+		<li<?=Request::matches('/usercp/password$') ? ' class="active"' :''?>>
+			<a href="<?=routeUrl('usercp_password')?>"><?=t('password')?></a>
 		</li>
-		<li<?=iif(activeNav('/usercp/subscriptions'), ' class="active"')?>>
-		<?=HTML::link($t('subscriptions'), $route('usercp_subscriptions'))?>
+		<li<?=Request::matches('/usercp/subscriptions$') ? ' class="active"' :''?>>
+		<a href="<?=routeUrl('usercp_subscriptions')?>"><?=t('subscriptions')?></a>
 		</li>
 		<?=Hook::run('template:usercp/_nav')?>
 	</ul>
