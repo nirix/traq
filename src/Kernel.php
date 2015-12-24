@@ -70,6 +70,7 @@ class Kernel extends AppKernel
         class_alias('Traq\\Helpers\\Errors', 'Errors');
         class_alias('Traq\\Helpers\\Format', 'Format');
         class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
+        class_alias('Traq\\Helpers\\TicketFilters', 'TicketFilters');
 
         class_alias('Avalon\\Helpers\\HTML', 'HTML');
         class_alias('Avalon\\Helpers\\Form', 'Form');
