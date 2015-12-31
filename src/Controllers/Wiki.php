@@ -142,6 +142,10 @@ class Wiki extends AppController
             ->execute()
             ->fetch();
 
+        if (!$page) {
+            return $this->newAction($slug);
+        }
+
         $this->title($page['title']);
         $this->set('page', $page);
         return $this->render('wiki/show.phtml');
