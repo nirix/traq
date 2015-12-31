@@ -1,7 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  *
  * This file is part of Traq.
  *
@@ -274,6 +275,8 @@ class enUS extends \traq\libraries\Locale
             'delete_tickets'       => "Delete Tickets",
             'delete_comments'      => "Delete Comments",
             'please_validate_your_account' => "Your account has been created, check your email for the activation link.",
+            'password_change_prompt'       => "Your password hasn't been changed for over a year and are at risk of being unable to login once the site is upgraded to Traq 4.0",
+            'change_password'              => "Change Password",
 
             // Password reset
             'password_reset.success' => "Your password has been reset, your new password is '{1}', it is recommended that you change it immediately",
