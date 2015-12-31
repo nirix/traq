@@ -34,7 +34,7 @@ use Avalon\Database\Model;
  */
 class Group extends Model
 {
-    protected static $_tableName = PREFIX . 'usergroups';
+    // protected static $_tableName = PREFIX . 'usergroups';
     protected static $_tableAlias = 'g';
 
     // Validations
@@ -46,6 +46,11 @@ class Group extends Model
     protected static $_dataTypes = [
         'is_admin' => "boolean"
     ];
+
+    public static function tableName()
+    {
+        return PREFIX . 'usergroups';
+    }
 
     /**
      * Returns an array of groups to be used
