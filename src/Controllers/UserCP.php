@@ -147,22 +147,25 @@ class UserCP extends AppController
      */
     public function savePasswordAction()
     {
-        $user = User::find($this->currentUser->id);
+        $user = User::find($this->currentUser['id']);
         $this->set(compact('user'));
 
         // Authenticate current password
-        if (!$user->authenticate($this->request->post('current_password'))) {
-            $user->addError('password', ['error' => "errors.incorrect_password"]);
+        if (!$user->authenticate(Request::$post->get('current_password'))) {
+            $user->addError('password', $this->translate('errors.incorrect_password'));
         } else {
             // Confirm passwords
-            if ($this->request->post('password') !== $this->request->post('password_confirmation')) {
-                $user->addError('password', ['error' => "errors.validations.fields_dont_match"]);
+            if (Request::$post->get('password') !== Request::$post->get('password_confirmation')) {
+                $user->addError('password', $this->translate('errors.validations.confirm', ['field' => $this->translate('password')]));
             } else {
-                // Update password
-                $user->setPassword($this->request->post('password'));
+                $user->password = Request::$post->get('password');
 
                 // Save and redirect
-                if ($user->save()) {
+                if ($user->validate()) {
+                    // Update password
+                    $user->setPassword(Request::$post->get('password'));
+                    $user->save();
+
                     return $this->redirectTo('usercp_password');
                 }
             }

@@ -38,6 +38,7 @@ Router::get('usercp_generate_api_key', '/usercp/create_api_key', "{$ns}\\UserCP:
 Router::post('usercp_save', '/usercp', "{$ns}\\UserCP::save");
 
 Router::get('usercp_password', '/usercp/password', "{$ns}\\UserCP::password");
+Router::post('usercp_password_save', '/usercp/password', "{$ns}\\UserCP::savePassword");
 
 Router::get('usercp_subscriptions', '/usercp/subscriptions', "{$ns}\\UserCP::subscriptions");
 
