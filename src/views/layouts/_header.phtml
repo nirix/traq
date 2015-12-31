@@ -26,6 +26,11 @@
 				<li<?=Request::matches('/{pslug}/wiki(/.+)?') ? ' class="active"' :''?>><a href="<?=routeUrl('wiki')?>"><?=t('wiki')?></a></li>
 			<?php endif ?>
 			</ul>
+			<?php if ($currentUser) : ?>
+			<div class="navbar-left">
+				<a href="<?=routeUrl('new_ticket')?>" class="btn btn-primary btn-sm btn-create-issue"><?=t('new_ticket')?></a>
+			</div>
+			<?php endif ?>
 		<?php endif ?>
 		</div>
 	</div>

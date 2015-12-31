@@ -18,6 +18,8 @@ Router::get('milestone', '/{pslug}/roadmap/{mslug}', "{$ns}\\Roadmap::show");
 Router::get('tickets', '/{pslug}/issues', "{$ns}\\TicketListing::index");
 Router::post('tickets_set_columns', '/{pslug}/issues/set-columns', "{$ns}\\TicketListing::setColumns");
 Router::post('tickets_set_filters', '/{pslug}/issues/set-filters', "{$ns}\\TicketListing::setFilters");
+Router::get('new_ticket', '/{pslug}/issues/new', "{$ns}\\Tickets::new");
+Router::post('create_ticket', '/{pslug}/issues/new', "{$ns}\\Tickets::create");
 Router::get('ticket', '/{pslug}/issues/{id}', "{$ns}\\Tickets::show");
 
 // Changelog
