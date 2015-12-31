@@ -39,6 +39,7 @@
 						<?=Gravatar::img($currentUser['email'], 15)?> <span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
+						<li><a href="<?=routeUrl('usercp')?>"><?=t('usercp')?></a></li>
 						<li><a href="<?=routeUrl('session_destroy')?>"><?=t('logout')?></a></li>
 					</ul>
 				</li>
