@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -35,15 +35,17 @@ class Kernel extends AppKernel
 {
     public function __construct()
     {
+        $this->configDir = __DIR__ . '/config';
         parent::__construct();
-
-        session_start();
 
         class_alias("Avalon\\Templating\\View", "View");
         class_alias("Avalon\\Http\\Request", "Request");
         class_alias("Avalon\\Helpers\\HTML", "HTML");
 
         require dirname(__DIR__) . "/version.php";
+        require dirname(__DIR__) . "/common.php";
+
+        define('PREFIX', '');
     }
 
     /**

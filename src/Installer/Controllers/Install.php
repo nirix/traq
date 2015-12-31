@@ -90,7 +90,7 @@ class Install extends AppController
             "<?php",
             "return [",
             "    'environment' => \"production\",",
-            "    'database' => [",
+            "    'db' => [",
             "        'production' => ["
         ];
 
@@ -99,7 +99,7 @@ class Install extends AppController
             $config[] = "            'host' => \"{$_SESSION['db']['host']}\",";
             $config[] = "            'user' => \"{$_SESSION['db']['user']}\",";
             $config[] = "            'password' => \"{$_SESSION['db']['password']}\",";
-            $config[] = "            'dbname' => \"{$_SESSION['db']['dbname']}\"";
+            $config[] = "            'database' => \"{$_SESSION['db']['dbname']}\"";
         } elseif ($_SESSION['db']['driver'] == "pdo_sqlite") {
             $config[] = "            'path' => \"{$_SESSION['db']['path']}\"";
         }

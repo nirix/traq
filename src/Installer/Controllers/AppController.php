@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -26,6 +26,7 @@ namespace Traq\Installer\Controllers;
 use PDOException;
 use Doctrine\DBAL\DBALException;
 use Avalon\Http\Controller;
+use Avalon\Http\Request;
 use Avalon\Database\ConnectionManager;
 
 /**
@@ -36,21 +37,23 @@ class AppController extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
 
-        $this->set("installStep", function($routeName) {
-            return $this->request->basePath("index.php") . $this->generateUrl($routeName);
+        session_start();
+
+        $this->set("installStep", function ($routeName) {
+            return Request::$basePath . '/index.php' . $this->generatePath($routeName);
         });
 
         $this->set("drivers", [
             'pdo_mysql'  => "MySQL",
             'pdo_pgsql'  => "PostgreSQL",
-            'pdo_sqlite' => "SQLite",
+            // 'pdo_sqlite' => "SQLite",
             // 'pdo_sqlsrv' => "SQL Server",
             // 'pdo_oci'    => "Oracle"
         ]);
 
-        $this->before('*', function() {
+        $this->before('*', function () {
             $configDir = dirname(dirname(dirname(__DIR__))) . '/config';
             $this->title("Configuration File Exists");
             if (file_exists($configDir . '/config.php')) {
@@ -74,7 +77,7 @@ class AppController extends Controller
      */
     protected function loadMigrations()
     {
-        $migrationsDir = dirname(dirname(__DIR__)) . '/Migrations';
+        $migrationsDir = dirname(dirname(__DIR__)) . '/Database/Migrations';
         foreach (scandir($migrationsDir) as $file) {
             if ($file !== '.' && $file !== '..') {
                 require "{$migrationsDir}/{$file}";
@@ -92,23 +95,23 @@ class AppController extends Controller
         $this->title("Database Information");
 
         $errors = [];
-        $driver = $this->request->post('driver');
+        $driver = Request::$post->get('driver');
 
         // Check fields
         if ($driver == "pdo_pgsql" || $driver == "pdo_mysql") {
-            if (!$this->request->post('host')) {
+            if (!Request::$post->get('host')) {
                 $errors[] = "Server is required";
             }
 
-            if (!$this->request->post('user')) {
+            if (!Request::$post->get('user')) {
                 $errors[] = "Username is required";
             }
 
-            if (!$this->request->post('dbname')) {
+            if (!Request::$post->get('dbname')) {
                 $errors[] = "Database name is required";
             }
         } elseif ($driver == "pdo_sqlite") {
-            if (!$this->request->post('path')) {
+            if (!Request::$post->get('path')) {
                 $errors[] = "Database path is required";
             }
         }
@@ -123,15 +126,15 @@ class AppController extends Controller
                 case "pdo_pgsql":
                 case "pdo_mysql":
                     $info = $info + [
-                        'host'     => $this->request->post('host'),
-                        'user'     => $this->request->post('user'),
-                        'password' => $this->request->post('password'),
-                        'dbname'   => $this->request->post('dbname')
+                        'host'     => Request::$post->get('host'),
+                        'user'     => Request::$post->get('user'),
+                        'password' => Request::$post->get('password'),
+                        'dbname'   => Request::$post->get('dbname')
                     ];
                     break;
 
                 case "pdo_sqlite":
-                    $info['path'] = $this->request->post('path');
+                    $info['path'] = Request::$post->get('path');
                     break;
             }
 
@@ -164,15 +167,15 @@ class AppController extends Controller
     {
         $errors = [];
 
-        if (!$this->request->post('username')) {
+        if (!Request::$post->get('username')) {
             $errors[] = "Username is required";
         }
 
-        if (!$this->request->post('password')) {
+        if (!Request::$post->get('password')) {
             $errors[] = "Password is required";
         }
 
-        if (!$this->request->post('email')) {
+        if (!Request::$post->get('email')) {
             $errors[] = "Email is required";
         }
 
@@ -184,10 +187,10 @@ class AppController extends Controller
         }
 
         $_SESSION['admin'] = [
-            'username'         => $this->request->post('username'),
-            'password'         => $this->request->post('password'),
-            'confirm_password' => $this->request->post('password'),
-            'email'            => $this->request->post('email')
+            'username'         => Request::$post->get('username'),
+            'password'         => Request::$post->get('password'),
+            'confirm_password' => Request::$post->get('password'),
+            'email'            => Request::$post->get('email')
         ];
     }
 }

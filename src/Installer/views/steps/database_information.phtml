@@ -29,7 +29,7 @@
 					<div class="col-md-9">
 						<select name="driver" id="driver" class="form-control">
 						<?php foreach ($drivers as $driver => $name): ?>
-							<?php if (Request::post('driver') == $driver): ?>
+							<?php if (Request::$post->get('driver') == $driver): ?>
 								<option value="<?=$driver?>" selected="selected"><?=$name?></option>
 							<?php else: ?>
 								<option value="<?=$driver?>"><?=$name?></option>
@@ -42,35 +42,35 @@
 				<div class="form-group driver-info pdo_mysql pdo_pgsql">
 					<label for="server" class="control-label col-md-3">Server</label>
 					<div class="col-md-9">
-						<input type="text" name="host" id="server" class="form-control" value="<?=Request::post('host')?>">
+						<input type="text" name="host" id="server" class="form-control" value="<?=Request::$post->get('host')?>">
 					</div>
 				</div>
 
 				<div class="form-group driver-info pdo_mysql pdo_pgsql">
 					<label for="username" class="control-label col-md-3">Username</label>
 					<div class="col-md-9">
-						<input type="text" name="user" id="username" class="form-control" value="<?=Request::post('user')?>">
+						<input type="text" name="user" id="username" class="form-control" value="<?=Request::$post->get('user')?>">
 					</div>
 				</div>
 
 				<div class="form-group driver-info pdo_mysql pdo_pgsql">
 					<label for="password" class="control-label col-md-3">Password</label>
 					<div class="col-md-9">
-						<input type="password" name="password" id="password" class="form-control" value="<?=Request::post('password')?>">
+						<input type="password" name="password" id="password" class="form-control" value="<?=Request::$post->get('password')?>">
 					</div>
 				</div>
 
 				<div class="form-group driver-info pdo_mysql pdo_pgsql">
 					<label for="dbname" class="control-label col-md-3">Database name</label>
 					<div class="col-md-9">
-						<input type="text" name="dbname" id="dbname" class="form-control" value="<?=Request::post('dbname')?>">
+						<input type="text" name="dbname" id="dbname" class="form-control" value="<?=Request::$post->get('dbname')?>">
 					</div>
 				</div>
 
 				<div class="form-group driver-info pdo_sqlite">
 					<label for="path" class="control-label col-md-3">Database Path</label>
 					<div class="col-md-9">
-						<input type="text" name="path" id="path" class="form-control"  value="<?=Request::post('path')?>">
+						<input type="text" name="path" id="path" class="form-control"  value="<?=Request::$post->get('path')?>">
 					</div>
 				</div>
 

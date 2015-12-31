@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack Polgar
+ * Copyright (C) 2009-2015 Jack P.
  * Copyright (C) 2012-2015 Traq.io
  * https://github.com/nirix
  * https://traq.io
@@ -23,18 +23,16 @@
 
 use Avalon\Routing\Router;
 
-Router::map(function($r) {
-    $r->root("Traq\\Installer\\Controllers\\Checks::licenseAgreement");
+Router::root("Traq\\Installer\\Controllers\\Checks::licenseAgreement");
 
-    // Database
-    $r->post("/step/1", "database_info")->to("Traq\\Installer\\Controllers\\Steps::databaseInformation");
+// Database
+Router::post('database_info', '/step/1', 'Traq\\Installer\\Controllers\\Steps::databaseInformation');
 
-    // Admin account
-    $r->post("/step/2", "account_info")->to("Traq\\Installer\\Controllers\\Steps::accountInformation");
+// Admin account
+Router::post('account_info', '/step/2', 'Traq\\Installer\\Controllers\\Steps::accountInformation');
 
-    // Confirm information
-    $r->post("/confirm", "confirm")->to("Traq\\Installer\\Controllers\\Steps::confirmInformation");
+// Confirm information
+Router::post('confirm', '/confirm', 'Traq\\Installer\\Controllers\\Steps::confirmInformation');
 
-    // Install
-    $r->post("/install", "install")->to("Traq\\Installer\\Controllers\\Install::install");
-});
+// Install
+Router::post('install', '/install', 'Traq\\Installer\\Controllers\\Install::install');
