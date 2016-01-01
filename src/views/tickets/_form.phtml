@@ -1,7 +1,7 @@
 <div class="form-group">
-	<?=Form::label(t('type'), 'type', ['class' => 'control-label col-md-3'])?>
+	<?=Form::label(t('type'), 'type_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
-		<?=Form::select('type', Traq\Models\Status::selectOptions(), [
+		<?=Form::select('type_id', Traq\Models\Type::selectOptions(), [
 			'value' => $ticket->type_id,
 			'class' => "form-control"
 		])?>
@@ -32,7 +32,7 @@
 <div class="form-group">
 	<?=Form::label(t('status'), 'status_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
-		<?=Form::select('status_id', Traq\Models\Type::selectOptions(), [
+		<?=Form::select('status_id', Traq\Models\Status::selectOptions(), [
             'value' => $ticket->status_id,
             'class' => "form-control"
         ])?>
