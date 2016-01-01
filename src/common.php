@@ -244,6 +244,7 @@ function ticketQuery()
         't.version_id',
         't.component_id',
         't.type_id',
+        't.status_id',
         't.priority_id',
         't.severity_id',
         't.assigned_to_id',
