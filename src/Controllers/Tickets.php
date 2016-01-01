@@ -23,6 +23,7 @@
 
 namespace Traq\Controllers;
 
+use Avalon\Http\Request;
 use Traq\Models\Ticket;
 
 /**
@@ -41,7 +42,31 @@ class Tickets extends AppController
 
     public function newAction()
     {
-        return $this->render('tickets/new.phtml', ['ticket' => new Ticket]);
+        $ticket = new Ticket([
+            'type_id'     => $this->currentProject['default_ticket_type_id'],
+            'severity_id' => 4
+        ]);
+
+        return $this->render('tickets/new.phtml', ['ticket' => $ticket]);
+    }
+
+    public function createAction()
+    {
+        $ticket = new Ticket($this->ticketParams());
+
+        if ($ticket->validate()) {
+            $ticket->save();
+
+            $this->currentProject->next_ticket_id++;
+            $this->currentProject->save();
+
+            return $this->redirectTo('ticket', [
+                'pslug' => $this->currentProject['slug'],
+                'id'    => $ticket->ticket_id
+            ]);
+        }
+
+        return $this->render('tickets/new.phtml', ['ticket' => $ticket]);
     }
 
     /**
@@ -52,7 +77,7 @@ class Tickets extends AppController
     public function showAction($id)
     {
         $ticket = ticketQuery()
-            ->addSelect('t.body')
+            ->addSelect('t.info')
             ->where('t.project_id = ?')
             ->andWhere('t.ticket_id = ?')
             ->setParameter(0, $this->currentProject['id'])
@@ -78,5 +103,72 @@ class Tickets extends AppController
             'ticket'  => $ticket,
             'history' => $history
         ]);
+    }
+
+    protected function ticketParams()
+    {
+        $params = [
+            'ticket_id'    => $this->currentProject['next_ticket_id'],
+            'summary'      => Request::$post->get('summary'),
+            'info'         => Request::$post->get('info'),
+            'user_id'      => $this->currentUser['id'],
+            'project_id'   => $this->currentProject['id'],
+            'milestone_id' => 0,
+            'version_id'   => 0,
+            'component_id' => 0,
+            'type_id'      => Request::$post->get('type_id', $this->currentProject['default_ticket_type_id']),
+            'severity_id'  => 4,
+            'tasks'        => []
+        ];
+
+        // Milestone
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_milestone')) {
+            $params['milestone_id'] = Request::$post->get('milestone_id');
+        }
+
+        // Version
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_version')) {
+            $params['version_id'] = Request::$post->get('version_id');
+        }
+
+        // Component
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_component')) {
+            $params['component_id'] = Request::$post->get('component_id');
+        }
+
+        // Severity
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_severity')) {
+            $params['severity_id'] = Request::$post->get('severity_id');
+        }
+
+        // Priority
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_priority')) {
+            $params['priority_id'] = Request::$post->get('priority_id');
+        }
+
+        // Status
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_status')) {
+            $params['status_id'] = Request::$post->get('status_id');
+        }
+
+        // Assigned to
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_assigned_to')) {
+            $params['assigned_to_id'] = Request::$post->get('assigned_to_id');
+        }
+
+        // Tasks
+        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_tasks')) {
+            $tasks = json_decode(Request::$post->get('tasks', ''), true);
+
+            if (is_array($tasks)) {
+                foreach ($tasks as $id => $task) {
+                    if (is_array($task) and !empty($task['task'])) {
+                        $params['tasks'][] = $task;
+                    }
+                }
+            }
+        }
+
+        return $params;
     }
 }

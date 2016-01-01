@@ -85,6 +85,6 @@
 <div class="issue-property">
 	<label class="property-label"><?=t('updated_at')?></label>
 	<span class="property-value" data-moment="<?=$ticket['updated_at']?>">
-		<?=$ticket['updated_at']?>
+		<?=$ticket['updated_at'] ?: t('never')?>
 	</span>
 </div>
