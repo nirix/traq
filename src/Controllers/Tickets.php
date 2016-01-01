@@ -25,6 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Traq\Models\Ticket;
+use Traq\Models\Timeline;
 
 /**
  * Ticket controller.
@@ -56,6 +57,8 @@ class Tickets extends AppController
 
         if ($ticket->validate()) {
             $ticket->save();
+
+            Timeline::newTicketEvent($this->currentUser, $ticket)->save();
 
             $this->currentProject->next_ticket_id++;
             $this->currentProject->save();

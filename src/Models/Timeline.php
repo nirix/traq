@@ -42,6 +42,21 @@ class Timeline extends Model
     }
 
     /**
+     * Creates a new Timeline object relating to a new ticket event.
+     *
+     * @return Timeline
+     */
+    public static function newTicketEvent($user, $ticket)
+    {
+        return new static([
+            'project_id' => $ticket->project_id,
+            'owner_id'   => $ticket->id,
+            'user_id'    => $user->id,
+            'action'     => "ticket_created",
+        ]);
+    }
+
+    /**
      * Creates a new Timeline object relating to a milestone completion event.
      *
      * @return Timeline
