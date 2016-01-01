@@ -31,6 +31,7 @@ use Traq\Models\Status;
 use Traq\Models\Type;
 use Traq\Models\ProjectRole;
 use Traq\Models\User;
+use Traq\Models\Permission;
 
 /**
  * Contains all the default data for a clean database.
@@ -52,6 +53,7 @@ class Seeder
         $this->insertStatuses();
         $this->insertTypes();
         $this->insertProjectRoles();
+        $this->insertPermissions();
     }
 
     /**
@@ -187,6 +189,44 @@ class Seeder
                 'is_admin' => $isAdmin
             ]);
             $model->save();
+        }
+    }
+
+    /**
+     * Insert permissions.
+     */
+    public function insertPermissions()
+    {
+        $permissions = [
+            [
+                'project_id' => 0,
+                'type'       => 'usergroup',
+                'type_id'    => 0,
+                'permissions' => json_decode('{"view":true,"project_settings":false,"delete_timeline_events":false,"view_tickets":true,"create_tickets":true,"update_tickets":true,"delete_tickets":false,"move_tickets":false,"comment_on_tickets":true,"edit_ticket_description":false,"vote_on_tickets":true,"add_attachments":true,"view_attachments":true,"delete_attachments":false,"perform_mass_actions":false,"ticket_properties_set_assigned_to":false,"ticket_properties_set_milestone":true,"ticket_properties_set_version":true,"ticket_properties_set_component":false,"ticket_properties_set_severity":false,"ticket_properties_set_priority":false,"ticket_properties_set_status":false,"ticket_properties_set_tasks":false,"ticket_properties_set_related_tickets":false,"ticket_properties_change_type":false,"ticket_properties_change_assigned_to":false,"ticket_properties_change_milestone":false,"ticket_properties_change_version":false,"ticket_properties_change_component":true,"ticket_properties_change_severity":false,"ticket_properties_change_priority":false,"ticket_properties_change_status":false,"ticket_properties_change_summary":false,"ticket_properties_change_tasks":false,"ticket_properties_change_related_tickets":false,"ticket_properties_complete_tasks":false,"edit_ticket_history":false,"delete_ticket_history":false,"create_wiki_page":false,"edit_wiki_page":false,"delete_wiki_page":false}', true)
+            ],
+            [
+                'project_id' => 0,
+                'type'       => 'usergroup',
+                'type_id'    => 3,
+                'permissions' => json_decode('{"create_tickets":false,"comment_on_tickets":false,"update_tickets":false,"vote_on_tickets":false,"add_attachments":false}', true)
+            ],
+            [
+                'project_id' => 0,
+                'type'       => 'role',
+                'type_id'    => 0,
+                'permissions' => json_decode('{"view":true,"project_settings":false,"delete_timeline_events":false,"view_tickets":true,"create_tickets":true,"update_tickets":true,"delete_tickets":false,"move_tickets":false,"comment_on_tickets":true,"edit_ticket_description":false,"vote_on_tickets":true,"add_attachments":true,"view_attachments":true,"delete_attachments":false,"perform_mass_actions":false,"ticket_properties_set_assigned_to":true,"ticket_properties_set_milestone":true,"ticket_properties_set_version":true,"ticket_properties_set_component":true,"ticket_properties_set_severity":true,"ticket_properties_set_priority":true,"ticket_properties_set_status":true,"ticket_properties_set_tasks":true,"ticket_properties_set_related_tickets":true,"ticket_properties_change_type":true,"ticket_properties_change_assigned_to":true,"ticket_properties_change_milestone":true,"ticket_properties_change_version":true,"ticket_properties_change_component":true,"ticket_properties_change_severity":true,"ticket_properties_change_priority":true,"ticket_properties_change_status":true,"ticket_properties_change_summary":true,"ticket_properties_change_tasks":true,"ticket_properties_change_related_tickets":true,"ticket_properties_complete_tasks":true,"edit_ticket_history":false,"delete_ticket_history":false,"create_wiki_page":false,"edit_wiki_page":false,"delete_wiki_page":false}', true)
+            ],
+            [
+                'project_id' => 0,
+                'type'       => 'role',
+                'type_id'    => 1,
+                'permissions' => json_decode('{"project_settings":true,"delete_timeline_events":true,"delete_tickets":true,"move_tickets":true,"edit_ticket_description":true,"delete_attachments":true,"edit_ticket_history":true,"delete_ticket_history":true,"perform_mass_actions":true,"create_wiki_page":true,"edit_wiki_page":true,"delete_wiki_page":true}', true)
+            ]
+        ];
+
+        foreach ($permissions as $permission) {
+            $perm = new Permission($permission);
+            $perm->save();
         }
     }
 

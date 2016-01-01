@@ -73,6 +73,7 @@ class Install extends AppController
         $seeder->insertStatuses();
         $seeder->insertTypes();
         $seeder->insertGroups();
+        $seeder->insertPermissions();
 
         // Remove database and account details from the session.
         unset($_SESSION['db'], $_SESSION['admin']);
