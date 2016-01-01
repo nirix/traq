@@ -81,6 +81,7 @@ class Tickets extends AppController
     {
         $ticket = ticketQuery()
             ->addSelect('t.info')
+            ->addSelect('t.is_closed')
             ->where('t.project_id = ?')
             ->andWhere('t.ticket_id = ?')
             ->setParameter(0, $this->currentProject['id'])

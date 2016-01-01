@@ -26,5 +26,7 @@
 			<?=View::render('tickets/_history_bit.phtml', ['update' => $update])?>
 		<?php endforeach ?>
 	</div>
+
+	<?=View::render('tickets/_ticket_update_form.phtml', ['ticket' => $ticket])?>
 </div>
 
