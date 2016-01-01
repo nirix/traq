@@ -1,26 +1,26 @@
-<div class="show-issue container">
-	<div id="issue" class="well well-sm">
-		<div class="issue-actions pull-right">
+<div class="show-ticket container">
+	<div id="ticket" class="well well-sm">
+		<div class="ticket-actions pull-right">
 
 		</div>
 
 		<h1 class="page-header"><?=t('ticket.page-header', $ticket['ticket_id'], $ticket['summary'])?></h1>
 
-		<div class="issue-properties">
+		<div class="ticket-properties">
 			<?=View::render('tickets/_properties.phtml', ['ticket' => $ticket])?>
 		</div>
 
-		<div class="issue-description">
+		<div class="ticket-description">
 			<?=Format::text($ticket['info'])?>
 		</div>
 
-		<div class="issue-attachments">
+		<div class="ticket-attachments">
 
 		</div>
 	</div>
 
-	<div class="ticket-history">
-		<h2><?=t('history')?></h2>
+	<div id="ticket-history">
+		<h2><?=t('ticket_history')?></h2>
 
 		<?php foreach ($history as $update) : ?>
 			<?=View::render('tickets/_history_bit.phtml', ['update' => $update])?>

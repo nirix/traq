@@ -1,88 +1,88 @@
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('type')?></label>
 	<span class="property-value">
 		<?=$ticket['type_name']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('reported_by')?></label>
 	<span class="property-value">
 		<?=$ticket['user_name']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('assigned_to')?></label>
 	<span class="property-value">
 		<?=$ticket['assigned_to_name'] ?: t('no_one')?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('milestone')?></label>
 	<span class="property-value">
 		<?=$ticket['milestone_name']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('version')?></label>
 	<span class="property-value">
 		<?=$ticket['version_name'] ?: t('none')?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('status')?></label>
 	<span class="property-value">
 		<?=$ticket['status_name']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('component')?></label>
 	<span class="property-value">
 		<?=$ticket['component_name'] ?: t('none')?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('priority')?></label>
 	<span class="property-value">
 		<?=$ticket['priority_name']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('severity')?></label>
 	<span class="property-value">
 		<?=$ticket['severity_name']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('votes')?></label>
 	<span class="property-value">
 		<?=$ticket['votes']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('related_tickets')?></label>
 	<span class="property-value">
 		...
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('created_at')?></label>
 	<span class="property-value" data-moment="<?=$ticket['created_at']?>">
 		<?=$ticket['created_at']?>
 	</span>
 </div>
 
-<div class="issue-property">
+<div class="ticket-property">
 	<label class="property-label"><?=t('updated_at')?></label>
 	<span class="property-value" data-moment="<?=$ticket['updated_at']?>">
 		<?=$ticket['updated_at'] ?: t('never')?>
