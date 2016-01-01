@@ -99,6 +99,7 @@ $enAU = new Language(function ($t) {
         'id'          => 'ID',
         'ticket_id'   => 'ID',
         'summary'     => 'Summary',
+        'info'        => 'Description',
         'status'      => 'Status',
         'owner'       => 'Owner',
         'type'        => 'Type',
