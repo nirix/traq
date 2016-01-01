@@ -15,7 +15,7 @@
 <div class="issue-property">
 	<label class="property-label"><?=t('assigned_to')?></label>
 	<span class="property-value">
-		<?=$ticket['assigned_to_name']?>
+		<?=$ticket['assigned_to_name'] ?: t('no_one')?>
 	</span>
 </div>
 
@@ -29,7 +29,7 @@
 <div class="issue-property">
 	<label class="property-label"><?=t('version')?></label>
 	<span class="property-value">
-		<?=$ticket['version_name']?>
+		<?=$ticket['version_name'] ?: t('none')?>
 	</span>
 </div>
 
@@ -43,7 +43,7 @@
 <div class="issue-property">
 	<label class="property-label"><?=t('component')?></label>
 	<span class="property-value">
-		<?=$ticket['component_name']?>
+		<?=$ticket['component_name'] ?: t('none')?>
 	</span>
 </div>
 

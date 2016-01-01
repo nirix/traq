@@ -175,6 +175,8 @@ $enAU = new Language(function ($t) {
         'level'                   => 'Level',
         'leave_blank_for_current' => 'Leave blank for current',
         'never'                   => 'Never',
+        'none'                    => 'None',
+        'no_one'                  => 'No one',
 
         // --------------------------------------------------------------------
         // Plugins
