@@ -34,5 +34,16 @@ use Avalon\Database\Model;
  */
 class Ticket extends Model
 {
+    protected static $_validations = [
+        'ticket_id'    => ['required'],
+        'summary'      => ['required'],
+        'info'         => ['required'],
+        'user_id'      => ['required'],
+        'project_id'   => ['required'],
+        'milestone_id' => ['required']
+    ];
 
+    protected static $_dataTypes = [
+        'tasks' => 'json_array'
+    ];
 }
