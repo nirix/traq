@@ -8,10 +8,12 @@
 		</li>
 
 		<?php if (has_permission($currentProject['id'], 'create_wiki_page')) : ?>
-			<li><a href="<?=routeUrl('wiki_new')?>"><span class="fa fa-plus"></span> <?=t('new_page')?></a></li>
+			<li<?=Request::matches('/{pslug}/wiki/_new') ? ' class="active"' :''?>>
+				<a href="<?=routeUrl('wiki_new')?>"><span class="fa fa-plus"></span> <?=t('new_page')?></a>
+			</li>
 		<?php endif ?>
 		<?php if (isset($page) && $page && has_permission($currentProject['id'], 'edit_wiki_page')) : ?>
-			<li>
+			<li<?=Request::matches('/{pslug}/wiki/{slug}/_edit') ? ' class="active"' :''?>>
 				<a href="<?=routeUrl('wiki_edit', ['slug' => $page['slug']])?>">
 					<span class="fa fa-pencil"></span> <?=t('edit_page')?>
 				</a>
@@ -25,9 +27,11 @@
 			</li>
 		<?php endif ?>
 		<?php if (isset($page) && $page) : ?>
-			<li><a href="<?=routeUrl('wiki_revisions', ['slug' => $page['slug']])?>">
-				<span class="fa fa-files-o"></span> <?=t('revisions')?>
-			</a></li>
+			<li<?=Request::matches('/{pslug}/wiki/{slug}/_revisions(/[0-9]+)?') ? ' class="active"' :''?>>
+				<a href="<?=routeUrl('wiki_revisions', ['slug' => $page['slug']])?>">
+					<span class="fa fa-files-o"></span> <?=t('revisions')?>
+				</a>
+			</li>
 		<?php endif ?>
 	</ul>
 </nav>
