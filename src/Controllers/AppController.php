@@ -69,60 +69,75 @@ class AppController extends Controller
         $this->title(setting('title'));
         $this->set('traq', $this);
 
+        // Is this an overlay request?
         if (Request::$headers->has('X-Overlay')) {
             $this->isOverlay = true;
             $this->layout = false;
         }
 
-        $this->before('*', function () {
-            // Are we on a project page?
-            if ($projectSlug = Request::$properties->get('pslug')) {
-                $this->currentProject = Project::where('slug = ?')
-                    ->setParameter(0, $projectSlug)
-                    ->fetch();
+        // Are we on a project page?
+        if ($projectSlug = Request::$properties->get('pslug')) {
+            $this->currentProject = Project::where('slug = ?')
+                ->setParameter(0, $projectSlug)
+                ->fetch();
+        }
+
+        // Is the user logged in?
+        if ((isset($_COOKIE['traq']) && $sessionHash = $_COOKIE['traq'])) {
+            $user = User::select('u.*', 'g.is_admin')
+                ->leftJoin('u', PREFIX . 'usergroups', 'g', 'g.id = u.group_id');
+
+            // Project role
+            if ($this->currentProject) {
+                $user->addSelect('r.project_role_id')
+                    ->leftJoin('u', PREFIX . 'user_roles', 'r', 'r.user_id = u.id');
             }
 
-            // Is the user logged in?
-            if ((isset($_COOKIE['traq']) && $sessionHash = $_COOKIE['traq'])) {
-                $user = User::select('u.*', 'g.is_admin')
-                    ->leftJoin('u', PREFIX . 'usergroups', 'g', 'g.id = u.group_id');
-
-                // Project role
-                if ($this->currentProject) {
-                    $user->addSelect('r.project_role_id')
-                        ->leftJoin('u', PREFIX . 'user_roles', 'r', 'r.user_id = u.id');
-                }
-
-                // By session
-                if ($sessionHash) {
-                    $user->where('u.login_hash = :login_hash')
-                        ->setParameter('login_hash', $sessionHash);
-                }
-
-                // By API key
-                // if ($apiKey) {
-
-                // }
-
-                $this->currentUser = $user->fetch();
+            // By session
+            if ($sessionHash) {
+                $user->where('u.login_hash = :login_hash')
+                    ->setParameter('login_hash', $sessionHash);
             }
 
-            $GLOBALS['currentUser'] = $this->currentUser;
-            $this->set('currentUser', $this->currentUser);
+            // By API key
+            // if ($apiKey) {
 
+            // }
+
+            $this->currentUser = $user->fetch();
+        }
+
+        // Set current user
+        $GLOBALS['currentUser'] = $this->currentUser;
+        $this->set('currentUser', $this->currentUser);
+
+        // Set current project
+        $GLOBALS['currentProject'] = $this->currentProject;
+        $this->set('currentProject', $this->currentProject);
+
+        // Set title
+        if ($this->currentProject) {
+            $this->title($this->currentProject['name']);
+        }
+
+        // Check permission
+        $this->before('*', function () use ($projectSlug) {
             // Check if project exists
             if (($projectSlug && !$this->currentProject)
             || ($projectSlug && !$this->hasPermission($this->currentProject['id'], 'view_project'))) {
                 return $this->show404();
-            } else {
-                $this->title($this->currentProject['name']);
             }
-
-            $GLOBALS['currentProject'] = $this->currentProject;
-            $this->set('currentProject', $this->currentProject);
         });
     }
 
+    /**
+     * Check if the user has permisison to perform the action.
+     *
+     * @param integer $projectId
+     * @param string  $action
+     *
+     * @return boolean
+     */
     protected function hasPermission($projectId, $action)
     {
         if (!$user = current_user()) {
