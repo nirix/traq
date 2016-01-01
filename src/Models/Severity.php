@@ -37,4 +37,15 @@ class Severity extends Model
     protected static $_validations = [
         'name' => ['required', 'unique']
     ];
+
+    public static function selectOptions($valueField = 'id')
+    {
+        $options = [];
+
+        foreach (static::select('id', 'name')->orderBy('level', 'ASC')->execute()->fetchAll() as $row) {
+            $options[] = ['label' => $row['name'], 'value' => $row[$valueField]];
+        }
+
+        return $options;
+    }
 }
