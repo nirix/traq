@@ -88,18 +88,6 @@
 </div>
 <?php endif ?>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_priority')) : ?>
-<div class="form-group">
-	<?=Form::label(t('priority'), 'priority_id', ['class' => 'control-label col-md-3'])?>
-	<div class="col-md-9">
-		<?=Form::select('priority_id', array_merge([['label' => '', 'value' => 0]], Traq\Models\Priority::selectOptions()), [
-            'value' => $ticket->priority_id,
-            'class' => "form-control"
-        ])?>
-	</div>
-</div>
-<?php endif ?>
-
 <?php if (has_permission($currentProject['id'], 'ticket_properties_set_severity')) : ?>
 <div class="form-group">
 	<?=Form::label(t('severity'), 'severity_id', ['class' => 'control-label col-md-3'])?>
@@ -109,5 +97,17 @@
             'class' => "form-control"
         ])?>
 	</div>
+</div>
+<?php endif ?>
+
+<?php if (has_permission($currentProject['id'], 'ticket_properties_set_priority')) : ?>
+<div class="form-group">
+    <?=Form::label(t('priority'), 'priority_id', ['class' => 'control-label col-md-3'])?>
+    <div class="col-md-9">
+        <?=Form::select('priority_id', array_merge([['label' => '', 'value' => 0]], Traq\Models\Priority::selectOptions()), [
+            'value' => $ticket->priority_id,
+            'class' => "form-control"
+        ])?>
+    </div>
 </div>
 <?php endif ?>
