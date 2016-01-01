@@ -105,4 +105,19 @@ class Project extends Model
 
         return $options;
     }
+
+    /**
+     * @return array[]
+     */
+    public function componentSelectOptions()
+    {
+        $options = [];
+        $components = Component::where('project_id = ?')->setParameter(0, $this->id)->orderBy('name', 'ASC');
+
+        foreach ($components->execute()->fetchAll() as $component) {
+            $options[] = ['label' => $component['name'], 'value' => $component['id']];
+        }
+
+        return $options;
+    }
 }
