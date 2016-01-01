@@ -34,7 +34,12 @@ use Avalon\Database\Model;
  */
 class Timeline extends Model
 {
-    protected static $_tableName = PREFIX . 'timeline';
+    // protected static $_tableName = PREFIX . 'timeline';
+
+    public static function tableName()
+    {
+        return PREFIX . 'timeline';
+    }
 
     /**
      * Creates a new Timeline object relating to a milestone completion event.
