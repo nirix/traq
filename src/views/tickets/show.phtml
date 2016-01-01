@@ -19,6 +19,7 @@
 		</div>
 	</div>
 
+	<?php if (count($history)) : ?>
 	<div id="ticket-history">
 		<h2><?=t('ticket_history')?></h2>
 
@@ -26,6 +27,7 @@
 			<?=View::render('tickets/_history_bit.phtml', ['update' => $update])?>
 		<?php endforeach ?>
 	</div>
+	<?php endif ?>
 
 	<?=View::render('tickets/_ticket_update_form.phtml', ['ticket' => $ticket])?>
 </div>
