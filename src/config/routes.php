@@ -5,6 +5,7 @@ $ns = "Traq\\Controllers";
 
 //([a-z\-0-9\.]+)
 Router::$extensions[] = 'js';
+Router::$extensions[] = 'txt';
 
 // Router::addToken('slug', '(?P<slug>[a-z\-0-9\.]+)');
 Router::addToken('pslug', '(?P<pslug>[^/]+)');

@@ -91,9 +91,20 @@ class Projects extends AppController
             $types[$row['id']] = $row['bullet'];
         }
 
-        return $this->render('projects/changelog.phtml', [
-            'milestones' => $milestones,
-            'types'      => $types
-        ]);
+        return $this->respondTo(function ($format) use ($milestones, $types) {
+            if ($format == 'html') {
+                return $this->render('projects/changelog.phtml', [
+                    'milestones' => $milestones,
+                    'types'      => $types
+                ]);
+            } elseif ($format == 'txt') {
+                $resp = $this->render('projects/changelog.txt.php', [
+                    '_layout'    => false,
+                    'milestones' => $milestones
+                ]);
+                $resp->contentType = 'text/plain';
+                return $resp;
+            }
+        });
     }
 }

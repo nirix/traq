@@ -1,9 +1,9 @@
 <?php
-foreach ($milestones as $milestone):
-    echo $milestone->name , PHP_EOL;
+foreach ($milestones as $milestone) :
+    echo $milestone['name'], PHP_EOL;
 
-    foreach ($milestone->tickets()->fetchAll() as $issue):
-        echo "- {$issue->summary}" , PHP_EOL;
+    foreach ($milestone['changes'] as $ticket) :
+        echo "- {$ticket['summary']}", PHP_EOL;
     endforeach;
 
     echo PHP_EOL;
