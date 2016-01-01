@@ -23,6 +23,8 @@
 
 namespace Traq\Controllers;
 
+use Traq\Models\Ticket;
+
 /**
  * Ticket controller.
  *
@@ -35,6 +37,11 @@ class Tickets extends AppController
     {
         parent::__construct();
         $this->title($this->translate('tickets'));
+    }
+
+    public function newAction()
+    {
+        return $this->render('tickets/new.phtml', ['ticket' => new Ticket]);
     }
 
     /**
