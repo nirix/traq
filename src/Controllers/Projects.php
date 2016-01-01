@@ -60,6 +60,8 @@ class Projects extends AppController
      */
     public function changelogAction()
     {
+        $this->title($this->translate('changelog'));
+
         $issues = [];
         $query = queryBuilder()->select('summary', 'ticket_id', 'milestone_id', 'type_id')
             ->from(PREFIX . 'tickets')
