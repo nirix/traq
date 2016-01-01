@@ -1,0 +1,21 @@
+<?php $update['changes'] = json_decode($update['changes'], true); ?>
+<div class="ticket-update">
+	<header>
+		<span data-moment="<?=$update['created_at']?>"><?=$update['created_at']?></span>
+		by <a href="<?=routeUrl('user', ['id' => $update['user_id']])?>"><?=$update['user_name']?></a>
+	</header>
+	<?php if (count($update['changes'])) : ?>
+	<div class="ticket-update-changes">
+		<ul>
+		<?php foreach ($update['changes'] as $change) : ?>
+			<li><?=View::render('tickets/_history_change_bit.php', ['change' => $change])?></li>
+		<?php endforeach ?>
+		</ul>
+	</div>
+	<?php endif ?>
+	<?php if ($update['comment']) : ?>
+	<div class="ticket-update-comment">
+		<?=Format::text($update['comment'])?>
+	</div>
+	<?php endif ?>
+</div>

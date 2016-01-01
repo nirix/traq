@@ -23,22 +23,7 @@
 		<h2><?=t('history')?></h2>
 
 		<?php foreach ($history as $update) : ?>
-			<div class="ticket-update">
-				<header>
-					<span data-moment="<?=$update['created_at']?>"><?=$update['created_at']?></span>
-					by <a href="<?=routeUrl('user', ['id' => $update['user_id']])?>"><?=$update['user_name']?></a>
-				</header>
-				<?php if (count($update['changes'])) : ?>
-				<div class="ticket-update-changes">
-					<?=$update['changes']?>
-				</div>
-				<?php endif ?>
-				<?php if ($update['comment']) : ?>
-				<div class="ticket-update-comment">
-					<?=Format::text($update['comment'])?>
-				</div>
-				<?php endif ?>
-			</div>
+			<?=View::render('tickets/_history_bit.phtml', ['update' => $update])?>
 		<?php endforeach ?>
 	</div>
 </div>
