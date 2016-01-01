@@ -85,4 +85,24 @@ class Project extends Model
 
         return $options;
     }
+
+    /**
+     * @return array[]
+     */
+    public function memberSelectOptions()
+    {
+        $options = [];
+
+        $query = queryBuilder()->select('ur.user_id', 'u.name AS user_name')
+            ->from(PREFIX . 'user_roles', 'ur')
+            ->leftJoin('ur', PREFIX . 'users', 'u', 'u.id = ur.user_id')
+            ->where('project_id = ?')
+            ->setParameter(0, $this->id);
+
+        foreach ($query->execute()->fetchAll() as $row) {
+            $options[] = ['label' => $row['user_name'], 'value' => $row['user_id']];
+        }
+
+        return $options;
+    }
 }
