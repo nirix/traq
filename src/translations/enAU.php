@@ -88,6 +88,7 @@ $enAU = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Tickets
         'tickets'            => 'Issues',
+        'new_ticket'         => 'New Issue',
         'create_ticket'      => 'Create Issue',
         'open'               => 'Open',
         'closed'             => 'Closed',
@@ -173,6 +174,7 @@ $enAU = new Language(function ($t) {
         'notifications'           => 'Notifications',
         'level'                   => 'Level',
         'leave_blank_for_current' => 'Leave blank for current',
+        'never'                   => 'Never',
 
         // --------------------------------------------------------------------
         // Plugins
