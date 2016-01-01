@@ -106,6 +106,7 @@ $enAU = new Language(function ($t) {
         'type'        => 'Type',
         'component'   => 'Component',
         'milestone'   => 'Milestone',
+        'reported_by' => 'Reported by',
         'assigned_to' => 'Assigned to',
         'priority'    => 'Priority',
         'severity'    => 'Severity',
@@ -114,6 +115,21 @@ $enAU = new Language(function ($t) {
         'votes'       => 'Votes',
         'created'     => 'Created',
         'updated'     => 'Updated',
+
+        // Ticket history
+        'ticket_history' => 'Issue History',
+        // Most fields
+        'ticket_history.x_from_x_to_x' => 'Changed {1} from {2} to {3}',
+        'ticket_history.x_from_null_to_x' => "Set {1} to {3}",
+        'ticket_history.x_from_x_to_null' => "Cleared {1}, was {2}",
+        // Assignee field
+        'ticket_history.assignee_from_x_to_x'    => "Reassigned issue from {2} to {3}",
+        'ticket_history.assignee_from_null_to_x' => "Assigned issue to {3}",
+        'ticket_history.assignee_from_x_to_null' => "Unassigned issue from {2}",
+        // Actions
+        'ticket_history.close'          => "Closed issue as {2}",
+        'ticket_history.reopen'         => "Reopened issue as {2}",
+        'ticket_history.add_attachment' => "Added attachment {2}",
 
         // --------------------------------------------------------------------
         // Notifications
