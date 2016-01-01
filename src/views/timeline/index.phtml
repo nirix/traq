@@ -27,7 +27,7 @@
 			<span class="text-muted divider">-</span>
 			<span class="event">
 			<?php if (in_array($event['action'], ['ticket_created', 'ticket_closed', 'ticket_reopened', 'ticket_updated'])) : ?>
-				<a href="<?=routeUrl('ticket', ['id' => $event['owner_id']])?>">
+				<a href="<?=routeUrl('ticket', ['id' => $tickets[$event['owner_id']]['ticket_id']])?>">
 				<?=t(
                     "timeline.{$event['action']}",
                     [
