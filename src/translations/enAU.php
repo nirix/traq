@@ -132,6 +132,10 @@ $enAU = new Language(function ($t) {
         'ticket_history.reopen'         => "Reopened issue as {2}",
         'ticket_history.add_attachment' => "Added attachment {2}",
 
+        // Update ticket
+        'update_ticket' => 'Update Ticket',
+        'comment'       => 'Comment',
+
         // --------------------------------------------------------------------
         // Notifications
         'notifications.hello_x' => 'Hello {name}',
