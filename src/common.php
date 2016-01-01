@@ -156,56 +156,6 @@ function gravatar_profile_link($userEmail, $userName, $userId, $size = null)
 }
 
 /**
- * Get an array of allowed timeline events.
- *
- * @return array
- */
-function timeline_events()
-{
-    return [
-        'ticket_created',
-        'ticket_closed',
-        'ticket_reopened',
-        'ticket_updated',
-        'ticket_comment',
-        'milestone_completed',
-        'milestone_cancelled',
-        'ticket_moved_from',
-        'ticket_moved_to',
-        'wiki_page_created',
-        'wiki_page_edited'
-    ];
-}
-
-/**
- * Returns an array of timeline filters.
- *
- * @param string $filter
- *
- * @since 3.1.0
- * @return array
- */
-function timeline_filters($filter = null)
-{
-    $filters = [
-        'new_tickets'           => ['ticket_created'],
-        'tickets_opened_closed' => ['ticket_closed', 'ticket_reopened'],
-        'ticket_updates'        => ['ticket_updated'],
-        'ticket_comments'       => ['ticket_comment'],
-        'ticket_moves'          => ['ticket_moved_from', 'ticket_moved_to'],
-        'milestones'            => ['milestone_completed', 'milestone_cancelled'],
-        'wiki_pages'            => ['wiki_page_created', 'wiki_page_edited']
-    ];
-
-    // Return events for specific filter
-    if ($filter) {
-        return $filters[$filter];
-    }
-
-    return $filters;
-}
-
-/**
  * Work out the locale for Moment.js
  *
  * @return string

@@ -39,6 +39,8 @@ class Timeline extends AppController
     {
         parent::__construct();
         $this->title($this->translate('timeline'));
+
+        require __DIR__ . '/../Helpers/timeline.php';
     }
 
     /**

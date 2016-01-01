@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2015 Jack P.
+ * Copyright (C) 2012-2015 Traq.io
+ * https://github.com/nirix
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -19,14 +22,13 @@
  */
 
 /**
- * Returns an array of timeline events.
+ * Get an array of allowed timeline events.
  *
- * @since 3.1
  * @return array
  */
 function timeline_events()
 {
-    return array(
+    return [
         'ticket_created',
         'ticket_closed',
         'ticket_reopened',
@@ -38,7 +40,7 @@ function timeline_events()
         'ticket_moved_to',
         'wiki_page_created',
         'wiki_page_edited'
-    );
+    ];
 }
 
 /**
@@ -46,20 +48,20 @@ function timeline_events()
  *
  * @param string $filter
  *
- * @since 3.1
+ * @since 3.1.0
  * @return array
  */
 function timeline_filters($filter = null)
 {
-    $filters = array(
-        'new_tickets'           => array('ticket_created'),
-        'tickets_opened_closed' => array('ticket_closed', 'ticket_reopened'),
-        'ticket_updates'        => array('ticket_updated'),
-        'ticket_comments'       => array('ticket_comment'),
-        'ticket_moves'          => array('ticket_moved_from', 'ticket_moved_to'),
-        'milestones'            => array('milestone_completed', 'milestone_cancelled'),
-        'wiki_pages'            => array('wiki_page_created', 'wiki_page_edited')
-    );
+    $filters = [
+        'new_tickets'           => ['ticket_created'],
+        'tickets_opened_closed' => ['ticket_closed', 'ticket_reopened'],
+        'ticket_updates'        => ['ticket_updated'],
+        'ticket_comments'       => ['ticket_comment'],
+        'ticket_moves'          => ['ticket_moved_from', 'ticket_moved_to'],
+        'milestones'            => ['milestone_completed', 'milestone_cancelled'],
+        'wiki_pages'            => ['wiki_page_created', 'wiki_page_edited']
+    ];
 
     // Return events for specific filter
     if ($filter) {
