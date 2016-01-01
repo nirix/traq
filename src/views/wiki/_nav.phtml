@@ -19,7 +19,7 @@
 		<?php endif ?>
 		<?php if (isset($page) && $page && has_permission($currentProject['id'], 'delete_wiki_page')) : ?>
 			<li>
-				<a href="<?=routeUrl('wiki_delete', ['slug' => $page['slug']])?>">
+				<a href="<?=routeUrl('wiki_delete', ['slug' => $page['slug']])?>" data-confirm="<?=t('confirm.delete')?>">
 					<span class="fa fa-trash"></span> <?=t('delete_page')?>
 				</a>
 			</li>
