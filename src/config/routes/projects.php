@@ -21,6 +21,7 @@ Router::post('tickets_set_filters', '/{pslug}/issues/set-filters', "{$ns}\\Ticke
 Router::get('new_ticket', '/{pslug}/issues/new', "{$ns}\\Tickets::new");
 Router::post('create_ticket', '/{pslug}/issues/new', "{$ns}\\Tickets::create");
 Router::get('ticket', '/{pslug}/issues/{id}', "{$ns}\\Tickets::show");
+Router::get('ticket_compat', '/{pslug}/tickets/{id}', "{$ns}\\Tickets::show");
 
 // Changelog
 Router::get('changelog', '/{pslug}/changelog', "{$ns}\\Projects::changelog");
