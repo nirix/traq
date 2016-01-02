@@ -83,7 +83,7 @@ if ($ticket['is_closed']) {
 				<div class="update-ticket-property col-md-6">
 					<label for="severity" class="control-label col-sm-3"><?=t('severity')?></label>
 					<div class="col-sm-9">
-						<?=Form::select('severity_id', array_merge([['label' => '', 'value' => 0]], Traq\Models\Severity::selectOptions()), [
+						<?=Form::select('severity_id', Traq\Models\Severity::selectOptions(), [
                             'value' => $ticket['severity_id'],
                             'class' => "form-control"
                         ])?>
@@ -95,7 +95,7 @@ if ($ticket['is_closed']) {
 				<div class="update-ticket-property col-md-6">
 					<label for="priority" class="control-label col-sm-3"><?=t('priority')?></label>
 					<div class="col-sm-9">
-						<?=Form::select('priority_id', array_merge([['label' => '', 'value' => 0]], Traq\Models\Priority::selectOptions()), [
+						<?=Form::select('priority_id', Traq\Models\Priority::selectOptions(), [
                             'value' => $ticket['priority_id'],
                             'class' => "form-control"
                         ])?>
