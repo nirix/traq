@@ -34,6 +34,8 @@ use Avalon\Database\Model;
  */
 class Ticket extends Model
 {
+    protected static $_tableAlias = 't';
+
     protected static $_validations = [
         'ticket_id'    => ['required'],
         'summary'      => ['required'],
