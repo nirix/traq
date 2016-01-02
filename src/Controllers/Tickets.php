@@ -82,8 +82,7 @@ class Tickets extends AppController
     public function showAction($id)
     {
         $ticket = ticketQuery()
-            ->addSelect('t.info')
-            ->addSelect('t.is_closed')
+            ->addSelect('t.*')
             ->where('t.project_id = ?')
             ->andWhere('t.ticket_id = ?')
             ->setParameter(0, $this->currentProject['id'])
