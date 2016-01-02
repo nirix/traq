@@ -41,6 +41,18 @@ class Tickets extends AppController
     {
         parent::__construct();
         $this->title($this->translate('tickets'));
+
+        $this->before(['new', 'create'], function () {
+            if (!$this->hasPermission($this->currentProject['id'], 'create_tickets')) {
+                return $this->show403();
+            }
+        });
+
+        $this->before('update', function () {
+            if (!$this->hasPermission($this->currentProject['id'], 'update_tickets')) {
+                return $this->show403();
+            }
+        });
     }
 
     public function newAction()
@@ -83,6 +95,7 @@ class Tickets extends AppController
     {
         $ticket = ticketQuery()
             ->addSelect('t.*')
+            // ->addSelect('t.is_closed')
             ->where('t.project_id = ?')
             ->andWhere('t.ticket_id = ?')
             ->setParameter(0, $this->currentProject['id'])
@@ -93,6 +106,8 @@ class Tickets extends AppController
         if (!$ticket) {
             return $this->show404();
         }
+
+        $ticket['tasks'] = json_decode($ticket['tasks'], true);
 
         $this->title($this->translate('ticket.page-title', $ticket['ticket_id'], $ticket['summary']));
 
@@ -108,10 +123,16 @@ class Tickets extends AppController
         ->execute()
         ->fetchAll();
 
-        return $this->render('tickets/show.phtml', [
-            'ticket'  => $ticket,
-            'history' => $history
-        ]);
+        return $this->respondTo(function ($format) use ($ticket, $history) {
+            if ($format == 'html') {
+                return $this->render('tickets/show.phtml', [
+                    'ticket'  => $ticket,
+                    'history' => $history
+                ]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse($ticket);
+            }
+        });
     }
 
     /**
