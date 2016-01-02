@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -125,43 +125,56 @@ class Tickets extends AppController
             'tasks'        => []
         ];
 
+        return $this->ticketParamsPermissionable('set', $params);
+    }
+
+    /**
+     * Get ticket data for the field the user is allowed to set or change.
+     *
+     * @param string $setOrChange set or change permission type
+     * @param array  $params      already existing array of params
+     *
+     * @return array
+     */
+    protected function ticketParamsPermissionable($setOrChange, array $params = [])
+    {
         // Milestone
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_milestone')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_milestone")) {
             $params['milestone_id'] = Request::$post->get('milestone_id');
         }
 
         // Version
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_version')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_version")) {
             $params['version_id'] = Request::$post->get('version_id');
         }
 
         // Component
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_component')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_component")) {
             $params['component_id'] = Request::$post->get('component_id');
         }
 
         // Severity
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_severity')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_severity")) {
             $params['severity_id'] = Request::$post->get('severity_id');
         }
 
         // Priority
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_priority')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_priority")) {
             $params['priority_id'] = Request::$post->get('priority_id');
         }
 
         // Status
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_status')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_status")) {
             $params['status_id'] = Request::$post->get('status_id');
         }
 
         // Assigned to
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_assigned_to')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_assigned_to")) {
             $params['assigned_to_id'] = Request::$post->get('assigned_to_id');
         }
 
         // Tasks
-        if ($this->hasPermission($this->currentProject['id'], 'ticket_properties_set_tasks')) {
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_tasks")) {
             $tasks = json_decode(Request::$post->get('tasks', ''), true);
 
             if (is_array($tasks)) {
