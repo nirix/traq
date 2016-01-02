@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
+ * https://github.com/nirix
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,52 +21,25 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
 
 /**
  * Ticket history model.
  *
- * @package Traq
- * @subpackage Models
+ * @package Traq\Models
  * @author Jack P.
- * @copyright (c) Jack P.
+ * @since 3.0.0
  */
 class TicketHistory extends Model
 {
-    protected static $_name = 'ticket_history';
-    protected static $_properties = array(
-        'id',
-        'user_id',
-        'ticket_id',
-        'changes',
-        'comment',
-        'created_at'
-    );
+    protected static $_dataTypes = [
+        'changes' => 'json_array'
+    ];
 
-    // Relations
-    protected static $_belongs_to = array('ticket', 'user');
-
-    // Filters
-    protected static $_filters_after = array('construct' => array('read_changes'));
-
-    /**
-     * Converts the changes data from json to an array.
-     */
-    protected function read_changes()
+    public static function tableName()
     {
-        if (!$this->_is_new()) {
-            $this->_data['changes'] = json_decode($this->_data['changes'], true);
-        }
-    }
-
-    /**
-     * Checks that the data is valid.
-     */
-    public function is_valid()
-    {
-        // Just return true.
-        return true;
+        return PREFIX . 'ticket_history';
     }
 }
