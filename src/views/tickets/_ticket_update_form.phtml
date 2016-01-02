@@ -35,7 +35,7 @@ if ($ticket['is_closed']) {
 				<div class="update-ticket-property col-md-6">
 					<label for="assigned_to_id" class="control-label col-sm-3"><?=t('assigned_to')?></label>
 					<div class="col-sm-9">
-						<?=Form::select('assigned_to_id', array_merge([['label' => '', 'value' => 0]], $currentProject->memberSelectOptions()), [
+						<?=Form::select('assigned_to_id', array_merge([['label' => t('no_one'), 'value' => 0]], $currentProject->memberSelectOptions()), [
                             'value' => $ticket['assigned_to_id'],
                             'class' => "form-control"
                         ])?>
@@ -59,7 +59,7 @@ if ($ticket['is_closed']) {
 				<div class="update-ticket-property col-md-6">
 					<label for="version_id" class="control-label col-sm-3"><?=t('version')?></label>
 					<div class="col-sm-9">
-						<?=Form::select('version_id', array_merge([['label' => '', 'value' => 0]], $currentProject->milestoneSelectOptions('id', 2, 'DESC')), [
+						<?=Form::select('version_id', array_merge([['label' => t('none'), 'value' => 0]], $currentProject->milestoneSelectOptions('id', 2, 'DESC')), [
                             'value' => $ticket['version_id'],
                             'class' => "form-control"
                         ])?>
@@ -71,7 +71,7 @@ if ($ticket['is_closed']) {
 				<div class="update-ticket-property col-md-6">
 					<label for="component_id" class="control-label col-sm-3"><?=t('component')?></label>
 					<div class="col-sm-9">
-						<?=Form::select('component_id', array_merge([['label' => '', 'value' => 0]], $currentProject->componentSelectOptions()), [
+						<?=Form::select('component_id', array_merge([['label' => t('none'), 'value' => 0]], $currentProject->componentSelectOptions()), [
                             'value' => $ticket['component_id'],
                             'class' => "form-control"
                         ])?>
@@ -123,6 +123,10 @@ if ($ticket['is_closed']) {
 					</div>
 				</div>
 			<?php endif ?>
+			</div>
+
+			<div class="text-center">
+				<button class="btn btn-success"><?=t('update')?></button>
 			</div>
 		</form>
 	</div>

@@ -25,7 +25,9 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Traq\Models\Ticket;
+use Traq\Models\TicketHistory;
 use Traq\Models\Timeline;
+use Traq\Models\User;
 
 /**
  * Ticket controller.
@@ -109,6 +111,55 @@ class Tickets extends AppController
         ]);
     }
 
+    /**
+     * Update ticket.
+     *
+     * @param integer $id id matching ticket_id
+     */
+    public function updateAction($id)
+    {
+        // Fetch the ticket, but filter it by ticket_id and project_id
+        $ticket = ticketQuery()
+            ->addSelect('t.*')
+            // ->addSelect('t.project_id')
+            ->where('t.ticket_id = ?')
+            ->andWhere('t.project_id = ?')
+            ->setParameter(0, $id)
+            ->setParameter(1, $this->currentProject['id'])
+            ->fetch();
+
+        $data = $this->ticketParamsUpdate();
+
+        $changes = $this->makeChanges($ticket, $data);
+
+        if (count($changes) || Request::$post->get('comment')) {
+            $update = new TicketHistory([
+                'user_id'   => $this->currentUser['id'],
+                'ticket_id' => $ticket['id'],
+                'changes'   => count($changes) ? $changes : null,
+                'comment'   => empty(Request::$post->get('comment')) ? null : Request::$post->get('comment')
+            ]);
+
+            $ticket->set($data);
+
+            if ($ticket->validate()) {
+                $ticket->save();
+                $update->save();
+                return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], $ticket['ticket_id']]);
+            } else {
+                $this->set('ticketModel', $ticket);
+                return $this->render('tickets/update.phtml', ['ticket' => $ticket]);
+            }
+        } else {
+            return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], $ticket['ticket_id']]);
+        }
+    }
+
+    /**
+     * Get params for a new ticket.
+     *
+     * @return array
+     */
     protected function ticketParams()
     {
         $params = [
@@ -126,6 +177,26 @@ class Tickets extends AppController
         ];
 
         return $this->ticketParamsPermissionable('set', $params);
+    }
+
+    /**
+     * Get params for a ticket update.
+     *
+     * @return array
+     */
+    protected function ticketParamsUpdate()
+    {
+        $params = [];
+
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_change_summary")) {
+            $params['summary'] = Request::$post->get('summary');
+        }
+
+        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_change_type")) {
+            $params['type_id'] = Request::$post->get('type_id');
+        }
+
+        return $this->ticketParamsPermissionable('change', $params);
     }
 
     /**
@@ -187,5 +258,65 @@ class Tickets extends AppController
         }
 
         return $params;
+    }
+
+    protected function makeChanges($ticket, $data)
+    {
+        $changes = [];
+
+        foreach ($data as $field => $value) {
+            $fieldNoId = str_replace('_id', '', $field);
+
+            if ($value != $ticket[$field]) {
+                switch ($field) {
+                    case 'summary':
+                        $from = $ticket[$field];
+                        $to = $data[$field];
+                        break;
+
+                    case 'type_id':
+                    case 'status_id':
+                    case 'milestone_id':
+                    case 'version_id':
+                    case 'component_id':
+                    case 'priority_id':
+                    case 'severity_id':
+                        if ($field == 'version_id') {
+                            $fieldNoId = 'milestone';
+                        }
+
+                        $model = '\\Traq\\Models\\' . ucfirst($fieldNoId);
+
+                        $from = $ticket[$fieldNoId . '_name'];
+
+                        if ($data[$field] == null || empty($data[$field]) || $data[$field] == 0) {
+                            $to = null;
+                        } else {
+                            $to = $model::find($data[$field])->name;
+                        }
+                        break;
+
+                    case 'assigned_to_id':
+                        $from = $ticket['assigned_to_name'];
+
+                        if ($value == 0) {
+                            $to = null;
+                        } else {
+                            $user = User::find($value);
+                            $to = $user->name;
+                        }
+
+                        break;
+                }
+
+                $changes[] = [
+                    'property' => $fieldNoId,
+                    'from'     => $from,
+                    'to'       => $to
+                ];
+            }
+        }
+
+        return $changes;
     }
 }
