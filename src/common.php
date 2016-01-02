@@ -185,6 +185,7 @@ function random_hash()
  */
 function ticketQuery()
 {
+    // $ticket = queryBuilder()->select(
     $ticket = Ticket::select(
         't.id',
         't.ticket_id',
@@ -213,7 +214,7 @@ function ticketQuery()
         'sv.name AS severity_name',
         'at.name AS assigned_to_name'
     )
-    ->from(PREFIX . 'tickets', 't')
+    // ->from(PREFIX . 'tickets', 't')
 
     ->leftJoin('t', PREFIX . 'users', 'u', 'u.id = t.user_id')
     ->leftJoin('t', PREFIX . 'milestones', 'm', 'm.id = t.milestone_id')
