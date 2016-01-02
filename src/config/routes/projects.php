@@ -23,6 +23,7 @@ Router::get('new_ticket', '/{pslug}/issues/new', "{$ns}\\Tickets::new");
 Router::post('create_ticket', '/{pslug}/issues/new', "{$ns}\\Tickets::create");
 Router::get('ticket', '/{pslug}/issues/{id}', "{$ns}\\Tickets::show");
 Router::get('ticket_compat', '/{pslug}/tickets/{id}', "{$ns}\\Tickets::show");
+Router::post('update_ticket', '/{pslug}/issues/{id}', "{$ns}\\Tickets::update");
 
 // Changelog
 Router::get('changelog', '/{pslug}/changelog', "{$ns}\\Projects::changelog");
