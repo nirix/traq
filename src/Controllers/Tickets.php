@@ -285,7 +285,7 @@ class Tickets extends AppController
 
                         $from = $ticket[$fieldNoId . '_name'];
 
-                        if ($data[$field] == null || empty($data[$field]) || $data[$field] == 0) {
+                        if ($data[$field] == 0) {
                             $to = null;
                         } else {
                             $to = $model::find($data[$field])->name;
