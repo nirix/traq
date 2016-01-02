@@ -47,12 +47,6 @@ class Tickets extends AppController
                 return $this->show403();
             }
         });
-
-        $this->before('update', function () {
-            if (!$this->hasPermission($this->currentProject['id'], 'update_tickets')) {
-                return $this->show403();
-            }
-        });
     }
 
     public function newAction()
@@ -146,6 +140,11 @@ class Tickets extends AppController
      */
     public function updateAction($id)
     {
+        if (!$this->hasPermission($this->currentProject['id'], 'update_tickets')
+        || !$this->hasPermission($this->currentProject['id'], 'comment_on_tickets')) {
+            return $this->show403();
+        }
+
         // Fetch the ticket, but filter it by ticket_id and project_id
         $ticket = ticketQuery()
             ->addSelect('t.*')
@@ -156,16 +155,24 @@ class Tickets extends AppController
             ->setParameter(1, $this->currentProject['id'])
             ->fetch();
 
-        $data = $this->ticketParamsUpdate();
+        if ($this->hasPermission($this->currentProject['id'], 'update_tickets')) {
+            $data = $this->ticketParamsUpdate();
+            $changes = $this->makeChanges($ticket, $data);
+        } else {
+            $data = [];
+            $changes = [];
+        }
 
-        $changes = $this->makeChanges($ticket, $data);
+        if ($this->hasPermission($this->currentProject['id'], 'comment_on_tickets')) {
+            $comment = empty(Request::$post->get('comment')) ? null : Request::$post->get('comment');
+        }
 
         if (count($changes) || Request::$post->get('comment')) {
             $update = new TicketHistory([
                 'user_id'   => $this->currentUser['id'],
                 'ticket_id' => $ticket['id'],
                 'changes'   => count($changes) ? $changes : null,
-                'comment'   => empty(Request::$post->get('comment')) ? null : Request::$post->get('comment')
+                'comment'   => isset($comment) ? $comment : null
             ]);
 
             $ticket->set($data);

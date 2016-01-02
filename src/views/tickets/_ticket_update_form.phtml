@@ -1,4 +1,4 @@
-<?php if (has_permission($currentProject['id'], 'update_tickets')) : ?>
+<?php if (has_permission($currentProject['id'], 'update_tickets') || has_permission($currentProject['id'], 'comment_on_tickets')) : ?>
 <?php
 $milestoneSelectOptions = $currentProject->milestoneSelectOptions('id', 1);
 
@@ -12,12 +12,14 @@ if ($ticket['is_closed']) {
 	<div id="update-ticket">
 		<h2><?=t('update_ticket')?></h2>
 		<form action="<?=routeUrl('update_ticket', ['pslug' => $currentProject['slug'], 'id' => $ticket['ticket_id']])?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-			<?php if (has_permission($currentProject['id'], 'comment_on_tickets')) : ?>
-				<div class="update-ticket-property-comment">
-					<label for="comment" class="control-label"><?=t('comment')?></label>
-					<textarea id="comment" name="comment" class="form-control"></textarea>
-				</div>
-			<?php endif ?>
+		<?php if (has_permission($currentProject['id'], 'comment_on_tickets')) : ?>
+			<div class="update-ticket-property-comment">
+				<label for="comment" class="control-label"><?=t('comment')?></label>
+				<textarea id="comment" name="comment" class="form-control"></textarea>
+			</div>
+		<?php endif ?>
+
+		<?php if (has_permission($currentProject['id'], 'update_tickets')) : ?>
 			<div class="row">
 			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_type')) : ?>
 				<div class="update-ticket-property col-md-6">
@@ -124,6 +126,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 			</div>
+		<?php endif ?>
 
 			<div class="text-center">
 				<button class="btn btn-success"><?=t('update')?></button>
