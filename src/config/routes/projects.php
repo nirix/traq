@@ -16,6 +16,7 @@ Router::get('milestone', '/{pslug}/roadmap/{mslug}', "{$ns}\\Roadmap::show");
 
 // Issues
 Router::get('tickets', '/{pslug}/issues', "{$ns}\\TicketListing::index");
+Router::get('tickets_compat', '/{pslug}/tickets', "{$ns}\\TicketListing::index");
 Router::post('tickets_set_columns', '/{pslug}/issues/set-columns', "{$ns}\\TicketListing::setColumns");
 Router::post('tickets_set_filters', '/{pslug}/issues/set-filters', "{$ns}\\TicketListing::setFilters");
 Router::get('new_ticket', '/{pslug}/issues/new', "{$ns}\\Tickets::new");
