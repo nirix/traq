@@ -38,7 +38,7 @@ class UserActivationCode extends Model
     {
         return static::select('*')->where('type = ?')->andWhere('activation_code = ?')
             ->setParameter(0, $type)
-            ->setParameter(1, $code);
+            ->setParameter(1, $code)
             ->fetch();
     }
 }
