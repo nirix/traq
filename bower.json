@@ -13,6 +13,9 @@
     "chosen": [
       "chosen-sprite.png",
       "chosen-sprite@2x.png"
+    ],
+    "jquery": [
+      "dist/jquery.min.js"
     ]
   }
 }
