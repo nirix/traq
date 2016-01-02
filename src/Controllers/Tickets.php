@@ -93,6 +93,10 @@ class Tickets extends AppController
      */
     public function showAction($id)
     {
+        if (!$this->hasPermission($this->currentProject['id'], 'view_tickets')) {
+            return $this->show403();
+        }
+
         $ticket = ticketQuery()
             ->addSelect('t.*')
             // ->addSelect('t.is_closed')
