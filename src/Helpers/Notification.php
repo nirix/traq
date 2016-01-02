@@ -76,7 +76,7 @@ class Notification
     public static function setup()
     {
         // Do nothing unless email config is set or it's already setup
-        if (!static::$config || static::$initialised === false) {
+        if (!static::$config || static::$initialised !== false) {
             return false;
         }
 
