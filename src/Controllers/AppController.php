@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -25,6 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Controller;
 use Avalon\Http\Request;
+use Avalon\Http\Response;
 use Avalon\Templating\View;
 use Traq\Models\User;
 use Traq\Models\Project;
@@ -172,5 +173,22 @@ class AppController extends Controller
             '_layout' => 'default.phtml',
             'goto'    => $goto
         ]);
+    }
+
+    /**
+     * Render a JavaScript view.
+     *
+     * @param string $view
+     * @param array  $locals
+     *
+     * @return Response
+     */
+    protected function renderJs($view, array $locals = [])
+    {
+        $locals['_layout'] = false;
+
+        $resp = $this->render($view, $locals);
+        $resp->contentType = 'application/javascript';
+        return $resp;
     }
 }
