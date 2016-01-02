@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -26,6 +26,7 @@ namespace Traq\Controllers;
 use DateTime;
 use Avalon\Http\Request;
 use Avalon\Helpers\Pagination;
+use Traq\Models\Timeline as TimelineModel;
 
 /**
  * Timeline controller.
@@ -150,6 +151,29 @@ class Timeline extends AppController
         $_SESSION['timeline_filters'] = $filters;
 
         return $this->redirectTo('timeline', ['pslug' => $this->currentProject['slug']]);
+    }
+
+    public function deleteEventAction($id)
+    {
+        if (!$this->hasPermission($this->currentProject['id'], 'delete_timeline_events')) {
+            return $this->show403();
+        }
+
+        $event = TimelineModel::select()->where('id = ?')->andWhere('project_id = ?')
+            ->setParameter(0, $id)->setParameter(1, $this->currentProject['id'])
+            ->fetch();
+
+        if ($event) {
+            $event->delete();
+        }
+
+        return $this->respondTo(function ($format) use ($event) {
+            if ($format == 'html' || !$event) {
+                return $this->redirectTo('timeline', ['pslug' => $this->currentProject['slug']]);
+            } else {
+                return $this->renderJs('timeline/delete_event.js.php', ['event' => $event]);
+            }
+        });
     }
 
     protected function getFilteredEvents()

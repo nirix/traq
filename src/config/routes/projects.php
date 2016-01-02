@@ -6,6 +6,7 @@ Router::get('project', '/{pslug}', "{$ns}\\Projects::show");
 // Timeline
 Router::get('timeline', '/{pslug}/timeline', "{$ns}\\Timeline::index");
 Router::post('timeline_set_filters', '/{pslug}/timeline', "{$ns}\\Timeline::setFilters");
+Router::get('timeline_delete_event', '/{pslug}/timeline/{id}/delete', "{$ns}\\Timeline::deleteEvent");
 
 // Roadmap
 Router::get('roadmap', '/{pslug}/roadmap', "{$ns}\\Roadmap::index");
