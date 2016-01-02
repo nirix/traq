@@ -23,6 +23,7 @@
 
 use Avalon\Helpers\HTML;
 use Traq\Models\User;
+use Traq\Models\Ticket;
 
 /**
  * Shortcut for creating a query builder.
@@ -184,8 +185,7 @@ function random_hash()
  */
 function ticketQuery()
 {
-    $ticket = queryBuilder();
-    $ticket->select(
+    $ticket = Ticket::select(
         't.id',
         't.ticket_id',
         't.summary',
