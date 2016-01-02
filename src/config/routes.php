@@ -17,7 +17,11 @@ Router::get('root', '/', "{$ns}\\Projects::index");
 Router::set404("{$ns}\\Errors::notFound");
 
 Router::get('projects', '/projects', "{$ns}\\Projects::index");
+
+// Misc
 Router::get('js', '/_js', "{$ns}\\Misc::js");
+Router::get('api_statuses', '/statuses', "{$ns}\\API::statuses");
+Router::get('api_priorities', '/priorities', "{$ns}\\API::priorities");
 
 // -----------------------------------------------------------------------------
 // User routes

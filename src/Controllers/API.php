@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
+ * https://github.com/nirix
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,41 +21,33 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
-use avalon\output\View;
-
-use avalon\core\Load;
-use traq\models\Status;
-use traq\models\Priority;
+use Traq\Models\Status;
+use Traq\Models\Priority;
 
 /**
  * API controller.
  *
+ * @package Traq\Controllers
  * @author Jack P.
- * @since 3.1
- * @package Traq
- * @subpackage Controllers
+ * @since 3.0.0
  */
 class API extends AppController
 {
     /**
      * Ticket statuses.
-     *
-     * @return string
      */
-    public function action_statuses()
+    public function statusesAction()
     {
-        View::set('statuses', Status::fetch_all());
+        return $this->jsonResponse(Status::select()->execute()->fetchAll());
     }
 
     /**
      * Ticket priorities.
-     *
-     * @return string
      */
-    public function action_priorities()
+    public function prioritiesAction()
     {
-        View::set('priorities', Priority::fetch_all());
+        return $this->jsonResponse(Priority::select()->execute()->fetchAll());
     }
 }
