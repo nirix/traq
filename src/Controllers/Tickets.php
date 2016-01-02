@@ -281,11 +281,7 @@ class Tickets extends AppController
                     case 'component_id':
                     case 'priority_id':
                     case 'severity_id':
-                        if ($field == 'version_id') {
-                            $fieldNoId = 'milestone';
-                        }
-
-                        $model = '\\Traq\\Models\\' . ucfirst($fieldNoId);
+                        $model = '\\Traq\\Models\\' . ucfirst($fieldNoId == 'version' ? 'milestone' : $fieldNoId);
 
                         $from = $ticket[$fieldNoId . '_name'];
 
