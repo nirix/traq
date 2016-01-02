@@ -288,6 +288,14 @@ class Tickets extends AppController
         return $params;
     }
 
+    /**
+     * Make the ticket history changes array.
+     *
+     * @param Ticket $ticket
+     * @param array  $data
+     *
+     * @return array
+     */
     protected function makeChanges($ticket, $data)
     {
         $changes = [];
