@@ -90,6 +90,10 @@ class Tickets extends AppController
             ->execute()
             ->fetch();
 
+        if (!$ticket) {
+            return $this->show404();
+        }
+
         $this->title($this->translate('ticket.page-title', $ticket['ticket_id'], $ticket['summary']));
 
         $history = queryBuilder()->select(
