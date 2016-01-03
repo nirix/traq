@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -62,6 +62,7 @@ class Projects extends AppController
     {
         $this->title($this->translate('changelog'));
 
+        // Fetch issues
         $issues = [];
         $query = queryBuilder()->select('summary', 'ticket_id', 'milestone_id', 'type_id')
             ->from(PREFIX . 'tickets')
@@ -70,10 +71,12 @@ class Projects extends AppController
             ->setParameter(0, $this->currentProject['id'])
             ->execute();
 
+        // Index issues by milestone ID
         foreach ($query->fetchAll() as $row) {
             $issues[$row['milestone_id']][] = $row;
         }
 
+        // Fetch complete milestones
         $milestones = queryBuilder()->select('id', 'name', 'slug')
             ->from(PREFIX . 'milestones')
             ->where('project_id = ?')
@@ -83,10 +86,12 @@ class Projects extends AppController
             ->execute()
             ->fetchAll();
 
+        // Combine issues and milestones into a single array
         foreach ($milestones as $index => $milestone) {
             $milestones[$index]['changes'] = isset($issues[$milestone['id']]) ? $issues[$milestone['id']] : [];
         }
 
+        // Fetch ticket types
         $types = [];
         $query = queryBuilder()->select('id', 'bullet')->from(PREFIX . 'types')->execute();
         foreach ($query->fetchAll() as $row) {

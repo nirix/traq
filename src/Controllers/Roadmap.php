@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -96,17 +96,20 @@ class Roadmap extends AppController
      */
     public function showAction($mslug)
     {
+        // Open ticket count
         $openQuery = queryBuilder()->select('COUNT(ot.id)')
             ->from(PREFIX . 'tickets', 'ot')
             ->where('ot.milestone_id = m.id')
             ->andWhere('ot.is_closed = 0');
 
+        // Started ticket count
         $startedQuery = queryBuilder()->select('COUNT(st.id)')
             ->from(PREFIX . 'tickets', 'st')
             ->where('st.milestone_id = m.id')
             ->andWhere('s.status = 2')
             ->leftJoin('st', PREFIX . 'statuses', 's', 's.id = st.status_id');
 
+        // Closed query count
         $closedQuery = queryBuilder()->select('COUNT(ct.id)')
             ->from(PREFIX . 'tickets', 'ct')
             ->where('ct.milestone_id = m.id')

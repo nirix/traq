@@ -38,6 +38,9 @@ class Misc extends Controller
 {
     protected $layout = null;
 
+    /**
+     * JavaScript route for setting things like translation strings used by the popover-confirm.
+     */
     public function jsAction()
     {
         $resp = $this->render('misc/js.php');
