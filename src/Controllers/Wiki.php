@@ -286,11 +286,7 @@ class Wiki extends AppController
             ->setParameter(1, $this->currentProject['id'])
             ->fetch();
 
-        if (!$this->page
-        && Request::$properties->get('action') == 'show'
-        && $this->hasPermission($this->currentProject['id'], 'create_wiki_page')) {
-            return $this->newPage(Request::$properties->get('slug'));
-        } elseif (!$this->page) {
+        if (!$this->page) {
             return $this->show404();
         }
 
