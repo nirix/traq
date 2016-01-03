@@ -26,6 +26,9 @@ Router::get('ticket', '/{pslug}/issues/{id}', "{$ns}\\Tickets::show");
 Router::get('ticket_compat', '/{pslug}/tickets/{id}', "{$ns}\\Tickets::show");
 Router::post('update_ticket', '/{pslug}/issues/{id}', "{$ns}\\Tickets::update");
 
+Router::get('ticket_edit_description', '/{pslug}/issues/{id}/edit-description', "{$ns}\\Tickets::editDescription");
+Router::post('ticket_save_description', '/{pslug}/issues/{id}/edit-description', "{$ns}\\Tickets::saveDescription");
+
 // Changelog
 Router::get('changelog', '/{pslug}/changelog', "{$ns}\\Projects::changelog");
 

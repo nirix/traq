@@ -47,6 +47,12 @@ class Tickets extends AppController
                 return $this->show403();
             }
         });
+
+        $this->before(['editDescription', 'saveDescription'], function () {
+            if (!$this->hasPermission($this->currentProject['id'], 'edit_ticket_description')) {
+                return $this->show403();
+            }
+        });
     }
 
     public function newAction()
@@ -93,7 +99,6 @@ class Tickets extends AppController
 
         $ticket = ticketQuery()
             ->addSelect('t.*')
-            // ->addSelect('t.is_closed')
             ->where('t.project_id = ?')
             ->andWhere('t.ticket_id = ?')
             ->setParameter(0, $this->currentProject['id'])
@@ -188,6 +193,28 @@ class Tickets extends AppController
         } else {
             return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], $ticket['ticket_id']]);
         }
+    }
+
+    public function editDescriptionAction($id)
+    {
+        $ticket = Ticket::select('t.ticket_id', 't.info')->where('ticket_id = ?')->andWhere('project_id = ?')
+            ->setParameter(0, $id)->setParameter(1, $this->currentProject['id'])
+            ->execute()
+            ->fetch();
+
+        return $this->render('tickets/edit_description.overlay.phtml', ['ticket' => $ticket]);
+    }
+
+    public function saveDescriptionAction($id)
+    {
+        $ticket = Ticket::select()->where('ticket_id = ?')->andWhere('project_id = ?')
+            ->setParameter(0, $id)->setParameter(1, $this->currentProject['id'])
+            ->fetch();
+
+        $ticket->info = Request::$post->get('info');
+        $ticket->save();
+
+        return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], 'id' => $ticket['ticket_id']]);
     }
 
     /**

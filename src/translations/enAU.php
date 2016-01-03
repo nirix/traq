@@ -95,6 +95,7 @@ $enAU = new Language(function ($t) {
         'total'              => 'Total',
         'ticket.page-title'  => "#{1} - {2}",
         'ticket.page-header' => "#{1} - {2}",
+        'edit_ticket_description' => 'Edit Ticket Description',
 
         // Ticket properties
         'id'              => 'ID',
