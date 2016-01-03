@@ -24,6 +24,7 @@
 namespace Traq\Controllers;
 
 use Traq\Models\Ticket;
+use Traq\Models\Milestone;
 
 /**
  * Project controller.
@@ -82,11 +83,10 @@ class Projects extends AppController
         }
 
         // Fetch complete milestones
-        $milestones = queryBuilder()->select('id', 'name', 'slug')
-            ->from(PREFIX . 'milestones')
-            ->where('project_id = ?')
-            ->andWhere('status = 2')
-            ->orderBy('display_order', 'DESC')
+        $milestones = Milestone::select('m.id', 'm.name', 'm.slug')
+            ->where('m.project_id = ?')
+            ->andWhere('m.status = 2')
+            ->orderBy('m.display_order', 'DESC')
             ->setParameter(0, $this->currentProject['id'])
             ->execute()
             ->fetchAll();
