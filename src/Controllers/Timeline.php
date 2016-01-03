@@ -69,6 +69,7 @@ class Timeline extends AppController
         // Quote the events
         $timelineEvents = array_map([$this->db, 'quote'], $timelineEvents);
 
+        // Fetch dates
         $query = queryBuilder()->select('DATE(t.created_at) AS date');
         $query->from(PREFIX . 'timeline', 't')
             ->where('t.project_id = :project_id')
@@ -90,12 +91,14 @@ class Timeline extends AppController
             $query->setMaxResults(setting('timeline_days_per_page'));
         }
 
+        // Holds all the IDs from events for fetching later
         $ids = [
             'tickets'    => [],
             'milestones' => [],
             'wiki'       => []
         ];
 
+        // Fetch events
         foreach ($query->execute()->fetchAll() as $day) {
             $events = queryBuilder()->select('t.*', 'u.name AS user_name', 'u.email AS user_email')
             ->from(PREFIX . 'timeline', 't')
@@ -125,6 +128,7 @@ class Timeline extends AppController
             $days[] = $day;
         }
 
+        // Fetch needed data all at once instead of one at a time, less queries executed
         $tickets    = $this->getTickets($ids['tickets']);
         $milestones = $this->getRows('milestones', $ids['milestones']);
         $wikiPages  = $this->getRows('wiki_pages', $ids['wiki']);
@@ -139,6 +143,9 @@ class Timeline extends AppController
         ]);
     }
 
+    /**
+     * Set filters.
+     */
     public function setFiltersAction()
     {
         $filters = [];
@@ -153,6 +160,11 @@ class Timeline extends AppController
         return $this->redirectTo('timeline', ['pslug' => $this->currentProject['slug']]);
     }
 
+    /**
+     * Delete timeline event.
+     *
+     * @param integer $id
+     */
     public function deleteEventAction($id)
     {
         if (!$this->hasPermission($this->currentProject['id'], 'delete_timeline_events')) {
@@ -176,6 +188,9 @@ class Timeline extends AppController
         });
     }
 
+    /**
+     * Get filtered events.
+     */
     protected function getFilteredEvents()
     {
         if (!isset($_SESSION['timelineFilters'])) {
@@ -194,6 +209,13 @@ class Timeline extends AppController
         return [$filters, $events];
     }
 
+    /**
+     * Get tickets.
+     *
+     * @param array $ids
+     *
+     * @return array
+     */
     protected function getTickets($ids)
     {
         if (!count($ids)) {
@@ -214,6 +236,13 @@ class Timeline extends AppController
         return $tickets;
     }
 
+    /**
+     * Get rows from the specified table.
+     *
+     * @param array $ids
+     *
+     * @return array
+     */
     protected function getRows($table, $ids)
     {
         if (!count($ids)) {
