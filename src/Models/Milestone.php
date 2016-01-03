@@ -38,6 +38,11 @@ use Avalon\Language;
 class Milestone extends Model
 {
     /**
+     * @var string
+     */
+    protected static $_tableAlias = 'm';
+
+    /**
      * @var array
      */
     protected static $_validations = [
