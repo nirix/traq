@@ -23,6 +23,8 @@
 
 namespace Traq\Controllers;
 
+use Traq\Models\Ticket;
+
 /**
  * Project controller.
  *
@@ -64,10 +66,13 @@ class Projects extends AppController
 
         // Fetch issues
         $issues = [];
-        $query = queryBuilder()->select('summary', 'ticket_id', 'milestone_id', 'type_id')
-            ->from(PREFIX . 'tickets')
-            ->where('project_id = ?')
-            ->orderBy('type_id', 'ASC')
+        $query = Ticket::select('t.summary', 't.ticket_id', 't.milestone_id', 't.type_id')
+            ->leftJoin('t', PREFIX . 'types', 'type', 'type.id = t.type_id')
+            ->leftJoin('t', PREFIX . 'statuses', 'status', 'status.id = t.status_id')
+            ->where('t.project_id = ?')
+            ->andWhere('type.show_on_changelog = 1')
+            ->andWhere('status.show_on_changelog = 1')
+            ->orderBy('t.type_id', 'ASC')
             ->setParameter(0, $this->currentProject['id'])
             ->execute();
 
