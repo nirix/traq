@@ -65,6 +65,8 @@ class TicketFilterQuery
         foreach (array_keys($query) as $method) {
             if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
                 $this->{$method}();
+            } elseif (method_exists(get_called_class(), $method) && empty($query[$method])) {
+                $this->filters[$method] = ['cond' => true, 'value' => []];
             }
         }
     }
