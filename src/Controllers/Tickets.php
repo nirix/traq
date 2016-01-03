@@ -55,6 +55,9 @@ class Tickets extends AppController
         });
     }
 
+    /**
+     * New ticket form.
+     */
     public function newAction()
     {
         $ticket = new Ticket([
@@ -65,6 +68,9 @@ class Tickets extends AppController
         return $this->render('tickets/new.phtml', ['ticket' => $ticket]);
     }
 
+    /**
+     * Create ticket.
+     */
     public function createAction()
     {
         $ticket = new Ticket($this->ticketParams());
@@ -195,6 +201,11 @@ class Tickets extends AppController
         }
     }
 
+    /**
+     * Edit ticket description form.
+     *
+     * @param integer $id ticket_id
+     */
     public function editDescriptionAction($id)
     {
         $ticket = Ticket::select('t.ticket_id', 't.info')->where('ticket_id = ?')->andWhere('project_id = ?')
@@ -205,6 +216,11 @@ class Tickets extends AppController
         return $this->render('tickets/edit_description.overlay.phtml', ['ticket' => $ticket]);
     }
 
+    /**
+     * Save ticket description form.
+     *
+     * @param integer $id ticket_id
+     */
     public function saveDescriptionAction($id)
     {
         $ticket = Ticket::select()->where('ticket_id = ?')->andWhere('project_id = ?')
