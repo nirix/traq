@@ -105,6 +105,11 @@ class TicketListing extends AppController
         $tickets->orderBy("t.{$sortColumn}, t.ticket_id", $sorting[1]);
     }
 
+    /**
+     * Get ticket filters.
+     *
+     * @return array
+     */
     protected function getFilters()
     {
         $allowedFilters = array_keys(TicketFilters::filtersFor($this->currentProject));
@@ -126,6 +131,9 @@ class TicketListing extends AppController
         return $query;
     }
 
+    /**
+     * Set ticket filters.
+     */
     public function setFiltersAction()
     {
         $queryString = [];
@@ -167,12 +175,18 @@ class TicketListing extends AppController
         );
     }
 
+    /**
+     * Set columns.
+     */
     public function setColumnsAction()
     {
         $this->getColumns();
         return $this->redirect(routeUrl('tickets', ['pslug' => $this->currentProject['slug']]) . '?' . $_SERVER['QUERY_STRING']);
     }
 
+    /**
+     * Get columns.
+     */
     protected function getColumns()
     {
         $allowedColumns = Ticketlist::allowedColumns();
