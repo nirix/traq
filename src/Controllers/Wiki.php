@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -53,6 +53,11 @@ class Wiki extends AppController
         );
     }
 
+    /**
+     * New page.
+     *
+     * @param string $slug slug for new page
+     */
     public function newAction($slug = null)
     {
         $this->title($this->translate('new'));
@@ -67,6 +72,9 @@ class Wiki extends AppController
         ]);
     }
 
+    /**
+     * Create page.
+     */
     public function createAction()
     {
         $page = new WikiPage($this->pageParams());
@@ -94,12 +102,22 @@ class Wiki extends AppController
         }
     }
 
+    /**
+     * Edit page.
+     *
+     * @param string $slug
+     */
     public function editAction($slug)
     {
         $this->title($this->translate('edit'));
         return $this->render('wiki/edit.phtml');
     }
 
+    /**
+     * Save page.
+     *
+     * @param string $slug
+     */
     public function saveAction($slug)
     {
         $this->page->set($this->pageParams());
@@ -231,12 +249,22 @@ class Wiki extends AppController
         return $this->render('wiki/show.phtml');
     }
 
+    /**
+     * Delete page.
+     *
+     * @param string $slug
+     */
     public function destroyAction($slug)
     {
         $this->page->delete();
         return $this->redirectTo('wiki_pages', ['pslug' => $this->currentProject['slug']]);
     }
 
+    /**
+     * Get submitted page data.
+     *
+     * @return array
+     */
     protected function pageParams()
     {
         return [
@@ -248,6 +276,9 @@ class Wiki extends AppController
         ];
     }
 
+    /**
+     * Get current page.
+     */
     public function getPage()
     {
         $this->page = WikiPage::where('slug = ?')->andWhere('project_id = ?')
@@ -268,6 +299,9 @@ class Wiki extends AppController
         $this->set('page', $this->page);
     }
 
+    /**
+     * Check permissions.
+     */
     public function checkPermission()
     {
         $action = (Request::$properties->get('action') == 'new' ? 'create' : Request::$properties->get('action'));
