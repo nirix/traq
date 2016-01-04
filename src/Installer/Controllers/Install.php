@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -66,14 +66,7 @@ class Install extends AppController
 
         // Insert defaults
         $seeder = new Seeder;
-        $seeder->insertPriorities();
-        $seeder->insertProjectRoles();
-        $seeder->insertSettings();
-        $seeder->insertSeverities();
-        $seeder->insertStatuses();
-        $seeder->insertTypes();
-        $seeder->insertGroups();
-        $seeder->insertPermissions();
+        $seeder->seed();
 
         // Remove database and account details from the session.
         unset($_SESSION['db'], $_SESSION['admin']);
