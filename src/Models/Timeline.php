@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -57,6 +57,22 @@ class Timeline extends Model
     }
 
     /**
+     * Creates a new Timeline object relating to an updated ticket event.
+     *
+     * @return Timeline
+     */
+    public static function updateTicketEvent($user, $ticket, $action, $statusId)
+    {
+        return new static([
+            'project_id' => $ticket->project_id,
+            'owner_id'   => $ticket->id,
+            'user_id'    => $user->id,
+            'action'     => $action,
+            'data'       => $statusId
+        ]);
+    }
+
+    /**
      * Creates a new Timeline object relating to a milestone completion event.
      *
      * @return Timeline
@@ -67,7 +83,7 @@ class Timeline extends Model
             'project_id' => $milestone->project_id,
             'owner_id'   => $milestone->id,
             'user_id'    => $user->id,
-            'action'     => "milestone_completed",
+            'action'     => 'milestone_completed',
         ]);
     }
 

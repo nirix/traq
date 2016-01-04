@@ -191,6 +191,24 @@ class Tickets extends AppController
             if ($ticket->validate()) {
                 $ticket->save();
                 $update->save();
+
+                // Which action is being performed?
+                $statusId = $ticket->status_id;
+                if (!count($changes)) {
+                    $action = 'ticket_comment';
+                    $statusId = null;
+                } elseif ($ticket->isClosing) {
+                    $action = 'ticket_closed';
+                } elseif ($ticket->isReopening) {
+                    $action = 'ticket_reopened';
+                } else {
+                    $action = 'ticket_updated';
+                    $statusId = null;
+                }
+
+                $timeline = Timeline::updateTicketEvent($this->currentUser, $ticket, $action, $statusId);
+                $timeline->save();
+
                 return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], $ticket['ticket_id']]);
             } else {
                 $this->set('ticketModel', $ticket);

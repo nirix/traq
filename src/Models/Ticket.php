@@ -36,6 +36,10 @@ class Ticket extends Model
 {
     protected static $_tableAlias = 't';
 
+    protected static $_before = [
+        'save' => ['updateIsClosed']
+    ];
+
     protected static $_validations = [
         'ticket_id'    => ['required'],
         'summary'      => ['required'],
@@ -49,4 +53,42 @@ class Ticket extends Model
         'tasks' => 'json_array',
         'extra' => 'json_array'
     ];
+
+    public $isClosing;
+    public $isReopening;
+
+    public function __construct(array $data = [], $isNew = true)
+    {
+        parent::__construct($data, $isNew);
+
+        if (!$isNew) {
+            $this->original_status = $this->status_id;
+        }
+    }
+
+    public function updateIsClosed()
+    {
+        $this->isClosing = false;
+        $this->isReopening = false;
+
+        if ($this->original_status != $this->status_id) {
+            $status = Status::find($this->status_id);
+
+            if ($status->status >= 1) {
+                if ($this->is_closed) {
+                    $this->isClosing = false;
+                    $this->isReopening = true;
+                }
+
+                $this->is_closed = false;
+                $this->isClosing = false;
+            } elseif ($status->status == 0) {
+                if (!$this->is_closed) {
+                    $this->isClosing = true;
+                }
+
+                $this->is_closed = true;
+            }
+        }
+    }
 }

@@ -39,7 +39,7 @@
                         'id' => $tickets[$event['owner_id']]['ticket_id'],
                         'summary' => $tickets[$event['owner_id']]['summary'],
                         'type' => $tickets[$event['owner_id']]['type_name'],
-                        'status' => $tickets[$event['owner_id']]['status_name'],
+                        'status' => in_array($event['action'], ['ticket_closed', 'ticket_reopened']) ? $statuses[$event['data']]['name'] : '',
                     ]
                 )?>
 				</a>
