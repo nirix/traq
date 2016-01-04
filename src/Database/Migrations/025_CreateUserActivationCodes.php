@@ -25,29 +25,19 @@ namespace Traq\Database\Migrations;
 
 use Avalon\Database\Migration;
 
-class CreateUsers extends Migration
+class CreateUserActivationCodes extends Migration
 {
     public function up()
     {
-        $this->createTable("users", function ($t) {
-            $t->addColumn("username", "string");
-            $t->addColumn("password", "string");
-            $t->addColumn("password_ver", "string", ['default' => "crypt", 'notnull' => false]);
-            $t->addColumn("name", "string");
-            $t->addColumn("email", "string");
-            $t->addColumn("group_id", "integer", ['default' => 2]);
-            $t->addColumn("language", "string", ['default' => "enAU"]);
-            $t->addColumn("options", "text", ['notnull' => false]);
-            $t->addColumn("login_hash", "string");
-            $t->addColumn("api_key", "string", ['notnull' => false]);
-            // $t->addColumn("activation_code", "string", ['notnull' => false]);
-
-            $this->timestamps($t);
+        $this->createTable("user_activation_codes", function ($t) {
+            $t->addColumn("user_id", "string");
+            $t->addColumn("activation_code", "string");
+            $t->addColumn("type", "string");
         });
     }
 
     public function down()
     {
-        $this->dropTable("users");
+        $this->dropTable("user_activation_codes");
     }
 }
