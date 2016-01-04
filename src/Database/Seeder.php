@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -239,15 +239,21 @@ class Seeder
     {
         $password = rand(0, 9999) . time() . microtime();
 
+        // For email validation, emails must match x@y.z
+        $host = $_SERVER['HTTP_HOST'] == 'localhost' ? 'lvh.me' : $_SERVER['HTTP_HOST'];
+
         $user = new User([
             'name'                  => "Anonymous",
             'username'              => "Anonymous",
             'password'              => $password,
             'password_confirmation' => $password,
-            'email'                 => "noreply@" . $_SERVER['HTTP_HOST'],
+            'email'                 => "noreply@" . $host,
             'group_id'              => 3
         ]);
-        $user->save();
+
+        if (!$user->save()) {
+            var_dump($user->errors());
+        }
 
         return $user->id;
     }
