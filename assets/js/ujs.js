@@ -1,8 +1,8 @@
 
 /*
  * Traq
- * Copyright (C) 2009-2014 Traq.io
- * Copyright (C) 2009-2014 Jack P.
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 (function() {
   $(document).ready(function() {
-    var chosen_options, doc;
+    var chosen_options, dataMoment, doc;
     doc = $(document);
     if ($.cookie('show_ticket_filters') === 'true') {
       $('#ticket-filters-content').show();
@@ -94,15 +94,19 @@
         return $(this).remove();
       });
     });
-    return $('[data-moment]').each(function() {
-      var n, orig;
-      orig = $(this).attr('data-moment');
-      if (orig) {
-        n = moment(orig).fromNow();
-        $(this).html(n);
-        return $(this).attr('title', orig);
-      }
-    });
+    dataMoment = function() {
+      return $('[data-moment]').each(function() {
+        var n, orig;
+        orig = $(this).attr('data-moment');
+        if (orig) {
+          n = moment(orig).fromNow();
+          $(this).html(n);
+          return $(this).attr('title', orig);
+        }
+      });
+    };
+    dataMoment();
+    return setInterval(dataMoment, 30000);
   });
 
 }).call(this);
