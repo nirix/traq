@@ -129,6 +129,14 @@ class AppController extends Controller
                 return $this->show404();
             }
         });
+
+        $this->before('*', function () {
+            if ($this->currentUser && $this->currentUser['password_ver'] == 'sha1'
+            && Request::$properties->get('controller') != 'Traq\\Controllers\\UserCP'
+            && Request::$properties->get('controller') != 'Traq\\Controllers\\Sessions') {
+                return $this->redirectTo('usercp_password');
+            }
+        });
     }
 
     /**
