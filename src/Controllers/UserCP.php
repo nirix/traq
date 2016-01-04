@@ -164,6 +164,7 @@ class UserCP extends AppController
                 if ($user->validate()) {
                     // Update password
                     $user->setPassword(Request::$post->get('password'));
+                    $user->password_ver = 'crypt';
                     $user->save();
 
                     return $this->redirectTo('usercp_password');
