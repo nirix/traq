@@ -34,12 +34,21 @@ use Avalon\Database\Model;
  */
 class Ticket extends Model
 {
+    /**
+     * @var string
+     */
     protected static $_tableAlias = 't';
 
+    /**
+     * @var array
+     */
     protected static $_before = [
         'save' => ['updateIsClosed']
     ];
 
+    /**
+     * @var array
+     */
     protected static $_validations = [
         'ticket_id'    => ['required'],
         'summary'      => ['required'],
@@ -49,12 +58,22 @@ class Ticket extends Model
         'milestone_id' => ['required']
     ];
 
+    /**
+     * @var array
+     */
     protected static $_dataTypes = [
         'tasks' => 'json_array',
         'extra' => 'json_array'
     ];
 
+    /**
+     * @var null|boolean
+     */
     public $isClosing;
+
+    /**
+     * @var null|boolean
+     */
     public $isReopening;
 
     public function __construct(array $data = [], $isNew = true)
@@ -66,14 +85,19 @@ class Ticket extends Model
         }
     }
 
+    /**
+     * Update the `is_closed` property.
+     */
     public function updateIsClosed()
     {
         $this->isClosing = false;
         $this->isReopening = false;
 
+        // Don't do anything unless the status has changed
         if ($this->original_status != $this->status_id) {
             $status = Status::find($this->status_id);
 
+            // Did the status change to open/started or closed?
             if ($status->status >= 1) {
                 if ($this->is_closed) {
                     $this->isClosing = false;
