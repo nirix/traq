@@ -28,6 +28,7 @@ use Traq\Models\Ticket;
 use Traq\Models\TicketHistory;
 use Traq\Models\Timeline;
 use Traq\Models\User;
+use Traq\Models\Status;
 
 /**
  * Ticket controller.
@@ -193,20 +194,20 @@ class Tickets extends AppController
                 $update->save();
 
                 // Which action is being performed?
-                $statusId = $ticket->status_id;
+                $status = Status::find($ticket->status_id)->name;
                 if (!count($changes)) {
                     $action = 'ticket_comment';
-                    $statusId = null;
+                    $status = null;
                 } elseif ($ticket->isClosing) {
                     $action = 'ticket_closed';
                 } elseif ($ticket->isReopening) {
                     $action = 'ticket_reopened';
                 } else {
                     $action = 'ticket_updated';
-                    $statusId = null;
+                    $status = null;
                 }
 
-                $timeline = Timeline::updateTicketEvent($this->currentUser, $ticket, $action, $statusId);
+                $timeline = Timeline::updateTicketEvent($this->currentUser, $ticket, $action, $status);
                 $timeline->save();
 
                 return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], $ticket['ticket_id']]);

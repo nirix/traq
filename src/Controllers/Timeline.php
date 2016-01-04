@@ -94,7 +94,6 @@ class Timeline extends AppController
         // Holds all the IDs from events for fetching later
         $ids = [
             'tickets'    => [],
-            'status'     => [],
             'milestones' => [],
             'wiki'       => []
         ];
@@ -118,9 +117,6 @@ class Timeline extends AppController
                 if (strpos($event['action'], 'ticket_') === 0) {
                     $ids['tickets'][] = $event['owner_id'];
 
-                    if (in_array($event['action'], ['ticket_closed', 'ticket_reopened'])) {
-                        $ids['status'][] = $event['data'];
-                    }
                 } elseif (strpos($event['action'], 'milestone_') === 0) {
                     $ids['milestones'][] = $event['owner_id'];
                 } elseif (strpos($event['action'], 'wiki_page') === 0) {
@@ -135,14 +131,12 @@ class Timeline extends AppController
 
         // Fetch needed data all at once instead of one at a time, less queries executed
         $tickets    = $this->getTickets($ids['tickets']);
-        $statuses   = $this->getRows('statuses', $ids['status']);
         $milestones = $this->getRows('milestones', $ids['milestones']);
         $wikiPages  = $this->getRows('wiki_pages', $ids['wiki']);
 
         return $this->render('timeline/index.phtml', [
             'days'       => $days,
             'tickets'    => $tickets,
-            'statuses'   => $statuses,
             'milestones' => $milestones,
             'wikiPages'  => $wikiPages,
             'filters'    => $filters,

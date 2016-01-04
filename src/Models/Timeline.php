@@ -61,14 +61,14 @@ class Timeline extends Model
      *
      * @return Timeline
      */
-    public static function updateTicketEvent($user, $ticket, $action, $statusId)
+    public static function updateTicketEvent($user, $ticket, $action, $status)
     {
         return new static([
             'project_id' => $ticket->project_id,
             'owner_id'   => $ticket->id,
             'user_id'    => $user->id,
             'action'     => $action,
-            'data'       => $statusId
+            'data'       => $status
         ]);
     }
 
