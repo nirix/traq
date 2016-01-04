@@ -109,12 +109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database-migrations.git",
-                "reference": "c5d700775de74f7db990e385f05b376b542d76a2"
+                "reference": "32f9ce2b2edb136892a7fb9de6319ba280735ae3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/c5d700775de74f7db990e385f05b376b542d76a2",
-                "reference": "c5d700775de74f7db990e385f05b376b542d76a2",
+                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/32f9ce2b2edb136892a7fb9de6319ba280735ae3",
+                "reference": "32f9ce2b2edb136892a7fb9de6319ba280735ae3",
                 "shasum": ""
             },
             "require": {
@@ -137,7 +137,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jack P.",
+                    "name": "Jack Polgar",
                     "email": "jack@polgar.id.au"
                 }
             ],
@@ -148,7 +148,7 @@
                 "migrations",
                 "schema"
             ],
-            "time": "2015-11-26 08:57:06"
+            "time": "2016-01-04 03:29:10"
         },
         {
             "name": "avalon/framework",
@@ -380,16 +380,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/validation.git",
-                "reference": "18bd4beeb1ebee36d055ad6f6701165ccd20da16"
+                "reference": "6cdc5dfcd35617efda7426f64d5ee095cd67c21d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/validation/zipball/18bd4beeb1ebee36d055ad6f6701165ccd20da16",
-                "reference": "18bd4beeb1ebee36d055ad6f6701165ccd20da16",
+                "url": "https://api.github.com/repos/avalonphp/validation/zipball/6cdc5dfcd35617efda7426f64d5ee095cd67c21d",
+                "reference": "6cdc5dfcd35617efda7426f64d5ee095cd67c21d",
                 "shasum": ""
-            },
-            "require": {
-                "respect/validation": "^1.0"
             },
             "require-dev": {
                 "filp/whoops": "^1.1"
@@ -415,7 +412,7 @@
                 }
             ],
             "description": "Avalon validation component.",
-            "time": "2015-12-22 10:02:21"
+            "time": "2016-01-04 04:57:34"
         },
         {
             "name": "doctrine/annotations",
@@ -970,70 +967,6 @@
             "time": "2015-11-01 10:19:22"
         },
         {
-            "name": "respect/validation",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Respect/Validation.git",
-                "reference": "0c536453114987b7e0f6f72369d3be0af8dd1109"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Respect/Validation/zipball/0c536453114987b7e0f6f72369d3be0af8dd1109",
-                "reference": "0c536453114987b7e0f6f72369d3be0af8dd1109",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "egulias/email-validator": "~1.2",
-                "malkusch/bav": "~1.0",
-                "mikey179/vfsstream": "^1.5",
-                "phpunit/phpunit": "~4.0",
-                "symfony/validator": "~2.6.9",
-                "zendframework/zend-validator": "~2.3"
-            },
-            "suggest": {
-                "egulias/email-validator": "Strict (RFC compliant) email validation",
-                "ext-bcmath": "Arbitrary Precision Mathematics",
-                "ext-mbstring": "Multibyte String Functions",
-                "fabpot/php-cs-fixer": "Fix PSR2 and other coding style issues",
-                "malkusch/bav": "German bank account validation",
-                "symfony/validator": "Use Symfony validator through Respect\\Validation",
-                "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Respect\\Validation\\": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD Style"
-            ],
-            "authors": [
-                {
-                    "name": "Respect/Validation Contributors",
-                    "homepage": "https://github.com/Respect/Validation/graphs/contributors"
-                }
-            ],
-            "description": "The most awesome validation engine ever created for PHP",
-            "homepage": "http://respect.li",
-            "keywords": [
-                "respect",
-                "validation",
-                "validator"
-            ],
-            "time": "2015-11-25 20:03:11"
-        },
-        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.1",
             "source": {
@@ -1229,6 +1162,70 @@
                 "zf2"
             ],
             "time": "2015-06-29 05:42:04"
+        },
+        {
+            "name": "respect/validation",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Respect/Validation.git",
+                "reference": "0c536453114987b7e0f6f72369d3be0af8dd1109"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/0c536453114987b7e0f6f72369d3be0af8dd1109",
+                "reference": "0c536453114987b7e0f6f72369d3be0af8dd1109",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "egulias/email-validator": "~1.2",
+                "malkusch/bav": "~1.0",
+                "mikey179/vfsstream": "^1.5",
+                "phpunit/phpunit": "~4.0",
+                "symfony/validator": "~2.6.9",
+                "zendframework/zend-validator": "~2.3"
+            },
+            "suggest": {
+                "egulias/email-validator": "Strict (RFC compliant) email validation",
+                "ext-bcmath": "Arbitrary Precision Mathematics",
+                "ext-mbstring": "Multibyte String Functions",
+                "fabpot/php-cs-fixer": "Fix PSR2 and other coding style issues",
+                "malkusch/bav": "German bank account validation",
+                "symfony/validator": "Use Symfony validator through Respect\\Validation",
+                "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Respect\\Validation\\": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD Style"
+            ],
+            "authors": [
+                {
+                    "name": "Respect/Validation Contributors",
+                    "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+                }
+            ],
+            "description": "The most awesome validation engine ever created for PHP",
+            "homepage": "http://respect.li",
+            "keywords": [
+                "respect",
+                "validation",
+                "validator"
+            ],
+            "time": "2015-11-25 20:03:11"
         }
     ],
     "aliases": [],
