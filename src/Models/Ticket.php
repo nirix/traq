@@ -52,7 +52,7 @@ class Ticket extends Model
     protected static $_validations = [
         'ticket_id'    => ['required'],
         'summary'      => ['required'],
-        'info'         => ['required'],
+        'body'         => ['required'],
         'user_id'      => ['required'],
         'project_id'   => ['required'],
         'milestone_id' => ['required']

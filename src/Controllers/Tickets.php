@@ -227,7 +227,7 @@ class Tickets extends AppController
      */
     public function editDescriptionAction($id)
     {
-        $ticket = Ticket::select('t.ticket_id', 't.info')->where('ticket_id = ?')->andWhere('project_id = ?')
+        $ticket = Ticket::select('t.ticket_id', 't.body')->where('ticket_id = ?')->andWhere('project_id = ?')
             ->setParameter(0, $id)->setParameter(1, $this->currentProject['id'])
             ->execute()
             ->fetch();
@@ -246,7 +246,7 @@ class Tickets extends AppController
             ->setParameter(0, $id)->setParameter(1, $this->currentProject['id'])
             ->fetch();
 
-        $ticket->info = Request::$post->get('info');
+        $ticket->body = Request::$post->get('body');
         $ticket->save();
 
         return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], 'id' => $ticket['ticket_id']]);
@@ -262,7 +262,7 @@ class Tickets extends AppController
         $params = [
             'ticket_id'    => $this->currentProject['next_ticket_id'],
             'summary'      => Request::$post->get('summary'),
-            'info'         => Request::$post->get('info'),
+            'body'         => Request::$post->get('body'),
             'user_id'      => $this->currentUser['id'],
             'project_id'   => $this->currentProject['id'],
             'milestone_id' => 0,
