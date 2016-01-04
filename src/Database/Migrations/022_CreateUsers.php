@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -32,7 +32,7 @@ class CreateUsers extends Migration
         $this->createTable("users", function ($t) {
             $t->addColumn("username", "string");
             $t->addColumn("password", "string");
-            // $t->addColumn("password_ver", "string", ['default' => "crpyt"]);
+            $t->addColumn("password_ver", "string", ['default' => "crypt", 'notnull' => false]);
             $t->addColumn("name", "string");
             $t->addColumn("email", "string");
             $t->addColumn("group_id", "integer", ['default' => 2]);
