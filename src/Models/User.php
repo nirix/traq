@@ -160,7 +160,7 @@ class User extends Model
             $this->name = $this->username;
         }
 
-        $this->login_hash = sha1(microtime() . random_hash() . rand(0, 5000));
+        $this->login_hash = sha1(microtime() . time() . memory_get_usage() . sha1($this->email . time()) . rand(0, 5000));
     }
 
     // ------------------------------------------------------------------------
