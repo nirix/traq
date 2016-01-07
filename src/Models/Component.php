@@ -37,4 +37,19 @@ class Component extends Model
     protected static $_validations =[
         'name' => ['required']
     ];
+
+    /**
+     * @return array[]
+     */
+    public static function selectOptions($projectId, $valueField = 'id')
+    {
+        $options = [];
+        $rows = static::select('id', 'name')->where('project_id = ?')->setParameter(0, $projectId)->execute()->fetchAll();
+
+        foreach ($rows as $row) {
+            $options[] = ['label' => $row['name'], 'value' => $row[$valueField]];
+        }
+
+        return $options;
+    }
 }
