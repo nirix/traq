@@ -165,7 +165,7 @@ class TicketFilters
 
             // Version options
             case 'version':
-                $options = $project->milestoneSelectOptions('completed');
+                $options = $project->milestoneSelectOptions('slug');
                 break;
 
             // Type options
