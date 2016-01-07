@@ -150,6 +150,14 @@ class TicketFilterQuery
     }
 
     /**
+     * Priorities.
+     */
+    protected function priority()
+    {
+        $this->filterIn('priority', 'p.name');
+    }
+
+    /**
      * All open statuses.
      */
     protected function allOpen()

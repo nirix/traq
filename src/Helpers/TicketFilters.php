@@ -185,7 +185,7 @@ class TicketFilters
 
             // Priority options
             case 'priority':
-                $options = Priority::selectOptions();
+                $options = Priority::selectOptions('name');
                 break;
 
             // Severity options
