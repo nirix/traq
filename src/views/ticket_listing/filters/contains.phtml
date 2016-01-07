@@ -1,5 +1,5 @@
 <?php if (!count($filter['values'])) {
-	$filter['values'] = [''];
+    $filter['values'] = [''];
 }
 
 foreach ($filter['values'] as $key => $value) : ?>
@@ -8,22 +8,22 @@ foreach ($filter['values'] as $key => $value) : ?>
 	<td class="filter-condition">
 	<?php if ($key === 0) : ?>
 		<?=Form::select("filters[{$name}][prefix]", TicketFilters::containsFilterSelectOptions(), [
-			'value' => $filter['cond'] ? '' : '!',
-			'id'	=> false,
-			'class' => 'form-control'
-		])?>
-	<?php else: ?>
+            'value' => $filter['cond'] ? '' : '!',
+            'id'    => false,
+            'class' => 'form-control'
+        ])?>
+	<?php else : ?>
 		<?=t('or')?>
 	<?php endif; ?>
 	</td>
 	<td class="filter-value">
 		<?=Form::text("filters[{$name}][values][]", [
-			'value' => $filter['values'][$key],
-			'class' => 'form-control'
-		])?>
+            'value' => $filter['values'][$key],
+            'class' => 'form-control'
+        ])?>
 	</td>
 	<td class="filter-actions">
 		<button type="button" class="btn btn-sm btn-danger remove-filter" data-filter="<?=$name?>-<?=$key?>">-</button>
 	</td>
 </tr>
-<?php endforeach; ?>
+<?php endforeach ?>
