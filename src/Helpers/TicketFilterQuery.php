@@ -158,6 +158,14 @@ class TicketFilterQuery
     }
 
     /**
+     * Severities.
+     */
+    protected function severity()
+    {
+        $this->filterIn('severity', 'sv.name');
+    }
+
+    /**
      * All open statuses.
      */
     protected function allOpen()

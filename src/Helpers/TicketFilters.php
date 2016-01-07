@@ -190,7 +190,7 @@ class TicketFilters
 
             // Severity options
             case 'severity':
-                $options = Severity::selectOptions();
+                $options = Severity::selectOptions('name');
                 break;
         }
 
