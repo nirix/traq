@@ -82,22 +82,7 @@ class TicketFilterQuery
      */
     protected function summary()
     {
-        $info = $this->extract('summary');
-
-        $info['values'] = explode(',', str_replace('*', '%', $info['values']));
-        // $values = array_map([$this,  'quote'], $info['values']);
-
-        foreach ($info['values'] as $value) {
-            if ($info['cond']) {
-                $expr = $this->expr->like('t.summary', "'%{$value}%'");
-            } else {
-                $expr = $this->expr->notLike('t.summary', "'%{$value}%'");
-            }
-        }
-
-        $this->builder->andWhere($expr);
-
-        $this->filters['summary'] = $info;
+        $this->likeFilter('summary', 't.summary');
     }
 
     /**
@@ -105,22 +90,7 @@ class TicketFilterQuery
      */
     protected function description()
     {
-        $info = $this->extract('description');
-
-        $info['values'] = explode(',', str_replace('*', '%', $info['values']));
-        // $values = array_map([$this, 'quote'], $info['values']);
-
-        foreach ($info['values'] as $value) {
-            if ($info['cond']) {
-                $expr = $this->expr->like('t.summary', "'%{$value}%'");
-            } else {
-                $expr = $this->expr->notLike('t.summary', "'%{$value}%'");
-            }
-        }
-
-        $this->builder->andWhere($expr);
-
-        $this->filters['description'] = $info;
+        $this->likeFilter('description', 't.body');
     }
 
     /**
@@ -316,5 +286,30 @@ class TicketFilterQuery
     protected function quote($string)
     {
         return $GLOBALS['db']->quote($string);
+    }
+
+    /**
+     * Filter field with `LIKE`.
+     *
+     * @param string $filterName
+     * @param string $field
+     */
+    protected function likeFilter($filterName, $field)
+    {
+        $info = $this->extract($filterName);
+
+        $info['values'] = explode(',', str_replace('*', '%', $info['values']));
+
+        foreach ($info['values'] as $value) {
+            if ($info['cond']) {
+                $expr = $this->expr->like($field, "'%{$value}%'");
+            } else {
+                $expr = $this->expr->notLike($field, "'%{$value}%'");
+            }
+        }
+
+        $this->builder->andWhere($expr);
+
+        $this->filters[$filterName] = $info;
     }
 }
