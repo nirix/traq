@@ -96,22 +96,9 @@ class TicketFilterQuery
     /**
      * Owner / reporter / user.
      */
-    public function owner()
+    protected function owner()
     {
-        $info = $this->extract('owner');
-
-        $info['values'] = explode(',', $info['values']);
-        $values = array_map([$this, 'quote'], $info['values']);
-
-        if ($info['cond']) {
-            $expr = $this->expr->in('u.name', $values);
-        } else {
-            $expr = $this->expr->notIn('u.name', $values);
-        }
-
-        $this->builder->andWhere($expr);
-
-        $this->filters['owner'] = $info;
+        $this->filterIn('owner', 'u.name');
     }
 
     /**
@@ -119,20 +106,7 @@ class TicketFilterQuery
      */
     public function assignedTo()
     {
-        $info = $this->extract('assigned_to');
-
-        $info['values'] = explode(',', $info['values']);
-        $values = array_map([$this, 'quote'], $info['values']);
-
-        if ($info['cond']) {
-            $expr = $this->expr->in('at.name', $values);
-        } else {
-            $expr = $this->expr->notIn('at.name', $values);
-        }
-
-        $this->builder->andWhere($expr);
-
-        $this->filters['assigned_to'] = $info;
+        $this->filterIn('assigned_to', 'at.name');
     }
 
     /**
@@ -140,20 +114,7 @@ class TicketFilterQuery
      */
     protected function milestone()
     {
-        $info = $this->extract('milestone');
-
-        $info['values'] = explode(',', $info['values']);
-        $values = array_map([$this, 'quote'], $info['values']);
-
-        if ($info['cond']) {
-            $expr = $this->expr->in('m.slug', $values);
-        } else {
-            $expr = $this->expr->notIn('m.slug', $values);
-        }
-
-        $this->builder->andWhere($expr);
-
-        $this->filters['milestone'] = $info;
+        $this->filterIn('milestone', 'm.slug');
     }
 
     /**
@@ -161,20 +122,7 @@ class TicketFilterQuery
      */
     protected function version()
     {
-        $info = $this->extract('version');
-
-        $info['values'] = explode(',', $info['values']);
-        $values = array_map([$this, 'quote'], $info['values']);
-
-        if ($info['cond']) {
-            $expr = $this->expr->in('v.slug', $values);
-        } else {
-            $expr = $this->expr->notIn('v.slug', $values);
-        }
-
-        $this->builder->andWhere($expr);
-
-        $this->filters['version'] = $info;
+        $this->filterIn('version', 'v.slug');
     }
 
     /**
@@ -182,16 +130,7 @@ class TicketFilterQuery
      */
     protected function status()
     {
-        $info = $this->extract('status');
-
-        $info['values'] = explode(',', $info['values']);
-        $values = array_map([$this, 'quote'], $info['values']);
-
-        $this->builder->andWhere(
-            $this->expr->in('s.name', $values)
-        );
-
-        $this->filters['status'] = $info;
+        $this->filterIn('status', 's.name');
     }
 
     /**
@@ -286,6 +225,30 @@ class TicketFilterQuery
     protected function quote($string)
     {
         return $GLOBALS['db']->quote($string);
+    }
+
+    /**
+     * Filter field with `IN`.
+     *
+     * @param string $filterName
+     * @param string $field
+     */
+    protected function filterIn($filterName, $field)
+    {
+        $info = $this->extract($filterName);
+
+        $info['values'] = explode(',', $info['values']);
+        $values = array_map([$this, 'quote'], $info['values']);
+
+        if ($info['cond']) {
+            $expr = $this->expr->in($field, $values);
+        } else {
+            $expr = $this->expr->notIn($field, $values);
+        }
+
+        $this->builder->andWhere($expr);
+
+        $this->filters[$filterName] = $info;
     }
 
     /**
