@@ -118,6 +118,27 @@ class TicketFilterQuery
     }
 
     /**
+     * Owner / reporter / user.
+     */
+    public function owner()
+    {
+        $info = $this->extract('owner');
+
+        $info['values'] = explode(',', $info['values']);
+        $values = array_map([$this, 'quote'], $info['values']);
+
+        if ($info['cond']) {
+            $expr = $this->expr->in('u.name', $values);
+        } else {
+            $expr = $this->expr->notIn('u.name', $values);
+        }
+
+        $this->builder->andWhere($expr);
+
+        $this->filters['owner'] = $info;
+    }
+
+    /**
      * Milestones.
      */
     protected function milestone()
