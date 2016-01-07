@@ -62,11 +62,17 @@ class TicketFilterQuery
             $this->allClosed();
         }
 
-        foreach (array_keys($query) as $method) {
-            if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
+        foreach (array_keys($query) as $filter) {
+            $method = $filter;
+
+            if ($filter == 'assigned_to') {
+                $method = 'assignedTo';
+            }
+
+            if (method_exists(get_called_class(), $method) && !empty($query[$filter])) {
                 $this->{$method}();
-            } elseif (method_exists(get_called_class(), $method) && empty($query[$method])) {
-                $this->filters[$method] = ['cond' => true, 'values' => []];
+            } elseif (method_exists(get_called_class(), $method) && empty($query[$filter])) {
+                $this->filters[$filter] = ['cond' => true, 'values' => []];
             }
         }
     }
@@ -136,6 +142,27 @@ class TicketFilterQuery
         $this->builder->andWhere($expr);
 
         $this->filters['owner'] = $info;
+    }
+
+    /**
+     * Assigned to / assignee
+     */
+    public function assignedTo()
+    {
+        $info = $this->extract('assigned_to');
+
+        $info['values'] = explode(',', $info['values']);
+        $values = array_map([$this, 'quote'], $info['values']);
+
+        if ($info['cond']) {
+            $expr = $this->expr->in('at.name', $values);
+        } else {
+            $expr = $this->expr->notIn('at.name', $values);
+        }
+
+        $this->builder->andWhere($expr);
+
+        $this->filters['assigned_to'] = $info;
     }
 
     /**
