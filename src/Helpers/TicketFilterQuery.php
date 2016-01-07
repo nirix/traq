@@ -142,6 +142,14 @@ class TicketFilterQuery
     }
 
     /**
+     * Types.
+     */
+    protected function type()
+    {
+        $this->filterIn('type', 'tp.name');
+    }
+
+    /**
      * All open statuses.
      */
     protected function allOpen()
