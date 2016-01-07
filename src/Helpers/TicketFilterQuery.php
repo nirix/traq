@@ -95,6 +95,29 @@ class TicketFilterQuery
     }
 
     /**
+     * Description / body.
+     */
+    protected function description()
+    {
+        $info = $this->extract('description');
+
+        $info['values'] = explode(',', str_replace('*', '%', $info['values']));
+        // $values = array_map([$this, 'quote'], $info['values']);
+
+        foreach ($info['values'] as $value) {
+            if ($info['cond']) {
+                $expr = $this->expr->like('t.summary', "'%{$value}%'");
+            } else {
+                $expr = $this->expr->notLike('t.summary', "'%{$value}%'");
+            }
+        }
+
+        $this->builder->andWhere($expr);
+
+        $this->filters['description'] = $info;
+    }
+
+    /**
      * Milestones.
      */
     protected function milestone()

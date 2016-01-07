@@ -56,6 +56,7 @@ class TicketListing extends AppController
         // Only get the current projects tickets
         $tickets = ticketQuery()
             ->where('t.project_id = ?')
+            ->addSelect('t.body')
             ->setParameter(0, $this->currentProject['id']);
 
         // Sort tickets by the projects sorting setting or by the users selection
