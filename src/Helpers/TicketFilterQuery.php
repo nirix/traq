@@ -110,6 +110,14 @@ class TicketFilterQuery
     }
 
     /**
+     * Components.
+     */
+    protected function component()
+    {
+        $this->filterIn('component', 'c.name');
+    }
+
+    /**
      * Milestones.
      */
     protected function milestone()

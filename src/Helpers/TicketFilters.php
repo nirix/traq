@@ -180,7 +180,7 @@ class TicketFilters
 
             // Component options
             case 'component':
-                $options = Component::selectOptions($project->id);
+                $options = Component::selectOptions($project->id, 'name');
                 break;
 
             // Priority options
