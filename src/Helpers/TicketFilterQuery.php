@@ -81,12 +81,10 @@ class TicketFilterQuery
         $info['values'] = explode(',', $info['values']);
         $values = array_map([$this, 'quote'], $info['values']);
 
-        foreach ($values as $slug) {
-            if ($info['cond']) {
-                $expr = $this->expr->in('m.slug', $values);
-            } else {
-                $expr = $this->expr->notIn('m.slug', $values);
-            }
+        if ($info['cond']) {
+            $expr = $this->expr->in('m.slug', $values);
+        } else {
+            $expr = $this->expr->notIn('m.slug', $values);
         }
 
         $this->builder->andWhere($expr);
@@ -104,12 +102,10 @@ class TicketFilterQuery
         $info['values'] = explode(',', $info['values']);
         $values = array_map([$this, 'quote'], $info['values']);
 
-        foreach ($values as $slug) {
-            if ($info['cond']) {
-                $expr = $this->expr->in('v.slug', $values);
-            } else {
-                $expr = $this->expr->notIn('v.slug', $values);
-            }
+        if ($info['cond']) {
+            $expr = $this->expr->in('v.slug', $values);
+        } else {
+            $expr = $this->expr->notIn('v.slug', $values);
         }
 
         $this->builder->andWhere($expr);
