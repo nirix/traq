@@ -71,6 +71,26 @@ class TicketFilterQuery
         }
     }
 
+    protected function summary()
+    {
+        $info = $this->extract('summary');
+
+        $info['values'] = explode(',', str_replace('*', '%', $info['values']));
+        $values = array_map([$this, 'quote'], $info['values']);
+
+        foreach ($values as $value) {
+            if ($info['cond']) {
+                $expr = $this->expr->like('t.summary', $value);
+            } else {
+                $expr = $this->expr->notLike('t.summary', $value);
+            }
+        }
+
+        $this->builder->andWhere($expr);
+
+        $this->filters['summary'] = $info;
+    }
+
     /**
      * Milestones.
      */
