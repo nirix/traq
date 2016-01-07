@@ -66,7 +66,7 @@ class TicketFilterQuery
             if (method_exists(get_called_class(), $method) && !empty($query[$method])) {
                 $this->{$method}();
             } elseif (method_exists(get_called_class(), $method) && empty($query[$method])) {
-                $this->filters[$method] = ['cond' => true, 'value' => []];
+                $this->filters[$method] = ['cond' => true, 'values' => []];
             }
         }
     }
@@ -78,8 +78,8 @@ class TicketFilterQuery
     {
         $info = $this->extract('milestone');
 
-        $info['value'] = explode(',', $info['value']);
-        $values = array_map([$this, 'quote'], $info['value']);
+        $info['values'] = explode(',', $info['values']);
+        $values = array_map([$this, 'quote'], $info['values']);
 
         foreach ($values as $slug) {
             if ($info['cond']) {
@@ -101,8 +101,8 @@ class TicketFilterQuery
     {
         $info = $this->extract('version');
 
-        $info['value'] = explode(',', $info['value']);
-        $values = array_map([$this, 'quote'], $info['value']);
+        $info['values'] = explode(',', $info['values']);
+        $values = array_map([$this, 'quote'], $info['values']);
 
         foreach ($values as $slug) {
             if ($info['cond']) {
@@ -124,8 +124,8 @@ class TicketFilterQuery
     {
         $info = $this->extract('status');
 
-        $info['value'] = explode(',', $info['value']);
-        $values = array_map([$this, 'quote'], $info['value']);
+        $info['values'] = explode(',', $info['values']);
+        $values = array_map([$this, 'quote'], $info['values']);
 
         $this->builder->andWhere(
             $this->expr->in('s.name', $values)
@@ -154,7 +154,7 @@ class TicketFilterQuery
             $this->expr->in('t.status_id', $ids)
         );
 
-        $this->filters['status'] = ['cond' => true, 'value' => $names];
+        $this->filters['status'] = ['cond' => true, 'values' => $names];
     }
 
     /**
@@ -177,7 +177,7 @@ class TicketFilterQuery
             $this->expr->in('t.status_id', $ids)
         );
 
-        $this->filters['status'] = ['cond' => true, 'value' => $names];
+        $this->filters['status'] = ['cond' => true, 'values' => $names];
     }
 
     /**
@@ -200,7 +200,7 @@ class TicketFilterQuery
             $this->expr->in('t.status_id', $ids)
         );
 
-        $this->filters['status'] = ['cond' => true, 'value' => $names];
+        $this->filters['status'] = ['cond' => true, 'values' => $names];
     }
 
     /**
@@ -212,7 +212,7 @@ class TicketFilterQuery
             $info = [
                 'cond' => $this->query[$filter][0] == '!' ? false : true
             ];
-            $info['value'] = $info['cond'] ? $this->query[$filter] : substr($this->query[$filter], 1);
+            $info['values'] = $info['cond'] ? $this->query[$filter] : substr($this->query[$filter], 1);
 
             return $info;
         }

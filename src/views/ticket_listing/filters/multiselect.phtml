@@ -9,7 +9,7 @@
 	</td>
 	<td class="filter-value">
 		<?=Form::select("filters[{$name}][values][]", TicketFilters::selectOptionsFor($name, $currentProject), [
-			'value'	=> $filter['value'],
+			'value'	=> $filter['values'],
 			'multiple' => true,
 			'class'	=> 'form-control'
 		])?>
