@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -136,6 +136,13 @@ $enAU = new Language(function ($t) {
         // Update ticket
         'update_ticket' => 'Update Ticket',
         'comment'       => 'Comment',
+
+        // Filters
+        'is'             => 'is',
+        'or'             => 'or',
+        'is_not'         => 'is not',
+        'contains'       => 'Contains',
+        'doesnt_contain' => 'Doesn\'t contain',
 
         // --------------------------------------------------------------------
         // Notifications
