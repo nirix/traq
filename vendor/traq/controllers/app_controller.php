@@ -59,7 +59,7 @@ class AppController extends Controller
 
         // Set the theme
         View::$theme = settings('theme');
-        View::$inherit_from = APPPATH . "/default";
+        View::$inherit_from = APPPATH . "/views/default";
 
         // Call the controller class constructor
         parent::__construct();
