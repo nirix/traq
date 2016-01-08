@@ -23,6 +23,9 @@
 
 namespace Traq\Helpers;
 
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
+
 /**
  * Ticket filtering.
  *
@@ -32,12 +35,31 @@ namespace Traq\Helpers;
  */
 class TicketFilterQuery
 {
+    /**
+     * @var QueryBuilder
+     */
     protected $builder;
+
+    /**
+     * @var ExpressionBuilder
+     */
     protected $expr;
+
+    /**
+     * @var array
+     */
     public $query;
+
+    /**
+     * @var array
+     */
     public $filters = [];
 
-    public function __construct($builder, $query)
+    /**
+     * @param object $builder ticket query builder
+     * @param array  $query   key value array of filters
+     */
+    public function __construct(QueryBuilder $builder, $query)
     {
         $this->builder = $builder;
         $this->expr    = $builder->expr();
@@ -46,6 +68,11 @@ class TicketFilterQuery
         $this->filter();
     }
 
+    /**
+     * Filter tickets.
+     *
+     * @param array $query key value array of filters
+     */
     public function filter(array $query = null)
     {
         if (!$query) {
