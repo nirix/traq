@@ -193,6 +193,25 @@ class TicketFilterQuery
     }
 
     /**
+     * Search filter: summary OR body.
+     */
+    protected function search()
+    {
+        $info = $this->extract('search');
+
+        $value = $this->quote(str_replace('*', '%', "%{$info['values']}%"));
+
+        $expr = $this->expr->orX(
+            $this->expr->like('t.summary', $value),
+            $this->expr->like('t.body', $value)
+        );
+
+        $this->builder->andWhere($expr);
+
+        $this->filters['search'] = $info;
+    }
+
+    /**
      * All open statuses.
      */
     protected function allOpen()
