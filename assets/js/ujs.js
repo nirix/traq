@@ -86,7 +86,7 @@
       event.preventDefault();
       return $('#ticketlist-columns-content').slideToggle();
     });
-    doc.on('click', 'button.remove-filter', function(event) {
+    doc.on('click', '.remove-filter', function(event) {
       var filterRow;
       event.preventDefault();
       filterRow = $(this).attr('data-filter');
