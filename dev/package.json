@@ -1,0 +1,25 @@
+{
+  "name": "traq-dev-tools",
+  "version": "2.0.0",
+  "description": "Traq development tools.",
+  "author": "Nirix",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "bootstrap": "^3.3.6",
+    "bootstrap-chosen": "git+https://github.com/alxlit/bootstrap-chosen.git",
+    "chosen-npm": "^1.4.2",
+    "eonasdan-bootstrap-datetimepicker": "https://github.com/Eonasdan/bootstrap-datetimepicker/archive/4.17.37.tar.gz",
+    "font-awesome": "^4.5.0",
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.0.5",
+    "gulp-sass": "^2.1.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-watch": "^4.3.5",
+    "jquery": "^2.1.4",
+    "js-cookie": "^2.1.0",
+    "moment": "^2.11.1"
+  }
+}

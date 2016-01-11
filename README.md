@@ -20,6 +20,15 @@ Installation
 
 Open Traq in your browser and follow the installation steps.
 
+### From Repository
+
+```shell
+composer install
+cd dev
+npm install
+npm compile
+```
+
 Licenses
 -------
 
