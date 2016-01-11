@@ -1,4 +1,4 @@
-<?php if (has_permission($currentProject['id'], 'update_tickets') || has_permission($currentProject['id'], 'comment_on_tickets')) : ?>
+<?php if (has_permission('update_tickets') || has_permission('comment_on_tickets')) : ?>
 <?php
 $milestoneSelectOptions = $currentProject->milestoneSelectOptions('id', 1);
 
@@ -12,16 +12,16 @@ if ($ticket['is_closed']) {
 	<div id="update-ticket">
 		<h2><?=t('update_ticket')?></h2>
 		<form action="<?=routeUrl('update_ticket', ['pslug' => $currentProject['slug'], 'id' => $ticket['ticket_id']])?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-		<?php if (has_permission($currentProject['id'], 'comment_on_tickets')) : ?>
+		<?php if (has_permission('comment_on_tickets')) : ?>
 			<div class="update-ticket-property-comment">
 				<label for="comment" class="control-label"><?=t('comment')?></label>
 				<textarea id="comment" name="comment" class="form-control"></textarea>
 			</div>
 		<?php endif ?>
 
-		<?php if (has_permission($currentProject['id'], 'update_tickets')) : ?>
+		<?php if (has_permission('update_tickets')) : ?>
 			<div class="row">
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_type')) : ?>
+			<?php if (has_permission('ticket_properties_change_type')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="type_id" class="control-label col-sm-3"><?=t('type')?></label>
 					<div class="col-sm-9">
@@ -33,7 +33,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_assigned_to')) : ?>
+			<?php if (has_permission('ticket_properties_change_assigned_to')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="assigned_to_id" class="control-label col-sm-3"><?=t('assigned_to')?></label>
 					<div class="col-sm-9">
@@ -45,7 +45,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_milestone')) : ?>
+			<?php if (has_permission('ticket_properties_change_milestone')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="milestone_id" class="control-label col-sm-3"><?=t('milestone')?></label>
 					<div class="col-sm-9">
@@ -57,7 +57,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_version')) : ?>
+			<?php if (has_permission('ticket_properties_change_version')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="version_id" class="control-label col-sm-3"><?=t('version')?></label>
 					<div class="col-sm-9">
@@ -69,7 +69,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_component')) : ?>
+			<?php if (has_permission('ticket_properties_change_component')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="component_id" class="control-label col-sm-3"><?=t('component')?></label>
 					<div class="col-sm-9">
@@ -81,7 +81,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_severity')) : ?>
+			<?php if (has_permission('ticket_properties_change_severity')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="severity" class="control-label col-sm-3"><?=t('severity')?></label>
 					<div class="col-sm-9">
@@ -93,7 +93,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_priority')) : ?>
+			<?php if (has_permission('ticket_properties_change_priority')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="priority" class="control-label col-sm-3"><?=t('priority')?></label>
 					<div class="col-sm-9">
@@ -105,7 +105,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_status')) : ?>
+			<?php if (has_permission('ticket_properties_change_status')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="status" class="control-label col-sm-3"><?=t('status')?></label>
 					<div class="col-sm-9">
@@ -117,7 +117,7 @@ if ($ticket['is_closed']) {
 				</div>
 			<?php endif ?>
 
-			<?php if (has_permission($currentProject['id'], 'ticket_properties_change_summary')) : ?>
+			<?php if (has_permission('ticket_properties_change_summary')) : ?>
 				<div class="update-ticket-property col-md-6">
 					<label for="summary" class="control-label col-sm-3"><?=t('summary')?></label>
 					<div class="col-sm-9">

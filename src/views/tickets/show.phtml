@@ -11,7 +11,7 @@
 		</div>
 
 		<div class="ticket-description">
-			<?php if (has_permission($currentProject['id'], 'edit_ticket_description')) : ?>
+			<?php if (has_permission('edit_ticket_description')) : ?>
 			<div class="pull-right">
 				<a href="#" data-overlay="<?=routeUrl('ticket_edit_description', ['pslug' => $currentProject['slug'], 'id' => $ticket['ticket_id']])?>" class="btn btn-xs btn-default">
 					<span class="fa fa-pencil"></span>

@@ -44,13 +44,13 @@ class Tickets extends AppController
         $this->title($this->translate('tickets'));
 
         $this->before(['new', 'create'], function () {
-            if (!$this->hasPermission($this->currentProject['id'], 'create_tickets')) {
+            if (!$this->hasPermission('create_tickets')) {
                 return $this->show403();
             }
         });
 
         $this->before(['editDescription', 'saveDescription'], function () {
-            if (!$this->hasPermission($this->currentProject['id'], 'edit_ticket_description')) {
+            if (!$this->hasPermission('edit_ticket_description')) {
                 return $this->show403();
             }
         });
@@ -100,7 +100,7 @@ class Tickets extends AppController
      */
     public function showAction($id)
     {
-        if (!$this->hasPermission($this->currentProject['id'], 'view_tickets')) {
+        if (!$this->hasPermission('view_tickets')) {
             return $this->show403();
         }
 
@@ -152,8 +152,8 @@ class Tickets extends AppController
      */
     public function updateAction($id)
     {
-        if (!$this->hasPermission($this->currentProject['id'], 'update_tickets')
-        || !$this->hasPermission($this->currentProject['id'], 'comment_on_tickets')) {
+        if (!$this->hasPermission('update_tickets')
+        || !$this->hasPermission('comment_on_tickets')) {
             return $this->show403();
         }
 
@@ -167,7 +167,7 @@ class Tickets extends AppController
             ->setParameter(1, $this->currentProject['id'])
             ->fetch();
 
-        if ($this->hasPermission($this->currentProject['id'], 'update_tickets')) {
+        if ($this->hasPermission('update_tickets')) {
             $data = $this->ticketParamsUpdate();
             $changes = $this->makeChanges($ticket, $data);
         } else {
@@ -175,7 +175,7 @@ class Tickets extends AppController
             $changes = [];
         }
 
-        if ($this->hasPermission($this->currentProject['id'], 'comment_on_tickets')) {
+        if ($this->hasPermission('comment_on_tickets')) {
             $comment = empty(Request::$post->get('comment')) ? null : Request::$post->get('comment');
         }
 
@@ -285,11 +285,11 @@ class Tickets extends AppController
     {
         $params = [];
 
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_change_summary")) {
+        if ($this->hasPermission("ticket_properties_change_summary")) {
             $params['summary'] = Request::$post->get('summary');
         }
 
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_change_type")) {
+        if ($this->hasPermission("ticket_properties_change_type")) {
             $params['type_id'] = Request::$post->get('type_id');
         }
 
@@ -307,42 +307,42 @@ class Tickets extends AppController
     protected function ticketParamsPermissionable($setOrChange, array $params = [])
     {
         // Milestone
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_milestone")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_milestone")) {
             $params['milestone_id'] = Request::$post->get('milestone_id');
         }
 
         // Version
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_version")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_version")) {
             $params['version_id'] = Request::$post->get('version_id');
         }
 
         // Component
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_component")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_component")) {
             $params['component_id'] = Request::$post->get('component_id');
         }
 
         // Severity
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_severity")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_severity")) {
             $params['severity_id'] = Request::$post->get('severity_id');
         }
 
         // Priority
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_priority")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_priority")) {
             $params['priority_id'] = Request::$post->get('priority_id');
         }
 
         // Status
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_status")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_status")) {
             $params['status_id'] = Request::$post->get('status_id');
         }
 
         // Assigned to
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_assigned_to")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_assigned_to")) {
             $params['assigned_to_id'] = Request::$post->get('assigned_to_id');
         }
 
         // Tasks
-        if ($this->hasPermission($this->currentProject['id'], "ticket_properties_{$setOrChange}_tasks")) {
+        if ($this->hasPermission("ticket_properties_{$setOrChange}_tasks")) {
             $tasks = json_decode(Request::$post->get('tasks', ''), true);
 
             if (is_array($tasks)) {

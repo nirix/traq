@@ -7,19 +7,19 @@
 			<a href="<?=routeUrl('wiki_pages')?>"><?=t('pages')?></a>
 		</li>
 
-		<?php if (has_permission($currentProject['id'], 'create_wiki_page')) : ?>
+		<?php if (has_permission('create_wiki_page')) : ?>
 			<li<?=Request::matches('/{pslug}/wiki/_new') ? ' class="active"' :''?>>
 				<a href="<?=routeUrl('wiki_new')?>"><span class="fa fa-plus"></span> <?=t('new_page')?></a>
 			</li>
 		<?php endif ?>
-		<?php if (isset($page) && $page && has_permission($currentProject['id'], 'edit_wiki_page')) : ?>
+		<?php if (isset($page) && $page && has_permission('edit_wiki_page')) : ?>
 			<li<?=Request::matches('/{pslug}/wiki/{slug}/_edit') ? ' class="active"' :''?>>
 				<a href="<?=routeUrl('wiki_edit', ['slug' => $page['slug']])?>">
 					<span class="fa fa-pencil"></span> <?=t('edit_page')?>
 				</a>
 			</li>
 		<?php endif ?>
-		<?php if (isset($page) && $page && has_permission($currentProject['id'], 'delete_wiki_page')) : ?>
+		<?php if (isset($page) && $page && has_permission('delete_wiki_page')) : ?>
 			<li>
 				<a href="<?=routeUrl('wiki_delete', ['slug' => $page['slug']])?>" data-confirm="<?=t('confirm.delete')?>">
 					<span class="fa fa-trash"></span> <?=t('delete_page')?>

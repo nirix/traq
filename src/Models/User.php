@@ -105,7 +105,7 @@ class User extends Model
      *
      * @return bool
      */
-    public function hasPermission($projectId, $action, $fetchProjectRoles = false)
+    public function hasPermission($action, $projectId, $fetchProjectRoles = false)
     {
         // Admins are godlike
         if ($this->is_admin) {

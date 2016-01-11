@@ -44,7 +44,7 @@ class AppController extends \Traq\Controllers\AppController
         // Make sure this is a project and the user has the correct permission to access the area.
         $this->before('*', function () {
             if (!$this->currentProject
-            || (!$this->hasPermission($this->currentProject['id'], 'project_settings')
+            || (!$this->hasPermission('project_settings')
                 && !$this->currentUser['is_admin'])
             ) {
                 $this->layout = 'default.phtml';

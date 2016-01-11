@@ -168,7 +168,7 @@ class Timeline extends AppController
      */
     public function deleteEventAction($id)
     {
-        if (!$this->hasPermission($this->currentProject['id'], 'delete_timeline_events')) {
+        if (!$this->hasPermission('delete_timeline_events')) {
             return $this->show403();
         }
 

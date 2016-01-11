@@ -28,7 +28,7 @@
 	</div>
 </div>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_status')) : ?>
+<?php if (has_permission('ticket_properties_set_status')) : ?>
 <div class="form-group">
 	<?=Form::label(t('status'), 'status_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
@@ -40,7 +40,7 @@
 </div>
 <?php endif ?>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_assigned_to')) : ?>
+<?php if (has_permission('ticket_properties_set_assigned_to')) : ?>
 <div class="form-group">
 	<?=Form::label(t('assigned_to'), 'assigned_to_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
@@ -52,7 +52,7 @@
 </div>
 <?php endif ?>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_milestone')) : ?>
+<?php if (has_permission('ticket_properties_set_milestone')) : ?>
 <div class="form-group">
 	<?=Form::label(t('milestone'), 'milestone_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
@@ -64,7 +64,7 @@
 </div>
 <?php endif ?>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_version')) : ?>
+<?php if (has_permission('ticket_properties_set_version')) : ?>
 <div class="form-group">
 	<?=Form::label(t('version'), 'version_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
@@ -76,7 +76,7 @@
 </div>
 <?php endif ?>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_component')) : ?>
+<?php if (has_permission('ticket_properties_set_component')) : ?>
 <div class="form-group">
 	<?=Form::label(t('component'), 'component_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
@@ -88,7 +88,7 @@
 </div>
 <?php endif ?>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_severity')) : ?>
+<?php if (has_permission('ticket_properties_set_severity')) : ?>
 <div class="form-group">
 	<?=Form::label(t('severity'), 'severity_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
@@ -100,7 +100,7 @@
 </div>
 <?php endif ?>
 
-<?php if (has_permission($currentProject['id'], 'ticket_properties_set_priority')) : ?>
+<?php if (has_permission('ticket_properties_set_priority')) : ?>
 <div class="form-group">
     <?=Form::label(t('priority'), 'priority_id', ['class' => 'control-label col-md-3'])?>
     <div class="col-md-9">

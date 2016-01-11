@@ -125,7 +125,7 @@ class AppController extends Controller
         $this->before('*', function () use ($projectSlug) {
             // Check if project exists
             if (($projectSlug && !$this->currentProject)
-            || ($projectSlug && !$this->hasPermission($this->currentProject['id'], 'view'))) {
+            || ($projectSlug && !$this->hasPermission('view'))) {
                 return $this->show404();
             }
         });
@@ -147,13 +147,17 @@ class AppController extends Controller
      *
      * @return boolean
      */
-    protected function hasPermission($projectId, $action)
+    protected function hasPermission($action, $projectId = null)
     {
+        if (!$projectId) {
+            $projectId = $this->currentProject['id'];
+        }
+
         if (!$user = current_user()) {
             $user = anonymous_user();
         }
 
-        return $user->hasPermission($projectId, $action);
+        return $user->hasPermission($action, $projectId);
     }
 
     /**

@@ -303,7 +303,7 @@ class Wiki extends AppController
         $action = (Request::$properties->get('action') == 'new' ? 'create' : Request::$properties->get('action'));
 
         // Check if the user has permission
-        if (!$this->hasPermission($this->currentProject['id'], "{$action}_wiki_page")) {
+        if (!$this->hasPermission("{$action}_wiki_page")) {
             // oh noes! display the no permission page.
             return $this->show403();
         }

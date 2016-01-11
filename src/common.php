@@ -83,13 +83,18 @@ function current_project()
  *
  * @return boolean
  */
-function has_permission($projectId, $action, $fetchProjectRoles = false)
+function has_permission($action, $projectId = null, $fetchProjectRoles = false)
 {
+    if (!$projectId) {
+        $currentProject = current_project();
+        $projectId = $currentProject['id'];
+    }
+
     if (!$user = current_user()) {
         $user = anonymous_user();
     }
 
-    return $user->hasPermission($projectId, $action, $fetchProjectRoles);
+    return $user->hasPermission($action, $projectId, $fetchProjectRoles);
 }
 
 /**
