@@ -13,16 +13,36 @@
 				<nav id="nav-main">
 				<?php if ($currentUser && $currentUser['is_admin']) : ?>
 					<ul class="nav navbar-nav navbar-left">
-						<li><a href="<?=routeUrl('admin_settings')?>"><?=t('settings')?></a></li>
-						<li><a href="<?=routeUrl('admin_projects')?>"><?=t('projects')?></a></li>
-						<li><a href="<?=routeUrl('admin_project_roles')?>"><?=t('roles')?></a></li>
-						<li><a href="<?=routeUrl('admin_users')?>"><?=t('users')?></a></li>
-						<li><a href="<?=routeUrl('admin_groups')?>"><?=t('groups')?></a></li>
-						<li><a href="<?=routeUrl('admin_plugins')?>"><?=t('plugins')?></a></li>
-						<li><a href="<?=routeUrl('admin_types')?>"><?=t('types')?></a></li>
-						<li><a href="<?=routeUrl('admin_statuses')?>"><?=t('statuses')?></a></li>
-						<li><a href="<?=routeUrl('admin_priorities')?>"><?=t('priorities')?></a></li>
-						<li><a href="<?=routeUrl('admin_severities')?>"><?=t('severities')?></a></li>
+						<li class="<?=iif(Request::matches(routePath('admin_settings')), 'active')?>">
+							<a href="<?=routeUrl('admin_settings')?>"><?=t('settings')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_projects')), 'active')?>">
+							<a href="<?=routeUrl('admin_projects')?>"><?=t('projects')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_project_roles')), 'active')?>">
+							<a href="<?=routeUrl('admin_project_roles')?>"><?=t('roles')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_users')), 'active')?>">
+							<a href="<?=routeUrl('admin_users')?>"><?=t('users')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_groups')), 'active')?>">
+							<a href="<?=routeUrl('admin_groups')?>"><?=t('groups')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_plugins')), 'active')?>">
+							<a href="<?=routeUrl('admin_plugins')?>"><?=t('plugins')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_types')), 'active')?>">
+							<a href="<?=routeUrl('admin_types')?>"><?=t('types')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_statuses')), 'active')?>">
+							<a href="<?=routeUrl('admin_statuses')?>"><?=t('statuses')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_priorities')), 'active')?>">
+							<a href="<?=routeUrl('admin_priorities')?>"><?=t('priorities')?></a>
+						</li>
+						<li class="<?=iif(Request::matches(routePath('admin_severities')), 'active')?>">
+							<a href="<?=routeUrl('admin_severities')?>"><?=t('severities')?></a>
+						</li>
 					</ul>
 				<?php endif ?>
 				</nav>

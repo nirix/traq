@@ -248,6 +248,20 @@ function ticketQuery()
 }
 
 /**
+ * "Shortcut" for `$cond ? $true : $false`
+ *
+ * @param boolean $cond
+ * @param mixed   $true
+ * @param mixed   $false
+ *
+ * @return mixed
+ */
+function iif($cond, $true, $false = null)
+{
+    return $cond ? $true : $false;
+}
+
+/**
  * Dump and die
  */
 function dd()
