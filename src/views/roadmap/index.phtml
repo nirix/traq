@@ -1,4 +1,12 @@
 <div class="roadmap container">
+	<?php if (has_permission('project_settings')) : ?>
+	<div class="page-actions">
+		<a href="<?=routeUrl('project_settings_new_milestone', ['pslug' => $currentProject['slug']])?>" data-overlay="1" class="btn btn-default">
+			<span class="fa fa-plus"></span> <span class="sr-only"><?=t('new_milestone')?></span>
+		</a>
+	</div>
+	<?php endif ?>
+
 	<h1 class="page-header"><?=t('roadmap')?></h1>
 
 	<nav>
