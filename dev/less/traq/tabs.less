@@ -1,4 +1,21 @@
 
-.nav-tabs > li > a {
-  padding: 5px 15px;
+.nav-tabs {
+  border-bottom-color: #ccc;
+
+  & > li > a {
+    color: #8c8c8c;
+    padding: 5px 15px;
+    border-radius: 3px 3px 0 0;
+    // font-weight: bold;
+  }
+
+  & > li.active a,
+  & > li.active a:hover {
+    border-color: #ccc #ccc #fff;
+  }
+
+  & > li a:hover {
+    background-color: #f6f6f6;
+    border-color: #ccc;
+  }
 }
