@@ -1,7 +1,7 @@
 <div class="milestone container">
 	<?php if (has_permission('project_settings')) : ?>
 	<div class="page-actions">
-		<a href="<?=routeUrl('project_settings_edit_milestone', ['pslug' => $currentProject['slug'], 'id' => $milestone['id']])?>" class="btn btn-default">
+		<a href="<?=routeUrl('project_settings_edit_milestone', ['pslug' => $currentProject['slug'], 'id' => $milestone['id']])?>" data-overlay="1" class="btn btn-default">
 			<span class="fa fa-pencil"></span> <span class="sr-only"><?=t('edit')?></span>
 		</a>
 	</div>
