@@ -46,21 +46,7 @@ class Roadmap extends AppController
      */
     public function indexAction($filter = 'active')
     {
-        $openQuery = queryBuilder()->select('COUNT(ot.id)')
-            ->from(PREFIX . 'tickets', 'ot')
-            ->where('ot.milestone_id = m.id')
-            ->andWhere('ot.is_closed = 0');
-
-        $startedQuery = queryBuilder()->select('COUNT(st.id)')
-            ->from(PREFIX . 'tickets', 'st')
-            ->where('st.milestone_id = m.id')
-            ->andWhere('s.status = 2')
-            ->leftJoin('st', PREFIX . 'statuses', 's', 's.id = st.status_id');
-
-        $closedQuery = queryBuilder()->select('COUNT(ct.id)')
-            ->from(PREFIX . 'tickets', 'ct')
-            ->where('ct.milestone_id = m.id')
-            ->andWhere('ct.is_closed = 1');
+        list($openQuery, $startedQuery, $closedQuery) = $this->getTicketCountQueries();
 
         $query = queryBuilder()->select('*')
             ->addSelect("({$openQuery}) AS open_tickets")
@@ -82,10 +68,6 @@ class Roadmap extends AppController
 
         $milestones = $query->execute()->fetchAll();
 
-        // echo "<pre>";
-        // var_dump($milestones);
-        // exit;
-
         return $this->render('roadmap/index.phtml', ['milestones' => $milestones]);
     }
 
@@ -95,6 +77,31 @@ class Roadmap extends AppController
      * @param string $mslug milestone slug
      */
     public function showAction($mslug)
+    {
+        list($openQuery, $startedQuery, $closedQuery) = $this->getTicketCountQueries();
+
+        $milestone = queryBuilder()->select('*')->from(PREFIX . 'milestones', 'm')
+            ->addSelect("({$openQuery}) AS open_tickets")
+            ->addSelect("({$startedQuery}) AS started_tickets")
+            ->addSelect("({$closedQuery}) AS closed_tickets")
+            ->where('project_id = ?')
+            ->andWhere('slug = ?')
+            ->setParameter(0, $this->currentProject['id'])
+            ->setParameter(1, $mslug);
+
+        $milestone = $milestone->execute()->fetch();
+
+        $this->title($milestone['name']);
+
+        return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
+    }
+
+    /**
+     * Returns an array containing the open, started and closed ticket count queries.
+     *
+     * @return array
+     */
+    protected function getTicketCountQueries()
     {
         // Open ticket count
         $openQuery = queryBuilder()->select('COUNT(ot.id)')
@@ -115,19 +122,6 @@ class Roadmap extends AppController
             ->where('ct.milestone_id = m.id')
             ->andWhere('ct.is_closed = 1');
 
-        $milestone = queryBuilder()->select('*')->from(PREFIX . 'milestones', 'm')
-            ->addSelect("({$openQuery}) AS open_tickets")
-            ->addSelect("({$startedQuery}) AS started_tickets")
-            ->addSelect("({$closedQuery}) AS closed_tickets")
-            ->where('project_id = ?')
-            ->andWhere('slug = ?')
-            ->setParameter(0, $this->currentProject['id'])
-            ->setParameter(1, $mslug);
-
-        $milestone = $milestone->execute()->fetch();
-
-        $this->title($milestone['name']);
-
-        return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
+        return [$openQuery, $startedQuery, $closedQuery];
     }
 }
