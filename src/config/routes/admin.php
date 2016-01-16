@@ -77,3 +77,7 @@ Router::post('admin_create_severity', '/admin/severities/new', "{$ns}\\Admin\\Se
 Router::get('admin_edit_severity', '/admin/severities/{id}/edit', "{$ns}\\Admin\\Severities::edit");
 Router::post('admin_save_severity', '/admin/severities/{id}/edit', "{$ns}\\Admin\\Severities::save");
 Router::get('admin_delete_severity', '/admin/severities/{id}/delete', "{$ns}\\Admin\\Severities::destroy");
+
+// Permissions
+Router::get('admin_permissions', '/admin/permissions/groups', "{$ns}\\Admin\\Permissions::groups");
+Router::get('admin_permissions_roles', '/admin/permissions/roles', "{$ns}\\Admin\\Permissions::roles");
