@@ -2,7 +2,7 @@
     <h1 class="page-header"><?=t('projects')?></h1>
     <ul id="project-list">
         <?php foreach ($projects as $project) :
-            if (!has_permission($project['id'], 'view', true)) {
+            if (!has_permission('view', $project['id'], true)) {
                 continue;
             }
         ?>
