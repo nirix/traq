@@ -23,6 +23,6 @@
     },
     "require-dev": {
         "avalon/testing": "^1.0",
-        "filp/whoops": "^1.1"
+        "filp/whoops": "^2.0"
     }
 }
