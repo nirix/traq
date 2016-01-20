@@ -26,6 +26,7 @@ namespace Traq\Controllers\Admin;
 use Avalon\Http\Request;
 use Traq\Language;
 use Traq\Models\Setting;
+use Traq\Themes;
 
 /**
  * Admin Settings controller.
@@ -46,6 +47,9 @@ class Settings extends AppController
             ['label' => $this->translate("oldest_first"), 'value' => "oldest_first"],
             ['label' => $this->translate("newest_first"), 'value' => "newest_first"]
         ]);
+
+        Themes::index();
+        $this->set('themes', Themes::selectOptions());
     }
 
     /**

@@ -82,6 +82,11 @@ class Kernel extends AppKernel
 
         View::loadFunctions();
 
+        // If a theme is set, prepend it's views directory
+        if (setting('theme') !== 'default') {
+            View::addPath(__DIR__ . '/../' . setting('theme') . '/views', true);
+        }
+
         $this->loadTranslations();
         $this->loadPlugins();
 

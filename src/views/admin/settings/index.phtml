@@ -24,7 +24,7 @@
 			<div class="form-group">
 				<?=Form::label(t('settings.theme'), 'settings[theme]', ['class' => 'control-label col-md-3'])?>
 				<div class="col-md-9">
-					{theme select}
+					<?=Form::select("settings[theme]", Traq\Themes::selectOptions(), ['value' => setting('theme'), 'class' => 'form-control'])?>
 				</div>
 			</div>
 		</fieldset>

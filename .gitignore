@@ -5,6 +5,7 @@
 /config/database.php
 /assets/components
 /assets/js/js.js
+/themes
 
 # Composer
 /vendor
