@@ -43,7 +43,7 @@
 						<li class="<?=iif(Request::matches(routePath('admin_severities')), 'active')?>">
 							<a href="<?=routeUrl('admin_severities')?>"><?=t('severities')?></a>
 						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_permissions')), 'active')?>">
+						<li class="<?=iif(Request::matches('/admin/permissions.+'), 'active')?>">
 							<a href="<?=routeUrl('admin_permissions')?>"><?=t('permissions')?></a>
 						</li>
 					</ul>

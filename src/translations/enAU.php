@@ -349,6 +349,26 @@ $enAU = new Language(function ($t) {
         'revisions'   => 'Revisions',
         'revision_x'  => 'Revision {1}',
         'title'       => 'Title',
-        'content'     => 'Content'
+        'content'     => 'Content',
+
+        // --------------------------------------------------------------------
+        // Permissions
+        'permissions' => 'Permissions',
+        'default'     => 'Default',
+
+        'permissions.view'                    => 'View project',
+        'permissions.project_settings'        => 'Project Settings',
+        'permissions.delete_timeline_events'  => 'Delete timeline events',
+        'permissions.view_tickets'            => 'View tickets',
+        'permissions.create_tickets'          => 'Create tickets',
+        'permissions.update_tickets'          => 'Update tickets',
+        'permissions.delete_tickets'          => 'Delete tickets',
+        'permissions.move_tickets'            => 'Move tickets',
+        'permissions.comment_on_tickets'      => 'Comment on tickets',
+        'permissions.edit_ticket_description' => 'Edit ticket description',
+        'permissions.vote_on_tickets'         => 'Vote on tickets',
+        'permissions.add_attachments'         => 'Add attachments',
+        'permissions.view_attachments'        => 'View attachments',
+        'permissions.delete_attachments'      => 'Delete attachments'
     );
 });

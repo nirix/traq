@@ -1,0 +1,58 @@
+<div class="admin permissions container">
+	<h1 class="page-header"><?=t('permissions')?></h1>
+
+	<nav id="admin-permissions-nav">
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="<?=iif(Request::matches('/admin/permissions/groups$'), 'active')?>">
+				<a href="<?=RouteUrl('admin_permissions')?>"><?=t('groups')?></a>
+			</li>
+			<li class="<?=iif(Request::matches('/admin/permissions/roles$'), 'active')?>">
+				<a href="<?=RouteUrl('admin_permissions_roles')?>"><?=t('roles')?></a>
+			</li>
+		</ul>
+	</nav>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th></th>
+				<th><?=t('default')?></th>
+			<?php foreach ($permissions as $info) : ?>
+				<th><?=$info['name']?></th>
+			<?php endforeach ?>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach (Traq\Permissions::getPermissions() as $permission => $value) : ?>
+			<tr>
+				<td><?=t('permissions.' . $permission)?></td>
+				<td>
+					<!-- <select name="defaults[<?=$permission?>]">
+						<option <?=iif($value, 'selected')?>><?=t('yes')?></option>
+						<option <?=iif(!$value, 'selected')?>><?=t('no')?></option>
+					</select> -->
+
+					<input type="checkbox" <?=iif($defaults[$permission], 'checked')?>>
+				</td>
+				<?php foreach ($permissions as $info) :
+                    $permValue = isset($info['permissions'][$permission])
+                                 ? $info['permissions'][$permission]
+                                 : null;
+                    ?>
+					<td>
+					<?php if ($info['is_admin']) : ?>
+						<input type="checkbox" checked disabled>
+					<?php else : ?>
+						<select name="permissions[<?=$info['permission_id']?>]">
+							<option <?=iif($permValue === null, 'selected')?>><?=t('default')?></option>
+							<option <?=iif($permValue === true, 'selected')?>><?=t('yes')?></option>
+							<option <?=iif($permValue === false, 'selected')?>><?=t('no')?></option>
+						</select>
+					<?php endif ?>
+					</td>
+				<?php endforeach ?>
+			</tr>
+		<?php endforeach ?>
+		</tbody>
+	</table>
+</div>

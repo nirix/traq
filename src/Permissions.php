@@ -41,7 +41,7 @@ class Permissions
      */
     protected static $defaults = [
         // Projects
-        'view_project'           => true,
+        'view'                   => true,
         'project_settings'       => false,
         'delete_timeline_events' => false,
 
