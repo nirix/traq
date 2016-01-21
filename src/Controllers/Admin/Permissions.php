@@ -53,6 +53,46 @@ class Permissions extends AppController
         $groupsQuery = queryBuilder()->select('g.*', 'p.permissions', 'p.type_id', 'p.id AS permission_id')
             ->from(PREFIX . 'usergroups', 'g')
             ->leftJoin('g', PREFIX . 'permissions', 'p', 'p.type = "usergroup" AND p.type_id = g.id')
+            ->orderBy('g.id', 'ASC')
+            ->execute();
+
+        foreach ($groupsQuery->fetchAll() as $group) {
+            $group['permissions'] = json_decode($group['permissions'], true);
+            $permissions[$group['id']] = $group;
+        }
+
+        return $this->render('admin/permissions/list.phtml', [
+            'type'        => 'usergroups',
+            'defaults'    => $defaults,
+            'permissions' => $permissions
+        ]);
+    }
+
+    public function saveGroupsAction()
+    {
+        $this->savePermissions('usergroup');
+        return $this->redirectTo('admin_permissions');
+    }
+
+    public function rolesAction()
+    {
+        $defaultPermissionsQuery = queryBuilder()->select('p.*', 'p.id AS permission_id')->from(PREFIX . 'permissions', 'p')
+            ->where('type = ?')
+            ->andWhere('type_id = ?')
+            ->andWhere('project_id = ?')
+            ->setParameter(0, 'role')
+            ->setParameter(1, 0)
+            ->setParameter(2, 0)
+            ->execute();
+
+        $defaults = $defaultPermissionsQuery->fetch();
+        $defaults = json_decode($defaults['permissions'], true) + PermissionsAPI::getPermissions();
+        $permissions = [];
+
+        $groupsQuery = queryBuilder()->select('r.*', 'p.permissions', 'p.type_id', 'p.id AS permission_id')
+            ->from(PREFIX . 'project_roles', 'r')
+            ->leftJoin('r', PREFIX . 'permissions', 'p', 'p.type = "role" AND p.type_id = r.id')
+            ->orderBy('r.id', 'ASC')
             ->execute();
 
         foreach ($groupsQuery->fetchAll() as $group) {
@@ -67,7 +107,13 @@ class Permissions extends AppController
         ]);
     }
 
-    public function saveGroupsAction()
+    public function saveRolesAction()
+    {
+        $this->savePermissions('role');
+        return $this->redirectTo('admin_permissions_roles');
+    }
+
+    protected function savePermissions($type)
     {
         foreach (Request::$post['permissions'] as $group => $perms) {
             $permissions = [];
@@ -85,39 +131,65 @@ class Permissions extends AppController
                     PREFIX . 'permissions',
                     ['permissions' => json_encode($permissions)],
                     [
-                        'type'       => 'usergroup',
+                        'type'       => $type,
                         'type_id'    => 0,
                         'project_id' => 0
                     ]
                 );
             } else {
+                // Ignore 'null' values
                 foreach ($perms as $name => $value) {
                     if ($value == '1' || $value == '0') {
                         $permissions[$name] = (boolean) $value;
                     }
                 }
 
-                $this->db->update(
-                    PREFIX . 'permissions',
-                    ['permissions' => json_encode($permissions)],
-                    [
-                        'type'       => 'usergroup',
-                        'type_id'    => $group,
-                        'project_id' => 0
-                    ]
-                );
+                // If there are no permissions, delete the row
+                if (!count($permissions)) {
+                    $this->db->delete(
+                        PREFIX . 'permissions',
+                        [
+                            'type'       => $type,
+                            'type_id'    => $group,
+                            'project_id' => 0
+                        ]
+                    );
+                } else {
+                    // Check if the row exists already
+                    $query = queryBuilder()->select('id')->from(PREFIX . 'permissions')
+                        ->where('type = ?')
+                        ->andWhere('type_id = ?')
+                        ->andWhere('project_id = ?')
+                        ->setParameter(0, $type)
+                        ->setParameter(1, $group)
+                        ->setParameter(2, 0)
+                        ->execute();
+
+                    // Update the row
+                    if ($query->rowCount()) {
+                        $this->db->update(
+                            PREFIX . 'permissions',
+                            ['permissions' => json_encode($permissions)],
+                            [
+                                'type'       => $type,
+                                'type_id'    => $group,
+                                'project_id' => 0
+                            ]
+                        );
+                    } else {
+                        // Insert a new row
+                        $this->db->insert(
+                            PREFIX . 'permissions',
+                            [
+                                'type'        => $type,
+                                'type_id'     => $group,
+                                'project_id'  => 0,
+                                'permissions' => json_encode($permissions)
+                            ]
+                        );
+                    }
+                }
             }
         }
-
-        return $this->redirectTo('admin_permissions');
-    }
-
-    public function rolesAction()
-    {
-        return $this->render('admin/permissions/list.phtml', [
-            'type'        => 'roles',
-            'defaults'    => [],
-            'permissions' => []
-        ]);
     }
 }
