@@ -28,7 +28,7 @@
 				<tr>
 					<td><?=t('permissions.' . $permission)?></td>
 					<td>
-						<input type="checkbox" name="permissions[defaults][<?=$permission?>]" value="1" <?=iif((isset($defaults[$permission]) && $defaults[$permission]) || $defaultValue, 'checked')?>>
+						<input type="checkbox" name="permissions[defaults][<?=$permission?>]" value="1" <?=iif(isset($defaults[$permission]) && $defaults[$permission], 'checked')?>>
 					</td>
 					<?php foreach ($permissions as $info) :
 	                    $permValue = isset($info['permissions'][$permission])
@@ -37,12 +37,14 @@
 	                    ?>
 						<td>
 						<?php if ($info['is_admin']) : ?>
-							<input type="checkbox" checked disabled>
+							<select disabled>
+								<option><?=t('confirm.yes')?></option>
+							</select>
 						<?php else : ?>
 							<select name="permissions[<?=$info['id']?>][<?=$permission?>]">
 								<option value="null" <?=iif($permValue === null, 'selected')?>><?=t('default')?></option>
-								<option value="1" <?=iif($permValue === true, 'selected')?>><?=t('yes')?></option>
-								<option value="0" <?=iif($permValue === false, 'selected')?>><?=t('no')?></option>
+								<option value="1" <?=iif($permValue === true, 'selected')?>><?=t('confirm.yes')?></option>
+								<option value="0" <?=iif($permValue === false, 'selected')?>><?=t('confirm.no')?></option>
 							</select>
 						<?php endif ?>
 						</td>

@@ -47,7 +47,7 @@ class Permissions extends AppController
             ->execute();
 
         $defaults = $defaultPermissionsQuery->fetch();
-        $defaults = json_decode($defaults['permissions'], true);
+        $defaults = json_decode($defaults['permissions'], true) + PermissionsAPI::getPermissions();
         $permissions = [];
 
         $groupsQuery = queryBuilder()->select('g.*', 'p.permissions', 'p.type_id', 'p.id AS permission_id')
@@ -69,27 +69,47 @@ class Permissions extends AppController
 
     public function saveGroupsAction()
     {
-        $permissions = [];
-
         foreach (Request::$post['permissions'] as $group => $perms) {
+            $permissions = [];
+
             if ($group == 'defaults') {
                 foreach (PermissionsAPI::getPermissions() as $name => $default) {
                     if (isset($perms[$name])) {
-                        $permissions['default'][$name] = true;
+                        $permissions[$name] = true;
                     } else {
-                        $permissions['default'][$name] = false;
+                        $permissions[$name] = false;
                     }
                 }
+
+                $this->db->update(
+                    PREFIX . 'permissions',
+                    ['permissions' => json_encode($permissions)],
+                    [
+                        'type'       => 'usergroup',
+                        'type_id'    => 0,
+                        'project_id' => 0
+                    ]
+                );
             } else {
                 foreach ($perms as $name => $value) {
                     if ($value == '1' || $value == '0') {
-                        $permissions[$group][$name] = (boolean) $value;
+                        $permissions[$name] = (boolean) $value;
                     }
                 }
+
+                $this->db->update(
+                    PREFIX . 'permissions',
+                    ['permissions' => json_encode($permissions)],
+                    [
+                        'type'       => 'usergroup',
+                        'type_id'    => $group,
+                        'project_id' => 0
+                    ]
+                );
             }
         }
 
-        dd($permissions);
+        return $this->redirectTo('admin_permissions');
     }
 
     public function rolesAction()
