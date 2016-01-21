@@ -85,10 +85,12 @@ window.traq =
         html      : true
         placement : 'bottom'
         trigger   : 'click'
+        container : 'body'
 
       $(document).on 'shown.bs.popover', (event) ->
         link    = $(event.target)
-        popover = link.next()
+        popoverId = link.attr('aria-describedby')
+        popover = $('#' + popoverId)
 
         # Confirmed
         popover.find('.popover-btn-confirm').one 'click', ->
@@ -104,8 +106,9 @@ window.traq =
 
       $(document).on 'hide.bs.popover', (event) ->
         link    = $(event.target)
-        popover = link.next()
+        popoverId = link.attr('aria-describedby')
+        popover = $('#' + popoverId)
 
+        link.attr 'data-popover-added', false
         popover.find('.popover-btn-confirm').off 'click'
         popover.find('.popover-btn-cancel').off 'click'
-        console.log popover
