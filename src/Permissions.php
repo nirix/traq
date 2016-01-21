@@ -41,57 +41,67 @@ class Permissions
      */
     protected static $defaults = [
         // Projects
-        'view'                   => true,
-        'project_settings'       => false,
-        'delete_timeline_events' => false,
+        'projects' => [
+            'view'                   => true,
+            'project_settings'       => false,
+            'delete_timeline_events' => false,
+        ],
 
         // Tickets
-        'view_tickets'            => true,
-        'create_tickets'          => false,
-        'update_tickets'          => false,
-        'delete_tickets'          => false,
-        'move_tickets'            => false,
-        'comment_on_tickets'      => false,
-        'edit_ticket_description' => false,
-        'vote_on_tickets'         => false,
-        'add_attachments'         => false,
-        'view_attachments'        => false,
-        'delete_attachments'      => false,
-        'perform_mass_actions'    => false,
+        'tickets' => [
+            'view_tickets'            => true,
+            'create_tickets'          => false,
+            'update_tickets'          => false,
+            'delete_tickets'          => false,
+            'move_tickets'            => false,
+            'comment_on_tickets'      => false,
+            'edit_ticket_description' => false,
+            'vote_on_tickets'         => false,
+            'add_attachments'         => false,
+            'view_attachments'        => false,
+            'delete_attachments'      => false,
+            'perform_mass_actions'    => false,
+        ],
 
+        'ticket_properties' => [
         // Set ticket properties
-        'ticket_properties_set_assigned_to'     => false,
-        'ticket_properties_set_milestone'       => false,
-        'ticket_properties_set_version'         => false,
-        'ticket_properties_set_component'       => false,
-        'ticket_properties_set_severity'        => false,
-        'ticket_properties_set_priority'        => false,
-        'ticket_properties_set_status'          => false,
-        'ticket_properties_set_tasks'           => false,
-        'ticket_properties_set_related_tickets' => false,
+            'ticket_properties_set_assigned_to'     => false,
+            'ticket_properties_set_milestone'       => false,
+            'ticket_properties_set_version'         => false,
+            'ticket_properties_set_component'       => false,
+            'ticket_properties_set_severity'        => false,
+            'ticket_properties_set_priority'        => false,
+            'ticket_properties_set_status'          => false,
+            'ticket_properties_set_tasks'           => false,
+            'ticket_properties_set_related_tickets' => false,
 
-        // Change ticket properties
-        'ticket_properties_change_type'            => false,
-        'ticket_properties_change_assigned_to'     => false,
-        'ticket_properties_change_milestone'       => false,
-        'ticket_properties_change_version'         => false,
-        'ticket_properties_change_component'       => false,
-        'ticket_properties_change_severity'        => false,
-        'ticket_properties_change_priority'        => false,
-        'ticket_properties_change_status'          => false,
-        'ticket_properties_change_summary'         => false,
-        'ticket_properties_change_tasks'           => false,
-        'ticket_properties_change_related_tickets' => false,
-        'ticket_properties_complete_tasks'         => false,
+            // Change ticket properties
+            'ticket_properties_change_type'            => false,
+            'ticket_properties_change_assigned_to'     => false,
+            'ticket_properties_change_milestone'       => false,
+            'ticket_properties_change_version'         => false,
+            'ticket_properties_change_component'       => false,
+            'ticket_properties_change_severity'        => false,
+            'ticket_properties_change_priority'        => false,
+            'ticket_properties_change_status'          => false,
+            'ticket_properties_change_summary'         => false,
+            'ticket_properties_change_tasks'           => false,
+            'ticket_properties_change_related_tickets' => false,
+            'ticket_properties_complete_tasks'         => false,
+        ],
 
         // Ticket history
-        'edit_ticket_history'   => false,
-        'delete_ticket_history' => false,
+        'ticket_history' => [
+            'edit_ticket_history'   => false,
+            'delete_ticket_history' => false,
+        ],
 
         // Wiki page
-        'create_wiki_page' => false,
-        'edit_wiki_page'   => false,
-        'delete_wiki_page' => false
+        'wiki' => [
+            'create_wiki_page' => false,
+            'edit_wiki_page'   => false,
+            'delete_wiki_page' => false
+        ]
     ];
 
     /**
@@ -102,13 +112,47 @@ class Permissions
     protected static $permissions = [];
 
     /**
+     * Returns default permissions.
+     *
+     * @param boolean $withCategories
+     *
+     * @return array
+     */
+    public static function getDefaults($withCategories = false)
+    {
+        if ($withCategories) {
+            $defaults = static::$defaults;
+        } else {
+            $defaults = [];
+
+            foreach (static::$defaults as $category => $perms) {
+                $defaults = $defaults + $perms;
+            }
+        }
+
+        return $defaults;
+    }
+
+    /**
      * Returns default and added permissions.
      *
      * @return array
      */
-    public static function getPermissions()
+    public static function getPermissions($withCategories = false)
     {
-        return static::$permissions + static::$defaults;
+        $permissions = array_merge_recursive(static::getDefaults(true), static::$permissions);
+
+        if ($withCategories) {
+            return $permissions;
+        } else {
+            $flatPermissions = [];
+
+            foreach (static::$defaults as $category => $perms) {
+                $flatPermissions = $flatPermissions + $perms;
+            }
+
+            return $flatPermissions;
+        }
     }
 
     /**
@@ -119,12 +163,14 @@ class Permissions
      *
      * @throws Exception if permission exists
      */
-    public static function add($action, $default = false)
+    public static function add($action, $default = false, $category = 'misc')
     {
-        if (isset(static::$defaults[$action]) || isset(static::$permissions[$action])) {
+        $permissions = static::getPermissions();
+
+        if (isset($permissions[$action])) {
             throw new Exception("Permission [{$action}] already exists.");
         }
 
-        static::$permissions[$action] = $default;
+        static::$permissions[$category][$action] = $default;
     }
 }

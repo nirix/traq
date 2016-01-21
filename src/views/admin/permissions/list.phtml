@@ -1,3 +1,4 @@
+<?php $headers = []; ?>
 <div class="admin permissions container">
 	<h1 class="page-header"><?=t('permissions')?></h1>
 
@@ -24,7 +25,11 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach (Traq\Permissions::getPermissions() as $permission => $defaultValue) : ?>
+			<?php foreach (Traq\Permissions::getPermissions(true) as $category => $perms) : ?>
+				<tr>
+					<th colspan="<?=count($permissions) + 2?>" class="ticket-permissions-category"><?=t($category)?></th>
+				</tr>
+				<?php foreach ($perms as $permission => $defaultValue) : ?>
 				<tr>
 					<td><?=t('permissions.' . $permission)?></td>
 					<td>
@@ -50,6 +55,7 @@
 						</td>
 					<?php endforeach ?>
 				</tr>
+				<?php endforeach ?>
 			<?php endforeach ?>
 			</tbody>
 		</table>
