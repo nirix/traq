@@ -12,47 +12,48 @@
 		</ul>
 	</nav>
 
-	<table class="table table-striped table-hover">
-		<thead>
-			<tr>
-				<th></th>
-				<th><?=t('default')?></th>
-			<?php foreach ($permissions as $info) : ?>
-				<th><?=$info['name']?></th>
-			<?php endforeach ?>
-			</tr>
-		</thead>
-		<tbody>
-		<?php foreach (Traq\Permissions::getPermissions() as $permission => $value) : ?>
-			<tr>
-				<td><?=t('permissions.' . $permission)?></td>
-				<td>
-					<!-- <select name="defaults[<?=$permission?>]">
-						<option <?=iif($value, 'selected')?>><?=t('yes')?></option>
-						<option <?=iif(!$value, 'selected')?>><?=t('no')?></option>
-					</select> -->
-
-					<input type="checkbox" <?=iif($defaults[$permission], 'checked')?>>
-				</td>
-				<?php foreach ($permissions as $info) :
-                    $permValue = isset($info['permissions'][$permission])
-                                 ? $info['permissions'][$permission]
-                                 : null;
-                    ?>
-					<td>
-					<?php if ($info['is_admin']) : ?>
-						<input type="checkbox" checked disabled>
-					<?php else : ?>
-						<select name="permissions[<?=$info['permission_id']?>]">
-							<option <?=iif($permValue === null, 'selected')?>><?=t('default')?></option>
-							<option <?=iif($permValue === true, 'selected')?>><?=t('yes')?></option>
-							<option <?=iif($permValue === false, 'selected')?>><?=t('no')?></option>
-						</select>
-					<?php endif ?>
-					</td>
+	<form action="<?=routeUrl('admin_permissions_groups_save')?>" method="post">
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th></th>
+					<th><?=t('default')?></th>
+				<?php foreach ($permissions as $info) : ?>
+					<th><?=$info['name']?></th>
 				<?php endforeach ?>
-			</tr>
-		<?php endforeach ?>
-		</tbody>
-	</table>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach (Traq\Permissions::getPermissions() as $permission => $defaultValue) : ?>
+				<tr>
+					<td><?=t('permissions.' . $permission)?></td>
+					<td>
+						<input type="checkbox" name="permissions[defaults][<?=$permission?>]" value="1" <?=iif((isset($defaults[$permission]) && $defaults[$permission]) || $defaultValue, 'checked')?>>
+					</td>
+					<?php foreach ($permissions as $info) :
+	                    $permValue = isset($info['permissions'][$permission])
+	                                 ? $info['permissions'][$permission]
+	                                 : null;
+	                    ?>
+						<td>
+						<?php if ($info['is_admin']) : ?>
+							<input type="checkbox" checked disabled>
+						<?php else : ?>
+							<select name="permissions[<?=$info['id']?>][<?=$permission?>]">
+								<option value="null" <?=iif($permValue === null, 'selected')?>><?=t('default')?></option>
+								<option value="1" <?=iif($permValue === true, 'selected')?>><?=t('yes')?></option>
+								<option value="0" <?=iif($permValue === false, 'selected')?>><?=t('no')?></option>
+							</select>
+						<?php endif ?>
+						</td>
+					<?php endforeach ?>
+				</tr>
+			<?php endforeach ?>
+			</tbody>
+		</table>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
+		</div>
+	</form>
 </div>

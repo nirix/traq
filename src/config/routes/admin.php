@@ -80,4 +80,5 @@ Router::get('admin_delete_severity', '/admin/severities/{id}/delete', "{$ns}\\Ad
 
 // Permissions
 Router::get('admin_permissions', '/admin/permissions/groups', "{$ns}\\Admin\\Permissions::groups");
+Router::post('admin_permissions_groups_save', '/admin/permissions/groups', "{$ns}\\Admin\\Permissions::saveGroups");
 Router::get('admin_permissions_roles', '/admin/permissions/roles', "{$ns}\\Admin\\Permissions::roles");
