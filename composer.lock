@@ -334,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/templating.git",
-                "reference": "ee575b2c86bf2db94673f52a1a1c79b03cefb0d0"
+                "reference": "c5f0577345a0588e09f76cc225a1dc33777916c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/templating/zipball/ee575b2c86bf2db94673f52a1a1c79b03cefb0d0",
-                "reference": "ee575b2c86bf2db94673f52a1a1c79b03cefb0d0",
+                "url": "https://api.github.com/repos/avalonphp/templating/zipball/c5f0577345a0588e09f76cc225a1dc33777916c2",
+                "reference": "c5f0577345a0588e09f76cc225a1dc33777916c2",
                 "shasum": ""
             },
             "require": {
@@ -362,8 +362,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jack P.",
-                    "email": "jack@polgar.id.au"
+                    "name": "Nirix"
                 }
             ],
             "description": "Avalon Templating Component.",
@@ -372,7 +371,7 @@
                 "framework",
                 "templating"
             ],
-            "time": "2015-12-21 10:25:05"
+            "time": "2016-01-31 09:32:43"
         },
         {
             "name": "avalon/validation",

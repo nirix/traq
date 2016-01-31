@@ -29,7 +29,7 @@
 				<div class="row">
 					<div class="col-sm-3 col-sm-offset-8">
 						<div class="input-group input-group-sm">
-							<?=Form::select('new_filter', TicketFilters::selectOptions($currentProject), ['class' => 'form-control'])?>
+							<?=Form::select('new_filter', TicketFilters::selectOptions(raw($currentProject)), ['class' => 'form-control'])?>
 							<div class="input-group-btn">
 								<button type="submit" class="btn btn-success btn-filter-add">+</button>
 							</div>
