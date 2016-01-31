@@ -63,7 +63,7 @@ $enAU = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Errors
         'errors.404.title'                      => 'I accidentally the whole page...',
-        'errors.404.message'                    => "It appears the page '{1}' doesn't exist.",
+        'errors.404.message'                    => "It appears the page '{0}' doesn't exist.",
         'errors.404.modal.title'                => "Oh, it's a popup!",
         'errors.403.title'                      => 'You shall not pass!',
         'errors.403.message'                    => "You don't have permission to access this page.",
@@ -93,8 +93,8 @@ $enAU = new Language(function ($t) {
         'open'               => 'Open',
         'closed'             => 'Closed',
         'total'              => 'Total',
-        'ticket.page-title'  => "#{1} - {2}",
-        'ticket.page-header' => "#{1} - {2}",
+        'ticket.page-title'  => "#{0} - {1}",
+        'ticket.page-header' => "#{0} - {1}",
         'edit_ticket_description' => 'Edit Ticket Description',
 
         // Ticket properties
@@ -122,17 +122,17 @@ $enAU = new Language(function ($t) {
         // Ticket history
         'ticket_history' => 'Issue History',
         // Most fields
-        'ticket_history.x_from_x_to_x' => 'Changed {1} from {2} to {3}',
-        'ticket_history.x_from_null_to_x' => "Set {1} to {3}",
-        'ticket_history.x_from_x_to_null' => "Cleared {1}, was {2}",
+        'ticket_history.x_from_x_to_x' => 'Changed {0} from {1} to {2}',
+        'ticket_history.x_from_null_to_x' => "Set {0} to {2}",
+        'ticket_history.x_from_x_to_null' => "Cleared {0}, was {1}",
         // Assignee field
-        'ticket_history.assignee_from_x_to_x'    => "Reassigned issue from {2} to {3}",
-        'ticket_history.assignee_from_null_to_x' => "Assigned issue to {3}",
-        'ticket_history.assignee_from_x_to_null' => "Unassigned issue from {2}",
+        'ticket_history.assignee_from_x_to_x'    => "Reassigned issue from {1} to {2}",
+        'ticket_history.assignee_from_null_to_x' => "Assigned issue to {2}",
+        'ticket_history.assignee_from_x_to_null' => "Unassigned issue from {1}",
         // Actions
-        'ticket_history.close'          => "Closed issue as {2}",
-        'ticket_history.reopen'         => "Reopened issue as {2}",
-        'ticket_history.add_attachment' => "Added attachment {2}",
+        'ticket_history.close'          => "Closed issue as {1}",
+        'ticket_history.reopen'         => "Reopened issue as {1}",
+        'ticket_history.add_attachment' => "Added attachment {1}",
 
         // Update ticket
         'update_ticket' => 'Update Ticket',
@@ -197,7 +197,7 @@ $enAU = new Language(function ($t) {
         'renew'                   => 'Renew',
         'ascending'               => 'Ascending',
         'descending'              => 'Descending',
-        'x_by_x'                  => '{1} by {2}',
+        'x_by_x'                  => '{0} by {1}',
         'information'             => 'Information',
         'oldest_first'            => 'Oldest First',
         'newest_first'            => 'Newest First',
@@ -258,9 +258,9 @@ $enAU = new Language(function ($t) {
         'active'    => 'Active',
         'completed' => 'Completed',
         'cancelled' => 'Cancelled',
-        'x_open'    => '{1} open',
-        'x_started' => '{1} started',
-        'x_closed'  => '{1} closed',
+        'x_open'    => '{0} open',
+        'x_started' => '{0} started',
+        'x_closed'  => '{0} closed',
 
         // --------------------------------------------------------------------
         // Severities
@@ -294,7 +294,7 @@ $enAU = new Language(function ($t) {
         'timeline.ticket_moved_to'     => 'Moved issue ({issue}) to {project}',
         'timeline.wiki_page_created'   => 'Created {title} wiki page',
         'timeline.wiki_page_edited'    => 'Edited {title} wiki page',
-        'timeline.by_x'                => 'by {1}',
+        'timeline.by_x'                => 'by {0}',
 
         // --------------------------------------------------------------------
         // Timeline filters
@@ -348,7 +348,7 @@ $enAU = new Language(function ($t) {
         'edit_page'   => 'Edit Page',
         'delete_page' => 'Delete Page',
         'revisions'   => 'Revisions',
-        'revision_x'  => 'Revision {1}',
+        'revision_x'  => 'Revision {0}',
         'title'       => 'Title',
         'content'     => 'Content',
 
