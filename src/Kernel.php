@@ -81,6 +81,7 @@ class Kernel extends AppKernel
         require __DIR__ . '/common.php';
 
         View::loadFunctions();
+        View::engine()->escapeVariables = false;
 
         // If a theme is set, prepend it's views directory
         if (setting('theme') !== 'default') {
