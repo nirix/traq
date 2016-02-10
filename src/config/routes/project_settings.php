@@ -29,3 +29,5 @@ Router::get('project_settings_delete_member', '/{pslug}/settings/members/{id}/de
 
 // Custom fields
 Router::get('project_settings_custom_fields', '/{pslug}/settings/custom-fields', "{$ns}\\ProjectSettings\\CustomFields::index");
+Router::get('project_settings_new_custom_field', '/{pslug}/settings/custom-fields/new', "{$ns}\\ProjectSettings\\CustomFields::new");
+Router::post('project_settings_create_custom_field', '/{pslug}/settings/custom-fields/new', "{$ns}\\ProjectSettings\\CustomFields::create");
