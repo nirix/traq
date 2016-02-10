@@ -68,6 +68,22 @@ class CustomFields extends AppController
     }
 
     /**
+     * Create custom field.
+     */
+    public function createAction()
+    {
+        $field = new CustomField($this->fieldParams());
+
+        if ($field->save()) {
+            return $this->redirectTo('project_settings_custom_fields');
+        }
+
+        return $this->render('project_settings/custom_fields/new.phtml', [
+            'field' => $field
+        ]);
+    }
+
+    /**
      * Edit field page.
      *
      * @param integer $id
@@ -140,5 +156,26 @@ class CustomFields extends AppController
         } else {
             Request::redirectTo($this->project->href('settings/custom_fields'));
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function fieldParams()
+    {
+        return [
+            'name' => Request::$post['name'],
+            'slug' => Request::$post['slug'],
+            'type' => Request::$post->get('type', 0),
+            'min_length' => Request::$post['min_length'],
+            'max_length' => Request::$post['max_length'],
+            'regex' => Request::$post['regex'],
+            'default_value' => Request::$post['default_value'],
+            'values' => Request::$post['values'],
+            'multiple' => Request::$post['multiple'],
+            'is_required' => Request::$post['is_required'],
+            'ticket_type_ids' => Request::$post['ticket_type_ids'],
+            'project_id' => $this->currentProject['id']
+        ];
     }
 }

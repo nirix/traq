@@ -35,6 +35,12 @@ use Avalon\Language;
  */
 class CustomField extends Model
 {
+    protected static $_validations = [
+        'name' => ['required'],
+        'slug' => ['required'],
+        'type' => ['required']
+    ];
+
     protected static $_dataTypes = [
         'ticket_type_ids' => 'json_array'
     ];
