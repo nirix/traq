@@ -1,12 +1,13 @@
-var gulp       = require('gulp')
-    watch      = require('gulp-watch'),
-    sass       = require('gulp-sass'),
-    less       = require('gulp-less'),
-    coffee     = require('gulp-coffee'),
-    concat     = require('gulp-concat'),
-    uglify     = require('gulp-uglify'),
-    addsrc     = require('gulp-add-src'),
-    sourcemaps = require('gulp-sourcemaps');
+var gulp         = require('gulp')
+    watch        = require('gulp-watch'),
+    sass         = require('gulp-sass'),
+    less         = require('gulp-less'),
+    coffee       = require('gulp-coffee'),
+    concat       = require('gulp-concat'),
+    uglify       = require('gulp-uglify'),
+    addsrc       = require('gulp-add-src'),
+    sourcemaps   = require('gulp-sourcemaps')
+    autoprefixer = require('gulp-autoprefixer');
 
 // var beSassy = function() {
 //     console.log('Being Sassy');
@@ -30,6 +31,7 @@ var lessIsMore = function() {
 
     gulp.src(['./less/traq.less'])
         .pipe(less(lessConfig))
+        .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
         .pipe(sourcemaps.init())
         .pipe(addsrc('node_modules/simplemde/dist/simplemde.min.css'))
         .pipe(concat('traq.css'))
