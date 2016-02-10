@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/avalon.git",
-                "reference": "0b6949054e1d45556a4925b6e5b51aa0d236d021"
+                "reference": "780b8439c63c599f5c92dacad03d951d241314df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/0b6949054e1d45556a4925b6e5b51aa0d236d021",
-                "reference": "0b6949054e1d45556a4925b6e5b51aa0d236d021",
+                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/780b8439c63c599f5c92dacad03d951d241314df",
+                "reference": "780b8439c63c599f5c92dacad03d951d241314df",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "framework",
                 "mvc"
             ],
-            "time": "2015-12-31 09:02:14"
+            "time": "2016-02-02 14:33:16"
         },
         {
             "name": "avalon/database",
@@ -60,12 +60,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "7276a98e8f898536b391080e8e4f678ee37af45e"
+                "reference": "ff58e115d0fc26db234100fbaf2b694bc0bf19f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/7276a98e8f898536b391080e8e4f678ee37af45e",
-                "reference": "7276a98e8f898536b391080e8e4f678ee37af45e",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/ff58e115d0fc26db234100fbaf2b694bc0bf19f9",
+                "reference": "ff58e115d0fc26db234100fbaf2b694bc0bf19f9",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2016-01-02 13:19:26"
+            "time": "2016-02-05 03:22:56"
         },
         {
             "name": "avalon/database-migrations",
@@ -196,12 +196,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/helpers.git",
-                "reference": "97224466faca3d57e181c4c9228995f314fbbf21"
+                "reference": "c991dae4152f7ec804b30a6343d2d4574cddf889"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/97224466faca3d57e181c4c9228995f314fbbf21",
-                "reference": "97224466faca3d57e181c4c9228995f314fbbf21",
+                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/c991dae4152f7ec804b30a6343d2d4574cddf889",
+                "reference": "c991dae4152f7ec804b30a6343d2d4574cddf889",
                 "shasum": ""
             },
             "require": {
@@ -224,7 +224,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jack P.",
+                    "name": "Jack Polgar",
                     "email": "jack@polgar.id.au"
                 }
             ],
@@ -234,7 +234,7 @@
                 "framework",
                 "helpers"
             ],
-            "time": "2015-03-29 02:59:38"
+            "time": "2016-02-05 03:29:52"
         },
         {
             "name": "avalon/hook",
@@ -334,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/templating.git",
-                "reference": "c5f0577345a0588e09f76cc225a1dc33777916c2"
+                "reference": "b6d431715efff7228a9df7ab218965996d2d569b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/templating/zipball/c5f0577345a0588e09f76cc225a1dc33777916c2",
-                "reference": "c5f0577345a0588e09f76cc225a1dc33777916c2",
+                "url": "https://api.github.com/repos/avalonphp/templating/zipball/b6d431715efff7228a9df7ab218965996d2d569b",
+                "reference": "b6d431715efff7228a9df7ab218965996d2d569b",
                 "shasum": ""
             },
             "require": {
@@ -371,7 +371,7 @@
                 "framework",
                 "templating"
             ],
-            "time": "2016-01-31 09:32:43"
+            "time": "2016-02-02 14:10:38"
         },
         {
             "name": "avalon/validation",
@@ -379,12 +379,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/validation.git",
-                "reference": "6cdc5dfcd35617efda7426f64d5ee095cd67c21d"
+                "reference": "af7d13108ef4c7b71eb44c81cc6194c80dad9c8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/validation/zipball/6cdc5dfcd35617efda7426f64d5ee095cd67c21d",
-                "reference": "6cdc5dfcd35617efda7426f64d5ee095cd67c21d",
+                "url": "https://api.github.com/repos/avalonphp/validation/zipball/af7d13108ef4c7b71eb44c81cc6194c80dad9c8f",
+                "reference": "af7d13108ef4c7b71eb44c81cc6194c80dad9c8f",
                 "shasum": ""
             },
             "require-dev": {
@@ -411,7 +411,7 @@
                 }
             ],
             "description": "Avalon validation component.",
-            "time": "2016-01-04 04:57:34"
+            "time": "2016-02-05 03:22:26"
         },
         {
             "name": "doctrine/annotations",
