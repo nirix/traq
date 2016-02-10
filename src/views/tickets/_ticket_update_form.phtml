@@ -15,7 +15,7 @@ if ($ticket['is_closed']) {
 		<?php if (has_permission('comment_on_tickets')) : ?>
 			<div class="update-ticket-property-comment">
 				<label for="comment" class="control-label"><?=t('comment')?></label>
-				<textarea id="comment" name="comment" class="form-control"></textarea>
+				<textarea id="comment" name="comment" class="form-control rich-editor"></textarea>
 			</div>
 		<?php endif ?>
 
