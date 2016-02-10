@@ -5,6 +5,7 @@ var gulp       = require('gulp')
     coffee     = require('gulp-coffee'),
     concat     = require('gulp-concat'),
     uglify     = require('gulp-uglify'),
+    addsrc     = require('gulp-add-src'),
     sourcemaps = require('gulp-sourcemaps');
 
 // var beSassy = function() {
@@ -30,6 +31,8 @@ var lessIsMore = function() {
     gulp.src(['./less/traq.less'])
         .pipe(less(lessConfig))
         .pipe(sourcemaps.init())
+        .pipe(addsrc('node_modules/simplemde/dist/simplemde.min.css'))
+        .pipe(concat('traq.css'))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('../assets/css'));
 }
@@ -80,7 +83,8 @@ gulp.task('assets', function() {
         'node_modules/bootstrap/dist/js/bootstrap.js',
         'node_modules/moment/min/moment-with-locales.js',
         // 'node_modules/moment-timezone/builds/moment-timezone-with-data.js',
-        'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'
+        'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
+        'node_modules/simplemde/dist/simplemde.min.js'
     ])
     .pipe(sourcemaps.init())
     .pipe(uglify())

@@ -33,6 +33,12 @@ $(document).ready ->
   doc.on 'shown.bs.modal', ->
     $('select:not(#new_filter)').chosen chosen_options
 
+
+  $('.rich-editor').each ->
+      new SimpleMDE
+          element: $(this)[0]
+          indentWithTabs: false
+
   # Popover confirmation
   # $('[data-confirm]').each ->/
   doc.on 'click', '[data-confirm]', (event) ->

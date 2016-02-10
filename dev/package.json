@@ -11,6 +11,7 @@
     "eonasdan-bootstrap-datetimepicker": "https://github.com/Eonasdan/bootstrap-datetimepicker/archive/4.17.37.tar.gz",
     "font-awesome": "^4.5.0",
     "gulp": "^3.9.0",
+    "gulp-add-src": "^0.2.0",
     "gulp-coffee": "^2.3.1",
     "gulp-concat": "^2.6.0",
     "gulp-less": "^3.0.5",
@@ -20,6 +21,7 @@
     "gulp-watch": "^4.3.5",
     "jquery": "^2.1.4",
     "js-cookie": "^2.1.0",
-    "moment": "^2.11.1"
+    "moment": "^2.11.1",
+    "simplemde": "^1.10.0"
   }
 }

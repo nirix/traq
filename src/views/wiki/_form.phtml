@@ -15,6 +15,6 @@
 <div class="form-group">
     <?=Form::label(t('content'), 'content', ['class' => 'control-label col-md-3'])?>
     <div class="col-md-9">
-        <?=Form::textarea('content', ['value' => $page->revision()->content, 'class' => 'form-control'])?>
+        <?=Form::textarea('content', ['value' => $page->revision()->content, 'class' => 'form-control rich-editor'])?>
     </div>
 </div>
