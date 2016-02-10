@@ -66,4 +66,79 @@ class CustomFields extends AppController
             'field' => new CustomField
         ]);
     }
+
+    /**
+     * Edit field page.
+     *
+     * @param integer $id
+     */
+    public function action_edit($id)
+    {
+        // Get field
+        $field = CustomField::find($id);
+
+        // Verify project
+        if ($field->project_id != $this->project->id) {
+            return $this->show_no_permission();
+        }
+
+        // Check if the form has been submitted
+        if (Request::method() == 'post') {
+            $data = array();
+
+            // Loop over properties
+            foreach (CustomField::properties() as $property) {
+                // Check if it's set and not empty
+                if (isset(Request::$post[$property])) {
+                    $data[$property] = Request::$post[$property];
+                }
+            }
+
+            if ($this->is_api) {
+                $data['is_required'] = Request::post('is_required', $field->is_required);
+                $data['multiple'] = Request::post('multiple', $field->multiple);
+            } else {
+                $data['is_required'] = Request::post('is_required', 0);
+                $data['multiple'] = Request::post('multiple', 0);
+            }
+
+            // Set field properties
+            $field->set($data);
+
+            // Save and redirect
+            if ($field->save()) {
+                if ($this->is_api) {
+                    return \API::response(1, array('field' => $field));
+                } else {
+                    Request::redirectTo($this->project->href('settings/custom_fields'));
+                }
+            }
+        }
+
+        // Send field object to view
+        View::set(compact('field'));
+    }
+
+    /**
+     * Delete field.
+     */
+    public function action_delete($id)
+    {
+        // Find field
+        $field = CustomField::find($id);
+
+        // Verify project
+        if ($field->project_id != $this->project->id) {
+            return $this->show_no_permission();
+        }
+
+        // Delete and redirect
+        $field->delete();
+
+        if ($this->is_api) {
+            return \API::response(1);
+        } else {
+            Request::redirectTo($this->project->href('settings/custom_fields'));
+        }
+    }
 }
