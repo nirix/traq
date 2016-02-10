@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -24,6 +24,7 @@
 namespace Traq\Models;
 
 use Avalon\Database\Model;
+use Avalon\Language;
 
 /**
  * User group model.
@@ -48,5 +49,35 @@ class CustomField extends Model
     public static function forProject($project_id)
     {
         return static::where('project_id = ?')->setParameter(0, $project_id)->fetchAll();
+    }
+
+    /**
+     * Get a list of available custom field types.
+     *
+     * @return array
+     */
+    public static function types()
+    {
+        return [
+            'text',
+            'select',
+            'integer'
+        ];
+    }
+
+    /**
+     * Get an array of custom field types for use with `Form::select`.
+     *
+     * @return array[]
+     */
+    public static function typesSelectOptions()
+    {
+        $options = [];
+
+        foreach (static::types() as $type) {
+            $options[] = ['label' => Language::translate($type), 'value' => $type];
+        }
+
+        return $options;
     }
 }
