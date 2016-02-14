@@ -32,4 +32,5 @@ Router::get('project_settings_custom_fields', '/{pslug}/settings/custom-fields',
 Router::get('project_settings_new_custom_field', '/{pslug}/settings/custom-fields/new', "{$ns}\\ProjectSettings\\CustomFields::new");
 Router::post('project_settings_create_custom_field', '/{pslug}/settings/custom-fields/new', "{$ns}\\ProjectSettings\\CustomFields::create");
 Router::get('project_settings_edit_custom_field', '/{pslug}/settings/custom-fields/{id}/edit', "{$ns}\\ProjectSettings\\CustomFields::edit");
+Router::post('project_settings_save_custom_field', '/{pslug}/settings/custom-fields/{id}/edit', "{$ns}\\ProjectSettings\\CustomFields::save");
 Router::get('project_settings_delete_custom_field', '/{pslug}/settings/custom-fields/{id}/delete', "{$ns}\\ProjectSettings\\CustomFields::destroy");

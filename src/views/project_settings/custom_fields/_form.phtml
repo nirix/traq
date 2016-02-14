@@ -19,7 +19,7 @@
 <div class="form-group">
 	<div class="col-md-9 col-md-offset-3">
 		<label>
-			<input type="checkbox" name="is_required" value="1"> <?=t('required')?>
+			<input type="checkbox" name="is_required" value="1" <?=iif($field['is_required'], "checked")?>> <?=t('required')?>
 		</label>
 	</div>
 </div>
@@ -59,7 +59,7 @@
 	<div class="form-group cf-type-select">
 		<div class="col-md-9 col-md-offset-3">
 			<label>
-				<input type="checkbox" name="multiple" value="1"> <?=t('multichoice')?>
+				<input type="checkbox" name="multiple" value="1" <?=iif($field['multiple'], "checked")?>> <?=t('multichoice')?>
 			</label>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 	<div class="form-group cf-type-select">
 		<?=Form::label(t('values'), 'values', ['class' => 'control-label col-md-3'])?>
 		<div class="col-md-9">
-			<?=Form::textarea('values', ['class' => 'form-control', 'value' => isset($field['values']) ? $field['values'] : ''])?>
+			<textarea name="select_values" id="values" class="form-control"><?=$field['select_values']?></textarea>
 			<small class="help-text"><?=t('help.custom_fields.values')?></small>
 		</div>
 	</div>

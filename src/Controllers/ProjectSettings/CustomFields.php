@@ -62,9 +62,15 @@ class CustomFields extends AppController
      */
     public function newAction()
     {
-        return $this->render('project_settings/custom_fields/new.phtml', [
-            'field' => new CustomField
-        ]);
+        if ($this->isOverlay) {
+            return $this->render('project_settings/custom_fields/new.overlay.phtml', [
+                'field' => new CustomField
+            ]);
+        } else {
+            return $this->render('project_settings/custom_fields/new.phtml', [
+                'field' => new CustomField
+            ]);
+        }
     }
 
     /**
@@ -84,55 +90,57 @@ class CustomFields extends AppController
     }
 
     /**
-     * Edit field page.
+     * Edit custom field.
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function editAction($id)
     {
-        // Get field
-        $field = CustomField::find($id);
+        $field = CustomField::select()
+            ->where('id = ?')
+            ->andWhere('project_id = ?')
+            ->setParameter(0, $id)
+            ->setParameter(1, $this->currentProject['id'])
+            ->fetch();
 
-        // Verify project
-        if ($field->project_id != $this->project->id) {
-            return $this->show_no_permission();
+        if (!$field) {
+            return $this->show404();
         }
 
-        // Check if the form has been submitted
-        if (Request::method() == 'post') {
-            $data = array();
+        if ($this->isOverlay) {
+            return $this->render('project_settings/custom_fields/edit.overlay.phtml', [
+                'field' => $field
+            ]);
+        } else {
+            return $this->render('project_settings/custom_fields/edit.phtml', [
+                'field' => $field
+            ]);
+        }
+    }
 
-            // Loop over properties
-            foreach (CustomField::properties() as $property) {
-                // Check if it's set and not empty
-                if (isset(Request::$post[$property])) {
-                    $data[$property] = Request::$post[$property];
-                }
-            }
+    /**
+     * Edit custom field.
+     *
+     * @param integer $id
+     */
+    public function saveAction($id)
+    {
+        $field = CustomField::select()
+            ->where('id = ?')
+            ->andWhere('project_id = ?')
+            ->setParameter(0, $id)
+            ->setParameter(1, $this->currentProject['id'])
+            ->fetch();
 
-            if ($this->is_api) {
-                $data['is_required'] = Request::post('is_required', $field->is_required);
-                $data['multiple'] = Request::post('multiple', $field->multiple);
-            } else {
-                $data['is_required'] = Request::post('is_required', 0);
-                $data['multiple'] = Request::post('multiple', 0);
-            }
+        $field->set($this->fieldParams());
 
-            // Set field properties
-            $field->set($data);
-
-            // Save and redirect
-            if ($field->save()) {
-                if ($this->is_api) {
-                    return \API::response(1, array('field' => $field));
-                } else {
-                    Request::redirectTo($this->project->href('settings/custom_fields'));
-                }
-            }
+        if ($field->save()) {
+            return $this->redirectTo('project_settings_custom_fields');
         }
 
-        // Send field object to view
-        View::set(compact('field'));
+        return $this->render('project_settings/custom_fields/edit.phtml', [
+            'field' => $field
+        ]);
     }
 
     /**
@@ -171,7 +179,7 @@ class CustomFields extends AppController
             'max_length' => Request::$post['max_length'],
             'regex' => Request::$post['regex'],
             'default_value' => Request::$post['default_value'],
-            'values' => Request::$post['values'],
+            'select_values' => Request::$post['select_values'],
             'multiple' => Request::$post['multiple'],
             'is_required' => Request::$post['is_required'],
             'ticket_type_ids' => Request::$post['ticket_type_ids'],

@@ -1,0 +1,11 @@
+<div class="project-settings custom-fields container">
+	<h2 class="page-title"><?=t('edit_custom_field')?></h2>
+
+	<form action="<?=routeUrl('project_settings_save_custom_field')?>" method="post" class="form-horizontal">
+		<?=Errors::messagesFor($field)?>
+		<?=View::render('project_settings/custom_fields/_form.phtml', ['field' => $field])?>
+		<div class="form-actions">
+			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
+		</div>
+	</form>
+</div>
