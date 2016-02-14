@@ -52,27 +52,17 @@ class Kernel extends AppKernel
         $this->createDatabaseConnection();
 
         // Alias some commonly used classes
-        class_alias('Avalon\\Templating\\View', 'View');
-        class_alias('Avalon\\Http\\Request', 'Request');
-        class_alias('Avalon\\Hook', 'Hook');
-
-        class_alias('Traq\\Helpers\\Errors', 'Errors');
-        class_alias('Traq\\Helpers\\Format', 'Format');
-        class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
-        class_alias('Traq\\Helpers\\TicketFilters', 'TicketFilters');
-
-        class_alias('Avalon\\Helpers\\HTML', 'HTML');
-        class_alias('Avalon\\Helpers\\Form', 'Form');
-        class_alias('Avalon\\Helpers\\TWBS', 'TWBS');
-        class_alias('Avalon\\Helpers\\Gravatar', 'Gravatar');
+        $this->setupAliases();
 
         // Load commonly used functions
         require __DIR__ . '/common.php';
 
+        // Load view helper functions and don't escape variables
         View::loadFunctions();
         View::engine()->escapeVariables = false;
 
-        // If a theme is set, prepend it's views directory
+        // If a theme other than the default is set, add its view path before all
+        // other paths.
         if (setting('theme') !== 'default') {
             View::addPath(__DIR__ . '/../' . setting('theme') . '/views', true);
         }
@@ -102,6 +92,31 @@ class Kernel extends AppKernel
         unset($db);
     }
 
+    /**
+     * Alias commonly used helpers.
+     */
+    protected function setupAliases()
+    {
+        class_alias('Avalon\\Templating\\View', 'View');
+        class_alias('Avalon\\Http\\Request', 'Request');
+        class_alias('Avalon\\Hook', 'Hook');
+
+        // Traq helpers
+        class_alias('Traq\\Helpers\\Errors', 'Errors');
+        class_alias('Traq\\Helpers\\Format', 'Format');
+        class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
+        class_alias('Traq\\Helpers\\TicketFilters', 'TicketFilters');
+
+        // Avalon helpers
+        class_alias('Avalon\\Helpers\\HTML', 'HTML');
+        class_alias('Avalon\\Helpers\\Form', 'Form');
+        class_alias('Avalon\\Helpers\\TWBS', 'TWBS');
+        class_alias('Avalon\\Helpers\\Gravatar', 'Gravatar');
+    }
+
+    /**
+     * Load translations.
+     */
     protected function loadTranslations()
     {
         foreach (scandir("{$this->path}/translations") as $file) {
@@ -113,6 +128,9 @@ class Kernel extends AppKernel
         }
     }
 
+    /**
+     * Load plugins.
+     */
     protected function loadPlugins()
     {
         global $autoloader;
