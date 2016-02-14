@@ -49,18 +49,7 @@ class Kernel extends AppKernel
         require __DIR__ . '/version.php';
 
         // Connect to the database
-        $db = $this->config['db'][$this->config['environment']];
-        // $GLOBALS['db'] = DriverManager::getConnection([
-        $GLOBALS['db'] = ConnectionManager::create([
-            'dbname'   => $db['database'],
-            'user'     => $db['username'],
-            'password' => $db['password'],
-            'host'     => $db['host'],
-            'driver'   => $db['driver'],
-            'prefix'   => $db['prefix']
-        ]);
-        define('PREFIX', $db['prefix']);
-        unset($db);
+        $this->createDatabaseConnection();
 
         // Alias some commonly used classes
         class_alias('Avalon\\Templating\\View', 'View');
@@ -95,6 +84,22 @@ class Kernel extends AppKernel
         if (isset($this->config['email'])) {
             Notification::setConfig($this->config['email']);
         }
+    }
+
+    /**
+     * Connect to the database.
+     */
+    protected function createDatabaseConnection()
+    {
+        $db = $this->config['db'][$this->config['environment']];
+
+        if (!isset($db['prefix'])) {
+            $db['prefix'] = '';
+        }
+
+        $GLOBALS['db'] = ConnectionManager::create($db);
+        define('PREFIX', $db['prefix']);
+        unset($db);
     }
 
     protected function loadTranslations()

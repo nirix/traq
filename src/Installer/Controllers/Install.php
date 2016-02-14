@@ -91,9 +91,9 @@ class Install extends AppController
         if ($_SESSION['db']['driver'] == "pdo_pgsql" || $_SESSION['db']['driver'] == "pdo_mysql") {
             $config[] = "            'driver' => \"{$_SESSION['db']['driver']}\",";
             $config[] = "            'host' => \"{$_SESSION['db']['host']}\",";
-            $config[] = "            'username' => \"{$_SESSION['db']['user']}\",";
+            $config[] = "            'user' => \"{$_SESSION['db']['user']}\",";
             $config[] = "            'password' => \"{$_SESSION['db']['password']}\",";
-            $config[] = "            'database' => \"{$_SESSION['db']['dbname']}\",";
+            $config[] = "            'dbname' => \"{$_SESSION['db']['dbname']}\",";
             $config[] = "            'prefix' => ''";
         } elseif ($_SESSION['db']['driver'] == "pdo_sqlite") {
             $config[] = "            'path' => \"{$_SESSION['db']['path']}\"";
