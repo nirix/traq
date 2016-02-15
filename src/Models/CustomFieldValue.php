@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,50 +21,36 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
 
 /**
  * Custom field value model.
  *
- * @package Traq
- * @subpackage Models
+ * @package Traq\Models
  * @author Jack P.
- * @copyright (c) Jack P.
+ * @since 3.0.0
  */
 class CustomFieldValue extends Model
 {
-    protected static $_name = 'custom_field_values';
-    protected static $_properties = array(
-        'id',
-        'custom_field_id',
-        'ticket_id',
-        'value'
-    );
-
     protected static $_filters_before = array(
-        'create' => array('_encode'),
-        'save'   => array('_encode')
+        'create' => ['encode'],
+        'save'   => ['encode']
     );
 
     protected static $_filters_after = array(
-        'construct' => array('_decode')
+        'construct' => ['decode']
     );
 
-    public function is_valid()
-    {
-        return true;
-    }
-
-    protected function _encode()
+    protected function encode()
     {
         $this->value = json_encode($this->value);
     }
 
-    protected function _decode()
+    protected function decode()
     {
-        if (!$this->_is_new()) {
+        if (!$this->isNew()) {
             $this->value = json_decode($this->value, true);
         }
     }
