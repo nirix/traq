@@ -146,24 +146,22 @@ class CustomFields extends AppController
     /**
      * Delete field.
      */
-    public function action_delete($id)
+    public function destroyAction($id)
     {
-        // Find field
-        $field = CustomField::find($id);
+        $field = CustomField::select()
+            ->where('id = ?')
+            ->andWhere('project_id = ?')
+            ->setParameter(0, $id)
+            ->setParameter(1, $this->currentProject['id'])
+            ->fetch();
 
-        // Verify project
-        if ($field->project_id != $this->project->id) {
-            return $this->show_no_permission();
+        if (!$field) {
+            return $this->show404();
         }
 
-        // Delete and redirect
         $field->delete();
 
-        if ($this->is_api) {
-            return \API::response(1);
-        } else {
-            Request::redirectTo($this->project->href('settings/custom_fields'));
-        }
+        return $this->redirectTo('project_settings_custom_fields');
     }
 
     /**
