@@ -58,7 +58,18 @@ $enAU = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Custom Fields
-        'custom_fields' => 'Custom Fields',
+        'custom_fields'     => 'Custom Fields',
+        'new_field'         => 'New Field',
+        'new_custom_field'  => 'New Custom Field',
+        'edit_custom_field' => 'Edit Custom Field',
+        'required'          => 'Required',
+        'min_length'        => 'Min. length',
+        'max_length'        => 'Max. length',
+        'regex'             => 'Regex',
+        'default_value'     => 'Default value',
+        'multichoice'       => 'Multichoice',
+        'values'            => 'Values',
+        'ticket_types'      => 'Ticket types',
 
         // --------------------------------------------------------------------
         // Errors
