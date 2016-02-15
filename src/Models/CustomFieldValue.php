@@ -34,20 +34,26 @@ use Avalon\Database\Model;
  */
 class CustomFieldValue extends Model
 {
-    protected static $_filters_before = array(
+    protected static $_before = array(
         'create' => ['encode'],
         'save'   => ['encode']
     );
 
-    protected static $_filters_after = array(
+    protected static $_after = array(
         'construct' => ['decode']
     );
 
+    /**
+     * Encode value.
+     */
     protected function encode()
     {
         $this->value = json_encode($this->value);
     }
 
+    /**
+     * Decode value.
+     */
     protected function decode()
     {
         if (!$this->isNew()) {
