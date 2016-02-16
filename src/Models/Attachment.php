@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,45 +21,18 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
 
 /**
  * Attachment model.
  *
- * @package Traq
- * @subpackage Models
- * @since 3.0
+ * @package Traq\Models
  * @author Jack P.
- * @copyright (c) Jack P.
+ * @since 3.0.0
  */
 class Attachment extends Model
 {
-    protected static $_name = 'attachments';
-    protected static $_properties = array(
-        'id',
-        'name',
-        'contents',
-        'type',
-        'size',
-        'user_id',
-        'ticket_id',
-        'created_at'
-    );
-
-    protected static $_belongs_to = array('user', 'ticket');
-
-    /**
-     * Returns the URL for the attachment.
-     */
-    public function href($extra = '')
-    {
-        return "/attachments/{$this->id}/" . create_slug($this->name) . $extra;
-    }
-
-    public function is_valid()
-    {
-        return true;
-    }
+    protected static $_belongsTo = ['user', 'ticket'];
 }
