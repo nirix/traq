@@ -99,6 +99,18 @@ class Permission extends Model
         $result = $query->execute();
         $result = $result->fetch();
 
+        $result = [
+            'group_defaults' => null,
+            'group_permissions' => null,
+            'project_group_defaults' => null,
+            'project_group_permissions' => null,
+
+            'role_defaults' => null,
+            'role_permissions' => null,
+            'project_role_defaults' => null,
+            'project_role_permissions' => null
+        ] + $result;
+
         // Convert from JSON to an array
         $result['group_defaults'] = json_decode($result['group_defaults'], true) ?: [];
         $result['group_permissions'] = json_decode($result['group_permissions'], true) ?: [];
