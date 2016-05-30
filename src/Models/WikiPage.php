@@ -23,6 +23,13 @@
 
 namespace Traq\Models;
 
+/**
+ * Wiki page model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class WikiPage extends Model
 {
     protected static $_hasMany = [

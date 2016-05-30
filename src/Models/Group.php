@@ -23,6 +23,13 @@
 
 namespace Traq\Models;
 
+/**
+ * User groups model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class Group extends Model
 {
     protected static $_tableAlias = 'g';

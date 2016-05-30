@@ -23,6 +23,13 @@
 
 namespace Traq\Models;
 
+/**
+ * Milestone model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class Milestone extends Model
 {
     protected static $_tableAlias = 'm';

@@ -26,6 +26,13 @@ namespace Traq\Models;
 use Avalon\Database\Model\SecurePassword;
 use Traq\Models\Permission;
 
+/**
+ * User model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class User extends Model
 {
     protected $securePasswordField = 'password';

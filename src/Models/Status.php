@@ -23,6 +23,13 @@
 
 namespace Traq\Models;
 
+/**
+ * Ticket status model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class Status extends Model
 {
 

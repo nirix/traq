@@ -23,6 +23,13 @@
 
 namespace Traq\Models;
 
+/**
+ * Ticket model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class Ticket extends Model
 {
     protected static $_tableAlias = 't';

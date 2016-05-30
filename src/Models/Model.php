@@ -25,6 +25,13 @@ namespace Traq\Models;
 
 use Avalon\Database\Model as AvalonModel;
 
+/**
+ * Base model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 4.0.0
+ */
 class Model extends AvalonModel
 {
 

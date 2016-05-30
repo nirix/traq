@@ -23,6 +23,13 @@
 
 namespace Traq\Models;
 
+/**
+ * Project model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class Project extends Model
 {
     protected static $_hasMany = [

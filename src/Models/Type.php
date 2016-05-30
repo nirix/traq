@@ -23,6 +23,13 @@
 
 namespace Traq\Models;
 
+/**
+ * Ticket type model.
+ *
+ * @package Traq\Models
+ * @author Jack P.
+ * @since 3.0.0
+ */
 class Type extends Model
 {
 
