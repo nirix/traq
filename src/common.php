@@ -59,7 +59,7 @@ function setting($settingName)
  */
 function currentProject()
 {
-    return isset($GLOBALS['current_project']) ? $GLOBALS['current_project'] : false;
+    return isset($GLOBALS['current_project']) ? $GLOBALS['current_project'] : null;
 }
 
 /**
@@ -69,7 +69,7 @@ function currentProject()
  */
 function currentUser()
 {
-    return isset($GLOBALS['current_user']) ? $GLOBALS['current_user'] : false;
+    return isset($GLOBALS['current_user']) ? $GLOBALS['current_user'] : null;
 }
 
 
