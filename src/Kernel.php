@@ -50,9 +50,6 @@ class Kernel extends AppKernel
 
         require __DIR__ . '/version.php';
 
-        // Setup database connection
-        // $this->createDatabaseConnection();
-
         // Setup aliases
         $this->setupAliases();
 
@@ -64,22 +61,6 @@ class Kernel extends AppKernel
 
         // Load plugins
         $this->loadPlugins();
-    }
-
-    /**
-     * Connect to the database.
-     */
-    protected function configureDatabase()
-    {
-        $db = $this->config['db'][$this->config['environment']];
-
-        if (!isset($db['prefix'])) {
-            $db['prefix'] = '';
-        }
-
-        $GLOBALS['db'] = ConnectionManager::create($db);
-        define('PREFIX', $db['prefix']);
-        unset($db);
     }
 
     /**
@@ -162,6 +143,22 @@ class Kernel extends AppKernel
 
     // -------------------------------------------------------------------------
     // Overwritten methods
+
+    /**
+     * Connect to the database.
+     */
+    protected function configureDatabase()
+    {
+        $db = $this->config['db'][$this->config['environment']];
+
+        if (!isset($db['prefix'])) {
+            $db['prefix'] = '';
+        }
+
+        $GLOBALS['db'] = ConnectionManager::create($db);
+        define('PREFIX', $db['prefix']);
+        unset($db);
+    }
 
     /**
      * Load routes.
