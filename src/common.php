@@ -23,6 +23,7 @@
 
 use Traq\Models\Setting;
 use Traq\Models\Ticket;
+use Traq\Models\Project;
 
 /**
  * Shortcut for creating a query builder.
@@ -72,6 +73,22 @@ function currentUser()
     return isset($GLOBALS['current_user']) ? $GLOBALS['current_user'] : null;
 }
 
+/**
+ * Check users permission.
+ */
+function hasPermission($action, Project $project = null)
+{
+    // Admins can do everything, regardless of permissions.
+    if (currentUser()->isAdmin()) {
+        return true;
+    }
+
+    $permissions = $project
+                        ? Permission::getPermissions(currentUser(), $project)
+                        : $GLOBALS['permissions'];
+
+    return isset($permissions[$action]) ? $permissions[$action] : null;
+}
 
 /**
  * Get a profile link with the users gravatar.
