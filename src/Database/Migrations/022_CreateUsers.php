@@ -38,7 +38,7 @@ class CreateUsers extends Migration
             $t->addColumn("group_id", "integer", ['default' => 2]);
             $t->addColumn("language", "string", ['default' => "enAU"]);
             $t->addColumn("options", "text", ['notnull' => false]);
-            $t->addColumn("login_hash", "string");
+            $t->addColumn("session_hash", "string");
             $t->addColumn("api_key", "string", ['notnull' => false]);
             // $t->addColumn("activation_code", "string", ['notnull' => false]);
 
