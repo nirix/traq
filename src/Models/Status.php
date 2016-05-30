@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -23,71 +23,7 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-use Avalon\Language;
-
-/**
- * Status model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
- */
 class Status extends Model
 {
-    protected static $_validations = array(
-        'name' => ['required', 'unique']
-    );
 
-    // Data types
-    protected static $_dataTypes = [
-        'show_on_changelog' => "boolean"
-    ];
-
-    /**
-     * @return Status[]
-     */
-    public static function allOpen()
-    {
-        return static::where('status = ?', 1)->fetchAll();
-    }
-
-    /**
-     * @return Status[]
-     */
-    public static function allClosed()
-    {
-        return static::where('status = ?', 0)->fetchAll();
-    }
-
-    /**
-     * Returns an array formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public static function selectOptions($valueField = 'id')
-    {
-        $open   = Language::translate('open');
-        $closed = Language::translate('closed');
-
-        $options = array(
-            $open   => array(),
-            $closed => array()
-        );
-
-        foreach (static::all() as $status) {
-            $option = array(
-                'label' => $status['name'],
-                'value' => $status[$valueField]
-            );
-
-            if ($status->status) {
-                $options[$open][] = $option;
-            } else {
-                $options[$closed][] = $option;
-            }
-        }
-
-        return $options;
-    }
 }

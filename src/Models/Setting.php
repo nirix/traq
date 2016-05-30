@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,25 +23,7 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
-/**
- * Setting model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
- */
 class Setting extends Model
 {
-    protected static $_tableAlias = 'st';
 
-    protected static $_validations = [
-        'setting' => ['required']
-    ];
-
-    public static function get($setting)
-    {
-        return static::where('st.setting = ?')->setParameter(0, $setting)->fetch();
-    }
 }

@@ -1,13 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<?=View::render('layouts/_head.phtml')?>
-	</head>
-	<body>
-		<?php require __DIR__ . '/_header.phtml'; ?>
-		<main>
-			<?=$content?>
-		</main>
-		<?php require __DIR__ . '/_footer.phtml'; ?>
-	</body>
+    <head>
+        <meta charset="UTF-8">
+        <title><?=implode($pageTitle, ' / ')?></title>
+
+        <link rel="stylesheet" href="<?=baseUrl('assets/css/traq.css')?>">
+
+        <script src="<?=baseUrl('assets/js/js.js')?>"></script>
+        <script src="<?=baseUrl('assets/js/traq.js')?>"></script>
+
+        <?=$this->getSection('head')?>
+    </head>
+    <body>
+        <?=View::render('layouts/_meta_nav.phtml')?>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only"><?=t('toggle_navigation')?></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                <?php if (currentProject()) : ?>
+                    <a href="<?=routeUrl('project')?>" class="navbar-brand"><?=currentProject()['name']?></a>
+                <?php else : ?>
+                    <a href="<?=routeUrl('root')?>" class="navbar-brand"><?=setting('title')?></a>
+                <?php endif ?>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <?php if (currentProject()) : ?>
+                    <ul class="nav navbar-nav">
+                        <li<?=iif(Request::matches('/{pslug}/timeline'), ' class="active"')?>>
+                            <a href="<?=routeUrl('timeline')?>"><?=t('timeline')?></a>
+                        </li>
+                        <li<?=iif(Request::matches('/{pslug}/roadmap'), ' class="active"')?>>
+                            <a href="<?=routeUrl('roadmap')?>"><?=t('roadmap')?></a>
+                        </li>
+                        <li<?=iif(Request::matches('/{pslug}/tickets'), ' class="active"')?>>
+                            <a href="<?=routeUrl('tickets')?>"><?=t('tickets')?></a>
+                        </li>
+                        <li<?=iif(Request::matches('/{pslug}/changelog'), ' class="active"')?>>
+                            <a href="<?=routeUrl('changelog')?>"><?=t('changelog')?></a>
+                        </li>
+                        <?php if (currentProject()['enable_wiki']) : ?>
+                        <li<?=iif(Request::matches('/{pslug}/wiki(/.*)?'), ' class="active"')?>>
+                            <a href="<?=routeUrl('wiki')?>"><?=t('wiki')?></a>
+                        </li>
+                        <?php endif ?>
+                    </ul>
+                </div>
+                <?php endif ?>
+            </div>
+        </nav>
+
+        <?=$this->getSection('content')?>
+
+        <?=View::render('layouts/_footer.phtml')?>
+    </body>
 </html>

@@ -1,25 +1,45 @@
-<div class="changelog container">
-	<h1 class="page-header"><?=t('changelog')?></h1>
+<?php $this->extend('layouts/default.phtml'); ?>
 
-	<?php foreach ($milestones as $milestone) : ?>
-		<div class="changeset">
-			<h2><?=$milestone['name']?></h2>
-			<ul>
-			<?php foreach ($milestone['changes'] as $ticket) : ?>
-				<li class="type_<?=$ticket['type_id']?>">
-					<a href="<?=routeUrl('ticket', ['id' => $ticket['ticket_id']])?>"><?=$ticket['summary']?></a>
-				</li>
-			<?php endforeach; ?>
-			</ul>
-		</div>
-	<?php endforeach ?>
-	</div>
+<?php $this->startSection('head'); ?>
+<style>
+    <?php foreach ($types as $type) : ?>
+        .type_<?=$type['id']?>:before {
+            content: "<?=utf8_encode($type['bullet'])?>";
+        }
+    <?php endforeach ?>
+</style>
+<?php $this->endSection(); ?>
 
-	<style>
-		<?php foreach ($types as $type => $bullet) : ?>
-			.type_<?=$type?>:before {
-				content: "<?=utf8_encode($bullet)?>";
-			}
-		<?php endforeach ?>
-	</style>
-</div>
+<?php $this->startSection('content'); ?>
+<main class="changelog content container">
+    <h1 class="page-header"><?=t('changelog')?></h1>
+
+    <div class="pull-right">
+        <fieldset class="changelog-type-legend traq-fieldset">
+            <legend><?=t('legend')?></legend>
+
+            <ul>
+            <?php foreach ($types as $type) : ?>
+                <li class="type_<?=$type['id']?>"><?=e($type['name'])?></li>
+            <?php endforeach ?>
+            </ul>
+        </fieldset>
+    </div>
+
+    <?php foreach ($milestones as $milestone) : ?>
+    <div class="changeset">
+        <h2 class="milestone-name">
+            <a href="<?=routeUrl('milestone', ['slug' => $milestone['slug']])?>"><?=e($milestone['name'])?></a>
+        </h2>
+
+        <ul>
+        <?php foreach ($milestone['tickets'] as $ticket) : ?>
+            <li class="type_<?=$ticket['type_id']?>">
+                <a href="<?=routeUrl('ticket', ['id' => $ticket['ticket_id']])?>"><?=e($ticket['summary'])?></a>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php endforeach ?>
+</main>
+<?php $this->endSection(); ?>

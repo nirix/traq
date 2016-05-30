@@ -23,12 +23,14 @@
 
 namespace Traq\Controllers;
 
+use Traq\Models\Milestone;
+
 /**
  * Roadmap controller.
  *
- * @author Jack P.
  * @package Traq\Controllers
- * @since 4.0.0
+ * @author Jack P.
+ * @since 3.0.0
  */
 class Roadmap extends AppController
 {
@@ -36,24 +38,22 @@ class Roadmap extends AppController
     {
         parent::__construct();
 
-        $this->title($this->translate('roadmap'));
+        $this->addCrumb($this->translate('roadmap'), $this->generateUrl('roadmap'));
     }
 
     /**
-     * Roadmap index
-     *
-     * @param string $filter which milestones to display.
+     * Milestone listing.
      */
     public function indexAction($filter = 'active')
     {
         list($openQuery, $startedQuery, $closedQuery) = $this->getTicketCountQueries();
 
-        $query = queryBuilder()->select('*')
+        $query = Milestone::where('project_id = :project_id')
             ->addSelect("({$openQuery}) AS open_tickets")
             ->addSelect("({$startedQuery}) AS started_tickets")
             ->addSelect("({$closedQuery}) AS closed_tickets")
-            ->from(PREFIX . 'milestones', 'm')
-            ->where('project_id = ?');
+            ->setParameter('project_id', $this->currentProject['id'])
+            ->orderBy('display_order', 'ASC');
 
         if ($filter == 'active') {
             $query->andWhere('status = 1');
@@ -63,37 +63,44 @@ class Roadmap extends AppController
             $query->andWhere('status = 0');
         }
 
-        $query->orderBy('display_order', 'ASC');
-        $query->setParameter(0, $this->currentProject['id']);
+        $milestones = $query->fetchAll();
 
-        $milestones = $query->execute()->fetchAll();
-
-        return $this->render('roadmap/index.phtml', ['milestones' => $milestones]);
+        return $this->respondTo(function ($format) use ($milestones) {
+            if ($format == 'html') {
+                return $this->render('roadmap/index.phtml', ['milestones' => $milestones]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse($milestones);
+            }
+        });
     }
 
     /**
-     * Milestone info page.
+     * Show milestone.
      *
-     * @param string $mslug milestone slug
+     * @param string $slug
      */
-    public function showAction($mslug)
+    public function showAction($slug)
     {
         list($openQuery, $startedQuery, $closedQuery) = $this->getTicketCountQueries();
 
-        $milestone = queryBuilder()->select('*')->from(PREFIX . 'milestones', 'm')
+        $milestone = Milestone::where('project_id = :project_id')
+            ->andWhere('slug = :slug')
             ->addSelect("({$openQuery}) AS open_tickets")
             ->addSelect("({$startedQuery}) AS started_tickets")
             ->addSelect("({$closedQuery}) AS closed_tickets")
-            ->where('project_id = ?')
-            ->andWhere('slug = ?')
-            ->setParameter(0, $this->currentProject['id'])
-            ->setParameter(1, $mslug);
+            ->setParameter('project_id', $this->currentProject['id'])
+            ->setParameter('slug', $slug)
+            ->fetch();
 
-        $milestone = $milestone->execute()->fetch();
+        $this->addCrumb($milestone['name'], $this->generateUrl('milestone', ['slug' => $milestone['slug']]));
 
-        $this->title($milestone['name']);
-
-        return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
+        return $this->respondTo(function ($format) use ($milestone) {
+            if ($format == 'html') {
+                return $this->render('roadmap/show.phtml', ['milestone' => $milestone]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse($milestone);
+            }
+        });
     }
 
     /**

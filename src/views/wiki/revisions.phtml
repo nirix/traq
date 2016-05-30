@@ -1,18 +1,23 @@
-<?php echo View::render('wiki/_nav.phtml'); ?>
-<div class="wiki-pages-revisions container">
-	<h1 class="page-header"><?=$page['title']?></h1>
+<?php $this->extend('layouts/default.phtml'); ?>
 
-	<ul class="wiki-pages">
-	<?php foreach ($revisions as $revision) : ?>
-		<li>
-			<?=t('x_by_x', [
+<?php $this->startSection('content'); ?>
+<div class="wiki wiki-revisions content container">
+    <?=View::render('wiki/_nav.phtml')?>
+
+    <h1 class="page-header"><?=t('revisions_for_x', [$page['title']])?></h1>
+
+    <ul>
+    <?php foreach ($revisions as $revision) : ?>
+        <li>
+            <?=t('x_by_x', [
                 HTML::link(
                     t('revision_x', $revision['revision']),
                     routePath('wiki_revision', ['slug' => $page['slug'], 'id' => $revision['revision']])
                 ),
-                gravatar_profile_link($revision['user_email'], $revision['user_name'], $revision['user_id'], 15),
+                gravatarProfileLink($revision['user_email'], $revision['user_name'], $revision['user_id'], 15),
             ])?>
-		</li>
-	<?php endforeach ?>
-	</ul>
+        </li>
+    <?php endforeach ?>
+    </ul>
 </div>
+<?php $this->endSection(); ?>

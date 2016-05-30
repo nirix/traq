@@ -1,37 +1,31 @@
-<nav id="wiki-nav" class="container">
-	<ul class="nav nav-tabs" role="tablist">
-		<li<?=Request::matches('/{pslug}/wiki') ? ' class="active"' :''?>>
-			<a href="<?=routeUrl('wiki')?>"><?=t('home')?></a>
-		</li>
-		<li<?=Request::matches('/{pslug}/wiki/_pages') ? ' class="active"' :''?>>
-			<a href="<?=routeUrl('wiki_pages')?>"><?=t('pages')?></a>
-		</li>
+<div class="pull-right">
+    <?php if (isset($page)) : ?>
+    <div class="btn-group">
+        <a href="<?=routeUrl('wiki_revisions', ['slug' => $page['slug']])?>" class="btn btn-sm btn-default">
+            <i class="fa fa-files-o"></i> <?=t('revisions')?>
+        </a>
+    <?php if (currentUser()) : ?>
+        <a href="<?=routeUrl('wiki_edit', ['slug' => $page['slug']])?>" class="btn btn-sm btn-warning">
+            <i class="fa fa-pencil"></i> <?=t('edit')?>
+        </a>
+        <a href="<?=routeUrl('wiki_delete', ['slug' => $page['slug']])?>" class="btn btn-sm btn-danger" data-confirm="<?=t('confirm.delete_x', [$page['title']])?>">
+            <i class="fa fa-trash"></i> <?=t('delete')?>
+        </a>
+    <?php endif ?>
+    </div>
+    <?php endif ?>
 
-		<?php if (has_permission('create_wiki_page')) : ?>
-			<li<?=Request::matches('/{pslug}/wiki/_new') ? ' class="active"' :''?>>
-				<a href="<?=routeUrl('wiki_new')?>"><span class="fa fa-plus"></span> <?=t('new_page')?></a>
-			</li>
-		<?php endif ?>
-		<?php if (isset($page) && $page && has_permission('edit_wiki_page')) : ?>
-			<li<?=Request::matches('/{pslug}/wiki/{slug}/_edit') ? ' class="active"' :''?>>
-				<a href="<?=routeUrl('wiki_edit', ['slug' => $page['slug']])?>">
-					<span class="fa fa-pencil"></span> <?=t('edit_page')?>
-				</a>
-			</li>
-		<?php endif ?>
-		<?php if (isset($page) && $page && has_permission('delete_wiki_page')) : ?>
-			<li>
-				<a href="<?=routeUrl('wiki_delete', ['slug' => $page['slug']])?>" data-confirm="<?=t('confirm.delete')?>">
-					<span class="fa fa-trash"></span> <?=t('delete_page')?>
-				</a>
-			</li>
-		<?php endif ?>
-		<?php if (isset($page) && $page) : ?>
-			<li<?=Request::matches('/{pslug}/wiki/{slug}/_revisions(/[0-9]+)?') ? ' class="active"' :''?>>
-				<a href="<?=routeUrl('wiki_revisions', ['slug' => $page['slug']])?>">
-					<span class="fa fa-files-o"></span> <?=t('revisions')?>
-				</a>
-			</li>
-		<?php endif ?>
-	</ul>
-</nav>
+    <div class="btn-group">
+        <a href="<?=routeUrl('wiki')?>" class="btn btn-sm btn-default">
+            <i class="fa fa-home"></i> <?=t('home')?>
+        </a>
+        <a href="<?=routeUrl('wiki_pages')?>" class="btn btn-sm btn-default">
+            <i class="fa fa-list"></i> <?=t('pages')?>
+        </a>
+    <?php if (currentUser()) : ?>
+        <a href="<?=routeUrl('wiki_new')?>" class="btn btn-sm btn-default">
+            <i class="fa fa-plus"></i> <?=t('new_page')?>
+        </a>
+    <?php endif ?>
+    </div>
+</div>

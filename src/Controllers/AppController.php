@@ -23,184 +23,85 @@
 
 namespace Traq\Controllers;
 
-use Avalon\Http\Controller;
 use Avalon\Http\Request;
-use Avalon\Http\Response;
-use Avalon\Templating\View;
+use Avalon\Http\Controller;
+use Avalon\Database\ConnectionManager;
 use Traq\Models\User;
 use Traq\Models\Project;
 
 /**
- * App controller
+ * Base Traq controller.
  *
+ * @package Traq\Controllers
  * @author Jack P.
  * @since 3.0.0
  */
 class AppController extends Controller
 {
+    // Disable layouts since we're using the `PhpExtended` engine.
+    protected $layout = false;
+
     /**
      * @var User
      */
     protected $currentUser;
 
     /**
-     * @var User
-     */
-    protected $anonymousUser;
-
-    /**
-     * @var array
+     * @var Project
      */
     protected $currentProject;
 
     /**
      * @var array
      */
-    protected $title = [];
+    protected $pageTitle = [];
 
-    protected $isOverlay = false;
+    /**
+     * @var array
+     */
+    protected $breadcrumbs = [];
 
+    /**
+     * Always call this when defining `__construct()` in sub-classes.
+     */
     public function __construct()
     {
-        // parent::__construct();
+        $this->db = ConnectionManager::getConnection();
 
-        session_start();
-
-        $this->db = $GLOBALS['db'];
-        $this->title(setting('title'));
-        $this->set('traq', $this);
-
-        // Is this an overlay request?
-        if (Request::$headers->has('X-Overlay')) {
-            $this->isOverlay = true;
-            $this->layout = false;
+        // Get current user.
+        if ($sessionHash = Request::$cookies->get('traq')) {
+            $this->currentUser = User::find('session_hash', $sessionHash);
+            $GLOBALS['current_user'] = $this->currentUser;
         }
 
-        // Are we on a project page?
-        if ($projectSlug = Request::$properties->get('pslug')) {
-            $this->currentProject = Project::where('slug = ?')
-                ->setParameter(0, $projectSlug)
-                ->fetch();
+        // Get current project.
+        if (Request::$properties->has('pslug')) {
+            $this->currentProject = Project::find('slug', Request::$properties->get('pslug'));
+            $GLOBALS['current_project'] = $this->currentProject;
         }
 
-        // Is the user logged in?
-        if ((isset($_COOKIE['traq']) && $sessionHash = $_COOKIE['traq'])) {
-            $user = User::select('u.*', 'g.is_admin')
-                ->leftJoin('u', PREFIX . 'usergroups', 'g', 'g.id = u.group_id');
-
-            // Project role
-            if ($this->currentProject) {
-                $user->addSelect('r.project_role_id')
-                    ->leftJoin('u', PREFIX . 'user_roles', 'r', 'r.user_id = u.id');
-            }
-
-            // By session
-            if ($sessionHash) {
-                $user->where('u.login_hash = :login_hash')
-                    ->setParameter('login_hash', $sessionHash);
-            }
-
-            // By API key
-            // if ($apiKey) {
-
-            // }
-
-            $this->currentUser = $user->fetch();
-        }
-
-        // Set current user
-        $GLOBALS['currentUser'] = $this->currentUser;
-        $this->set('currentUser', $this->currentUser);
-
-        // Set current project
-        $GLOBALS['currentProject'] = $this->currentProject;
-        $this->set('currentProject', $this->currentProject);
-
-        // Set title
-        if ($this->currentProject) {
-            $this->title($this->currentProject['name']);
-        }
-
-        // Check permission
-        $this->before('*', function () use ($projectSlug) {
-            // Check if project exists
-            if (($projectSlug && !$this->currentProject)
-            || ($projectSlug && !$this->hasPermission('view'))) {
-                return $this->show404();
-            }
-        });
-
-        $this->before('*', function () {
-            if ($this->currentUser && $this->currentUser['password_ver'] == 'sha1'
-            && Request::$properties->get('controller') != 'Traq\\Controllers\\UserCP'
-            && Request::$properties->get('controller') != 'Traq\\Controllers\\Sessions') {
-                return $this->redirectTo('usercp_password');
-            }
-        });
+        // Add Traq as first breadcrumb.
+        $this->addCrumb(setting('title'), $this->generateUrl('root'));
     }
 
     /**
-     * Check if the user has permisison to perform the action.
+     * Add breadcrumb.
      *
-     * @param integer $projectId
-     * @param string  $action
-     *
-     * @return boolean
+     * @param string $text
+     * @param string $url
      */
-    protected function hasPermission($action, $projectId = null)
+    protected function addCrumb($text, $url)
     {
-        if (!$projectId) {
-            $projectId = $this->currentProject['id'];
-        }
+        $this->breadcrumbs[] = [
+            'text' => $text,
+            'url' => $url
+        ];
 
-        if (!$user = current_user()) {
-            $user = anonymous_user();
-        }
+        $this->pageTitle[] = $text;
 
-        return $user->hasPermission($action, $projectId);
-    }
-
-    /**
-     * Set or get the page title.
-     *
-     * @param string|null $title
-     *
-     * @return null|string
-     */
-    public function title($title = null)
-    {
-        if ($title) {
-            $this->title[] = $title;
-        } else {
-            return $this->title;
-        }
-    }
-
-    /**
-     * Show the login form.
-     */
-    protected function showLogin($goto = null)
-    {
-        return $this->render('sessions/new.phtml', [
-            '_layout' => 'default.phtml',
-            'goto'    => $goto
+        $this->set([
+            'breadcrumbs' => $this->breadcrumbs,
+            'pageTitle' => $this->pageTitle
         ]);
-    }
-
-    /**
-     * Render a JavaScript view.
-     *
-     * @param string $view
-     * @param array  $locals
-     *
-     * @return Response
-     */
-    protected function renderJs($view, array $locals = [])
-    {
-        $locals['_layout'] = false;
-
-        $resp = $this->render($view, $locals);
-        $resp->contentType = 'application/javascript';
-        return $resp;
     }
 }

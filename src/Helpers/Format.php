@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -65,7 +65,7 @@ class Format extends \Avalon\Helpers\Format
             function ($matches) {
                 $match = explode('#', $matches[0]);
 
-                if (current_project()) {
+                if (currentProject()) {
                     return HTML::link("#{$match[1]}", routePath('ticket', ['id' => $match[1]]));
                 } else {
                     return "#{$match[1]}";
@@ -87,7 +87,7 @@ class Format extends \Avalon\Helpers\Format
         return preg_replace_callback(
             "|\[\[(?P<page>[\w\d\-_]+)(\|(?P<text>[\s\w\d\-_]+))?\]\]|",
             function ($matches) {
-                $project = current_project();
+                $project = currentProject();
 
                 if (!$project) {
                     return $matches[0];

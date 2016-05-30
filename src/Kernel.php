@@ -26,8 +26,8 @@ namespace Traq;
 use Exception;
 use Avalon\AppKernel;
 use Avalon\Templating\View;
+use Avalon\Templating\Engines\PhpExtended;
 use Avalon\Database\ConnectionManager;
-use Traq\Helpers\Notification;
 
 /**
  * The heart of Traq.
@@ -42,44 +42,34 @@ class Kernel extends AppKernel
     public function __construct()
     {
         global $autoloader;
-        parent::__construct();
-
         static::$loader = $autoloader;
+
+        session_start();
+
+        parent::__construct();
 
         require __DIR__ . '/version.php';
 
-        // Connect to the database
-        $this->createDatabaseConnection();
+        // Setup database connection
+        // $this->createDatabaseConnection();
 
-        // Alias some commonly used classes
+        // Setup aliases
         $this->setupAliases();
 
-        // Load commonly used functions
+        // Load translations
+        $this->loadTranslations();
+
+        // Load common functions
         require __DIR__ . '/common.php';
 
-        // Load view helper functions and don't escape variables
-        View::loadFunctions();
-        View::engine()->escapeVariables = false;
-
-        // If a theme other than the default is set, add its view path before all
-        // other paths.
-        if (setting('theme') !== 'default') {
-            View::addPath(__DIR__ . '/../' . setting('theme') . '/views', true);
-        }
-
-        $this->loadTranslations();
+        // Load plugins
         $this->loadPlugins();
-
-        // Set mailer config
-        if (isset($this->config['email'])) {
-            Notification::setConfig($this->config['email']);
-        }
     }
 
     /**
      * Connect to the database.
      */
-    protected function createDatabaseConnection()
+    protected function configureDatabase()
     {
         $db = $this->config['db'][$this->config['environment']];
 
@@ -101,31 +91,15 @@ class Kernel extends AppKernel
         class_alias('Avalon\\Http\\Request', 'Request');
         class_alias('Avalon\\Hook', 'Hook');
 
-        // Traq helpers
-        class_alias('Traq\\Helpers\\Errors', 'Errors');
-        class_alias('Traq\\Helpers\\Format', 'Format');
-        class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
-        class_alias('Traq\\Helpers\\TicketFilters', 'TicketFilters');
-
         // Avalon helpers
         class_alias('Avalon\\Helpers\\HTML', 'HTML');
         class_alias('Avalon\\Helpers\\Form', 'Form');
         class_alias('Avalon\\Helpers\\TWBS', 'TWBS');
         class_alias('Avalon\\Helpers\\Gravatar', 'Gravatar');
-    }
 
-    /**
-     * Load translations.
-     */
-    protected function loadTranslations()
-    {
-        foreach (scandir("{$this->path}/translations") as $file) {
-            if ($file === '.' || $file === '..') {
-                continue;
-            }
-
-            require "{$this->path}/translations/{$file}";
-        }
+        // Traq helpers
+        class_alias('Traq\\Helpers\\Format', 'Format');
+        class_alias('Traq\\Helpers\\Timeline', 'Timeline');
     }
 
     /**
@@ -133,8 +107,6 @@ class Kernel extends AppKernel
      */
     protected function loadPlugins()
     {
-        global $autoloader;
-
         $queue = [];
 
         $plugins = queryBuilder()->select('*')->from(PREFIX . 'plugins')
@@ -145,7 +117,7 @@ class Kernel extends AppKernel
         foreach ($plugins as $plugin) {
             $vendorDir = __DIR__ . '/../vendor';
             foreach (json_decode($plugin['autoload'], true) as $namespace => $directory) {
-                $autoloader->addPsr4(
+                static::$loader->addPsr4(
                     $namespace,
                     $vendorDir . "/{$plugin['directory']}/{$directory}"
                 );
@@ -160,6 +132,20 @@ class Kernel extends AppKernel
 
         foreach ($queue as $plugin) {
             $plugin::enable();
+        }
+    }
+
+    /**
+     * Load translations.
+     */
+    protected function loadTranslations()
+    {
+        foreach (scandir("{$this->path}/Translations") as $file) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            }
+
+            require "{$this->path}/Translations/{$file}";
         }
     }
 
@@ -189,15 +175,57 @@ class Kernel extends AppKernel
         }
     }
 
-    /**
-     * Load the environment configuration file.
-     */
-    protected function configureEnvironment()
+    protected function configureTemplating()
     {
-        if (isset($this->config['environment'])) {
-            if (file_exists("{$this->path}/config/environment/{$this->config['environment']}.php")) {
-                require "{$this->path}/config/environment/{$this->config['environment']}.php";
-            }
-        }
+        $engine = new PhpExtended;
+        $engine->escapeVariables = false;
+        View::setEngine($engine);
+        View::addPath("{$this->path}/views");
+
+        View::loadFunctions();
     }
 }
+
+
+// class Kernel extends AppKernel
+// {
+//     protected static $loader;
+
+//     public function __construct()
+//     {
+//         global $autoloader;
+//         parent::__construct();
+
+//         static::$loader = $autoloader;
+
+//         require __DIR__ . '/version.php';
+
+//         // Connect to the database
+//         $this->createDatabaseConnection();
+
+//         // Alias some commonly used classes
+//         $this->setupAliases();
+
+//         // Load commonly used functions
+//         require __DIR__ . '/common.php';
+
+//         // Load view helper functions and don't escape variables
+//         View::loadFunctions();
+//         View::engine()->escapeVariables = false;
+
+//         // If a theme other than the default is set, add its view path before all
+//         // other paths.
+//         if (setting('theme') !== 'default') {
+//             View::addPath(__DIR__ . '/../' . setting('theme') . '/views', true);
+//         }
+
+//         $this->loadTranslations();
+//         $this->loadPlugins();
+
+//         // Set mailer config
+//         if (isset($this->config['email'])) {
+//             Notification::setConfig($this->config['email']);
+//         }
+//     }
+
+// }

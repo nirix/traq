@@ -1,5 +1,14 @@
 <?php
-const TRAQ_VERSION       = '4.0.0-dev-2';
-const TRAQ_VERSION_ID    = 40000;
-const TRAQ_DB_VERSION_ID = 40000;
-const TRAQ_API_VERSION   = '2.0.0';
+namespace Traq;
+
+// Version string
+const VERSION = '4.0.0-dev-3';
+
+// Version ID
+const VERSION_ID = 40000;
+
+// API version
+const API_VERSION = 2.0;
+
+// Database revision
+const DB_REVISION = 0;

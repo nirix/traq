@@ -1,53 +1,35 @@
-<div class="roadmap container">
-	<?php if (has_permission('project_settings')) : ?>
-	<div class="page-actions">
-		<a href="<?=routeUrl('project_settings_new_milestone', ['pslug' => $currentProject['slug']])?>" data-overlay="1" class="btn btn-default">
-			<span class="fa fa-plus"></span> <span class="sr-only"><?=t('new_milestone')?></span>
-		</a>
-	</div>
-	<?php endif ?>
+<?php $this->extend('layouts/default.phtml'); ?>
 
-	<h1 class="page-header"><?=t('roadmap')?></h1>
+<?php $this->startSection('content'); ?>
+<main class="roadmap-index content container">
+    <h1 class="page-header"><?=t('roadmap')?></h1>
 
-	<nav>
-		<ul class="nav nav-tabs">
-			<li<?=Request::matches('/{pslug}/roadmap') ? ' class="active"' : ''?>>
-				<a href="<?=routeUrl('roadmap')?>"><?=t('active')?></a>
-			</li>
-			<li<?=Request::matches('/{pslug}/roadmap/completed') ? ' class="active"' : ''?>>
-				<a href="<?=routeUrl('roadmap_completed')?>"><?=t('completed')?></a>
-			</li>
-			<li<?=Request::matches('/{pslug}/roadmap/all') ? ' class="active"' : ''?>>
-				<a href="<?=routeUrl('roadmap_all')?>"><?=t('all')?></a>
-			</li>
-		</ul>
-	</nav>
+    <nav>
+        <ul class="nav nav-tabs">
+            <li<?=Request::matches('/{pslug}/roadmap') ? ' class="active"' : ''?>>
+                <a href="<?=routeUrl('roadmap')?>"><?=t('active')?></a>
+            </li>
+            <li<?=Request::matches('/{pslug}/roadmap/completed') ? ' class="active"' : ''?>>
+                <a href="<?=routeUrl('roadmap_completed')?>"><?=t('completed')?></a>
+            </li>
+            <li<?=Request::matches('/{pslug}/roadmap/all') ? ' class="active"' : ''?>>
+                <a href="<?=routeUrl('roadmap_all')?>"><?=t('all')?></a>
+            </li>
+        </ul>
+    </nav>
 
-	<ul class="milestones">
-	<?php foreach ($milestones as $milestone) : ?>
-		<li>
-			<h2>
-				<a href="<?=routeUrl('milestone', ['mslug' => $milestone['slug']])?>"><?=$milestone['name']?></a>
-				<?php if ($milestone['codename']) : ?>
-					<small><em class="project-codename"><?=$milestone['codename']?></em></small>
-				<?php endif ?>
-			</h2>
-			<?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
-			<ul class="issue-counts">
-				<li>
-					<a href="<?=routeUrl('tickets')?>?open&amp;milestone=<?=$milestone['slug']?>"><?=t('x_open', $milestone['open_tickets'])?></a>
-				</li>
-				<li>
-					<a href="<?=routeUrl('tickets')?>?started&amp;milestone=<?=$milestone['slug']?>"><?=t('x_started', $milestone['started_tickets'])?></a>
-				</li>
-				<li>
-					<a href="<?=routeUrl('tickets')?>?closed&amp;milestone=<?=$milestone['slug']?>"><?=t('x_closed', $milestone['closed_tickets'])?></a>
-				</li>
-			</ul>
-			<div>
-				<?=Format::text($milestone['info'])?>
-			</div>
-		</li>
-	<?php endforeach ?>
-	</ul>
-</div>
+    <ul id="milestones-list">
+    <?php foreach ($milestones as $milestone) : ?>
+        <li>
+            <h2 class="milestone-name">
+                <a href="<?=routeUrl('milestone', ['slug' => $milestone['slug']])?>"><?=e($milestone['name'])?></a>
+            </h2>
+            <?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
+            <div class="milestone-description">
+                <?=Format::text($milestone['info'])?>
+            </div>
+        </li>
+    <?php endforeach ?>
+    </ul>
+</main>
+<?php $this->endSection(); ?>

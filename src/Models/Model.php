@@ -23,7 +23,9 @@
 
 namespace Traq\Models;
 
-class WikiRevision extends Model
+use Avalon\Database\Model as AvalonModel;
+
+class Model extends AvalonModel
 {
 
 }

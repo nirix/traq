@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -27,8 +27,8 @@ use Avalon\Http\Controller;
 use Avalon\Database\Model;
 
 /**
- * This trait reduces the amount of code needed for simple Create, Read, Update and Delete
- * based controllers.
+ * This trait reduces the amount of code needed for simple Create, Read, Update
+ * and Delete based controllers.
  *
  * @package Traq\Traits
  * @author  Jack P.

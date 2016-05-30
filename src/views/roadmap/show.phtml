@@ -1,14 +1,11 @@
-<div class="milestone container">
-	<?php if (has_permission('project_settings')) : ?>
-	<div class="page-actions">
-		<a href="<?=routeUrl('project_settings_edit_milestone', ['pslug' => $currentProject['slug'], 'id' => $milestone['id']])?>" data-overlay="1" class="btn btn-default">
-			<span class="fa fa-pencil"></span> <span class="sr-only"><?=t('edit')?></span>
-		</a>
-	</div>
-	<?php endif ?>
-	<h1 class="page-header"><?=$milestone['name']?></h1>
-	<?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
-	<div>
-		<?=Format::text($milestone['info'])?>
-	</div>
-</div>
+<?php $this->extend('layouts/default.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<main class="milestone content container">
+    <h1 class="page-header"><?=e($milestone['name'])?></h1>
+    <?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
+    <div class="milestone-description">
+        <?=Format::text($milestone['info'])?>
+    </div>
+</main>
+<?php $this->endSection(); ?>

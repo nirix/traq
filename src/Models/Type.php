@@ -1,10 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
  * This file is part of Traq.
  *
@@ -23,34 +23,7 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
-/**
- * Type model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
- */
 class Type extends Model
 {
-    protected static $_validations = [
-        'name'   => ['required', 'unique'],
-        'bullet' => ['required']
-    ];
 
-    /**
-     * @return array[]
-     */
-    public static function selectOptions($valueField = 'id')
-    {
-        $options = [];
-        $types = static::select('id', 'name')->execute()->fetchAll();
-
-        foreach ($types as $type) {
-            $options[] = ['label' => $type['name'], 'value' => $type[$valueField]];
-        }
-
-        return $options;
-    }
 }

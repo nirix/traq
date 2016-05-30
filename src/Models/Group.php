@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -23,63 +23,17 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
-/**
- * User group model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
- */
 class Group extends Model
 {
-    // protected static $_tableName = PREFIX . 'usergroups';
     protected static $_tableAlias = 'g';
 
-    // Validations
-    protected static $_validations = array(
-        'name' => ['required', 'unique']
-    );
-
-    // Data types
-    protected static $_dataTypes = [
-        'is_admin' => "boolean"
-    ];
-
-    public static function tableName()
+    public function isAdmin()
     {
-        return PREFIX . 'usergroups';
+        return $this->is_admin == 1 ? true : false;
     }
 
-    /**
-     * Returns an array of groups to be used
-     * with the Form::select() method.
-     *
-     * @return array
-     */
-    public static function selectOptions()
+    public static function tableName($withPrefix = true)
     {
-        $options = array();
-        foreach (static::all() as $group) {
-            $options[] = array('value' => $group->id, 'label' => $group->name);
-        }
-        return $options;
-    }
-
-    /**
-     * Returns an array of all group IDs
-     *
-     * @return array
-     */
-    public static function allGroupIds()
-    {
-        $ids = array();
-
-        foreach (static::all() as $group) {
-            $ids[] = $group->id;
-        }
-
-        return $ids;
+        return ($withPrefix ? static::connection()->prefix : '') . 'usergroups';
     }
 }

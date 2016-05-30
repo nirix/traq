@@ -26,11 +26,13 @@ namespace Traq\Controllers;
 use DateTime;
 use Avalon\Http\Request;
 use Avalon\Helpers\Pagination;
+use Traq\Helpers\Timeline as TimelineHelper;
 use Traq\Models\Timeline as TimelineModel;
 
 /**
  * Timeline controller.
  *
+ * @package Traq\Controllers
  * @author Jack P.
  * @since 3.0.0
  */
@@ -39,9 +41,7 @@ class Timeline extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('timeline'));
-
-        require __DIR__ . '/../Helpers/timeline.php';
+        $this->addCrumb($this->translate('timeline'), routeUrl('timeline'));
     }
 
     /**
@@ -51,8 +51,8 @@ class Timeline extends AppController
     {
         $days = [];
 
-        $filters = array_keys(timeline_filters());
-        $timelineEvents = timeline_events();
+        $filters = array_keys(TimelineHelper::filters());
+        $timelineEvents = TimelineHelper::events();
 
         // Check if filters are set
         if (isset($_SESSION['timeline_filters'])) {
@@ -62,7 +62,7 @@ class Timeline extends AppController
             // Process filters
             foreach ($_SESSION['timeline_filters'] as $filter) {
                 $filters[] = $filter;
-                $timelineEvents = array_merge($timelineEvents, timeline_filters($filter));
+                $timelineEvents = array_merge($timelineEvents, TimelineHelper::filters($filter));
             }
         }
 
@@ -150,7 +150,7 @@ class Timeline extends AppController
     public function setFiltersAction()
     {
         $filters = [];
-        foreach (Request::$post->get('filters')->getProperties() as $filter => $value) {
+        foreach (Request::$post->get('filters') as $filter => $value) {
             if ($value) {
                 $filters[] = $filter;
             }
@@ -195,7 +195,7 @@ class Timeline extends AppController
     protected function getFilteredEvents()
     {
         if (!isset($_SESSION['timelineFilters'])) {
-            return timeline_events();
+            return TimelineHelper::events();
         }
 
         // Process filters
@@ -203,7 +203,7 @@ class Timeline extends AppController
         foreach ($_SESSION['timelineFilters'] as $filter => $value) {
             if ($value) {
                 $filters[] = $filter;
-                $events = array_merge($events, timeline_filters($filter));
+                $events = array_merge($events, TimelineHelper::filters($filter));
             }
         }
 

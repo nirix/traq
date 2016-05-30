@@ -1,20 +1,16 @@
-<div class="project-listing container">
+<?php $this->extend('layouts/default.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<main class="project-listing content container">
     <h1 class="page-header"><?=t('projects')?></h1>
-    <ul id="project-list">
-        <?php foreach ($projects as $project) :
-            if (!has_permission('view', $project['id'], true)) {
-                continue;
-            }
-        ?>
+
+    <ul id="projects-list">
+    <?php foreach ($projects as $project) : ?>
         <li>
-            <h2>
-                <a href="<?=routeUrl('project', ['pslug' => $project['slug']])?>"><?=$project['name']?></a>
-                <?php if ($project['codename']) : ?>
-                <small>
-                    <em class="project-codename"><?=$project['codename']?></em>
-                </small>
-                <?php endif ?>
+            <h2 class="project-name">
+                <a href="<?=routeUrl('project', ['pslug' => $project['slug']])?>"><?=e($project['name'])?></a>
             </h2>
+
             <nav>
                 <ul class="nav nav-justified nav-pills">
                     <li><a href="<?=routeUrl('roadmap', ['pslug' => $project['slug']])?>"><?=t('roadmap')?></a></li>
@@ -23,11 +19,8 @@
                     <?php Hook::run('template:projects/index/project/nav', [$project]); ?>
                 </ul>
             </nav>
-            <div class="description">
-                <?=Format::text($project['info'])?>
-            </div>
-            <?php Hook::run('template:projects/index/project', [$project]); ?>
         </li>
-        <?php endforeach ?>
+    <?php endforeach ?>
     </ul>
-</div>
+</main>
+<?php $this->endSection(); ?>

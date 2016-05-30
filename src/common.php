@@ -21,8 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Avalon\Helpers\HTML;
-use Traq\Models\User;
+use Traq\Models\Setting;
 use Traq\Models\Ticket;
 
 /**
@@ -33,88 +32,46 @@ function queryBuilder()
     return $GLOBALS['db']->createQueryBuilder();
 }
 
-/**
- * Get the setting value.
- *
- * @param string $setting
- *
- * @return mixed
- */
-function setting($setting)
+function setting($settingName)
 {
-    static $settings;
+    static $settings = [];
 
-    if (!$settings) {
-        $rows = queryBuilder()->select('setting', 'value')->from(PREFIX . 'settings')->execute()->fetchAll();
-        foreach ($rows as $row) {
-            $settings[$row['setting']] = $row['value'];
+    if (!count($settings)) {
+        foreach (Setting::all() as $setting) {
+            $settings[$setting['setting']] = $setting['value'];
         }
-        unset($rows, $row);
     }
 
-    return $settings[$setting];
+    return $settings[$settingName];
 }
 
-/**
- * Get the current user information.
- *
- * @return array
- */
-function current_user()
+function currentProject()
 {
-    return isset($GLOBALS['currentUser']) ? $GLOBALS['currentUser'] : null;
+    return isset($GLOBALS['current_project']) ? $GLOBALS['current_project'] : false;
 }
 
-/**
- * Get the current project information.
- *
- * @return array
- */
-function current_project()
+function currentUser()
 {
-    return isset($GLOBALS['currentProject']) ? $GLOBALS['currentProject'] : null;
+    return isset($GLOBALS['current_user']) ? $GLOBALS['current_user'] : false;
 }
 
-/**
- * Check if the user has permission to perform the action.
- *
- * @param integer $projectId
- * @param string  $action
- *
- * @return boolean
- */
-function has_permission($action, $projectId = null, $fetchProjectRoles = false)
-{
-    if (!$projectId) {
-        $currentProject = current_project();
-        $projectId = $currentProject['id'];
-    }
-
-    if (!$user = current_user()) {
-        $user = anonymous_user();
-    }
-
-    return $user->hasPermission($action, $projectId, $fetchProjectRoles);
-}
 
 /**
- * Get the anonymous user.
+ * Get a profile link with the users gravatar.
  *
- * @return User
+ * @param  string  $userEmail
+ * @param  string  $userName
+ * @param  integer $userId
+ * @param  integer $size
+ *
+ * @return string
  */
-function anonymous_user()
+function gravatarProfileLink($userEmail, $userName, $userId, $size = null)
 {
-    static $anonymousUser;
-
-    if (!$anonymousUser) {
-        $anonymousUser = User::select('u.*', 'g.is_admin')
-            ->leftJoin('u', PREFIX . 'usergroups', 'g', 'g.id = u.group_id')
-            ->where('u.id = :id')
-            ->setParameter('id', setting('anonymous_user_id'))
-            ->fetch();
-    }
-
-    return $anonymousUser;
+    return HTML::link(
+        Gravatar::withString($userEmail, $userName, $size),
+        routePath('user', ['id' => $userId])
+    );
 }
 
 /**
@@ -126,7 +83,7 @@ function anonymous_user()
  *
  * @return mixed
  */
-function get_percent($min, $max, $full = true)
+function getPercent($min, $max, $full = true)
 {
     // Make sure we don't divide by zero and end the entire universe
     if ($min == 0 and $max == 0) {
@@ -143,46 +100,29 @@ function get_percent($min, $max, $full = true)
     }
 }
 
+
 /**
- * Get a profile link with the users gravatar.
+ * "Shortcut" for `$cond ? $true : $false`
  *
- * @param  string  $userEmail
- * @param  string  $userName
- * @param  integer $userId
- * @param  integer $size
+ * @param boolean $cond
+ * @param mixed   $true
+ * @param mixed   $false
  *
- * @return string
+ * @return mixed
  */
-function gravatar_profile_link($userEmail, $userName, $userId, $size = null)
+function iif($cond, $true, $false = null)
 {
-    return HTML::link(
-        Gravatar::withString($userEmail, $userName, $size),
-        routePath('user', ['id' => $userId])
-    );
+    return $cond ? $true : $false;
 }
 
 /**
- * Work out the locale for Moment.js
- *
- * @return string
+ * Dump and die
  */
-function moment_locale()
+function dd()
 {
-    $current = Avalon\Language::current()->locale;
-
-    if (strlen($current) == 2) {
-        return $current;
-    } else {
-        return substr($current, 0, 2) . '-' . substr($current, 2);
-    }
-}
-
-/**
- * In no way is this a secure random hash, don't use it for security stuff.
- */
-function random_hash()
-{
-    return sha1(microtime() . memory_get_usage() . time() . rand(0, 5000) . microtime(true));
+    echo "<pre>";
+    call_user_func_array('var_dump', func_get_args());
+    exit;
 }
 
 /**
@@ -245,28 +185,4 @@ function ticketQuery()
         ->addGroupBy('at.name');
 
     return $ticket;
-}
-
-/**
- * "Shortcut" for `$cond ? $true : $false`
- *
- * @param boolean $cond
- * @param mixed   $true
- * @param mixed   $false
- *
- * @return mixed
- */
-function iif($cond, $true, $false = null)
-{
-    return $cond ? $true : $false;
-}
-
-/**
- * Dump and die
- */
-function dd()
-{
-    echo "<pre>";
-    call_user_func_array('var_dump', func_get_args());
-    exit;
 }
