@@ -17,7 +17,8 @@
     "require": {
         "php": ">=5.5",
         "avalon/framework": "^2.0",
-        "traq/markdown-plugin": "^2.0"
+        "traq/markdown-plugin": "^2.0",
+        "traq/installer": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "^2.0"

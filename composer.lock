@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e0890e41c30883d115b7d0b6af05097b",
-    "content-hash": "2fcc94c4315f03030f08b84106b261c9",
+    "hash": "4c57dfbd9943cc9b9fddfbd95482a31e",
+    "content-hash": "d037e2a92def330889627267070ce574",
     "packages": [
         {
             "name": "avalon/core",
@@ -102,6 +102,53 @@
                 "orm"
             ],
             "time": "2016-02-23 03:47:57"
+        },
+        {
+            "name": "avalon/database-migrations",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/database-migrations.git",
+                "reference": "32f9ce2b2edb136892a7fb9de6319ba280735ae3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/32f9ce2b2edb136892a7fb9de6319ba280735ae3",
+                "reference": "32f9ce2b2edb136892a7fb9de6319ba280735ae3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack Polgar",
+                    "email": "jack@polgar.id.au"
+                }
+            ],
+            "description": "Database migrations for Avalon.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "migrations",
+                "schema"
+            ],
+            "time": "2016-01-04 03:29:10"
         },
         {
             "name": "avalon/framework",
@@ -919,6 +966,41 @@
             "time": "2015-11-01 10:19:22"
         },
         {
+            "name": "traq/installer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/traq/installer.git",
+                "reference": "a3489341bbdca63251c48e270da806bb961f7978"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/traq/installer/zipball/a3489341bbdca63251c48e270da806bb961f7978",
+                "reference": "a3489341bbdca63251c48e270da806bb961f7978",
+                "shasum": ""
+            },
+            "require": {
+                "avalon/database-migrations": "1.0.*",
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Traq\\Installer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nirix"
+                }
+            ],
+            "time": "2016-05-30 15:56:57"
+        },
+        {
             "name": "traq/markdown-plugin",
             "version": "v2.0.1",
             "source": {
@@ -1022,7 +1104,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "traq/installer": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
