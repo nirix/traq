@@ -96,51 +96,53 @@ class Projects extends AppController
         }
 
         // Get tickets
-        $tickets = $this->currentProject->tickets()->select(
-            't.ticket_id',
-            't.summary',
-            't.milestone_id',
-            'status.id AS status_id',
-            'status.name AS status_name',
-            'status.show_on_changelog AS status_show_on_changelog',
-            'type.id AS type_id',
-            'type.name AS type_name',
-            'type.bullet AS type_bullet',
-            'type.show_on_changelog AS type_show_on_changelog'
-        );
+        if (count($milestones)) {
+            $tickets = $this->currentProject->tickets()->select(
+                't.ticket_id',
+                't.summary',
+                't.milestone_id',
+                'status.id AS status_id',
+                'status.name AS status_name',
+                'status.show_on_changelog AS status_show_on_changelog',
+                'type.id AS type_id',
+                'type.name AS type_name',
+                'type.bullet AS type_bullet',
+                'type.show_on_changelog AS type_show_on_changelog'
+            );
 
-        // Left join the status and types values
-        $tickets->leftJoin('t', Status::tableName(), 'status', 'status.id = t.status_id');
-        $tickets->leftJoin('t', Type::tableName(), 'type', 'type.id = t.type_id');
+            // Left join the status and types values
+            $tickets->leftJoin('t', Status::tableName(), 'status', 'status.id = t.status_id');
+            $tickets->leftJoin('t', Type::tableName(), 'type', 'type.id = t.type_id');
 
-        // Filter by closed and milestones
-        $tickets->where('is_closed = 1')
-            ->andWhere(
-                $tickets->expr()->in('milestone_id', array_keys($milestones))
-            )
-            ->orderBy('type_bullet', 'ASC');
+            // Filter by closed and milestones
+            $tickets->where('is_closed = 1')
+                ->andWhere(
+                    $tickets->expr()->in('milestone_id', array_keys($milestones))
+                )
+                ->orderBy('type_bullet', 'ASC');
 
-        foreach ($tickets->fetchAll() as $ticket) {
-            $ticketInfo = [
-                'ticket_id' => $ticket['ticket_id'],
-                'summary' => $ticket['summary'],
-                'type_id' => $ticket['type_id'],
-                'type_name' => $ticket['type_name'],
-                'status_id' => $ticket['status_id'],
-                'status_name' => $ticket['status_name']
-            ];
-
-            // Add types
-            if (!isset($types[$ticket['type_id']])) {
-                $types[$ticket['type_id']] = [
-                    'id' => $ticket['type_id'],
-                    'name' => $ticket['type_name'],
-                    'bullet' => $ticket['type_bullet']
+            foreach ($tickets->fetchAll() as $ticket) {
+                $ticketInfo = [
+                    'ticket_id' => $ticket['ticket_id'],
+                    'summary' => $ticket['summary'],
+                    'type_id' => $ticket['type_id'],
+                    'type_name' => $ticket['type_name'],
+                    'status_id' => $ticket['status_id'],
+                    'status_name' => $ticket['status_name']
                 ];
-            }
 
-            if ($ticket['status_show_on_changelog'] && $ticket['type_show_on_changelog']) {
-                $milestones[$ticket['milestone_id']]['tickets'][] = $ticketInfo;
+                // Add types
+                if (!isset($types[$ticket['type_id']])) {
+                    $types[$ticket['type_id']] = [
+                        'id' => $ticket['type_id'],
+                        'name' => $ticket['type_name'],
+                        'bullet' => $ticket['type_bullet']
+                    ];
+                }
+
+                if ($ticket['status_show_on_changelog'] && $ticket['type_show_on_changelog']) {
+                    $milestones[$ticket['milestone_id']]['tickets'][] = $ticketInfo;
+                }
             }
         }
 
