@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d80879035baca2ac4ac716241469cbac",
-    "content-hash": "6b024af1503ce0079e8e4181995a133a",
+    "hash": "e0890e41c30883d115b7d0b6af05097b",
+    "content-hash": "2fcc94c4315f03030f08b84106b261c9",
     "packages": [
         {
             "name": "avalon/core",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/avalon.git",
-                "reference": "780b8439c63c599f5c92dacad03d951d241314df"
+                "reference": "50ada89318cc26b336db0a8ccd8b524dc1a8dc5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/780b8439c63c599f5c92dacad03d951d241314df",
-                "reference": "780b8439c63c599f5c92dacad03d951d241314df",
+                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/50ada89318cc26b336db0a8ccd8b524dc1a8dc5a",
+                "reference": "50ada89318cc26b336db0a8ccd8b524dc1a8dc5a",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "framework",
                 "mvc"
             ],
-            "time": "2016-02-02 14:33:16"
+            "time": "2016-05-30 09:46:02"
         },
         {
             "name": "avalon/database",
@@ -60,12 +60,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "ff58e115d0fc26db234100fbaf2b694bc0bf19f9"
+                "reference": "dca49e15c36aef294a41560a8489ec3d5e9c0c38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/ff58e115d0fc26db234100fbaf2b694bc0bf19f9",
-                "reference": "ff58e115d0fc26db234100fbaf2b694bc0bf19f9",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/dca49e15c36aef294a41560a8489ec3d5e9c0c38",
+                "reference": "dca49e15c36aef294a41560a8489ec3d5e9c0c38",
                 "shasum": ""
             },
             "require": {
@@ -101,54 +101,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2016-02-05 03:22:56"
-        },
-        {
-            "name": "avalon/database-migrations",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/avalonphp/database-migrations.git",
-                "reference": "32f9ce2b2edb136892a7fb9de6319ba280735ae3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database-migrations/zipball/32f9ce2b2edb136892a7fb9de6319ba280735ae3",
-                "reference": "32f9ce2b2edb136892a7fb9de6319ba280735ae3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Avalon\\Database\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack Polgar",
-                    "email": "jack@polgar.id.au"
-                }
-            ],
-            "description": "Database migrations for Avalon.",
-            "keywords": [
-                "avalon",
-                "framework",
-                "migrations",
-                "schema"
-            ],
-            "time": "2016-01-04 03:29:10"
+            "time": "2016-02-23 03:47:57"
         },
         {
             "name": "avalon/framework",
@@ -196,12 +149,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/helpers.git",
-                "reference": "c991dae4152f7ec804b30a6343d2d4574cddf889"
+                "reference": "c69bff69d0d1343ad3edc4c2ef7cda35683614a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/c991dae4152f7ec804b30a6343d2d4574cddf889",
-                "reference": "c991dae4152f7ec804b30a6343d2d4574cddf889",
+                "url": "https://api.github.com/repos/avalonphp/helpers/zipball/c69bff69d0d1343ad3edc4c2ef7cda35683614a5",
+                "reference": "c69bff69d0d1343ad3edc4c2ef7cda35683614a5",
                 "shasum": ""
             },
             "require": {
@@ -234,7 +187,7 @@
                 "framework",
                 "helpers"
             ],
-            "time": "2016-02-05 03:29:52"
+            "time": "2016-02-10 12:27:59"
         },
         {
             "name": "avalon/hook",
@@ -270,7 +223,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jack P.",
+                    "name": "Jack Polgar",
                     "email": "jack@polgar.id.au"
                 }
             ],
@@ -334,12 +287,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/templating.git",
-                "reference": "b6d431715efff7228a9df7ab218965996d2d569b"
+                "reference": "ed64b776e3fb894fd15d886cc95d15019a40d241"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/templating/zipball/b6d431715efff7228a9df7ab218965996d2d569b",
-                "reference": "b6d431715efff7228a9df7ab218965996d2d569b",
+                "url": "https://api.github.com/repos/avalonphp/templating/zipball/ed64b776e3fb894fd15d886cc95d15019a40d241",
+                "reference": "ed64b776e3fb894fd15d886cc95d15019a40d241",
                 "shasum": ""
             },
             "require": {
@@ -371,7 +324,7 @@
                 "framework",
                 "templating"
             ],
-            "time": "2016-02-02 14:10:38"
+            "time": "2016-05-03 05:25:52"
         },
         {
             "name": "avalon/validation",
@@ -966,59 +919,6 @@
             "time": "2015-11-01 10:19:22"
         },
         {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/0697e6aa65c83edf97bb0f23d8763f94e3f11421",
-                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9.1,<0.9.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.4-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "lib/swift_required.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Corbyn"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "http://swiftmailer.org",
-            "keywords": [
-                "email",
-                "mail",
-                "mailer"
-            ],
-            "time": "2015-06-06 14:19:39"
-        },
-        {
             "name": "traq/markdown-plugin",
             "version": "v2.0.1",
             "source": {
@@ -1045,7 +945,7 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Jack P.",
+                    "name": "Jack Polgar",
                     "email": "jack@polgar.id.au"
                 }
             ],
@@ -1060,62 +960,17 @@
     ],
     "packages-dev": [
         {
-            "name": "avalon/testing",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/avalonphp/testing.git",
-                "reference": "2acb199090e5e5e47ae2fbce2decc195c31bdd57"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/testing/zipball/2acb199090e5e5e47ae2fbce2decc195c31bdd57",
-                "reference": "2acb199090e5e5e47ae2fbce2decc195c31bdd57",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Avalon\\Testing\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jack"
-                }
-            ],
-            "description": "Avalon Testing Component.",
-            "keywords": [
-                "avalon",
-                "framework",
-                "testing"
-            ],
-            "time": "2015-12-21 12:27:08"
-        },
-        {
             "name": "filp/whoops",
-            "version": "2.0.0",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "a327942c50cbd62b25c6fbe08f173031ce25fbff"
+                "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/a327942c50cbd62b25c6fbe08f173031ce25fbff",
-                "reference": "a327942c50cbd62b25c6fbe08f173031ce25fbff",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/d13505b240a6f580bc75ba591da30299d6cb0eec",
+                "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +978,8 @@
             },
             "require-dev": {
                 "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "^4.8 || ^5.0"
+                "phpunit/phpunit": "^4.8 || ^5.0",
+                "symfony/var-dumper": "~3.0"
             },
             "suggest": {
                 "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
@@ -1161,7 +1017,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2016-01-06 17:51:21"
+            "time": "2016-04-07 06:16:25"
         }
     ],
     "aliases": [],

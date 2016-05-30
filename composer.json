@@ -16,13 +16,10 @@
     },
     "require": {
         "php": ">=5.5",
-        "traq/markdown-plugin": "^2.0",
         "avalon/framework": "^2.0",
-        "avalon/database-migrations": "^1.0",
-        "swiftmailer/swiftmailer": "^5.4"
+        "traq/markdown-plugin": "^2.0"
     },
     "require-dev": {
-        "avalon/testing": "^1.0",
         "filp/whoops": "^2.0"
     }
 }
