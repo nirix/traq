@@ -42,8 +42,24 @@ class User extends Model
         'group'
     ];
 
+    protected static $_before = [
+        'create' => ['preparePassword', 'beforeCreate']
+    ];
+
+    /**
+     * @return boolean
+     */
     public function isAdmin()
     {
         return $this->group()->isAdmin();
+    }
+
+    /**
+     * Set defaults before creating user.
+     */
+    protected function beforeCreate()
+    {
+        $this->name = $this->name ?: $this->username;
+        $this->session_hash = sha1($this->username . uniqid() . microtime() . rand(0, 99999));
     }
 }
