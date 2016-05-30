@@ -96,7 +96,7 @@ class Seeder
             'theme'                   => "default",
             'site_name'               => "",
             'site_url'                => "",
-            'db_version'              => TRAQ_DB_VERSION_ID,
+            'db_revision'             => \Traq\DB_REVISION,
             'locale'                  => "enAU",
             'check_for_update'        => 1,
             'last_update_check'       => time(),
