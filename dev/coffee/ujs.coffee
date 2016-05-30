@@ -16,101 +16,103 @@
 # limitations under the License.
 ###
 
-$(document).ready ->
-  doc = $(document)
+jQuery(document).ready ->
+    $ = jQuery
+    doc = $ document
+    body = $
 
-  # Show ticket filters form
-  if Cookies.get('show_ticket_filters') == 'true'
-    $('#ticket-filters-content').show()
+    # Navbar tooltips
+    $('.navbar [title]').tooltip
+        placement: 'bottom'
 
-  # Sexy selects
-  chosen_options = {
-    disable_search_threshold: 10
-  }
+    # Every other tooltip
+    $(':not(.navbar) [title]').tooltip()
 
-  $('select:not(#new_filter)').chosen chosen_options
+    # Sexy text editor in models
+    doc.on 'shown.bs.modal', ->
+        $('select:not(#new_filter)').chosen chosen_options
+        $('.modal .rich-editor').each ->
+            new SimpleMDE
+                element: $(this)[0]
+                indentWithTabs: false
 
-  doc.on 'shown.bs.modal', ->
-    $('select:not(#new_filter)').chosen chosen_options
-    $('.modal .rich-editor').each ->
-      new SimpleMDE
-        element: $(this)[0]
-        indentWithTabs: false
+    # Sexy text editors
+    $('.rich-editor').each ->
+        new SimpleMDE
+            element: $(this)[0]
+            indentWithTabs: false
 
-  $('.rich-editor').each ->
-    new SimpleMDE
-      element: $(this)[0]
-      indentWithTabs: false
+    # Scroll-to-element
+    doc.on 'click', '[data-scroll-to]', (event) ->
+        event.preventDefault()
+        scrollToElement = $(this).data 'scroll-to'
+        $('html, body').animate
+            scrollTop: $(scrollToElement).offset().top
 
-  # Popover confirmation
-  # $('[data-confirm]').each ->/
-  doc.on 'click', '[data-confirm]', (event) ->
-    event.preventDefault()
+    # Confirmations
+    doc.on 'click', 'a[data-confirm]:not([data-method])', (event) ->
+        event.preventDefault()
 
-    href = $(this).attr('href')
-    window.traq.popoverConfirm $(this), $(this).attr('data-confirm'), ->
-      window.location.href = href
+        element = $ this
+        msg = element.attr('data-confirm')
+        href = element.attr('href')
 
-  # Popover confirmation for remote action
-  doc.on 'click', '[data-ajax-confirm]', (event) ->
-    event.preventDefault()
+        if confirm msg
+            window.location.href = href
 
-    href = $(this).attr('href') + '.js'
-    window.traq.popoverConfirm $(this), $(this).attr('data-ajax-confirm'), ->
-      $.ajax url: href, dataType: 'script'
+    # Different HTTP request method
+    doc.on 'click', 'a[data-method]', (event) ->
+        event.preventDefault()
 
-  # Ajax based on elements `href` attribute
-  doc.on 'click', '[data-ajax=1]', (event) ->
-    $.ajax url: $(this).attr('href') + '.js', dataType: 'script'
-    event.preventDefault()
+        element = $ this
+        method = element.attr('data-method')
+        href = element.attr('href')
 
-  # Autocomplete
-  doc.on 'focus', '[data-autocomplete]', ->
-    $(this).autocomplete source: $(this).attr('data-autocomplete')
+        if method != 'get'
+            form = $ '<form />'
+            form.attr 'id', 'temp-link-method-form'
+            form.attr 'action', href
+            form.attr 'method', 'post'
 
-  # Overlay
-  doc.on 'click', '[data-overlay]', (event) ->
-    event.preventDefault()
-    window.traq.overlay $(this)
+            form.append(
+                $('<input />')
+                    .attr('type', 'hidden')
+                    .attr('name', '_method')
+                    .attr('value', method)
+            )
 
-  # Datepicker
-  doc.on 'focus', 'input.datepicker', ->
-    $(this).datepicker
-      dateFormat: $(this).attr('data-date-format')
-      changeMonth: true
-      changeYear: true
+            form.appendTo 'body'
 
-  # Ticket filters form toggle
-  $('#ticket-filters-toggle').on 'click', (event) ->
-    event.preventDefault()
+            if msg = element.attr 'data-confirm'
+                if confirm msg
+                    $('#temp-link-method-form').submit()
+            else
+                $('#temp-link-method-form').submit()
 
-    if $('#ticket-filters-content').css('display') == 'none'
-      Cookies.set('show_ticket_filters', true)
-    else
-      Cookies.set('show_ticket_filters', false)
+    # Remote modals
+    doc.on 'click', 'a[data-remote-modal]', (event) ->
+        event.preventDefault()
 
-    $('#ticket-filters-content').slideToggle()
+        element = $ this
+        target = element.attr 'data-remote-modal'
+        href = element.attr 'href'
 
-  # Ticket listing columns form toggle
-  $('#ticketlist-columns-toggle').on 'click', (event) ->
-    event.preventDefault()
-    $('#ticketlist-columns-content').slideToggle()
+        $.ajax
+          url: href
+          type: "GET"
+          headers:
+            'X-Overlay': true
+          success: (data) ->
+            $(data).appendTo 'body'
 
-  # Remove ticket filter
-  doc.on 'click', '.remove-filter', (event) ->
-    event.preventDefault()
-    filterRow = $(this).attr('data-filter')
-    $('#filter-' + filterRow).fadeOut ->
-      $(this).remove()
+            modal = $(target)
 
-  dataMoment = ->
-    $('[data-moment]').each ->
-      orig = $(this).attr 'data-moment'
+            if btn = $('#modalSubmitBtn')
+                btn.on 'click', (event) ->
+                    $(target + ' form').submit()
 
-      if orig
-        n = moment(orig).fromNow()
-        $(this).html n
-        $(this).attr 'title', orig
+            modal.modal 'show'
 
-  dataMoment()
-  setInterval dataMoment, 30000
+            # Remove modal completely when hidden
+            $(target).on 'hidden.bs.modal', (event) ->
+                event.currentTarget.remove()

@@ -1,6 +1,7 @@
 @import 'bootstrap.less';
 @import 'font-awesome/less/font-awesome.less';
-@import 'chosen.less';
+// @import 'chosen.less';
+@import 'selectize/dist/less/selectize.bootstrap3.less';
 
 /*!
  * Traq
@@ -28,15 +29,15 @@
 @import 'traq/projects.less';
 @import 'traq/timeline.less';
 @import 'traq/roadmap.less';
-@import 'traq/issues.less';
-@import 'traq/issue_listing.less';
+// @import 'traq/tickets.less';
+// @import 'traq/ticket_listing.less';
 @import 'traq/changelog.less';
-@import 'traq/forms.less';
-@import 'traq/plugins.less';
-@import 'traq/tables.less';
-@import 'traq/wiki.less';
-@import 'traq/admin.less';
-@import 'traq/admin/permissions.less';
+// @import 'traq/forms.less';
+// @import 'traq/plugins.less';
+// @import 'traq/tables.less';
+// @import 'traq/wiki.less';
+// @import 'traq/admin.less';
+// @import 'traq/admin/permissions.less';
 @import 'traq/tabs.less';
 
 .page-header {
@@ -70,4 +71,20 @@
 .editor-toolbar.fullscreen,
 .editor-preview-side.editor-preview-active-side {
   z-index: 9999 !important;
+}
+
+.traq-fieldset {
+  background-color: #fff;
+  border: 1px solid @gray-lighter;
+  border-radius: 5px;
+  padding: 5px 10px 5px;
+
+  legend {
+    border: 0;
+    margin-bottom: 0;
+  }
+
+  .actions {
+    margin-top: 5px;
+  }
 }
