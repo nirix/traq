@@ -1,5 +1,0 @@
-<div id="ticket_task_bit_<?php echo $id?>" class="task">
-	<?php echo Form::checkbox("tasks[{$id}][completed]", '1', array('checked' => $completed, 'data-task-id' => $id))?>
-	<?php echo Form::text("tasks[{$id}][task]", array('value' => $task, 'data-task-id' => $id))?>
-	<button type="button" class="button_delete delete_ticket_task" data-task-id="<?php echo $id?>"><?php echo l('delete')?></button>
-</div>
