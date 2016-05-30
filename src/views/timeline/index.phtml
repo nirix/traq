@@ -26,7 +26,7 @@
     <?php foreach ($day['events'] as $event) : ?>
         <dt class="timeline_event_<?=$event['id']?>">
             <?php if (currentUser() && hasPermission('delete_timeline_events')) : ?>
-                <a href="<?=routeUrl('timeline_delete_event', ['pslug' => currentProject()['slug'], 'id' => $event['id']])?>" class="btn btn-xs btn-danger" data-ajax-confirm="<?=t('confirm.delete')?>">
+                <a href="<?=routeUrl('timeline_delete_event', ['id' => $event['id']])?>" class="btn btn-xs btn-danger" data-ajax-confirm="<?=t('confirm.delete')?>" data-method="delete">
                     <span class="fa fa-minus-circle"><span class="sr-only"><?=t('delete')?></span></span>
                 </a>
             <?php endif ?>

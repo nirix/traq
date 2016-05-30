@@ -21,6 +21,23 @@ jQuery(document).ready ->
     doc = $ document
     body = $
 
+    httpMethodForm = (href, method) ->
+        form = $ '<form />'
+        form.attr 'id', 'temp-link-method-form'
+        form.attr 'action', href
+        form.attr 'method', 'post'
+
+        form.append(
+            $('<input />')
+                .attr('type', 'hidden')
+                .attr('name', '_method')
+                .attr('value', method)
+        )
+
+        form.appendTo 'body'
+
+        return form
+
     # Navbar tooltips
     $('.navbar [title]').tooltip
         placement: 'bottom'
@@ -50,18 +67,39 @@ jQuery(document).ready ->
             scrollTop: $(scrollToElement).offset().top
 
     # Confirmations
-    doc.on 'click', 'a[data-confirm]:not([data-method])', (event) ->
+    doc.on 'click', 'a[data-confirm]', (event) ->
         event.preventDefault()
 
         element = $ this
-        msg = element.attr('data-confirm')
-        href = element.attr('href')
+        msg = element.data 'confirm'
+        href = element.attr 'href'
+        method = element.data 'method'
 
         if confirm msg
-            window.location.href = href
+            if method && method != 'get'
+                form = httpMethodForm href, method
+                form.submit()
+            else
+                window.location.href = href
+
+    # Ajax request with confirmation
+    doc.on 'click', 'a[data-ajax-confirm]', (event) ->
+        event.preventDefault()
+
+        element = $ this
+        msg = element.data 'ajax-confirm'
+        method = element.data 'method'
+        href = element.attr 'href'
+
+        if confirm msg
+            $.ajax
+                url: href
+                dataType: 'script'
+                method: method || 'get'
 
     # Different HTTP request method
-    doc.on 'click', 'a[data-method]', (event) ->
+    # Ignore links with `data-ajax-confirm` and `data-confirm` attributes.
+    doc.on 'click', 'a[data-method]:not([data-ajax-confirm]):not([data-confirm])', (event) ->
         event.preventDefault()
 
         element = $ this
@@ -69,25 +107,8 @@ jQuery(document).ready ->
         href = element.attr('href')
 
         if method != 'get'
-            form = $ '<form />'
-            form.attr 'id', 'temp-link-method-form'
-            form.attr 'action', href
-            form.attr 'method', 'post'
-
-            form.append(
-                $('<input />')
-                    .attr('type', 'hidden')
-                    .attr('name', '_method')
-                    .attr('value', method)
-            )
-
-            form.appendTo 'body'
-
-            if msg = element.attr 'data-confirm'
-                if confirm msg
-                    $('#temp-link-method-form').submit()
-            else
-                $('#temp-link-method-form').submit()
+            form = httpMethodForm href, method
+            form.submit()
 
     # Remote modals
     doc.on 'click', 'a[data-remote-modal]', (event) ->
