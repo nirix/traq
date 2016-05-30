@@ -71,8 +71,8 @@ class AppController extends Controller
 
         // Get current user.
         if ($sessionHash = Request::$cookies->get('traq')) {
-            $this->currentUser = User::find('session_hash', $sessionHash);
-            $GLOBALS['current_user'] = $this->currentUser ?: null;
+            $this->currentUser = User::find('session_hash', $sessionHash) ?: null;
+            $GLOBALS['current_user'] = $this->currentUser;
         }
 
         // Get current project.
