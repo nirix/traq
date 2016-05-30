@@ -172,6 +172,9 @@ class Kernel extends AppKernel
         }
     }
 
+    /**
+     * Configure templating.
+     */
     protected function configureTemplating()
     {
         $engine = new PhpExtended;
@@ -182,47 +185,3 @@ class Kernel extends AppKernel
         View::loadFunctions();
     }
 }
-
-
-// class Kernel extends AppKernel
-// {
-//     protected static $loader;
-
-//     public function __construct()
-//     {
-//         global $autoloader;
-//         parent::__construct();
-
-//         static::$loader = $autoloader;
-
-//         require __DIR__ . '/version.php';
-
-//         // Connect to the database
-//         $this->createDatabaseConnection();
-
-//         // Alias some commonly used classes
-//         $this->setupAliases();
-
-//         // Load commonly used functions
-//         require __DIR__ . '/common.php';
-
-//         // Load view helper functions and don't escape variables
-//         View::loadFunctions();
-//         View::engine()->escapeVariables = false;
-
-//         // If a theme other than the default is set, add its view path before all
-//         // other paths.
-//         if (setting('theme') !== 'default') {
-//             View::addPath(__DIR__ . '/../' . setting('theme') . '/views', true);
-//         }
-
-//         $this->loadTranslations();
-//         $this->loadPlugins();
-
-//         // Set mailer config
-//         if (isset($this->config['email'])) {
-//             Notification::setConfig($this->config['email']);
-//         }
-//     }
-
-// }
