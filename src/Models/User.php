@@ -46,33 +46,4 @@ class User extends Model
     {
         return $this->group()->isAdmin();
     }
-
-    protected function getPermissions()
-    {
-        // SELECT
-        //     d.permissions AS defaults,
-        //     td.permissions AS type_defaults,
-        //     pd.permissions AS project_defaults,
-        //     t.permissions AS type_permissions
-        // FROM
-        //     t_permissions d
-        // LEFT JOIN t_permissions td ON (td.project_id = 0 AND td.type = 'usergroup' AND td.type_id = 3)
-        // LEFT JOIN t_permissions pd ON (pd.project_id = 1 AND pd.type = 'usergroup' AND pd.type_id = 0)
-        // LEFT JOIN t_permissions t ON (t.project_id = 1 AND t.type = 'usergroup' AND t.type_id = 3)
-        // WHERE
-        //     d.project_id = 0
-        // AND
-        //     d.type = 'usergroup'
-        // AND
-        //     d.type_id = 0
-
-        $query = Permission::select(
-            'd.permissions AS defaults',
-            'td.permissions AS type_defaults',
-            'pd.permissions AS project_defaults',
-            't.permissions AS type_permissions'
-        );
-
-        // $query->leftJoin('')
-    }
 }

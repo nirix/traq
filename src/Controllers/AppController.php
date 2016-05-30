@@ -27,6 +27,7 @@ use Avalon\Http\Request;
 use Avalon\Http\Controller;
 use Avalon\Database\ConnectionManager;
 use Traq\Models\User;
+use Traq\Models\Permission;
 use Traq\Models\Project;
 
 /**
@@ -79,6 +80,8 @@ class AppController extends Controller
             $this->currentProject = Project::find('slug', Request::$properties->get('pslug'));
             $GLOBALS['current_project'] = $this->currentProject;
         }
+
+        $GLOBALS['permissions'] = Permission::getPermissions($this->currentUser, $this->currentProject);
 
         // Add Traq as first breadcrumb.
         $this->addCrumb(setting('title'), $this->generateUrl('root'));

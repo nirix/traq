@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -23,8 +23,6 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
 /**
  * Permission model.
  *
@@ -35,33 +33,83 @@ use Avalon\Database\Model;
 class Permission extends Model
 {
     protected static $_dataTypes = [
-        'permissions' => "json_array"
+        'permissions' => 'json_array'
     ];
 
-     /**
-      * Returns the permissions for the group and project.
-      *
-      * @param integer $project_id Project ID
-      * @param integer $type_id    Group or Role ID
-      * @param string  $type       Permission type (group or role)
-      *
-      * @return array
-      */
-    public static function getPermissions($project_id, $type_id, $type = 'usergroup')
+    /**
+     * Get permissions for the user and project and merge them.
+     *
+     * @param User    $user
+     * @param Project $project
+     *
+     * @return array
+     */
+    public static function getPermissions(User $user = null, Project $project = null)
     {
-        $permissions = [];
+        $query = static::connection()->createQueryBuilder();
 
-        $query = static::select('permissions');
-        $query->where($query->expr()->in('project_id', [0, $project_id]))
-            ->andWhere('type = :type')
-            ->andWhere($query->expr()->in('type_id', [0, $type_id]))
-            ->setParameter('type', $type)
-            ->orderBy('project_id, type_id', 'ASC');
+        $query->select(
+            'd.permissions AS group_defaults',
+            'gp.permissions AS group_permissions'
+        );
 
-        foreach ($query->fetchAll() as $row) {
-            $permissions = array_merge($permissions, $row->permissions);
+        $query->from(Permission::tableName(), 'd');
+
+        // Group defaults
+        $query->leftJoin(
+            'd',
+            Permission::tableName(),
+            'gp',
+            "gp.project_id = 0 AND gp.type = 'usergroup' AND gp.type_id = :group_id"
+        );
+
+        // Group defaults
+        $query->where('d.project_id = 0');
+        $query->andWhere("d.type = 'usergroup'");
+        $query->andWhere('d.type_id = 0');
+        $query->setParameter(':group_id', $user ? $user->group_id : 3);
+
+        // Project?
+        if ($project) {
+            // Project defaults for usergroup
+            $query->addSelect('pgd.permissions AS project_group_defaults');
+
+            $query->leftJoin(
+                'd',
+                Permission::tableName(),
+                'pgd',
+                "pgd.project_id = :project_id AND pgd.type = 'usergroup' AND pgd.type_id = 0"
+            );
+
+            $query->setParameter(':project_id', $project->id);
+
+            // Project permissions for usergroup
+            $query->addSelect('pgp.permissions AS project_group_permissions');
+
+            $query->leftJoin(
+                'd',
+                Permission::tableName(),
+                'pgp',
+                "pgp.project_id = :project_id AND pgp.type = 'usergroup' AND pgp.type_id = :group_id"
+            );
+
+            // TODO: project roles
         }
 
-        return $permissions;
+        $result = $query->execute();
+        $result = $result->fetch();
+
+        // Convert from JSON to an array
+        $result['group_defaults'] = json_decode($result['group_defaults'], true) ?: [];
+        $result['group_permissions'] = json_decode($result['group_permissions'], true) ?: [];
+        $result['project_group_defaults'] = json_decode($result['project_group_defaults'], true) ?: [];
+        $result['project_group_permissions'] = json_decode($result['project_group_permissions'], true) ?: [];
+
+        return array_merge(
+            $result['group_defaults'],
+            $result['group_permissions'],
+            $result['project_group_defaults'],
+            $result['project_group_permissions']
+        );
     }
 }
