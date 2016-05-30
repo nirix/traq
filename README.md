@@ -7,7 +7,7 @@ milestones, custom fields, per-project permissions, email notifications and much
 Requirements
 ------------
 
-- PHP 5.4 or later
+- PHP 5.5 or later
 - Mcrypt
 - Database supported by [Doctrine](http://www.doctrine-project.org)
   - PostgreSQL or MariaDB/MySQL recommended
@@ -29,10 +29,14 @@ npm install
 npm compile
 ```
 
+After that is complete, open the path to Traq in a browser and follow the
+installation steps.
+
 Licenses
 -------
 
-* Traq is released under the GNU GPL license, _version 3 only_.
+* Traq is released under the GNU GPL license, _version 3 only_. See the `COPYING`
+  file for more information.
 * Avalon is released under the Apache License 2.0.
 
 ### Terminated Licenses ###
@@ -44,8 +48,8 @@ Licenses _permanently_ terminated:
   warranty and code comments then used in the "Soule Framework".
 
 * **burnpiro / Kemal Erdem and michalantoszczuk**:
-  Traq was forked and all references to Traq each files copyright headers was removed
-  and replaced with "Shelu".
+  Traq was forked and all references to Traq in each files copyright headers was
+  removed and replaced with "Shelu".
 
 Contributors
 ------------
