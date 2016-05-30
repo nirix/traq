@@ -32,6 +32,13 @@ function queryBuilder()
     return $GLOBALS['db']->createQueryBuilder();
 }
 
+/**
+ * Get setting.
+ *
+ * @param string $settingName
+ *
+ * @return mixed
+ */
 function setting($settingName)
 {
     static $settings = [];
@@ -45,11 +52,21 @@ function setting($settingName)
     return $settings[$settingName];
 }
 
+/**
+ * Get the current project.
+ *
+ * @return \Traq\Models\Project
+ */
 function currentProject()
 {
     return isset($GLOBALS['current_project']) ? $GLOBALS['current_project'] : false;
 }
 
+/**
+ * Get current user.
+ *
+ * @return \Traq\Models\User
+ */
 function currentUser()
 {
     return isset($GLOBALS['current_user']) ? $GLOBALS['current_user'] : false;
@@ -130,7 +147,6 @@ function dd()
  */
 function ticketQuery()
 {
-    // $ticket = queryBuilder()->select(
     $ticket = Ticket::select(
         't.id',
         't.ticket_id',
@@ -159,7 +175,6 @@ function ticketQuery()
         'sv.name AS severity_name',
         'at.name AS assigned_to_name'
     )
-    // ->from(PREFIX . 'tickets', 't')
 
     ->leftJoin('t', PREFIX . 'users', 'u', 'u.id = t.user_id')
     ->leftJoin('t', PREFIX . 'milestones', 'm', 'm.id = t.milestone_id')
