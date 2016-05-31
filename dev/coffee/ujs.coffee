@@ -58,6 +58,8 @@ jQuery(document).ready ->
         new SimpleMDE
             element: $(this)[0]
             indentWithTabs: false
+            promptURLs: true
+            status: false
 
     # Scroll-to-element
     doc.on 'click', '[data-scroll-to]', (event) ->

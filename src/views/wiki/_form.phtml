@@ -21,7 +21,7 @@
 <div class="form-group <?=iif($revision->hasError('content'), 'has-error')?>">
     <label for="content" class="control-label col-md-3"><?=t('content')?></label>
     <div class="col-md-9">
-        <textarea name="content" id="content" class="form-control" class="rich-editor"><?=$revision['content']?></textarea>
+        <textarea name="content" id="content" class="form-control rich-editor" class="rich-editor"><?=$revision['content']?></textarea>
         <?php if ($revision->hasError('content')) : ?>
             <p class="text-danger"><?=$revision->getErrorMessage('content')[0]?></p>
         <?php endif ?>
