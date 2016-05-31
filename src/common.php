@@ -75,17 +75,21 @@ function currentUser()
 
 /**
  * Check users permission.
+ *
+ * @param string  $action
+ * @param Project $project
+ *
+ * @return boolean
  */
 function hasPermission($action, Project $project = null)
 {
     // Admins can do everything, regardless of permissions.
-    if (currentUser()->isAdmin()) {
+    if (currentUser() && currentUser()->isAdmin()) {
         return true;
     }
 
-    $permissions = $project
-                        ? Permission::getPermissions(currentUser(), $project)
-                        : $GLOBALS['permissions'];
+    $permissions = $project ? Permission::getPermissions(currentUser(), $project)
+                            : $GLOBALS['permissions'];
 
     return isset($permissions[$action]) ? $permissions[$action] : null;
 }
