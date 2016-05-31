@@ -91,6 +91,17 @@ class AppController extends Controller
 
         // Add Traq as first breadcrumb.
         $this->addCrumb(setting('title'), $this->generateUrl('root'));
+
+        // If the user has a `sha1` hashed password, require them to change it because
+        // as of Traq 4.1, only mcrypt passwords will work.
+        if ($this->currentUser['password_ver'] == 'sha1') {
+            $this->before('*', function () {
+                if (Request::$properties['controller'] != 'Traq\\Controllers\\UserCP'
+                && Request::$properties['controller'] != 'Traq\\Controllers\\Sessions') {
+                    return $this->redirectTo('usercp_password');
+                }
+            });
+        }
     }
 
     /**

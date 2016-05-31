@@ -73,6 +73,20 @@ class User extends Model
     // Overwritten functions
 
     /**
+     * @var string $password
+     *
+     * @return boolean
+     */
+    public function authenticate($password)
+    {
+        if ($this->password_ver == 'sha1') {
+            return sha1($password) == $this->password;
+        }
+
+        return parent::authenticate($password);
+    }
+
+    /**
      * Add password confirmation validation.
      */
     public function validate()
