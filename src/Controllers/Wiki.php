@@ -257,6 +257,20 @@ class Wiki extends AppController
     }
 
     /**
+     * Delete wiki page.
+     */
+    public function destroyAction()
+    {
+        foreach ($this->page->revisions()->fetchAll() as $revision) {
+            $revision->delete();
+        }
+
+        $this->page->delete();
+
+        return $this->redirectTo('wiki');
+    }
+
+    /**
      * @return array
      */
     protected function pageParams()

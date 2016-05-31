@@ -55,6 +55,10 @@ $english = new Language(function ($t) {
         // 'edit_component' => 'Edit Component',
 
         // --------------------------------------------------------------------
+        // Confirmations
+        'confirm.delete_x' => 'Are you sure you want to delete \'{0}\' ?',
+
+        // --------------------------------------------------------------------
         // Custom Fields
         // 'custom_fields'     => 'Custom Fields',
         // 'new_field'         => 'New Field',
