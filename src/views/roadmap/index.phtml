@@ -23,6 +23,9 @@
         <li>
             <h2 class="milestone-name">
                 <a href="<?=routeUrl('milestone', ['slug' => $milestone['slug']])?>"><?=e($milestone['name'])?></a>
+            <?php if ($milestone['codename']) : ?>
+                <span class="milestone-codename"><?=e($milestone['codename'])?></span>
+            <?php endif ?>
             </h2>
             <?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
             <div class="milestone-description">

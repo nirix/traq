@@ -15,6 +15,21 @@
 
 .roadmap-index,
 .milestone {
+  .milestone-codename {
+    .text-muted;
+
+    font-style: italic;
+    font-size: 20px;
+
+    &:before {
+      content: open-quote;
+    }
+
+    &:after {
+      content: close-quote;
+    }
+  }
+
   .milestone-progress {
     .progress {
       margin-bottom: 5px;
