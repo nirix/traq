@@ -53,6 +53,8 @@ jQuery(document).ready ->
                 element: $(this)[0]
                 indentWithTabs: false
 
+            $('.editor-toolbar [title]').tooltip()
+
     # Sexy text editors
     $('.rich-editor').each ->
         new SimpleMDE
@@ -60,6 +62,8 @@ jQuery(document).ready ->
             indentWithTabs: false
             promptURLs: true
             status: false
+
+        $('.editor-toolbar [title]').tooltip()
 
     # Scroll-to-element
     doc.on 'click', '[data-scroll-to]', (event) ->
