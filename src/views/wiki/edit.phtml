@@ -1,14 +1,18 @@
-<?=View::render('wiki/_nav.phtml')?>
-<div class="edit-wiki-page container">
+<?php $this->extend('layouts/default.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="wiki wiki-edit-page content container">
+    <?=View::render('wiki/_nav.phtml', ['page' => $page])?>
+
     <h1 class="page-header"><?=t('edit_page')?></h1>
 
-    <?=Errors::messagesFor($page)?>
+    <form action="<?=routeUrl('wiki_save')?>" method="post" class="form-horizontal">
+        <input type="hidden" name="_method" value="patch">
+        <?=View::render('wiki/_form.phtml', ['page' => $page, 'revision' => $revision])?>
 
-    <form action="<?=routeUrl('wiki_save', ['slug' => $page['slug']])?>" method="post" class="form-horizontal">
-        <?=View::render('wiki/_form.phtml', ['page' => $page])?>
-
-        <div class="form-actions">
-            <?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
+        <div class="text-center form-actions">
+            <button type="submit" class="btn btn-success"><?=t('save')?></button>
         </div>
     </form>
 </div>
+<?php $this->endSection(); ?>

@@ -67,6 +67,18 @@ class Wiki extends AppController
 
             $this->addCrumb($this->page['title'], routeUrl('wiki_page'));
         });
+
+        // Check permissions
+        $this->before(['new', 'create', 'edit', 'save', 'destroy'], function () {
+            $action = Request::$properties->get('action');
+            if (($action == 'new' || $action == 'create') && !$this->hasPermission('create_wiki_page')) {
+                return $this->show403();
+            } elseif (($action == 'edit' || $action == 'save') && !$this->hasPermission('edit_wiki_page')) {
+                return $this->show403();
+            } elseif ($action == 'destroy' && !$this->hasPermission('delete_wiki_page')) {
+                return $this->show403();
+            }
+        });
     }
 
     /**
@@ -97,8 +109,42 @@ class Wiki extends AppController
         $this->addCrumb($this->translate('new_page'), $this->generateUrl('wiki_new'));
 
         $page = new WikiPage(['slug' => $slug]);
+        $revision = new WikiRevision;
 
-        return $this->render('wiki/new.phtml', ['page' => $page]);
+        return $this->render('wiki/new.phtml', [
+            'page' => $page,
+            'revision' => $revision
+        ]);
+    }
+
+    public function createAction()
+    {
+        $this->addCrumb($this->translate('new_page'), $this->generateUrl('wiki_new'));
+
+        $page = new WikiPage($this->pageParams());
+        $page->revision_id = 0;
+
+        $revision = new WikiRevision($this->revisionParams());
+        $revision['revision'] = 1;
+
+        // Validate page and revision
+        $page->validate();
+        $revision->validate();
+
+        if (!$page->hasErrors() && !$revision->hasErrors()) {
+            $page->save();
+            $revision->wiki_page_id = $page->id;
+            $revision->save();
+            $page->revision_id = $revision->id;
+            $page->save();
+
+            return $this->redirectTo('wiki_page', ['slug' => $page['slug']]);
+        }
+
+        return $this->render('wiki/new.phtml', [
+            'page' => $page,
+            'revision' => $revision
+        ]);
     }
 
     /**
@@ -126,6 +172,55 @@ class Wiki extends AppController
                 return $this->jsonResponse($page->toArray());
             }
         });
+    }
+
+    /**
+     * Edit wiki page.
+     */
+    public function editAction()
+    {
+        $this->addCrumb($this->translate('edit_page'), $this->generateUrl('wiki_edit'));
+
+        return $this->render('wiki/edit.phtml', [
+            'page' => $this->page,
+            'revision' => $this->page->revision()
+        ]);
+    }
+
+    /**
+     * Save wiki page.
+     */
+    public function saveAction()
+    {
+        $this->addCrumb($this->translate('edit_page'), $this->generateUrl('wiki_edit'));
+
+        $revision = new WikiRevision($this->revisionParams() + [
+            'wiki_page_id' => $this->page['id'],
+            'revision' => $this->page->revision()['revision'] + 1
+        ]);
+
+        $this->page->set($this->pageParams());
+
+        // Validate page and revision
+        $this->page->validate();
+        $revision->validate();
+
+        if (!$this->page->hasErrors() && !$revision->hasErrors()) {
+            // Check if the content is different and create the revision if it is
+            if ($revision['content'] !== $this->page->revision()['content']) {
+                $revision->save();
+                $this->page['revision_id'] = $revision['id'];
+            }
+
+            $this->page->save();
+
+            return $this->redirectTo('wiki_page', ['slug' => $this->page['slug']]);
+        }
+
+        return $this->render('wiki/edit.phtml', [
+            'page' => $this->page,
+            'revision' => $revision
+        ]);
     }
 
     /**
@@ -159,5 +254,28 @@ class Wiki extends AppController
                 return $this->jsonResponse($revisions);
             }
         });
+    }
+
+    /**
+     * @return array
+     */
+    protected function pageParams()
+    {
+        return [
+            'project_id' => $this->currentProject['id'],
+            'title' => Request::$post['title'],
+            'slug' => Request::$post['slug']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function revisionParams()
+    {
+        return [
+            'content' => Request::$post['content'],
+            'user_id' => $this->currentUser['id']
+        ];
     }
 }

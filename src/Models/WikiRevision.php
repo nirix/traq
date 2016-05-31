@@ -32,5 +32,7 @@ namespace Traq\Models;
  */
 class WikiRevision extends Model
 {
-
+    protected static $_validations = [
+        'content' => ['required']
+    ];
 }

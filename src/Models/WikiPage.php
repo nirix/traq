@@ -32,12 +32,26 @@ namespace Traq\Models;
  */
 class WikiPage extends Model
 {
+    protected static $_validations = [
+        'title' => ['required'],
+        'slug' => ['required']
+    ];
+
     protected static $_hasMany = [
         'revisions' => ['model' => 'WikiRevision']
     ];
 
+    /**
+     * @var WikiRevision
+     */
+    protected $revision;
+
     public function revision()
     {
-        return $this->revisions()->orderBy('revision', 'DESC')->fetch();
+        if ($this->revision) {
+            return $this->revision;
+        }
+
+        return $this->revision = $this->revisions()->orderBy('revision', 'DESC')->fetch();
     }
 }

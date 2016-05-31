@@ -5,12 +5,16 @@
             <i class="fa fa-files-o"></i> <?=t('revisions')?>
         </a>
     <?php if (currentUser()) : ?>
+        <?php if (hasPermission('edit_wiki_page')) : ?>
         <a href="<?=routeUrl('wiki_edit', ['slug' => $page['slug']])?>" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil"></i> <?=t('edit')?>
         </a>
+        <?php endif ?>
+        <?php if (hasPermission('delete_wiki_page')) : ?>
         <a href="<?=routeUrl('wiki_delete', ['slug' => $page['slug']])?>" class="btn btn-sm btn-danger" data-confirm="<?=t('confirm.delete_x', [$page['title']])?>">
             <i class="fa fa-trash"></i> <?=t('delete')?>
         </a>
+        <?php endif ?>
     <?php endif ?>
     </div>
     <?php endif ?>
@@ -23,9 +27,11 @@
             <i class="fa fa-list"></i> <?=t('pages')?>
         </a>
     <?php if (currentUser()) : ?>
+        <?php if (hasPermission('create_wiki_page')) : ?>
         <a href="<?=routeUrl('wiki_new')?>" class="btn btn-sm btn-default">
             <i class="fa fa-plus"></i> <?=t('new_page')?>
         </a>
+        <?php endif ?>
     <?php endif ?>
     </div>
 </div>

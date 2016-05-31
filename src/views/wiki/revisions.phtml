@@ -2,7 +2,7 @@
 
 <?php $this->startSection('content'); ?>
 <div class="wiki wiki-revisions content container">
-    <?=View::render('wiki/_nav.phtml')?>
+    <?=View::render('wiki/_nav.phtml', ['page' => $page])?>
 
     <h1 class="page-header"><?=t('revisions_for_x', [$page['title']])?></h1>
 

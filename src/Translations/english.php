@@ -79,7 +79,7 @@ $english = new Language(function ($t) {
         'errors.invalid_username_or_password'   => "Invalid username and/or password.",
         // 'errors.incorrect_password'             => 'Incorrect password',
         // 'errors.account.activation_required'    => 'You must first activate your account.',
-        // 'errors.correct_the_following'          => 'Please correct the following issues',
+        'errors.correct_the_following'          => 'Please correct the following issues',
         // 'errors.users.already_a_project_member' => 'User is already a member',
 
         // --------------------------------------------------------------------
@@ -241,7 +241,7 @@ $english = new Language(function ($t) {
         // 'new_project'            => 'New Project',
         // 'edit_project'           => 'Edit Project',
         // 'name'                   => 'Name',
-        // 'slug'                   => 'Slug',
+        'slug'                   => 'Slug',
         // 'codename'               => 'Codename',
         // 'description'            => 'Description',
         // 'enable_wiki'            => 'Enable Wiki',
@@ -356,12 +356,12 @@ $english = new Language(function ($t) {
         'pages'       => 'Pages',
         'new_page'    => 'New Page',
         'revisions_for_x' => 'Revisions for {0}',
-        // 'edit_page'   => 'Edit Page',
+        'edit_page'   => 'Edit Page',
         // 'delete_page' => 'Delete Page',
         'revisions'   => 'Revisions',
         'revision_x'  => 'Revision {0}',
-        // 'title'       => 'Title',
-        // 'content'     => 'Content',
+        'title'       => 'Title',
+        'content'     => 'Content',
 
         // --------------------------------------------------------------------
         // Permissions
