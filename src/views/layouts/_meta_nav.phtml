@@ -45,10 +45,10 @@
                     <a href="<?=routeUrl('logout')?>" title="<?=t('logout')?>" data-method="delete"><i class="fa fa-sign-out"></i> <span class="sr-only"><?=t('logout')?></span></a>
                 </li>
             <?php else : ?>
-                <li>
+                <li<?=iif(Request::matches('/login'), ' class="active"')?>>
                     <a href="<?=routeUrl('login')?>" title="<?=t('login')?>"><i class="fa fa-sign-in"></i> <span class="sr-only"><?=t('login')?></span>
                 </a></li>
-                <li>
+                <li<?=iif(Request::matches('/register'), ' class="active"')?>>
                     <a href="<?=routeUrl('register')?>" title="<?=t('register')?>"><i class="fa fa-user-plus"></i> <span class="sr-only"><?=t('register')?></span></a>
                 </li>
             <?php endif ?>
