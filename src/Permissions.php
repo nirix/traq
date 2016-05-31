@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -29,8 +29,8 @@ use Exception;
  * Permissions API.
  *
  * @package Traq
- * @author  Jack P.
- * @since   4.0.0
+ * @author Jack P.
+ * @since 4.0.0
  */
 class Permissions
 {
@@ -64,7 +64,7 @@ class Permissions
         ],
 
         'ticket_properties' => [
-        // Set ticket properties
+            // Set ticket properties
             'ticket_properties_set_assigned_to'     => false,
             'ticket_properties_set_milestone'       => false,
             'ticket_properties_set_version'         => false,
@@ -167,8 +167,8 @@ class Permissions
     {
         $permissions = static::getPermissions();
 
-        if (isset($permissions[$action])) {
-            throw new Exception("Permission [{$action}] already exists.");
+        if (isset($permissions[$category][$action])) {
+            throw new Exception("Permission [{$category}][{$action}] already exists.");
         }
 
         static::$permissions[$category][$action] = $default;
