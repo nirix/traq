@@ -107,4 +107,18 @@ class AppController extends Controller
             'pageTitle' => $this->pageTitle
         ]);
     }
+
+    /**
+     * Check users permission.
+     *
+     * @param string  $action
+     * @param Project $project
+     *
+     * @return boolean
+     */
+    protected function hasPermission($action, Project $project = null)
+    {
+        // Just pass it off to the regular `hasPermission` function.
+        return hasPermission($action, $project);
+    }
 }
