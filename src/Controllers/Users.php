@@ -42,7 +42,7 @@ class Users extends AppController
      */
     public function newAction()
     {
-        $this->title($this->translate('register'));
+        $this->addCrumb($this->translate('register'), routeUrl('register'));
         return $this->render('users/new.phtml', ['user' => new User]);
     }
 
@@ -51,6 +51,8 @@ class Users extends AppController
      */
     public function createAction()
     {
+        $this->addCrumb($this->translate('register'), routeUrl('register'));
+
         // Validate user
         $user = new User($this->userParams());
 
@@ -75,7 +77,6 @@ class Users extends AppController
 
             return $this->redirectTo('session_new');
         } else {
-            $this->title($this->translate('register'));
             return $this->render('users/new.phtml', ['user' => $user]);
         }
     }
@@ -83,9 +84,9 @@ class Users extends AppController
     /**
      * Activate account.
      */
-    public function activateAction($activation_code)
+    public function activateAction($activationCode)
     {
-        if ($activation = UserActivationCode::get('email_validation', $activation_code)) {
+        if ($activation = UserActivationCode::get('email_validation', $activationCode)) {
             $activation->delete();
             return $this->redirectTo('session_new');
         } else {
@@ -101,11 +102,11 @@ class Users extends AppController
     protected function userParams()
     {
         return [
-            'name'     => Request::$post->get('name'),
-            'username' => Request::$post->get('username'),
-            'email'    => Request::$post->get('email'),
-            'password' => Request::$post->get('password'),
-            'password_confirmation' => Request::$post->get('password_confirmation')
+            'name'     => Request::$post['name'],
+            'username' => Request::$post['username'],
+            'email'    => Request::$post['email'],
+            'password' => Request::$post['password'],
+            'password_confirmation' => Request::$post['password_confirmation']
         ];
     }
 }

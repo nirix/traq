@@ -38,6 +38,12 @@ class User extends Model
     protected $securePasswordField = 'password';
     use SecurePassword;
 
+    protected static $_validations = [
+        'username' => ['required', 'unique', 'minLength' => 3],
+        'password' => ['required', 'minLength' => 6, 'confirm'],
+        'email' => ['required', 'unique', 'email']
+    ];
+
     protected static $_belongsTo = [
         'group'
     ];
@@ -61,5 +67,22 @@ class User extends Model
     {
         $this->name = $this->name ?: $this->username;
         $this->session_hash = sha1($this->username . uniqid() . microtime() . rand(0, 99999));
+    }
+
+    // ------------------------------------------------------------------------
+    // Overwritten functions
+
+    /**
+     * Add password confirmation validation.
+     */
+    public function validate()
+    {
+        $parent = parent::validate();
+
+        if (isset($this->password_confirmation) && $this->password_confirmation !== $this->password) {
+            $this->addValidationError('password', 'confirm');
+        }
+
+        return $parent;
     }
 }
