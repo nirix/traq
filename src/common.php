@@ -24,6 +24,7 @@
 use Traq\Models\Setting;
 use Traq\Models\Ticket;
 use Traq\Models\Project;
+use Traq\Models\Permission;
 
 /**
  * Shortcut for creating a query builder.

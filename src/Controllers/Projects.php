@@ -41,7 +41,13 @@ class Projects extends AppController
      */
     public function indexAction()
     {
-        $projects = Project::all();
+        $projects = [];
+
+        foreach (Project::all() as $project) {
+            if ($this->hasPermission('view', $project)) {
+                $projects[] = $project;
+            }
+        }
 
         return $this->respondTo(function ($format) use ($projects) {
             if ($format == 'html') {

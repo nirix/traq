@@ -79,6 +79,12 @@ class AppController extends Controller
         if (Request::$properties->has('pslug')) {
             $this->currentProject = Project::find('slug', Request::$properties->get('pslug')) ?: null;
             $GLOBALS['current_project'] = $this->currentProject;
+
+            $this->before('*', function () {
+                if (!$this->hasPermission('view', $this->currentProject)) {
+                    return $this->show404();
+                }
+            });
         }
 
         $GLOBALS['permissions'] = Permission::getPermissions($this->currentUser, $this->currentProject);

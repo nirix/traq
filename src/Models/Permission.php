@@ -55,7 +55,7 @@ class Permission extends Model
 
         $query->from(Permission::tableName(), 'd');
 
-        // Group defaults
+        // Group permissions
         $query->leftJoin(
             'd',
             Permission::tableName(),
@@ -67,7 +67,6 @@ class Permission extends Model
         $query->where('d.project_id = 0');
         $query->andWhere("d.type = 'usergroup'");
         $query->andWhere('d.type_id = 0');
-        $query->setParameter(':group_id', $user ? $user->group_id : 3);
 
         // Project?
         if ($project) {
@@ -96,10 +95,11 @@ class Permission extends Model
             // TODO: project roles
         }
 
+        $query->setParameter(':group_id', $user ? $user->group_id : 3);
         $result = $query->execute();
         $result = $result->fetch();
 
-        $result = [
+        $result = $result + [
             'group_defaults' => null,
             'group_permissions' => null,
             'project_group_defaults' => null,
@@ -109,7 +109,7 @@ class Permission extends Model
             'role_permissions' => null,
             'project_role_defaults' => null,
             'project_role_permissions' => null
-        ] + $result;
+        ];
 
         // Convert from JSON to an array
         $result['group_defaults'] = json_decode($result['group_defaults'], true) ?: [];
