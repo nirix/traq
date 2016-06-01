@@ -23,7 +23,6 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
 use Avalon\Language;
 
 /**
