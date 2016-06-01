@@ -38,6 +38,29 @@ jQuery(document).ready ->
 
         return form
 
+    # Show ticket filters form
+    if Cookies.get('show_ticket_filters') == 'true'
+        $('#ticket-filters-content').show()
+
+
+    # Ticket filters form toggle
+    $('#ticket-filters-toggle').on 'click', (event) ->
+        event.preventDefault()
+
+        if $('#ticket-filters-content').css('display') == 'none'
+            Cookies.set('show_ticket_filters', true)
+        else
+            Cookies.set('show_ticket_filters', false)
+
+        $('#ticket-filters-content').slideToggle()
+
+    # Ticket listing columns form toggle
+    $('#ticketlist-columns-toggle').on 'click', (event) ->
+        event.preventDefault()
+
+        $('#ticketlist-columns-content').slideToggle()
+
+
     # Navbar tooltips
     $('.navbar [title]').tooltip
         placement: 'bottom'

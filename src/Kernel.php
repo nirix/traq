@@ -81,6 +81,8 @@ class Kernel extends AppKernel
         // Traq helpers
         class_alias('Traq\\Helpers\\Format', 'Format');
         class_alias('Traq\\Helpers\\Timeline', 'Timeline');
+        class_alias('Traq\\Helpers\\TicketFilters', 'TicketFilters');
+        class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
     }
 
     /**

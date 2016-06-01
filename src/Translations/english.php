@@ -103,8 +103,8 @@ $english = new Language(function ($t) {
         'tickets'            => 'Tickets',
         // 'new_ticket'         => 'New Ticket',
         // 'create_ticket'      => 'Create Ticket',
-        // 'open'               => 'Open',
-        // 'closed'             => 'Closed',
+        'open'               => 'Open',
+        'closed'             => 'Closed',
         // 'total'              => 'Total',
         // 'ticket.page-title'  => "#{0} - {1}",
         // 'ticket.page-header' => "#{0} - {1}",
@@ -112,25 +112,25 @@ $english = new Language(function ($t) {
 
         // Ticket properties
         // 'ticket_properties' => 'Issue Properties',
-        // 'id'              => 'ID',
-        // 'ticket_id'       => 'ID',
-        // 'summary'         => 'Summary',
-        // 'body'            => 'Description',
-        // 'status'          => 'Status',
-        // 'owner'           => 'Owner',
-        // 'type'            => 'Type',
-        // 'component'       => 'Component',
-        // 'milestone'       => 'Milestone',
+        'id'              => 'ID',
+        'ticket_id'       => 'ID',
+        'summary'         => 'Summary',
+        'body'            => 'Description',
+        'status'          => 'Status',
+        'owner'           => 'Owner',
+        'type'            => 'Type',
+        'component'       => 'Component',
+        'milestone'       => 'Milestone',
         // 'reported_by'     => 'Reported by',
-        // 'assigned_to'     => 'Assigned to',
-        // 'priority'        => 'Priority',
-        // 'severity'        => 'Severity',
+        'assigned_to'     => 'Assigned to',
+        'priority'        => 'Priority',
+        'severity'        => 'Severity',
         // 'created_at'      => 'Created',
         // 'updated_at'      => 'Updated',
-        // 'votes'           => 'Votes',
+        'votes'           => 'Votes',
         // 'related_tickets' => 'Related Tickets',
-        // 'created'         => 'Created',
-        // 'updated'         => 'Updated',
+        'created'         => 'Created',
+        'updated'         => 'Updated',
 
         // Ticket history
         // 'ticket_history' => 'Issue History',
@@ -152,11 +152,11 @@ $english = new Language(function ($t) {
         // 'comment'       => 'Comment',
 
         // Filters
-        // 'is'             => 'is',
-        // 'or'             => 'or',
-        // 'is_not'         => 'is not',
-        // 'contains'       => 'Contains',
-        // 'doesnt_contain' => 'Doesn\'t contain',
+        'is'             => 'is',
+        'or'             => 'or',
+        'is_not'         => 'is not',
+        'contains'       => 'Contains',
+        'doesnt_contain' => 'Doesn\'t contain',
 
         // --------------------------------------------------------------------
         // Notifications
@@ -192,9 +192,9 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Ticket listing
-        // 'filters' => 'Filters',
-        // 'columns' => 'Columns',
-        // 'update'  => 'Update',
+        'filters' => 'Filters',
+        'columns' => 'Columns',
+        'update'  => 'Update',
 
         // --------------------------------------------------------------------
         // Milestones
@@ -226,7 +226,7 @@ $english = new Language(function ($t) {
         // Plugins
         // 'plugins'   => 'Plugins',
         // 'authors'   => 'Authors',
-        // 'version'   => 'Version',
+        'version'   => 'Version',
         // 'install'   => 'Install',
         // 'uninstall' => 'Uninstall',
         // 'enable'    => 'Enable',
@@ -247,7 +247,7 @@ $english = new Language(function ($t) {
         // 'name'                   => 'Name',
         'slug'                   => 'Slug',
         // 'codename'               => 'Codename',
-        // 'description'            => 'Description',
+        'description'            => 'Description',
         // 'enable_wiki'            => 'Enable Wiki',
         // 'display_order'          => 'Display Order',
         // 'default_ticket_type'    => 'Default ticket type',

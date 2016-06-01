@@ -33,6 +33,7 @@ use Traq\Models\CustomField;
 /**
  * Ticket listing controller.
  *
+ * @package Traq\Controllers
  * @author Jack P.
  * @since 4.0.0
  */
@@ -41,7 +42,7 @@ class TicketListing extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('tickets'));
+        $this->addCrumb($this->translate('tickets'), $this->generateUrl('tickets'));
 
         // Custom fields
         $this->customFields = CustomField::forProject($this->currentProject['id']);
@@ -169,9 +170,10 @@ class TicketListing extends AppController
             }
         }
 
-        // return $this->redirect($this->project->href('issues') . Request::buildQueryString($queryString, false));
         return $this->redirect(
-            routeUrl('tickets', ['pslug' => $this->currentProject['slug']]) . '?' . Request::buildQueryString($queryString, false)
+            $this->generateUrl('tickets', [
+                'pslug' => $this->currentProject['slug']
+            ]) . '?' . Request::buildQueryString($queryString, false)
         );
     }
 
@@ -181,7 +183,11 @@ class TicketListing extends AppController
     public function setColumnsAction()
     {
         $this->getColumns();
-        return $this->redirect(routeUrl('tickets', ['pslug' => $this->currentProject['slug']]) . '?' . $_SERVER['QUERY_STRING']);
+        return $this->redirect(
+            $this->generateUrl('tickets', [
+                'pslug' => $this->currentProject['slug']
+            ]) . '?' . $_SERVER['QUERY_STRING']
+        );
     }
 
     /**

@@ -57,8 +57,7 @@ gulp.task('watch', function(){
 gulp.task('assets', function() {
     gulp.src([
         'node_modules/jquery/dist/jquery.js',
-        // 'node_modules/js-cookie/src/js.cookie.js',
-        // 'node_modules/chosen-npm/public/chosen.jquery.js',
+        'node_modules/js-cookie/src/js.cookie.js',
         'node_modules/selectize/dist/js/standalone/selectize.js',
         'node_modules/bootstrap/dist/js/bootstrap.js',
         // 'node_modules/moment/min/moment-with-locales.js',

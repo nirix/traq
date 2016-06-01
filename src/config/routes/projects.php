@@ -5,6 +5,7 @@ use Avalon\Routing\Router;
 // Project routes
 Router::get('projects', '/projects', "{$ns}Projects::index");
 Router::get('project', '/{pslug}', "{$ns}Projects::show");
+Router::get('changelog', '/{pslug}/changelog', "{$ns}Projects::changelog");
 
 // Timeline
 Router::get('timeline', '/{pslug}/timeline', "{$ns}Timeline::index");
@@ -23,7 +24,8 @@ Router::get('milestone', '/{pslug}/milestone/{slug}', "{$ns}Roadmap::show");
 Router::get('tickets', '/{pslug}/tickets', "{$ns}TicketListing::index");
 Router::get('ticket', '/{pslug}/tickets/{id}', "{$ns}Tickets::show");
 
-Router::get('changelog', '/{pslug}/changelog', "{$ns}Projects::changelog");
+Router::post('tickets_set_columns', '/{pslug}/issues/set-columns', "{$ns}TicketListing::setColumns");
+Router::post('tickets_set_filters', '/{pslug}/issues/set-filters', "{$ns}TicketListing::setFilters");
 
 // Wiki
 Router::get('wiki', '/{pslug}/wiki', "{$ns}Wiki::show", ['slug' => 'main']);
