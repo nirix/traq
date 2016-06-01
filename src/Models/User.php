@@ -83,7 +83,7 @@ class User extends Model
             return sha1($password) == $this->password;
         }
 
-        return parent::authenticate($password);
+        return $this->{$this->securePasswordField} === crypt($password, $this->{$this->securePasswordField});
     }
 
     /**
