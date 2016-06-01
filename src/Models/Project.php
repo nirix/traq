@@ -37,4 +37,25 @@ class Project extends Model
         'tickets',
         'wikiPages'
     ];
+
+    /**
+     * @return array[]
+     */
+    public function milestoneSelectOptions($valueField = 'id', $status = null, $sort = 'ASC')
+    {
+        $options = [];
+        $milestones = Milestone::where('project_id = ?')
+            ->setParameter(0, $this->id)
+            ->orderBy('display_order', $sort);
+
+        if ($status !== null) {
+            $milestones->andWhere('status = ?')->setParameter(1, $status);
+        }
+
+        foreach ($milestones->execute()->fetchAll() as $milestone) {
+            $options[] = ['label' => $milestone['name'], 'value' => $milestone[$valueField]];
+        }
+
+        return $options;
+    }
 }
