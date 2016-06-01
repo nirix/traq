@@ -23,6 +23,8 @@
 
 namespace Traq\Models;
 
+use Avalon\Language;
+
 /**
  * Ticket status model.
  *
@@ -32,5 +34,34 @@ namespace Traq\Models;
  */
 class Status extends Model
 {
+    /**
+     * Returns an array formatted for the Form::select() method.
+     *
+     * @return array
+     */
+    public static function selectOptions($valueField = 'id')
+    {
+        $open   = Language::translate('open');
+        $closed = Language::translate('closed');
 
+        $options = [
+            $open   => [],
+            $closed => []
+        ];
+
+        foreach (static::all() as $status) {
+            $option = [
+                'label' => $status['name'],
+                'value' => $status[$valueField]
+            ];
+
+            if ($status->status) {
+                $options[$open][] = $option;
+            } else {
+                $options[$closed][] = $option;
+            }
+        }
+
+        return $options;
+    }
 }
