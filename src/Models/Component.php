@@ -23,8 +23,6 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
 /**
  * Component model.
  *
@@ -44,7 +42,11 @@ class Component extends Model
     public static function selectOptions($projectId, $valueField = 'id')
     {
         $options = [];
-        $rows = static::select('id', 'name')->where('project_id = ?')->setParameter(0, $projectId)->execute()->fetchAll();
+        $rows = static::select('id', 'name')
+            ->where('project_id = ?')
+            ->setParameter(0, $projectId)
+            ->execute()
+            ->fetchAll();
 
         foreach ($rows as $row) {
             $options[] = ['label' => $row['name'], 'value' => $row[$valueField]];
