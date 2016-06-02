@@ -42,7 +42,6 @@ jQuery(document).ready ->
     if Cookies.get('show_ticket_filters') == 'true'
         $('#ticket-filters-content').show()
 
-
     # Ticket filters form toggle
     $('#ticket-filters-toggle').on 'click', (event) ->
         event.preventDefault()
@@ -60,6 +59,9 @@ jQuery(document).ready ->
 
         $('#ticketlist-columns-content').slideToggle()
 
+    # Selectize.js
+    $('.better-select').selectize
+        plugins: ['remove_button']
 
     # Navbar tooltips
     $('.navbar [title]').tooltip
