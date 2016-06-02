@@ -196,17 +196,17 @@ function ticketQuery()
         'p.name AS priority_name',
         'sv.name AS severity_name',
         'at.name AS assigned_to_name'
-    )
+    );
 
-    ->leftJoin('t', PREFIX . 'users', 'u', 'u.id = t.user_id')
-    ->leftJoin('t', PREFIX . 'milestones', 'm', 'm.id = t.milestone_id')
-    ->leftJoin('t', PREFIX . 'milestones', 'v', 'v.id = t.version_id')
-    ->leftJoin('t', PREFIX . 'components', 'c', 'c.id = t.component_id')
-    ->leftJoin('t', PREFIX . 'types', 'tp', 'tp.id = t.type_id')
-    ->leftJoin('t', PREFIX . 'statuses', 's', 's.id = t.status_id')
-    ->leftJoin('t', PREFIX . 'priorities', 'p', 'p.id = t.priority_id')
-    ->leftJoin('t', PREFIX . 'severities', 'sv', 'sv.id = t.severity_id')
-    ->leftJoin('t', PREFIX . 'users', 'at', 'at.id = t.assigned_to_id');
+    $ticket->leftJoin('t', PREFIX . 'users', 'u', 'u.id = t.user_id')
+        ->leftJoin('t', PREFIX . 'milestones', 'm', 'm.id = t.milestone_id')
+        ->leftJoin('t', PREFIX . 'milestones', 'v', 'v.id = t.version_id')
+        ->leftJoin('t', PREFIX . 'components', 'c', 'c.id = t.component_id')
+        ->leftJoin('t', PREFIX . 'types', 'tp', 'tp.id = t.type_id')
+        ->leftJoin('t', PREFIX . 'statuses', 's', 's.id = t.status_id')
+        ->leftJoin('t', PREFIX . 'priorities', 'p', 'p.id = t.priority_id')
+        ->leftJoin('t', PREFIX . 'severities', 'sv', 'sv.id = t.severity_id')
+        ->leftJoin('t', PREFIX . 'users', 'at', 'at.id = t.assigned_to_id');
 
     $ticket->groupBy('t.id')
         ->addGroupBy('u.name')
