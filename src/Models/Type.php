@@ -32,5 +32,23 @@ namespace Traq\Models;
  */
 class Type extends Model
 {
+    protected static $_validations = [
+        'name'   => ['required', 'unique'],
+        'bullet' => ['required']
+    ];
 
+    /**
+     * @return array[]
+     */
+    public static function selectOptions($valueField = 'id')
+    {
+        $options = [];
+        $types = static::select('id', 'name')->execute()->fetchAll();
+
+        foreach ($types as $type) {
+            $options[] = ['label' => $type['name'], 'value' => $type[$valueField]];
+        }
+
+        return $options;
+    }
 }
