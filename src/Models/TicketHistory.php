@@ -23,8 +23,6 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
 /**
  * Ticket history model.
  *
@@ -34,12 +32,14 @@ use Avalon\Database\Model;
  */
 class TicketHistory extends Model
 {
+    protected static $_tableAlias = 'h';
+
     protected static $_dataTypes = [
         'changes' => 'json_array'
     ];
 
-    public static function tableName()
+    public static function tableName($withPrefix = true)
     {
-        return PREFIX . 'ticket_history';
+        return ($withPrefix ? static::connection()->prefix : '') . 'ticket_history';
     }
 }
