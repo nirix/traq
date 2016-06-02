@@ -165,6 +165,8 @@ class TicketListing extends AppController
         }
 
         foreach ($filters as $name => $filter) {
+            $filter['prefix'] = $filter['prefix'] == '-' ? '!' : '';
+
             // Is this a filter?
             if (!in_array($name, array_keys(TicketFilters::filtersFor($this->currentProject)))) {
                 continue;

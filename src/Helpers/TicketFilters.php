@@ -205,8 +205,8 @@ class TicketFilters
     public static function isIsNotSelectOptions()
     {
         return [
-            ['label' => Language::translate('is'), 'value' => ''],
-            ['label' => Language::translate('is_not'), 'value' => '!']
+            ['label' => Language::translate('is'), 'value' => '+'],
+            ['label' => Language::translate('is_not'), 'value' => '-']
         ];
     }
 
@@ -218,8 +218,8 @@ class TicketFilters
     public static function containsFilterSelectOptions()
     {
         return [
-            ['label' => Language::translate('contains'), 'value' => ''],
-            ['label' => Language::translate('doesnt_contain'), 'value' => '!']
+            ['label' => Language::translate('contains'), 'value' => '+'],
+            ['label' => Language::translate('doesnt_contain'), 'value' => '-']
         ];
     }
 }
