@@ -82,12 +82,23 @@ class TicketListing extends AppController
         // Fetch all tickets
         $tickets = $tickets->execute()->fetchAll();
 
-        return $this->render('ticket_listing/index.phtml', [
-            'filters'     => $filter->filters,
-            'columns'     => $this->getColumns(),
-            'tickets'     => $tickets,
-            'pagination'  => $pagination
-        ]);
+        return $this->respondTo(function ($format) use ($filter, $tickets, $pagination) {
+            if ($format == 'html') {
+                return $this->render('ticket_listing/index.phtml', [
+                    'filters'     => $filter->filters,
+                    'columns'     => $this->getColumns(),
+                    'tickets'     => $tickets,
+                    'pagination'  => $pagination
+                ]);
+            } elseif ($format == 'json') {
+                return $this->jsonResponse([
+                    'page' => (int) $pagination->page,
+                    'total_pages' => (int) $pagination->totalPages,
+                    'filters' => $filter->filters,
+                    'tickets' => $tickets
+                ]);
+            }
+        });
     }
 
     /**
