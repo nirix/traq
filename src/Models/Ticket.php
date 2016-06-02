@@ -33,4 +33,8 @@ namespace Traq\Models;
 class Ticket extends Model
 {
     protected static $_tableAlias = 't';
+
+    protected static $_hasMany = [
+        'history' => ['model' => 'TicketHistory']
+    ];
 }
