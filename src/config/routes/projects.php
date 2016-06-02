@@ -27,6 +27,10 @@ Router::get('ticket', '/{pslug}/tickets/{id}', "{$ns}Tickets::show");
 Router::post('tickets_set_columns', '/{pslug}/issues/set-columns', "{$ns}TicketListing::setColumns");
 Router::post('tickets_set_filters', '/{pslug}/issues/set-filters', "{$ns}TicketListing::setFilters");
 
+Router::put('update_ticket', '/{pslug}/issues/{id}', "{$ns}Tickets::update")->method(['PUT', 'PATCH']);
+Router::get('ticket_edit_description', '/{pslug}/issues/{id}/edit-description', "{$ns}Tickets::editDescription");
+Router::post('ticket_save_description', '/{pslug}/issues/{id}/edit-description', "{$ns}Tickets::saveDescription");
+
 // Wiki
 Router::get('wiki', '/{pslug}/wiki', "{$ns}Wiki::show", ['slug' => 'main']);
 Router::get('wiki_pages', '/{pslug}/wiki/_pages', "{$ns}Wiki::pages");

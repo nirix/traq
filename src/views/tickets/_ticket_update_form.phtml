@@ -1,6 +1,6 @@
-<?php if (has_permission('update_tickets') || has_permission('comment_on_tickets')) : ?>
+<?php if (hasPermission('update_tickets') || hasPermission('comment_on_tickets')) : ?>
 <?php
-$milestoneSelectOptions = $currentProject->milestoneSelectOptions('id', 1);
+$milestoneSelectOptions = currentProject()->milestoneSelectOptions('id', 1);
 
 if ($ticket['is_closed']) {
     $milestoneSelectOptions = array_merge(
@@ -9,128 +9,129 @@ if ($ticket['is_closed']) {
     );
 }
 ?>
-	<div id="update-ticket">
-		<h2><?=t('update_ticket')?></h2>
-		<form action="<?=routeUrl('update_ticket', ['pslug' => $currentProject['slug'], 'id' => $ticket['ticket_id']])?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-		<?php if (has_permission('comment_on_tickets')) : ?>
-			<div class="update-ticket-property-comment">
-				<label for="comment" class="control-label"><?=t('comment')?></label>
-				<textarea id="comment" name="comment" class="form-control rich-editor"></textarea>
-			</div>
-		<?php endif ?>
+    <div id="update-ticket">
+        <h2><?=t('update_ticket')?></h2>
+        <form action="<?=routeUrl('update_ticket', ['pslug' => currentProject()['slug'], 'id' => $ticket['ticket_id']])?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <?php if (hasPermission('comment_on_tickets')) : ?>
+            <div class="update-ticket-property-comment">
+                <label for="comment" class="control-label"><?=t('comment')?></label>
+                <textarea id="comment" name="comment" class="form-control rich-editor"></textarea>
+            </div>
+        <?php endif ?>
 
-		<?php if (has_permission('update_tickets')) : ?>
-			<div class="row">
-			<?php if (has_permission('ticket_properties_change_type')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="type_id" class="control-label col-sm-3"><?=t('type')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('type_id', Traq\Models\Type::selectOptions(), [
+        <?php if (hasPermission('update_tickets')) : ?>
+            <div class="row">
+            <?php if (hasPermission('ticket_properties_change_type')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="type_id" class="control-label col-sm-3"><?=t('type')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('type_id', Traq\Models\Type::selectOptions(), [
                             'value' => $ticket['type_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_assigned_to')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="assigned_to_id" class="control-label col-sm-3"><?=t('assigned_to')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('assigned_to_id', array_merge([['label' => t('no_one'), 'value' => 0]], $currentProject->memberSelectOptions()), [
+            <?php if (hasPermission('ticket_properties_change_assigned_to')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="assigned_to_id" class="control-label col-sm-3"><?=t('assigned_to')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('assigned_to_id', array_merge([['label' => t('no_one'), 'value' => 0]], currentProject()->memberSelectOptions()), [
                             'value' => $ticket['assigned_to_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_milestone')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="milestone_id" class="control-label col-sm-3"><?=t('milestone')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('milestone_id', $milestoneSelectOptions, [
+            <?php if (hasPermission('ticket_properties_change_milestone')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="milestone_id" class="control-label col-sm-3"><?=t('milestone')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('milestone_id', $milestoneSelectOptions, [
                             'value' => $ticket['milestone_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_version')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="version_id" class="control-label col-sm-3"><?=t('version')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('version_id', array_merge([['label' => t('none'), 'value' => 0]], $currentProject->milestoneSelectOptions('id', 2, 'DESC')), [
+            <?php if (hasPermission('ticket_properties_change_version')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="version_id" class="control-label col-sm-3"><?=t('version')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('version_id', array_merge([['label' => t('none'), 'value' => 0]], currentProject()->milestoneSelectOptions('id', 2, 'DESC')), [
                             'value' => $ticket['version_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_component')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="component_id" class="control-label col-sm-3"><?=t('component')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('component_id', array_merge([['label' => t('none'), 'value' => 0]], $currentProject->componentSelectOptions()), [
+            <?php if (hasPermission('ticket_properties_change_component')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="component_id" class="control-label col-sm-3"><?=t('component')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('component_id', array_merge([['label' => t('none'), 'value' => 0]], currentProject()->componentSelectOptions()), [
                             'value' => $ticket['component_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_severity')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="severity" class="control-label col-sm-3"><?=t('severity')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('severity_id', Traq\Models\Severity::selectOptions(), [
+            <?php if (hasPermission('ticket_properties_change_severity')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="severity" class="control-label col-sm-3"><?=t('severity')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('severity_id', Traq\Models\Severity::selectOptions(), [
                             'value' => $ticket['severity_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_priority')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="priority" class="control-label col-sm-3"><?=t('priority')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('priority_id', Traq\Models\Priority::selectOptions(), [
+            <?php if (hasPermission('ticket_properties_change_priority')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="priority" class="control-label col-sm-3"><?=t('priority')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('priority_id', Traq\Models\Priority::selectOptions(), [
                             'value' => $ticket['priority_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_status')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="status" class="control-label col-sm-3"><?=t('status')?></label>
-					<div class="col-sm-9">
-						<?=Form::select('status_id', Traq\Models\Status::selectOptions(), [
+            <?php if (hasPermission('ticket_properties_change_status')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="status" class="control-label col-sm-3"><?=t('status')?></label>
+                    <div class="col-sm-9">
+                        <?=Form::select('status_id', Traq\Models\Status::selectOptions(), [
                             'value' => $ticket['status_id'],
                             'class' => "form-control"
                         ])?>
-					</div>
-				</div>
-			<?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
-			<?php if (has_permission('ticket_properties_change_summary')) : ?>
-				<div class="update-ticket-property col-md-6">
-					<label for="summary" class="control-label col-sm-3"><?=t('summary')?></label>
-					<div class="col-sm-9">
-						<input name="summary" id="summary" class="form-control" value="<?=e($ticket['summary'])?>">
-					</div>
-				</div>
-			<?php endif ?>
-			</div>
-		<?php endif ?>
+            <?php if (hasPermission('ticket_properties_change_summary')) : ?>
+                <div class="update-ticket-property col-md-6">
+                    <label for="summary" class="control-label col-sm-3"><?=t('summary')?></label>
+                    <div class="col-sm-9">
+                        <input name="summary" id="summary" class="form-control" value="<?=e($ticket['summary'])?>">
+                    </div>
+                </div>
+            <?php endif ?>
+            </div>
+        <?php endif ?>
 
-			<div class="text-center">
-				<button class="btn btn-success"><?=t('update')?></button>
-			</div>
-		</form>
-	</div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success"><?=t('update')?></button>
+                <button type="reset" class="btn btn-default"><?=t('reset')?></button>
+            </div>
+        </form>
+    </div>
 <?php endif ?>

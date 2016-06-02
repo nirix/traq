@@ -38,7 +38,7 @@
                         <li<?=iif(Request::matches('/{pslug}/roadmap'), ' class="active"')?>>
                             <a href="<?=routeUrl('roadmap')?>"><?=t('roadmap')?></a>
                         </li>
-                        <li<?=iif(Request::matches('/{pslug}/tickets'), ' class="active"')?>>
+                        <li<?=iif(Request::matches('/{pslug}/tickets(.*)?'), ' class="active"')?>>
                             <a href="<?=routeUrl('tickets')?>"><?=t('tickets')?></a>
                         </li>
                         <li<?=iif(Request::matches('/{pslug}/changelog'), ' class="active"')?>>

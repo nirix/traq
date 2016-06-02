@@ -106,8 +106,8 @@ $english = new Language(function ($t) {
         'open'               => 'Open',
         'closed'             => 'Closed',
         // 'total'              => 'Total',
-        // 'ticket.page-title'  => "#{0} - {1}",
-        // 'ticket.page-header' => "#{0} - {1}",
+        'ticket.page-title'  => "#{0} - {1}",
+        'ticket.page-header' => "#{0} - {1}",
         // 'edit_ticket_description' => 'Edit Ticket Description',
 
         // Ticket properties
@@ -121,35 +121,35 @@ $english = new Language(function ($t) {
         'type'            => 'Type',
         'component'       => 'Component',
         'milestone'       => 'Milestone',
-        // 'reported_by'     => 'Reported by',
+        'reported_by'     => 'Reported by',
         'assigned_to'     => 'Assigned to',
         'priority'        => 'Priority',
         'severity'        => 'Severity',
-        // 'created_at'      => 'Created',
-        // 'updated_at'      => 'Updated',
+        'created_at'      => 'Created',
+        'updated_at'      => 'Updated',
         'votes'           => 'Votes',
-        // 'related_tickets' => 'Related Tickets',
+        'related_tickets' => 'Related Tickets',
         'created'         => 'Created',
         'updated'         => 'Updated',
 
         // Ticket history
-        // 'ticket_history' => 'Issue History',
+        'ticket_history' => 'Ticket History',
         // Most fields
-        // 'ticket_history.x_from_x_to_x' => 'Changed {0} from {1} to {2}',
-        // 'ticket_history.x_from_null_to_x' => "Set {0} to {2}",
-        // 'ticket_history.x_from_x_to_null' => "Cleared {0}, was {1}",
+        'ticket_history.x_from_x_to_x' => 'Changed {0} from {1} to {2}',
+        'ticket_history.x_from_null_to_x' => "Set {0} to {2}",
+        'ticket_history.x_from_x_to_null' => "Cleared {0}, was {1}",
         // Assignee field
-        // 'ticket_history.assignee_from_x_to_x'    => "Reassigned issue from {1} to {2}",
-        // 'ticket_history.assignee_from_null_to_x' => "Assigned issue to {2}",
-        // 'ticket_history.assignee_from_x_to_null' => "Unassigned issue from {1}",
+        'ticket_history.assignee_from_x_to_x'    => "Reassigned issue from {1} to {2}",
+        'ticket_history.assignee_from_null_to_x' => "Assigned issue to {2}",
+        'ticket_history.assignee_from_x_to_null' => "Unassigned issue from {1}",
         // Actions
-        // 'ticket_history.close'          => "Closed issue as {1}",
-        // 'ticket_history.reopen'         => "Reopened issue as {1}",
-        // 'ticket_history.add_attachment' => "Added attachment {1}",
+        'ticket_history.close'          => "Closed issue as {1}",
+        'ticket_history.reopen'         => "Reopened issue as {1}",
+        'ticket_history.add_attachment' => "Added attachment {1}",
 
         // Update ticket
-        // 'update_ticket' => 'Update Ticket',
-        // 'comment'       => 'Comment',
+        'update_ticket' => 'Update Ticket',
+        'comment'       => 'Comment',
 
         // Filters
         'is'             => 'is',

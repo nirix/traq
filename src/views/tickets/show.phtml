@@ -1,41 +1,44 @@
-<div class="show-ticket container">
-	<div id="ticket" class="well well-sm">
-		<div class="ticket-actions pull-right">
+<?php $this->extend('layouts/default.phtml'); ?>
 
-		</div>
+<?php $this->startSection('content'); ?>
+<div class="tickets ticket-view container">
+    <div id="ticket" class="well well-sm">
+        <div class="ticket-actions pull-right">
 
-		<h1 class="page-header"><?=t('ticket.page-header', $ticket['ticket_id'], $ticket['summary'])?></h1>
+        </div>
 
-		<div class="ticket-properties">
-			<?=View::render('tickets/_properties.phtml', ['ticket' => $ticket])?>
-		</div>
+        <h1 class="page-header"><?=t('ticket.page-header', $ticket['ticket_id'], $ticket['summary'])?></h1>
 
-		<div class="ticket-description">
-			<?php if (has_permission('edit_ticket_description')) : ?>
-			<div class="pull-right">
-				<a href="#" data-overlay="<?=routeUrl('ticket_edit_description', ['pslug' => $currentProject['slug'], 'id' => $ticket['ticket_id']])?>" class="btn btn-xs btn-default">
-					<span class="fa fa-pencil"></span>
-				</a>
-			</div>
-			<?php endif ?>
-			<?=Format::text($ticket['body'])?>
-		</div>
+        <div class="ticket-properties">
+            <?=View::render('tickets/_properties.phtml', ['ticket' => $ticket])?>
+        </div>
 
-		<div class="ticket-attachments">
+        <div class="ticket-description">
+            <?php if (hasPermission('edit_ticket_description')) : ?>
+            <div class="pull-right">
+                <a href="#" data-overlay="<?=routeUrl('ticket_edit_description', ['pslug' => currentProject()['slug'], 'id' => $ticket['ticket_id']])?>" class="btn btn-xs btn-default" title="<?=t('edit_ticket_description')?>">
+                    <span class="fa fa-pencil"></span>
+                </a>
+            </div>
+            <?php endif ?>
+            <?=Format::text($ticket['body'])?>
+        </div>
 
-		</div>
-	</div>
+        <div class="ticket-attachments">
 
-	<?php if (count($history)) : ?>
-	<div id="ticket-history">
-		<h2><?=t('ticket_history')?></h2>
+        </div>
+    </div>
 
-		<?php foreach ($history as $update) : ?>
-			<?=View::render('tickets/_history_bit.phtml', ['update' => $update])?>
-		<?php endforeach ?>
-	</div>
-	<?php endif ?>
+    <?php if (count($history)) : ?>
+    <div id="ticket-history">
+        <h2><?=t('ticket_history')?></h2>
 
-	<?=View::render('tickets/_ticket_update_form.phtml', ['ticket' => $ticket])?>
+        <?php foreach ($history as $update) : ?>
+            <?=View::render('tickets/_history_bit.phtml', ['update' => $update])?>
+        <?php endforeach ?>
+    </div>
+    <?php endif ?>
+
+    <?=View::render('tickets/_ticket_update_form.phtml', ['ticket' => $ticket])?>
 </div>
-
+<?php $this->endSection(); ?>

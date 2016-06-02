@@ -41,7 +41,7 @@ class Tickets extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('tickets'));
+        $this->addCrumb($this->translate('tickets'), $this->generateUrl('tickets'));
 
         $this->before(['new', 'create'], function () {
             if (!$this->hasPermission('create_tickets')) {
@@ -110,7 +110,7 @@ class Tickets extends AppController
             ->andWhere('t.ticket_id = ?')
             ->setParameter(0, $this->currentProject['id'])
             ->setParameter(1, $id)
-            ->execute()
+            // ->execute()
             ->fetch();
 
         if (!$ticket) {
@@ -119,19 +119,17 @@ class Tickets extends AppController
 
         $ticket['tasks'] = json_decode($ticket['tasks'], true);
 
-        $this->title($this->translate('ticket.page-title', $ticket['ticket_id'], $ticket['summary']));
+        $this->addCrumb(
+            $this->translate('ticket.page-title', $ticket['ticket_id'], $ticket['summary']),
+            $this->generateUrl('ticket')
+        );
 
-        $history = queryBuilder()->select(
-            'h.*',
-            'u.name AS user_name'
-        )
-        ->from(PREFIX . 'ticket_history', 'h')
-        ->where('h.ticket_id = :ticket_id')
-        ->leftJoin('h', PREFIX . 'users', 'u', 'u.id = h.user_id')
-        ->orderBy('h.created_at', 'ASC')
-        ->setParameter('ticket_id', $ticket['id'])
-        ->execute()
-        ->fetchAll();
+        $history = $ticket->history()
+            ->addSelect('h.*', 'u.name AS user_name', 'u.email AS user_email')
+            ->leftJoin('h', User::tableName(), 'u', 'u.id = h.user_id')
+            ->orderBy('h.created_at', 'ASC')
+            ->execute()
+            ->fetchAll();
 
         return $this->respondTo(function ($format) use ($ticket, $history) {
             if ($format == 'html') {
