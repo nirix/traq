@@ -58,4 +58,39 @@ class Project extends Model
 
         return $options;
     }
+
+    /**
+     * @return array[]
+     */
+    public function memberSelectOptions()
+    {
+        $options = [];
+
+        $query = static::connection()->createQueryBuilder()->select('ur.user_id', 'u.name AS user_name')
+            ->from(PREFIX . 'user_roles', 'ur')
+            ->leftJoin('ur', PREFIX . 'users', 'u', 'u.id = ur.user_id')
+            ->where('project_id = ?')
+            ->setParameter(0, $this->id);
+
+        foreach ($query->execute()->fetchAll() as $row) {
+            $options[] = ['label' => $row['user_name'], 'value' => $row['user_id']];
+        }
+
+        return $options;
+    }
+
+    /**
+     * @return array[]
+     */
+    public function componentSelectOptions()
+    {
+        $options = [];
+        $components = Component::where('project_id = ?')->setParameter(0, $this->id)->orderBy('name', 'ASC');
+
+        foreach ($components->execute()->fetchAll() as $component) {
+            $options[] = ['label' => $component['name'], 'value' => $component['id']];
+        }
+
+        return $options;
+    }
 }
