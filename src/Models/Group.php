@@ -34,6 +34,10 @@ class Group extends Model
 {
     protected static $_tableAlias = 'g';
 
+    protected static $_dataTypes = [
+        'is_admin' => 'boolean'
+    ];
+
     public function isAdmin()
     {
         return $this->is_admin == 1 ? true : false;

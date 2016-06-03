@@ -34,6 +34,10 @@ use Avalon\Language;
  */
 class Status extends Model
 {
+    protected static $_dataTypes = [
+        'show_on_changelog' => 'boolean'
+    ];
+
     /**
      * Returns an array formatted for the Form::select() method.
      *

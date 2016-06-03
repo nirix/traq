@@ -37,6 +37,10 @@ class Type extends Model
         'bullet' => ['required']
     ];
 
+    protected static $_dataTypes = [
+        'show_on_changelog' => 'boolean'
+    ];
+
     /**
      * @return array[]
      */
