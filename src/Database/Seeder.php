@@ -96,7 +96,7 @@ class Seeder
             'theme'                   => "default",
             'site_name'               => "",
             'site_url'                => "",
-            'db_version'              => TRAQ_DB_VERSION_ID,
+            'db_revision'             => \Traq\DB_REVISION,
             'locale'                  => "enAU",
             'check_for_update'        => 1,
             'last_update_check'       => time(),
@@ -142,10 +142,10 @@ class Seeder
     public function insertStatuses()
     {
         $statuses = [
-            ['name' => "New",       'status' => 1, 'show_on_changelog' => false],
-            ['name' => "Accepted",  'status' => 1, 'show_on_changelog' => false],
-            ['name' => "Closed",    'status' => 0, 'show_on_changelog' => true],
-            ['name' => "Completed", 'status' => 0, 'show_on_changelog' => true]
+            ['name' => "New",       'status' => 1, 'show_on_changelog' => 0],
+            ['name' => "Accepted",  'status' => 1, 'show_on_changelog' => 0],
+            ['name' => "Closed",    'status' => 0, 'show_on_changelog' => 1],
+            ['name' => "Completed", 'status' => 0, 'show_on_changelog' => 1]
         ];
 
         foreach ($statuses as $status) {
@@ -160,10 +160,10 @@ class Seeder
     public function insertTypes()
     {
         $types = [
-            ['name' => "Defect",          'bullet' => "-", 'show_on_changelog' => true],
-            ['name' => "Feature Request", 'bullet' => "+", 'show_on_changelog' => true],
-            ['name' => "Enhancement",     'bullet' => "*", 'show_on_changelog' => true],
-            ['name' => "Task",            'bullet' => "*", 'show_on_changelog' => true],
+            ['name' => "Defect",          'bullet' => "-", 'show_on_changelog' => 1],
+            ['name' => "Feature Request", 'bullet' => "+", 'show_on_changelog' => 1],
+            ['name' => "Enhancement",     'bullet' => "*", 'show_on_changelog' => 1],
+            ['name' => "Task",            'bullet' => "*", 'show_on_changelog' => 1],
         ];
 
         foreach ($types as $type) {
@@ -178,9 +178,9 @@ class Seeder
     public function insertGroups()
     {
         $groups = [
-            'Admin'   => true,
-            'Members' => false,
-            'Guests'  => false
+            'Admin'   => 1,
+            'Members' => 0,
+            'Guests'  => 0
         ];
 
         foreach ($groups as $name => $isAdmin) {
