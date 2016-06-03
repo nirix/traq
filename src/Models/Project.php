@@ -38,6 +38,10 @@ class Project extends Model
         'wikiPages'
     ];
 
+    protected static $_dataTypes = [
+        'enable_wiki' => 'boolean'
+    ];
+
     /**
      * @return array[]
      */

@@ -34,14 +34,14 @@ use Avalon\Database\Model;
  */
 class CustomFieldValue extends Model
 {
-    protected static $_before = array(
+    protected static $_before = [
         'create' => ['encode'],
         'save'   => ['encode']
-    );
+    ];
 
-    protected static $_after = array(
+    protected static $_after = [
         'construct' => ['decode']
-    );
+    ];
 
     /**
      * Encode value.

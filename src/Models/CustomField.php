@@ -41,7 +41,9 @@ class CustomField extends Model
     ];
 
     protected static $_dataTypes = [
-        'ticket_type_ids' => 'json_array'
+        'multiple' => 'boolean',
+        'is_required' => 'boolean',
+        'ticket_type_ids' => 'json_array',
     ];
 
     /**

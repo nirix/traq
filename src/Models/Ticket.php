@@ -37,4 +37,9 @@ class Ticket extends Model
     protected static $_hasMany = [
         'history' => ['model' => 'TicketHistory']
     ];
+
+    protected static $_dataTypes = [
+        'is_closed' => 'boolean',
+        'is_private' => 'boolean'
+    ];
 }

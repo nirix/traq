@@ -33,4 +33,8 @@ namespace Traq\Models;
 class Milestone extends Model
 {
     protected static $_tableAlias = 'm';
+
+    protected static $_dataTypes = [
+        'is_locked' => 'boolean'
+    ];
 }
