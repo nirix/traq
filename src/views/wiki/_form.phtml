@@ -1,29 +1,29 @@
 <div class="form-group <?=iif($page->hasError('title'), 'has-error')?>">
-    <label for="title" class="control-label col-md-3"><?=t('title')?></label>
-    <div class="col-md-9">
-        <input type="text" name="title" id="title" value="<?=$page['title']?>" class="form-control">
-    <?php if ($page->hasError('title')) : ?>
-        <p class="text-danger"><?=$page->getErrorMessage('title')[0]?></p>
-    <?php endif ?>
-    </div>
+	<label for="title" class="control-label col-md-3"><?=t('title')?></label>
+	<div class="col-md-9">
+		<input type="text" name="title" id="title" value="<?=$page['title']?>" class="form-control">
+	<?php if ($page->hasError('title')) : ?>
+		<p class="text-danger"><?=$page->getErrorMessage('title')[0]?></p>
+	<?php endif ?>
+	</div>
 </div>
 
 <div class="form-group <?=iif($page->hasError('slug'), 'has-error')?>">
-    <label for="slug" class="control-label col-md-3"><?=t('slug')?></label>
-    <div class="col-md-9">
-        <input type="text" name="slug" id="slug" value="<?=$page['slug']?>" class="form-control">
-        <?php if ($page->hasError('slug')) : ?>
-            <p class="text-danger"><?=$page->getErrorMessage('slug')[0]?></p>
-        <?php endif ?>
-    </div>
+	<label for="slug" class="control-label col-md-3"><?=t('slug')?></label>
+	<div class="col-md-9">
+		<input type="text" name="slug" id="slug" value="<?=$page['slug']?>" class="form-control">
+		<?php if ($page->hasError('slug')) : ?>
+			<p class="text-danger"><?=$page->getErrorMessage('slug')[0]?></p>
+		<?php endif ?>
+	</div>
 </div>
 
 <div class="form-group <?=iif($revision->hasError('content'), 'has-error')?>">
-    <label for="content" class="control-label col-md-3"><?=t('content')?></label>
-    <div class="col-md-9">
-        <textarea name="content" id="content" class="form-control rich-editor" class="rich-editor"><?=$revision['content']?></textarea>
-        <?php if ($revision->hasError('content')) : ?>
-            <p class="text-danger"><?=$revision->getErrorMessage('content')[0]?></p>
-        <?php endif ?>
-    </div>
+	<label for="content" class="control-label col-md-3"><?=t('content')?></label>
+	<div class="col-md-9">
+		<textarea name="content" id="content" class="form-control rich-editor" class="rich-editor"><?=$revision['content']?></textarea>
+		<?php if ($revision->hasError('content')) : ?>
+			<p class="text-danger"><?=$revision->getErrorMessage('content')[0]?></p>
+		<?php endif ?>
+	</div>
 </div>

@@ -1,13 +1,13 @@
 <footer id="footer">
-    <div class="container">
-        <?php if ($_ENV['environment'] === 'development') : ?>
-        <div class="text-muted pull-right">
-            <?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb
-        </div>
-        <?php endif ?>
-        <div class="text-muted">
-            Powered by <a href="https://traq.io">Traq</a> <?=Traq\VERSION?> &copy 2009-<?=date("Y")?> <a href="https://github.com/nirix/traq">Traq</a>
-        </div>
-    </div>
+	<div class="container">
+		<?php if ($_ENV['environment'] === 'development') : ?>
+		<div class="text-muted pull-right">
+			<?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb
+		</div>
+		<?php endif ?>
+		<div class="text-muted">
+			Powered by <a href="https://traq.io">Traq</a> <?=Traq\VERSION?> &copy 2009-<?=date("Y")?> <a href="https://github.com/nirix/traq">Traq</a>
+		</div>
+	</div>
 </footer>
 <div id="overlay"></div>

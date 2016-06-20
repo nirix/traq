@@ -2,16 +2,16 @@
 
 <?php $this->startSection('content'); ?>
 <div class="wiki wiki-new-page content container">
-    <?=View::render('wiki/_nav.phtml')?>
+	<?=View::render('wiki/_nav.phtml')?>
 
-    <h1 class="page-header"><?=t('new_page')?></h1>
+	<h1 class="page-header"><?=t('new_page')?></h1>
 
-    <form action="<?=routeUrl('wiki_create')?>" method="post" class="form-horizontal">
-        <?=View::render('wiki/_form.phtml', ['page' => $page, 'revision' => $revision])?>
+	<form action="<?=routeUrl('wiki_create')?>" method="post" class="form-horizontal">
+		<?=View::render('wiki/_form.phtml', ['page' => $page, 'revision' => $revision])?>
 
-        <div class="text-center form-actions">
-            <button type="submit" class="btn btn-success"><?=t('create')?></button>
-        </div>
-    </form>
+		<div class="text-center form-actions">
+			<button type="submit" class="btn btn-success"><?=t('create')?></button>
+		</div>
+	</form>
 </div>
 <?php $this->endSection(); ?>

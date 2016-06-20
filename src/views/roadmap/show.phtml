@@ -2,15 +2,15 @@
 
 <?php $this->startSection('content'); ?>
 <main class="milestone content container">
-    <h1 class="page-header">
-        <?=e($milestone['name'])?>
-    <?php if ($milestone['codename']) : ?>
-        <span class="milestone-codename"><?=e($milestone['codename'])?></span>
-    <?php endif ?>
-    </h1>
-    <?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
-    <div class="milestone-description">
-        <?=Format::text($milestone['info'])?>
-    </div>
+	<h1 class="page-header">
+		<?=e($milestone['name'])?>
+	<?php if ($milestone['codename']) : ?>
+		<span class="milestone-codename"><?=e($milestone['codename'])?></span>
+	<?php endif ?>
+	</h1>
+	<?=View::render('roadmap/_progress_bar.phtml', ['milestone' => $milestone])?>
+	<div class="milestone-description">
+		<?=Format::text($milestone['info'])?>
+	</div>
 </main>
 <?php $this->endSection(); ?>

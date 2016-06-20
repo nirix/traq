@@ -2,12 +2,12 @@
 
 <?php $this->startSection('content'); ?>
 <div class="wiki-page content container">
-    <?=View::render('wiki/_nav.phtml', ['page' => $page])?>
+	<?=View::render('wiki/_nav.phtml', ['page' => $page])?>
 
-    <h1 class="page-header"><?=e($page['title'])?></h1>
+	<h1 class="page-header"><?=e($page['title'])?></h1>
 
-    <div class="wiki-page-content">
-        <?=Format::text($page->revision()->content)?>
-    </div>
+	<div class="wiki-page-content">
+		<?=Format::text($page->revision()->content)?>
+	</div>
 </div>
 <?php $this->endSection(); ?>

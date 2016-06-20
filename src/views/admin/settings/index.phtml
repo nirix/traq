@@ -2,154 +2,154 @@
 
 <?php $this->startSection('content'); ?>
 <div class="admin admin-settings content container">
-    <h1 class="page-header"><?=t('settings')?></h1>
+	<h1 class="page-header"><?=t('settings')?></h1>
 </div>
 <?=View::render('admin/settings/_nav.phtml')?>
 <div class="admin admin-settings content container">
-    <form action="<?=routeUrl('admin_settings_save')?>" method="post" class="form-horizontal">
-        <fieldset>
-            <legend>Traq</legend>
+	<form action="<?=routeUrl('admin_settings_save')?>" method="post" class="form-horizontal">
+		<fieldset>
+			<legend>Traq</legend>
 
-            <div class="form-group">
-                <label for="title" class="control-label col-md-3"><?=t('settings.title')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[title]" id="title" class="form-control" value="<?=e(setting('title'))?>">
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="title" class="control-label col-md-3"><?=t('settings.title')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[title]" id="title" class="form-control" value="<?=e(setting('title'))?>">
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="language" class="control-label col-md-3"><?=t('settings.default_language')?></label>
-                <div class="col-md-9">
-                    <?=Form::select("settings[language]", Avalon\Language::selectOptions(), [
-                        'value' => setting('locale'),
-                        'id' => 'language',
-                        'class' => 'form-control'
-                    ])?>
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="language" class="control-label col-md-3"><?=t('settings.default_language')?></label>
+				<div class="col-md-9">
+					<?=Form::select("settings[language]", Avalon\Language::selectOptions(), [
+						'value' => setting('locale'),
+						'id' => 'language',
+						'class' => 'form-control'
+					])?>
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="theme" class="control-label col-md-3"><?=t('settings.theme')?></label>
-                <div class="col-md-9">
-                    <?=Form::select("settings[theme]", Traq\Themes::selectOptions(), [
-                        'value' => setting('theme'),
-                        'id' => 'theme',
-                        'class' => 'form-control'
-                    ])?>
-                </div>
-            </div>
-        </fieldset>
+			<div class="form-group">
+				<label for="theme" class="control-label col-md-3"><?=t('settings.theme')?></label>
+				<div class="col-md-9">
+					<?=Form::select("settings[theme]", Traq\Themes::selectOptions(), [
+						'value' => setting('theme'),
+						'id' => 'theme',
+						'class' => 'form-control'
+					])?>
+				</div>
+			</div>
+		</fieldset>
 
-        <fieldset>
-            <legend><?=t('settings.site')?></legend>
+		<fieldset>
+			<legend><?=t('settings.site')?></legend>
 
-            <div class="form-group">
-                <label for="site_name" class="control-label col-md-3"><?=t('settings.site.name')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[site_name]" id="site_name" class="form-control" value="<?=e(setting('site_name'))?>">
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="site_name" class="control-label col-md-3"><?=t('settings.site.name')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[site_name]" id="site_name" class="form-control" value="<?=e(setting('site_name'))?>">
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="site_url" class="control-label col-md-3"><?=t('settings.site.url')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[site_url]" id="site_url" class="form-control" value="<?=e(setting('site_url'))?>">
-                </div>
-            </div>
-        </fieldset>
+			<div class="form-group">
+				<label for="site_url" class="control-label col-md-3"><?=t('settings.site.url')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[site_url]" id="site_url" class="form-control" value="<?=e(setting('site_url'))?>">
+				</div>
+			</div>
+		</fieldset>
 
-        <fieldset>
-            <legend><?=t('users')?></legend>
+		<fieldset>
+			<legend><?=t('users')?></legend>
 
-            <div class="form-group">
-                <label for="users_allow_registration" class="control-label col-md-3"><?=t('settings.users.allow_registration')?></label>
-                <div class="col-md-9">
-                    <?=Form::checkbox('settings[allow_registration]', 1, [
-                        'id' => 'users_allow_registration',
-                        'checked' => setting('allow_registration')
-                    ])?>
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="users_allow_registration" class="control-label col-md-3"><?=t('settings.users.allow_registration')?></label>
+				<div class="col-md-9">
+					<?=Form::checkbox('settings[allow_registration]', 1, [
+						'id' => 'users_allow_registration',
+						'checked' => setting('allow_registration')
+					])?>
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="users_email_validation" class="control-label col-md-3"><?=t('settings.users.email_validation')?></label>
-                <div class="col-md-9">
-                    <?=Form::checkbox('settings[email_validation]', 1, [
-                        'id' => 'users_email_validation',
-                        'checked' => setting('email_validation')
-                    ])?>
-                </div>
-            </div>
-        </fieldset>
+			<div class="form-group">
+				<label for="users_email_validation" class="control-label col-md-3"><?=t('settings.users.email_validation')?></label>
+				<div class="col-md-9">
+					<?=Form::checkbox('settings[email_validation]', 1, [
+						'id' => 'users_email_validation',
+						'checked' => setting('email_validation')
+					])?>
+				</div>
+			</div>
+		</fieldset>
 
-        <fieldset>
-            <legend><?=t('settings.date_and_time')?></legend>
+		<fieldset>
+			<legend><?=t('settings.date_and_time')?></legend>
 
-            <div class="form-group">
-                <label for="date_time_format" class="control-label col-md-3"><?=t('settings.date_time_format')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[date_time_format]" id="date_time_format" class="form-control" value="<?=e(setting('date_time_format'))?>">
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="date_time_format" class="control-label col-md-3"><?=t('settings.date_time_format')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[date_time_format]" id="date_time_format" class="form-control" value="<?=e(setting('date_time_format'))?>">
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="date_format" class="control-label col-md-3"><?=t('settings.date_format')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[date_format]" id="date_format" class="form-control" value="<?=e(setting('date_format'))?>">
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="date_format" class="control-label col-md-3"><?=t('settings.date_format')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[date_format]" id="date_format" class="form-control" value="<?=e(setting('date_format'))?>">
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="timeline_day_format" class="control-label col-md-3"><?=t('settings.timeline.day_format')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[timeline_day_format]" id="timeline_day_format" class="form-control" value="<?=e(setting('timeline_day_format'))?>">
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="timeline_day_format" class="control-label col-md-3"><?=t('settings.timeline.day_format')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[timeline_day_format]" id="timeline_day_format" class="form-control" value="<?=e(setting('timeline_day_format'))?>">
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="timeline_time_format" class="control-label col-md-3"><?=t('settings.timeline.time_format')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[timeline_time_format]" id="timeline_time_format" class="form-control" value="<?=e(setting('timeline_time_format'))?>">
-                </div>
-            </div>
-        </fieldset>
+			<div class="form-group">
+				<label for="timeline_time_format" class="control-label col-md-3"><?=t('settings.timeline.time_format')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[timeline_time_format]" id="timeline_time_format" class="form-control" value="<?=e(setting('timeline_time_format'))?>">
+				</div>
+			</div>
+		</fieldset>
 
-        <fieldset>
-            <legend><?=t('notifications')?></legend>
+		<fieldset>
+			<legend><?=t('notifications')?></legend>
 
-            <div class="form-group">
-                <label for="notification_from_email" class="control-label col-md-3"><?=t('settings.notifications.from_email')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[notification_from_email]" id="notification_from_email" class="form-control" value="<?=e(setting('notification_from_email'))?>">
-                </div>
-            </div>
-        </fieldset>
+			<div class="form-group">
+				<label for="notification_from_email" class="control-label col-md-3"><?=t('settings.notifications.from_email')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[notification_from_email]" id="notification_from_email" class="form-control" value="<?=e(setting('notification_from_email'))?>">
+				</div>
+			</div>
+		</fieldset>
 
-        <fieldset>
-            <legend><?=t('tickets')?></legend>
+		<fieldset>
+			<legend><?=t('tickets')?></legend>
 
-            <div class="form-group">
-                <label for="ticket_history_sorting" class="control-label col-md-3"><?=t('settings.tickets.history_sorting')?></label>
-                <div class="col-md-9">
-                    <?=Form::select('settings[ticket_history_sorting]', $historySortingSelectOptions, [
-                        'value' => setting('ticket_history_sorting'),
-                        'id' => 'ticket_history_sorting',
-                        'class' => 'form-control'
-                    ])?>
-                </div>
-            </div>
+			<div class="form-group">
+				<label for="ticket_history_sorting" class="control-label col-md-3"><?=t('settings.tickets.history_sorting')?></label>
+				<div class="col-md-9">
+					<?=Form::select('settings[ticket_history_sorting]', $historySortingSelectOptions, [
+						'value' => setting('ticket_history_sorting'),
+						'id' => 'ticket_history_sorting',
+						'class' => 'form-control'
+					])?>
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label for="ticket_creation_delay" class="control-label col-md-3"><?=t('settings.tickets.creation_delay')?></label>
-                <div class="col-md-9">
-                    <input type="text" name="settings[ticket_creation_delay]" id="ticket_creation_delay" class="form-control" value="<?=e(setting('ticket_creation_delay'))?>">
-                </div>
-            </div>
-        </fieldset>
+			<div class="form-group">
+				<label for="ticket_creation_delay" class="control-label col-md-3"><?=t('settings.tickets.creation_delay')?></label>
+				<div class="col-md-9">
+					<input type="text" name="settings[ticket_creation_delay]" id="ticket_creation_delay" class="form-control" value="<?=e(setting('ticket_creation_delay'))?>">
+				</div>
+			</div>
+		</fieldset>
 
-        <div class="form-actions text-center">
-            <button type="submit" class="btn btn-success"><?=t('save')?></button>
-        </div>
-    </form>
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
+		</div>
+	</form>
 </div>
 <?php $this->endSection(); ?>

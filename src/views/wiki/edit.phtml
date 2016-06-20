@@ -2,17 +2,17 @@
 
 <?php $this->startSection('content'); ?>
 <div class="wiki wiki-edit-page content container">
-    <?=View::render('wiki/_nav.phtml', ['page' => $page])?>
+	<?=View::render('wiki/_nav.phtml', ['page' => $page])?>
 
-    <h1 class="page-header"><?=t('edit_page')?></h1>
+	<h1 class="page-header"><?=t('edit_page')?></h1>
 
-    <form action="<?=routeUrl('wiki_save')?>" method="post" class="form-horizontal">
-        <input type="hidden" name="_method" value="patch">
-        <?=View::render('wiki/_form.phtml', ['page' => $page, 'revision' => $revision])?>
+	<form action="<?=routeUrl('wiki_save')?>" method="post" class="form-horizontal">
+		<input type="hidden" name="_method" value="patch">
+		<?=View::render('wiki/_form.phtml', ['page' => $page, 'revision' => $revision])?>
 
-        <div class="text-center form-actions">
-            <button type="submit" class="btn btn-success"><?=t('save')?></button>
-        </div>
-    </form>
+		<div class="text-center form-actions">
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
+		</div>
+	</form>
 </div>
 <?php $this->endSection(); ?>

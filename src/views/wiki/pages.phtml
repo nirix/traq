@@ -2,14 +2,14 @@
 
 <?php $this->startSection('content'); ?>
 <div class="wiki wiki-pages content container">
-    <?=View::render('wiki/_nav.phtml')?>
+	<?=View::render('wiki/_nav.phtml')?>
 
-    <h1 class="page-header"><?=t('pages')?></h1>
+	<h1 class="page-header"><?=t('pages')?></h1>
 
-    <ul>
-    <?php foreach ($pages as $page) : ?>
-        <li><a href="<?=routeUrl('wiki_page', ['slug' => $page['slug']])?>"><?=e($page['title'])?></a></li>
-    <?php endforeach ?>
-    </ul>
+	<ul>
+	<?php foreach ($pages as $page) : ?>
+		<li><a href="<?=routeUrl('wiki_page', ['slug' => $page['slug']])?>"><?=e($page['title'])?></a></li>
+	<?php endforeach ?>
+	</ul>
 </div>
 <?php $this->endSection(); ?>

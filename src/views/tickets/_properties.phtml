@@ -1,100 +1,100 @@
 <div class="ticket-property">
-    <label class="property-label"><?=t('type')?></label>
-    <span class="property-value">
-        <?=$ticket['type_name']?>
-    </span>
+	<label class="property-label"><?=t('type')?></label>
+	<span class="property-value">
+		<?=$ticket['type_name']?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('reported_by')?></label>
-    <span class="property-value">
-        <a href="<?=routeUrl('user', ['id' => $ticket['user_id']])?>"><?=$ticket['user_name']?></a>
-    </span>
+	<label class="property-label"><?=t('reported_by')?></label>
+	<span class="property-value">
+		<a href="<?=routeUrl('user', ['id' => $ticket['user_id']])?>"><?=$ticket['user_name']?></a>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('assigned_to')?></label>
-    <span class="property-value">
-    <?php if ($ticket['assigned_to_name']) : ?>
-        <a href="<?=routeUrl('user', ['id' => $ticket['assigned_to_id']])?>"><?=$ticket['assigned_to_name']?></a>
-    <?php else : ?>
-        <?=t('no_one')?>
-    <?php endif ?>
-    </span>
+	<label class="property-label"><?=t('assigned_to')?></label>
+	<span class="property-value">
+	<?php if ($ticket['assigned_to_name']) : ?>
+		<a href="<?=routeUrl('user', ['id' => $ticket['assigned_to_id']])?>"><?=$ticket['assigned_to_name']?></a>
+	<?php else : ?>
+		<?=t('no_one')?>
+	<?php endif ?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('milestone')?></label>
-    <span class="property-value">
-    <?php if ($ticket['milestone_name']) : ?>
-        <a href="<?=routeUrl('milestone', ['slug' => $ticket['milestone_slug']])?>"><?=$ticket['milestone_name']?></a>
-    <?php endif ?>
-    </span>
+	<label class="property-label"><?=t('milestone')?></label>
+	<span class="property-value">
+	<?php if ($ticket['milestone_name']) : ?>
+		<a href="<?=routeUrl('milestone', ['slug' => $ticket['milestone_slug']])?>"><?=$ticket['milestone_name']?></a>
+	<?php endif ?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('version')?></label>
-    <span class="property-value">
-    <?php if ($ticket['version_name']) : ?>
-        <a href="<?=routeUrl('milestone', ['slug' => $ticket['version_slug']])?>"><?=$ticket['version_name']?></a>
-    <?php else : ?>
-        <?=t('none')?>
-    <?php endif ?>
-    </span>
+	<label class="property-label"><?=t('version')?></label>
+	<span class="property-value">
+	<?php if ($ticket['version_name']) : ?>
+		<a href="<?=routeUrl('milestone', ['slug' => $ticket['version_slug']])?>"><?=$ticket['version_name']?></a>
+	<?php else : ?>
+		<?=t('none')?>
+	<?php endif ?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('status')?></label>
-    <span class="property-value">
-        <?=$ticket['status_name']?>
-    </span>
+	<label class="property-label"><?=t('status')?></label>
+	<span class="property-value">
+		<?=$ticket['status_name']?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('component')?></label>
-    <span class="property-value">
-        <?=$ticket['component_name'] ?: t('none')?>
-    </span>
+	<label class="property-label"><?=t('component')?></label>
+	<span class="property-value">
+		<?=$ticket['component_name'] ?: t('none')?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('priority')?></label>
-    <span class="property-value">
-        <?=$ticket['priority_name']?>
-    </span>
+	<label class="property-label"><?=t('priority')?></label>
+	<span class="property-value">
+		<?=$ticket['priority_name']?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('severity')?></label>
-    <span class="property-value">
-        <?=$ticket['severity_name']?>
-    </span>
+	<label class="property-label"><?=t('severity')?></label>
+	<span class="property-value">
+		<?=$ticket['severity_name']?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('votes')?></label>
-    <span class="property-value">
-        <?=$ticket['votes']?>
-    </span>
+	<label class="property-label"><?=t('votes')?></label>
+	<span class="property-value">
+		<?=$ticket['votes']?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('related_tickets')?></label>
-    <span class="property-value">
-        ...
-    </span>
+	<label class="property-label"><?=t('related_tickets')?></label>
+	<span class="property-value">
+		...
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('created_at')?></label>
-    <span class="property-value" data-moment="<?=$ticket['created_at']?>">
-        <?=$ticket['created_at']?>
-    </span>
+	<label class="property-label"><?=t('created_at')?></label>
+	<span class="property-value" data-moment="<?=$ticket['created_at']?>">
+		<?=$ticket['created_at']?>
+	</span>
 </div>
 
 <div class="ticket-property">
-    <label class="property-label"><?=t('updated_at')?></label>
-    <span class="property-value" data-moment="<?=$ticket['updated_at']?>">
-        <?=$ticket['updated_at'] ?: t('never')?>
-    </span>
+	<label class="property-label"><?=t('updated_at')?></label>
+	<span class="property-value" data-moment="<?=$ticket['updated_at']?>">
+		<?=$ticket['updated_at'] ?: t('never')?>
+	</span>
 </div>
