@@ -43,6 +43,13 @@ class AppController extends Controller
     protected $layout = false;
 
     /**
+     * Whether or not the request is for an overlay view.
+     *
+     * @var bool
+     */
+    protected $isOverlay = false;
+
+    /**
      * @var User
      */
     protected $currentUser;

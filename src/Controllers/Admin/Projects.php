@@ -51,6 +51,10 @@ class Projects extends AppController
     protected $afterSaveRedirect    = 'admin_projects';
     protected $afterDestroyRedirect = 'admin_projects';
 
+    // Route names
+    protected $newRoute = 'admin_new_project';
+    protected $editRoute = 'admin_edit_project';
+
     public function __construct()
     {
         parent::__construct();

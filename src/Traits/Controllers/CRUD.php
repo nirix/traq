@@ -31,7 +31,7 @@ use Avalon\Database\Model;
  * and Delete based controllers.
  *
  * @package Traq\Traits
- * @author  Jack P.
+ * @author Jack P.
  * @since 4.0.0
  */
 trait CRUD
@@ -100,12 +100,11 @@ trait CRUD
     public function indexAction()
     {
         $rows = $this->getAllRows();
+        $this->set($this->getPlural(), $rows);
 
         return $this->respondTo(function ($format) use ($rows) {
             if ($format == 'html') {
-                return $this->render("{$this->viewsDir}/index.phtml", [
-                    "{$this->getPlural()}" => $rows
-                ]);
+                return $this->render("{$this->viewsDir}/index.phtml");
             } elseif ($format == 'json') {
                 return $this->jsonResponse($rows);
             }
@@ -119,16 +118,13 @@ trait CRUD
      */
     public function newAction()
     {
-        $this->title($this->translate('new'));
+        $this->addCrumb($this->translate('new'), $this->generateUrl($this->newRoute));
+        $this->set($this->getSingular(), new $this->model);
 
         if ($this->isOverlay) {
-            return $this->render("{$this->viewsDir}/new.overlay.phtml", [
-                "{$this->getSingular()}" => new $this->model
-            ]);
+            return $this->render("{$this->viewsDir}/new.overlay.phtml");
         } else {
-            return $this->render("{$this->viewsDir}/new.phtml", [
-                "{$this->getSingular()}" => new $this->model
-            ]);
+            return $this->render("{$this->viewsDir}/new.phtml");
         }
     }
 
@@ -137,7 +133,7 @@ trait CRUD
      */
     public function createAction()
     {
-        $this->title($this->translate('new'));
+        $this->addCrumb($this->translate('new'), $this->generateUrl($this->newRoute));
 
         $object = new $this->model;
         $object->set($this->modelParams());
@@ -146,6 +142,7 @@ trait CRUD
             return $this->redirectTo($this->afterCreateRedirect);
         } else {
             $this->set($this->getSingular(), $object);
+
             return $this->respondTo(function ($format) use ($object) {
                 if ($format == "html") {
                     return $this->render("{$this->viewsDir}/new.phtml");
@@ -163,19 +160,16 @@ trait CRUD
      */
     public function editAction($id)
     {
-        $this->title($this->translate('edit'));
+        $this->addCrumb($this->translate('edit'), $this->generateUrl($this->editRoute));
 
         // Find the row
         $object = $this->getObject($id);
+        $this->set($this->getSingular(), $object);
 
         if ($this->isOverlay) {
-            return $this->render("{$this->viewsDir}/edit.overlay.phtml", [
-                "{$this->getSingular()}" => $object
-            ]);
+            return $this->render("{$this->viewsDir}/edit.overlay.phtml");
         } else {
-            return $this->render("{$this->viewsDir}/edit.phtml", [
-                "{$this->getSingular()}" => $object
-            ]);
+            return $this->render("{$this->viewsDir}/edit.phtml");
         }
     }
 
@@ -186,7 +180,7 @@ trait CRUD
      */
     public function saveAction($id)
     {
-        $this->title($this->translate('edit'));
+        $this->addCrumb($this->translate('edit'), $this->generateUrl($this->editRoute));
 
         // Find the row and update
         $object = $this->getObject($id);
@@ -196,6 +190,7 @@ trait CRUD
             return $this->redirectTo($this->afterSaveRedirect);
         } else {
             $this->set($this->getSingular(), $object);
+
             return $this->respondTo(function ($format) use ($object) {
                 if ($format == "html") {
                     return $this->render("{$this->viewsDir}/edit.phtml");
