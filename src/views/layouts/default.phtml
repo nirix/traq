@@ -15,6 +15,9 @@
         <?=View::render('layouts/_meta_nav.phtml')?>
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
+            <?php if ($this->hasSection('navbar')) : ?>
+                <?=$this->getSection('navbar')?>
+            <?php else : ?>
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only"><?=t('toggle_navigation')?></span>
@@ -52,6 +55,7 @@
                     </ul>
                 </div>
                 <?php endif ?>
+            <?php endif ?>
             </div>
         </nav>
 

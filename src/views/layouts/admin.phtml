@@ -1,60 +1,13 @@
-<!DOCTYPE html>
-	<head>
-		<?=View::render('layouts/_head.phtml')?>
-		<?php Hook::run('template:layouts/admin:head'); ?>
-	</head>
-	<body>
-		<?php require __DIR__ . '/_meta_nav.phtml'; ?>
-		<nav id="header" class="navbar navbar-default navbar-static-top">
-			<div class="container">
-				<div class="navbar-header">
-					<a href="<?=routeUrl('admin')?>" class="navbar-brand"><?=t('admincp')?></a>
-				</div>
-				<nav id="nav-main">
-				<?php if ($currentUser && $currentUser['is_admin']) : ?>
-					<ul class="nav navbar-nav navbar-left">
-						<li class="<?=iif(Request::matches(routePath('admin_settings')), 'active')?>">
-							<a href="<?=routeUrl('admin_settings')?>"><?=t('settings')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_projects')), 'active')?>">
-							<a href="<?=routeUrl('admin_projects')?>"><?=t('projects')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_project_roles')), 'active')?>">
-							<a href="<?=routeUrl('admin_project_roles')?>"><?=t('roles')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_users')), 'active')?>">
-							<a href="<?=routeUrl('admin_users')?>"><?=t('users')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_groups')), 'active')?>">
-							<a href="<?=routeUrl('admin_groups')?>"><?=t('groups')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_plugins')), 'active')?>">
-							<a href="<?=routeUrl('admin_plugins')?>"><?=t('plugins')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_types')), 'active')?>">
-							<a href="<?=routeUrl('admin_types')?>"><?=t('types')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_statuses')), 'active')?>">
-							<a href="<?=routeUrl('admin_statuses')?>"><?=t('statuses')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_priorities')), 'active')?>">
-							<a href="<?=routeUrl('admin_priorities')?>"><?=t('priorities')?></a>
-						</li>
-						<li class="<?=iif(Request::matches(routePath('admin_severities')), 'active')?>">
-							<a href="<?=routeUrl('admin_severities')?>"><?=t('severities')?></a>
-						</li>
-						<li class="<?=iif(Request::matches('/admin/permissions.+'), 'active')?>">
-							<a href="<?=routeUrl('admin_permissions')?>"><?=t('permissions')?></a>
-						</li>
-					</ul>
-				<?php endif ?>
-				</nav>
-			</div>
-		</nav>
-		<main id="page">
-<?=$content?>
-		</main>
-		<?php require __DIR__ . '/_footer.phtml'; ?>
-		<?php Hook::run('template:layouts/admin:foot'); ?>
-	</body>
-</html>
+<?php $this->extend('layouts/default.phtml'); ?>
+
+<?php $this->startSection('navbar'); ?>
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only"><?=t('toggle_navigation')?></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a href="<?=routeUrl('admincp')?>" class="navbar-brand"><?=t('admincp')?></a>
+</div>
+<?php $this->endSection(); ?>
