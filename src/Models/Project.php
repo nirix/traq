@@ -32,6 +32,11 @@ namespace Traq\Models;
  */
 class Project extends Model
 {
+    protected static $_validations = [
+        'name' => ['required'],
+        'slug' => ['required', 'unique']
+    ];
+
     protected static $_hasMany = [
         'milestones',
         'tickets',

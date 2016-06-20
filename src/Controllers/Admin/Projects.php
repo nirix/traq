@@ -28,11 +28,11 @@ use Traq\Models\Project;
 use Traq\Traits\Controllers\CRUD;
 
 /**
- * Admin Projects controller
+ * Admin projects controller
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\Admin
  */
 class Projects extends AppController
 {
@@ -54,7 +54,7 @@ class Projects extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('projects'));
+        $this->addcrumb($this->translate('projects'), $this->generateUrl('admin_projects'));
     }
 
     /**

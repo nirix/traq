@@ -1,11 +1,15 @@
-<div class="admin-projects container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-projects-edit content container">
 	<h1 class="page-header"><?=t('edit_project')?></h1>
 
 	<form action="<?=routeUrl('admin_save_project', ['id' => $project['id']])?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($project)?>
+		<input type="hidden" name="_method" value="put">
 		<?=View::render('project_settings/options/_form.phtml', ['project' => $project])?>
-		<div class="form-actions">
+		<div class="form-actions text-center">
 			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

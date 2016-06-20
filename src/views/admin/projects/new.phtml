@@ -1,11 +1,14 @@
-<div class="admin-projects container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-projects-new content container">
 	<h1 class="page-header"><?=t('new_project')?></h1>
 
-	<form action="<?=routeUrl('admin_new_project')?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($project)?>
+	<form action="<?=routeUrl('admin_create_project')?>" method="post" class="form-horizontal">
 		<?=View::render('project_settings/options/_form.phtml', ['project' => $project])?>
-		<div class="form-actions">
-		<button type="submit" class="btn btn-success"><?=t('create')?></button>
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-success"><?=t('create')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

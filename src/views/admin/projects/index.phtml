@@ -1,8 +1,11 @@
-<div class="admin-projects container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-projects content container">
 	<h1 class="page-header"><?=t('projects')?></h1>
 
 	<div class="page-actions">
-		<a href="<?=routeUrl('admin_new_project')?>" class="btn btn-success" data-overlay="1">
+		<a href="<?=routeUrl('admin_new_project')?>" class="btn btn-success" data-overlay="true">
 			<span class="fa fa-plus"></span> <?=t('new_project')?>
 		</a>
 	</div>
@@ -17,7 +20,7 @@
 		<?php foreach ($projects as $project) : ?>
 			<tr>
 				<td>
-					<a href="<?=routeUrl('admin_edit_project', ['id' => $project['id']])?>" data-overlay="1">
+					<a href="<?=routeUrl('admin_edit_project', ['id' => $project['id']])?>" data-overlay="true">
 						<?=$project['name']?>
 					</a>
 				</td>
@@ -26,11 +29,11 @@
 						<span class="project-codename"><?=$project['codename']?></span>
 					<?php endif ?>
 				</td>
-				<td class="actions">
-					<a href="<?=routeUrl('admin_edit_project', ['id' => $project['id']])?>" data-overlay="1" class="btn btn-xs btn-warning">
+				<td class="actions text-right">
+					<a href="<?=routeUrl('admin_edit_project', ['id' => $project['id']])?>" class="btn btn-xs btn-warning" data-overlay="true">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
-					<a href="<?=routeUrl('admin_delete_project', ['id' => $project['id']])?>" data-confirm="<?=t('confirm.delete')?>" class="btn btn-xs btn-danger">
+					<a href="<?=routeUrl('admin_delete_project', ['id' => $project['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
 						<span class="fa fa-times"></span> <?=t('delete')?>
 					</a>
 				</td>
@@ -39,3 +42,4 @@
 		</tbody>
 	</table>
 </div>
+<?php $this->endSection(); ?>
