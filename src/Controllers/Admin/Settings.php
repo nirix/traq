@@ -29,7 +29,7 @@ use Traq\Models\Setting;
 use Traq\Themes;
 
 /**
- * Admin Settings controller.
+ * Admin settings controller.
  *
  * @package Traq\Controllers\Admin
  * @author Jack P.
@@ -40,7 +40,8 @@ class Settings extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('settings'));
+
+        $this->addCrumb($this->translate('settings'), $this->generateUrl('admin_settings'));
 
         // Ticket history sorting select options
         $this->set('historySortingSelectOptions', [

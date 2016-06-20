@@ -93,7 +93,7 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Groups
-        // 'groups'     => 'Groups',
+        'groups'     => 'Groups',
         // 'new_group'  => 'New Group',
         // 'edit_group' => 'Edit Group',
         // 'is_admin'   => 'Is Admin',
@@ -171,24 +171,24 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Settings
-        // 'settings'                          => 'Settings',
-        // 'traq_settings'                     => 'Traq Settings',
-        // 'settings.title'                    => 'Traq Title',
-        // 'settings.default_language'         => 'Default Language',
-        // 'settings.theme'                    => 'Theme',
-        // 'settings.site'                     => 'Site Settings',
-        // 'settings.site.name'                => 'Site Name',
-        // 'settings.site.url'                 => 'Site URL',
-        // 'settings.users.allow_registration' => 'Allow Registration',
-        // 'settings.users.email_validation'   => 'Email Validation',
-        // 'settings.date_and_time'            => 'Date and Time',
-        // 'settings.date_time_format'         => 'Date Time Format',
-        // 'settings.date_format'              => 'Date Format',
-        // 'settings.timeline.day_format'      => 'Timeline Day Format',
-        // 'settings.timeline.time_format'     => 'Timeline Time Format',
-        // 'settings.notifications.from_email' => 'From Email',
-        // 'settings.tickets.history_sorting'  => 'History Sorting',
-        // 'settings.tickets.creation_delay'   => 'Creation Delay',
+        'settings'                          => 'Settings',
+        'traq_settings'                     => 'Traq Settings',
+        'settings.title'                    => 'Traq Title',
+        'settings.default_language'         => 'Default Language',
+        'settings.theme'                    => 'Theme',
+        'settings.site'                     => 'Site Settings',
+        'settings.site.name'                => 'Site Name',
+        'settings.site.url'                 => 'Site URL',
+        'settings.users.allow_registration' => 'Allow Registration',
+        'settings.users.email_validation'   => 'Email Validation',
+        'settings.date_and_time'            => 'Date and Time',
+        'settings.date_time_format'         => 'Date Time Format',
+        'settings.date_format'              => 'Date Format',
+        'settings.timeline.day_format'      => 'Timeline Day Format',
+        'settings.timeline.time_format'     => 'Timeline Time Format',
+        'settings.notifications.from_email' => 'From Email',
+        'settings.tickets.history_sorting'  => 'History Sorting',
+        'settings.tickets.creation_delay'   => 'Creation Delay',
 
         // --------------------------------------------------------------------
         // Ticket listing
@@ -224,7 +224,7 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Plugins
-        // 'plugins'   => 'Plugins',
+        'plugins'   => 'Plugins',
         // 'authors'   => 'Authors',
         'version'   => 'Version',
         // 'install'   => 'Install',
@@ -234,7 +234,7 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Priorities
-        // 'priorities'    => 'Priorities',
+        'priorities'    => 'Priorities',
         // 'new_priority'  => 'New Priority',
         // 'edit_priority' => 'Edit Priority',
 
@@ -260,7 +260,7 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Project Roles
         // 'role'       => 'Role',
-        // 'roles'      => 'Roles',
+        'roles'      => 'Roles',
         // 'new_role'   => 'New Role',
         // 'edit_role'  => 'Edit Role',
         // 'assignable' => 'Assignable',
@@ -278,13 +278,13 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Severities
-        // 'severities'    => 'Severities',
+        'severities'    => 'Severities',
         // 'new_severity'  => 'New Severity',
         // 'edit_severity' => 'Edit Severity',
 
         // --------------------------------------------------------------------
         // Statuses
-        // 'statuses'          => 'Statuses',
+        'statuses'          => 'Statuses',
         // 'status.type.0'     => 'Closed',
         // 'status.type.1'     => 'Open',
         // 'status.type.2'     => 'Started',
@@ -322,7 +322,7 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Types
-        // 'types'     => 'Types',
+        'types'     => 'Types',
         // 'new_type'  => 'New Type',
         // 'edit_type' => 'Edit Type',
         // 'bullet'    => 'Bullet',
@@ -369,7 +369,7 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Permissions
-        // 'permissions' => 'Permissions',
+        'permissions' => 'Permissions',
         // 'default'     => 'Default',
 
         // Projects
