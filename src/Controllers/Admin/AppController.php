@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -23,36 +23,28 @@
 
 namespace Traq\Controllers\Admin;
 
-use Avalon\Http\Request;
+use Traq\Controllers\AppController as BaseAppController;
 
 /**
- * AdminCP controller
+ * Base admin controller.
  *
  * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
  */
-class AppController extends \Traq\Controllers\AppController
+class AppController extends BaseAppController
 {
-    protected $layout = 'admin.phtml';
-
-    /**
-     * Constructor!
-     */
     public function __construct()
     {
         parent::__construct();
 
-        // Set the admin layout.
-        $this->title($this->translate('admincp'));
+        $this->addCrumb($this->translate('admincp'), $this->generateUrl('admincp'));
 
-        // Make sure the user is logged in and is an admin.
-        $this->before('*', function () {
-            if ($this->currentUser and !$this->currentUser['is_admin']) {
+        // Admins only, kthnxbai
+        if (!$this->currentUser || !$this->currentUser->isAdmin()) {
+            $this->before('*', function () {
                 return $this->show403();
-            } elseif (!$this->currentUser) {
-                return $this->showLogin(Request::$requestUri);
-            }
-        });
+            });
+        }
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -28,8 +28,9 @@ use Traq\Models\Ticket;
 use Traq\Models\Setting;
 
 /**
- * AdminCP Dashboard
+ * Dashboard controller.
  *
+ * @package Traq\Controllers\Admin
  * @author Jack P.
  * @since 3.0.0
  */
@@ -41,7 +42,7 @@ class Dashboard extends AppController
     public function indexAction()
     {
         // Check for update
-        $lastUpdateCheck = Setting::get('last_update_check');
+        $lastUpdateCheck = Setting::find('setting', 'last_update_check');
         if ($lastUpdateCheck->value <= (time() - 86400)) {
             $this->checkForUpdate();
             $lastUpdateCheck->value = time();
@@ -70,9 +71,9 @@ class Dashboard extends AppController
     private function checkForUpdate()
     {
         $url = sprintf(
-            "http://traq.io/version_check.php?version=%s&code=%s",
-            urlencode(TRAQ_VERSION),
-            TRAQ_VERSION_ID
+            "https://traq.io/version_check.php?version=%s&code=%s",
+            urlencode(\Traq\VERSION),
+            \Traq\VERSION_ID
         );
 
         if ($update = @file_get_contents($url)) {

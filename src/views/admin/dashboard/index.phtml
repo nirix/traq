@@ -1,49 +1,53 @@
-<div class="admin dashboard container">
-	<h1 class="page-header"><?=t('dashboard')?></h1>
+<?php $this->extend('layouts/admin.phtml'); ?>
 
-	<div id="update">
-	<?php if (setting('check_for_update')) : ?>
-		<?=View::render('admin/dashboard/_update.phtml')?>
-	<?php else : ?>
-		<strong><?=HTML::link(t('check_for_update'), '/admin/check_for_update')?></strong>
-	<?php endif ?>
-	</div>
+<?php $this->startSection('content'); ?>
+<div class="admin admin-dashboard content container">
+    <h1 class="page-header"><?=t('dashboard')?></h1>
 
-	<div class="row">
-		<div class="col-md-6">
-			<h2><?=t('tickets')?></h2>
-			<div class="well">
-				<dl>
-					<dt><?=t('open')?></dt>
-					<dd><?=$tickets['open']?></dd>
+    <div id="update">
+    <?php if (setting('check_for_update')) : ?>
+        <?=View::render('admin/dashboard/_update.phtml')?>
+    <?php else : ?>
+        <strong><?=HTML::link(t('check_for_update'), '/admin/check_for_update')?></strong>
+    <?php endif ?>
+    </div>
 
-					<dt><?=t('closed')?></dt>
-					<dd><?=$tickets['closed']?></dd>
+    <div class="row">
+        <div class="col-md-6">
+            <h2><?=t('tickets')?></h2>
+            <div class="well">
+                <dl>
+                    <dt><?=t('open')?></dt>
+                    <dd><?=$tickets['open']?></dd>
 
-					<dt><?=t('total')?></dt>
-					<dd><?=$tickets['open'] + $tickets['closed']?></dd>
-				</dl>
-			</div>
-		</div>
+                    <dt><?=t('closed')?></dt>
+                    <dd><?=$tickets['closed']?></dd>
 
-		<div class="col-md-6">
-			<h2><?=t('users')?></h2>
-			<div class="well">
-				<dl>
-					<dt><?=t('total')?></dt>
-					<dd><?=$users?></dd>
+                    <dt><?=t('total')?></dt>
+                    <dd><?=$tickets['open'] + $tickets['closed']?></dd>
+                </dl>
+            </div>
+        </div>
 
-					<dt><?=t('newest')?></dt>
-					<dd><a href="<?=routeUrl('user', ['id' => $newestUser['id']])?>"><?=$newestUser['name']?></a></dd>
-				</dl>
-			</div>
-		</div>
-	</div>
+        <div class="col-md-6">
+            <h2><?=t('users')?></h2>
+            <div class="well">
+                <dl>
+                    <dt><?=t('total')?></dt>
+                    <dd><?=$users?></dd>
 
-	<div class="row">
-		<div id="traq_news" class="col-md-12">
-			<h2><?=t('latest_news')?></h2>
-			<ul></ul>
-		</div>
-	</div>
+                    <dt><?=t('newest')?></dt>
+                    <dd><a href="<?=routeUrl('user', ['id' => $newestUser['id']])?>"><?=$newestUser['name']?></a></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="traq_news" class="col-md-12">
+            <h2><?=t('latest_news')?></h2>
+            <ul></ul>
+        </div>
+    </div>
 </div>
+<?php $this->endSection(); ?>

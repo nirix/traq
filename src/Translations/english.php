@@ -40,9 +40,9 @@ $english = new Language(function ($t) {
     $t->strings = array(
         // --------------------------------------------------------------------
         // AdminCP
-        // 'admincp'     => 'AdminCP',
-        // 'dashboard'   => 'Dashboard',
-        // 'latest_news' => 'Latest News',
+        'admincp'     => 'AdminCP',
+        'dashboard'   => 'Dashboard',
+        'latest_news' => 'Latest News',
 
         // --------------------------------------------------------------------
         // Changelog
@@ -105,7 +105,7 @@ $english = new Language(function ($t) {
         // 'create_ticket'      => 'Create Ticket',
         'open'               => 'Open',
         'closed'             => 'Closed',
-        // 'total'              => 'Total',
+        'total'              => 'Total',
         'ticket.page-title'  => "#{0} - {1}",
         'ticket.page-header' => "#{0} - {1}",
         // 'edit_ticket_description' => 'Edit Ticket Description',
@@ -330,10 +330,10 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Users
-        // 'users'          => 'Users',
+        'users'          => 'Users',
         // 'new_user'       => 'New User',
         // 'edit_user'      => 'Edit User',
-        // 'newest'         => 'Newest',
+        'newest'         => 'Newest',
         // 'profile'        => 'Profile',
         // 'usercp'         => 'UserCP',
         'register'       => 'Register',

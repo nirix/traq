@@ -1,4 +1,4 @@
-<?php if (isset($update) and $update['code'] > TRAQ_VERSION_ID): ?>
+<?php if (isset($update) and $update['code'] > \Traq\VERSION_ID): ?>
 <div class="notice">
 	<?=t('traq_update_available', [$update['name'], $update['version'], $update['download'], $update['announcement']])?>
 </div>
