@@ -72,11 +72,12 @@ jQuery(document).ready ->
 
     # Sexy text editor in models
     doc.on 'shown.bs.modal', ->
-        $('select:not(#new_filter)').chosen chosen_options
         $('.modal .rich-editor').each ->
             new SimpleMDE
                 element: $(this)[0]
                 indentWithTabs: false
+                promptURLs: true
+                status: false
 
             $('.editor-toolbar [title]').tooltip()
 
