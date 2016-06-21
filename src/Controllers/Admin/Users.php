@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -50,10 +50,14 @@ class Users extends AppController
     protected $afterCreateRedirect  = 'admin_users';
     protected $afterDestroyRedirect = 'admin_users';
 
+    // Route names
+    protected $newRoute = 'admin_new_user';
+    protected $editRoute = 'admin_edit_user';
+
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('users'));
+        $this->addCrumb($this->translate('users'), $this->generateUrl('admin_users'));
     }
 
     /**
@@ -63,7 +67,7 @@ class Users extends AppController
      */
     public function saveAction($id)
     {
-        $this->title($this->translate('edit'));
+        $this->addCrumb($this->translate('edit'), $this->generateUrl('admin_edit_user'));
 
         // Fetch and update user
         $user   = User::find($id);

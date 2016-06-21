@@ -1,8 +1,11 @@
-<div class="admin users container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-users content container">
 	<h1 class="page-header"><?=t('users')?></h1>
 
 	<div class="page-actions">
-		<a href="<?=routeUrl('admin_new_user')?>" class="btn btn-success" data-overlay="1">
+		<a href="<?=routeUrl('admin_new_user')?>" class="btn btn-success" data-remote-modal="#new-user-modal">
 			<span class="fa fa-plus"></span> <?=t('new_user')?>
 		</a>
 	</div>
@@ -11,6 +14,7 @@
 		<thead>
 			<tr>
 				<th><?=t('username')?></th>
+				<th><?=t('name')?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -18,15 +22,18 @@
 		<?php foreach ($users as $user) : ?>
 			<tr>
 				<td>
-					<a href="<?=routeUrl('admin_edit_user', ['id' => $user['id']])?>" data-overlay="1">
-						<?=$user['name']?>
+					<a href="<?=routeUrl('admin_edit_user', ['id' => $user['id']])?>"  data-remote-modal="#edit-user-modal">
+						<?=e($user['username'])?>
 					</a>
 				</td>
-				<td class="actions">
-					<a href="<?=routeUrl('admin_edit_user', ['id' => $user['id']])?>" data-overlay="1" class="btn btn-xs btn-warning">
+				<td>
+					<?=e($user['name'])?>
+				</td>
+				<td class="actions text-right">
+					<a href="<?=routeUrl('admin_edit_user', ['id' => $user['id']])?>" class="btn btn-xs btn-warning" data-remote-modal="#edit-user-modal">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
-					<a href="<?=routeUrl('admin_delete_user', ['id' => $user['id']])?>" data-confirm="<?=t('confirm.delete')?>" class="btn btn-xs btn-danger">
+					<a href="<?=routeUrl('admin_delete_user', ['id' => $user['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
 						<span class="fa fa-times"></span> <?=t('delete')?>
 					</a>
 				</td>
@@ -35,3 +42,4 @@
 		</tbody>
 	</table>
 </div>
+<?php $this->endSection(); ?>

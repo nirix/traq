@@ -1,0 +1,17 @@
+<?php $this->extend('layouts/modal.phtml'); ?>
+
+<?php
+$this->startSection('modal-id', 'edit-user-modal');
+$this->startSection('modal-size', 'modal-lg');
+$this->startSection('modal-title', t('edit_user'));
+$this->startSection('modal-primary-btn-txt', t('save'));
+?>
+
+<?php $this->startSection('modal-form-start'); ?>
+<form action="<?=routeUrl('admin_save_user')?>" method="post" class="form-horizontal">
+<input type="hidden" name="_method" value="put">
+<?php $this->endSection(); ?>
+
+<?php $this->startSection('modal-content'); ?>
+	<?=View::render('admin/users/_form.phtml', ['user' => $user])?>
+<?php $this->endSection(); ?>

@@ -216,7 +216,7 @@ $english = new Language(function ($t) {
         // 'newest_first'            => 'Newest First',
         // 'notifications'           => 'Notifications',
         'level'                   => 'Level',
-        // 'leave_blank_for_current' => 'Leave blank for current',
+        'leave_blank_for_current' => 'Leave blank for current',
         // 'never'                   => 'Never',
         // 'none'                    => 'None',
         // 'no_one'                  => 'No one',
@@ -332,8 +332,8 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Users
         'users'          => 'Users',
-        // 'new_user'       => 'New User',
-        // 'edit_user'      => 'Edit User',
+        'new_user'       => 'New User',
+        'edit_user'      => 'Edit User',
         'newest'         => 'Newest',
         // 'profile'        => 'Profile',
         // 'usercp'         => 'UserCP',
@@ -342,8 +342,8 @@ $english = new Language(function ($t) {
         'logout'         => 'Logout',
         'username'       => 'Username',
         'password'       => 'Password',
-        // 'email'          => 'Email',
-        // 'group'          => 'Group',
+        'email'          => 'Email',
+        'group'          => 'Group',
         // 'create_account' => 'Create Account',
 
         // UserCP

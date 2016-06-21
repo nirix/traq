@@ -33,6 +33,11 @@ Router::delete('admin_delete_project_role', '/admin/project-roles/{id}/delete', 
 // -----------------------------------------------------------------------------
 // Users
 Router::get('admin_users', '/admin/users', "{$ans}Users::index");
+Router::get('admin_new_user', '/admin/users/new', "{$ans}Users::new");
+Router::post('admin_create_user', '/admin/users', "{$ans}Users::create");
+Router::get('admin_edit_user', '/admin/users/{id}/edit', "{$ans}Users::edit");
+Router::put('admin_save_user', '/admin/users/{id}', "{$ans}Users::save")->method(['PUT', 'PATCH']);
+Router::delete('admin_delete_user', '/admin/users/{id}/delete', "{$ans}Users::destroy");
 
 // -----------------------------------------------------------------------------
 // Groups

@@ -1,0 +1,15 @@
+<?php $this->extend('layouts/modal.phtml'); ?>
+
+<?php
+$this->startSection('modal-id', 'new-user-modal');
+$this->startSection('modal-size', 'modal-lg');
+$this->startSection('modal-title', t('new_user'));
+?>
+
+<?php $this->startSection('modal-form-start'); ?>
+<form action="<?=routeUrl('admin_create_user')?>" method="post" class="form-horizontal">
+<?php $this->endSection(); ?>
+
+<?php $this->startSection('modal-content'); ?>
+	<?=View::render('admin/users/_form.phtml', ['user' => $user])?>
+<?php $this->endSection(); ?>
