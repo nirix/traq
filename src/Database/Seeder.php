@@ -144,6 +144,7 @@ class Seeder
         $statuses = [
             ['name' => "New",       'status' => 1, 'show_on_changelog' => false],
             ['name' => "Accepted",  'status' => 1, 'show_on_changelog' => false],
+            ['name' => "Started",   'status' => 2, 'show_on_changelog' => false],
             ['name' => "Closed",    'status' => 0, 'show_on_changelog' => true],
             ['name' => "Completed", 'status' => 0, 'show_on_changelog' => true]
         ];
