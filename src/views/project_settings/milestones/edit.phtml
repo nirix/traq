@@ -1,11 +1,15 @@
-<div class="project-settings milestones container">
-	<h2 class="page-title"><?=t('edit_milestone')?></h2>
+<?php $this->extend('layouts/project_settings.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="project-settings edit-milestone content container">
+	<h2 class="page-header"><?=t('edit_milestone')?></h2>
 
 	<form action="<?=routeUrl('project_settings_save_milestone', ['id' => $milestone['id']])?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($milestone)?>
+		<input type="hidden" name="_method" value="put">
 		<?=View::render('project_settings/milestones/_form.phtml', ['milestone' => $milestone])?>
 		<div class="form-actions">
 			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

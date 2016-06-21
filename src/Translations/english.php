@@ -198,11 +198,11 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Milestones
-        // 'milestones'       => 'Milestones',
-        // 'new_milestone'    => 'New Milestone',
-        // 'edit_milestone'   => 'Edit Milestone',
+        'milestones'       => 'Milestones',
+        'new_milestone'    => 'New Milestone',
+        'edit_milestone'   => 'Edit Milestone',
         // 'delete_milestone' => 'Delete Milestone',
-        // 'due_date'         => 'Due Date',
+        'due_date'         => 'Due Date',
 
         // --------------------------------------------------------------------
         // Misc

@@ -1,6 +1,11 @@
-<div class="project-settings milestones container">
+<?php $this->extend('layouts/project_settings.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="project-settings milestones content container">
+	<h1 class="page-header"><?=t('milestones')?></h1>
+
 	<div class="page-actions">
-		<a href="<?=routeUrl('project_settings_new_milestone')?>" class="btn btn-success" data-overlay="1">
+		<a href="<?=routeUrl('project_settings_new_milestone')?>" class="btn btn-success" data-remote-modal="#new-milestone-modal">
 			<span class="fa fa-plus"></span> <?=t('new_milestone')?>
 		</a>
 	</div>
@@ -17,7 +22,11 @@
 		<tbody>
 		<?php foreach ($milestones as $milestone) : ?>
 			<tr>
-				<td><a href="<?=routeUrl('project_settings_edit_milestone', ['id' => $milestone['id']])?>"><?=$milestone['name']?></a></td>
+				<td>
+					<a href="<?=routeUrl('project_settings_edit_milestone', ['id' => $milestone['id']])?>" data-remote-modal="#edit-milestone-modal">
+						<?=$milestone['name']?>
+					</a>
+				</td>
 				<td><?=$milestone['codename']?></td>
 				<td>
 				<?php if ($milestone['status'] == 2) : ?>
@@ -29,10 +38,10 @@
 				<?php endif ?>
 				</td>
 				<td class="actions">
-					<a href="<?=routeUrl('project_settings_edit_milestone', ['id' => $milestone['id']])?>" class="btn btn-xs btn-warning" data-overlay="1">
+					<a href="<?=routeUrl('project_settings_edit_milestone', ['id' => $milestone['id']])?>" class="btn btn-xs btn-warning" data-remote-modal="#edit-milestone-modal">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
-					<a href="<?=routeUrl('project_settings_delete_milestone', ['id' => $milestone['id']])?>" class="btn btn-xs btn-danger" data-confirm="<?=t('confirm.delete')?>">
+					<a href="<?=routeUrl('project_settings_delete_milestone', ['id' => $milestone['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
 						<span class="fa fa-times"></span> <?=t('delete')?>
 					</a>
 				</td>
@@ -41,3 +50,4 @@
 		</tbody>
 	</table>
 </div>
+<?php $this->endSection(); ?>

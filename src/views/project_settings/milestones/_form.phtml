@@ -1,33 +1,35 @@
-<div class="form-group">
-	<?=Form::label(t('name'), 'name', ['class' => 'control-label col-md-3'])?>
+<div class="form-group <?=iif($milestone->hasError('name'), 'has-error')?>">
+	<label for="name" class="control-label col-md-3"><?=t('name')?></label>
 	<div class="col-md-9">
-		<?=Form::text('name', ['value' => $milestone->name, 'class' => 'form-control'])?>
+		<input type="text" name="name" id="name" class="form-control" value="<?=e($milestone['name'])?>">
+		<?php if ($milestone->hasError('name')) : ?>
+		<div class="help-block"><?=$milestone->getError('name')[0]?></div>
+		<?php endif ?>
+	</div>
+</div>
+<div class="form-group <?=iif($milestone->hasError('slug'), 'has-error')?>">
+	<label for="slug" class="control-label col-md-3"><?=t('slug')?></label>
+	<div class="col-md-9">
+		<input type="text" name="slug" id="slug" class="form-control" value="<?=e($milestone['slug'])?>">
+		<?php if ($milestone->hasError('slug')) : ?>
+		<div class="help-block"><?=$milestone->getError('slug')[0]?></div>
+		<?php endif ?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('slug'), 'slug', ['class' => 'control-label col-md-3'])?>
+	<label for="codename" class="control-label col-md-3"><?=t('codename')?></label>
 	<div class="col-md-9">
-		<?=Form::text('slug', ['value' => $milestone->slug, 'class' => 'form-control'])?>
+		<input type="text" name="codename" id="codename" class="form-control" value="<?=e($milestone['codename'])?>">
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('codename'), 'codename', ['class' => 'control-label col-md-3'])?>
+	<label for="due_date" class="control-label col-md-3"><?=t('due_date')?></label>
 	<div class="col-md-9">
-		<?=Form::text('codename', ['value' => $milestone->codename, 'class' => 'form-control'])?>
+		<input type="text" name="due" id="due_date" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS" value="<?=e($milestone['due'])?>">
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('due_date'), 'due', ['class' => 'control-label col-md-3'])?>
-	<div class="col-md-9">
-		<?=Form::text('due', [
-			'value' => $milestone->due,
-			'class' => 'form-control',
-			'placeholder' => 'YYYY-MM-DD HH:MM:SS'
-		])?>
-	</div>
-</div>
-<div class="form-group">
-	<?=Form::label(t('status'), 'status', ['class' => 'control-label col-md-3'])?>
+	<label for="status" class="control-label col-md-3"><?=t('status')?></label>
 	<div class="col-md-9">
 		<?=Form::select('status', Traq\Models\Milestone::statusSelectOptions(), [
 			'value' => $milestone->isNew() ? 1 : $milestone->status,
@@ -36,20 +38,20 @@
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('description'), 'info', ['class' => 'control-label col-md-3'])?>
+	<label for="description" class="control-label col-md-3"><?=t('description')?></label>
 	<div class="col-md-9">
 		<?=Form::textarea('info', ['value' => $milestone->info, 'class' => 'form-control rich-editor'])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('changelog'), 'changelog', ['class' => 'control-label col-md-3'])?>
+	<label for="changelog" class="control-label col-md-3"><?=t('changelog')?></label>
 	<div class="col-md-9">
-		<?=Form::textarea('changelog', ['value' => $milestone->changelog, 'class' => 'form-control'])?>
+		<textarea name="changelog" id="changelog" class="form-control"><?=e($milestone['changelog'])?></textarea>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('display_order'), 'display_order', ['class' => 'control-label col-md-3'])?>
+	<label for="display_order" class="control-label col-md-3"><?=t('display_order')?></label>
 	<div class="col-md-9">
-		<?=Form::text('display_order', ['value' => $milestone->display_order, 'class' => 'form-control'])?>
+		<input type="text" name="display_order" id="display_order" class="form-control" value="<?=e($milestone['display_order'])?>">
 	</div>
 </div>

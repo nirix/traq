@@ -1,11 +1,14 @@
-<div class="project-settings milestones container">
-	<h2 class="page-title"><?=t('new_milestone')?></h2>
+<?php $this->extend('layouts/project_settings.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="project-settings new-milestone content container">
+	<h2 class="page-header"><?=t('new_milestone')?></h2>
 
 	<form action="<?=routeUrl('project_settings_create_milestone')?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($milestone)?>
 		<?=View::render('project_settings/milestones/_form.phtml', ['milestone' => $milestone])?>
 		<div class="form-actions">
 			<?=Form::submit(t('create'), ['class' => 'btn btn-success'])?>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

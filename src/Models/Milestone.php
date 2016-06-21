@@ -23,6 +23,9 @@
 
 namespace Traq\Models;
 
+use DateTime;
+use Avalon\Language;
+
 /**
  * Milestone model.
  *
@@ -34,7 +37,82 @@ class Milestone extends Model
 {
     protected static $_tableAlias = 'm';
 
-    protected static $_dataTypes = [
-        'is_locked' => 'boolean'
+    /**
+     * @var array
+     */
+    protected static $_validations = [
+        'name' => ['required'],
+        'slug' => ['required']
     ];
+
+    /**
+     * @var array
+     */
+    protected static $_dataTypes = [
+        'is_locked' => 'boolean',
+        'completed_at' => 'datetime'
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $_after = [
+        'construct' => ['afterConstruct']
+    ];
+
+    /**
+     * Original status.
+     *
+     * @var integer
+     */
+    protected $originalStatus;
+
+    /**
+     * Is the milestone being set as complete?
+     *
+     * @var boolean
+     */
+    public $isBeingCompleted = false;
+
+    /**
+     * @return array[]
+     */
+    public static function statusSelectOptions()
+    {
+        return [
+            ['label' => Language::translate('active'), 'value' => 1],
+            ['label' => Language::translate('completed'), 'value' => 2],
+            ['label' => Language::translate('cancelled'), 'value' => 0]
+        ];
+    }
+
+    /**
+     * Custom save method.
+     */
+    public function save()
+    {
+        // Set completed date
+        if ($this['status'] != 1 and $this['completed_at'] == null) {
+            $this['is_locked'] = true;
+            $this['completed_at'] = new DateTime;
+            $this->isBeingCompleted = true;
+        } elseif ($this['status'] == 1) {
+            $this['is_locked'] = false;
+            $this['completed_at'] = null;
+        }
+
+        if (parent::save()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function afterConstruct()
+    {
+        // Status
+        if (isset($this['status'])) {
+            $this->originalStatus = $this['status'];
+        }
+    }
 }

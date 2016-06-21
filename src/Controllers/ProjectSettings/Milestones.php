@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -29,11 +29,11 @@ use Traq\Models\Timeline;
 use Traq\Traits\Controllers\CRUD;
 
 /**
- * Milestones controller
+ * Milestones controller.
  *
+ * @package Traq\Controllers\ProjectSettings
  * @author Jack P.
  * @since 3.0.0
- * @package Traq\Controllers\ProjectSettings
  */
 class Milestones extends AppController
 {
@@ -52,6 +52,10 @@ class Milestones extends AppController
     protected $afterSaveRedirect    = 'project_settings_milestones';
     protected $afterDestroyRedirect = 'project_settings_milestones';
 
+    // Route names
+    protected $newRoute = 'project_settings_new_milestone';
+    protected $editRoute = 'project_settings_edit_milestone';
+
     /**
      * @var Milestone
      */
@@ -60,7 +64,7 @@ class Milestones extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('milestones'));
+        $this->addCrumb($this->translate('milestones'), $this->generateUrl('project_settings_milestones'));
 
         $this->before(['edit', 'save', 'delete', 'destroy'], function () {
             $this->object = Milestone::find(Request::$properties->get('id'));
