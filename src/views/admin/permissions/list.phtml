@@ -1,11 +1,13 @@
-<?php $headers = []; ?>
-<div class="admin permissions container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-permissions content container">
 	<h1 class="page-header"><?=t('permissions')?></h1>
 
 	<nav id="admin-permissions-nav">
 		<ul class="nav nav-tabs" role="tablist">
-			<li class="<?=iif(Request::matches('/admin/permissions/groups$'), 'active')?>">
-				<a href="<?=RouteUrl('admin_permissions')?>"><?=t('groups')?></a>
+			<li class="<?=iif(Request::matches('/admin/permissions/usergroups$'), 'active')?>">
+				<a href="<?=RouteUrl('admin_permissions_usergroups')?>"><?=t('groups')?></a>
 			</li>
 			<li class="<?=iif(Request::matches('/admin/permissions/roles$'), 'active')?>">
 				<a href="<?=RouteUrl('admin_permissions_roles')?>"><?=t('roles')?></a>
@@ -13,7 +15,7 @@
 		</ul>
 	</nav>
 
-	<form action="<?=routeUrl($type == 'usergroups' ? 'admin_permissions_groups_save' : 'admin_permissions_roles_save')?>" method="post">
+	<form action="<?=routeUrl($type == 'usergroups' ? 'admin_permissions_usergroups_save' : 'admin_permissions_roles_save')?>" method="post">
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
@@ -36,10 +38,10 @@
 						<input type="checkbox" name="permissions[defaults][<?=$permission?>]" value="1" <?=iif(isset($defaults[$permission]) && $defaults[$permission], 'checked')?>>
 					</td>
 					<?php foreach ($permissions as $info) :
-	                    $permValue = isset($info['permissions'][$permission])
-	                                 ? $info['permissions'][$permission]
-	                                 : null;
-	                    ?>
+						$permValue = isset($info['permissions'][$permission])
+									 ? $info['permissions'][$permission]
+									 : null;
+						?>
 						<td>
 						<?php if ($type == 'usergroups' && $info['is_admin']) : ?>
 							<select disabled>
@@ -60,8 +62,9 @@
 			</tbody>
 		</table>
 
-		<div class="form-actions">
+		<div class="form-actions text-center">
 			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

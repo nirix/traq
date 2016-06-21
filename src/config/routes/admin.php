@@ -94,4 +94,8 @@ Router::delete('admin_delete_severity', '/admin/severities/{id}/delete', "{$ans}
 
 // -----------------------------------------------------------------------------
 // Permissions
-Router::get('admin_permissions', '/admin/permissions/usergroups', "{$ans}Permissions::usergroups");
+Router::get('admin_permissions', '/admin/permissions', "{$ans}Permissions::usergroups");
+Router::get('admin_permissions_usergroups', '/admin/permissions/usergroups', "{$ans}Permissions::usergroups");
+Router::post('admin_permissions_usergroups_save', '/admin/permissions/usergroups', "{$ans}Permissions::saveUsergroups");
+Router::get('admin_permissions_roles', '/admin/permissions/roles', "{$ans}Permissions::roles");
+Router::post('admin_permissions_roles_save', '/admin/permissions/roles', "{$ans}Permissions::saveRoles");

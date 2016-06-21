@@ -35,7 +35,7 @@ use Traq\Permissions as PermissionsAPI;
  */
 class Permissions extends AppController
 {
-    public function groupsAction()
+    public function usergroupsAction()
     {
         $defaultPermissionsQuery = queryBuilder()->select('p.*', 'p.id AS permission_id')->from(PREFIX . 'permissions', 'p')
             ->where('type = ?')
@@ -68,7 +68,7 @@ class Permissions extends AppController
         ]);
     }
 
-    public function saveGroupsAction()
+    public function saveUsergroupsAction()
     {
         $this->savePermissions('usergroup');
         return $this->redirectTo('admin_permissions');
