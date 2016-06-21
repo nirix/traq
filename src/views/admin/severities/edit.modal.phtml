@@ -1,0 +1,17 @@
+<?php $this->extend('layouts/modal.phtml'); ?>
+
+<?php
+$this->startSection('modal-id', 'edit-severity-modal');
+$this->startSection('modal-size', 'modal-sm');
+$this->startSection('modal-title', t('edit_severity'));
+$this->startSection('modal-primary-btn-txt', t('save'));
+?>
+
+<?php $this->startSection('modal-form-start'); ?>
+<form action="<?=routeUrl('admin_save_severity')?>" method="post" class="form-horizontal">
+<input type="hidden" name="_method" value="put">
+<?php $this->endSection(); ?>
+
+<?php $this->startSection('modal-content'); ?>
+	<?=View::render('admin/severities/_form.phtml', ['severity' => $severity])?>
+<?php $this->endSection(); ?>
