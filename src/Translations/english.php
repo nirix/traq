@@ -215,7 +215,7 @@ $english = new Language(function ($t) {
         // 'oldest_first'            => 'Oldest First',
         // 'newest_first'            => 'Newest First',
         // 'notifications'           => 'Notifications',
-        // 'level'                   => 'Level',
+        'level'                   => 'Level',
         // 'leave_blank_for_current' => 'Leave blank for current',
         // 'never'                   => 'Never',
         // 'none'                    => 'None',
@@ -279,8 +279,8 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Severities
         'severities'    => 'Severities',
-        // 'new_severity'  => 'New Severity',
-        // 'edit_severity' => 'Edit Severity',
+        'new_severity'  => 'New Severity',
+        'edit_severity' => 'Edit Severity',
 
         // --------------------------------------------------------------------
         // Statuses

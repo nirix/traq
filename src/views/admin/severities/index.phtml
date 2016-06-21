@@ -1,8 +1,11 @@
-<div class="admin severities container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-severities content container">
 	<h1 class="page-header"><?=t('severities')?></h1>
 
 	<div class="page-actions">
-		<a href="<?=routeUrl('admin_new_severity')?>" class="btn btn-success" data-overlay="1">
+		<a href="<?=routeUrl('admin_new_severity')?>" class="btn btn-success" data-overlay="true">
 			<span class="fa fa-plus"></span> <?=t('new_severity')?>
 		</a>
 	</div>
@@ -18,15 +21,15 @@
 		<?php foreach ($severities as $severity) : ?>
 			<tr>
 				<td>
-					<a href="<?=routeUrl('admin_edit_severity', ['id' => $severity['id']])?>" data-overlay="1">
+					<a href="<?=routeUrl('admin_edit_severity', ['id' => $severity['id']])?>" data-overlay="true">
 						<?=$severity['name']?>
 					</a>
 				</td>
-				<td class="actions">
-					<a href="<?=routeUrl('admin_edit_severity', ['id' => $severity['id']])?>" data-overlay="1" class="btn btn-xs btn-warning">
+				<td class="actions text-right">
+					<a href="<?=routeUrl('admin_edit_severity', ['id' => $severity['id']])?>" class="btn btn-xs btn-warning" data-overlay="true">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
-					<a href="<?=routeUrl('admin_delete_severity', ['id' => $severity['id']])?>" data-confirm="<?=t('confirm.delete')?>" class="btn btn-xs btn-danger">
+					<a href="<?=routeUrl('admin_delete_severity', ['id' => $severity['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
 						<span class="fa fa-times"></span> <?=t('delete')?>
 					</a>
 				</td>
@@ -35,3 +38,4 @@
 		</tbody>
 	</table>
 </div>
+<?php $this->endSection(); ?>

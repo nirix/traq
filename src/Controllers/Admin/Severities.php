@@ -51,10 +51,14 @@ class Severities extends AppController
     protected $afterSaveRedirect    = 'admin_severities';
     protected $afterDestroyRedirect = 'admin_severities';
 
+    // Route names
+    protected $newRoute = 'admin_new_severity';
+    protected $editRoute = 'admin_edit_severity';
+
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('severities'));
+        $this->addCrumb($this->translate('severities'), $this->generateUrl('admin_severities'));
     }
 
     /**

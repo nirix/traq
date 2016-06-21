@@ -1,11 +1,15 @@
-<div class="admin-severities container">
-	<h1 class="page-header"><?=t('edit_status')?></h1>
+<?php $this->extend('layouts/admin.phtml'); ?>
 
-	<form action="<?=routeUrl('admin_save_severity', ['id' => $severity['id']])?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($severity)?>
+<?php $this->startSection('content'); ?>
+<div class="admin admin-severities-edit content container">
+	<h1 class="page-header"><?=t('edit_severity')?></h1>
+
+	<form action="<?=routeUrl('admin_save_severity')?>" method="post" class="form-horizontal">
+		<input type="hidden" name="_method" value="put">
 		<?=View::render('admin/severities/_form.phtml', ['severity' => $severity])?>
-		<div class="form-actions">
-			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>
