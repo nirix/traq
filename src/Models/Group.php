@@ -51,4 +51,21 @@ class Group extends Model
     {
         return ($withPrefix ? static::connection()->prefix : '') . 'usergroups';
     }
+
+    /**
+     * @return array[]
+     */
+    public static function selectOptions()
+    {
+        $options = [];
+
+        foreach (static::all() as $group) {
+            $options[] = [
+                'label' => $group['name'],
+                'value' => $group['id']
+            ];
+        }
+
+        return $options;
+    }
 }
