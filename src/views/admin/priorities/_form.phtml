@@ -1,6 +1,9 @@
-<div class="form-group">
-	<?=Form::label(t('name'), 'name', ['class' => 'control-label col-md-3'])?>
+<div class="form-group <?=$priority->hasError('name') ? 'has-error' : ''?>">
+	<label for="name" class="control-label col-md-3"><?=t('name')?></label>
 	<div class="col-md-9">
-		<?=Form::text('name', ['value' => $priority->name, 'class' => 'form-control'])?>
+		<input type="text" name="name" id="name" class="form-control" value="<?=e($priority['name'])?>">
+		<?php if ($priority->hasError('name')) : ?>
+		<div class="help-block"><?=$priority->getError('name')[0]?></div>
+		<?php endif ?>
 	</div>
 </div>

@@ -72,6 +72,11 @@ Router::delete('admin_delete_status', '/admin/statuses/{id}/delete', "{$ans}Stat
 // -----------------------------------------------------------------------------
 // Priorities
 Router::get('admin_priorities', '/admin/priorities', "{$ans}Priorities::index");
+Router::get('admin_new_priority', '/admin/priorities/new', "{$ans}Priorities::new");
+Router::post('admin_create_priority', '/admin/priorities', "{$ans}Priorities::create");
+Router::get('admin_edit_priority', '/admin/priorities/{id}/edit', "{$ans}Priorities::edit");
+Router::put('admin_save_priority', '/admin/priorities/{id}', "{$ans}Priorities::save")->method(['PUT', 'PATCH']);
+Router::delete('admin_delete_priority', '/admin/priorities/{id}/delete', "{$ans}Priorities::destroy");
 
 // -----------------------------------------------------------------------------
 // Severities

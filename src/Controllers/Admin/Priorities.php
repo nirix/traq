@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -51,10 +51,14 @@ class Priorities extends AppController
     protected $afterSaveRedirect    = 'admin_priorities';
     protected $afterDestroyRedirect = 'admin_priorities';
 
+    // Route names
+    protected $newRoute = 'admin_new_priority';
+    protected $editRoute = 'admin_edit_priority';
+
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('priorities'));
+        $this->addCrumb($this->translate('priorities'), $this->generateUrl('admin_priorities'));
     }
 
     /**

@@ -235,8 +235,8 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Priorities
         'priorities'    => 'Priorities',
-        // 'new_priority'  => 'New Priority',
-        // 'edit_priority' => 'Edit Priority',
+        'new_priority'  => 'New Priority',
+        'edit_priority' => 'Edit Priority',
 
         // --------------------------------------------------------------------
         // Projects
