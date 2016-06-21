@@ -1,6 +1,5 @@
 @import 'bootstrap.less';
 @import 'font-awesome/less/font-awesome.less';
-// @import 'chosen.less';
 @import 'selectize/dist/less/selectize.bootstrap3.less';
 
 /*!
@@ -32,25 +31,23 @@
 @import 'traq/tickets.less';
 @import 'traq/ticket_listing.less';
 @import 'traq/changelog.less';
-// @import 'traq/forms.less';
-// @import 'traq/plugins.less';
-// @import 'traq/tables.less';
+@import 'traq/forms.less';
+@import 'traq/plugins.less';
+@import 'traq/tables.less';
 // @import 'traq/wiki.less';
-// @import 'traq/admin.less';
-// @import 'traq/admin/permissions.less';
+@import 'traq/admin.less';
+@import 'traq/admin/permissions.less';
 @import 'traq/tabs.less';
 
 .page-header {
   margin-top: 0;
 }
 
-#project-settings-nav,
-#admin-settings-nav,
-#usercp-nav {
-  .nav.nav-tabs {
-    margin-bottom: 20px;
-  }
-}
+// #usercp-nav {
+//   .nav.nav-tabs {
+//     margin-bottom: 20px;
+//   }
+// }
 
 .page-actions {
   clear: both;
@@ -62,9 +59,8 @@
   margin-top: 15px;
 }
 
-
 .CodeMirror, .CodeMirror-scroll {
-    min-height: 100px;
+  min-height: 100px;
 }
 
 .CodeMirror-fullscreen,
