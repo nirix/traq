@@ -241,7 +241,7 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Projects
         'projects'               => 'Projects',
-        // 'project'                => 'Project',
+        'project'                => 'Project',
         'new_project'            => 'New Project',
         'edit_project'           => 'Edit Project',
         'name'                   => 'Name',
@@ -261,9 +261,9 @@ $english = new Language(function ($t) {
         // Project Roles
         // 'role'       => 'Role',
         'roles'      => 'Roles',
-        // 'new_role'   => 'New Role',
-        // 'edit_role'  => 'Edit Role',
-        // 'assignable' => 'Assignable',
+        'new_role'   => 'New Role',
+        'edit_role'  => 'Edit Role',
+        'assignable' => 'Assignable',
 
         // --------------------------------------------------------------------
         // Roadmap

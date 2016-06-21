@@ -51,10 +51,14 @@ class ProjectRoles extends AppController
     protected $afterSaveRedirect    = 'admin_project_roles';
     protected $afterDestroyRedirect = 'admin_project_roles';
 
+    // Route names
+    protected $newRoute = 'admin_new_project_role';
+    protected $editRoute = 'admin_edit_project_role';
+
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('project_roles'));
+        $this->addCrumb($this->translate('project_roles'), $this->generateUrl('admin_project_roles'));
     }
 
     protected function getAllRows()

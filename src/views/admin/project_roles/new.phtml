@@ -1,11 +1,14 @@
-<div class="new admin roles container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-project-roles-new content container">
 	<h1 class="page-header"><?=t('new_role')?></h1>
 
-	<form action="<?=routeUrl('admin_new_project_role')?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($role)?>
+	<form action="<?=routeUrl('admin_create_project_role')?>" method="post" class="form-horizontal">
 		<?=View::render('admin/project_roles/_form.phtml', ['role' => $role])?>
-		<div class="form-actions">
-			<?=Form::submit(t('create'), ['class' => 'btn btn-success'])?>
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-success"><?=t('create')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

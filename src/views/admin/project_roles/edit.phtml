@@ -1,11 +1,15 @@
-<div class="edit admin roles container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-project-roles-edit content container">
 	<h1 class="page-header"><?=t('edit_role')?></h1>
 
-	<form action="<?=routeUrl('admin_save_project_role', ['id' => $role['id']])?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($role)?>
+	<form action="<?=routeUrl('admin_save_project_role')?>" method="post" class="form-horizontal">
+		<input type="hidden" name="_method" value="put">
 		<?=View::render('admin/project_roles/_form.phtml', ['role' => $role])?>
-		<div class="form-actions">
-			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

@@ -21,6 +21,11 @@ Router::delete('admin_delete_project', '/admin/projects/{id}/delete', "{$ans}Pro
 
 // Project Roles
 Router::get('admin_project_roles', '/admin/project-roles', "{$ans}ProjectRoles::index");
+Router::get('admin_new_project_role', '/admin/projects-roles/new', "{$ans}ProjectRoles::new");
+Router::post('admin_create_project_role', '/admin/projects-roles', "{$ans}ProjectRoles::create");
+Router::get('admin_edit_project_role', '/admin/projects-roles/{id}/edit', "{$ans}ProjectRoles::edit");
+Router::put('admin_save_project_role', '/admin/projects-roles/{id}', "{$ans}ProjectRoles::save")->method(['PUT', 'PATCH']);
+Router::delete('admin_delete_project_role', '/admin/projects-roles/{id}/delete', "{$ans}ProjectRoles::destroy");
 
 // Users
 Router::get('admin_users', '/admin/users', "{$ans}Users::index");
