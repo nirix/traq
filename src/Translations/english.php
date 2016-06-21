@@ -290,7 +290,7 @@ $english = new Language(function ($t) {
         // 'status.type.2'     => 'Started',
         // 'new_status'        => 'New Status',
         // 'edit_status'       => 'Edit Status',
-        // 'show_on_changelog' => 'Show on Changelog',
+        'show_on_changelog' => 'Show on Changelog',
 
         // --------------------------------------------------------------------
         // Timeline
@@ -323,10 +323,10 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Types
         'types'     => 'Types',
-        // 'new_type'  => 'New Type',
-        // 'edit_type' => 'Edit Type',
-        // 'bullet'    => 'Bullet',
-        // 'template'  => 'Template',
+        'new_type'  => 'New Type',
+        'edit_type' => 'Edit Type',
+        'bullet'    => 'Bullet',
+        'template'  => 'Template',
 
         // --------------------------------------------------------------------
         // Users

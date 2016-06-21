@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -51,10 +51,14 @@ class Types extends AppController
     protected $afterSaveRedirect    = 'admin_types';
     protected $afterDestroyRedirect = 'admin_types';
 
+    // Route names
+    protected $newRoute = 'admin_new_type';
+    protected $editRoute = 'admin_edit_type';
+
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('types'));
+        $this->addCrumb($this->translate('types'), $this->generateUrl('admin_types'));
     }
 
     protected function modelParams()

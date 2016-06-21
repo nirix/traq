@@ -1,11 +1,15 @@
-<div class="admin-statuses container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-statuses-edit content container">
 	<h1 class="page-header"><?=t('edit_type')?></h1>
 
-	<form action="<?=routeUrl('admin_save_type', ['id' => $type->id])?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($type)?>
+	<form action="<?=routeUrl('admin_save_type')?>" method="post" class="form-horizontal">
+		<input type="hidden" name="_method" value="put">
 		<?=View::render('admin/types/_form.phtml', ['type' => $type])?>
-		<div class="form-actions">
-			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

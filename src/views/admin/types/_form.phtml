@@ -1,24 +1,30 @@
-<div class="form-group">
-	<?=Form::label(t('name'), 'name', ['class' => 'control-label col-md-3'])?>
+<div class="form-group <?=$type->hasError('name') ? 'has-error' : ''?>">
+	<label for="name" class="control-label col-md-3"><?=t('name')?></label>
 	<div class="col-md-9">
-		<?=Form::text('name', ['value' => $type->name, 'class' => 'form-control'])?>
+		<input type="text" name="name" id="name" class="form-control" value="<?=e($type['name'])?>">
+		<?php if ($type->hasError('name')) : ?>
+		<div class="help-block"><?=$type->getError('name')[0]?></div>
+		<?php endif ?>
+	</div>
+</div>
+<div class="form-group <?=$type->hasError('bullet') ? 'has-error' : ''?>">
+	<label for="bullet" class="control-label col-md-3"><?=t('bullet')?></label>
+	<div class="col-md-9">
+		<input type="text" name="bullet" id="bullet" class="form-control" value="<?=e($type['bullet'])?>">
+		<?php if ($type->hasError('bullet')) : ?>
+		<div class="help-block"><?=$type->getError('bullet')[0]?></div>
+		<?php endif ?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('bullet'), 'bullet', ['class' => 'control-label col-md-3'])?>
+	<label for="show_on_changelog" class="control-label col-md-3"><?=t('show_on_changelog')?></label>
 	<div class="col-md-9">
-		<?=Form::text('bullet', ['value' => $type->bullet, 'class' => 'form-control'])?>
+		<?=Form::checkbox('show_on_changelog', 1, ['checked' => $type['show_on_changelog']])?>
 	</div>
 </div>
 <div class="form-group">
-	<?=Form::label(t('show_on_changelog'), 'show_on_changelog', ['class' => 'control-label col-md-3'])?>
+	<label for="template" class="control-label col-md-3"><?=t('template')?></label>
 	<div class="col-md-9">
-		<?=Form::checkbox('show_on_changelog', 1, ['checked' => $type->show_on_changelog])?>
-	</div>
-</div>
-<div class="form-group">
-	<?=Form::label(t('template'), 'template', ['class' => 'control-label col-md-3'])?>
-	<div class="col-md-9">
-		<?=Form::textarea('template', ['value' => $type->template, 'class' => 'form-control'])?>
+		<textarea name="template" id="template" class="form-control"><?=e($type['template'])?></textarea>
 	</div>
 </div>

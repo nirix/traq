@@ -1,8 +1,11 @@
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
 <div class="admin types container">
 	<h1 class="page-header"><?=t('types')?></h1>
 
 	<div class="page-actions">
-		<a href="<?=routeUrl('admin_new_type')?>" class="btn btn-success" data-overlay="1">
+		<a href="<?=routeUrl('admin_new_type')?>" class="btn btn-success" data-overlay="true">
 			<span class="fa fa-plus"></span> <?=t('new_type')?>
 		</a>
 	</div>
@@ -18,15 +21,15 @@
 		<?php foreach ($types as $type) : ?>
 			<tr>
 				<td>
-					<a href="<?=routeUrl('admin_edit_type', ['id' => $type['id']])?>" data-overlay="1">
+					<a href="<?=routeUrl('admin_edit_type', ['id' => $type['id']])?>" data-overlay="true">
 						<?=$type['name']?>
 					</a>
 				</td>
-				<td class="actions">
-					<a href="<?=routeUrl('admin_edit_type', ['id' => $type['id']])?>" data-overlay="1" class="btn btn-xs btn-warning">
+				<td class="actions text-right">
+					<a href="<?=routeUrl('admin_edit_type', ['id' => $type['id']])?>" class="btn btn-xs btn-warning" data-overlay="true">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
-					<a href="<?=routeUrl('admin_delete_type', ['id' => $type['id']])?>" data-confirm="<?=t('confirm.delete')?>" class="btn btn-xs btn-danger">
+					<a href="<?=routeUrl('admin_delete_type', ['id' => $type['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
 						<span class="fa fa-times"></span> <?=t('delete')?>
 					</a>
 				</td>
@@ -35,3 +38,4 @@
 		</tbody>
 	</table>
 </div>
+<?php $this->endSection(); ?>
