@@ -225,12 +225,12 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Plugins
         'plugins'   => 'Plugins',
-        // 'authors'   => 'Authors',
+        'authors'   => 'Authors',
         'version'   => 'Version',
-        // 'install'   => 'Install',
-        // 'uninstall' => 'Uninstall',
-        // 'enable'    => 'Enable',
-        // 'disable'   => 'Disable',
+        'install'   => 'Install',
+        'uninstall' => 'Uninstall',
+        'enable'    => 'Enable',
+        'disable'   => 'Disable',
 
         // --------------------------------------------------------------------
         // Priorities

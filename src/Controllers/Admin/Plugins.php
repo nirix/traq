@@ -42,7 +42,7 @@ class Plugins extends AppController
     {
         parent::__construct();
 
-        $this->title($this->translate('plugins'));
+        $this->addCrumb($this->translate('plugins'), $this->generateUrl('admin_plugins'));
         Registry::indexPlugins();
     }
 

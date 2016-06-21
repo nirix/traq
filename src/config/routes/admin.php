@@ -40,6 +40,10 @@ Router::delete('admin_delete_group', '/admin/usergroups/{id}/delete', "{$ans}Gro
 
 // Plugins
 Router::get('admin_plugins', '/admin/plugins', "{$ans}Plugins::index");
+Router::get('admin_plugins_install', '/admin/plugins/install', "{$ans}Plugins::install");
+Router::get('admin_plugins_uninstall', '/admin/plugins/uninstall', "{$ans}Plugins::uninstall");
+Router::get('admin_plugins_enable', '/admin/plugins/enable', "{$ans}Plugins::enable");
+Router::get('admin_plugins_disable', '/admin/plugins/disable', "{$ans}Plugins::disable");
 
 // Types
 Router::get('admin_types', '/admin/types', "{$ans}Types::index");

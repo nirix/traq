@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,7 +23,6 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
 use Traq\Kernel as Traq;
 
 /**
@@ -35,16 +34,16 @@ use Traq\Kernel as Traq;
  */
 class Plugin extends Model
 {
-    protected static $_validations = array(
-        'directory'  => array('required', 'unique'),
-        'version'    => array('required'),
-        'autoload'   => array('required'),
-        'main'       => array('required')
-    );
+    protected static $_validations = [
+        'directory'  => ['required', 'unique'],
+        'version'    => ['required'],
+        'autoload'   => ['required'],
+        'main'       => ['required']
+    ];
 
-    protected static $_after = array(
-        'construct' => array('decodeAutoload')
-    );
+    protected static $_after = [
+        'construct' => ['decodeAutoload']
+    ];
 
     protected static $_dataTypes = [
         'autoload'   => "json_array",
