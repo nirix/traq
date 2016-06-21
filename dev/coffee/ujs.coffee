@@ -153,15 +153,15 @@ jQuery(document).ready ->
           url: href
           type: "GET"
           headers:
-            'X-Overlay': true
+            'X-Modal': true
           success: (data) ->
             $(data).appendTo 'body'
 
             modal = $(target)
 
-            if btn = $('#modalSubmitBtn')
-                btn.on 'click', (event) ->
-                    $(target + ' form').submit()
+            # if btn = $('#modalSubmitBtn')
+            #     btn.on 'click', (event) ->
+            #         $(target + ' form').submit()
 
             modal.modal 'show'
 

@@ -43,11 +43,11 @@ class AppController extends Controller
     protected $layout = false;
 
     /**
-     * Whether or not the request is for an overlay view.
+     * Whether or not the request is for an modal view.
      *
      * @var bool
      */
-    protected $isOverlay = false;
+    protected $isModal = false;
 
     /**
      * @var User
@@ -75,6 +75,11 @@ class AppController extends Controller
     public function __construct()
     {
         $this->db = ConnectionManager::getConnection();
+
+        // Modal?
+        if (Request::$headers->has('X-Modal')) {
+            $this->isModal = Request::$headers->get('X-Modal') == true;
+        }
 
         // Get current user.
         if ($sessionHash = Request::$cookies->get('traq')) {

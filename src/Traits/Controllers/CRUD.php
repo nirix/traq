@@ -121,8 +121,8 @@ trait CRUD
         $this->addCrumb($this->translate('new'), $this->generateUrl($this->newRoute));
         $this->set($this->getSingular(), new $this->model);
 
-        if ($this->isOverlay) {
-            return $this->render("{$this->viewsDir}/new.overlay.phtml");
+        if ($this->isModal) {
+            return $this->render("{$this->viewsDir}/new.modal.phtml");
         } else {
             return $this->render("{$this->viewsDir}/new.phtml");
         }
@@ -166,8 +166,8 @@ trait CRUD
         $object = $this->getObject($id);
         $this->set($this->getSingular(), $object);
 
-        if ($this->isOverlay) {
-            return $this->render("{$this->viewsDir}/edit.overlay.phtml");
+        if ($this->isModal) {
+            return $this->render("{$this->viewsDir}/edit.modal.phtml");
         } else {
             return $this->render("{$this->viewsDir}/edit.phtml");
         }
