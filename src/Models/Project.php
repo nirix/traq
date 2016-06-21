@@ -50,6 +50,23 @@ class Project extends Model
     /**
      * @return array[]
      */
+    public static function selectOptions()
+    {
+        $options = [];
+
+        foreach (static::all() as $project) {
+            $options[] = [
+                'label' => $project['name'],
+                'value' => $project['id']
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
+     * @return array[]
+     */
     public function milestoneSelectOptions($valueField = 'id', $status = null, $sort = 'ASC')
     {
         $options = [];
