@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -24,7 +24,7 @@
 namespace Traq\Controllers\ProjectSettings;
 
 /**
- * Project settings controller
+ * Project settings base controller.
  *
  * @package Traq\Controllers\ProjectSettings
  * @author Jack P.
@@ -32,24 +32,20 @@ namespace Traq\Controllers\ProjectSettings;
  */
 class AppController extends \Traq\Controllers\AppController
 {
-    protected $layout = "project_settings.phtml";
-
     public function __construct()
     {
         parent::__construct();
 
         // Add 'Settings' to the page title
-        $this->title($this->translate('settings'));
+        $this->addCrumb($this->translate('settings'), $this->generateUrl('project_settings'));
 
         // Make sure this is a project and the user has the correct permission to access the area.
-        $this->before('*', function () {
-            if (!$this->currentProject
-            || (!$this->hasPermission('project_settings')
-                && !$this->currentUser['is_admin'])
-            ) {
-                $this->layout = 'default.phtml';
+        if (!$this->currentProject
+        || !$this->currentUser
+        || (!$this->hasPermission('project_settings') || !$this->currentUser->isAdmin())) {
+            $this->before('*', function () {
                 return $this->show403();
-            }
-        });
+            });
+        }
     }
 }
