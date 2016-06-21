@@ -5,7 +5,7 @@
 	<h1 class="page-header"><?=t('roles')?></h1>
 
 	<div class="page-actions">
-		<a href="<?=routeUrl('admin_new_project_role')?>" class="btn btn-success" data-overlay="true">
+		<a href="<?=routeUrl('admin_new_project_role')?>" class="btn btn-success" data-remote-modal="#new-project-role-modal">
 			<span class="fa fa-plus"></span> <?=t('new_role')?>
 		</a>
 	</div>
@@ -23,12 +23,12 @@
 		<?php foreach ($roles as $role) : ?>
 			<tr>
 				<td>
-					<a href="<?=routeUrl('admin_edit_project_role', ['id' => $role['id']])?>" data-overlay="true"><?=$role['name']?></a>
+					<a href="<?=routeUrl('admin_edit_project_role', ['id' => $role['id']])?>"  data-remote-modal="#edit-project-role-modal"><?=$role['name']?></a>
 				</td>
 				<td><?=($role['is_assignable'] ? TWBS::fa('check') : TWBS::fa('times'))?></td>
 				<td><?=($role['project_id'] ? $role['project_name'] : t('all'))?></td>
 				<td class="actions text-right">
-					<a href="<?=routeUrl('admin_edit_project_role', ['id' => $role['id']])?>" class="btn btn-xs btn-warning" data-overlay="true">
+					<a href="<?=routeUrl('admin_edit_project_role', ['id' => $role['id']])?>" class="btn btn-xs btn-warning"  data-remote-modal="#edit-project-role-modal">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
 					<a href="<?=routeUrl('admin_delete_project_role', ['id' => $role['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
