@@ -5,7 +5,7 @@
 	<h1 class="page-header"><?=t('statuses')?></h1>
 
 	<div class="page-actions">
-		<a href="<?=routeUrl('admin_new_status')?>" class="btn btn-success" data-overlay="true">
+		<a href="<?=routeUrl('admin_new_status')?>" class="btn btn-success" data-remote-modal="#new-status-modal">
 			<span class="fa fa-plus"></span> <?=t('new_status')?>
 		</a>
 	</div>
@@ -22,13 +22,13 @@
 		<?php foreach ($statuses as $status) : ?>
 			<tr>
 				<td>
-					<a href="<?=routeUrl('admin_edit_status', ['id' => $status['id']])?>" data-overlay="true">
+					<a href="<?=routeUrl('admin_edit_status', ['id' => $status['id']])?>" data-remote-modal="#edit-status-modal">
 						<?=$status['name']?>
 					</a>
 				</td>
 				<td><?=t("status.type.{$status->status}")?></td>
 				<td class="actions text-right">
-					<a href="<?=routeUrl('admin_edit_status', ['id' => $status['id']])?>" class="btn btn-xs btn-warning" data-overlay="true">
+					<a href="<?=routeUrl('admin_edit_status', ['id' => $status['id']])?>" class="btn btn-xs btn-warning" data-remote-modal="#edit-status-modal">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
 					<a href="<?=routeUrl('admin_delete_status', ['id' => $status['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
