@@ -1,11 +1,15 @@
-<div class="admin-statuses container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-groups-edit container">
 	<h1 class="page-header"><?=t('edit_group')?></h1>
 
 	<form action="<?=routeUrl('admin_save_group')?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($group)?>
+		<input type="hidden" name="_method" value="put">
 		<?=View::render('admin/groups/_form.phtml', ['group' => $group])?>
-		<div class="form-actions">
+		<div class="form-actions text-center">
 			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

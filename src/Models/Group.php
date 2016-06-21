@@ -34,6 +34,10 @@ class Group extends Model
 {
     protected static $_tableAlias = 'g';
 
+    protected static $_validations = [
+        'name' => ['required', 'unique']
+    ];
+
     protected static $_dataTypes = [
         'is_admin' => 'boolean'
     ];

@@ -94,9 +94,9 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Groups
         'groups'     => 'Groups',
-        // 'new_group'  => 'New Group',
-        // 'edit_group' => 'Edit Group',
-        // 'is_admin'   => 'Is Admin',
+        'new_group'  => 'New Group',
+        'edit_group' => 'Edit Group',
+        'is_admin'   => 'Is Admin',
 
         // --------------------------------------------------------------------
         // Tickets

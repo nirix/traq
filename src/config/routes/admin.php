@@ -32,6 +32,11 @@ Router::get('admin_users', '/admin/users', "{$ans}Users::index");
 
 // Groups
 Router::get('admin_groups', '/admin/usergroups', "{$ans}Groups::index");
+Router::get('admin_new_group', '/admin/usergroups/new', "{$ans}Groups::new");
+Router::post('admin_create_group', '/admin/usergroups', "{$ans}Groups::create");
+Router::get('admin_edit_group', '/admin/usergroups/{id}/edit', "{$ans}Groups::edit");
+Router::put('admin_save_group', '/admin/usergroups/{id}', "{$ans}Groups::save")->method(['PUT', 'PATCH']);
+Router::delete('admin_delete_group', '/admin/usergroups/{id}/delete', "{$ans}Groups::destroy");
 
 // Plugins
 Router::get('admin_plugins', '/admin/plugins', "{$ans}Plugins::index");
