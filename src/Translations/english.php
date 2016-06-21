@@ -285,11 +285,11 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Statuses
         'statuses'          => 'Statuses',
-        // 'status.type.0'     => 'Closed',
-        // 'status.type.1'     => 'Open',
-        // 'status.type.2'     => 'Started',
-        // 'new_status'        => 'New Status',
-        // 'edit_status'       => 'Edit Status',
+        'status.type.0'     => 'Closed',
+        'status.type.1'     => 'Open',
+        'status.type.2'     => 'Started',
+        'new_status'        => 'New Status',
+        'edit_status'       => 'Edit Status',
         'show_on_changelog' => 'Show on Changelog',
 
         // --------------------------------------------------------------------

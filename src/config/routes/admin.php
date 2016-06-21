@@ -63,6 +63,11 @@ Router::delete('admin_delete_type', '/admin/types/{id}/delete', "{$ans}Types::de
 // -----------------------------------------------------------------------------
 // Statuses
 Router::get('admin_statuses', '/admin/statuses', "{$ans}Statuses::index");
+Router::get('admin_new_status', '/admin/statuses/new', "{$ans}Statuses::new");
+Router::post('admin_create_status', '/admin/statuses', "{$ans}Statuses::create");
+Router::get('admin_edit_status', '/admin/statuses/{id}/edit', "{$ans}Statuses::edit");
+Router::put('admin_save_status', '/admin/statuses/{id}', "{$ans}Statuses::save")->method(['PUT', 'PATCH']);
+Router::delete('admin_delete_status', '/admin/statuses/{id}/delete', "{$ans}Statuses::destroy");
 
 // -----------------------------------------------------------------------------
 // Priorities

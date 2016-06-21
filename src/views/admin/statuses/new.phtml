@@ -1,11 +1,14 @@
-<div class="admin-statuses container">
+<?php $this->extend('layouts/admin.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="admin admin-statuses-new container">
 	<h1 class="page-header"><?=t('new_status')?></h1>
 
 	<form action="<?=routeUrl('admin_create_status')?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($status)?>
 		<?=View::render('admin/statuses/_form.phtml', ['status' => $status])?>
-		<div class="form-actions">
-			<?=Form::submit(t('create'), ['class' => 'btn btn-success'])?>
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-success"><?=t('create')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

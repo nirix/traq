@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -51,10 +51,14 @@ class Statuses extends AppController
     protected $afterSaveRedirect    = 'admin_statuses';
     protected $afterDestroyRedirect = 'admin_statuses';
 
+    // Route names
+    protected $newRoute = 'admin_new_status';
+    protected $editRoute = 'admin_edit_status';
+
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('statuses'));
+        $this->addCrumb($this->translate('statuses'), $this->generateUrl('admin_statuses'));
 
         $this->set('typeSelectOptions', [
             ['label' => $this->translate('status.type.1'), 'value' => 1],
