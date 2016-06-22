@@ -32,6 +32,8 @@ Router::post('tickets_set_filters', '/{pslug}/tickets/set-filters', "{$ns}Ticket
 Router::put('update_ticket', '/{pslug}/tickets/{id}', "{$ns}Tickets::update")->method(['PUT', 'PATCH']);
 Router::get('ticket_edit_description', '/{pslug}/tickets/{id}/edit-description', "{$ns}Tickets::editDescription");
 Router::post('ticket_save_description', '/{pslug}/tickets/{id}/edit-description', "{$ns}Tickets::saveDescription");
+Router::get('ticket_edit_comment', '/{pslug}/tickets/history/{id}/edit', "{$ns}TicketHistory::edit");
+Router::delete('ticket_delete_comment', '/{pslug}/tickets/history/{id}', "{$ns}TicketHistory::destroy");
 
 // Wiki
 Router::get('wiki', '/{pslug}/wiki', "{$ns}Wiki::show", ['slug' => 'main']);

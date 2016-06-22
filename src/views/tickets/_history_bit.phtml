@@ -1,5 +1,17 @@
 <div class="ticket-update">
 	<header>
+		<div class="pull-right">
+		<?php if (hasPermission('edit_ticket_history')) : ?>
+			<a href="<?=routeUrl('ticket_edit_comment')?>" class="btn btn-xs btn-link" title="<?=t('edit')?>" data-remote-modal="#edit-ticket-comment">
+				<i class="fa fa-pencil"></i>
+			</a>
+		<?php endif ?>
+		<?php if (hasPermission('delete_ticket_history')) : ?>
+			<a href="<?=routeUrl('ticket_delete_comment')?>" class="btn btn-xs btn-link" title="<?=t('delete')?>" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
+				<i class="fa fa-times"></i>
+			</a>
+		<?php endif ?>
+		</div>
 		<span data-timestamp="<?=$update['created_at']?>"><?=timeAgoInWords($update['created_at'])?></span>
 		by <a href="<?=routeUrl('user', ['id' => $update['user_id']])?>"><?=$update['user_name']?></a>
 	</header>
