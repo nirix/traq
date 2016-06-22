@@ -97,7 +97,7 @@ class Seeder
             'site_name'               => "",
             'site_url'                => "",
             'db_revision'             => \Traq\DB_REVISION,
-            'locale'                  => "enAU",
+            'locale'                  => "en_AU",
             'check_for_update'        => 1,
             'last_update_check'       => time(),
             'anonymous_user_id'       => $this->createAnonymousUser(),
