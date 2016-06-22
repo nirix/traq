@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -31,6 +31,7 @@ class CreateTimeline extends Migration
     {
         $this->createTable("timeline", function ($t) {
             $t->addColumn("project_id", "bigint");
+            $t->addColumn("owner_type", "string");
             $t->addColumn("owner_id", "bigint");
             $t->addColumn("action", "string");
             $t->addColumn("data", "text", ['notnull' => false]);

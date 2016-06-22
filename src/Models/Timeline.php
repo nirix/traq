@@ -46,6 +46,7 @@ class Timeline extends Model
     {
         return new static([
             'project_id' => $ticket['project_id'],
+            'owner_type' => 'Ticket',
             'owner_id'   => $ticket['id'],
             'user_id'    => $user['id'],
             'action'     => "ticket_created",
@@ -61,6 +62,7 @@ class Timeline extends Model
     {
         return new static([
             'project_id' => $ticket['project_id'],
+            'owner_type' => 'Ticket',
             'owner_id'   => $ticket['id'],
             'user_id'    => $user['id'],
             'action'     => $action,
@@ -77,6 +79,7 @@ class Timeline extends Model
     {
         return new static([
             'project_id' => $milestone['project_id'],
+            'owner_type' => 'Milestone',
             'owner_id'   => $milestone['id'],
             'user_id'    => $user['id'],
             'action'     => 'milestone_completed',
@@ -92,6 +95,7 @@ class Timeline extends Model
     {
         return new static([
             'project_id' => $page['project_id'],
+            'owner_type' => 'WikiPage',
             'owner_id'   => $page['id'],
             'user_id'    => $user['id'],
             'action'     => "wiki_page_created",
