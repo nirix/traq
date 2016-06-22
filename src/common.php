@@ -21,6 +21,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Avalon\Language;
+use Avalon\Helpers\Time;
 use Traq\Models\Setting;
 use Traq\Models\Ticket;
 use Traq\Models\Project;
@@ -111,6 +113,18 @@ function gravatarProfileLink($userEmail, $userName, $userId, $size = null)
         Gravatar::withString($userEmail, $userName, $size),
         routePath('user', ['id' => $userId])
     );
+}
+
+/**
+ * Returns the time ago in words with the 'ago' suffix.
+ *
+ * @param string $timestamp
+ *
+ * @return string
+ */
+function timeAgoInWords($timestamp)
+{
+    return Language::translate('time.x_ago', [Time::agoInWords($timestamp)]);
 }
 
 /**
