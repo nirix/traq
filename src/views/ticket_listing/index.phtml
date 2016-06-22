@@ -52,9 +52,9 @@
 					<?php endif; ?>
 					</td>
 				<?php elseif ($column == 'created_at') : ?>
-					<td data-moment="<?=$ticket['created_at']?>"><?=$ticket['created_at']?></td>
+					<td data-timestamp="<?=$ticket['created_at']?>"><?=timeAgoInWords($ticket['created_at'])?></td>
 				<?php elseif ($column == 'updated_at') : ?>
-					<td data-moment="<?=$ticket['updated_at']?>"><?=$ticket['updated_at']?></td>
+					<td data-timestamp="<?=$ticket['updated_at']?>"><?=timeAgoInWords($ticket['updated_at'])?></td>
 				<?php else : ?>
 					<td><?=Ticketlist::dataFor($column, $ticket)?></td>
 				<?php endif ?>
