@@ -117,8 +117,6 @@ class Tickets extends AppController
             return $this->show404();
         }
 
-        $ticket['tasks'] = json_decode($ticket['tasks'], true);
-
         $this->addCrumb(
             $this->translate('ticket.page-title', $ticket['ticket_id'], $ticket['summary']),
             $this->generateUrl('ticket')
@@ -128,7 +126,6 @@ class Tickets extends AppController
             ->addSelect('h.*', 'u.name AS user_name', 'u.email AS user_email')
             ->leftJoin('h', User::tableName(), 'u', 'u.id = h.user_id')
             ->orderBy('h.created_at', 'ASC')
-            ->execute()
             ->fetchAll();
 
         return $this->respondTo(function ($format) use ($ticket, $history) {
