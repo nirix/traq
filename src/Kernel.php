@@ -48,7 +48,7 @@ class Kernel extends AppKernel
 
         parent::__construct();
 
-        require __DIR__ . '/version.php';
+        require_once __DIR__ . '/version.php';
 
         // Setup aliases
         $this->setupAliases();
