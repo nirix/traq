@@ -4,6 +4,7 @@ use Avalon\Routing\Router;
 $ns = "Traq\\Controllers\\";
 
 Router::addToken('pslug', '(?P<pslug>[^/]*?)');
+Router::addExtension('txt');
 
 Router::root("{$ns}Projects::index");
 
