@@ -2,7 +2,7 @@
 foreach ($milestones as $milestone) :
     echo $milestone['name'], PHP_EOL;
 
-    foreach ($milestone['changes'] as $ticket) :
+    foreach ($milestone['tickets'] as $ticket) :
         echo "- {$ticket['summary']}", PHP_EOL;
     endforeach;
 
