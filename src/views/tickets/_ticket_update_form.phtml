@@ -12,6 +12,7 @@ if ($ticket['is_closed']) {
 	<div id="update-ticket">
 		<h2><?=t('update_ticket')?></h2>
 		<form action="<?=routeUrl('update_ticket', ['pslug' => currentProject()['slug'], 'id' => $ticket['ticket_id']])?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+			<input type="hidden" name="_method" value="patch">
 		<?php if (hasPermission('comment_on_tickets')) : ?>
 			<div class="update-ticket-property-comment">
 				<label for="comment" class="control-label"><?=t('comment')?></label>

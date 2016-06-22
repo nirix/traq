@@ -34,12 +34,42 @@ class Ticket extends Model
 {
     protected static $_tableAlias = 't';
 
+    protected static $_validations = [
+        'summary' => ['required'],
+        'body' => ['required'],
+        'user_id' => ['required'],
+        'project_id' => ['required'],
+        'milestone_id' => ['required'],
+        'type_id' => ['required'],
+        'status_id' => ['required'],
+        'priority_id' => ['required'],
+        'severity_id' => ['required']
+    ];
+
     protected static $_hasMany = [
         'history' => ['model' => 'TicketHistory']
     ];
 
     protected static $_dataTypes = [
         'is_closed' => 'boolean',
-        'is_private' => 'boolean'
+        'is_private' => 'boolean',
+        'tasks' => 'json_array',
+        'extra' => 'json_array',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
+
+    /**
+     * Whether or not the ticket is being closed.
+     *
+     * @var boolean
+     */
+    public $isClosing = false;
+
+    /**
+     * Whether or not the ticket is being reopened.
+     *
+     * @var boolean
+     */
+    public $isReopening = false;
 }

@@ -1,12 +1,14 @@
+<?php $this->extend('layouts/default.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
 <div class="new-ticket container">
 	<h1 class="page-header"><?=t('new_ticket')?></h1>
 
-	<?=Errors::messagesFor($ticket)?>
-
-	<form action="<?=routeUrl('create_ticket', ['pslug' => $currentProject['slug']])?>" method="post" class="form-horizontal">
+	<form action="<?=routeUrl('create_ticket', ['pslug' => currentProject()['slug']])?>" method="post" class="form-horizontal">
 		<?=View::render('tickets/_form.phtml', ['ticket' => $ticket])?>
 		<div class="form-actions">
-			<?=Form::submit(t('create_ticket'), ['class' => 'btn btn-success'])?>
+			<button type="submit" class="btn btn-success"><?=t('create_ticket')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

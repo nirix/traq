@@ -23,6 +23,8 @@ Router::get('milestone', '/{pslug}/milestone/{slug}', "{$ns}Roadmap::show");
 // Tickets
 Router::get('tickets', '/{pslug}/tickets', "{$ns}TicketListing::index");
 Router::get('ticket', '/{pslug}/tickets/{id}', "{$ns}Tickets::show");
+Router::get('new_ticket', '/{pslug}/tickets/new', "{$ns}Tickets::new");
+Router::post('create_ticket', '/{pslug}/tickets', "{$ns}Tickets::create");
 
 Router::post('tickets_set_columns', '/{pslug}/issues/set-columns', "{$ns}TicketListing::setColumns");
 Router::post('tickets_set_filters', '/{pslug}/issues/set-filters', "{$ns}TicketListing::setFilters");

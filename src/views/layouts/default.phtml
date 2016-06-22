@@ -53,6 +53,14 @@
 						</li>
 						<?php endif ?>
 					</ul>
+
+					<?php if (hasPermission('create_tickets')) : ?>
+					<div class="navbar-left">
+						<a href="<?=routeUrl('new_ticket')?>" class="btn btn-primary navbar-btn <?=iif(Request::matches(routePath('new_ticket')), 'active')?>">
+							<?=t('new_ticket')?>
+						</a>
+					</div>
+					<?php endif ?>
 				<?php endif ?>
 				</div>
 			<?php endif ?>

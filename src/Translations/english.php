@@ -101,8 +101,8 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Tickets
         'tickets'            => 'Tickets',
-        // 'new_ticket'         => 'New Ticket',
-        // 'create_ticket'      => 'Create Ticket',
+        'new_ticket'         => 'New Ticket',
+        'create_ticket'      => 'Create Ticket',
         'open'               => 'Open',
         'closed'             => 'Closed',
         'total'              => 'Total',
@@ -218,8 +218,8 @@ $english = new Language(function ($t) {
         'level'                   => 'Level',
         'leave_blank_for_current' => 'Leave blank for current',
         // 'never'                   => 'Never',
-        // 'none'                    => 'None',
-        // 'no_one'                  => 'No one',
+        'none'                    => 'None',
+        'no_one'                  => 'No one',
         'toggle_navigation'       => 'Toggle Navigation',
 
         // --------------------------------------------------------------------
@@ -254,7 +254,7 @@ $english = new Language(function ($t) {
         'default_ticket_sorting' => 'Default ticket sorting',
 
         // Project Settings
-        // 'project_settings' => 'Project Settings',
+        'project_settings' => 'Project Settings',
         // 'members'          => 'Members',
 
         // --------------------------------------------------------------------

@@ -1,113 +1,131 @@
-<div class="form-group">
+<div class="form-group <?=iif($ticket->hasError('type'), 'has-error')?>">
 	<?=Form::label(t('type'), 'type_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::select('type_id', Traq\Models\Type::selectOptions(), [
-			'value' => $ticket->type_id,
+			'value' => $ticket['type_id'],
 			'class' => "form-control"
 		])?>
+		<?php if ($ticket->hasError('type_id')) : ?>
+		<div class="help-block"><?=$ticket->getError('type_id')[0]?></div>
+		<?php endif ?>
 	</div>
 </div>
 
-<div class="form-group">
+<div class="form-group <?=iif($ticket->hasError('summary'), 'has-error')?>">
 	<?=Form::label(t('summary'), 'summary', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::text('summary', [
-			'value' => $ticket->summary,
+			'value' => $ticket['summary'],
+			'class' => "form-control"
+		])?>
+		<?php if ($ticket->hasError('summary')) : ?>
+		<div class="help-block"><?=$ticket->getError('summary')[0]?></div>
+		<?php endif ?>
+	</div>
+</div>
+
+<div class="form-group <?=iif($ticket->hasError('body'), 'has-error')?>">
+	<?=Form::label(t('description'), 'body', ['class' => 'control-label col-md-3'])?>
+	<div class="col-md-9">
+		<?=Form::textarea('body', [
+			'value' => $ticket['body'],
+			'class' => "form-control rich-editor"
+		])?>
+		<?php if ($ticket->hasError('body')) : ?>
+		<div class="help-block"><?=$ticket->getError('body')[0]?></div>
+		<?php endif ?>
+	</div>
+</div>
+
+<?php if (hasPermission('ticket_properties_set_status')) : ?>
+<div class="form-group <?=iif($ticket->hasError('status'), 'has-error')?>">
+	<?=Form::label(t('status'), 'status_id', ['class' => 'control-label col-md-3'])?>
+	<div class="col-md-9">
+		<?=Form::select('status_id', Traq\Models\Status::selectOptions(), [
+			'value' => $ticket['status_id'],
+			'class' => "form-control"
+		])?>
+		<?php if ($ticket->hasError('status_id')) : ?>
+		<div class="help-block"><?=$ticket->getError('status_id')[0]?></div>
+		<?php endif ?>
+	</div>
+</div>
+<?php endif ?>
+
+<?php if (hasPermission('ticket_properties_set_assigned_to')) : ?>
+<div class="form-group">
+	<?=Form::label(t('assigned_to'), 'assigned_to_id', ['class' => 'control-label col-md-3'])?>
+	<div class="col-md-9">
+		<?=Form::select('assigned_to_id', array_merge([['label' => t('no_one'), 'value' => 0]], currentProject()->memberSelectOptions()), [
+			'value' => $ticket['assigned_to_id'],
 			'class' => "form-control"
 		])?>
 	</div>
 </div>
+<?php endif ?>
 
-<div class="form-group">
-	<?=Form::label(t('description'), 'body', ['class' => 'control-label col-md-3'])?>
+<?php if (hasPermission('ticket_properties_set_milestone')) : ?>
+<div class="form-group <?=iif($ticket->hasError('milestone'), 'has-error')?>">
+	<?=Form::label(t('milestone'), 'milestone_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
-		<?=Form::textarea('body', [
-			'value' => $ticket->body,
-			'class' => "form-control rich-editor"
+		<?=Form::select('milestone_id', currentProject()->milestoneSelectOptions('id', 1), [
+			'value' => $ticket['milestone_id'],
+			'class' => "form-control"
 		])?>
 	</div>
 </div>
-
-<?php if (has_permission('ticket_properties_set_status')) : ?>
-<div class="form-group">
-	<?=Form::label(t('status'), 'status_id', ['class' => 'control-label col-md-3'])?>
-	<div class="col-md-9">
-		<?=Form::select('status_id', Traq\Models\Status::selectOptions(), [
-            'value' => $ticket->status_id,
-            'class' => "form-control"
-        ])?>
-	</div>
-</div>
 <?php endif ?>
 
-<?php if (has_permission('ticket_properties_set_assigned_to')) : ?>
-<div class="form-group">
-	<?=Form::label(t('assigned_to'), 'assigned_to_id', ['class' => 'control-label col-md-3'])?>
-	<div class="col-md-9">
-		<?=Form::select('assigned_to_id', array_merge([['label' => t('no_one'), 'value' => 0]], $currentProject->memberSelectOptions()), [
-            'value' => $ticket->assigned_to_id,
-            'class' => "form-control"
-        ])?>
-	</div>
-</div>
-<?php endif ?>
-
-<?php if (has_permission('ticket_properties_set_milestone')) : ?>
-<div class="form-group">
-	<?=Form::label(t('milestone'), 'milestone_id', ['class' => 'control-label col-md-3'])?>
-	<div class="col-md-9">
-		<?=Form::select('milestone_id', $currentProject->milestoneSelectOptions('id', 1), [
-            'value' => $ticket->milestone_id,
-            'class' => "form-control"
-        ])?>
-	</div>
-</div>
-<?php endif ?>
-
-<?php if (has_permission('ticket_properties_set_version')) : ?>
+<?php if (hasPermission('ticket_properties_set_version')) : ?>
 <div class="form-group">
 	<?=Form::label(t('version'), 'version_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
-		<?=Form::select('version_id', array_merge([['label' => t('none'), 'value' => 0]], $currentProject->milestoneSelectOptions('id', 2, 'DESC')), [
-            'value' => $ticket->version_id,
-            'class' => "form-control"
-        ])?>
+		<?=Form::select('version_id', array_merge([['label' => t('none'), 'value' => 0]], currentProject()->milestoneSelectOptions('id', 2, 'DESC')), [
+			'value' => $ticket['version_id'],
+			'class' => "form-control"
+		])?>
 	</div>
 </div>
 <?php endif ?>
 
-<?php if (has_permission('ticket_properties_set_component')) : ?>
+<?php if (hasPermission('ticket_properties_set_component')) : ?>
 <div class="form-group">
 	<?=Form::label(t('component'), 'component_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
-		<?=Form::select('component_id', array_merge([['label' => t('none'), 'value' => 0]], $currentProject->componentSelectOptions()), [
-            'value' => $ticket->component_id,
-            'class' => "form-control"
-        ])?>
+		<?=Form::select('component_id', array_merge([['label' => t('none'), 'value' => 0]], currentProject()->componentSelectOptions()), [
+			'value' => $ticket['component_id'],
+			'class' => "form-control"
+		])?>
 	</div>
 </div>
 <?php endif ?>
 
-<?php if (has_permission('ticket_properties_set_severity')) : ?>
-<div class="form-group">
+<?php if (hasPermission('ticket_properties_set_severity')) : ?>
+<div class="form-group <?=iif($ticket->hasError('severity_id'), 'has-error')?>">
 	<?=Form::label(t('severity'), 'severity_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::select('severity_id', Traq\Models\Severity::selectOptions(), [
-            'value' => $ticket->severity_id,
-            'class' => "form-control"
-        ])?>
+			'value' => $ticket['severity_id'],
+			'class' => "form-control"
+		])?>
+		<?php if ($ticket->hasError('severity_id')) : ?>
+		<div class="help-block"><?=$ticket->getError('severity_id')[0]?></div>
+		<?php endif ?>
 	</div>
 </div>
 <?php endif ?>
 
-<?php if (has_permission('ticket_properties_set_priority')) : ?>
-<div class="form-group">
-    <?=Form::label(t('priority'), 'priority_id', ['class' => 'control-label col-md-3'])?>
-    <div class="col-md-9">
-        <?=Form::select('priority_id', Traq\Models\Priority::selectOptions(), [
-            'value' => $ticket->priority_id,
-            'class' => "form-control"
-        ])?>
-    </div>
+<?php if (hasPermission('ticket_properties_set_priority')) : ?>
+<div class="form-group <?=iif($ticket->hasError('priority_id'), 'has-error')?>">
+	<?=Form::label(t('priority'), 'priority_id', ['class' => 'control-label col-md-3'])?>
+	<div class="col-md-9">
+		<?=Form::select('priority_id', Traq\Models\Priority::selectOptions(), [
+			'value' => $ticket['priority_id'],
+			'class' => "form-control"
+		])?>
+		<?php if ($ticket->hasError('priority_id')) : ?>
+		<div class="help-block"><?=$ticket->getError('priority_id')[0]?></div>
+		<?php endif ?>
+	</div>
 </div>
 <?php endif ?>
