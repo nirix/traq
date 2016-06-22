@@ -21,7 +21,7 @@
 
 			<ul class="nav navbar-nav navbar-right">
 			<?php if (currentUser()) : ?>
-				<?php if (hasPermission('project_settings')) : ?>
+				<?php if (currentProject() && hasPermission('project_settings')) : ?>
 				<li>
 					<a href="<?=routeUrl('project_settings')?>" title="<?=t('project_settings')?>">
 						<i class="fa fa-cogs"></i> <span class="sr-only"><?=t('project_settings')?></span>
