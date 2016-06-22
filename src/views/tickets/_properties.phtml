@@ -87,14 +87,14 @@
 
 <div class="ticket-property">
 	<label class="property-label"><?=t('created_at')?></label>
-	<span class="property-value" data-moment="<?=$ticket['created_at']?>">
-		<?=$ticket['created_at']?>
+	<span class="property-value" data-timestamp="<?=$ticket['created_at']?>">
+		<?=timeAgoInWords($ticket['created_at'])?>
 	</span>
 </div>
 
 <div class="ticket-property">
 	<label class="property-label"><?=t('updated_at')?></label>
-	<span class="property-value" data-moment="<?=$ticket['updated_at']?>">
-		<?=$ticket['updated_at'] ?: t('never')?>
+	<span class="property-value" data-timestamp="<?=$ticket['updated_at']?>">
+		<?=timeAgoInWords($ticket['updated_at']) ?: t('never')?>
 	</span>
 </div>

@@ -1,6 +1,6 @@
 <div class="ticket-update">
 	<header>
-		<span data-moment="<?=$update['created_at']?>"><?=$update['created_at']?></span>
+		<span data-timestamp="<?=$update['created_at']?>"><?=timeAgoInWords($update['created_at'])?></span>
 		by <a href="<?=routeUrl('user', ['id' => $update['user_id']])?>"><?=$update['user_name']?></a>
 	</header>
 	<?php if (count($update['changes'])) : ?>
