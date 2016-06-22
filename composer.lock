@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c57dfbd9943cc9b9fddfbd95482a31e",
-    "content-hash": "d037e2a92def330889627267070ce574",
+    "hash": "60e0792812cbaeca3c594ad2c4ac025c",
+    "content-hash": "70fd13020430772a3f6ca03d5a8b963a",
     "packages": [
         {
             "name": "avalon/core",
@@ -1042,6 +1042,51 @@
     ],
     "packages-dev": [
         {
+            "name": "avalon/testing",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalonphp/testing.git",
+                "reference": "2acb199090e5e5e47ae2fbce2decc195c31bdd57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalonphp/testing/zipball/2acb199090e5e5e47ae2fbce2decc195c31bdd57",
+                "reference": "2acb199090e5e5e47ae2fbce2decc195c31bdd57",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\Testing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jack"
+                }
+            ],
+            "description": "Avalon Testing Component.",
+            "keywords": [
+                "avalon",
+                "framework",
+                "testing"
+            ],
+            "time": "2015-12-21 12:27:08"
+        },
+        {
             "name": "filp/whoops",
             "version": "2.1.2",
             "source": {
@@ -1105,7 +1150,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "traq/installer": 20
+        "traq/installer": 20,
+        "avalon/testing": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

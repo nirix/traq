@@ -21,6 +21,7 @@
         "traq/installer": "dev-master"
     },
     "require-dev": {
-        "filp/whoops": "^2.0"
+        "filp/whoops": "^2.0",
+        "avalon/testing": "^1.0@dev"
     }
 }
