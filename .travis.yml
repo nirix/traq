@@ -10,3 +10,4 @@ install:
   - mv config/config.test.php config/config.php
 before_script:
   - mysql -e 'create database traq_test;'
+script: php tests/test.php
