@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2016 Jack P.
+ * Copyright (C) 2012-2016 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -51,6 +51,10 @@ class Components extends AppController
     protected $afterSaveRedirect    = 'project_settings_components';
     protected $afterDestroyRedirect = 'project_settings_components';
 
+    // Route names
+    protected $newRoute = 'project_settings_new_component';
+    protected $editRoute = 'project_settings_edit_component';
+
     /**
      * @var Component
      */
@@ -59,7 +63,7 @@ class Components extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('components'));
+        $this->addCrumb($this->translate('components'), $this->generateUrl('project_settings_components'));
 
         $this->before(['edit', 'save', 'destroy'], function () {
             $this->object = Component::find(Request::$properties->get('id'));
@@ -81,7 +85,6 @@ class Components extends AppController
             ->where('project_id = ?')
             ->orderBy('name', 'ASC')
             ->setParameter(0, $this->currentProject['id'])
-            ->execute()
             ->fetchAll();
     }
 

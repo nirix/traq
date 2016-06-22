@@ -50,9 +50,9 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Components
-        // 'components'     => 'Components',
-        // 'new_component'  => 'New Component',
-        // 'edit_component' => 'Edit Component',
+        'components'     => 'Components',
+        'new_component'  => 'New Component',
+        'edit_component' => 'Edit Component',
 
         // --------------------------------------------------------------------
         // Confirmations

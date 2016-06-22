@@ -1,11 +1,15 @@
-<div class="project-settings components container">
-	<h2 class="page-title"><?=t('edit_component')?></h2>
+<?php $this->extend('layouts/project_settings.phtml'); ?>
 
-	<form action="<?=routeUrl('project_settings_save_component', ['id' => $component['id']])?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($component)?>
+<?php $this->startSection('content'); ?>
+<div class="project-settings edit-component content container">
+	<h2 class="page-header"><?=t('new_component')?></h2>
+
+	<form action="<?=routeUrl('project_settings_save_component')?>" method="post" class="form-horizontal">
+		<input type="hidden" name="_method" value="put">
 		<?=View::render('project_settings/components/_form.phtml', ['component' => $component])?>
 		<div class="form-actions">
-			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
+			<button type="submit" class="btn btn-success"><?=t('save')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

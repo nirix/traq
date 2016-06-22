@@ -1,11 +1,14 @@
-<div class="project-settings components container">
-	<h2 class="page-title"><?=t('new_component')?></h2>
+<?php $this->extend('layouts/project_settings.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="project-settings new-component content container">
+	<h2 class="page-header"><?=t('new_component')?></h2>
 
 	<form action="<?=routeUrl('project_settings_create_component')?>" method="post" class="form-horizontal">
-		<?=Errors::messagesFor($component)?>
 		<?=View::render('project_settings/components/_form.phtml', ['component' => $component])?>
 		<div class="form-actions">
-			<?=Form::submit(t('create'), ['class' => 'btn btn-success'])?>
+			<button type="submit" class="btn btn-success"><?=t('create')?></button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

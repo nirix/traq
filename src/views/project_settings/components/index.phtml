@@ -1,6 +1,11 @@
-<div class="project-settings components container">
+<?php $this->extend('layouts/project_settings.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="project-settings components content container">
+	<h1 class="page-header"><?=t('components')?></h1>
+
 	<div class="page-actions">
-		<a href="<?=routeUrl('project_settings_new_component')?>" class="btn btn-success" data-overlay="1">
+		<a href="<?=routeUrl('project_settings_new_component')?>" class="btn btn-success" data-remote-modal="#new-component-modal">
 			<span class="fa fa-plus"></span> <?=t('new_component')?>
 		</a>
 	</div>
@@ -16,15 +21,15 @@
 		<?php foreach ($components as $component): ?>
 			<tr>
 				<td>
-					<a href="<?=routeUrl('project_settings_edit_component', ['id' => $component['id']])?>" data-overlay="1">
+					<a href="<?=routeUrl('project_settings_edit_component', ['id' => $component['id']])?>"  data-remote-modal="#edit-component-modal">
 						<?=$component['name']?>
 					</a>
 				</td>
 				<td class="actions">
-					<a href="<?=routeUrl('project_settings_edit_component', ['id' => $component['id']])?>" class="btn btn-xs btn-warning" data-overlay="1">
+					<a href="<?=routeUrl('project_settings_edit_component', ['id' => $component['id']])?>" class="btn btn-xs btn-warning"  data-remote-modal="#edit-component-modal">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
-					<a href="<?=routeUrl('project_settings_delete_component', ['id' => $component['id']])?>" class="btn btn-xs btn-danger" data-confirm="<?=t('confirm.delete')?>">
+					<a href="<?=routeUrl('project_settings_delete_component', ['id' => $component['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
 						<span class="fa fa-times"></span> <?=t('delete')?>
 					</a>
 				</td>
@@ -33,3 +38,4 @@
 		</tbody>
 	</table>
 </div>
+<?php $this->endSection(); ?>

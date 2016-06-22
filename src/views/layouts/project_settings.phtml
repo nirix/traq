@@ -17,6 +17,9 @@
 		<li<?=iif(Request::matches(routePath('project_settings_milestones') . '(/.*)?'), ' class="active"')?>>
 			<a href="<?=routeUrl('project_settings_milestones')?>"><?=t('milestones')?></a>
 		</li>
+		<li<?=iif(Request::matches(routePath('project_settings_components') . '(/.*)?'), ' class="active"')?>>
+			<a href="<?=routeUrl('project_settings_components')?>"><?=t('components')?></a>
+		</li>
 	</ul>
 </div>
 <?php $this->endSection(); ?>
