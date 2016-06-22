@@ -23,8 +23,6 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
 /**
  * Timeline model.
  *
@@ -34,11 +32,9 @@ use Avalon\Database\Model;
  */
 class Timeline extends Model
 {
-    // protected static $_tableName = PREFIX . 'timeline';
-
-    public static function tableName()
+    public static function tableName($withPrefix = true)
     {
-        return PREFIX . 'timeline';
+        return ($withPrefix ? static::connection()->prefix : '') . 'timeline';
     }
 
     /**
@@ -49,9 +45,9 @@ class Timeline extends Model
     public static function newTicketEvent($user, $ticket)
     {
         return new static([
-            'project_id' => $ticket->project_id,
-            'owner_id'   => $ticket->id,
-            'user_id'    => $user->id,
+            'project_id' => $ticket['project_id'],
+            'owner_id'   => $ticket['id'],
+            'user_id'    => $user['id'],
             'action'     => "ticket_created",
         ]);
     }
@@ -64,9 +60,9 @@ class Timeline extends Model
     public static function updateTicketEvent($user, $ticket, $action, $status)
     {
         return new static([
-            'project_id' => $ticket->project_id,
-            'owner_id'   => $ticket->id,
-            'user_id'    => $user->id,
+            'project_id' => $ticket['project_id'],
+            'owner_id'   => $ticket['id'],
+            'user_id'    => $user['id'],
             'action'     => $action,
             'data'       => $status
         ]);
@@ -80,9 +76,9 @@ class Timeline extends Model
     public static function milestoneCompletedEvent($user, $milestone)
     {
         return new static([
-            'project_id' => $milestone->project_id,
-            'owner_id'   => $milestone->id,
-            'user_id'    => $user->id,
+            'project_id' => $milestone['project_id'],
+            'owner_id'   => $milestone['id'],
+            'user_id'    => $user['id'],
             'action'     => 'milestone_completed',
         ]);
     }
@@ -95,9 +91,9 @@ class Timeline extends Model
     public static function wikiPageCreatedEvent($user, $page)
     {
         return new static([
-            'project_id' => $page->project_id,
-            'owner_id'   => $page->id,
-            'user_id'    => $user->id,
+            'project_id' => $page['project_id'],
+            'owner_id'   => $page['id'],
+            'user_id'    => $user['id'],
             'action'     => "wiki_page_created",
         ]);
     }
