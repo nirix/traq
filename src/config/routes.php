@@ -22,9 +22,13 @@ Router::get('user', '/users/{id}', "{$ns}Users::show");
 Router::get('usercp', '/usercp', "{$ns}UserCP::index");
 
 // -----------------------------------------------------------------------------
-// Project routes
+// Admin routes
 require __DIR__ . '/routes/admin.php';
 
 // -----------------------------------------------------------------------------
 // Project routes
 require __DIR__ . '/routes/projects.php';
+
+// -----------------------------------------------------------------------------
+// Project settings routes
+require __DIR__ . '/routes/project_settings.php';
