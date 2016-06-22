@@ -27,6 +27,7 @@ use Avalon\Http\Request;
 use Traq\Models\User;
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;
+use Traq\Models\Timeline;
 
 /**
  * Wiki controller.
@@ -137,6 +138,9 @@ class Wiki extends AppController
             $revision->save();
             $page->revision_id = $revision->id;
             $page->save();
+
+            $timelineEvent = Timeline::wikiPageCreatedEvent($this->currentUser, $page);
+            $timelineEvent->save();
 
             return $this->redirectTo('wiki_page', ['slug' => $page['slug']]);
         }
