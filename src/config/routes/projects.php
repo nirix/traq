@@ -10,7 +10,7 @@ Router::get('changelog', '/{pslug}/changelog', "{$ns}Projects::changelog");
 // Timeline
 Router::get('timeline', '/{pslug}/timeline', "{$ns}Timeline::index");
 Router::post('timeline_filter', '/{pslug}/timeline', "{$ns}Timeline::setFilters");
-Router::delete('timeline_delete_event', '/{pslug}/timeline/{id}/delete', "{$ns}Timeline::deleteEvent");
+Router::delete('timeline_delete_event', '/{pslug}/timeline/{id}', "{$ns}Timeline::deleteEvent");
 
 // Roadmap
 Router::get('roadmap', '/{pslug}/roadmap', "{$ns}Roadmap::index");
