@@ -59,6 +59,15 @@ class Ticket extends Model
         'updated_at' => 'datetime'
     ];
 
+    protected static $_before = [
+        'save' => ['updateIsClosed']
+    ];
+
+    /**
+     * @var null|integer
+     */
+    protected $originalStatusId;
+
     /**
      * Whether or not the ticket is being closed.
      *
@@ -72,4 +81,46 @@ class Ticket extends Model
      * @var boolean
      */
     public $isReopening = false;
+
+    public function __construct(array $data = [], $isNew = true)
+    {
+        parent::__construct($data, $isNew);
+
+        if (!$isNew) {
+            $this->originalStatusId = $this['status_id'];
+        }
+    }
+
+    /**
+     * Update the `is_closed` property.
+     */
+    public function updateIsClosed()
+    {
+        $this->isClosing = false;
+        $this->isReopening = false;
+
+        // Don't do anything unless the status has changed
+        if ($this->originalStatusId != $this['status_id']) {
+            $status = Status::find($this['status_id']);
+
+            // Did the status change to open/started or closed?
+            if ($status->status >= 1) {
+                // Reopen ticket
+                if ($this['is_closed']) {
+                    $this->isClosing = false;
+                    $this->isReopening = true;
+                }
+
+                $this['is_closed'] = false;
+                $this->isClosing = false;
+            } elseif ($status->status == 0) {
+                // Close ticket
+                if (!$this['is_closed']) {
+                    $this->isClosing = true;
+                }
+
+                $this['is_closed'] = true;
+            }
+        }
+    }
 }
