@@ -265,10 +265,6 @@ class Wiki extends AppController
      */
     public function destroyAction()
     {
-        foreach ($this->page->revisions()->fetchAll() as $revision) {
-            $revision->delete();
-        }
-
         $this->page->delete();
 
         return $this->redirectTo('wiki');

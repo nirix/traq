@@ -54,4 +54,27 @@ class WikiPage extends Model
 
         return $this->revision = $this->revisions()->orderBy('revision', 'DESC')->fetch();
     }
+
+    /**
+     * Delete wiki page, revisions and timeline events.
+     */
+    public function delete()
+    {
+        foreach ($this->revisions()->fetchAll() as $revision) {
+            $revision->delete();
+        }
+
+        $timelineEvents = Timeline::select()
+            ->where("owner_type = :ownerType")
+            ->andWhere('owner_id = :ownerId')
+            ->setParameter(':ownerType', 'WikiPage')
+            ->setParameter(':ownerId', $this['id'])
+            ->fetchAll();
+
+        foreach ($timelineEvents as $event) {
+            $event->delete();
+        }
+
+        return parent::delete();
+    }
 }
