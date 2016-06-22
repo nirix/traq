@@ -288,12 +288,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/language.git",
-                "reference": "3a77657d6c07537618a91438d2da1bb86ecaf6a6"
+                "reference": "4961d0bbf1cd15d5017b727e1f8bfb4c0598e166"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/language/zipball/3a77657d6c07537618a91438d2da1bb86ecaf6a6",
-                "reference": "3a77657d6c07537618a91438d2da1bb86ecaf6a6",
+                "url": "https://api.github.com/repos/avalonphp/language/zipball/4961d0bbf1cd15d5017b727e1f8bfb4c0598e166",
+                "reference": "4961d0bbf1cd15d5017b727e1f8bfb4c0598e166",
                 "shasum": ""
             },
             "require": {
@@ -326,7 +326,7 @@
                 "language",
                 "translations"
             ],
-            "time": "2016-01-30 09:11:53"
+            "time": "2016-06-22 15:41:31"
         },
         {
             "name": "avalon/templating",
