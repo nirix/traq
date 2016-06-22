@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/avalon.git",
-                "reference": "50ada89318cc26b336db0a8ccd8b524dc1a8dc5a"
+                "reference": "afbfc1fd7ea6e6223912aa208ca3ab7a8bfe7bb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/50ada89318cc26b336db0a8ccd8b524dc1a8dc5a",
-                "reference": "50ada89318cc26b336db0a8ccd8b524dc1a8dc5a",
+                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/afbfc1fd7ea6e6223912aa208ca3ab7a8bfe7bb4",
+                "reference": "afbfc1fd7ea6e6223912aa208ca3ab7a8bfe7bb4",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "framework",
                 "mvc"
             ],
-            "time": "2016-05-30 09:46:02"
+            "time": "2016-06-22 06:54:46"
         },
         {
             "name": "avalon/database",
@@ -60,12 +60,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "dca49e15c36aef294a41560a8489ec3d5e9c0c38"
+                "reference": "ffa991a071ea34ee036f417d905db997ada04544"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/dca49e15c36aef294a41560a8489ec3d5e9c0c38",
-                "reference": "dca49e15c36aef294a41560a8489ec3d5e9c0c38",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/ffa991a071ea34ee036f417d905db997ada04544",
+                "reference": "ffa991a071ea34ee036f417d905db997ada04544",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2016-02-23 03:47:57"
+            "time": "2016-06-22 05:13:20"
         },
         {
             "name": "avalon/database-migrations",
@@ -971,12 +971,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/traq/installer.git",
-                "reference": "a3489341bbdca63251c48e270da806bb961f7978"
+                "reference": "7d82ee13d11c59cb63bcb7739962c85a994271ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/traq/installer/zipball/a3489341bbdca63251c48e270da806bb961f7978",
-                "reference": "a3489341bbdca63251c48e270da806bb961f7978",
+                "url": "https://api.github.com/repos/traq/installer/zipball/7d82ee13d11c59cb63bcb7739962c85a994271ef",
+                "reference": "7d82ee13d11c59cb63bcb7739962c85a994271ef",
                 "shasum": ""
             },
             "require": {
@@ -998,7 +998,7 @@
                     "name": "Nirix"
                 }
             ],
-            "time": "2016-05-30 15:56:57"
+            "time": "2016-06-03 08:12:17"
         },
         {
             "name": "traq/markdown-plugin",
