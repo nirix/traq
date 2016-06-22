@@ -124,7 +124,9 @@ function gravatarProfileLink($userEmail, $userName, $userId, $size = null)
  */
 function timeAgoInWords($timestamp)
 {
-    return Language::translate('time.x_ago', [Time::agoInWords($timestamp)]);
+    return $timestamp
+        ? Language::translate('time.x_ago', [Time::agoInWords($timestamp)])
+        : null;
 }
 
 /**
