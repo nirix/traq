@@ -5,7 +5,7 @@ return [
     'environment' => "production",
 
     // Database config
-    'database' => [
+    'db' => [
         'production' => [
             // MySQL connection
             'driver'   => 'pdo_mysql', // Database type.

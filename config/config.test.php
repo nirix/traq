@@ -1,7 +1,7 @@
 <?php
 return [
     'environment' => "test",
-    'database' => [
+    'db' => [
         'test' => [
             'driver'   => 'pdo_mysql',
             'host'     => '127.0.0.1',
