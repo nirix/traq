@@ -17,16 +17,28 @@ TestSuite::configure(function ($suite) {
     $whoops->register();
 });
 
+// -----------------------------------------------------------------------------
 // Load some helpers
 require __DIR__ . '/helpers.php';
 
+// Admin user
 $GLOBALS['admin'] = createUser(null, Group::find(1));
+
+// -----------------------------------------------------------------------------
 // Load some tests
+
+// Admin
+require __DIR__ . '/admin/dashboard.php';
+
+// Projects
 require __DIR__ . '/projects/show.php';
 require __DIR__ . '/projects/roadmap.php';
+
+// Tickets
 require __DIR__ . '/tickets/listing.php';
 require __DIR__ . '/tickets/update.php';
 
+// -----------------------------------------------------------------------------
 // Go
 printf('Running tests for Traq v%s / DB rev %d' . PHP_EOL . PHP_EOL, Traq\VERSION, Traq\DB_REVISION);
 TestSuite::run();
