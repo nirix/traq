@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/avalon.git",
-                "reference": "5f568d0f8ba866ab613d89d833d153cdccbbe4d7"
+                "reference": "aea5ce259f3ad55d06ea76f17fc6a93518b7dc15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/5f568d0f8ba866ab613d89d833d153cdccbbe4d7",
-                "reference": "5f568d0f8ba866ab613d89d833d153cdccbbe4d7",
+                "url": "https://api.github.com/repos/avalonphp/avalon/zipball/aea5ce259f3ad55d06ea76f17fc6a93518b7dc15",
+                "reference": "aea5ce259f3ad55d06ea76f17fc6a93518b7dc15",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "framework",
                 "mvc"
             ],
-            "time": "2016-06-22 14:52:41"
+            "time": "2016-06-23 06:58:21"
         },
         {
             "name": "avalon/database",
@@ -1047,12 +1047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/testing.git",
-                "reference": "ca478cfb09f1ad7b8c9a2aa658ed53c4206a43ab"
+                "reference": "bcc948f2476a023c9aba7f9418da77f4412d07e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/testing/zipball/ca478cfb09f1ad7b8c9a2aa658ed53c4206a43ab",
-                "reference": "ca478cfb09f1ad7b8c9a2aa658ed53c4206a43ab",
+                "url": "https://api.github.com/repos/avalonphp/testing/zipball/bcc948f2476a023c9aba7f9418da77f4412d07e2",
+                "reference": "bcc948f2476a023c9aba7f9418da77f4412d07e2",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1084,7 @@
                 "framework",
                 "testing"
             ],
-            "time": "2016-06-22 14:53:29"
+            "time": "2016-06-23 06:59:20"
         },
         {
             "name": "filp/whoops",
