@@ -22,6 +22,7 @@ require __DIR__ . '/helpers.php';
 // Load some tests
 require __DIR__ . '/projects/show.php';
 require __DIR__ . '/projects/roadmap.php';
+require __DIR__ . '/tickets/listing.php';
 
 // Go
 printf('Running tests for Traq v%s / DB rev %d' . PHP_EOL . PHP_EOL, Traq\VERSION, Traq\DB_REVISION);
