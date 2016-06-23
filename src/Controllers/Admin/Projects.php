@@ -66,15 +66,17 @@ class Projects extends AppController
      */
     protected function modelParams()
     {
-        return [
+        $params = [
             'name'                   => Request::$post['name'],
             'slug'                   => Request::$post['slug'],
             'codename'               => Request::$post['codename'],
             'info'                   => Request::$post['info'],
-            'enable_wiki'            => (bool) Request::$post->get('enable_wiki', false),
+            'enable_wiki'            => Request::$post->get('enable_wiki', false),
             'default_ticket_type_id' => Request::$post['default_ticket_type_id'],
             'default_ticket_sorting' => Request::$post['default_ticket_sorting'],
-            'display_order'          => (int) Request::$post->get('display_order', 0)
+            'display_order'          => Request::$post['display_order']
         ];
+
+        return $this->removeNullValues($params);
     }
 }
