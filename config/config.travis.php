@@ -33,7 +33,8 @@ $db = [
 
     'sqlite' => [
         'driver' => 'pdo_sqlite',
-        'memory' => true
+        'memory' => true,
+        'prefix' => 'test_'
     ]
 ];
 
