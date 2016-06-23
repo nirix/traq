@@ -7,7 +7,7 @@
 			</a>
 		<?php endif ?>
 		<?php if (hasPermission('delete_ticket_history')) : ?>
-			<a href="<?=routeUrl('ticket_delete_comment')?>" class="btn btn-xs btn-link" title="<?=t('delete')?>" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
+			<a href="<?=routeUrl('ticket_delete_comment')?>" class="btn btn-xs btn-link" title="<?=t('delete')?>" data-method="delete" data-ajax-confirm="<?=t('confirm.delete')?>">
 				<i class="fa fa-times"></i>
 			</a>
 		<?php endif ?>
