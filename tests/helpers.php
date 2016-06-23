@@ -14,12 +14,16 @@ function createProject()
     return $project;
 }
 
-function createMilestone($projectId)
+function createMilestone($project = null)
 {
+    if (!$project) {
+        $project = createProject();
+    }
+
     $milestone = new Milestone([
         'name' => 'milestone-' . sha1(microtime()) . '-name',
         'slug' => 'milestone-' . sha1(microtime()) . '-slug',
-        'project_id' => $projectId
+        'project_id' => $project['id']
     ]);
     $milestone->save();
 

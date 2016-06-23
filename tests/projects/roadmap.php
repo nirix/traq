@@ -4,7 +4,7 @@ use Avalon\Testing\TestSuite;
 
 TestSuite::group('Roadmap', function ($g) {
     $project = createProject();
-    $milestone = createMilestone($project['id']);
+    $milestone = createMilestone($project);
 
     $g->test('List milestones', function ($t) use ($project, $milestone) {
         $resp = $t->visit('roadmap', [
