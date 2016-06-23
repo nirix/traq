@@ -46,6 +46,10 @@ class Ticket extends Model
         'severity_id' => ['required']
     ];
 
+    protected static $_belongsTo = [
+        'milestone'
+    ];
+
     protected static $_hasMany = [
         'history' => ['model' => 'TicketHistory']
     ];
