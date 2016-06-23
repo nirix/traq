@@ -53,7 +53,7 @@ function createTicket($project = null, $milestone = null, $user = null)
     }
 
     if (!$milestone) {
-        $milestone = createProject();
+        $milestone = createMilestone($project);
     }
 
     if (!$user) {
