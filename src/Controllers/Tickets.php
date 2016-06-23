@@ -288,7 +288,17 @@ class Tickets extends AppController
             $params['type_id'] = Request::$post->get('type_id');
         }
 
-        return $this->ticketParamsPermissionable('change', $params);
+        $params = $this->ticketParamsPermissionable('change', $params);
+
+        $paramsToSet = [];
+
+        foreach ($params as $key => $value) {
+            if ($value != null) {
+                $paramsToSet[$key] = $value;
+            }
+        }
+
+        return $paramsToSet;
     }
 
     /**
