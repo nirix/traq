@@ -29,6 +29,7 @@ $GLOBALS['admin'] = createUser(null, Group::find(1));
 
 // Admin
 require __DIR__ . '/admin/dashboard.php';
+require __DIR__ . '/admin/projects.php';
 
 // Projects
 require __DIR__ . '/projects/show.php';
