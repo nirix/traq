@@ -37,11 +37,11 @@ class CreateTickets extends Migration
             $t->addColumn("project_id", "bigint");
             $t->addColumn("milestone_id", "bigint", ['default' => 0]);
             $t->addColumn("version_id", "bigint", ['notnull' => false]);
-            $t->addColumn("component_id", "integer");
+            $t->addColumn("component_id", "integer", ['notnull' => false]);
             $t->addColumn("type_id", "integer");
             $t->addColumn("status_id", "integer", ['default' => 1]);
             $t->addColumn("priority_id", "integer", ['default' => 3]);
-            $t->addColumn("severity_id", "integer");
+            $t->addColumn("severity_id", "integer", ['default' => 4]);
             $t->addColumn("assigned_to_id", "bigint", ['default' => 0, 'notnull' => false]);
             $t->addColumn("is_closed", "boolean", ['default' => false]);
             $t->addColumn("is_private", "boolean", ['default' => false]);
