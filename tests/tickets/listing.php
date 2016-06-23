@@ -20,4 +20,17 @@ TestSuite::group('Ticket listing', function ($g) {
         $t->shouldContain($resp, $ticketA['summary']);
         $t->shouldContain($resp, $ticketB['summary']);
     });
+
+    $g->test('Show ticket', function ($t) use ($project, $ticketA) {
+        $resp = $t->visit('ticket', [
+            'routeTokens' => [
+                'pslug' => $project['slug'],
+                'id' => $ticketA['ticket_id']
+            ]
+        ]);
+
+        $t->shouldContain($resp, $project['name']);
+        $t->shouldContain($resp, '<h1 class="page-header">#' . $ticketA['ticket_id']. ' - ' . $ticketA['summary'] . '</h1>');
+        $t->shouldContain($resp, $ticketA['body']);
+    });
 });
