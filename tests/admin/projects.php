@@ -38,4 +38,18 @@ TestSuite::group('Admin / Projects', function ($g) {
 
         $t->shouldRedirectTo($resp, $t->generateUrl('admin_projects'));
     });
+
+    $g->test('Delete project', function ($t) use ($admin, $project) {
+        $resp = $t->visit('admin_delete_project', [
+            'method' => 'DELETE',
+            'routeTokens' => [
+                'id' => $project['id']
+            ],
+            'cookie' => [
+                'traq' => $admin['session_hash']
+            ]
+        ]);
+
+        $t->shouldRedirectTo($resp, $t->generateUrl('admin_projects'));
+    });
 });
