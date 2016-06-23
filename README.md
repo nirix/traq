@@ -4,6 +4,8 @@ Traq
 Traq is a PHP powered project manager and issue tracker featuring multiple projects,
 milestones, custom fields, per-project permissions, email notifications and much more.
 
+[![Build Status](https://travis-ci.org/nirix/traq.svg?branch=master)](https://travis-ci.org/nirix/traq)
+
 Requirements
 ------------
 
