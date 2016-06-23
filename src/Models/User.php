@@ -38,6 +38,8 @@ class User extends Model
     protected $securePasswordField = 'password';
     use SecurePassword;
 
+    protected static $_tableAlias = 'u';
+
     protected static $_validations = [
         'username' => ['required', 'unique', 'minLength' => 3],
         'password' => ['required', 'minLength' => 6, 'confirm'],
