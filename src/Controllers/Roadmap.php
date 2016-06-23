@@ -24,6 +24,8 @@
 namespace Traq\Controllers;
 
 use Traq\Models\Milestone;
+use Traq\Models\Ticket;
+use Traq\Models\Status;
 
 /**
  * Roadmap controller.
@@ -53,6 +55,8 @@ class Roadmap extends AppController
             ->addSelect("({$startedQuery}) AS started_tickets")
             ->addSelect("({$closedQuery}) AS closed_tickets")
             ->setParameter('project_id', $this->currentProject['id'])
+            ->setParameter('open_count_is_closed', false, 'boolean')
+            ->setParameter('closed_count_is_closed', true, 'boolean')
             ->orderBy('display_order', 'ASC');
 
         if ($filter == 'active') {
@@ -90,6 +94,8 @@ class Roadmap extends AppController
             ->addSelect("({$closedQuery}) AS closed_tickets")
             ->setParameter('project_id', $this->currentProject['id'])
             ->setParameter('slug', $slug)
+            ->setParameter('open_count_is_closed', false, 'boolean')
+            ->setParameter('closed_count_is_closed', false, 'boolean')
             ->fetch();
 
         $this->addCrumb($milestone['name'], $this->generateUrl('milestone', ['slug' => $milestone['slug']]));
@@ -111,23 +117,20 @@ class Roadmap extends AppController
     protected function getTicketCountQueries()
     {
         // Open ticket count
-        $openQuery = queryBuilder()->select('COUNT(ot.id)')
-            ->from(PREFIX . 'tickets', 'ot')
-            ->where('ot.milestone_id = m.id')
-            ->andWhere('ot.is_closed = 0');
+        $openQuery = Ticket::select('COUNT(t.id)')
+            ->where('t.milestone_id = m.id')
+            ->andWhere('t.is_closed = :open_count_is_closed');
 
         // Started ticket count
-        $startedQuery = queryBuilder()->select('COUNT(st.id)')
-            ->from(PREFIX . 'tickets', 'st')
-            ->where('st.milestone_id = m.id')
+        $startedQuery = Ticket::select('COUNT(t.id)')
+            ->where('t.milestone_id = m.id')
             ->andWhere('s.status = 2')
-            ->leftJoin('st', PREFIX . 'statuses', 's', 's.id = st.status_id');
+            ->leftJoin('t', Status::tableName(), 's', 's.id = t.status_id');
 
         // Closed query count
-        $closedQuery = queryBuilder()->select('COUNT(ct.id)')
-            ->from(PREFIX . 'tickets', 'ct')
-            ->where('ct.milestone_id = m.id')
-            ->andWhere('ct.is_closed = 1');
+        $closedQuery = Ticket::select('COUNT(t.id)')
+            ->where('t.milestone_id = m.id')
+            ->andWhere('t.is_closed = :closed_count_is_closed');
 
         return [$openQuery, $startedQuery, $closedQuery];
     }
