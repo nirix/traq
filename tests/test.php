@@ -5,6 +5,7 @@ require_once dirname(__DIR__) . '/src/version.php';
 use Avalon\Testing\TestSuite;
 use Traq\Kernel as TraqKernel;
 use Traq\Database\Seeder as TraqSeeder;
+use Traq\Models\Group;
 
 TestSuite::configure(function ($suite) {
     $suite->setAppClass(TraqKernel::class);
@@ -19,6 +20,7 @@ TestSuite::configure(function ($suite) {
 // Load some helpers
 require __DIR__ . '/helpers.php';
 
+$GLOBALS['admin'] = createUser(null, Group::find(1));
 // Load some tests
 require __DIR__ . '/projects/show.php';
 require __DIR__ . '/projects/roadmap.php';
