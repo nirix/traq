@@ -28,6 +28,7 @@ use Avalon\AppKernel;
 use Avalon\Templating\View;
 use Avalon\Templating\Engines\PhpExtended;
 use Avalon\Database\ConnectionManager;
+use Traq\Models\Plugin as PluginModel;
 
 /**
  * The heart of Traq.
@@ -92,8 +93,9 @@ class Kernel extends AppKernel
     {
         $queue = [];
 
-        $plugins = queryBuilder()->select('*')->from(PREFIX . 'plugins')
-            ->where('is_enabled = 1')
+        $plugins = PluginModel::select()
+            ->where('is_enabled = ?')
+            ->setParameter(0, true)
             ->execute()
             ->fetchAll();
 
