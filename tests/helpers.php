@@ -5,14 +5,20 @@ use Traq\Models\Project;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 
-function createUser($password = null)
+function createUser($password = null, $group = null)
 {
+    if (!$group) {
+        $groupId = 3;
+    } else {
+        $groupId = $group['id'];
+    }
+
     $user = new User([
         'name'     => 'user-' . substr(sha1(microtime()), 0, 5) . '-name',
         'username' => 'user-' . substr(sha1(microtime()), 0, 10) . '-username',
         'email'    => 'user-' . substr(sha1(microtime()), 0, 10) . '-email@example.com',
         'password' => $password ?: microtime(),
-        'group_id' => 3
+        'group_id' => $groupId
     ]);
     $user->save();
 
