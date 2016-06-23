@@ -150,4 +150,22 @@ class AppController extends Controller
         // Just pass it off to the regular `hasPermission` function.
         return hasPermission($action, $project);
     }
+
+    /**
+     * Remove null values from an array.
+     *
+     * @param array $array
+     *
+     * return array
+     */
+    protected function removeNullValues(array $array)
+    {
+        foreach ($array as $key => $value) {
+            if ($value === null) {
+                unset($array[$key]);
+            }
+        }
+
+        return $array;
+    }
 }
