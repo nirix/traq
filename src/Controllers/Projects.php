@@ -121,11 +121,13 @@ class Projects extends AppController
             $tickets->leftJoin('t', Type::tableName(), 'type', 'type.id = t.type_id');
 
             // Filter by closed and milestones
-            $tickets->where('is_closed = 1')
+            $tickets->where('is_closed = :is_closed')
                 ->andWhere(
                     $tickets->expr()->in('milestone_id', array_keys($milestones))
                 )
                 ->orderBy('type_bullet', 'ASC');
+
+            $tickets->setParameter('is_closed', true, 'boolean');
 
             foreach ($tickets->fetchAll() as $ticket) {
                 $ticketInfo = [
