@@ -48,6 +48,13 @@ class Milestone extends Model
     /**
      * @var array
      */
+    protected static $_hasMany = [
+        'tickets'
+    ];
+
+    /**
+     * @var array
+     */
     protected static $_dataTypes = [
         'is_locked' => 'boolean',
         'completed_at' => 'datetime'
@@ -114,5 +121,17 @@ class Milestone extends Model
         if (isset($this['status'])) {
             $this->originalStatus = $this['status'];
         }
+    }
+
+    /**
+     * Delete milestone.
+     */
+    public function delete()
+    {
+        foreach ($this->tickets()->fetchAll() as $ticket) {
+            $ticket->delete();
+        }
+
+        parent::delete();
     }
 }
