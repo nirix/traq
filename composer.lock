@@ -1047,12 +1047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/testing.git",
-                "reference": "16be9239a5d2e783dedf815aad0be2b953c44b7e"
+                "reference": "7eae4aa5acf9b0cc75d92650950e9185b982ae73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/testing/zipball/16be9239a5d2e783dedf815aad0be2b953c44b7e",
-                "reference": "16be9239a5d2e783dedf815aad0be2b953c44b7e",
+                "url": "https://api.github.com/repos/avalonphp/testing/zipball/7eae4aa5acf9b0cc75d92650950e9185b982ae73",
+                "reference": "7eae4aa5acf9b0cc75d92650950e9185b982ae73",
                 "shasum": ""
             },
             "require": {
@@ -1085,7 +1085,7 @@
                 "framework",
                 "testing"
             ],
-            "time": "2016-06-25 04:35:26"
+            "time": "2016-06-25 12:58:56"
         },
         {
             "name": "filp/whoops",
