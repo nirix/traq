@@ -1,8 +1,6 @@
 <?php
 
-use Avalon\Testing\TestSuite;
-
-TestSuite::group('Roadmap', function ($g) {
+$testSuite->createGroup('Requests / Projects / Roadmap', function ($g) {
     $project = createProject();
     $milestone = createMilestone($project);
 
@@ -13,20 +11,18 @@ TestSuite::group('Roadmap', function ($g) {
             ]
         ]);
 
-        $t->shouldContain($resp, '<h1 class="page-header">Roadmap</h1>');
-        $t->shouldContain($resp, $project['name']);
-        $t->shouldContain($resp, $milestone['name']);
+        $t->assertContains('<h1 class="page-header">Roadmap</h1>', $resp->body);
+        $t->assertContains($milestone['name'], $resp->body);
     });
 
     $g->test('Show milestone', function ($t) use ($project, $milestone) {
         $resp = $t->visit('milestone', [
             'routeTokens' => [
                 'pslug' => $project['slug'],
-                'slug' => $milestone['slug']
+                'slug'  => $milestone['slug']
             ]
         ]);
 
-        $t->shouldContain($resp, $project['name']);
-        $t->shouldContain($resp, $milestone['name']);
+        $t->assertContains($milestone['name'], $resp->body);
     });
 });

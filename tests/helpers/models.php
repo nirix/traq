@@ -1,6 +1,7 @@
 <?php
 
 use Traq\Models\User;
+use Traq\Models\Group;
 use Traq\Models\Project;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
@@ -23,6 +24,11 @@ function createUser($password = null, $group = null)
     $user->save();
 
     return $user;
+}
+
+function createAdmin($password = null, $group = null)
+{
+    return createUser($password, Group::find(1));
 }
 
 function createProject()

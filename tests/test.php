@@ -1,45 +1,37 @@
 <?php
-require dirname(__DIR__) . '/vendor/autoload.php';
-require_once dirname(__DIR__) . '/src/version.php';
+$autoloader = require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../src/version.php';
+
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
+$whoops->register();
 
 use Avalon\Testing\TestSuite;
-use Traq\Kernel as TraqKernel;
-use Traq\Database\Seeder as TraqSeeder;
-use Traq\Models\Group;
 
-TestSuite::configure(function ($suite) {
-    $suite->setAppClass(TraqKernel::class);
-    $suite->setAppPath(dirname(__DIR__) . '/src');
-    $suite->setSeeder(new TraqSeeder);
+$testSuite = new TestSuite(
+    Traq\Kernel::class,
+    Traq\Database\Seeder::class,
+    require __DIR__ . '/../config/config.php'
+);
 
-    $whoops = new \Whoops\Run;
-    $whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
-    $whoops->register();
-});
+if ($testSuite->codeCoverageEnabled()) {
+    $coverageFilter = $testSuite->getCodeCoverage()->filter();
+    $coverageFilter->addDirectoryToWhitelist('src');
+    $coverageFilter->removeDirectoryFromWhitelist('src/config');
+    $coverageFilter->removeDirectoryFromWhitelist('src/Database');
+    $coverageFilter->removeDirectoryFromWhitelist('src/Translations');
+    $coverageFilter->removeDirectoryFromWhitelist('src/views');
+    $coverageFilter->removeFileFromWhitelist('src/version.php');
+    // $coverageFilter->removeFileFromWhitelist('src/Kernel.php');
+    // $coverageFilter->removeFileFromWhitelist('src/Plugin.php');
+}
 
-// -----------------------------------------------------------------------------
-// Load some helpers
-require __DIR__ . '/helpers.php';
+require __DIR__ . '/helpers/models.php';
+require __DIR__ . '/tests/requests/admin/dashboard.php';
+require __DIR__ . '/tests/requests/admin/projects.php';
+require __DIR__ . '/tests/requests/projects/roadmap.php';
+require __DIR__ . '/tests/requests/projects/listing.php';
+require __DIR__ . '/tests/requests/tickets/listing.php';
+require __DIR__ . '/tests/requests/tickets/update.php';
 
-// Admin user
-$GLOBALS['admin'] = createUser(null, Group::find(1));
-
-// -----------------------------------------------------------------------------
-// Load some tests
-
-// Admin
-require __DIR__ . '/admin/dashboard.php';
-require __DIR__ . '/admin/projects.php';
-
-// Projects
-require __DIR__ . '/projects/show.php';
-require __DIR__ . '/projects/roadmap.php';
-
-// Tickets
-require __DIR__ . '/tickets/listing.php';
-require __DIR__ . '/tickets/update.php';
-
-// -----------------------------------------------------------------------------
-// Go
-printf('Running tests for Traq v%s / DB rev %d' . PHP_EOL . PHP_EOL, Traq\VERSION, Traq\DB_REVISION);
-TestSuite::run();
+$testSuite->run();

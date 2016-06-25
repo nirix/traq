@@ -1,8 +1,6 @@
 <?php
 
-use Avalon\Testing\TestSuite;
-
-TestSuite::group('Ticket listing', function ($g) {
+$testSuite->createGroup('Requests / Tickets / Listing', function ($g) {
     $project = createProject();
     $milestone = createMilestone($project);
     $ticketA = createTicket($project, $milestone);
@@ -15,10 +13,10 @@ TestSuite::group('Ticket listing', function ($g) {
             ]
         ]);
 
-        $t->shouldContain($resp, '<h1 class="page-header">Tickets</h1>');
-        $t->shouldContain($resp, $project['name']);
-        $t->shouldContain($resp, $ticketA['summary']);
-        $t->shouldContain($resp, $ticketB['summary']);
+        $t->assertContains('<h1 class="page-header">Tickets</h1>', $resp);
+        $t->assertContains($project['name'], $resp);
+        $t->assertContains($ticketA['summary'], $resp);
+        $t->assertContains($ticketB['summary'], $resp);
     });
 
     $g->test('Show ticket', function ($t) use ($project, $ticketA) {
@@ -29,8 +27,8 @@ TestSuite::group('Ticket listing', function ($g) {
             ]
         ]);
 
-        $t->shouldContain($resp, $project['name']);
-        $t->shouldContain($resp, '<h1 class="page-header">#' . $ticketA['ticket_id']. ' - ' . $ticketA['summary'] . '</h1>');
-        $t->shouldContain($resp, $ticketA['body']);
+        $t->assertContains($project['name'], $resp);
+        $t->assertContains('<h1 class="page-header">#' . $ticketA['ticket_id']. ' - ' . $ticketA['summary'] . '</h1>', $resp);
+        $t->assertContains($ticketA['body'], $resp);
     });
 });
