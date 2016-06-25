@@ -109,7 +109,9 @@ class Permissions
      *
      * @var array
      */
-    protected static $permissions = [];
+    protected static $permissions = [
+        'misc' => []
+    ];
 
     /**
      * Returns default permissions.
@@ -147,7 +149,7 @@ class Permissions
         } else {
             $flatPermissions = [];
 
-            foreach (static::$defaults as $category => $perms) {
+            foreach ($permissions as $category => $perms) {
                 $flatPermissions = $flatPermissions + $perms;
             }
 
