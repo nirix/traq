@@ -11,7 +11,7 @@ env:
   - DB=postgresql
   - DB=sqlite
 install:
-  - composer install
+  - if [ $(phpenv version-name) = "5.5" ]; then composer update --ignore-platform-reqs; else composer update; fi
   - mv config/config.travis.php config/config.php
 before_script:
   - mysql -e 'create database traq_test;'
