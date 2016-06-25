@@ -2,9 +2,6 @@
 $autoloader = require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/version.php';
 
-$whoops = new \Whoops\Run;
-$whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
-$whoops->register();
 
 use Avalon\Testing\TestSuite;
 
