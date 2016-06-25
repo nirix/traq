@@ -6,6 +6,8 @@
 /assets/components
 /assets/js/js.js
 /themes
+/tmp
+/code_coverage
 
 # Composer
 /vendor
