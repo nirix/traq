@@ -167,7 +167,7 @@ class Permissions
      */
     public static function add($action, $default = false, $category = 'misc')
     {
-        $permissions = static::getPermissions();
+        $permissions = static::getPermissions(true);
 
         if (isset($permissions[$category][$action])) {
             throw new Exception("Permission [{$category}][{$action}] already exists.");

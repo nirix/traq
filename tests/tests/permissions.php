@@ -22,4 +22,15 @@ $testSuite->createGroup('Permissions API', function ($g) {
         $t->assertTrue(isset($permissions['test_add_permission']));
         $t->assertTrue(isset($permissionsWithCategories['test']['test_add_permission']));
     });
+
+    $g->test('Permission exists', function ($t) {
+        try {
+            Permissions::add('test_add_permission', true, 'test');
+            Permissions::add('test_add_permission', true, 'test');
+        } catch (\Exception $e) {
+            $caught = true;
+        }
+
+        $t->assertTrue(isset($caught));
+    });
 });
