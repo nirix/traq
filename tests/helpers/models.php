@@ -31,6 +31,16 @@ function createAdmin($password = null, $group = null)
     return createUser($password, Group::find(1));
 }
 
+function createGroup()
+{
+    $group = new Group([
+        'name' => 'group-' . substr(sha1(microtime()), 0, 5) . '-name'
+    ]);
+    $group->save();
+
+    return $group;
+}
+
 function createProject()
 {
     $project = new Project([
