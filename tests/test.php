@@ -34,5 +34,6 @@ require __DIR__ . '/tests/requests/projects/roadmap.php';
 require __DIR__ . '/tests/requests/projects/listing.php';
 require __DIR__ . '/tests/requests/tickets/listing.php';
 require __DIR__ . '/tests/requests/tickets/update.php';
+require __DIR__ . '/tests/requests/wiki/main_page.php';
 
 $testSuite->run();
