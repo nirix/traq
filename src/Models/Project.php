@@ -119,4 +119,20 @@ class Project extends Model
 
         return $options;
     }
+
+    /**
+     * Delete project.
+     */
+    public function delete()
+    {
+        foreach ($this->milestones()->fetchAll() as $milestone) {
+            $milestone->delete();
+        }
+
+        foreach ($this->wikiPages()->fetchAll() as $page) {
+            $page->delete();
+        }
+
+        return parent::delete();
+    }
 }

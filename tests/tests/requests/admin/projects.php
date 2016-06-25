@@ -1,5 +1,7 @@
 <?php
 
+use Traq\Models\Milestone;
+
 $testSuite->createGroup('Requests / Admin / Projects', function ($g) {
     $admin = createAdmin();
     $project = createProject();
@@ -38,6 +40,8 @@ $testSuite->createGroup('Requests / Admin / Projects', function ($g) {
     });
 
     $g->test('Delete project', function ($t) use ($admin, $project) {
+        $milestone = createMilestone($project);
+
         $resp = $t->visit('admin_delete_project', [
             'method' => 'DELETE',
             'routeTokens' => [
@@ -49,5 +53,6 @@ $testSuite->createGroup('Requests / Admin / Projects', function ($g) {
         ]);
 
         $t->assertRedirectTo($t->generateUrl('admin_projects'), $resp);
+        $t->assertFalse(Milestone::find($milestone['id']));
     });
 });
