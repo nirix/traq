@@ -159,7 +159,7 @@ class Kernel extends AppKernel
             $db['prefix'] = '';
         }
 
-        $GLOBALS['db'] = ConnectionManager::getConnection() ?: ConnectionManager::create($db);
+        ConnectionManager::getConnection() ?: ConnectionManager::create($db);
         define('PREFIX', $db['prefix']);
         unset($db);
     }
