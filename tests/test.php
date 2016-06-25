@@ -27,6 +27,7 @@ if ($testSuite->codeCoverageEnabled()) {
 }
 
 require __DIR__ . '/helpers/models.php';
+require __DIR__ . '/tests/permissions.php';
 require __DIR__ . '/tests/models/project.php';
 require __DIR__ . '/tests/requests/admin/dashboard.php';
 require __DIR__ . '/tests/requests/admin/projects.php';
