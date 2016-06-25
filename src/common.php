@@ -23,6 +23,7 @@
 
 use Avalon\Language;
 use Avalon\Helpers\Time;
+use Avalon\Database\ConnectionManager;
 use Traq\Models\Setting;
 use Traq\Models\Ticket;
 use Traq\Models\Project;
@@ -33,7 +34,7 @@ use Traq\Models\Permission;
  */
 function queryBuilder()
 {
-    return $GLOBALS['db']->createQueryBuilder();
+    return ConnectionManager::getConnection()->createQueryBuilder();
 }
 
 /**
