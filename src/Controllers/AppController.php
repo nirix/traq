@@ -85,6 +85,8 @@ class AppController extends Controller
         if ($sessionHash = Request::$cookies->get('traq')) {
             $this->currentUser = User::find('session_hash', $sessionHash) ?: null;
             $GLOBALS['current_user'] = $this->currentUser;
+        } else {
+            $GLOBALS['current_user'] = null;
         }
 
         // Get current project.
@@ -97,6 +99,8 @@ class AppController extends Controller
                     return $this->show404();
                 }
             });
+        } else {
+            $GLOBALS['current_project'] = null;
         }
 
         $GLOBALS['permissions'] = Permission::getPermissions($this->currentUser, $this->currentProject);
