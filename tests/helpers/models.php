@@ -3,6 +3,7 @@
 use Traq\Models\User;
 use Traq\Models\Group;
 use Traq\Models\Project;
+use Traq\Models\ProjectRole;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\WikiPage;
@@ -53,6 +54,16 @@ function createProject()
     $project->save();
 
     return $project;
+}
+
+function createProjectRole()
+{
+    $role = new ProjectRole([
+        'name' => 'project-role-' . mkRandomHash() . '-name'
+    ]);
+    $role->save();
+
+    return $role;
 }
 
 function createMilestone($project = null)
