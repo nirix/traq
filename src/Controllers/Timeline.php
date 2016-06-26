@@ -116,7 +116,6 @@ class Timeline extends AppController
             foreach ($events as $event) {
                 if (strpos($event['action'], 'ticket_') === 0) {
                     $ids['tickets'][] = $event['owner_id'];
-
                 } elseif (strpos($event['action'], 'milestone_') === 0) {
                     $ids['milestones'][] = $event['owner_id'];
                 } elseif (strpos($event['action'], 'wiki_page') === 0) {
@@ -130,7 +129,7 @@ class Timeline extends AppController
         }
 
         // Fetch needed data all at once instead of one at a time, less queries executed
-        $tickets    = $this->getTickets($ids['tickets']);
+        $tickets    = $this->getRows('tickets', $ids['tickets']);
         $milestones = $this->getRows('milestones', $ids['milestones']);
         $wikiPages  = $this->getRows('wiki_pages', $ids['wiki']);
 
@@ -211,33 +210,6 @@ class Timeline extends AppController
     }
 
     /**
-     * Get tickets.
-     *
-     * @param array $ids
-     *
-     * @return array
-     */
-    protected function getTickets($ids)
-    {
-        if (!count($ids)) {
-            return;
-        }
-
-        $query = ticketQuery();
-
-        $query->andWhere(
-            $query->expr()->in('t.id', $ids)
-        );
-
-        $tickets = [];
-        foreach ($query->execute()->fetchAll() as $ticket) {
-            $tickets[$ticket['id']] = $ticket;
-        }
-
-        return $tickets;
-    }
-
-    /**
      * Get rows from the specified table.
      *
      * @param array $ids
@@ -250,10 +222,19 @@ class Timeline extends AppController
             return;
         }
 
-        $query = queryBuilder()->select('*')->from(PREFIX . $table);
-        $query->where(
-            $query->expr()->in('id', $ids)
-        );
+        if ($table === 'tickets') {
+            $query = ticketQuery();
+
+            $query->andWhere(
+                $query->expr()->in('t.id', $ids)
+            );
+        } else {
+            $query = queryBuilder()->select('*')->from($this->db->prefix . $table);
+
+            $query->where(
+                $query->expr()->in('id', $ids)
+            );
+        }
 
         $rows = [];
         foreach ($query->execute()->fetchAll() as $row) {
