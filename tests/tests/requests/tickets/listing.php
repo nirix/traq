@@ -13,10 +13,10 @@ $testSuite->createGroup('Requests / Tickets / Listing', function ($g) {
             ]
         ]);
 
-        $t->assertContains('<h1 class="page-header">Tickets</h1>', $resp);
-        $t->assertContains($project['name'], $resp);
-        $t->assertContains($ticketA['summary'], $resp);
-        $t->assertContains($ticketB['summary'], $resp);
+        $t->assertContains('<h1 class="page-header">Tickets</h1>', $resp->body);
+        $t->assertContains($project['name'], $resp->body);
+        $t->assertContains($ticketA['summary'], $resp->body);
+        $t->assertContains($ticketB['summary'], $resp->body);
     });
 
     $g->test('Show ticket', function ($t) use ($project, $ticketA) {
@@ -27,8 +27,8 @@ $testSuite->createGroup('Requests / Tickets / Listing', function ($g) {
             ]
         ]);
 
-        $t->assertContains($project['name'], $resp);
-        $t->assertContains('<h1 class="page-header">#' . $ticketA['ticket_id']. ' - ' . $ticketA['summary'] . '</h1>', $resp);
-        $t->assertContains($ticketA['body'], $resp);
+        $t->assertContains($project['name'], $resp->body);
+        $t->assertContains('<h1 class="page-header">#' . $ticketA['ticket_id']. ' - ' . $ticketA['summary'] . '</h1>', $resp->body);
+        $t->assertContains($ticketA['body'], $resp->body);
     });
 });

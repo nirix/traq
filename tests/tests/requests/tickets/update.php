@@ -18,8 +18,8 @@ $testSuite->createGroup('Requests / Tickets / Update', function ($g) {
             ]
         ]);
 
-        $t->assertContains($originalMilestone['name'], $resp);
-        $t->assertNotContains('Changed <span class="ticket-history-property">Milestone</span>', $resp);
+        $t->assertContains($originalMilestone['name'], $resp->body);
+        $t->assertNotContains('Changed <span class="ticket-history-property">Milestone</span>', $resp->body);
 
         // Send PUT request to update milestone
         $updateResp = $t->visit('update_ticket', [
@@ -51,9 +51,9 @@ $testSuite->createGroup('Requests / Tickets / Update', function ($g) {
             ]
         ]);
 
-        $t->assertContains($project['name'], $checkResp);
-        $t->assertContains('Changed <span class="ticket-history-property">Milestone</span>', $checkResp);
-        $t->assertContains($milestone['name'], $checkResp);
-        $t->assertContains($originalMilestone['name'], $checkResp);
+        $t->assertContains($project['name'], $checkResp->body);
+        $t->assertContains('Changed <span class="ticket-history-property">Milestone</span>', $checkResp->body);
+        $t->assertContains($milestone['name'], $checkResp->body);
+        $t->assertContains($originalMilestone['name'], $checkResp->body);
     });
 });
