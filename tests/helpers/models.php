@@ -11,6 +11,7 @@ use Traq\Models\WikiRevision;
 use Traq\Models\Priority;
 use Traq\Models\Severity;
 use Traq\Models\Status;
+use Traq\Models\Type;
 
 function createUser($password = null, $group = null)
 {
@@ -177,4 +178,15 @@ function createStatus()
     $status->save();
 
     return $status;
+}
+
+function createType()
+{
+    $type = new Type([
+        'name' => 'type-' . mkRandomHash(5) . '-name',
+        'bullet' => rand(1, 100)
+    ]);
+    $type->save();
+
+    return $type;
 }

@@ -35,6 +35,7 @@ require __DIR__ . '/tests/requests/admin/project_roles.php';
 require __DIR__ . '/tests/requests/admin/users.php';
 require __DIR__ . '/tests/requests/admin/groups.php';
 require __DIR__ . '/tests/requests/admin/plugins.php';
+require __DIR__ . '/tests/requests/admin/types.php';
 require __DIR__ . '/tests/requests/admin/statuses.php';
 require __DIR__ . '/tests/requests/admin/priorities.php';
 require __DIR__ . '/tests/requests/admin/severities.php';
