@@ -52,8 +52,9 @@ class Permissions extends AppController
 
         $groupsQuery = queryBuilder()->select('g.*', 'p.permissions', 'p.type_id', 'p.id AS permission_id')
             ->from(PREFIX . 'usergroups', 'g')
-            ->leftJoin('g', PREFIX . 'permissions', 'p', 'p.type = "usergroup" AND p.type_id = g.id')
+            ->leftJoin('g', PREFIX . 'permissions', 'p', 'p.type = :p_type AND p.type_id = g.id')
             ->orderBy('g.id', 'ASC')
+            ->setParameter('p_type', 'usergroup')
             ->execute();
 
         foreach ($groupsQuery->fetchAll() as $group) {
@@ -91,8 +92,9 @@ class Permissions extends AppController
 
         $groupsQuery = queryBuilder()->select('r.*', 'p.permissions', 'p.type_id', 'p.id AS permission_id')
             ->from(PREFIX . 'project_roles', 'r')
-            ->leftJoin('r', PREFIX . 'permissions', 'p', 'p.type = "role" AND p.type_id = r.id')
+            ->leftJoin('r', PREFIX . 'permissions', 'p', 'p.type = :p_type AND p.type_id = r.id')
             ->orderBy('r.id', 'ASC')
+            ->setParameter('p_type', 'role')
             ->execute();
 
         foreach ($groupsQuery->fetchAll() as $group) {
