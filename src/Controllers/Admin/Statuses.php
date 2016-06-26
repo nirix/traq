@@ -74,7 +74,7 @@ class Statuses extends AppController
     {
         return [
             'name'              => Request::$post->get('name'),
-            'status'            => Request::$post->get('type'),
+            'status'            => Request::$post->get('type', 1),
             'show_on_changelog' => Request::$post->get('show_on_changelog', false)
         ];
     }
