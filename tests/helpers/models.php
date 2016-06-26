@@ -17,9 +17,9 @@ function createUser($password = null, $group = null)
     }
 
     $user = new User([
-        'name'     => 'user-' . substr(sha1(microtime()), 0, 5) . '-name',
-        'username' => 'user-' . substr(sha1(microtime()), 0, 10) . '-username',
-        'email'    => 'user-' . substr(sha1(microtime()), 0, 10) . '-email@example.com',
+        'name'     => 'user-' . mkRandomHash(5) . '-name',
+        'username' => 'user-' . mkRandomHash(10) . '-username',
+        'email'    => 'user-' . mkRandomHash(10) . '-email@example.com',
         'password' => $password ?: microtime(),
         'group_id' => $groupId
     ]);
@@ -36,7 +36,7 @@ function createAdmin($password = null, $group = null)
 function createGroup()
 {
     $group = new Group([
-        'name' => 'group-' . substr(sha1(microtime()), 0, 5) . '-name'
+        'name' => 'group-' . mkRandomHash(5) . '-name'
     ]);
     $group->save();
 
@@ -46,8 +46,8 @@ function createGroup()
 function createProject()
 {
     $project = new Project([
-        'name' => 'project-' . sha1(microtime()) . '-name',
-        'slug' => 'project-' . sha1(microtime()) . '-slug'
+        'name' => 'project-' . mkRandomHash() . '-name',
+        'slug' => 'project-' . mkRandomHash() . '-slug'
     ]);
     $project->save();
 
@@ -61,8 +61,8 @@ function createMilestone($project = null)
     }
 
     $milestone = new Milestone([
-        'name' => 'milestone-' . sha1(microtime()) . '-name',
-        'slug' => 'milestone-' . sha1(microtime()) . '-slug',
+        'name' => 'milestone-' . mkRandomHash() . '-name',
+        'slug' => 'milestone-' . mkRandomHash() . '-slug',
         'project_id' => $project['id']
     ]);
     $milestone->save();
@@ -86,8 +86,8 @@ function createTicket($project = null, $milestone = null, $user = null)
 
     $ticket = new Ticket([
         'ticket_id'    => $project['next_ticket_id'],
-        'summary'      => 'ticket-' . sha1(microtime()) . '-summary',
-        'body'         => 'ticket-' . sha1(microtime()) . '-body',
+        'summary'      => 'ticket-' . mkRandomHash() . '-summary',
+        'body'         => 'ticket-' . mkRandomHash() . '-body',
         'project_id'   => $project['id'],
         'user_id'      => $user['id'],
         'type_id'      => 1,
@@ -111,7 +111,7 @@ function createWikiPage($project = null, $user = null)
         $user = createUser();
     }
 
-    $prefix = 'wikipage-' . sha1(microtime());
+    $prefix = 'wikipage-' . mkRandomHash(10);
 
     $page = new WikiPage([
         'title'      => $prefix . '-title',

@@ -23,6 +23,7 @@ if ($testSuite->codeCoverageEnabled()) {
     // $coverageFilter->removeFileFromWhitelist('src/Plugin.php');
 }
 
+require __DIR__ . '/helpers/common.php';
 require __DIR__ . '/helpers/models.php';
 require __DIR__ . '/tests/permissions.php';
 require __DIR__ . '/tests/themes.php';
