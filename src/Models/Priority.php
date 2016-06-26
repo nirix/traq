@@ -33,7 +33,7 @@ namespace Traq\Models;
 class Priority extends Model
 {
     protected static $_validations = [
-        'name' => ['required']
+        'name' => ['required', 'unique']
     ];
 
     public static function selectOptions($valueField = 'id')
