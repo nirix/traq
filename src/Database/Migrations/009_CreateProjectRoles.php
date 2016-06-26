@@ -31,8 +31,8 @@ class CreateProjectRoles extends Migration
     {
         $this->createTable("project_roles", function ($t) {
             $t->addColumn("name", "string");
-            $t->addColumn("is_assignable", "boolean");
-            $t->addColumn("project_id", "bigint");
+            $t->addColumn("is_assignable", "boolean", ['default' => true]);
+            $t->addColumn("project_id", "bigint", ['notnull' => false]);
         });
     }
 
