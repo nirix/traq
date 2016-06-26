@@ -22,8 +22,8 @@ function createUser($password = null, $group = null)
 
     $user = new User([
         'name'     => 'user-' . mkRandomHash(5) . '-name',
-        'username' => 'user-' . mkRandomHash(10) . '-username',
-        'email'    => 'user-' . mkRandomHash(10) . '-email@example.com',
+        'username' => 'user-' . mkRandomHash(5) . '-username',
+        'email'    => 'user-' . mkRandomHash(5) . '-email@example.com',
         'password' => $password ?: microtime(),
         'group_id' => $groupId
     ]);
@@ -50,8 +50,8 @@ function createGroup()
 function createProject()
 {
     $project = new Project([
-        'name' => 'project-' . mkRandomHash() . '-name',
-        'slug' => 'project-' . mkRandomHash() . '-slug'
+        'name' => 'project-' . mkRandomHash(5) . '-name',
+        'slug' => 'project-' . mkRandomHash(5) . '-slug'
     ]);
     $project->save();
 
@@ -61,7 +61,7 @@ function createProject()
 function createProjectRole()
 {
     $role = new ProjectRole([
-        'name' => 'project-role-' . mkRandomHash() . '-name'
+        'name' => 'project-role-' . mkRandomHash(5) . '-name'
     ]);
     $role->save();
 
@@ -75,8 +75,8 @@ function createMilestone($project = null)
     }
 
     $milestone = new Milestone([
-        'name' => 'milestone-' . mkRandomHash() . '-name',
-        'slug' => 'milestone-' . mkRandomHash() . '-slug',
+        'name' => 'milestone-' . mkRandomHash(5) . '-name',
+        'slug' => 'milestone-' . mkRandomHash(5) . '-slug',
         'project_id' => $project['id']
     ]);
     $milestone->save();
@@ -100,8 +100,8 @@ function createTicket($project = null, $milestone = null, $user = null)
 
     $ticket = new Ticket([
         'ticket_id'    => $project['next_ticket_id'],
-        'summary'      => 'ticket-' . mkRandomHash() . '-summary',
-        'body'         => 'ticket-' . mkRandomHash() . '-body',
+        'summary'      => 'ticket-' . mkRandomHash(5) . '-summary',
+        'body'         => 'ticket-' . mkRandomHash(5) . '-body',
         'project_id'   => $project['id'],
         'user_id'      => $user['id'],
         'type_id'      => 1,
@@ -125,7 +125,7 @@ function createWikiPage($project = null, $user = null)
         $user = createUser();
     }
 
-    $prefix = 'wikipage-' . mkRandomHash(10);
+    $prefix = 'wikipage-' . mkRandomHash(5);
 
     $page = new WikiPage([
         'title'      => $prefix . '-title',
@@ -152,7 +152,7 @@ function createWikiPage($project = null, $user = null)
 function createPriority()
 {
     $priority = new Priority([
-        'name' => mkRandomHash(5)
+        'name' => 'priority-' . mkRandomHash(5) . '-name'
     ]);
     $priority->save();
 
@@ -162,7 +162,7 @@ function createPriority()
 function createSeverity()
 {
     $severity = new Severity([
-        'name' => mkRandomHash(5)
+        'name' => 'severity-' . mkRandomHash(5) . '-name'
     ]);
     $severity->save();
 
@@ -172,7 +172,7 @@ function createSeverity()
 function createStatus()
 {
     $status = new Status([
-        'name' => mkRandomHash(5)
+        'name' => 'status-' . mkRandomHash(5) . '-name'
     ]);
     $status->save();
 
