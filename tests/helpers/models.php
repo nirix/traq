@@ -5,6 +5,8 @@ use Traq\Models\Group;
 use Traq\Models\Project;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
+use Traq\Models\WikiPage;
+use Traq\Models\WikiRevision;
 
 function createUser($password = null, $group = null)
 {
@@ -97,4 +99,38 @@ function createTicket($project = null, $milestone = null, $user = null)
     $project->save();
 
     return $ticket;
+}
+
+function createWikiPage($project = null, $user = null)
+{
+    if (!$project) {
+        $project = createProject();
+    }
+
+    if (!$user) {
+        $user = createUser();
+    }
+
+    $prefix = 'wikipage-' . sha1(microtime());
+
+    $page = new WikiPage([
+        'title'      => $prefix . '-title',
+        'slug'       => $prefix . '-slug',
+        'project_id' => $project['id']
+    ]);
+
+    $revision = new WikiRevision([
+        'content' => $prefix . '-content',
+        'user_id' => $user['id']
+    ]);
+
+    $page->save();
+
+    $revision['wiki_page_id'] = $page['id'];
+    $revision->save();
+
+    $page['revision_id'] = $revision['id'];
+    $page->save();
+
+    return $page;
 }
