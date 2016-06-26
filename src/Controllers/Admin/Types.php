@@ -63,11 +63,11 @@ class Types extends AppController
 
     protected function modelParams()
     {
-        return [
+        return $this->removeNullValues([
             'name'              => Request::$post->get('name'),
             'bullet'            => Request::$post->get('bullet'),
             'show_on_changelog' => Request::$post->get('show_on_changelog', false),
             'template'          => Request::$post->get('template')
-        ];
+        ]);
     }
 }
