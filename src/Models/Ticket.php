@@ -47,6 +47,8 @@ class Ticket extends Model
     ];
 
     protected static $_belongsTo = [
+        'user',
+        'status',
         'milestone'
     ];
 
