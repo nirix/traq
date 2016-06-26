@@ -103,12 +103,12 @@ class Users extends AppController
      */
     protected function modelParams()
     {
-        return [
+        return $this->removeNullValues([
             'username' => Request::$post->get('username'),
             'password' => Request::$post->get('password'),
             'name'     => Request::$post->get('name'),
             'email'    => Request::$post->get('email'),
             'group_id' => Request::$post->get('group_id')
-        ];
+        ]);
     }
 }
