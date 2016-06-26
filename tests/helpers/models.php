@@ -9,6 +9,8 @@ use Traq\Models\Milestone;
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;
 use Traq\Models\Priority;
+use Traq\Models\Severity;
+use Traq\Models\Status;
 
 function createUser($password = null, $group = null)
 {
@@ -155,4 +157,24 @@ function createPriority()
     $priority->save();
 
     return $priority;
+}
+
+function createSeverity()
+{
+    $severity = new Severity([
+        'name' => mkRandomHash(5)
+    ]);
+    $severity->save();
+
+    return $severity;
+}
+
+function createStatus()
+{
+    $status = new Status([
+        'name' => mkRandomHash(5)
+    ]);
+    $status->save();
+
+    return $status;
 }
