@@ -56,7 +56,7 @@
 
 					<?php if (hasPermission('create_tickets')) : ?>
 					<div class="navbar-left">
-						<a href="<?=routeUrl('new_ticket')?>" class="btn btn-primary navbar-btn <?=iif(Request::matches(routePath('new_ticket')), 'active')?>">
+						<a href="<?=routeUrl('new_ticket')?>" class="btn btn-primary navbar-btn btn-new-ticket <?=iif(Request::matches(routePath('new_ticket')), 'active')?>">
 							<?=t('new_ticket')?>
 						</a>
 					</div>
