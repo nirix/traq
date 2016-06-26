@@ -47,6 +47,7 @@ require __DIR__ . '/tests/requests/tickets/listing.php';
 require __DIR__ . '/tests/requests/tickets/new.php';
 require __DIR__ . '/tests/requests/tickets/update.php';
 require __DIR__ . '/tests/requests/wiki/main_page.php';
+require __DIR__ . '/tests/requests/wiki/pages.php';
 require __DIR__ . '/tests/requests/projects/timeline.php';
 
 $testSuite->run();
