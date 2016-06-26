@@ -66,9 +66,9 @@ class Severities extends AppController
      */
     protected function modelParams()
     {
-        return [
+        return $this->removeNullValues([
             'name'  => Request::$post->get('name'),
             'level' => Request::$post->get('level')
-        ];
+        ]);
     }
 }
