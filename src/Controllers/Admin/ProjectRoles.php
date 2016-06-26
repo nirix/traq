@@ -74,10 +74,10 @@ class ProjectRoles extends AppController
      */
     protected function modelParams()
     {
-        return [
+        return $this->removeNullValues([
             'name'          => Request::$post->get('name'),
             'is_assignable' => Request::$post->get('is_assignable', false),
             'project_id'    => Request::$post->get('project_id')
-        ];
+        ]);
     }
 }
