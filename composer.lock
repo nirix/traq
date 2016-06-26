@@ -379,12 +379,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/validation.git",
-                "reference": "af7d13108ef4c7b71eb44c81cc6194c80dad9c8f"
+                "reference": "cd8410c839c6393ca7c928bec12781599dc6653c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/validation/zipball/af7d13108ef4c7b71eb44c81cc6194c80dad9c8f",
-                "reference": "af7d13108ef4c7b71eb44c81cc6194c80dad9c8f",
+                "url": "https://api.github.com/repos/avalonphp/validation/zipball/cd8410c839c6393ca7c928bec12781599dc6653c",
+                "reference": "cd8410c839c6393ca7c928bec12781599dc6653c",
                 "shasum": ""
             },
             "require-dev": {
@@ -411,7 +411,7 @@
                 }
             ],
             "description": "Avalon validation component.",
-            "time": "2016-02-05 03:22:26"
+            "time": "2016-06-26 05:06:53"
         },
         {
             "name": "doctrine/annotations",
