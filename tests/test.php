@@ -32,6 +32,7 @@ require __DIR__ . '/tests/requests/admin/dashboard.php';
 require __DIR__ . '/tests/requests/admin/projects.php';
 require __DIR__ . '/tests/requests/admin/groups.php';
 require __DIR__ . '/tests/requests/admin/plugins.php';
+require __DIR__ . '/tests/requests/admin/priorities.php';
 require __DIR__ . '/tests/requests/projects/roadmap.php';
 require __DIR__ . '/tests/requests/projects/listing.php';
 require __DIR__ . '/tests/requests/tickets/listing.php';

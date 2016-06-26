@@ -7,6 +7,7 @@ use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;
+use Traq\Models\Priority;
 
 function createUser($password = null, $group = null)
 {
@@ -133,4 +134,14 @@ function createWikiPage($project = null, $user = null)
     $page->save();
 
     return $page;
+}
+
+function createPriority()
+{
+    $priority = new Priority([
+        'name' => mkRandomHash(5)
+    ]);
+    $priority->save();
+
+    return $priority;
 }
