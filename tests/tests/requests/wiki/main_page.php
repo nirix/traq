@@ -1,9 +1,7 @@
 <?php
 
-use Traq\Models\Project;
-
 $testSuite->createGroup('Requests / Wiki / Main Page', function ($g) {
-    $project = Project::select()->fetch() ?: createProject();
+    $project = createProject();
 
     $project['enable_wiki'] = true;
     $project->save();
