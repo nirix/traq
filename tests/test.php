@@ -29,6 +29,7 @@ require __DIR__ . '/tests/permissions.php';
 require __DIR__ . '/tests/themes.php';
 require __DIR__ . '/tests/models/project.php';
 require __DIR__ . '/tests/requests/admin/dashboard.php';
+require __DIR__ . '/tests/requests/admin/settings.php';
 require __DIR__ . '/tests/requests/admin/projects.php';
 require __DIR__ . '/tests/requests/admin/project_roles.php';
 require __DIR__ . '/tests/requests/admin/users.php';
