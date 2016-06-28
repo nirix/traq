@@ -67,4 +67,20 @@ $testSuite->createGroup('Requests / Project Settings / Milestones', function ($g
 
         $t->assertEquals(404, $resp->status);
     });
+
+    $g->test('Edit milestone', function ($t) use ($project, $user, $milestone) {
+        $resp = $t->visit('project_settings_edit_milestone', [
+            'routeTokens' => [
+                'pslug' => $project['slug'],
+                'id' => $milestone['id']
+            ],
+            'cookie' => [
+                'traq' => $user['session_hash']
+            ]
+        ]);
+
+        $t->assertEquals(200, $resp->status);
+        $t->assertContains('<h1 class="page-header">Edit Milestone</h1>', $resp->body);
+        $t->assertContains($milestone['name'], $resp->body);
+    });
 });
