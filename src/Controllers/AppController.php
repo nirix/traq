@@ -27,6 +27,7 @@ use Avalon\Http\Request;
 use Avalon\Http\Controller;
 use Avalon\Database\ConnectionManager;
 use Traq\Models\User;
+use Traq\Models\UserRole;
 use Traq\Models\Permission;
 use Traq\Models\Project;
 
@@ -81,14 +82,6 @@ class AppController extends Controller
             $this->isModal = Request::$headers->get('X-Modal') == true;
         }
 
-        // Get current user.
-        if ($sessionHash = Request::$cookies->get('traq')) {
-            $this->currentUser = User::find('session_hash', $sessionHash) ?: null;
-            $GLOBALS['current_user'] = $this->currentUser;
-        } else {
-            $GLOBALS['current_user'] = null;
-        }
-
         // Get current project.
         if (Request::$properties->has('pslug')) {
             $this->currentProject = Project::find('slug', Request::$properties->get('pslug')) ?: null;
@@ -101,6 +94,35 @@ class AppController extends Controller
             });
         } else {
             $GLOBALS['current_project'] = null;
+        }
+
+        // Get current user.
+        if ($sessionHash = Request::$cookies->get('traq')) {
+            if ($this->currentProject) {
+                $user = User::select()
+                    ->addSelect('pur.project_role_id')
+                    ->leftJoin(
+                        'u',
+                        UserRole::tableName(),
+                        'pur',
+                        'pur.project_id = :project_id AND pur.user_id = u.id'
+                    );
+
+                $user->where('u.session_hash = :session_hash');
+
+                $user->setParameter('project_id', $this->currentProject['id']);
+                $user->setParameter('session_hash', Request::$cookies->get('traq'));
+
+                $this->currentUser = $user->fetch();
+
+                // dd($this->currentUser);
+            } else {
+                $this->currentUser = User::find('session_hash', $sessionHash) ?: null;
+            }
+
+            $GLOBALS['current_user'] = $this->currentUser;
+        } else {
+            $GLOBALS['current_user'] = null;
         }
 
         $GLOBALS['permissions'] = Permission::getPermissions($this->currentUser, $this->currentProject);
