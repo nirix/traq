@@ -25,9 +25,12 @@ if ($testSuite->codeCoverageEnabled()) {
 
 require __DIR__ . '/helpers/common.php';
 require __DIR__ . '/helpers/models.php';
+
 require __DIR__ . '/tests/permissions.php';
 require __DIR__ . '/tests/themes.php';
 require __DIR__ . '/tests/models/project.php';
+
+// Admin
 require __DIR__ . '/tests/requests/admin/dashboard.php';
 require __DIR__ . '/tests/requests/admin/settings.php';
 require __DIR__ . '/tests/requests/admin/projects.php';
@@ -41,8 +44,12 @@ require __DIR__ . '/tests/requests/admin/priorities.php';
 require __DIR__ . '/tests/requests/admin/severities.php';
 require __DIR__ . '/tests/requests/admin/permissions/usergroups.php';
 require __DIR__ . '/tests/requests/admin/permissions/project_roles.php';
+
+// Project Settings
 require __DIR__ . '/tests/requests/project_settings/options.php';
 require __DIR__ . '/tests/requests/project_settings/milestones.php';
+
+// Projects
 require __DIR__ . '/tests/requests/projects/roadmap.php';
 require __DIR__ . '/tests/requests/projects/listing.php';
 require __DIR__ . '/tests/requests/tickets/listing.php';
