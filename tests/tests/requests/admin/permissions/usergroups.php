@@ -22,9 +22,6 @@ $testSuite->createGroup('Requests / Admin / Permissions / Usergroups', function 
             'method' => 'POST',
             'post' => [
                 'permissions' => [
-                    'defaults' => [
-                        'ticket_properties_complete_tasks' => 1
-                    ] + $defaults,
                     '2' => [
                         'ticket_properties_complete_tasks' => 1
                     ]
