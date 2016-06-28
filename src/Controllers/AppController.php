@@ -128,6 +128,15 @@ class AppController extends Controller
         // Add Traq as first breadcrumb.
         $this->addCrumb(setting('title'), $this->generateUrl('root'));
 
+        // Check if the user has permission to view the current project
+        if (isset($this->currentProject)) {
+            $this->before('*', function () {
+                if (!$this->hasPermission('view')) {
+                    return $this->show403();
+                }
+            });
+        }
+
         // If the user has a `sha1` hashed password, require them to change it because
         // as of Traq 4.1, only mcrypt passwords will work.
         if ($this->currentUser['password_ver'] == 'sha1') {
