@@ -23,8 +23,6 @@
 
 namespace Traq\Models;
 
-use Avalon\Database\Model;
-
 /**
  * Users<>Roles model.
  *
@@ -34,4 +32,15 @@ use Avalon\Database\Model;
  */
 class UserRole extends Model
 {
+    protected static $_validations = [
+        'user_id' => ['required'],
+        'project_id' => ['required'],
+        'project_role_id' => ['required']
+    ];
+
+    protected static $_belongsTo = [
+        'user',
+        'project',
+        'projectRole'
+    ];
 }
