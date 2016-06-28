@@ -2,7 +2,7 @@
 
 <?php $this->startSection('content'); ?>
 <div class="project-settings edit-milestone content container">
-	<h2 class="page-header"><?=t('edit_milestone')?></h2>
+	<h1 class="page-header"><?=t('edit_milestone')?></h1>
 
 	<form action="<?=routeUrl('project_settings_save_milestone', ['id' => $milestone['id']])?>" method="post" class="form-horizontal">
 		<input type="hidden" name="_method" value="put">

@@ -2,7 +2,7 @@
 
 <?php $this->startSection('content'); ?>
 <div class="project-settings new-milestone content container">
-	<h2 class="page-header"><?=t('new_milestone')?></h2>
+	<h1 class="page-header"><?=t('new_milestone')?></h1>
 
 	<form action="<?=routeUrl('project_settings_create_milestone')?>" method="post" class="form-horizontal">
 		<?=View::render('project_settings/milestones/_form.phtml', ['milestone' => $milestone])?>
