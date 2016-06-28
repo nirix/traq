@@ -92,7 +92,50 @@ class Permission extends Model
                 "pgp.project_id = :project_id AND pgp.type = 'usergroup' AND pgp.type_id = :group_id"
             );
 
-            // TODO: project roles
+            // Project Role
+            if (isset($user['project_role_id']) && $user['project_role_id'] != 0) {
+                // Role defaults
+                $query->addSelect('rd.permissions AS role_defaults');
+
+                $query->leftJoin(
+                    'd',
+                    Permission::tableName(),
+                    'rd',
+                    "rd.project_id = 0 AND rd.type = 'role' AND rd.type_id = 0"
+                );
+
+                // Role permissions
+                $query->addSelect('rp.permissions AS role_permissions');
+
+                $query->leftJoin(
+                    'd',
+                    Permission::tableName(),
+                    'rp',
+                    "rp.project_id = 0 AND rp.type = 'role' AND rp.type_id = :project_role_id"
+                );
+
+                // Project Role defaults
+                $query->addSelect('prd.permissions AS project_role_defaults');
+
+                $query->leftJoin(
+                    'd',
+                    Permission::tableName(),
+                    'prd',
+                    "prd.project_id = :project_id AND prd.type = 'role' AND prd.type_id = 0"
+                );
+
+                // Project Role permissions
+                $query->addSelect('prp.permissions AS project_role_permissions');
+
+                $query->leftJoin(
+                    'd',
+                    Permission::tableName(),
+                    'prp',
+                    "prp.project_id = :project_id AND prp.type = 'role' AND prp.type_id = :project_role_id"
+                );
+
+                $query->setParameter('project_role_id', $user['project_role_id']);
+            }
         }
 
         $query->setParameter(':group_id', $user ? $user->group_id : 3);
@@ -117,11 +160,20 @@ class Permission extends Model
         $result['project_group_defaults'] = json_decode($result['project_group_defaults'], true) ?: [];
         $result['project_group_permissions'] = json_decode($result['project_group_permissions'], true) ?: [];
 
+        $result['role_defaults'] = json_decode($result['role_defaults'], true) ?: [];
+        $result['role_permissions'] = json_decode($result['role_permissions'], true) ?: [];
+        $result['project_role_defaults'] = json_decode($result['project_role_defaults'], true) ?: [];
+        $result['project_role_permissions'] = json_decode($result['project_role_permissions'], true) ?: [];
+
         return array_merge(
             $result['group_defaults'],
             $result['group_permissions'],
             $result['project_group_defaults'],
-            $result['project_group_permissions']
+            $result['project_group_permissions'],
+            $result['role_defaults'],
+            $result['role_permissions'],
+            $result['project_role_defaults'],
+            $result['project_role_permissions']
         );
     }
 }
