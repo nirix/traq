@@ -42,6 +42,7 @@ require __DIR__ . '/tests/requests/admin/severities.php';
 require __DIR__ . '/tests/requests/admin/permissions/usergroups.php';
 require __DIR__ . '/tests/requests/admin/permissions/project_roles.php';
 require __DIR__ . '/tests/requests/project_settings/options.php';
+require __DIR__ . '/tests/requests/project_settings/milestones.php';
 require __DIR__ . '/tests/requests/projects/roadmap.php';
 require __DIR__ . '/tests/requests/projects/listing.php';
 require __DIR__ . '/tests/requests/tickets/listing.php';
