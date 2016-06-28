@@ -99,7 +99,7 @@ class AppController extends Controller
         // Get current user.
         if ($sessionHash = Request::$cookies->get('traq')) {
             if ($this->currentProject) {
-                $user = User::select()
+                $user = User::select('u.*')
                     ->addSelect('pur.project_role_id')
                     ->leftJoin(
                         'u',
@@ -111,11 +111,9 @@ class AppController extends Controller
                 $user->where('u.session_hash = :session_hash');
 
                 $user->setParameter('project_id', $this->currentProject['id']);
-                $user->setParameter('session_hash', Request::$cookies->get('traq'));
+                $user->setParameter('session_hash', $sessionHash);
 
                 $this->currentUser = $user->fetch();
-
-                // dd($this->currentUser);
             } else {
                 $this->currentUser = User::find('session_hash', $sessionHash) ?: null;
             }
