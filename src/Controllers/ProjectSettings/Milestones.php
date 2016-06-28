@@ -106,7 +106,7 @@ class Milestones extends AppController
      */
     protected function modelParams()
     {
-        return [
+        return $this->removeNullValues([
             'name'          => Request::$post->get('name'),
             'slug'          => Request::$post->get('slug'),
             'codename'      => Request::$post->get('codename'),
@@ -116,6 +116,6 @@ class Milestones extends AppController
             'changelog'     => Request::$post->get('changelog'),
             'display_order' => Request::$post->get('display_order'),
             'project_id'    => $this->currentProject['id']
-        ];
+        ]);
     }
 }
