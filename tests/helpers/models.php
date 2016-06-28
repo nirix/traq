@@ -12,6 +12,7 @@ use Traq\Models\Priority;
 use Traq\Models\Severity;
 use Traq\Models\Status;
 use Traq\Models\Type;
+use Traq\Models\UserRole;
 
 function createUser($password = null, $group = null)
 {
@@ -189,4 +190,26 @@ function createType()
     $type->save();
 
     return $type;
+}
+
+function createProjectManager($project = null, $user = null)
+{
+    if (!$project) {
+        $project = createProject();
+    }
+
+    if (!$user) {
+        $user = createUser();
+    }
+
+    $role = ProjectRole::find(1);
+
+    $relation = new UserRole([
+        'user_id' => $user['id'],
+        'project_id' => $project['id'],
+        'project_role_id' => $role['id']
+    ]);
+    $relation->save();
+
+    return $relation;
 }
