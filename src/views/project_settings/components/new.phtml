@@ -2,7 +2,7 @@
 
 <?php $this->startSection('content'); ?>
 <div class="project-settings new-component content container">
-	<h2 class="page-header"><?=t('new_component')?></h2>
+	<h1 class="page-header"><?=t('new_component')?></h1>
 
 	<form action="<?=routeUrl('project_settings_create_component')?>" method="post" class="form-horizontal">
 		<?=View::render('project_settings/components/_form.phtml', ['component' => $component])?>
