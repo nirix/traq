@@ -48,6 +48,7 @@ require __DIR__ . '/tests/requests/admin/permissions/project_roles.php';
 // Project Settings
 require __DIR__ . '/tests/requests/project_settings/options.php';
 require __DIR__ . '/tests/requests/project_settings/milestones.php';
+require __DIR__ . '/tests/requests/project_settings/components.php';
 
 // Projects
 require __DIR__ . '/tests/requests/projects/roadmap.php';

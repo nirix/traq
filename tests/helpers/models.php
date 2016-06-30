@@ -6,6 +6,7 @@ use Traq\Models\Project;
 use Traq\Models\ProjectRole;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
+use Traq\Models\Component;
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;
 use Traq\Models\Priority;
@@ -84,6 +85,21 @@ function createMilestone($project = null)
     $milestone->save();
 
     return $milestone;
+}
+
+function createComponent($project = null)
+{
+    if (!$project) {
+        $project = createProject();
+    }
+
+    $component = new Component([
+        'name' => 'component-' . mkRandomHash(5) . '-name',
+        'project_id' => $project['id']
+    ]);
+    $component->save();
+
+    return $component;
 }
 
 function createTicket($project = null, $milestone = null, $user = null)
