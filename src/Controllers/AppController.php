@@ -113,7 +113,7 @@ class AppController extends Controller
                 $user->setParameter('project_id', $this->currentProject['id']);
                 $user->setParameter('session_hash', $sessionHash);
 
-                $this->currentUser = $user->fetch();
+                $this->currentUser = $user->fetch() ?: null;
             } else {
                 $this->currentUser = User::find('session_hash', $sessionHash) ?: null;
             }
