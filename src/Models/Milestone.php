@@ -48,6 +48,13 @@ class Milestone extends Model
     /**
      * @var array
      */
+    protected static $_belongsTo = [
+        'project'
+    ];
+
+    /**
+     * @var array
+     */
     protected static $_hasMany = [
         'tickets'
     ];
