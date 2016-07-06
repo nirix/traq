@@ -17,155 +17,154 @@
 ###
 
 jQuery(document).ready ->
-    $ = jQuery
-    doc = $ document
-    body = $
+  $ = jQuery
+  doc = $ document
 
-    httpMethodForm = (href, method) ->
-        form = $ '<form />'
-        form.attr 'id', 'temp-link-method-form'
-        form.attr 'action', href
-        form.attr 'method', 'post'
+  httpMethodForm = (href, method) ->
+    form = $ '<form />'
+    form.attr 'id', 'temp-link-method-form'
+    form.attr 'action', href
+    form.attr 'method', 'post'
 
-        form.append(
-            $('<input />')
-                .attr('type', 'hidden')
-                .attr('name', '_method')
-                .attr('value', method)
-        )
+    form.append(
+      $('<input />')
+        .attr('type', 'hidden')
+        .attr('name', '_method')
+        .attr('value', method)
+    )
 
-        form.appendTo 'body'
+    form.appendTo 'body'
 
-        return form
+    return form
 
-    # Show ticket filters form
-    if Cookies.get('show_ticket_filters') == 'true'
-        $('#ticket-filters-content').show()
+  # Show ticket filters form
+  if Cookies.get('show_ticket_filters') == 'true'
+    $('#ticket-filters-content').show()
 
-    # Ticket filters form toggle
-    $('#ticket-filters-toggle').on 'click', (event) ->
-        event.preventDefault()
+  # Ticket filters form toggle
+  $('#ticket-filters-toggle').on 'click', (event) ->
+    event.preventDefault()
 
-        if $('#ticket-filters-content').css('display') == 'none'
-            Cookies.set('show_ticket_filters', true)
-        else
-            Cookies.set('show_ticket_filters', false)
+    if $('#ticket-filters-content').css('display') == 'none'
+      Cookies.set('show_ticket_filters', true)
+    else
+      Cookies.set('show_ticket_filters', false)
 
-        $('#ticket-filters-content').slideToggle()
+    $('#ticket-filters-content').slideToggle()
 
-    # Ticket listing columns form toggle
-    $('#ticketlist-columns-toggle').on 'click', (event) ->
-        event.preventDefault()
+  # Ticket listing columns form toggle
+  $('#ticketlist-columns-toggle').on 'click', (event) ->
+    event.preventDefault()
 
-        $('#ticketlist-columns-content').slideToggle()
+    $('#ticketlist-columns-content').slideToggle()
 
-    # Selectize.js
-    $('.better-select').selectize
-        plugins: ['remove_button']
+  # Selectize.js
+  $('.better-select').selectize
+    plugins: ['remove_button']
 
-    # Navbar tooltips
-    $('.navbar [title]').tooltip
-        placement: 'bottom'
+  # Navbar tooltips
+  $('.navbar [title]').tooltip
+    placement: 'bottom'
 
-    # Every other tooltip
-    $(':not(.navbar) [title]').tooltip()
+  # Every other tooltip
+  $(':not(.navbar) [title]').tooltip()
 
-    # Sexy text editor in models
-    doc.on 'shown.bs.modal', ->
-        $('.modal .rich-editor').each ->
-            new SimpleMDE
-                element: $(this)[0]
-                indentWithTabs: false
-                promptURLs: true
-                status: false
+  # Sexy text editor in models
+  doc.on 'shown.bs.modal', ->
+    $('.modal .rich-editor').each ->
+      new SimpleMDE
+        element: $(this)[0]
+        indentWithTabs: false
+        promptURLs: true
+        status: false
 
-            $('.editor-toolbar [title]').tooltip()
+      $('.editor-toolbar [title]').tooltip()
 
-    # Sexy text editors
-    $('.rich-editor').each ->
-        new SimpleMDE
-            element: $(this)[0]
-            indentWithTabs: false
-            promptURLs: true
-            status: false
+  # Sexy text editors
+  $('.rich-editor').each ->
+    new SimpleMDE
+      element: $(this)[0]
+      indentWithTabs: false
+      promptURLs: true
+      status: false
 
-        $('.editor-toolbar [title]').tooltip()
+    $('.editor-toolbar [title]').tooltip()
 
-    # Scroll-to-element
-    doc.on 'click', '[data-scroll-to]', (event) ->
-        event.preventDefault()
-        scrollToElement = $(this).data 'scroll-to'
-        $('html, body').animate
-            scrollTop: $(scrollToElement).offset().top
+  # Scroll-to-element
+  doc.on 'click', '[data-scroll-to]', (event) ->
+    event.preventDefault()
+    scrollToElement = $(this).data 'scroll-to'
+    $('html, body').animate
+      scrollTop: $(scrollToElement).offset().top
 
-    # Confirmations
-    doc.on 'click', 'a[data-confirm]', (event) ->
-        event.preventDefault()
+  # Confirmations
+  doc.on 'click', 'a[data-confirm]', (event) ->
+    event.preventDefault()
 
-        element = $ this
-        msg = element.data 'confirm'
-        href = element.attr 'href'
-        method = element.data 'method'
+    element = $ this
+    msg = element.data 'confirm'
+    href = element.attr 'href'
+    method = element.data 'method'
 
-        if confirm msg
-            if method && method != 'get'
-                form = httpMethodForm href, method
-                form.submit()
-            else
-                window.location.href = href
+    if confirm msg
+      if method && method != 'get'
+        form = httpMethodForm href, method
+        form.submit()
+      else
+        window.location.href = href
 
-    # Ajax request with confirmation
-    doc.on 'click', 'a[data-ajax-confirm]', (event) ->
-        event.preventDefault()
+  # Ajax request with confirmation
+  doc.on 'click', 'a[data-ajax-confirm]', (event) ->
+    event.preventDefault()
 
-        element = $ this
-        msg = element.data 'ajax-confirm'
-        method = element.data 'method'
-        href = element.attr 'href'
+    element = $ this
+    msg = element.data 'ajax-confirm'
+    method = element.data 'method'
+    href = element.attr 'href'
 
-        if confirm msg
-            $.ajax
-                url: href
-                dataType: 'script'
-                method: method || 'get'
+    if confirm msg
+      $.ajax
+        url: href
+        dataType: 'script'
+        method: method || 'get'
 
-    # Different HTTP request method
-    # Ignore links with `data-ajax-confirm` and `data-confirm` attributes.
-    doc.on 'click', 'a[data-method]:not([data-ajax-confirm]):not([data-confirm])', (event) ->
-        event.preventDefault()
+  # Different HTTP request method
+  # Ignore links with `data-ajax-confirm` and `data-confirm` attributes.
+  doc.on 'click', 'a[data-method]:not([data-ajax-confirm]):not([data-confirm])', (event) ->
+    event.preventDefault()
 
-        element = $ this
-        method = element.attr('data-method')
-        href = element.attr('href')
+    element = $ this
+    method = element.attr('data-method')
+    href = element.attr('href')
 
-        if method != 'get'
-            form = httpMethodForm href, method
-            form.submit()
+    if method != 'get'
+      form = httpMethodForm href, method
+      form.submit()
 
-    # Remote modals
-    doc.on 'click', 'a[data-remote-modal]', (event) ->
-        event.preventDefault()
+  # Remote modals
+  doc.on 'click', 'a[data-remote-modal]', (event) ->
+    event.preventDefault()
 
-        element = $ this
-        target = element.attr 'data-remote-modal'
-        href = element.attr 'href'
+    element = $ this
+    target = element.attr 'data-remote-modal'
+    href = element.attr 'href'
 
-        $.ajax
-          url: href
-          type: "GET"
-          headers:
-            'X-Modal': true
-          success: (data) ->
-            $(data).appendTo 'body'
+    $.ajax
+      url: href
+      type: "GET"
+      headers:
+        'X-Modal': true
+      success: (data) ->
+        $(data).appendTo 'body'
 
-            modal = $(target)
+        modal = $(target)
 
-            # if btn = $('#modalSubmitBtn')
-            #     btn.on 'click', (event) ->
-            #         $(target + ' form').submit()
+        # if btn = $('#modalSubmitBtn')
+        #     btn.on 'click', (event) ->
+        #         $(target + ' form').submit()
 
-            modal.modal 'show'
+        modal.modal 'show'
 
-            # Remove modal completely when hidden
-            $(target).on 'hidden.bs.modal', (event) ->
-                event.currentTarget.remove()
+        # Remove modal completely when hidden
+        $(target).on 'hidden.bs.modal', (event) ->
+          event.currentTarget.remove()
