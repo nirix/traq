@@ -10,9 +10,10 @@ Requirements
 ------------
 
 - PHP 5.5 or later
-- Mcrypt
-- Database supported by [Doctrine](http://www.doctrine-project.org)
-  - PostgreSQL or MariaDB/MySQL recommended
+- Database
+  - MariaDB
+  - PostgreSQL
+  - MySQL
 
 If you're using Apache, rename `htaccess.txt` to `.htaccess`, otherwise you will
 need to configure your server to use `index.php` as the 404 page.
