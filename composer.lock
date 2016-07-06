@@ -288,12 +288,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/language.git",
-                "reference": "4961d0bbf1cd15d5017b727e1f8bfb4c0598e166"
+                "reference": "9c64e1016d97a6806b5c4b4559e1be8bd1d5a03c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/language/zipball/4961d0bbf1cd15d5017b727e1f8bfb4c0598e166",
-                "reference": "4961d0bbf1cd15d5017b727e1f8bfb4c0598e166",
+                "url": "https://api.github.com/repos/avalonphp/language/zipball/9c64e1016d97a6806b5c4b4559e1be8bd1d5a03c",
+                "reference": "9c64e1016d97a6806b5c4b4559e1be8bd1d5a03c",
                 "shasum": ""
             },
             "require": {
@@ -326,7 +326,7 @@
                 "language",
                 "translations"
             ],
-            "time": "2016-06-22 15:41:31"
+            "time": "2016-07-05 14:59:45"
         },
         {
             "name": "avalon/templating",
@@ -334,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/templating.git",
-                "reference": "ed64b776e3fb894fd15d886cc95d15019a40d241"
+                "reference": "7cdc5d17406ec22e7070d200dd82aad649e901dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/templating/zipball/ed64b776e3fb894fd15d886cc95d15019a40d241",
-                "reference": "ed64b776e3fb894fd15d886cc95d15019a40d241",
+                "url": "https://api.github.com/repos/avalonphp/templating/zipball/7cdc5d17406ec22e7070d200dd82aad649e901dd",
+                "reference": "7cdc5d17406ec22e7070d200dd82aad649e901dd",
                 "shasum": ""
             },
             "require": {
@@ -371,7 +371,7 @@
                 "framework",
                 "templating"
             ],
-            "time": "2016-05-03 05:25:52"
+            "time": "2016-07-06 06:15:51"
         },
         {
             "name": "avalon/validation",
@@ -1047,12 +1047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/testing.git",
-                "reference": "24dfad5cd176a8815e7fbfb20030eeb11ffe196d"
+                "reference": "ebf4bce6531988c89c6ab39605a963d29df1dd35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/testing/zipball/24dfad5cd176a8815e7fbfb20030eeb11ffe196d",
-                "reference": "24dfad5cd176a8815e7fbfb20030eeb11ffe196d",
+                "url": "https://api.github.com/repos/avalonphp/testing/zipball/ebf4bce6531988c89c6ab39605a963d29df1dd35",
+                "reference": "ebf4bce6531988c89c6ab39605a963d29df1dd35",
                 "shasum": ""
             },
             "require": {
@@ -1085,7 +1085,7 @@
                 "framework",
                 "testing"
             ],
-            "time": "2016-06-26 04:34:42"
+            "time": "2016-07-05 13:21:49"
         },
         {
             "name": "filp/whoops",
