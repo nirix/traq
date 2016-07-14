@@ -25,5 +25,5 @@ Router::get("{$pn}components", "{$purl}/components", "{$pns}Components::index");
 Router::get("{$pn}new_component", "{$purl}/components/new", "{$pns}Components::new");
 Router::post("{$pn}create_component", "{$purl}/components", "{$pns}Components::create");
 Router::get("{$pn}edit_component", "{$purl}/components/{id}/edit", "{$pns}Components::edit");
-Router::put("{$pn}save_component", "{$purl}/components/{id}", "{$pns}Components::save");
+Router::put("{$pn}save_component", "{$purl}/components/{id}", "{$pns}Components::save")->method(['PUT', 'PATCH']);
 Router::delete("{$pn}delete_component", "{$purl}/components/{id}/delete", "{$pns}Components::destroy");

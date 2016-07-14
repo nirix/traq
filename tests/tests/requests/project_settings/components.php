@@ -83,4 +83,22 @@ $testSuite->createGroup('Requests / Project Settings / Components', function ($g
         $t->assertContains('<h1 class="page-header">Edit Component</h1>', $resp->body);
         $t->assertContains($component['name'], $resp->body);
     });
+
+    $g->test('Save component', function ($t) use ($project, $user, $component) {
+        $resp = $t->visit('project_settings_save_component', [
+            'method' => 'PATCH',
+            'routeTokens' => [
+                'pslug' => $project['slug'],
+                'id' => $component['id']
+            ],
+            'post' => [
+                'name' => 'My Updated Component'
+            ],
+            'cookie' => [
+                'traq' => $user['session_hash']
+            ]
+        ]);
+
+        $t->assertRedirectTo($t->generateUrl('project_settings_components'), $resp);
+    });
 });
