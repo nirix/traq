@@ -16,7 +16,7 @@ Router::get("{$pn}milestones", "{$purl}/milestones", "{$pns}Milestones::index");
 Router::get("{$pn}new_milestone", "{$purl}/milestones/new", "{$pns}Milestones::new");
 Router::post("{$pn}create_milestone", "{$purl}/milestones", "{$pns}Milestones::create");
 Router::get("{$pn}edit_milestone", "{$purl}/milestones/{id}/edit", "{$pns}Milestones::edit");
-Router::put("{$pn}save_milestone", "{$purl}/milestones/{id}", "{$pns}Milestones::save");
+Router::put("{$pn}save_milestone", "{$purl}/milestones/{id}", "{$pns}Milestones::save")->method(['PUT', 'PATCH']);
 Router::get("{$pn}delete_milestone", "{$purl}/milestones/{id}/delete", "{$pns}Milestones::delete");
 
 // -----------------------------------------------------------------------------

@@ -83,4 +83,22 @@ $testSuite->createGroup('Requests / Project Settings / Milestones', function ($g
         $t->assertContains('<h1 class="page-header">Edit Milestone</h1>', $resp->body);
         $t->assertContains($milestone['name'], $resp->body);
     });
+
+    $g->test('Save milestone', function ($t) use ($project, $user, $milestone) {
+        $resp = $t->visit('project_settings_save_milestone', [
+            'method' => 'PATCH',
+            'routeTokens' => [
+                'pslug' => $project['slug'],
+                'id' => $milestone['id'],
+            ],
+            'post' => [
+                'name' => 'My Updated Milestone'
+            ],
+            'cookie' => [
+                'traq' => $user['session_hash']
+            ]
+        ]);
+
+        $t->assertRedirectTo($t->generateUrl('project_settings_milestones'), $resp);
+    });
 });
