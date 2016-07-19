@@ -35,6 +35,14 @@ npm compile
 After that is complete, open the path to Traq in a browser and follow the
 installation steps.
 
+Translations
+------------
+
+Traq is developed in English but is easily translated to other languages.
+
+Any translations for Traq should be submitted to the [forum](https://forum.traq.io).
+This is to keep unmaintained/outdated translations out of the repository.
+
 Licenses
 -------
 
