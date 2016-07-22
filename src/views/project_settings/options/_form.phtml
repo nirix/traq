@@ -1,6 +1,6 @@
 <div class="form-group <?=$project->hasError('name') ? 'has-error' : ''?>">
 	<label for="name" class="col-md-3 control-label"><?=t('name')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<?=Form::text('name', ['value' => $project['name'], 'class' => 'form-control'])?>
 		<?php if ($project->hasError('name')) : ?>
 		<div class="help-block">
@@ -11,7 +11,7 @@
 </div>
 <div class="form-group <?=$project->hasError('slug') ? 'has-error' : ''?>">
 	<label for="slug" class="col-md-3 control-label"><?=t('slug')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<input type="text" name="slug" id="slug" class="form-control" value="<?=e($project['slug'])?>">
 		<?php if ($project->hasError('slug')) : ?>
 		<div class="help-block">
@@ -22,31 +22,31 @@
 </div>
 <div class="form-group">
 	<label for="codename" class="col-md-3 control-label"><?=t('codename')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<input type="text" name="codename" id="codename" class="form-control" value="<?=e($project['codename'])?>">
 	</div>
 </div>
 <div class="form-group">
 	<label for="info" class="col-md-3 control-label"><?=t('description')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<textarea name="info" id="info" class="form-control rich-editor"><?=e($project['info'])?></textarea>
 	</div>
 </div>
 <div class="form-group">
 	<label for="enable_wiki" class="col-md-3 control-label"><?=t('enable_wiki')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<?=Form::checkbox('enable_wiki', 1, array('checked' => $project['enable_wiki'] == 1 ? true : false))?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="display_order" class="col-md-3 control-label"><?=t('display_order')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<input type="text" name="display_order" id="display_order" class="form-control" value="<?=e($project['display_order'])?>">
 	</div>
 </div>
 <div class="form-group">
 	<label for="default_ticket_type" class="col-md-3 control-label"><?=t('default_ticket_type')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<?=Form::select('default_ticket_type_id', Traq\Models\Type::selectOptions(), [
 			'value' => $project['default_ticket_type_id'],
 			'class' => "form-control"
@@ -55,7 +55,7 @@
 </div>
 <div class="form-group">
 	<label for="default_ticket_sorting" class="col-md-3 control-label"><?=t('default_ticket_sorting')?></label>
-	<div class="col-sm-9">
+	<div class="col-md-9">
 		<?=Form::select('default_ticket_sorting', Ticketlist::sortingSelectOptions(), [
 			'value' => $project['default_ticket_sorting'],
 			'class' => "form-control"
