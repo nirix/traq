@@ -65,13 +65,16 @@
 <?php endif ?>
 
 <?php if (hasPermission('ticket_properties_set_milestone')) : ?>
-<div class="form-group <?=iif($ticket->hasError('milestone'), 'has-error')?>">
+<div class="form-group <?=iif($ticket->hasError('milestone_id'), 'has-error')?>">
 	<?=Form::label(t('milestone'), 'milestone_id', ['class' => 'control-label col-md-3'])?>
 	<div class="col-md-9">
 		<?=Form::select('milestone_id', currentProject()->milestoneSelectOptions('id', 1), [
 			'value' => $ticket['milestone_id'],
 			'class' => "form-control"
 		])?>
+		<?php if ($ticket->hasError('milestone_id')) : ?>
+		<div class="help-block"><?=$ticket->getError('milestone_id')[0]?></div>
+		<?php endif ?>
 	</div>
 </div>
 <?php endif ?>
