@@ -33,7 +33,7 @@ class CreateCustomFields extends Migration
             $t->addColumn("name", "string");
             $t->addColumn("slug", "string");
             $t->addColumn("type", "string");
-            $t->addColumn("values", "text", ['notnull' => false]);
+            $t->addColumn("field_values", "text", ['notnull' => false]);
             $t->addColumn("multiple", "boolean", ['default' => false]);
             $t->addColumn("default_value", "string", ['notnull' => false]);
             $t->addColumn("regex", "string", ['notnull' => false]);

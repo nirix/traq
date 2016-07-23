@@ -38,7 +38,7 @@ class CustomFields extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate('custom_fields'));
+        $this->addCrumb($this->translate('custom_fields'), $this->generateUrl('project_settings_custom_fields'));
     }
 
     /**
@@ -62,15 +62,11 @@ class CustomFields extends AppController
      */
     public function newAction()
     {
-        if ($this->isOverlay) {
-            return $this->render('project_settings/custom_fields/new.overlay.phtml', [
-                'field' => new CustomField
-            ]);
-        } else {
-            return $this->render('project_settings/custom_fields/new.phtml', [
-                'field' => new CustomField
-            ]);
-        }
+        $view = $this->isModal ? 'new.overlay' : 'new';
+
+        return $this->render("project_settings/custom_fields/{$view}.phtml", [
+            'field' => new CustomField
+        ]);
     }
 
     /**

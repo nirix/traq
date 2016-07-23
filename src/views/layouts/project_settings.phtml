@@ -20,6 +20,9 @@
 		<li<?=iif(Request::matches(routePath('project_settings_components') . '(/.*)?'), ' class="active"')?>>
 			<a href="<?=routeUrl('project_settings_components')?>"><?=t('components')?></a>
 		</li>
+		<li<?=iif(Request::matches(routePath('project_settings_custom_fields') . '(/.*)?'), ' class="active"')?>>
+			<a href="<?=routeUrl('project_settings_custom_fields')?>"><?=t('custom_fields')?></a>
+		</li>
 	</ul>
 </div>
 <?php $this->endSection(); ?>

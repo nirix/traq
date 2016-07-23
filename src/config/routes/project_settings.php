@@ -27,3 +27,9 @@ Router::post("{$pn}create_component", "{$purl}/components", "{$pns}Components::c
 Router::get("{$pn}edit_component", "{$purl}/components/{id}/edit", "{$pns}Components::edit");
 Router::put("{$pn}save_component", "{$purl}/components/{id}", "{$pns}Components::save")->method(['PUT', 'PATCH']);
 Router::delete("{$pn}delete_component", "{$purl}/components/{id}/delete", "{$pns}Components::destroy");
+
+// -----------------------------------------------------------------------------
+// Custom fields
+Router::get("{$pn}custom_fields", "{$purl}/custom-fields", "{$pns}CustomFields::index");
+Router::get("{$pn}new_custom_field", "{$purl}/custom-fields/new", "{$pns}CustomFields::new");
+Router::post("{$pn}create_custom_field", "{$purl}/custom-fields", "{$pns}CustomFields::create");

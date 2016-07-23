@@ -1,4 +1,9 @@
-<div class="project-settings components container">
+<?php $this->extend('layouts/project_settings.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
+<div class="project-settings custom-fields content container">
+	<h1 class="page-header"><?=t('custom_fields')?></h1>
+
 	<div class="page-actions">
 		<a href="<?=routeUrl('project_settings_new_custom_field')?>" class="btn btn-success" data-overlay="1">
 			<span class="fa fa-plus"></span> <?=t('new_field')?>
@@ -33,3 +38,4 @@
 		</tbody>
 	</table>
 </div>
+<?php $this->endSection(); ?>
