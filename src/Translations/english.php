@@ -60,9 +60,9 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Custom Fields
-        // 'custom_fields'     => 'Custom Fields',
-        // 'new_field'         => 'New Field',
-        // 'new_custom_field'  => 'New Custom Field',
+        'custom_fields'     => 'Custom Fields',
+        'new_field'         => 'New Field',
+        'new_custom_field'  => 'New Custom Field',
         // 'edit_custom_field' => 'Edit Custom Field',
         // 'required'          => 'Required',
         // 'min_length'        => 'Min. length',
