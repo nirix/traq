@@ -138,19 +138,28 @@ trait CRUD
         $object = new $this->model;
         $object->set($this->modelParams());
 
-        if ($object->save()) {
-            return $this->redirectTo($this->afterCreateRedirect);
-        } else {
-            $this->set($this->getSingular(), $object);
-
-            return $this->respondTo(function ($format) use ($object) {
-                if ($format == "html") {
-                    return $this->render("{$this->viewsDir}/new.phtml");
-                } elseif ($format == "json") {
+        return $this->respondTo(function ($format) use ($object) {
+            if ($object->save()) {
+                if ($this->format === 'html') {
+                    return $this->redirectTo($this->afterCreateRedirect);
+                } elseif ($format === 'json') {
                     return $this->jsonResponse($object);
                 }
-            });
-        }
+            } else {
+                if ($format === 'html') {
+                    $this->set($this->getSingular(), $object);
+                    return $this->render("{$this->viewsDir}/new.phtml");
+                } elseif ($format === 'json') {
+                    return $this->jsonResponse(
+                        [
+                            'errors' => $object->errors(),
+                            "{$this->getSingular()}" => $object;
+                        ],
+                        422
+                    );
+                }
+            }
+        });
     }
 
     /**
