@@ -140,7 +140,7 @@ trait CRUD
 
         return $this->respondTo(function ($format) use ($object) {
             if ($object->save()) {
-                if ($this->format === 'html') {
+                if ($format === 'html') {
                     return $this->redirectTo($this->afterCreateRedirect);
                 } elseif ($format === 'json') {
                     return $this->jsonResponse($object);
@@ -153,7 +153,7 @@ trait CRUD
                     return $this->jsonResponse(
                         [
                             'errors' => $object->errors(),
-                            "{$this->getSingular()}" => $object;
+                            "{$this->getSingular()}" => $object
                         ],
                         422
                     );
@@ -195,19 +195,28 @@ trait CRUD
         $object = $this->getObject($id);
         $object->set($this->modelParams());
 
-        if ($object->save()) {
-            return $this->redirectTo($this->afterSaveRedirect);
-        } else {
-            $this->set($this->getSingular(), $object);
-
-            return $this->respondTo(function ($format) use ($object) {
-                if ($format == "html") {
-                    return $this->render("{$this->viewsDir}/edit.phtml");
-                } elseif ($format == "json") {
+        return $this->respondTo(function ($format) use ($object) {
+            if ($object->save()) {
+                if ($format === 'html') {
+                    return $this->redirectTo($this->afterCreateRedirect);
+                } elseif ($format === 'json') {
                     return $this->jsonResponse($object);
                 }
-            });
-        }
+            } else {
+                if ($format === 'html') {
+                    $this->set($this->getSingular(), $object);
+                    return $this->render("{$this->viewsDir}/edit.phtml");
+                } elseif ($format === 'json') {
+                    return $this->jsonResponse(
+                        [
+                            'errors' => $object->errors(),
+                            "{$this->getSingular()}" => $object
+                        ],
+                        422
+                    );
+                }
+            }
+        });
     }
 
     /**
