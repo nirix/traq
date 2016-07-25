@@ -165,7 +165,7 @@ class CustomFields extends AppController
      */
     protected function fieldParams()
     {
-        return [
+        return $this->removeNullValues([
             'name' => Request::$post['name'],
             'slug' => Request::$post['slug'],
             'type' => Request::$post->get('type', 0),
@@ -173,11 +173,11 @@ class CustomFields extends AppController
             'max_length' => Request::$post['max_length'],
             'regex' => Request::$post['regex'],
             'default_value' => Request::$post['default_value'],
-            'select_values' => Request::$post['select_values'],
+            'field_values' => Request::$post['field_values'],
             'multiple' => Request::$post['multiple'],
             'is_required' => Request::$post['is_required'],
             'ticket_type_ids' => Request::$post['ticket_type_ids'],
             'project_id' => $this->currentProject['id']
-        ];
+        ]);
     }
 }
