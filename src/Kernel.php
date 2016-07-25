@@ -40,6 +40,20 @@ class Kernel extends AppKernel
 {
     protected static $loader;
 
+    /**
+     * Configration defaults.
+     *
+     * @var array
+     */
+    protected $configDefaults = [
+        'environment' => 'production',
+
+        'email' => [
+            'type' => 'sendmail',
+            'path' => '/usr/bin/sendmail -bs'
+        ]
+    ];
+
     public function __construct()
     {
         global $autoloader;
