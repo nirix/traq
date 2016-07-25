@@ -32,4 +32,23 @@ $testSuite->createGroup('Requests / Project Settings / Custom Fields', function 
         $t->assertEquals(200, $resp->status);
         $t->assertContains('<h1 class="page-header">New Custom Field</h1>', $resp->body);
     });
+
+    $g->test('Create text field', function ($t) use ($project, $user) {
+        $resp = $t->visit('project_settings_create_custom_field', [
+            'method' => 'POST',
+            'routeTokens' => [
+                'pslug' => $project['slug']
+            ],
+            'post' => [
+                'name' => 'Text field',
+                'slug' => 'text-field',
+                'type' => 'text'
+            ],
+            'cookie' => [
+                'traq' => $user['session_hash']
+            ]
+        ]);
+
+        $t->assertRedirectTo($t->generateUrl('project_settings_custom_fields'), $resp);
+    });
 });
