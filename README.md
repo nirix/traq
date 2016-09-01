@@ -6,9 +6,13 @@ Traq is a PHP powered project manager, capable of tracking issues for multiple p
 Requirements
 ------------
 
-- PHP 5.3+
+- PHP 5.3 to 5.6
 - Database supported by PHP's PDO
 - Apache mod_rewrite or properly configured NGiNX
+
+### PHP 7.0+ Support
+
+Currently only Traq 4.0+ supports PHP 7.0 or later.
 
 Installation
 ------------
