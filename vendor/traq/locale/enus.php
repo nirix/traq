@@ -219,6 +219,8 @@ class enUS extends \traq\libraries\Locale
             'mass_actions'          => "Mass Actions",
             'related_tickets'       => "Related tickets",
             'people_who_have_voted_on_this_ticket' => "People who have voted on this ticket ({1})",
+            'proposed_time'         => "Proposed time",
+            'worked_time'           => "Worked time",
 
             // Ticket columns
             'columns'    => "Columns",
@@ -370,6 +372,9 @@ class enUS extends \traq\libraries\Locale
 
                     'ticket_properties_set_related_tickets'    => "Set related tickets",
                     'ticket_properties_change_related_tickets' => "Change related tickets",
+
+                    'ticket_properties_set_time_proposed' => "Time proposed",
+                    'ticket_properties_set_time_worked'   => "Time worked",
                 ),
 
                 // Wiki

@@ -77,6 +77,18 @@
 					<?php echo Form::text('related_tickets'); ?>
 				</div>
 				<?php } ?>
+				<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_proposed')) { ?>
+				<div class="field">
+					<?php echo Form::label(l('proposed_time'), 'proposed_time'); ?>
+					<?php echo Form::text('proposed_time'); ?>
+				</div>
+				<?php } ?>
+				<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_worked')) { ?>
+				<div class="field">
+					<?php echo Form::label(l('worked_time'), 'worked_time'); ?>
+					<?php echo Form::text('worked_time'); ?>
+				</div>
+				<?php } ?>
 				<?php echo View::render('tickets/_custom_fields_form'); ?>
 				<div class="clearfix"></div>
 			</div>
