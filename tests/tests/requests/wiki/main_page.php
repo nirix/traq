@@ -33,12 +33,12 @@ $testSuite->createGroup('Requests / Wiki / Main Page', function ($g) {
             ]
         ]);
 
-        $indendedUrl = $t->generateUrl('wiki_page', [
+        $intendedUrl = $t->generateUrl('wiki_page', [
             'pslug' => $project['slug'],
             'slug'  => 'main'
         ]);
 
-        $t->assertRedirectTo($indendedUrl, $resp);
+        $t->assertRedirectTo($intendedUrl, $resp);
     });
 
     $g->test('Show main page', function ($t) use ($project) {
