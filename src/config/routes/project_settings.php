@@ -34,5 +34,6 @@ Router::get("{$pn}custom_fields", "{$purl}/custom-fields", "{$pns}CustomFields::
 Router::get("{$pn}new_custom_field", "{$purl}/custom-fields/new", "{$pns}CustomFields::new");
 Router::post("{$pn}create_custom_field", "{$purl}/custom-fields", "{$pns}CustomFields::create");
 Router::get("{$pn}edit_custom_field", "{$purl}custom-fields/edit/{id}", "{$pns}CustomFields::edit");
+Router::put("{$pn}save_custom_field", "{$purl}custom-fields/edit/{id}", "{$pns}CustomFields::save");
 
 Router::delete("{$pn}delete_custom_field", "{$purl}/custom-fields/{id}/delete", "{$pns}CustomFields::destroy");

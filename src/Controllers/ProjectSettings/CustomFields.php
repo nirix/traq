@@ -103,15 +103,11 @@ class CustomFields extends AppController
             return $this->show404();
         }
 
-        if ($this->isOverlay) {
-            return $this->render('project_settings/custom_fields/edit.overlay.phtml', [
-                'field' => $field
-            ]);
-        } else {
-            return $this->render('project_settings/custom_fields/edit.phtml', [
-                'field' => $field
-            ]);
-        }
+        $view = $this->isModal ? 'edit.overlay' : 'edit';
+
+        return $this->render("project_settings/custom_fields/{$view}.phtml", [
+            'field' => $field
+        ]);
     }
 
     /**

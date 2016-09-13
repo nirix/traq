@@ -63,15 +63,18 @@ $english = new Language(function ($t) {
         'custom_fields'     => 'Custom Fields',
         'new_field'         => 'New Field',
         'new_custom_field'  => 'New Custom Field',
-        // 'edit_custom_field' => 'Edit Custom Field',
-        // 'required'          => 'Required',
-        // 'min_length'        => 'Min. length',
-        // 'max_length'        => 'Max. length',
-        // 'regex'             => 'Regex',
-        // 'default_value'     => 'Default value',
-        // 'multichoice'       => 'Multichoice',
-        // 'values'            => 'Values',
-        // 'ticket_types'      => 'Ticket types',
+        'edit_custom_field' => 'Edit Custom Field',
+        'required'          => 'Required',
+        'min_length'        => 'Min. length',
+        'max_length'        => 'Max. length',
+        'regex'             => 'Regex',
+        'default_value'     => 'Default value',
+        'multichoice'       => 'Multichoice',
+        'values'            => 'Values',
+        'ticket_types'      => 'Ticket types',
+        'text'              => 'Text',
+        'select'            => 'Select',
+        'integer'           => 'Integer',
 
         // --------------------------------------------------------------------
         // Errors
@@ -97,6 +100,13 @@ $english = new Language(function ($t) {
         'new_group'  => 'New Group',
         'edit_group' => 'Edit Group',
         'is_admin'   => 'Is Admin',
+
+        // --------------------------------------------------------------------
+        // Help
+        'help.custom_fields.min_length' => 'Minimum required value length',
+        'help.custom_fields.max_length' => 'Maximum value length',
+        'help.custom_fields.regex' => 'Regular expression the value must mathc',
+        'help.custom_fields.values' => 'Options available for users to select',
 
         // --------------------------------------------------------------------
         // Tickets
