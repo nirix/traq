@@ -84,13 +84,29 @@ class CustomFields extends AppController
     {
         $field = new CustomField($this->fieldParams());
 
-        if ($field->save()) {
-            return $this->redirectTo('project_settings_custom_fields');
-        }
-
-        return $this->render('project_settings/custom_fields/new.phtml', [
-            'field' => $field
-        ]);
+        return $this->respondTo(function ($format) use ($field) {
+            if ($field->save()) {
+                if ($format === 'html') {
+                    return $this->redirectTo('project_settings_custom_fields');
+                } elseif ($format === 'json') {
+                    return $this->jsonResponse($field);
+                }
+            } else {
+                if ($format === 'html') {
+                    return $this->render('project_settings/custom_fields/new.phtml', [
+                        'field' => $field
+                    ]);
+                } elseif ($format === 'json') {
+                    return $this->jsonResponse(
+                        [
+                            'errors' => $field->errors(),
+                            'field' => $field
+                        ],
+                        422
+                    );
+                }
+            }
+        });
     }
 
     /**
@@ -134,13 +150,29 @@ class CustomFields extends AppController
 
         $field->set($this->fieldParams());
 
-        if ($field->save()) {
-            return $this->redirectTo('project_settings_custom_fields');
-        }
-
-        return $this->render('project_settings/custom_fields/edit.phtml', [
-            'field' => $field
-        ]);
+        return $this->respondTo(function ($format) use ($field) {
+            if ($field->save()) {
+                if ($format === 'html') {
+                    return $this->redirectTo('project_settings_custom_fields');
+                } elseif ($format === 'json') {
+                    return $this->jsonResponse($field);
+                }
+            } else {
+                if ($format === 'html') {
+                    return $this->render('project_settings/custom_fields/edit.phtml', [
+                        'field' => $field
+                    ]);
+                } elseif ($format === 'json') {
+                    return $this->jsonResponse(
+                        [
+                            'errors' => $field->errors(),
+                            'field' => $field
+                        ],
+                        422
+                    );
+                }
+            }
+        });
     }
 
     /**
