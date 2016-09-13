@@ -40,7 +40,7 @@ class Members extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->title($this->translate("members"));
+        $this->addCrumb($this->translate('members'), $this->generateUrl('project_settings_members'));
     }
 
     /**
@@ -177,9 +177,18 @@ class Members extends AppController
 
         if (!$userRole) {
             return $this->show404();
-        } else {
-            $userRole->delete();
-            return $this->redirectTo('project_settings_members');
         }
+
+        $userRole->delete();
+
+        return $this->respondTo(function ($format) {
+            if ($format == 'json') {
+                return $this->jsonResponse([
+                    'deleted' => true
+                ]);
+            } else {
+                return $this->redirectTo('project_settings_members');
+            }
+        });
     }
 }

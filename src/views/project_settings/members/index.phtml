@@ -1,3 +1,6 @@
+<?php $this->extend('layouts/project_settings.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
 <div class="project-settings members container">
 	<form action="<?=routeUrl('project_settings_create_member')?>" method="post" class="form-inline">
 		<div class="form-group">
@@ -6,7 +9,7 @@
 		</div>
 		<div class="form-group">
 			<?=Form::label(t("role"), "role_id")?>
-			<?=Form::select('role_id', Traq\Models\ProjectRole::selectOptions($currentProject['id']), ['class' => 'form-control'])?>
+			<?=Form::select('role_id', Traq\Models\ProjectRole::selectOptions(currentProject()['id']), ['class' => 'form-control'])?>
 		</div>
 
 		<?=Form::submit(t("add"), ['class' => "btn btn-success"])?>
@@ -26,10 +29,10 @@
 				<tr>
 					<td><?=$relation['user_name']?></td>
 					<td>
-						<?=Form::select("user[{$relation['user_id']}][role_id]", Traq\Models\ProjectRole::selectOptions($currentProject['id']), ['value' => $relation['project_role_id'], 'class' => 'form-control'])?>
+						<?=Form::select("user[{$relation['user_id']}][role_id]", Traq\Models\ProjectRole::selectOptions(currentProject()['id']), ['value' => $relation['project_role_id'], 'class' => 'form-control'])?>
 					</td>
 					<td class="actions">
-						<a href="<?=routeUrl('project_settings_delete_member', ['id' => $relation['user_id']])?>" class="btn btn-xs btn-danger">
+						<a href="<?=routeUrl('project_settings_delete_member', ['id' => $relation['user_id']])?>" data-method="delete" class="btn btn-xs btn-danger">
 							<span class="fa fa-times"></span> <?=t('delete')?>
 						</a>
 					</td>
@@ -43,3 +46,4 @@
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

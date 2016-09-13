@@ -2,7 +2,7 @@
 use Avalon\Routing\Router;
 
 $pn = 'project_settings_';
-$purl = '/{pslug}/project-settings';
+$purl = '/{pslug}/settings';
 $pns = "{$ns}ProjectSettings\\";
 
 // -----------------------------------------------------------------------------
@@ -27,6 +27,13 @@ Router::post("{$pn}create_component", "{$purl}/components", "{$pns}Components::c
 Router::get("{$pn}edit_component", "{$purl}/components/{id}/edit", "{$pns}Components::edit");
 Router::put("{$pn}save_component", "{$purl}/components/{id}", "{$pns}Components::save")->method(['PUT', 'PATCH']);
 Router::delete("{$pn}delete_component", "{$purl}/components/{id}/delete", "{$pns}Components::destroy");
+
+// -----------------------------------------------------------------------------
+// Members
+Router::get("{$pn}members", "{$purl}/members", "{$pns}Members::index");
+Router::post("{$pn}create_member", "{$purl}/members", "{$pns}Members::create");
+Router::put("{$pn}save_members", "{$purl}/members", "{$pns}Members::saveAll");
+Router::delete("{$pn}delete_member", "{$purl}/members/{id}", "{$pns}Members::destroy");
 
 // -----------------------------------------------------------------------------
 // Custom fields
