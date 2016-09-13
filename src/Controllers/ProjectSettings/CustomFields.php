@@ -39,6 +39,14 @@ class CustomFields extends AppController
     {
         parent::__construct();
         $this->addCrumb($this->translate('custom_fields'), $this->generateUrl('project_settings_custom_fields'));
+
+        $this->before(['edit', 'save', 'destroy'], function () {
+            $this->object = CustomField::find(Request::$properties->get('id'));
+
+            if (!$this->object || $this->object->project_id != $this->currentProject['id']) {
+                return $this->show404();
+            }
+        });
     }
 
     /**
