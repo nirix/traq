@@ -187,13 +187,18 @@ class CustomFields extends AppController
             ->setParameter(1, $this->currentProject['id'])
             ->fetch();
 
-        if (!$field) {
-            return $this->show404();
-        }
-
         $field->delete();
 
-        return $this->redirectTo('project_settings_custom_fields');
+        return $this->respondTo(function ($format) use ($field) {
+            if ($format == "html") {
+                return $this->redirectTo('project_settings_custom_fields');
+            } elseif ($format == "json") {
+                return $this->jsonResponse([
+                    'deleted' => true,
+                    'field' => $field->toArray()
+                ]);
+            }
+        });
     }
 
     /**

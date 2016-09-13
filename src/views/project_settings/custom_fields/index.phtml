@@ -29,7 +29,7 @@
 					<a href="<?=routeUrl('project_settings_edit_custom_field', ['id' => $field['id']])?>" class="btn btn-xs btn-warning" data-overlay="1">
 						<span class="fa fa-edit"></span> <?=t('edit')?>
 					</a>
-					<a href="<?=routeUrl('project_settings_delete_custom_field', ['id' => $field['id']])?>" class="btn btn-xs btn-danger" data-confirm="<?=t('confirm.delete')?>">
+					<a href="<?=routeUrl('project_settings_delete_custom_field', ['id' => $field['id']])?>" class="btn btn-xs btn-danger" data-method="delete" data-confirm="<?=t('confirm.delete')?>">
 						<span class="fa fa-times"></span> <?=t('delete')?>
 					</a>
 				</td>
