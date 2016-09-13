@@ -1,19 +1,20 @@
 <?php
 
-use Traq\Models\User;
+use Traq\Models\Component;
+use Traq\Models\CustomField;
 use Traq\Models\Group;
+use Traq\Models\Milestone;
+use Traq\Models\Priority;
 use Traq\Models\Project;
 use Traq\Models\ProjectRole;
-use Traq\Models\Ticket;
-use Traq\Models\Milestone;
-use Traq\Models\Component;
-use Traq\Models\WikiPage;
-use Traq\Models\WikiRevision;
-use Traq\Models\Priority;
 use Traq\Models\Severity;
 use Traq\Models\Status;
+use Traq\Models\Ticket;
 use Traq\Models\Type;
+use Traq\Models\User;
 use Traq\Models\UserRole;
+use Traq\Models\WikiPage;
+use Traq\Models\WikiRevision;
 
 function createUser($password = null, $group = null)
 {
@@ -228,4 +229,24 @@ function createProjectManager($project = null, $user = null)
     $relation->save();
 
     return $relation;
+}
+
+function createCustomField($project = null)
+{
+    if (!$project) {
+        $project = createProject();
+    }
+
+    $hash = mkRandomHash(5);
+
+    $customField = new CustomField([
+        'name' => $hash . '-name',
+        'slug' => $hash . '-slug',
+        'type' => 1,
+        'ticket_type_ids' => 0,
+        'project_id' => $project['id']
+    ]);
+    $customField->save();
+
+    return $customField;
 }

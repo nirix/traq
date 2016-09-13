@@ -5,6 +5,8 @@ $testSuite->createGroup('Requests / Project Settings / Custom Fields', function 
     $project = $manager->project();
     $user = $manager->user();
 
+    $customField = createCustomField($project);
+
     $g->test('List custom fields', function ($t) use ($project, $user) {
         $resp = $t->visit('project_settings_custom_fields', [
             'routeTokens' => [
@@ -43,6 +45,39 @@ $testSuite->createGroup('Requests / Project Settings / Custom Fields', function 
                 'name' => 'Text field',
                 'slug' => 'text-field',
                 'type' => 'text'
+            ],
+            'cookie' => [
+                'traq' => $user['session_hash']
+            ]
+        ]);
+
+        $t->assertRedirectTo($t->generateUrl('project_settings_custom_fields'), $resp);
+    });
+
+    $g->test('Edit custom field', function ($t) use ($project, $user, $customField) {
+        $resp = $t->visit('project_settings_edit_custom_field', [
+            'routeTokens' => [
+                'pslug' => $project['slug'],
+                'id' => $customField['id']
+            ],
+            'cookie' => [
+                'traq' => $user['session_hash']
+            ]
+        ]);
+
+        $t->assertEquals(200, $resp->status);
+        $t->assertContains('<h1 class="page-header">Edit Custom Field</h1>', $resp->body);
+    });
+
+    $g->test('Save custom field', function ($t) use ($project, $user, $customField) {
+        $resp = $t->visit('project_settings_save_custom_field', [
+            'routeTokens' => [
+                'pslug' => $project['slug'],
+                'id' => $customField['id']
+            ],
+            'method' => 'PUT',
+            'post' => [
+                'type' => 2
             ],
             'cookie' => [
                 'traq' => $user['session_hash']
