@@ -216,7 +216,7 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Misc
-        // 'add'                     => 'Add',
+        'add'                     => 'Add',
         // 'renew'                   => 'Renew',
         // 'ascending'               => 'Ascending',
         // 'descending'              => 'Descending',
@@ -265,12 +265,12 @@ $english = new Language(function ($t) {
 
         // Project Settings
         'project_settings' => 'Project Settings',
-        // 'members'          => 'Members',
+        'members'          => 'Members',
 
         // --------------------------------------------------------------------
         // Project Roles
         'project_roles' => 'Project Roles',
-        // 'role'          => 'Role',
+        'role'          => 'Role',
         'roles'         => 'Roles',
         'new_role'      => 'New Role',
         'edit_role'     => 'Edit Role',
