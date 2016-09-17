@@ -33,7 +33,7 @@
 						<?=Form::select("user[{$relation['user_id']}][role_id]", Traq\Models\ProjectRole::selectOptions(currentProject()['id']), ['value' => $relation['project_role_id'], 'class' => 'form-control'])?>
 					</td>
 					<td class="actions">
-						<a href="<?=routeUrl('project_settings_delete_member', ['id' => $relation['user_id']])?>" data-method="delete" class="btn btn-xs btn-danger">
+						<a href="<?=routeUrl('project_settings_delete_member', ['id' => $relation['user_id']])?>" data-method="delete" data-confirm="<?=t('confirm.delete_x', [$relation['user_name']])?>" class="btn btn-xs btn-danger">
 							<span class="fa fa-times"></span> <?=t('delete')?>
 						</a>
 					</td>
