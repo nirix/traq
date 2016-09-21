@@ -75,6 +75,14 @@
 			<?php } ?>
 			</ul>
 		</div>
+		<div class="property">
+			<?php echo Form::label(l('proposed_time')); ?>
+			<span class="value"><?=$ticket->time_proposed?></span>
+		</div>
+		<div class="property">
+			<?php echo Form::label(l('worked_time')); ?>
+			<span class="value"><?=$ticket->time_worked?></span>
+		</div>
 		<?php
 		foreach ($custom_fields as $field) {
 				if ($field_value = $ticket->custom_field_value($field->id)) {

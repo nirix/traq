@@ -58,6 +58,8 @@ class Ticket extends Model
         'votes',
         'tasks',
         'extra',
+        'time_proposed',
+        'time_worked',
         'created_at',
         'updated_at'
     );
@@ -310,6 +312,12 @@ class Ticket extends Model
                     foreach ($values as $task) {
                         $to[] = $task['task'];
                     }
+                    break;
+
+                case 'time_proposed':
+                case 'time_worked':
+                    $from = $this->{$field};
+                    $to = $value;
                     break;
 
                 default:

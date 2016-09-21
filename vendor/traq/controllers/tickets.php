@@ -398,6 +398,16 @@ class Tickets extends AppController
                 }
             }
 
+            // Time proposed
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_time_worked')) {
+                $data['time_proposed'] = Request::post('time_proposed');
+            }
+
+            // Time worked
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_time_proposed')) {
+                $data['time_worked'] = Request::post('time_worked');
+            }
+
             // Set the ticket data
             $ticket->set($data);
 
@@ -536,6 +546,16 @@ class Tickets extends AppController
                     $data['tasks'][] = $task;
                 }
             }
+        }
+
+        // Time proposed
+        if ($this->user->permission($this->project->id, 'ticket_properties_change_time_worked')) {
+            $data['time_proposed'] = Request::post('time_proposed');
+        }
+
+        // Time worked
+        if ($this->user->permission($this->project->id, 'ticket_properties_change_time_proposed')) {
+            $data['time_worked'] = Request::post('time_worked');
         }
 
         // Related tickets
