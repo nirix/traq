@@ -52,7 +52,10 @@ class v3x extends Base
         30400,
 
         // 3.5.x
-        30500
+        30500,
+
+        // 3.7.0
+        30700
     );
 
     /**
@@ -391,5 +394,14 @@ class v3x extends Base
               (0,'usergroup',0,'view_tickets',1),
               (0,'role',0,'view_tickets',1);
         ");
+    }
+
+    /**
+     * Traq 3.7.0
+     */
+    public static function v30700($db)
+    {
+        $db->query("ALTER TABLE `{$db->prefix}tickets` ADD `time_proposed` VARCHAR(255) AFTER `extra`;");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` ADD `time_worked` VARCHAR(255) AFTER `time_proposed`;");
     }
 }
