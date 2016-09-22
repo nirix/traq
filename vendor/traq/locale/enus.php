@@ -221,6 +221,8 @@ class enUS extends \traq\libraries\Locale
             'people_who_have_voted_on_this_ticket' => "People who have voted on this ticket ({1})",
             'proposed_time'         => "Proposed time",
             'worked_time'           => "Worked time",
+            'time_proposed'         => "Proposed time",
+            'time_worked'           => "Worked time",
 
             // Ticket columns
             'columns'    => "Columns",
