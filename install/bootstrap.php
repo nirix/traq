@@ -42,7 +42,7 @@ session_start();
 /**
  * Simple error class
  */
-class Error
+class InstallError
 {
     /**
      * Halts the page and displays the error.

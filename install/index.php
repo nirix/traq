@@ -32,7 +32,7 @@ View::set('page_title', 'Installation');
 
 // Make sure the config file doesn't exist...
 if (file_exists('../vendor/traq/config/database.php')) {
-    Error::halt('Error', 'Config file already exists.');
+    InstallError::halt('Error', 'Config file already exists.');
 }
 
 // Index
@@ -80,7 +80,7 @@ post('/step/2', function(){
     }
     // Make sure there's no Traq installed here with the same table prefix
     else if (false and is_installed(array_merge(array('driver' => 'pdo'), $_POST))) {
-        Error::halt('Error', 'Traq is already installed.');
+        InstallError::halt('Error', 'Traq is already installed.');
     }
     // Confirm details
     else {

@@ -39,7 +39,7 @@ View::set('page_title', 'Upgrade');
 
 // Make sure the config file exists...
 if (!file_exists('../vendor/traq/config/database.php')) {
-    Error::halt('Error', 'Config file not found.');
+    InstallError::halt('Error', 'Config file not found.');
 }
 
 // Get database connection
