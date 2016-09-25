@@ -375,8 +375,10 @@ class enUS extends \traq\libraries\Locale
                     'ticket_properties_set_related_tickets'    => "Set related tickets",
                     'ticket_properties_change_related_tickets' => "Change related tickets",
 
-                    'ticket_properties_set_time_proposed' => "Time proposed",
-                    'ticket_properties_set_time_worked'   => "Time worked",
+                    'ticket_properties_set_time_proposed' => "Set time proposed",
+                    'ticket_properties_change_time_proposed' => "Change time proposed",
+                    'ticket_properties_set_time_worked'   => "Set time worked",
+                    'ticket_properties_change_time_worked'   => "Change time worked",
                 ),
 
                 // Wiki
