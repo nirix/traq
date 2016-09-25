@@ -403,5 +403,18 @@ class v3x extends Base
     {
         $db->query("ALTER TABLE `{$db->prefix}tickets` ADD `time_proposed` VARCHAR(255) AFTER `extra`;");
         $db->query("ALTER TABLE `{$db->prefix}tickets` ADD `time_worked` VARCHAR(255) AFTER `time_proposed`;");
+
+        $db->query("
+            INSERT INTO `{$db->prefix}permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+            VALUES
+              (0,'usergroup',0,'ticket_properties_set_time_proposed',0),
+              (0,'usergroup',0,'ticket_properties_set_time_worked',0),
+              (0,'usergroup',0,'ticket_properties_change_time_proposed',0),
+              (0,'usergroup',0,'ticket_properties_change_time_worked',0),
+              (0,'role',0,'ticket_properties_set_time_proposed',0),
+              (0,'role',0,'ticket_properties_set_time_worked',0),
+              (0,'role',0,'ticket_properties_change_time_proposed',0),
+              (0,'role',0,'ticket_properties_change_time_worked',0);
+        ");
     }
 }
