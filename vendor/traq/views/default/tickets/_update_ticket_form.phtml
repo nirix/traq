@@ -96,13 +96,13 @@
 					<?php echo Form::text('related_tickets', array('value' => implode(', ', $ticket->related_ticket_tids(false)))); ?>
 				</div>
 				<?php } ?>
-				<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_proposed')) { ?>
+				<?php if ($current_user->permission($project->id, 'ticket_properties_change_time_proposed')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('proposed_time'), 'time_proposed'); ?>
 					<?php echo Form::text('time_proposed', array('value' => $ticket->time_proposed)); ?>
 				</div>
 				<?php } ?>
-				<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_worked')) { ?>
+				<?php if ($current_user->permission($project->id, 'ticket_properties_change_time_worked')) { ?>
 				<div class="field">
 					<?php echo Form::label(l('worked_time'), 'time_worked'); ?>
 					<?php echo Form::text('time_worked', array('value' => $ticket->time_worked)); ?>
