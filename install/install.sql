@@ -1,6 +1,6 @@
 #
 # Traq
-# Copyright (C) 2009-2012 Traq.io
+# Copyright (C) 2009-2016 Traq.io
 #
 # This file is part of Traq.
 #
@@ -145,6 +145,8 @@ VALUES
   (0,'usergroup',0,'ticket_properties_set_status',0),
   (0,'usergroup',0,'ticket_properties_set_tasks',0),
   (0,'usergroup',0,'ticket_properties_set_related_tickets',0),
+  (0,'usergroup',0,'ticket_properties_set_time_proposed',0),
+  (0,'usergroup',0,'ticket_properties_set_time_worked',0),
   (0,'usergroup',0,'ticket_properties_change_type',0),
   (0,'usergroup',0,'ticket_properties_change_assigned_to',0),
   (0,'usergroup',0,'ticket_properties_change_milestone',0),
@@ -156,6 +158,8 @@ VALUES
   (0,'usergroup',0,'ticket_properties_change_summary',0),
   (0,'usergroup',0,'ticket_properties_change_tasks',0),
   (0,'usergroup',0,'ticket_properties_change_related_tickets',0),
+  (0,'usergroup',0,'ticket_properties_change_time_proposed',0),
+  (0,'usergroup',0,'ticket_properties_change_time_worked',0),
   (0,'usergroup',0,'ticket_properties_complete_tasks',0),
   (0,'usergroup',0,'edit_ticket_history',0),
   (0,'usergroup',0,'delete_ticket_history',0),
@@ -191,6 +195,8 @@ VALUES
   (0,'role',0,'ticket_properties_set_status',1),
   (0,'role',0,'ticket_properties_set_tasks',1),
   (0,'role',0,'ticket_properties_set_related_tickets',1),
+  (0,'role',0,'ticket_properties_set_time_proposed',1),
+  (0,'role',0,'ticket_properties_set_time_worked',1),
   (0,'role',0,'ticket_properties_change_type',1),
   (0,'role',0,'ticket_properties_change_assigned_to',1),
   (0,'role',0,'ticket_properties_change_milestone',1),
@@ -202,6 +208,8 @@ VALUES
   (0,'role',0,'ticket_properties_change_summary',1),
   (0,'role',0,'ticket_properties_change_tasks',1),
   (0,'role',0,'ticket_properties_change_related_tickets',1),
+  (0,'role',0,'ticket_properties_change_time_proposed',1),
+  (0,'role',0,'ticket_properties_change_time_worked',1),
   (0,'role',0,'ticket_properties_complete_tasks',1),
   (0,'role',0,'edit_ticket_history',0),
   (0,'role',0,'delete_ticket_history',0),
@@ -541,6 +549,8 @@ CREATE TABLE `traq_tickets` (
   `votes` bigint(20) DEFAULT '0',
   `tasks` longtext COLLATE utf8_unicode_ci NULL,
   `extra` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `time_proposed` varchar(255),
+  `time_worked` varchar(255),
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
