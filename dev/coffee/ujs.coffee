@@ -64,7 +64,8 @@ jQuery(document).ready ->
 
   # Navbar tooltips
   $('.navbar [title]').tooltip
-    placement: 'bottom'
+    placement: 'bottom',
+    container: 'body'
 
   # Every other tooltip
   $(':not(.navbar) [title]').tooltip()
