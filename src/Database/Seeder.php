@@ -241,7 +241,8 @@ class Seeder
         $password = rand(0, 9999) . time() . microtime();
 
         // For email validation, emails must match x@y.z
-        $host = $_SERVER['HTTP_HOST'] == 'localhost' ? 'lvh.me' : $_SERVER['HTTP_HOST'];
+        $host = $_SERVER['HTTP_HOST'] == 'localhost' ? 'lvh.me' : explode(':', $_SERVER['HTTP_HOST']);
+        $host = $host[0];
 
         $user = new User([
             'name'                  => "Anonymous",
