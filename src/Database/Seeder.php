@@ -242,7 +242,7 @@ class Seeder
 
         // For email validation, emails must match x@y.z
         $host = $_SERVER['HTTP_HOST'] == 'localhost' ? 'lvh.me' : explode(':', $_SERVER['HTTP_HOST']);
-        $host = $host[0];
+        $host = is_array($host) ? $host[0] : $host;
 
         $user = new User([
             'name'                  => "Anonymous",
@@ -254,7 +254,7 @@ class Seeder
         ]);
 
         if (!$user->save()) {
-            var_dump($user->errors());
+            var_dump($user->email, $user->errors());
         }
 
         return $user->id;
