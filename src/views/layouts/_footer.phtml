@@ -1,6 +1,6 @@
 <footer id="footer">
 	<div class="container">
-		<?php if ($_ENV['environment'] === 'development') : ?>
+		<?php if ($_ENV['environment'] === 'development' && defined('START_TIME')) : ?>
 		<div class="text-muted pull-right">
 			<?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb
 		</div>
