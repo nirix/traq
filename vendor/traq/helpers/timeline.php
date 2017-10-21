@@ -51,6 +51,10 @@ function timeline_events()
  */
 function timeline_filters($filter = null)
 {
+    if (is_numeric($filter)) {
+        return [];
+    }
+
     $filters = array(
         'new_tickets'           => array('ticket_created'),
         'tickets_opened_closed' => array('ticket_closed', 'ticket_reopened'),
