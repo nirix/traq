@@ -68,7 +68,7 @@ class Milestones extends AppController
                 'info'         => Request::post('info'),
                 'due'          => Request::post('due') != '' ? Request::post('due') : 'NULL',
                 'project_id'   => $this->project->id,
-                'displayorder' => Request::post('displayorder')
+                'displayorder' => Request::post('displayorder') == '' ? 0 : Request::post('displayorder')
             ));
 
             // Check if the data is valid
@@ -113,7 +113,9 @@ class Milestones extends AppController
                 'info'         => Request::post('info', $milestone->info),
                 'due'          => Request::post('due') != '' ? Request::post('due') : 'NULL',
                 'status'       => Request::post('status', $milestone->status),
-                'displayorder' => Request::post('displayorder', $milestone->displayorder)
+                'displayorder' => Request::post('displayorder', $milestone->displayorder) == ''
+                    ? 0
+                    : Request::post('displayorder', $milestone->displayorder)
             ));
 
             // Make sure the data is valid

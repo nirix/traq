@@ -69,6 +69,14 @@ class CustomFields extends AppController
                 }
             }
 
+            if ($data['min_length'] == '') {
+                $data['min_length'] = 0;
+            }
+
+            if ($data['max_length'] == '') {
+                $data['max_length'] = 255;
+            }
+
             // Is required?
             if (!isset(Request::$post['is_required'])) {
                 $data['is_required'] = 0;
@@ -119,6 +127,14 @@ class CustomFields extends AppController
                 if (isset(Request::$post[$property])) {
                     $data[$property] = Request::$post[$property];
                 }
+            }
+
+            if ($data['min_length'] == '') {
+                $data['min_length'] = 0;
+            }
+
+            if ($data['max_length'] == '') {
+                $data['max_length'] = 255;
             }
 
             if ($this->is_api) {
