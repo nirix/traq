@@ -199,7 +199,7 @@ class TicketListing extends AppController
         return $this->redirect(
             $this->generateUrl('tickets', [
                 'pslug' => $this->currentProject['slug']
-            ]) . '?' . $_SERVER['QUERY_STRING']
+            ]) . '?' . Request::queryString()
         );
     }
 

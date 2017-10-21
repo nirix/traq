@@ -1,4 +1,4 @@
-<form action="<?=routeUrl('tickets_set_columns')?>?<?=$_SERVER['QUERY_STRING']?>" method="post">
+<form action="<?=routeUrl('tickets_set_columns')?>?<?=Request::queryString()?>" method="post">
 	<fieldset id="ticketlist-columns">
 		<legend><a href="#" id="ticketlist-columns-toggle"><?=t('columns')?></a></legend>
 
