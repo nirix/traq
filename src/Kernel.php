@@ -63,6 +63,12 @@ class Kernel extends AppKernel
 
         parent::__construct();
 
+        if ($this->config['environment'] === 'development') {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops->register();
+        }
+
         require_once __DIR__ . '/version.php';
 
         // Setup aliases
