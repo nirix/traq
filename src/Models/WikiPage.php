@@ -23,6 +23,8 @@
 
 namespace Traq\Models;
 
+use Avalon\Language;
+
 /**
  * Wiki page model.
  *
@@ -42,10 +44,38 @@ class WikiPage extends Model
     ];
 
     /**
+     * @var int
+     */
+    public $id;
+
+    /**
+     * @var int
+     */
+    public $project_id;
+
+    /**
+     * @var string
+     */
+    public $title;
+
+    /**
+     * @var string
+     */
+    public $slug;
+
+    /**
+     * @var int
+     */
+    public $revision_id;
+
+    /**
      * @var WikiRevision
      */
     protected $revision;
 
+    /**
+     * @return WikiRevision
+     */
     public function revision()
     {
         if ($this->revision) {
@@ -76,5 +106,38 @@ class WikiPage extends Model
         }
 
         return parent::delete();
+    }
+
+    /**
+     * @return bool
+     */
+    public function validate()
+    {
+        // Validate unique slug for the project
+        $result = static::where('project_id = :project_id')
+            ->andWhere('slug = :slug')
+            ->setParameter(':project_id', $this->project_id)
+            ->setParameter(':slug', $this->slug);
+
+        if ($this->id) {
+            $result->andWhere('id != :id')
+                ->setParameter(':id', $this->id);
+        }
+
+        $result = $result->rowCount();
+
+        if ($result) {
+            $this->addError(
+                'slug',
+                Language::translate(
+                    'errors.validations.unique',
+                    [
+                        'field' => Language::translate('slug')
+                    ]
+                )
+            );
+        }
+
+        return parent::validate();
     }
 }
