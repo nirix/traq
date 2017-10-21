@@ -92,7 +92,7 @@ CREATE TABLE `traq_milestones` (
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `codename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `info` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `changelog` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `changelog` longtext COLLATE utf8_unicode_ci NULL,
   `due` datetime DEFAULT NULL,
   `completed_on` datetime DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
