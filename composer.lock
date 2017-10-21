@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/database.git",
-                "reference": "e149652c02c625a30861a82a579c9225992a71ed"
+                "reference": "019a73152e199e2095ace5b8b7a5bc39af748b23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/database/zipball/e149652c02c625a30861a82a579c9225992a71ed",
-                "reference": "e149652c02c625a30861a82a579c9225992a71ed",
+                "url": "https://api.github.com/repos/avalonphp/database/zipball/019a73152e199e2095ace5b8b7a5bc39af748b23",
+                "reference": "019a73152e199e2095ace5b8b7a5bc39af748b23",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2016-06-26T06:19:23+00:00"
+            "time": "2017-10-21T11:50:17+00:00"
         },
         {
             "name": "avalon/database-migrations",
