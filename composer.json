@@ -22,6 +22,7 @@
     },
     "require-dev": {
         "filp/whoops": "^2.0",
-        "avalon/testing": "^1.0@dev"
+        "avalon/testing": "^1.0@dev",
+        "symfony/var-dumper": "^3.3"
     }
 }
