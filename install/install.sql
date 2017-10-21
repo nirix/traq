@@ -639,7 +639,7 @@ CREATE TABLE `traq_wiki` (
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `main` smallint(6) NOT NULL DEFAULT '0',
-  `revision_id` bigint(20) NOT NULL,
+  `revision_id` bigint(20) NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -655,6 +655,6 @@ CREATE TABLE `traq_wiki_revisions` (
   `content` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `updated_at` datetime NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
