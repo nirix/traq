@@ -89,9 +89,12 @@ class Timeline extends Model
     /**
      * Creates a new Timeline object relating to a new wiki page event.
      *
+     * @param User     $user
+     * @param WikiPage $page
+     *
      * @return Timeline
      */
-    public static function wikiPageCreatedEvent($user, $page)
+    public static function wikiPageCreatedEvent(User $user, WikiPage $page)
     {
         return new static([
             'project_id' => $page['project_id'],
@@ -99,6 +102,25 @@ class Timeline extends Model
             'owner_id'   => $page['id'],
             'user_id'    => $user['id'],
             'action'     => "wiki_page_created",
+        ]);
+    }
+
+    /**
+     * Creates a new Timeline object relating to an updated wiki page event.
+     *
+     * @param User     $user
+     * @param WikiPage $page
+     *
+     * @return Timeline
+     */
+    public static function wikiPageUpdatedEvent(User $user, WikiPage $page)
+    {
+        return new static([
+            'project_id' => $page['project_id'],
+            'owner_type' => 'WikiPage',
+            'owner_id'   => $page['id'],
+            'user_id'    => $user['id'],
+            'action'     => "wiki_page_updated",
         ]);
     }
 }

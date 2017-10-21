@@ -64,7 +64,7 @@ class Timeline
             'ticket_comments'       => ['ticket_comment'],
             'ticket_moves'          => ['ticket_moved_from', 'ticket_moved_to'],
             'milestones'            => ['milestone_completed', 'milestone_cancelled'],
-            'wiki_pages'            => ['wiki_page_created', 'wiki_page_edited']
+            'wiki_pages'            => ['wiki_page_created', 'wiki_page_updated']
         ];
 
         // Return events for specific filter

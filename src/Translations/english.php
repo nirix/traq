@@ -318,7 +318,7 @@ $english = new Language(function ($t) {
         'timeline.ticket_moved_from'   => 'Moved issue ({issue}) from {project}',
         'timeline.ticket_moved_to'     => 'Moved issue ({issue}) to {project}',
         'timeline.wiki_page_created'   => 'Created {title} wiki page',
-        'timeline.wiki_page_edited'    => 'Edited {title} wiki page',
+        'timeline.wiki_page_updated'   => 'Updated {title} wiki page',
         'timeline.by_x'                => 'by {0}',
 
         // --------------------------------------------------------------------

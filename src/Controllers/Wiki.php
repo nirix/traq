@@ -214,6 +214,10 @@ class Wiki extends AppController
             if ($revision['content'] !== $this->page->revision()['content']) {
                 $revision->save();
                 $this->page['revision_id'] = $revision['id'];
+
+                // Create timeline event if page content was changed
+                $timelineEvent = TimelineModel::wikiPageUpdatedEvent($this->currentUser, $this->page);
+                $timelineEvent->save();
             }
 
             $this->page->save();
