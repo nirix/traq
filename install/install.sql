@@ -566,7 +566,7 @@ CREATE TABLE `traq_timeline` (
   `project_id` bigint(20) NOT NULL,
   `owner_id` bigint(20) NOT NULL,
   `action` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `data` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `data` longtext COLLATE utf8_unicode_ci NULL,
   `user_id` bigint(20) NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
