@@ -417,4 +417,15 @@ class v3x extends Base
               (0,'role',0,'ticket_properties_change_time_worked',0);
         ");
     }
+
+    /**
+     * Traq 3.7.1
+     */
+    public static function v30701($db)
+    {
+        $db->query("ALTER TABLE `{$db->prefix}timeline` MODIFY `data` longtext NULL");
+        $db->query("ALTER TABLE `{$db->prefix}wiki` MODIFY `revision_id` bigint(20) NULL");
+        $db->query("ALTER TABLE `{$db->prefix}wiki_revisions` MODIFY `updated_at` datetime NULL");
+        $db->query("ALTER TABLE `{$db->prefix}milestones` MODIFY `changelog` longtext COLLATE utf8_unicode_ci NULL");
+    }
 }
