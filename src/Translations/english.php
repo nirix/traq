@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ * Copyright (C) 2009-2018 Jack P.
+ * Copyright (C) 2012-2018 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -363,6 +363,8 @@ $english = new Language(function ($t) {
         // 'language'         => 'Language',
         // 'subscriptions'    => 'Subscriptions',
 
+        // Profile
+        'xs_profile' => '{name}\'s Profile',
 
         // --------------------------------------------------------------------
         // Wiki

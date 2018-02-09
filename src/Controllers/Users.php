@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ * Copyright (C) 2009-2018 Jack P.
+ * Copyright (C) 2012-2018 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -95,6 +95,25 @@ class Users extends AppController
     }
 
     /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function showAction($id)
+    {
+        $user = User::find($id);
+
+        return $this->respondTo(function ($format) use ($user) {
+            if ($format === 'html') {
+                return $this->render('users/profile.phtml', [
+                    'profile' => $user
+                ]);
+            } elseif ($format === 'json') {
+                return $this->jsonResponse($user->publicArray());
+            }
+        });
+    }
+    /**
      * Get submitted form data.
      *
      * @return array
@@ -109,4 +128,5 @@ class Users extends AppController
             'password_confirmation' => Request::$post['password_confirmation']
         ];
     }
+
 }

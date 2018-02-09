@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ * Copyright (C) 2009-2018 Jack P.
+ * Copyright (C) 2012-2018 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -30,8 +30,8 @@ use Traq\Models\Permission;
  * User model.
  *
  * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
+ * @author  Jack P.
+ * @since   3.0.0
  */
 class User extends Model
 {
@@ -43,15 +43,15 @@ class User extends Model
     protected static $_validations = [
         'username' => ['required', 'unique', 'minLength' => 3],
         'password' => ['required', 'minLength' => 6, 'confirm'],
-        'email' => ['required', 'unique', 'email']
+        'email'    => ['required', 'unique', 'email'],
     ];
 
     protected static $_belongsTo = [
-        'group'
+        'group',
     ];
 
     protected static $_before = [
-        'create' => ['preparePassword', 'beforeCreate']
+        'create' => ['preparePassword', 'beforeCreate'],
     ];
 
     /**
@@ -60,6 +60,16 @@ class User extends Model
     public function isAdmin()
     {
         return $this->group()->isAdmin();
+    }
+
+    public function publicArray()
+    {
+        return [
+            'id'         => $this->id,
+            'username'   => $this->username,
+            'name'       => $this->name,
+            'created_at' => $this->created_at,
+        ];
     }
 
     /**
