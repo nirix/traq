@@ -12,14 +12,14 @@
     "gulp-add-src": "^0.2.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-coffee": "^2.3.2",
-    "gulp-less": "^3.0.5",
     "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.0.5",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
-    "jquery": "^2.2.3",
+    "jquery": "^3.0.0",
     "js-cookie": "^2.1.1",
     "moment": "^2.13.0",
-    "simplemde": "^1.10.1",
-    "selectize": "^0.12.1"
+    "selectize": "^0.12.1",
+    "simplemde": "^1.10.1"
   }
 }
