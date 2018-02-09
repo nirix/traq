@@ -241,7 +241,10 @@ class Seeder
         $password = rand(0, 9999) . time() . microtime();
 
         // For email validation, emails must match x@y.z
-        $host = $_SERVER['HTTP_HOST'] == 'localhost' ? 'lvh.me' : explode(':', $_SERVER['HTTP_HOST']);
+        $host = $_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'localhost'
+            ? 'lvh.me'
+            : explode(':', $_SERVER['HTTP_HOST'])[0];
+
         $host = is_array($host) ? $host[0] : $host;
 
         $user = new User([
@@ -254,7 +257,10 @@ class Seeder
         ]);
 
         if (!$user->save()) {
-            var_dump($user->email, $user->errors());
+            $user->email = 'noreply@lvh.me';
+            if (!$user->save()) {
+                var_dump($user->email, $user->errors());
+            }
         }
 
         return $user->id;
