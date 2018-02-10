@@ -14,7 +14,7 @@
 			<?php if (setting('site_url')) : ?>
 				<li><a href="<?=setting('site_url')?>"><?=setting('site_name')?></a></li>
 			<?php endif ?>
-			<?php if (currentProject() || Request::matches('/admin(.*)')) : ?>
+			<?php if (currentProject() || Request::matches('/(usercp|admin)(.*)')) : ?>
 				<li><a href="<?=routeUrl('root')?>"><?=setting('title')?></a></li>
 			<?php endif ?>
 			</ul>
