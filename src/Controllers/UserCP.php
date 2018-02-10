@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2015 Jack P.
- * Copyright (C) 2012-2015 Traq.io
+ * Copyright (C) 2009-2018 Jack P.
+ * Copyright (C) 2012-2018 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
@@ -37,8 +37,6 @@ use Traq\Models\Subscription;
  */
 class UserCP extends AppController
 {
-    protected $layout = "usercp.phtml";
-
     public function __construct()
     {
         parent::__construct();
@@ -88,7 +86,7 @@ class UserCP extends AppController
 
         // Save the user
         if ($correctPassword && $user->save()) {
-            return $this->respondTo(function ($format) {
+            return $this->respondTo(function ($format) use ($user) {
                 if ($format == "html") {
                     return $this->redirectTo('usercp');
                 } else {
@@ -115,7 +113,7 @@ class UserCP extends AppController
             if ($format == "html") {
                 return $this->redirectTo('usercp');
             } elseif ($format == "js") {
-                $resp = new Response($this->renderView('usercp/create_api_key.js.php', [
+                $resp = new Response($this->renderView('usercp/generate_api_key.js.php', [
                     '_layout' => false,
                     'user'    => $user
                 ]));

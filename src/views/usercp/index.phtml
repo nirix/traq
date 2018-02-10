@@ -1,49 +1,51 @@
+<?php $this->extend('layouts/usercp.phtml'); ?>
+
+<?php $this->startSection('content'); ?>
 <div class="usercp container">
 	<form action="<?=routeUrl('usercp_save')?>" method="post" class="form-horizontal">
-
-		<?=Errors::messagesFor($user)?>
-
 		<div class="row">
 			<div class="col-md-6">
 				<fieldset>
 					<legend><?=t("information")?></legend>
 
-					<div class="form-group">
-						<?=Form::label(t("name"), "name", ['class' => "control-label col-md-4"])?>
+					<div class="form-group <?=$user->hasError('name') ? 'has-error' : ''?>">
+						<label for="name" class="control-label col-md-4"><?=t('name')?></label>
 						<div class="col-md-8">
-							<?=Form::text("name", ['class' => "form-control", 'value' => $user->name])?>
+							<input type="text" name="name" class="form-control" value="<?=e($user->name)?>">
+							<?php if ($user->hasError('name')) : ?>
+								<div class="help-block"><?=$user->getError('name')[0]?></div>
+							<?php endif ?>
+						</div>
+					</div>
+					<div class="form-group <?=$user->hasError('email') ? 'has-error' : ''?>">
+						<label for="email" class="control-label col-md-4"><?=t('email')?></label>
+						<div class="col-md-8">
+							<input type="text" name="email" class="form-control" value="<?=e($user->email)?>">
+							<?php if ($user->hasError('email')) : ?>
+								<div class="help-block"><?=$user->getError('email')[0]?></div>
+							<?php endif ?>
 						</div>
 					</div>
 					<div class="form-group">
-						<?=Form::label(t("email"), "email", ['class' => "control-label col-md-4"])?>
-						<div class="col-md-8">
-							<?=Form::text("email", ['class' => "form-control", 'value' => $user->email])?>
-						</div>
-					</div>
-					<div class="form-group">
-						<?=Form::label(t("api_key"), "api_key", ['class' => "control-label col-md-4"])?>
+						<label for="api_key" class="control-label col-md-4"><?=t('api_key')?></label>
 						<div class="col-md-8">
 							<div class="input-group">
-								<?=Form::text('api_key', [
-									'value'    => $user->api_key,
-									'readonly' => true,
-									'class'    => "form-control",
-									'id'       => "api-key"
-								])?>
+								<input type="text" id="api-key" class="form-control" readonly="readonly" value="<?=e($user->api_key)?>">
 								<span class="input-group-btn">
-									<?=HTML::link(t($user->api_key ? 'renew' : 'create'), 'usercp/create_api_key', [
-										'class'     => 'btn btn-default',
-										'id'        => "create-api-key",
-										'data-ajax' => true
-									])?>
+									<a href="<?=routePath('usercp_generate_api_key')?>" class="btn btn-default" id="create-api-key" data-ajax="1">
+										<?=t($user->api_key ? 'renew' : 'create')?>
+									</a>
 								</span>
 							</div>
 						</div>
 					</div>
 					<div class="form-group <?=($user->hasError('password') ? ' has-error' : '')?>">
-						<?=Form::label(t("current_password"), "current_password", ['class' => "control-label col-md-4"])?>
+						<label for="current_password" class="control-label col-md-4"><?=t('current_password')?></label>
 						<div class="col-md-8">
 							<?=Form::password("current_password", ['class' => "form-control"])?>
+							<?php if ($user->hasError('password')) : ?>
+								<div class="help-block"><?=$user->getError('password')[0]?></div>
+							<?php endif ?>
 						</div>
 					</div>
 				</fieldset>
@@ -52,16 +54,22 @@
 			<div class="col-md-6">
 				<legend><?=t("options")?></legend>
 
-				<div class="form-group">
-					<?=Form::label(t("language"), "locale", ['class' => "control-label col-md-4"])?>
+				<div class="form-group <?=$user->hasError('api_key') ? 'has-error' : ''?>">
+					<label for="language" class="control-label col-md-4"><?=t('language')?></label>
 					<div class="col-md-8">
 						<?=Form::select("language", Avalon\Language::selectOptions(), ['value' => $user->language, 'class' => 'form-control'])?>
+						<?php if ($user->hasError('language')) : ?>
+							<div class="help-block"><?=$user->getError('language')[0]?></div>
+						<?php endif ?>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row text-center">
-			<?=Form::submit(t('save'), ['class' => 'btn btn-success'])?>
+			<button type="submit" class="btn btn-success">
+				<?=t('save')?>
+			</button>
 		</div>
 	</form>
 </div>
+<?php $this->endSection(); ?>

@@ -81,6 +81,16 @@ class User extends Model
         $this->session_hash = sha1($this->username . uniqid() . microtime() . rand(0, 99999));
     }
 
+    /**
+     * Generates an an API key.
+     */
+    public function generateApiKey()
+    {
+        $this->api_key = sha1(
+            uniqid() . microtime() . rand(0, 99999) . $this->id . uniqid(microtime(), true)
+        );
+    }
+
     // ------------------------------------------------------------------------
     // Overwritten functions
 

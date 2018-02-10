@@ -1,7 +1,7 @@
 ###
 # Traq
-# Copyright (C) 2009-2016 Jack P.
-# Copyright (C) 2012-2016 Traq.io
+# Copyright (C) 2009-2018 Jack P.
+# Copyright (C) 2012-2018 Traq.io
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -97,6 +97,19 @@ jQuery(document).ready ->
     scrollToElement = $(this).data 'scroll-to'
     $('html, body').animate
       scrollTop: $(scrollToElement).offset().top
+
+  # Ajax
+  doc.on 'click', 'a[data-ajax]', (event) ->
+    event.preventDefault()
+
+    element = $ this
+    href = element.attr 'href'
+    method = element.data 'method'
+
+    $.ajax
+      url: href
+      dataType: 'script'
+      method: method || 'get'
 
   # Confirmations
   doc.on 'click', 'a[data-confirm]', (event) ->

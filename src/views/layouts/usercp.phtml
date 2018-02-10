@@ -1,19 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<?=View::render('layouts/_head.phtml')?>
-		<?php Hook::run('template:layouts/usercp:head'); ?>
-	</head>
-	<body>
-		<?php require __DIR__ . '/_header.phtml'; ?>
-		<main id="page">
-			<div class="container">
-				<h1 class="page-header"><?=t('usercp')?></h1>
-			</div>
-			<?php echo View::render('usercp/_nav.phtml'); ?>
-			<?=$content?>
-		</main>
-		<?php require __DIR__ . '/_footer.phtml'; ?>
-		<?php Hook::run('template:layouts/usercp:foot'); ?>
-	</body>
-</html>
+<?php $this->extend('layouts/default.phtml'); ?>
+
+<?php $this->startSection('navbar'); ?>
+<div class="navbar-header">
+	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+		<span class="sr-only"><?=t('toggle_navigation')?></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	</button>
+	<a href="<?=routeUrl('usercp')?>" class="navbar-brand"><?=t('usercp')?></a>
+</div>
+
+<div class="collapse navbar-collapse" id="navbar-collapse-1">
+	<ul class="nav navbar-nav">
+		<li<?=iif(Request::matches(routePath('usercp') . '(/.*)?'), ' class="active"')?>>
+			<a href="<?=routeUrl('usercp')?>"><?=t('information')?></a>
+		</li>
+		<li<?=iif(Request::matches(routePath('usercp_password') . '(/.*)?'), ' class="active"')?>>
+			<a href="<?=routeUrl('usercp_password')?>"><?=t('password')?></a>
+		</li>
+		<li<?=iif(Request::matches(routePath('usercp_subscriptions') . '(/.*)?'), ' class="active"')?>>
+			<a href="<?=routeUrl('usercp_subscriptions')?>"><?=t('subscriptions')?></a>
+		</li>
+	</ul>
+</div>
+<?php $this->endSection(); ?>
