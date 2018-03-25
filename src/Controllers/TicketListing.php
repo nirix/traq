@@ -23,6 +23,7 @@
 
 namespace Traq\Controllers;
 
+use Avalon\Database\QueryBuilder;
 use Avalon\Http\Request;
 use Avalon\Helpers\Pagination;
 use Traq\Helpers\Ticketlist;
@@ -104,17 +105,16 @@ class TicketListing extends AppController
     /**
      * Sort tickets.
      */
-    protected function sortTickets($tickets)
+    protected function sortTickets(QueryBuilder $tickets)
     {
         $sorting = explode('.', $this->currentProject['default_ticket_sorting']);
 
+        $sortColumn = '';
         if ($sorting[0] == 'priority') {
-            $sortColumn = 'priority_id';
-        } elseif ($sorting[0] == 'ticket_id') {
-            $sortColumn = 'ticket_id';
+            $sortColumn = 't.priority_id, ';
         }
 
-        $tickets->orderBy("t.{$sortColumn}, t.ticket_id", $sorting[1]);
+        $tickets->orderBy("{$sortColumn}t.ticket_id", $sorting[1]);
     }
 
     /**
