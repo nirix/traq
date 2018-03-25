@@ -24,6 +24,7 @@
 namespace Traq\Helpers;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Avalon\Database\ConnectionManager;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 
 /**
@@ -302,7 +303,7 @@ class TicketFilterQuery
      */
     protected function quote($string)
     {
-        return $GLOBALS['db']->quote($string);
+        return ConnectionManager::getConnection()->quote($string);
     }
 
     /**
