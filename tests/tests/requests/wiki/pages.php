@@ -35,7 +35,7 @@ $testSuite->createGroup('Requests / Wiki / Pages', function ($g) {
 
         $intendedUrl = $t->generateUrl('wiki_page', [
             'pslug' => $project['slug'],
-            'slug'  => 'my-page'
+            'wslug'  => 'my-page'
         ]);
 
         $t->assertRedirectTo($intendedUrl, $resp);

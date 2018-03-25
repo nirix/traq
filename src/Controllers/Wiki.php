@@ -142,7 +142,7 @@ class Wiki extends AppController
             $timelineEvent = TimelineModel::wikiPageCreatedEvent($this->currentUser, $page);
             $timelineEvent->save();
 
-            return $this->redirectTo('wiki_page', ['slug' => $page['slug']]);
+            return $this->redirectTo('wiki_page', ['wslug' => $page['slug']]);
         }
 
         return $this->render('wiki/new.phtml', [
@@ -222,7 +222,7 @@ class Wiki extends AppController
 
             $this->page->save();
 
-            return $this->redirectTo('wiki_page', ['slug' => $this->page['slug']]);
+            return $this->redirectTo('wiki_page', ['wslug' => $this->page['slug']]);
         }
 
         return $this->render('wiki/edit.phtml', [

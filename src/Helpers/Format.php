@@ -97,7 +97,7 @@ class Format extends \Avalon\Helpers\Format
                     $matches['text'] = $matches['page'];
                 }
 
-                return HTML::link($matches['text'], routePath('wiki_page', ['slug' => $matches['page']]));
+                return HTML::link($matches['text'], routePath('wiki_page', ['wslug' => $matches['page']]));
             },
             $text
         );

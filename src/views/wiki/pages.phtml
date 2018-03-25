@@ -8,7 +8,7 @@
 
 	<ul>
 	<?php foreach ($pages as $page) : ?>
-		<li><a href="<?=routeUrl('wiki_page', ['slug' => $page['slug']])?>"><?=e($page['title'])?></a></li>
+		<li><a href="<?=routeUrl('wiki_page', ['wslug' => $page['slug']])?>"><?=e($page['title'])?></a></li>
 	<?php endforeach ?>
 	</ul>
 </div>

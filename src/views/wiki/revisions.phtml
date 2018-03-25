@@ -12,7 +12,7 @@
 			<?=t('x_by_x', [
 				HTML::link(
 					t('revision_x', $revision['revision']),
-					routePath('wiki_revision', ['slug' => $page['slug'], 'id' => $revision['revision']])
+					routePath('wiki_revision', ['wslug' => $page['slug'], 'id' => $revision['revision']])
 				),
 				gravatarProfileLink($revision['user_email'], $revision['user_name'], $revision['user_id'], 15),
 			])?>
