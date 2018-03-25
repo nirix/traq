@@ -52,7 +52,7 @@ class TicketFilters
     {
         static $filters;
 
-        if (count($filters)) {
+        if ($filters !== null && count($filters)) {
             return $filters;
         }
 
