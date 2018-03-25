@@ -46,7 +46,8 @@ $english = new Language(function ($t) {
 
         // --------------------------------------------------------------------
         // Changelog
-        'changelog' => 'Changelog',
+        'changelog'            => 'Changelog',
+        'changelog.no_changes' => 'There are curently no changes to display.',
 
         // --------------------------------------------------------------------
         // Components

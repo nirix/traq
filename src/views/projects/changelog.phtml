@@ -14,8 +14,33 @@
 <main class="changelog content container">
 	<h1 class="page-header"><?=t('changelog')?></h1>
 
-	<div class="pull-right">
-		<fieldset class="changelog-type-legend traq-fieldset">
+	<div class="row">
+		<div class="col-md-9">
+			<?php foreach ($milestones as $milestone) : ?>
+			<div class="changeset">
+				<h2 class="milestone-name">
+					<a href="<?=routeUrl('milestone', ['slug' => $milestone['slug']])?>"><?=e($milestone['name'])?></a>
+				</h2>
+
+				<ul>
+				<?php foreach ($milestone['tickets'] as $ticket) : ?>
+					<li class="type_<?=$ticket['type_id']?>">
+						<a href="<?=routeUrl('ticket', ['id' => $ticket['ticket_id']])?>"><?=e($ticket['summary'])?></a>
+					</li>
+				<?php endforeach; ?>
+				</ul>
+			</div>
+			<?php endforeach ?>
+
+			<?php if (!count($milestones)) : ?>
+			<div class="alert alert-info text-center">
+				<?=t('changelog.no_changes')?>
+			</div>
+			<?php endif; ?>
+		</div>
+
+		<div class="col-md-3">
+			<fieldset class="changelog-type-legend traq-fieldset">
 			<legend><?=t('legend')?></legend>
 
 			<ul>
@@ -24,22 +49,13 @@
 			<?php endforeach ?>
 			</ul>
 		</fieldset>
+		</div>
 	</div>
 
-	<?php foreach ($milestones as $milestone) : ?>
-	<div class="changeset">
-		<h2 class="milestone-name">
-			<a href="<?=routeUrl('milestone', ['slug' => $milestone['slug']])?>"><?=e($milestone['name'])?></a>
-		</h2>
+	<div class="pull-right">
 
-		<ul>
-		<?php foreach ($milestone['tickets'] as $ticket) : ?>
-			<li class="type_<?=$ticket['type_id']?>">
-				<a href="<?=routeUrl('ticket', ['id' => $ticket['ticket_id']])?>"><?=e($ticket['summary'])?></a>
-			</li>
-		<?php endforeach; ?>
-		</ul>
 	</div>
-	<?php endforeach ?>
+
+
 </main>
 <?php $this->endSection(); ?>
