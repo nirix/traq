@@ -6,20 +6,20 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "bootstrap": "^3.3.6",
-    "eonasdan-bootstrap-datetimepicker": "https://github.com/Eonasdan/bootstrap-datetimepicker/archive/4.17.37.tar.gz",
-    "font-awesome": "^4.6.1",
-    "gulp": "^3.9.1",
+    "eonasdan-bootstrap-datetimepicker": "https://github.com/Eonasdan/bootstrap-datetimepicker/archive/4.17.47.tar.gz",
+    "font-awesome": "^4.7.0",
+    "gulp": "^3.9.0",
     "gulp-add-src": "^0.2.0",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-coffee": "^2.3.2",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-coffee": "^3.0.0",
     "gulp-concat": "^2.6.0",
-    "gulp-less": "^3.0.5",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.5.3",
-    "jquery": "^3.0.0",
-    "js-cookie": "^2.1.1",
-    "moment": "^2.13.0",
-    "selectize": "^0.12.1",
-    "simplemde": "^1.10.1"
+    "gulp-less": "^4.0.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "jquery": "^3.3.1",
+    "js-cookie": "^2.2.0",
+    "moment": "^2.21.0",
+    "selectize": "^0.12.0",
+    "simplemde": "^1.11.0"
   }
 }
