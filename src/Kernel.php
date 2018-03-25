@@ -63,7 +63,11 @@ class Kernel extends AppKernel
 
         parent::__construct();
 
-        if ($this->config['environment'] === 'development') {
+        if (php_sapi_name() === 'cli') {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
+            $whoops->register();
+        } elseif ($this->config['environment'] === 'development') {
             $whoops = new \Whoops\Run;
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
             $whoops->register();
