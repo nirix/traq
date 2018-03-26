@@ -26,7 +26,7 @@ namespace Traq\Controllers;
 use Avalon\Http\Request;
 use Traq\Models\Ticket;
 use Traq\Models\TicketHistory;
-use Traq\Models\Timeline;
+use Traq\Models\Timeline as TimelineModel;
 use Traq\Models\User;
 use Traq\Models\Status;
 
@@ -79,7 +79,7 @@ class Tickets extends AppController
         if ($ticket->validate()) {
             $ticket->save();
 
-            Timeline::newTicketEvent($this->currentUser, $ticket)->save();
+            TimelineModel::newTicketEvent($this->currentUser, $ticket)->save();
 
             $this->currentProject->next_ticket_id++;
             $this->currentProject->save();
@@ -202,7 +202,7 @@ class Tickets extends AppController
                     $status = null;
                 }
 
-                $timeline = Timeline::updateTicketEvent($this->currentUser, $ticket, $action, $status);
+                $timeline = TimelineModel::updateTicketEvent($this->currentUser, $ticket, $action, $status);
                 $timeline->save();
 
                 return $this->redirectTo('ticket', ['pslug' => $this->currentProject['slug'], $ticket['ticket_id']]);
