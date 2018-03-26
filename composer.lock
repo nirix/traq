@@ -1047,18 +1047,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalonphp/phpunit-testing.git",
-                "reference": "fd8d8e3a4249327c54762ec064d107148c94b8d4"
+                "reference": "632bdc1680a5e9733caacf3d166969075bbf901a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalonphp/phpunit-testing/zipball/fd8d8e3a4249327c54762ec064d107148c94b8d4",
-                "reference": "fd8d8e3a4249327c54762ec064d107148c94b8d4",
+                "url": "https://api.github.com/repos/avalonphp/phpunit-testing/zipball/632bdc1680a5e9733caacf3d166969075bbf901a",
+                "reference": "632bdc1680a5e9733caacf3d166969075bbf901a",
                 "shasum": ""
             },
             "require": {
                 "avalon/testing": "^1.0@dev",
                 "php": ">=5.5.0",
-                "phpunit/phpunit": "^5.4"
+                "phpunit/phpunit": "^5.7"
             },
             "type": "library",
             "extra": {
@@ -1086,7 +1086,7 @@
                 "framework",
                 "testing"
             ],
-            "time": "2016-06-24T04:21:05+00:00"
+            "time": "2018-03-26T13:53:02+00:00"
         },
         {
             "name": "avalon/testing",
