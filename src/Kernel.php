@@ -56,8 +56,7 @@ class Kernel extends AppKernel
 
     public function __construct()
     {
-        global $autoloader;
-        static::$loader = $autoloader;
+        static::$loader = require __DIR__.'../../vendor/autoload.php';
 
         session_start();
 
