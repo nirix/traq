@@ -13,7 +13,7 @@
 
 <div class="collapse navbar-collapse" id="navbar-collapse-1">
 	<ul class="nav navbar-nav">
-		<li<?=iif(Request::matches(routePath('usercp') . '(/.*)?'), ' class="active"')?>>
+		<li<?=iif(Request::matches(routePath('usercp') . '(/)?'), ' class="active"')?>>
 			<a href="<?=routeUrl('usercp')?>"><?=t('information')?></a>
 		</li>
 		<li<?=iif(Request::matches(routePath('usercp_password') . '(/.*)?'), ' class="active"')?>>

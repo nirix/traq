@@ -150,7 +150,7 @@ class UserCP extends AppController
 
         // Authenticate current password
         if (!$user->authenticate(Request::$post->get('current_password'))) {
-            $user->addError('password', $this->translate('errors.incorrect_password'));
+            $user->addError('current_password', $this->translate('errors.incorrect_password'));
         } else {
             // Confirm passwords
             if (Request::$post->get('password') !== Request::$post->get('password_confirmation')) {

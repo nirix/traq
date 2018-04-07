@@ -24,6 +24,7 @@ Router::get('user', '/users/{id}', "{$ns}Users::show");
 Router::get('usercp', '/usercp', "{$ns}UserCP::index");
 Router::post('usercp_save', '/usercp', "{$ns}UserCP::save");
 Router::get('usercp_password', '/usercp/password', "{$ns}UserCP::password");
+Router::patch('usercp_password_save', '/usercp/password', "{$ns}UserCP::savePassword");
 Router::get('usercp_subscriptions', '/usercp/subscriptions', "{$ns}UserCP::subscriptions");
 
 Router::get('usercp_generate_api_key', '/user/generate-api-key', "{$ns}UserCP::generateApiKey");

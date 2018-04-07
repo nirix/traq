@@ -85,7 +85,7 @@ $english = new Language(function ($t) {
         // 'errors.403.title'                      => 'You shall not pass!',
         // 'errors.403.message'                    => "You don't have permission to access this page.",
         'errors.invalid_username_or_password'   => "Invalid username and/or password.",
-        // 'errors.incorrect_password'             => 'Incorrect password',
+        'errors.incorrect_password'             => 'Incorrect password',
         // 'errors.account.activation_required'    => 'You must first activate your account.',
         'errors.correct_the_following'          => 'Please correct the following issues',
         // 'errors.users.already_a_project_member' => 'User is already a member',
@@ -218,11 +218,11 @@ $english = new Language(function ($t) {
         // --------------------------------------------------------------------
         // Misc
         'add'                     => 'Add',
-        // 'renew'                   => 'Renew',
+        'renew'                   => 'Renew',
         // 'ascending'               => 'Ascending',
         // 'descending'              => 'Descending',
         'x_by_x'                  => '{0} by {1}',
-        // 'information'             => 'Information',
+        'information'             => 'Information',
         'oldest_first'            => 'Oldest First',
         'newest_first'            => 'Newest First',
         'notifications'           => 'Notifications',
@@ -358,11 +358,11 @@ $english = new Language(function ($t) {
         // 'create_account' => 'Create Account',
 
         // UserCP
-        // 'options'          => 'Options',
-        // 'api_key'          => 'API Key',
-        // 'current_password' => 'Current Password',
-        // 'language'         => 'Language',
-        // 'subscriptions'    => 'Subscriptions',
+        'options'          => 'Options',
+        'api_key'          => 'API Key',
+        'current_password' => 'Current Password',
+        'language'         => 'Language',
+        'subscriptions'    => 'Subscriptions',
 
         // Profile
         'xs_profile' => '{name}\'s Profile',
