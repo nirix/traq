@@ -23,6 +23,7 @@
 
 namespace Traq;
 
+use Avalon\Language;
 use Exception;
 use Avalon\AppKernel;
 use Avalon\Templating\View;
@@ -107,6 +108,7 @@ class Kernel extends AppKernel
         class_alias('Traq\\Helpers\\Timeline', 'Timeline');
         class_alias('Traq\\Helpers\\TicketFilters', 'TicketFilters');
         class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
+        class_alias('Traq\\Helpers\\Errors', 'Errors');
     }
 
     /**
@@ -148,12 +150,18 @@ class Kernel extends AppKernel
      */
     protected function loadTranslations()
     {
-        foreach (scandir("{$this->path}/Translations") as $file) {
+        foreach (scandir("{$this->path}/Translations", SCANDIR_SORT_ASCENDING) as $file) {
             if ($file === '.' || $file === '..') {
                 continue;
             }
 
             require "{$this->path}/Translations/{$file}";
+
+            $class = 'Traq\\Translations\\'.substr($file, 0, -4);
+
+            Language::registerTranslation(
+                new $class
+            );
         }
     }
 
