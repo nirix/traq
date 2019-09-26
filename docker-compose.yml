@@ -1,0 +1,47 @@
+version: "3.7"
+
+services:
+  web:
+    container_name: traq3_web
+    build:
+      context: .
+      dockerfile: dev/docker/php73-apache
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 3000:80
+    links:
+      - mysql:db
+
+  web56:
+    container_name: traq3_web56
+    build:
+      context: .
+      dockerfile: dev/docker/php56-apache
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 3001:80
+    links:
+      - mysql:db
+
+  mysql:
+    container_name: traq3_db
+    image: mysql:5.7
+    ports:
+      - 3002:3306
+    environment:
+      - MYSQL_DATABASE=traq
+      - MYSQL_USER=traq
+      - MYSQL_PASSWORD=dev
+      - MYSQL_ROOT_PASSWORD=secret
+
+  phpmyadmin:
+    container_name: traq3_pma
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 3003:80
+    links:
+      - mysql:db
