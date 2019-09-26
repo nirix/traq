@@ -177,8 +177,7 @@ class Projects extends AppController
             DISTINCT
                 YEAR(created_at) AS 'year',
                 MONTH(created_at) AS 'month',
-                DAY(created_at) AS 'day',
-                created_at
+                DAY(created_at) AS 'day'
 
             FROM " . $this->db->prefix . "timeline
             WHERE project_id = '{$this->project->id}'
@@ -189,14 +188,17 @@ class Projects extends AppController
                 MONTH(created_at),
                 DAY(created_at)
 
-            ORDER BY created_at DESC
+            ORDER BY YEAR(created_at) DESC,
+                MONTH(created_at) DESC,
+                DAY(created_at) DESC
         ";
 
         // Pagination
+        $rowCount = Database::connection()->query($query);
         $pagination = new Pagination(
             (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
             settings('timeline_days_per_page'), // Per page
-            Database::connection()->query($query)->rowCount() // Row count
+            $rowCount ? $rowCount->rowCount() : 0 // Row count
         );
 
         // Limit?
@@ -209,7 +211,11 @@ class Projects extends AppController
         View::set(compact('pagination'));
 
         // Loop through the days and get their activity
+        $days_query = $days_query ? $days_query : [];
         foreach ($days_query as $info) {
+            // $info['created_at'] = \mktime(0, 0, 0, $info['month'], $info['day'], $info['year']);
+            $info['created_at'] = \sprintf('%d-%02d-%02d', $info['year'], $info['month'], $info['day']);
+
             // Construct the array for the day
             $day = array(
                 'created_at' => $info['created_at'],

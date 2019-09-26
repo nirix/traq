@@ -188,6 +188,9 @@ class TicketFilterQuery
         // Search
         elseif ($field == 'search') {
             $value = str_replace('*', '%', implode('%', $values));
+
+            $value = \addslashes($value);
+
             $this->sql[] = "(`summary` LIKE '%{$value}%' OR `body` LIKE '%{$value}%')";
             $this->filters['search']['values'] = $values;
         }
