@@ -295,7 +295,7 @@ function is_project($find, $field = 'slug') {
 function random_hash()
 {
     $chars = "qwertyuiopasdfghjklzxcvbnm[];',./{}|:<>?1234567890!@#$%^&*()";
-    return sha1(time() . rand(0, 1000) . $chars[rand(0, count($chars))] . microtime());
+    return sha1(time() . rand(0, 1000) . $chars[rand(0, strlen($chars))] . microtime());
 }
 
 /**
