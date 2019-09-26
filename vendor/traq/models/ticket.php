@@ -274,7 +274,7 @@ class Ticket extends Model
                     $class = '\\traq\\models\\' . ucfirst($accessor);
                     $to_values[$field] = $class::find($value);
 
-                    $from = $this->$accessor->name;
+                    $from = $this->{$accessor}->name;
                     $to = $to_values[$field]->name;
                     break;
 
@@ -325,8 +325,8 @@ class Ticket extends Model
                     $class = '\\traq\models\\' . ucfirst($accessor);
                     $to_values[$field] = $class::find($value);
 
-                    if ($this->$accessor) {
-                        $from = $this->$accessor->name;
+                    if ($this->{$accessor}) {
+                        $from = $this->{$accessor}->name;
                     }
 
                     if ($to_values[$field]) {
@@ -518,7 +518,7 @@ class Ticket extends Model
         foreach ($relations as $name => $fields) {
             // Add the relation data and remove its ID
             // from the main array
-            $data[$name] = $this->$name ? $this->$name->__toArray($fields) : null;
+            $data[$name] = $this->{$name} ? $this->{$name}->__toArray($fields) : null;
             unset($data[$name . '_id']);
         }
 

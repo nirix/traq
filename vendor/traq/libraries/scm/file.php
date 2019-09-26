@@ -47,7 +47,7 @@ class File
     {
         // Assign the info to accessible variables
         foreach ($info as $key => $val) {
-            $this->$key = $val;
+            $this->{$key} = $val;
         }
 
         if ($this->type == 'dir' and substr($this->path, -1) != '/') {

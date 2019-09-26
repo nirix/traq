@@ -46,7 +46,7 @@ class Locale
     {
         // If localization strings are stored in
         // the Locale_x->locale() method, push them
-        // to the Locale_x->$locale array.
+        // to the Locale_x->{$locale} array.
         if (method_exists($this, 'locale')) {
             $this->locale = $this->locale();
         }
