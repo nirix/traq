@@ -223,6 +223,7 @@ class enUS extends \traq\libraries\Locale
             'worked_time'           => "Worked time",
             'time_proposed'         => "Proposed time",
             'time_worked'           => "Worked time",
+            'is_private'            => 'Is private',
 
             // Ticket columns
             'columns'    => "Columns",

@@ -89,6 +89,10 @@
 					<?php echo Form::text('time_worked'); ?>
 				</div>
 				<?php } ?>
+				<div class="field">
+					<?php echo Form::label(l('is_private'), 'is_private'); ?>
+					<?php echo Form::checkbox('is_private', 1); ?>
+				</div>
 				<?php echo View::render('tickets/_custom_fields_form'); ?>
 				<div class="clearfix"></div>
 			</div>

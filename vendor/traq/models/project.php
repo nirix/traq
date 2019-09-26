@@ -165,6 +165,17 @@ class Project extends Model
         return $options;
     }
 
+    public function is_member(User $user)
+    {
+        foreach (UserRole::project_members($this->id) as $member) {
+            if ($member->id == $user->id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Checks if the model data is valid.
      *

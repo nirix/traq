@@ -237,6 +237,15 @@ class Tickets extends AppController
         // Fetch the ticket from the database and send it to the view.
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
+        // If the ticket is private, only allow admins, projects members and the creator to view the ticket.
+        if ($ticket->is_private) {
+            if ($this->user->id !== $ticket->user_id
+            && !$this->user->group->is_admin
+            && !$this->project->is_member($this->user)) {
+                return $this->show_no_permission();
+            }
+        }
+
         // Ticket history
         $ticket_history = $ticket->history;
 
@@ -349,7 +358,8 @@ class Tickets extends AppController
                 'component_id' => 0,
                 'type_id'      => Request::post('type', 1),
                 'severity_id'  => 4,
-                'tasks'        => array()
+                'tasks'        => array(),
+                'is_private'   => Request::post('is_private') ? 1 : 0
             );
 
             // Milestone
@@ -488,7 +498,8 @@ class Tickets extends AppController
             'severity_id'  => $ticket->severity_id,
             'priority_id'  => $ticket->priority_id,
             'status_id'    => $ticket->status_id,
-            'tasks'        => $ticket->tasks
+            'tasks'        => $ticket->tasks,
+            'is_private'   => $ticket->is_private
         );
 
         // Summary
@@ -600,6 +611,8 @@ class Tickets extends AppController
         if ($this->user->permission($this->project->id, 'add_attachments') and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
             $data['attachment'] = $_FILES['attachment']['name'];
         }
+
+        $data['is_private'] = Request::post('is_private', 0);
 
         // Custom fields, FUN!
         if (isset(Request::$post['custom_fields'])) {

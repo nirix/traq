@@ -320,6 +320,11 @@ class Ticket extends Model
                     $to = $value;
                     break;
 
+                case 'is_private':
+                    $from = $this->is_private ? l('yes') : l('no');
+                    $to = $value ? l('yes') : l('no');
+                    break;
+
                 default:
                     $accessor = str_replace('_id', '', $field);
                     $class = '\\traq\models\\' . ucfirst($accessor);
