@@ -28,7 +28,7 @@ class InstallController extends Controller
 {
     public function index()
     {
-        $license = file_get_contents(base_path('LICENSE'));
+        $license = file_get_contents(base_path('COPYING'));
 
         return view('installer.index', [
             'step' => 'License Agreement',
