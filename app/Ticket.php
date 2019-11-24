@@ -1,132 +1,105 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Models;
+namespace Traq;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Ticket model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
+ * @property int $id
+ * @property int $ticket_id
+ * @property int $project_id
+ * @property int $user_id
+ * @property int $milestone_id
+ * @property int $version_id
+ * @property int $status_id
+ * @property int $type_id
+ * @property int $priority_id
+ * @property string $summary
+ * @property string $description
  */
 class Ticket extends Model
 {
-    protected static $_tableAlias = 't';
+    public const ACTION_CREATE = 'ticket.created';
+    public const ACTION_UPDATED = 'ticket.updated';
+    public const ACTION_CLOSED = 'ticket.closed';
+    public const ACTION_REOPENED = 'ticket.reopened';
 
-    protected static $_validations = [
-        'summary' => ['required'],
-        'body' => ['required'],
-        'user_id' => ['required'],
-        'project_id' => ['required'],
-        'milestone_id' => ['required'],
-        'type_id' => ['required'],
-        'status_id' => ['required'],
-        'priority_id' => ['required'],
-        'severity_id' => ['required']
+    protected $fillable = [
+        'summary',
+        'description',
+        'milestone_id',
+        'type_id',
+        'priority_id',
+        'version_id',
+        'status_id',
     ];
 
-    protected static $_belongsTo = [
-        'user',
-        'status',
-        'milestone'
-    ];
-
-    protected static $_hasMany = [
-        'history' => ['model' => 'TicketHistory']
-    ];
-
-    protected static $_dataTypes = [
+    protected $casts = [
+        'milestone_id' => 'int',
+        'type_id' => 'int',
+        'priority_id' => 'int',
+        'version_id' => 'int',
+        'status_id' => 'int',
         'is_closed' => 'boolean',
-        'is_private' => 'boolean',
-        'tasks' => 'json_array',
-        'extra' => 'json_array',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime'
     ];
 
-    protected static $_before = [
-        'save' => ['updateIsClosed']
-    ];
-
-    /**
-     * @var null|integer
-     */
-    protected $originalStatusId;
-
-    /**
-     * Whether or not the ticket is being closed.
-     *
-     * @var boolean
-     */
-    public $isClosing = false;
-
-    /**
-     * Whether or not the ticket is being reopened.
-     *
-     * @var boolean
-     */
-    public $isReopening = false;
-
-    public function __construct(array $data = [], $isNew = true)
+    public function milestone()
     {
-        parent::__construct($data, $isNew);
-
-        if (!$isNew) {
-            $this->originalStatusId = $this['status_id'];
-        }
+        return $this->belongsTo(Milestone::class);
     }
 
-    /**
-     * Update the `is_closed` property.
-     */
-    public function updateIsClosed()
+    public function version()
     {
-        $this->isClosing = false;
-        $this->isReopening = false;
+        return $this->belongsTo(Milestone::class, 'version_id');
+    }
 
-        // Don't do anything unless the status has changed
-        if ($this->originalStatusId != $this['status_id']) {
-            $status = Status::find($this['status_id']);
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 
-            // Did the status change to open/started or closed?
-            if ($status->status >= 1) {
-                // Reopen ticket
-                if ($this['is_closed']) {
-                    $this->isClosing = false;
-                    $this->isReopening = true;
-                }
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 
-                $this['is_closed'] = false;
-                $this->isClosing = false;
-            } elseif ($status->status == 0) {
-                // Close ticket
-                if (!$this['is_closed']) {
-                    $this->isClosing = true;
-                }
+    public function priority()
+    {
+        return $this->belongsTo(Priority::class);
+    }
 
-                $this['is_closed'] = true;
-            }
-        }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function updates()
+    {
+        return $this->hasMany(TicketUpdate::class);
+    }
+
+    public function isClosed()
+    {
+        return $this->is_closed === true;
     }
 }

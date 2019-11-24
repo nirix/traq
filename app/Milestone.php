@@ -1,144 +1,190 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Models;
+namespace Traq;
 
-use DateTime;
-use Avalon\Language;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
- * Milestone model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
+ * @property int $id
+ * @property string $name
+ * @property string $codename
+ * @property string $slug
+ * @property string $description
+ * @property int $status
+ * @property Carbon $due_at
+ * @property Carbon $completed_at
+ * @property int $display_order
+ * @property int $project_id
  */
 class Milestone extends Model
 {
-    protected static $_tableAlias = 'm';
+    public const STATUS_ACTIVE = 0;
+    public const STATUS_COMPLETED = 1;
 
-    /**
-     * @var array
-     */
-    protected static $_validations = [
-        'name' => ['required'],
-        'slug' => ['required']
+    protected $fillable = [
+        'name',
+        'codename',
+        'slug',
+        'description',
+        'status',
+        'due_at',
+        'completed_at',
+        'display_order',
+        'project_id',
     ];
 
-    /**
-     * @var array
-     */
-    protected static $_belongsTo = [
-        'project'
+    protected $casts = [
+        'closed_at' => 'datetime',
+        'due_at' => 'date',
+        'status' => 'int',
     ];
 
-    /**
-     * @var array
-     */
-    protected static $_hasMany = [
-        'tickets'
-    ];
-
-    /**
-     * @var array
-     */
-    protected static $_dataTypes = [
-        'is_locked' => 'boolean',
-        'completed_at' => 'datetime'
-    ];
-
-    /**
-     * @var array
-     */
-    protected static $_after = [
-        'construct' => ['afterConstruct']
-    ];
-
-    /**
-     * Original status.
-     *
-     * @var integer
-     */
-    protected $originalStatus;
-
-    /**
-     * Is the milestone being set as complete?
-     *
-     * @var boolean
-     */
-    public $isBeingCompleted = false;
-
-    /**
-     * @return array[]
-     */
-    public static function statusSelectOptions()
+    public function tickets()
     {
-        return [
-            ['label' => Language::translate('active'), 'value' => 1],
-            ['label' => Language::translate('completed'), 'value' => 2],
-            ['label' => Language::translate('cancelled'), 'value' => 0]
-        ];
+        return $this->hasMany(Ticket::class);
     }
 
-    /**
-     * Custom save method.
-     */
-    public function save()
+    public function isClosed(): bool
     {
-        // Set completed date
-        if ($this['status'] != 1 and $this['completed_at'] == null) {
-            $this['is_locked'] = true;
-            $this['completed_at'] = new DateTime;
-            $this->isBeingCompleted = true;
-        } elseif ($this['status'] == 1) {
-            $this['is_locked'] = false;
-            $this['completed_at'] = null;
-        }
-
-        if (parent::save()) {
-            return true;
-        }
-
-        return false;
+        return $this->status === static::STATUS_COMPLETED;
     }
 
-    protected function afterConstruct()
+    public function getStatusCounts()
     {
-        // Status
-        if (isset($this['status'])) {
-            $this->originalStatus = $this['status'];
+        static $counts = [];
+
+        if (isset($counts[$this->id])) {
+            return $counts[$this->id];
         }
+
+        $query = DB::table('tickets')
+            ->select(DB::raw('count(*) as tickets, statuses.id as status_id, statuses.status as status'))
+            ->where('project_id', $this->project_id)
+            ->where('milestone_id', $this->id)
+            ->join('statuses', 'tickets.status_id', '=', 'statuses.id')
+            ->groupBy(
+                'tickets.status_id',
+                'statuses.id',
+                'statuses.status'
+            );
+
+        $results = $query->get();
+
+        $counts[$this->id] = [];
+
+        foreach ($results as $result) {
+            $counts[$this->id][$result->status_id] = [
+                'status_id' => $result->status_id,
+                'tickets' => $result->tickets,
+                'status' => $result->status,
+            ];
+        }
+
+        return $counts[$this->id];
     }
 
-    /**
-     * Delete milestone.
-     */
-    public function delete()
+    public function getClosedCount(): int
     {
-        foreach ($this->tickets()->fetchAll() as $ticket) {
-            $ticket->delete();
-        }
+        $counts = $this->getStatusCounts();
 
-        parent::delete();
+        $count = \array_reduce(
+            $counts,
+            function ($carry, $countSet) {
+                if ($countSet['status'] === Status::STATUS_CLOSED) {
+                    $carry += $countSet['tickets'];
+                }
+
+                return $carry;
+            }
+        );
+
+        return $count ?? 0;
+    }
+
+    public function getStartedCount(): int
+    {
+        $counts = $this->getStatusCounts();
+
+        $count = \array_reduce(
+            $counts,
+            function ($carry, $countSet) {
+                if ($countSet['status'] === Status::STATUS_STARTED) {
+                    $carry += $countSet['tickets'];
+                }
+
+                return $carry;
+            }
+        );
+
+        return $count ?? 0;
+    }
+
+    public function getTotalCount(): int
+    {
+        $counts = $this->getStatusCounts();
+
+        $count = \array_reduce(
+            $counts,
+            function ($carry, $countSet) {
+                $carry += $countSet['tickets'];
+
+                return $carry;
+            }
+        );
+
+        return $count ?? 0;
+    }
+
+    public function getClosedPercent(): int
+    {
+        $completed = $this->getClosedCount();
+        $total = $this->getTotalCount();
+
+        return $completed > 0 ? ($completed * 100 / $total) : 0;
+    }
+
+    public function getStartedPercent(): int
+    {
+        $started = $this->getStartedCount();
+        $total = $this->getTotalCount();
+
+        return $started > 0 ? ($started * 100 / $total) : 0;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', static::STATUS_ACTIVE);
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', static::STATUS_COMPLETED);
+    }
+    
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

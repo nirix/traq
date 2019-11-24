@@ -1,0 +1,17 @@
+.timeline-user-set {
+    @extend .mb-4;
+
+    .timeline-user-set-events {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .timeline-user-set-author {
+        margin-left: 1rem;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}

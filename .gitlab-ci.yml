@@ -1,0 +1,46 @@
+
+variables:
+    MYSQL_DATABASE: traq
+    MYSQL_ROOT_PASSWORD: secret
+    DB_HOST: mysql
+    DB_USERNAME: root
+
+before_script:
+    - apt-get update -yqq
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php composer-setup.php
+    - php -r "unlink('composer-setup.php');"
+    - apt-get install git zip unzip libzip-dev libpq-dev -yqq
+    - docker-php-ext-install pdo_mysql
+    - docker-php-ext-install bcmath
+    - docker-php-ext-configure zip --with-libzip
+    - docker-php-ext-install zip
+    - docker-php-ext-install pdo_pgsql
+
+test:7.2:mysql:
+    image: php:7.2
+    services:
+        - mysql:5.7
+    script:
+        - bash ci/gitlab-test.sh
+
+test:7.2:pgsql:
+    image: php:7.2
+    services:
+        - postgres:latest
+    variables:
+        POSTGRES_DB: traq
+        POSTGRES_USER: root
+        POSTGRES_PASSWORD: secret
+        DB_CONNECTION: pgsql
+        DB_HOST: postgres
+        DB_PORT: 5432
+    script:
+        - bash ci/gitlab-test.sh
+
+test:7.3:mysql:
+    image: php:7.3
+    services:
+        - mysql:5.7
+    script:
+        - bash ci/gitlab-test.sh

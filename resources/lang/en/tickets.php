@@ -1,0 +1,22 @@
+<?php
+return [
+    'new_ticket' => 'New Ticket',
+    'update_ticket' => 'Update Ticket',
+    'no_tickets' => 'No tickets',
+    'id' => 'ID',
+    'summary' => 'Summary',
+    'status' => 'Status',
+    'type' => 'Type',
+    'milestone' => 'Milestone',
+    'version' => 'Version',
+    'severity' => 'Severity',
+    'priority' => 'Priority',
+    'created' => 'Created',
+    'updated' => 'Updated',
+    'reported_by' => 'Reported by',
+    'comment' => 'Comment',
+    'updated_successfully' => 'Ticket updated successfully.',
+    'select_type' => 'Select Type',
+    'select_milestone' => 'Select Milestone',
+    'description' => 'Description',
+];

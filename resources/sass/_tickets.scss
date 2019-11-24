@@ -1,0 +1,58 @@
+.bg-ticket {
+    background-color: lighten($warning, 40%);
+}
+
+.ticket {
+    h1.page-title {
+        font-size: 2rem;
+        margin-top: 0;
+        margin-bottom: 10px;
+        border-color: #dddd99;
+
+        small {
+            font-size: 1.5rem;
+        }
+    }
+
+    .ticket-property-label {
+        font-weight: bold;
+    }
+
+    .ticket-description {
+        @extend .mt-3;
+        @extend .pt-3;
+
+        border-top: 1px solid #dddd99;
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.ticket-update {
+    .card-text p:last-child {
+        margin-bottom: 0;
+    }
+
+    .ticket-comment + .ticket-changes {
+        @extend .mt-3;
+    }
+}
+
+.ticket-changes {
+    .ticket-update-change-label {
+        font-weight: bold;
+    }
+
+    .ticket-update-change-value {
+        .ticket-update-change-from {
+            background-color: lighten($danger, 40%);
+            text-decoration: line-through;
+        }
+
+        .ticket-update-change-to {
+            background-color: lighten($success, 50%);
+        }
+    }
+}

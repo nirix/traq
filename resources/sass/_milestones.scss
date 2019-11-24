@@ -1,0 +1,12 @@
+
+.milestone {
+    @extend .mb-3;
+
+    .milestone-name {
+        border-bottom: 1px solid lighten(black, 50%);
+    }
+}
+
+.milestone-progress-bar {
+    @extend .mb-3;
+}

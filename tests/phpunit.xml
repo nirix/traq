@@ -1,8 +1,0 @@
-<phpunit bootstrap="bootstrap.php"
-         backupGlobals="false">
-    <testsuites>
-        <testsuite name="Traq">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-</phpunit>

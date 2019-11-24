@@ -1,124 +1,89 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2018 Jack P.
- * Copyright (C) 2012-2018 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Models;
+namespace Traq;
 
-use Avalon\Database\Model\SecurePassword;
-use Traq\Models\Permission;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-/**
- * User model.
- *
- * @package Traq\Models
- * @author  Jack P.
- * @since   3.0.0
- */
-class User extends Model
+class User extends Authenticatable
 {
-    protected $securePasswordField = 'password';
-    use SecurePassword;
-
-    protected static $_tableAlias = 'u';
-
-    protected static $_validations = [
-        'username' => ['required', 'unique', 'minLength' => 3],
-        'password' => ['required', 'minLength' => 6, 'confirm'],
-        'email'    => ['required', 'unique', 'email'],
-    ];
-
-    protected static $_belongsTo = [
-        'group',
-    ];
-
-    protected static $_before = [
-        'create' => ['preparePassword', 'beforeCreate'],
-    ];
+    use Notifiable;
 
     /**
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        return $this->group()->isAdmin();
-    }
-
-    public function publicArray()
-    {
-        return [
-            'id'         => $this->id,
-            'username'   => $this->username,
-            'name'       => $this->name,
-            'created_at' => $this->created_at,
-        ];
-    }
-
-    /**
-     * Set defaults before creating user.
-     */
-    protected function beforeCreate()
-    {
-        $this->name = $this->name ?: $this->username;
-        $this->session_hash = sha1($this->username . uniqid() . microtime() . rand(0, 99999));
-    }
-
-    /**
-     * Generates an an API key.
-     */
-    public function generateApiKey()
-    {
-        $this->api_key = sha1(
-            uniqid() . microtime() . rand(0, 99999) . $this->id . uniqid(microtime(), true)
-        );
-    }
-
-    // ------------------------------------------------------------------------
-    // Overwritten functions
-
-    /**
-     * @var string $password
+     * The attributes that are mass assignable.
      *
-     * @return boolean
+     * @var array
      */
-    public function authenticate($password)
-    {
-        if ($this->password_ver == 'sha1') {
-            return sha1($password) == $this->password;
-        }
+    protected $fillable = [
+        'name', 'email', 'password', 'group_id',
+    ];
 
-        return $this->{$this->securePasswordField} === crypt($password, $this->{$this->securePasswordField});
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(UserGroup::class, 'group_id');
+    }
+
+    public function hasPermission(
+        string $permission,
+        Project $project = null
+    ): bool {
+        return Permissions::userHasPermission($this, $permission, $project);
     }
 
     /**
-     * Add password confirmation validation.
+     * Checks the users permissions from either their User Group or Project Permission if the project was passed in.
+     *
+     * @param array        $permissions   The permissions to check for.
+     * @param Project|null $project The project to check the project permission.
+     *
+     * @return bool
      */
-    public function validate()
-    {
-        $parent = parent::validate();
-
-        if (isset($this->password_confirmation) && $this->password_confirmation !== $this->password) {
-            $this->addValidationError('password', 'confirm');
-        }
-
-        return $parent;
+    public function hasOneOfPermissions(
+        array $permissions,
+        Project $project = null
+    ): bool {
+        return Permissions::userHasOneOfPermissions($this, $permissions, $project);
     }
 }

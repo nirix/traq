@@ -1,71 +1,53 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Models;
+namespace Traq;
 
-/**
- * User groups model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
- */
-class Group extends Model
+use Illuminate\Database\Eloquent\Model;
+
+class UserGroup extends Model
 {
-    protected static $_tableAlias = 'g';
-
-    protected static $_validations = [
-        'name' => ['required', 'unique']
+    protected $fillable = [
+        'name',
+        'permissions',
     ];
 
-    protected static $_dataTypes = [
-        'is_admin' => 'boolean'
+    protected $casts = [
+        'permissions' => 'array',
     ];
 
-    public function isAdmin()
+    public function hasPermission(string $permission): bool
     {
-        return $this->is_admin == 1 ? true : false;
+        return \in_array($permission, $this->permissions ?? [], true);
     }
 
-    public static function tableName($withPrefix = true)
+    public function hasOneOfPermissions(array $permissions): bool
     {
-        return ($withPrefix ? static::connection()->prefix : '') . 'usergroups';
-    }
-
-    /**
-     * @return array[]
-     */
-    public static function selectOptions()
-    {
-        $options = [];
-
-        foreach (static::all() as $group) {
-            $options[] = [
-                'label' => $group['name'],
-                'value' => $group['id']
-            ];
+        foreach ($permissions as $permission) {
+            if ($this->hasPermission($permission)) {
+                return true;
+            }
         }
 
-        return $options;
+        return false;
     }
 }

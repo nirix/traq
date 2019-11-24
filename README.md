@@ -9,14 +9,12 @@ milestones, custom fields, per-project permissions, email notifications and much
 Requirements
 ------------
 
-- PHP 5.5 or later
+- PHP 7.2 or later
 - Database
-  - MariaDB
+  - MariaDB/MySQL
   - PostgreSQL
-  - MySQL
 
-If you're using Apache, rename `htaccess.txt` to `.htaccess`, otherwise you will
-need to configure your server to use `index.php` as the 404 page.
+You will need to configure your server to use `public/index.php` as the 404 page.
 
 Installation
 ------------
@@ -27,9 +25,8 @@ Open Traq in your browser and follow the installation steps.
 
 ```shell
 composer install
-cd dev
-npm install
-npm compile
+yarn
+yarn dev
 ```
 
 After that is complete, open the path to Traq in a browser and follow the

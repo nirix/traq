@@ -1,23 +1,19 @@
-# Traq
-/assets
-/dev/node_modules
-/config/config.php
-/config/database.php
-/assets/components
-/assets/js/js.js
-/themes
-/tmp
-/code_coverage
-
-# Composer
+/node_modules
+/public/hot
+/public/storage
+/public/css
+/public/fonts
+/public/js
+/public/vendor/telescope
+/public/mix-manifest.json
+/storage/*.key
 /vendor
-
-# Misc
-.sass-cache
-.DS_Store
-.project
-.settings
-.buildpath
-.htaccess
-.idea
-.phpintel
+.env
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php

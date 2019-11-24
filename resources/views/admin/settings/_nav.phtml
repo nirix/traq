@@ -1,8 +1,0 @@
-<nav id="admin-settings-nav" class="container">
-	<ul class="nav nav-tabs" role="tablist">
-		<li<?=Request::matches(routePath('admin_settings') . '$') ? ' class="active"' : ''?>>
-			<a href="<?=routeUrl('admin_settings')?>"><?=t('traq_settings')?></a>
-		</li>
-		<?=Hook::run('template:admin/settings/_nav')?>
-	</ul>
-</nav>

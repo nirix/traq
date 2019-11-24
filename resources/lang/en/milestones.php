@@ -1,0 +1,22 @@
+<?php
+return [
+    'new_milestone' => 'New Milestone',
+    'edit_milestone' => 'Edit Milestone',
+    'edit_milestone_x' => 'Edit milestone :name',
+    'created_successfully' => 'Milestone created successfully.',
+    'updated_successfully' => 'Milestone updated successfully.',
+    'due_x' => 'Due :due',
+    'active' => 'Active',
+    'completed' => 'Completed',
+    'all' => 'All',
+    'name' => 'Name',
+    'codename' => 'Codename',
+    'slug' => 'Slug',
+    'description' => 'Description',
+    'status' => 'Status',
+    'due_on' => 'Due on',
+    'display_order' => 'Display Order',
+    'x_closed' => ':count closed',
+    'x_started' => ':count started',
+    'x_total' => ':count total',
+];

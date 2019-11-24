@@ -1,222 +1,83 @@
 <?php
-/*!
- * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
- * https://github.com/nirix
- * https://traq.io
- *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
- *
- * Traq is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
- */
 
-namespace Traq;
+namespace Traq\Http;
 
-use Avalon\Language;
-use Exception;
-use Avalon\AppKernel;
-use Avalon\Templating\View;
-use Avalon\Templating\Engines\PhpExtended;
-use Avalon\Database\ConnectionManager;
-use Traq\Models\Plugin as PluginModel;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
-/**
- * The heart of Traq.
- *
- * @package Traq
- * @author Jack P.
- */
-class Kernel extends AppKernel
+class Kernel extends HttpKernel
 {
-    protected static $loader;
-
     /**
-     * Configration defaults.
+     * The application's global HTTP middleware stack.
+     *
+     * These middleware are run during every request to your application.
      *
      * @var array
      */
-    protected $configDefaults = [
-        'environment' => 'production',
-
-        'email' => [
-            'type' => 'sendmail',
-            'path' => '/usr/bin/sendmail -bs'
-        ]
+    protected $middleware = [
+        \Traq\Http\Middleware\CheckForMaintenanceMode::class,
+        \Traq\Http\Middleware\CheckInstalled::class,
+        \Traq\Http\Middleware\LoadSettings::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \Traq\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Traq\Http\Middleware\TrustProxies::class,
     ];
 
-    public function __construct()
-    {
-        static::$loader = require __DIR__.'../../vendor/autoload.php';
-
-        session_start();
-
-        parent::__construct();
-
-        if (php_sapi_name() === 'cli') {
-            $whoops = new \Whoops\Run;
-            $whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
-            $whoops->register();
-        } elseif ($this->config['environment'] === 'development') {
-            $whoops = new \Whoops\Run;
-            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-            $whoops->register();
-        }
-
-        require_once __DIR__ . '/version.php';
-
-        // Setup aliases
-        $this->setupAliases();
-
-        // Load translations
-        $this->loadTranslations();
-
-        // Load common functions
-        require __DIR__ . '/common.php';
-
-        // Load plugins
-        $this->loadPlugins();
-    }
-
     /**
-     * Alias commonly used helpers.
-     */
-    protected function setupAliases()
-    {
-        class_alias('Avalon\\Templating\\View', 'View');
-        class_alias('Avalon\\Http\\Request', 'Request');
-        class_alias('Avalon\\Hook', 'Hook');
-
-        // Avalon helpers
-        class_alias('Avalon\\Helpers\\HTML', 'HTML');
-        class_alias('Avalon\\Helpers\\Form', 'Form');
-        class_alias('Avalon\\Helpers\\TWBS', 'TWBS');
-        class_alias('Avalon\\Helpers\\Gravatar', 'Gravatar');
-
-        // Traq helpers
-        class_alias('Traq\\Helpers\\Format', 'Format');
-        class_alias('Traq\\Helpers\\Timeline', 'Timeline');
-        class_alias('Traq\\Helpers\\TicketFilters', 'TicketFilters');
-        class_alias('Traq\\Helpers\\Ticketlist', 'Ticketlist');
-        class_alias('Traq\\Helpers\\Errors', 'Errors');
-    }
-
-    /**
-     * Load plugins.
-     */
-    protected function loadPlugins()
-    {
-        $queue = [];
-
-        $plugins = PluginModel::select()
-            ->where('is_enabled = ?')
-            ->setParameter(0, true)
-            ->execute()
-            ->fetchAll();
-
-        foreach ($plugins as $plugin) {
-            $vendorDir = __DIR__ . '/../vendor';
-            foreach (json_decode($plugin['autoload'], true) as $namespace => $directory) {
-                static::$loader->addPsr4(
-                    $namespace,
-                    $vendorDir . "/{$plugin['directory']}/{$directory}"
-                );
-            }
-
-            $class = $plugin['main'];
-            if (class_exists($class)) {
-                $class::init();
-                $queue[] = $class;
-            }
-        }
-
-        foreach ($queue as $plugin) {
-            $plugin::enable();
-        }
-    }
-
-    /**
-     * Load translations.
-     */
-    protected function loadTranslations()
-    {
-        foreach (scandir("{$this->path}/Translations", SCANDIR_SORT_ASCENDING) as $file) {
-            if ($file === '.' || $file === '..') {
-                continue;
-            }
-
-            require "{$this->path}/Translations/{$file}";
-
-            $class = 'Traq\\Translations\\'.substr($file, 0, -4);
-
-            Language::registerTranslation(
-                new $class
-            );
-        }
-    }
-
-    /**
-     * Registers the namespace and directory with the autoloader.
+     * The application's route middleware groups.
      *
-     * @param string $namespace
-     * @param string $directory
+     * @var array
      */
-    public static function registerNamespace($namespace, $directory)
-    {
-        static::$loader->addPsr4($namespace, $directory);
-    }
+    protected $middlewareGroups = [
+        'web' => [
+            \Traq\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Traq\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
 
-    // -------------------------------------------------------------------------
-    // Overwritten methods
+        'api' => [
+            'throttle:60,1',
+            'bindings',
+        ],
+    ];
 
     /**
-     * Connect to the database.
+     * The application's route middleware.
+     *
+     * These middleware may be assigned to groups or used individually.
+     *
+     * @var array
      */
-    protected function configureDatabase()
-    {
-        $db = $this->config['db'][$this->config['environment']];
-
-        if (!isset($db['prefix'])) {
-            $db['prefix'] = '';
-        }
-
-        ConnectionManager::getConnection() ?: ConnectionManager::create($db);
-        define('PREFIX', $db['prefix']);
-        unset($db);
-    }
+    protected $routeMiddleware = [
+        'auth' => \Traq\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \Traq\Http\Middleware\RedirectIfAuthenticated::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'install' => \Traq\Http\Middleware\Install::class,
+    ];
 
     /**
-     * Load routes.
+     * The priority-sorted list of middleware.
+     *
+     * This forces non-global middleware to always be in the given order.
+     *
+     * @var array
      */
-    protected function loadRoutes()
-    {
-        if (file_exists("{$this->path}/config/routes.php")) {
-            require "{$this->path}/config/routes.php";
-        } else {
-            throw new Exception("Unable to load routes file");
-        }
-    }
-
-    /**
-     * Configure templating.
-     */
-    protected function configureTemplating()
-    {
-        $engine = new PhpExtended;
-        $engine->escapeVariables = false;
-        View::setEngine($engine);
-        View::addPath("{$this->path}/views");
-
-        View::loadFunctions();
-    }
+    protected $middlewarePriority = [
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Traq\Http\Middleware\Authenticate::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
+    ];
 }

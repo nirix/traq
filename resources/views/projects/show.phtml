@@ -1,9 +1,0 @@
-<?php $this->extend('layouts/default.phtml'); ?>
-
-<?php $this->startSection('content'); ?>
-<main class="project-info content container">
-	<h1 class="page-header"><?=e($project['name'])?></h1>
-
-	<?=Format::text($project['info'])?>
-</main>
-<?php $this->endSection(); ?>

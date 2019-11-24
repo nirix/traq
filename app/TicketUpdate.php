@@ -1,45 +1,60 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Models;
+namespace Traq;
 
-/**
- * Ticket history model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
- */
-class TicketHistory extends Model
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Lang;
+
+class TicketUpdate extends Model
 {
-    protected static $_tableAlias = 'h';
-
-    protected static $_dataTypes = [
-        'changes' => 'json_array'
+    protected $fillable = [
+        'ticket_id',
+        'user_id',
+        'comment',
+        'change_data',
     ];
 
-    public static function tableName($withPrefix = true)
+    protected $casts = [
+        'change_data' => 'array'
+    ];
+
+    public function user()
     {
-        return ($withPrefix ? static::connection()->prefix : '') . 'ticket_history';
+        return $this->belongsTo(User::class);
+    }
+
+    public function changeDataWithInfo(): array
+    {
+        $changes = [];
+        foreach ($this->change_data as $field => $change) {
+            $langKey = "tickets.{$field}";
+
+            $change['label'] = Lang::has($langKey) ? Lang::trans($langKey) : $field;
+
+            $change['field'] = $field;
+            $changes[$field] = $change;
+        }
+
+        return $changes;
     }
 }

@@ -1,126 +1,94 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
- * http://traq.io
+ * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Models;
+namespace Traq;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Timeline model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
+ * @property integer $project_id
+ * @property integer $user_id
+ * @property string $owner_type
+ * @property integer $owner_id
+ * @property array $data
+ * @property string $action
+ * @property User $user
+ * @property Carbon $created_at
  */
-class Timeline extends Model
+class TimelineEvent extends Model
 {
-    public static function tableName($withPrefix = true)
+    protected $fillable = [
+        'project_id',
+        'user_id',
+        'owner_type',
+        'owner_id',
+        'data',
+        'action',
+    ];
+
+    protected $casts = [
+        'data' => 'array'
+    ];
+
+    public function user()
     {
-        return ($withPrefix ? static::connection()->prefix : '') . 'timeline';
+        return $this->belongsTo(User::class);
     }
 
-    /**
-     * Creates a new Timeline object relating to a new ticket event.
-     *
-     * @return Timeline
-     */
-    public static function newTicketEvent($user, $ticket)
+    public function getReadableSummary()
     {
-        return new static([
-            'project_id' => $ticket['project_id'],
-            'owner_type' => 'Ticket',
-            'owner_id'   => $ticket['id'],
-            'user_id'    => $user['id'],
-            'action'     => "ticket_created",
-        ]);
+        $translationString = \sprintf(
+            'timeline.%s',
+            \str_replace('.', '_', $this->action)
+        );
+
+        if ($this->objectTypeIs(Ticket::class)) {
+            $ticket = $this->getObject();
+
+            return __(
+                $translationString,
+                [
+                    'ticket_id' => $ticket->ticket_id,
+                    'ticket_summary' => $ticket->summary,
+                ] + $this->getData()
+            );
+        }
     }
 
-    /**
-     * Creates a new Timeline object relating to an updated ticket event.
-     *
-     * @return Timeline
-     */
-    public static function updateTicketEvent($user, $ticket, $action, $status)
+    public function getData()
     {
-        return new static([
-            'project_id' => $ticket['project_id'],
-            'owner_type' => 'Ticket',
-            'owner_id'   => $ticket['id'],
-            'user_id'    => $user['id'],
-            'action'     => $action,
-            'data'       => $status
-        ]);
+        return \is_array($this->data) ? $this->data : [];
     }
 
-    /**
-     * Creates a new Timeline object relating to a milestone completion event.
-     *
-     * @return Timeline
-     */
-    public static function milestoneCompletedEvent($user, $milestone)
+    public function objectTypeIs(string $class)
     {
-        return new static([
-            'project_id' => $milestone['project_id'],
-            'owner_type' => 'Milestone',
-            'owner_id'   => $milestone['id'],
-            'user_id'    => $user['id'],
-            'action'     => 'milestone_completed',
-        ]);
+        return $this->owner_type === $class;
     }
 
-    /**
-     * Creates a new Timeline object relating to a new wiki page event.
-     *
-     * @param User     $user
-     * @param WikiPage $page
-     *
-     * @return Timeline
-     */
-    public static function wikiPageCreatedEvent(User $user, WikiPage $page)
+    public function getObject()
     {
-        return new static([
-            'project_id' => $page['project_id'],
-            'owner_type' => 'WikiPage',
-            'owner_id'   => $page['id'],
-            'user_id'    => $user['id'],
-            'action'     => "wiki_page_created",
-        ]);
-    }
+        $class = $this->owner_type;
 
-    /**
-     * Creates a new Timeline object relating to an updated wiki page event.
-     *
-     * @param User     $user
-     * @param WikiPage $page
-     *
-     * @return Timeline
-     */
-    public static function wikiPageUpdatedEvent(User $user, WikiPage $page)
-    {
-        return new static([
-            'project_id' => $page['project_id'],
-            'owner_type' => 'WikiPage',
-            'owner_id'   => $page['id'],
-            'user_id'    => $user['id'],
-            'action'     => "wiki_page_updated",
-        ]);
+        return $class::find($this->owner_id);
     }
 }

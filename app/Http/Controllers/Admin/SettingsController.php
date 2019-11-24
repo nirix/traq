@@ -1,84 +1,60 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Controllers\Admin;
+namespace Traq\Http\Controllers\Admin;
 
-use Avalon\Http\Request;
-use Traq\Language;
-use Traq\Models\Setting;
-use Traq\Themes;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
+use Traq\Http\Controllers\Controller;
+use Traq\Http\Requests\UpdateSettingsRequest;
+use Traq\Setting;
 
-/**
- * Admin settings controller.
- *
- * @package Traq\Controllers\Admin
- * @author Jack P.
- * @since 3.0.0
- */
-class Settings extends AppController
+class SettingsController extends Controller
 {
-    public function __construct()
+    public function index()
     {
-        parent::__construct();
-
-        $this->addCrumb($this->translate('settings'), $this->generateUrl('admin_settings'));
-
-        // Ticket history sorting select options
-        $this->set('historySortingSelectOptions', [
-            ['label' => $this->translate("oldest_first"), 'value' => "oldest_first"],
-            ['label' => $this->translate("newest_first"), 'value' => "newest_first"]
-        ]);
-
-        Themes::index();
-        $this->set('themes', Themes::selectOptions());
+        return view('admin/settings/index');
     }
 
     /**
-     * Traq Settings page.
+     * Save settings if validation passes.
      *
-     * @return \Avalon\Http\Response
+     * @param UpdateSettingsRequest $request
      */
-    public function indexAction()
+    public function update(UpdateSettingsRequest $request)
     {
-        return $this->render('admin/settings/index.phtml');
-    }
+        $settings = [
+            'traq_name'
+        ];
 
-    /**
-     * Save settings.
-     *
-     * @return \Avalon\Http\RedirectResponse
-     */
-    public function saveAction()
-    {
-        foreach (Request::$post->get('settings', [], false) as $setting => $value) {
-            $setting = Setting::find("setting", $setting);
-
-            if ($setting) {
-                $setting->value = $value;
-                $setting->save();
-            }
+        foreach ($settings as $settingName) {
+            $setting = Setting::where('name', '=', $settingName)->firstOrCreate([
+                'name' => 'traq_name'
+            ]);
+            $setting->value = $request->get($settingName);
+            $setting->save();
         }
 
-        return $this->redirectTo("admin_settings");
+        return redirect(route('admin.settings'))
+            ->with('success', Lang::trans('admin.settings_updated'));
     }
 }

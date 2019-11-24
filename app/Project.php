@@ -1,138 +1,104 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
  * https://github.com/nirix
  * https://traq.io
  *
- * This file is part of Traq.
- *
- * Traq is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 only.
+ * the Free Software Foundation, version 3 of the License only.
  *
- * Traq is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Traq. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Models;
+namespace Traq;
+
+use Illuminate\Database\Eloquent\Model;
+use Traq\WikiPage;
 
 /**
- * Project model.
- *
- * @package Traq\Models
- * @author Jack P.
- * @since 3.0.0
+ * @property integer $id
+ * @property string $name
+ * @property string $description
+ * @property integer $next_ticket_id
  */
 class Project extends Model
 {
-    protected static $_validations = [
-        'name' => ['required'],
-        'slug' => ['required', 'unique']
+    protected $fillable = [
+        'name',
+        'codename',
+        'slug',
+        'description',
+        'default_status_id',
+        'default_priority_id',
+        'enable_wiki',
     ];
 
-    protected static $_hasMany = [
-        'milestones',
-        'tickets',
-        'wikiPages'
+    protected $casts = [
+        'created_at' => 'datetime',
+        'enable_wiki' => 'boolean',
     ];
 
-    protected static $_dataTypes = [
-        'enable_wiki' => 'boolean'
-    ];
-
-    /**
-     * @return array[]
-     */
-    public static function selectOptions()
+    public function milestones()
     {
-        $options = [];
-
-        foreach (static::all() as $project) {
-            $options[] = [
-                'label' => $project['name'],
-                'value' => $project['id']
-            ];
-        }
-
-        return $options;
+        return $this->hasMany(Milestone::class);
     }
 
-    /**
-     * @return array[]
-     */
-    public function milestoneSelectOptions($valueField = 'id', $status = null, $sort = 'ASC')
+    public function activeMilestones()
     {
-        $options = [];
-        $milestones = Milestone::where('project_id = ?')
-            ->setParameter(0, $this->id)
-            ->orderBy('display_order', $sort);
-
-        if ($status !== null) {
-            $milestones->andWhere('status = ?')->setParameter(1, $status);
-        }
-
-        foreach ($milestones->execute()->fetchAll() as $milestone) {
-            $options[] = ['label' => $milestone['name'], 'value' => $milestone[$valueField]];
-        }
-
-        return $options;
+        return $this->milestones()
+            ->where('status', '=', Milestone::STATUS_ACTIVE)
+            ->orderBy('display_order', 'ASC');
     }
 
-    /**
-     * @return array[]
-     */
-    public function memberSelectOptions()
+    public function completedMilestones()
     {
-        $options = [];
-
-        $query = static::connection()->createQueryBuilder()->select('ur.user_id', 'u.name AS user_name')
-            ->from(PREFIX . 'user_roles', 'ur')
-            ->leftJoin('ur', PREFIX . 'users', 'u', 'u.id = ur.user_id')
-            ->where('project_id = ?')
-            ->setParameter(0, $this->id);
-
-        foreach ($query->execute()->fetchAll() as $row) {
-            $options[] = ['label' => $row['user_name'], 'value' => $row['user_id']];
-        }
-
-        return $options;
+        return $this->milestones()
+            ->where('status', '=', Milestone::STATUS_COMPLETED)
+            ->orderBy('display_order', 'ASC');
     }
 
-    /**
-     * @return array[]
-     */
-    public function componentSelectOptions()
+    public function tickets()
     {
-        $options = [];
-        $components = Component::where('project_id = ?')->setParameter(0, $this->id)->orderBy('name', 'ASC');
-
-        foreach ($components->execute()->fetchAll() as $component) {
-            $options[] = ['label' => $component['name'], 'value' => $component['id']];
-        }
-
-        return $options;
+        return $this->hasMany(Ticket::class);
     }
 
-    /**
-     * Delete project.
-     */
-    public function delete()
+    public function defaultStatus()
     {
-        foreach ($this->milestones()->fetchAll() as $milestone) {
-            $milestone->delete();
-        }
+        return $this->belongsTo(Status::class, 'default_status_id');
+    }
 
-        foreach ($this->wikiPages()->fetchAll() as $page) {
-            $page->delete();
-        }
+    public function defaultPriority()
+    {
+        return $this->belongsTo(Priority::class, 'default_priority_id');
+    }
 
-        return parent::delete();
+    public function incrementTicketId()
+    {
+        $this->next_ticket_id += 1;
+    }
+
+    public function timelineEvents()
+    {
+        return $this->hasMany(TimelineEvent::class);
+    }
+
+    public function wikiPages()
+    {
+        return $this->hasMany(WikiPage::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

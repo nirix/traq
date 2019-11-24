@@ -1,0 +1,60 @@
+/*!
+ * Traq
+ *
+ * Copyright (C) 2009-2019 Jack P.
+ * Copyright (C) 2012-2019 Traq.io
+ * https://github.com/nirix
+ * https://traq.io
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License only.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+.bg-primary-darker {
+    background-color: $primary-darker;
+}
+
+.installer-steps i {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+#license {
+    max-height: 400px;
+    overflow: auto;
+    padding: 2rem;
+    padding-left: 5rem !important;
+    margin: 0;
+}
+
+#footer {
+    @extend .mb-4;
+}
