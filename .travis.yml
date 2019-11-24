@@ -8,19 +8,22 @@ services:
   - postgresql
 env:
   - DB_CONNECTION=mysql DB_USERNAME=travis DB_PASSWORD='' DB_DATABASE=traq_test DB_PORT=3306
-  - DB_CONNECTION=postgresql DB_USERNAME=postgres DB_PASSWORD='' DB_DATABASE=traq_test DB_PORT=5432
+  - DB_CONNECTION=pgsql DB_USERNAME=postgres DB_PASSWORD='' DB_DATABASE=traq_test DB_PORT=5432
   - DB_CONNECTION=sqlite
 install:
   - composer install
   - mv .env.example .env
   - php artisan key:generate
+  - touch storage/app/installed
 before_script:
   - mysql -e 'create database traq_test;'
   - psql -c 'create database traq_test' -U postgres
+  - php artisan migrate --seed
 script: vendor/bin/phpunit
 matrix:
   allow_failures:
     - env: DB_CONNECTION=sqlite
+    - php: 7.4
   exclude:
     - php: 7.3
       env: DB_CONNECTION=sqlite
