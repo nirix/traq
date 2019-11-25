@@ -62,7 +62,7 @@ class DatabaseController extends Controller
         } catch (\Exception $e) {
             return view('installer.database.install', [
                 'step' => 'Database Installation',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
