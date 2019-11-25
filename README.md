@@ -27,10 +27,18 @@ Open Traq in your browser and follow the installation steps.
 composer install
 yarn
 yarn dev
+cp .env.example .env
+php artisan key:generate
 ```
 
-After that is complete, open the path to Traq in a browser and follow the
-installation steps.
+After that is complete, ener your details into the `.env` file and open the path to Traq in a browser and
+follow the installation steps.
+
+Alternatively you can run the migrations seed the development data:
+
+```shell
+php artisan migrate --seed
+```
 
 Translations
 ------------
