@@ -42,6 +42,12 @@ Route::namespace('Project')->prefix('/projects/{project}')->group(function () {
 
     Route::resource('milestones', 'MilestoneController');
     Route::resource('tickets', 'TicketController');
+
+    // Wiki routes
+    Route::get('/wiki/{wiki}/revisions', 'WikiController@revisions')
+        ->name('wiki.revisions');
+    Route::get('/wiki/-/pages', 'WikiController@pages')
+        ->name('wiki.pages');
     Route::resource('wiki', 'WikiController');
 });
 

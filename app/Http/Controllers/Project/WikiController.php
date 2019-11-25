@@ -115,6 +115,22 @@ class WikiController extends Controller
         return $this->renderPage($project, $slug);
     }
 
+    public function revisions(Project $project, string $slug)
+    {
+        $page = $project->wikiPages()
+            ->where('slug', '=', $slug)
+            ->first();
+
+        if (!$page) {
+
+        }
+
+        return view('wiki/revisions', [
+            'project' => $project,
+            'page' => $page,
+        ]);
+    }
+
     /**
      * Edit page form.
      *
@@ -170,6 +186,16 @@ class WikiController extends Controller
         $page->save();
 
         return redirect(route('wiki.show', ['project' => $project, 'wiki' => $page]));
+    }
+
+    public function pages(Project $project)
+    {
+        $pages = $project->wikiPages();
+
+        return view('wiki/pages', [
+            'project' => $project,
+            'pages' => $pages,
+        ]);
     }
 
     /**
