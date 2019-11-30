@@ -55,6 +55,6 @@ class SettingsController extends Controller
         }
 
         return redirect(route('admin.settings'))
-            ->with('success', Lang::trans('admin.settings_updated'));
+            ->with('success', Lang::get('admin.settings_updated'));
     }
 }

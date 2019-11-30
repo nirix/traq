@@ -49,7 +49,7 @@ class TicketUpdate extends Model
         foreach ($this->change_data as $field => $change) {
             $langKey = "tickets.{$field}";
 
-            $change['label'] = Lang::has($langKey) ? Lang::trans($langKey) : $field;
+            $change['label'] = Lang::has($langKey) ? Lang::get($langKey) : $field;
 
             $change['field'] = $field;
             $changes[$field] = $change;
