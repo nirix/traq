@@ -9,6 +9,13 @@
 		<?php echo HTML::js_inc('//code.jquery.com/ui/1.10.4/jquery-ui.min.js'); ?>
 		<?php echo HTML::js_inc(Request::base() . 'js.php?js=all'); ?>
 		<?php echo HTML::js_inc(Request::base('_js')); ?>
+
+		<?php if ($project): ?>
+			<script>
+				window.traq.project_slug = <?php echo json_encode($project->slug); ?>
+			</script>
+		<?php endif; ?>
+
 		<?php FishHook::run('template:layouts/global/head'); ?>
 <?php foreach ($app->feeds as $feed) { ?><link type="application/atom+xml" rel ="alternate" href="<?php echo $feed[0]; ?>">
 <?php } ?>

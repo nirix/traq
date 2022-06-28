@@ -82,7 +82,9 @@ class Tickets extends AppController
     public function action_index()
     {
         // Atom feed
-        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name));
+        $this->feeds[] = [
+            Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name)
+        ];
 
         // Create ticket filter query
         $filter_query = new TicketFilterQuery($this->project);
@@ -97,8 +99,8 @@ class Tickets extends AppController
 
         // Any filters stored in the session?
         if (!count($filter_query->filters())
-        and isset($_SESSION['ticket_filters'])
-        and isset($_SESSION['ticket_filters'][$this->project->id])) {
+        && isset($_SESSION['ticket_filters'])
+        && isset($_SESSION['ticket_filters'][$this->project->id])) {
             foreach (explode('&', $_SESSION['ticket_filters'][$this->project->id]) as $filter_value) {
                 if (strpos($filter_value, '=')) {
                     $filter_value = explode('=', $filter_value);
@@ -116,7 +118,7 @@ class Tickets extends AppController
         View::set('filters', $filter_query->filters());
 
         // Fetch tickets
-        $tickets = array();
+        $tickets = [];
         $rows = $this->db->select('tickets.*')->from('tickets')->custom_sql($filter_query->sql());
 
         // Order by creation date for atom feed
@@ -184,47 +186,6 @@ class Tickets extends AppController
 
         // Send the tickets array to the view..
         View::set('tickets', $tickets);
-
-        // Columns
-        $this->get_columns();
-    }
-
-    private function get_columns()
-    {
-        $allowed_columns = ticketlist_allowed_columns();
-
-        // Add custom fields
-        foreach ($this->custom_fields as $field) {
-            $allowed_columns[] = $field->id;
-        }
-
-        // Set columns from form
-        if (Request::method() == 'post' and isset(Request::$post['update_columns'])) {
-            $new_columns = array();
-            foreach (Request::$post['columns'] as $column) {
-                $new_columns[] = $column;
-            }
-            $_SESSION['columns'] = Request::$request['columns'] = $new_columns;
-        }
-
-        // Get columns
-        $columns = array();
-        if (isset($_SESSION['columns']) or isset(Request::$request['columns'])) {
-            // Loop over customs from session or request
-            foreach ((isset($_SESSION['columns']) ? $_SESSION['columns'] : explode(',', Request::$request['columns'])) as $column) {
-                // Make sure it's a valid column
-                if (in_array($column, $allowed_columns)) {
-                    $columns[] = $column;
-                }
-            }
-        }
-        // Use default columns
-        else {
-            $columns = ticket_columns();
-        }
-
-        // Send columns to view
-        View::set('columns', $columns);
     }
 
     /**
