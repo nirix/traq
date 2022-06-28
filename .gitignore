@@ -6,6 +6,7 @@ vendor/traq/plugins/better_php_errors
 .buildpath
 .htaccess
 _dev/
+assets/ui
 
 # Logs
 logs
