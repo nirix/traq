@@ -1,0 +1,8 @@
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "cSpell.ignoreWords": [
+    "TRAQ",
+    "axios"
+  ]
+}
