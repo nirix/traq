@@ -6,13 +6,26 @@ Traq is a PHP powered project manager, capable of tracking issues for multiple p
 Requirements
 ------------
 
-- PHP 5.3 to 5.6
-- MySQL
+- PHP 7.4+
+- MariaDB _(or MySQL)_
 - Apache mod_rewrite or server configured to use `index.php` as the 404 page.
 
-### PHP 7.0+ Support
+Building
+--------
 
-Currently only Traq 4.0+ supports PHP 7.0 or later.
+After cloning the repository:
+
+```
+# Initialise and update submodules (Avalon framework)
+git submodules init
+git submodules update
+
+# Install dependencies with yarn or npm
+yarn # or npm i
+
+# Build UI
+yarn build
+```
 
 Installation
 ------------
@@ -28,15 +41,7 @@ Licenses
 
 ### Terminated Licenses ###
 
-Licenses _permanently_ terminated:
-
-* **devxdev / Devon Hazelett**:
-  Files, classes and functions were taken and completely stripped of copyright,
-  warranty and code comments then used in the "Soule Framework".
-
-* **burnpiro / Kemal Erdem and michalantoszczuk**:
-  Traq was forked and all references to Traq in each files copyright headers was
-  removed and replaced with "Shelu".
+See `TERMINATED_LICENCES.md`
 
 Contributors
 ------------
