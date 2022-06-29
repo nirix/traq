@@ -15,8 +15,7 @@ export default {
   },
   methods: {
     getTickets() {
-      let ticketsUrl =
-        window.traq.base + window.traq.project_slug + "/tickets.json"
+      let ticketsUrl = window.traq.base + window.traq.project_slug + "/tickets.json"
       if (this.sort_by) {
         ticketsUrl = `${ticketsUrl}?order_by=${this.sort_by}.${this.sort_order}`
       }
@@ -27,8 +26,7 @@ export default {
       })
     },
     sortTickets(column) {
-      this.sort_order =
-        column !== this.sort_by || this.sort_order === "desc" ? "asc" : "desc"
+      this.sort_order = column !== this.sort_by || this.sort_order === "desc" ? "asc" : "desc"
       this.sort_by = column
       this.getTickets()
     },
@@ -48,9 +46,9 @@ export default {
 <template>
   <div class="content">
     <h2 id="page_title">Tickets</h2>
-    <TicketFilters />
   </div>
-  <table id="tickets" class="ticket_listing list">
+  <TicketFilters />
+  <table id="tickets" class="ticket-listing list">
     <thead>
       <tr>
         <th>
@@ -69,11 +67,7 @@ export default {
         <th>Component</th>
         <th>Milestone</th>
       </tr>
-      <tr
-        v-for="ticket in tickets"
-        :key="ticket.id"
-        :class="'priority_' + ticket.priority.id"
-      >
+      <tr v-for="ticket in tickets" :key="ticket.id" :class="'priority-' + ticket.priority.id">
         <td>{{ ticket.id }}</td>
         <td>
           <a :href="ticketUrl(ticket.id)">
@@ -92,4 +86,63 @@ export default {
   </table>
 </template>
 
-<style></style>
+<style scoped lang="postcss">
+table.ticket-listing {
+  & tr {
+    &.priority-1 {
+      & td {
+        @apply bg-red-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-red-100;
+      }
+    }
+
+    &.priority-2 {
+      & td {
+        @apply bg-yellow-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-yellow-100;
+      }
+    }
+
+    &.priority-3 {
+      & td {
+        @apply bg-sky-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-sky-100;
+      }
+    }
+
+    &.priority-4 {
+      & td {
+        @apply bg-violet-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-violet-100;
+      }
+    }
+
+    &.priority-5 {
+      & td {
+        @apply bg-gray-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-gray-100;
+      }
+    }
+
+    &:hover td,
+    &:hover:nth-child(even) td {
+      @apply bg-white;
+    }
+  }
+}
+</style>
