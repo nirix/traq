@@ -5,25 +5,12 @@ services:
     container_name: traq3_web
     build:
       context: .
-      dockerfile: dev/docker/php73-apache
+      dockerfile: dev/docker/php80-apache
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
     ports:
       - 3000:80
-    links:
-      - mysql:db
-
-  web56:
-    container_name: traq3_web56
-    build:
-      context: .
-      dockerfile: dev/docker/php56-apache
-    working_dir: /var/www/html
-    volumes:
-      - .:/var/www/html
-    ports:
-      - 3001:80
     links:
       - mysql:db
 
