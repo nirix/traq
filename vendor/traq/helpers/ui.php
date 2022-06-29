@@ -32,10 +32,21 @@ function ui_package($entry) {
   $manifestPath = dirname(dirname(dirname(__DIR__))).'/assets/ui/manifest.json';
   $manifest = json_decode(file_get_contents($manifestPath), true);
 
-  $index = "traq-ui/${entry}/${entry}.ts";
+  $index = "traq-ui/${entry}.ts";
   if (isset($manifest[$index])) {
-    $file = $manifest[$index]['file'];
+    $info = $manifest[$index];
+    $file = $info['file'];
 
-    return HTML::js_inc(Request::base()."assets/ui/${file}");
+    $html = [];
+
+    if (isset($info['css'])) {
+      foreach ($info['css'] as $cssFile) {
+        $html[] = HTML::css_link(Request::base()."assets/ui/${cssFile}");
+      }
+    }
+
+    $html[] = HTML::js_inc(Request::base()."assets/ui/${file}");
+
+    return implode(PHP_EOL, $html);
   }
 }

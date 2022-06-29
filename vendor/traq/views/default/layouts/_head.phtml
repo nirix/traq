@@ -10,6 +10,8 @@
 		<?php echo HTML::js_inc(Request::base() . 'js.php?js=all'); ?>
 		<?php echo HTML::js_inc(Request::base('_js')); ?>
 
+		<?php echo ui_package('main'); ?>
+
 		<?php if ($project): ?>
 			<script>
 				window.traq.project_slug = <?php echo json_encode($project->slug); ?>
