@@ -8,6 +8,7 @@ module.exports = {
     "eslint:recommended",
     "@vue/eslint-config-typescript/recommended",
   ],
+  parser: "vue-eslint-parser",
   rules: {
     "comma-dangle": ["error", "always-multiline"],
   },

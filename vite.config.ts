@@ -19,6 +19,7 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: {
+        main: resolve(__dirname, "traq-ui/main.ts"),
         "ticket-listing": resolve(
           __dirname,
           "traq-ui/ticket-listing/ticket-listing.ts"
