@@ -24,7 +24,7 @@ export default {
 
       if (this.filters.length) {
         const filterBits = this.filters.map((filter) => {
-          return filter.field + (filter.condition ? "" : "!") + filter.values.join(",")
+          return `${filter.field}=` + (filter.condition ? "" : "!") + filter.values.join(",")
         })
 
         ticketsUrl = ticketsUrl + (this.sort_by ? "&" : "?") + filterBits.join("&")
@@ -40,6 +40,8 @@ export default {
         this.page = resp.data.page
         this.total_pages = resp.data.total_pages
       })
+
+      this.updateUrl()
     },
     sortTickets(column) {
       this.sort_order = column !== this.sort_by || this.sort_order === "desc" ? "asc" : "desc"
@@ -55,6 +57,10 @@ export default {
     applyFilters(filters) {
       this.filters = filters
       this.getTickets()
+    },
+    updateUrl() {
+      // Update page URL to the same URL to fetch tickets without the .json extension.
+      history.pushState({}, null, this.getTicketUrl.replace(".json", ""))
     },
   },
   mounted() {

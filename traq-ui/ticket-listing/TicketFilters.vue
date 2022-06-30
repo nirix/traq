@@ -7,17 +7,10 @@ interface FilterOption {
   field: string
   label: string
   type: "is" | "isOr" | "contains"
-  options?: Array<{ label: string; value: string }>
-
   condition?: boolean
+  dataSet?: string
   value?: Array<string | number>
   count?: number
-}
-
-interface Filter {
-  field: string
-  condition: boolean
-  values: Array<string | number>
 }
 
 export default {
@@ -25,14 +18,20 @@ export default {
     return {
       isExpanded: false,
       filters: [],
-      milestones: [],
+      filterData: {
+        milestones: [],
+        components: [],
+        statuses: [],
+      },
     }
   },
 
   mounted() {
+    this.convertQueryString()
+
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap.json"
     axios.get(roadmapUrl).then((resp) => {
-      this.milestones =
+      this.filterData.milestones =
         resp.data.map((data) => ({
           label: data.name,
           value: data.slug,
@@ -72,13 +71,13 @@ export default {
           field: "milestone",
           label: "Milestone",
           type: "is",
-          options: this.milestones,
+          dataSet: "milestones",
         },
         {
           field: "version",
           label: "Version",
           type: "is",
-          options: this.milestones,
+          dataSet: "milestones",
         },
         {
           field: "status",
@@ -104,7 +103,11 @@ export default {
     toggleExpand() {
       this.isExpanded = !this.isExpanded
     },
-    applyFilters() {
+    applyFilters(filters = null) {
+      if (Array.isArray(filters)) {
+        this.filters = filters
+      }
+
       this.$emit("applyFilters", this.filters)
     },
     addFilter(event) {
@@ -134,6 +137,28 @@ export default {
         filter.values.splice(valueIndex, 1)
       }
     },
+    convertQueryString() {
+      const filters = []
+      const params = new URLSearchParams(window.location.search.substring(1))
+
+      // Loop over filter options and check params for a value
+      this.filterOptions.map((filter: FilterOption) => {
+        const paramValue = params.get(filter.field)
+
+        if (paramValue) {
+          const condition = !paramValue.startsWith("!")
+          const values = !condition ? paramValue.substring(1)?.split(",") : paramValue.split(",")
+
+          filters.push({
+            ...filter,
+            condition,
+            values: values ?? [],
+          })
+        }
+      })
+
+      this.applyFilters(filters)
+    },
   },
 }
 </script>
@@ -155,7 +180,7 @@ export default {
             </div>
             <div class="value">
               <select multiple :name="`filters[${filter.field}][values][]`" v-model="filter.values">
-                <option v-for="option in filter.options" :key="option.value" :value="option.value">{{ option.label }}</option>
+                <option v-for="option in filterData[filter.dataSet]" :key="option.value" :value="option.value">{{ option.label }}</option>
               </select>
             </div>
             <div class="remove">
@@ -201,7 +226,7 @@ export default {
     <div class="actions" v-if="isExpanded">
       <div class="apply">
         <div class="btn-group">
-          <button class="btn-danger" @click="filters = []" :disabled="filters.length === 0">Clear</button>
+          <button class="btn-danger" @click="applyFilters([])" :disabled="filters.length === 0">Clear</button>
         </div>
       </div>
       <div class="add-filter">
@@ -212,7 +237,7 @@ export default {
               {{ option.label }}
             </option>
           </select>
-          <button class="btn-primary" @click="applyFilters" :disabled="filters.length === 0">Apply</button>
+          <button class="btn-primary" @click="applyFilters">Apply</button>
         </div>
       </div>
     </div>
