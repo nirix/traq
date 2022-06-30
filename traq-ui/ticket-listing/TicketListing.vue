@@ -11,6 +11,7 @@ export default {
       total_pages: 1,
       sort_by: null,
       sort_order: "desc",
+      filters: [],
     }
   },
   methods: {
@@ -36,6 +37,10 @@ export default {
     userUrl(userId) {
       return `${window.traq.base}users/${userId}`
     },
+    applyFilters(filters) {
+      console.log(filters)
+      this.filters = filters
+    },
   },
   mounted() {
     this.getTickets()
@@ -47,7 +52,7 @@ export default {
   <div class="content">
     <h2 id="page_title">Tickets</h2>
   </div>
-  <TicketFilters />
+  <TicketFilters @apply-filters="applyFilters" />
   <table id="tickets" class="ticket-listing list">
     <thead>
       <tr>
