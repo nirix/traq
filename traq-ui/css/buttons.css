@@ -24,7 +24,7 @@ input[type="reset"] {
 
   &.btn-success {
     @apply bg-emerald-500;
-    @apply ring-emerald-400;
+    @apply ring-emerald-200;
     @apply text-white;
 
     &:hover {
