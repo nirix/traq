@@ -148,9 +148,9 @@ export default {
         <div class="conditions-and-values" v-if="['is'].includes(filter.type)">
           <div>
             <div class="condition">
-              <select :name="`filters[${filter.field}][prefix]`">
-                <option value="">is</option>
-                <option value="!">is not</option>
+              <select :name="`filters[${filter.field}][prefix]`" v-model="filter.condition">
+                <option :value="true">is</option>
+                <option :value="false">is not</option>
               </select>
             </div>
             <div class="value">
@@ -169,13 +169,13 @@ export default {
         <div class="conditions-and-values" v-if="['isOr', 'contains'].includes(filter.type)">
           <div v-for="(value, index) in filter.values" :key="filter.field + index">
             <div class="condition" v-if="index === 0">
-              <select :name="`filters[${filter.field}][prefix]`" v-if="['is', 'isOr'].includes(filter.type)">
-                <option value="">is</option>
-                <option value="!">is not</option>
+              <select :name="`filters[${filter.field}][prefix]`" v-if="['is', 'isOr'].includes(filter.type)" v-model="filter.condition">
+                <option :value="true">is</option>
+                <option :value="false">is not</option>
               </select>
-              <select :name="`filters[${filter.field}][prefix]`" v-if="['contains'].includes(filter.type)">
-                <option value="">contains</option>
-                <option value="!">does not contain</option>
+              <select :name="`filters[${filter.field}][prefix]`" v-if="['contains'].includes(filter.type)" v-model="filter.condition">
+                <option :value="true">contains</option>
+                <option :value="false">does not contain</option>
               </select>
             </div>
             <div class="condition condition-static" v-if="index >= 1">
