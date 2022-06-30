@@ -1,3 +1,31 @@
+.btn-group {
+  & > button {
+    @apply rounded-none;
+
+    &:first-child {
+      @apply rounded-l;
+    }
+
+    &:last-child {
+      @apply rounded-r;
+    }
+  }
+}
+
+.input-group {
+  & > * {
+    @apply !rounded-none;
+
+    &:first-child {
+      @apply !rounded-l;
+    }
+
+    &:last-child {
+      @apply !rounded-r;
+    }
+  }
+}
+
 button,
 input[type="submit"],
 input[type="button"],
@@ -7,18 +35,37 @@ input[type="reset"] {
   @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400;
   @apply focus:ring-4 ring-gray-400;
   @apply transition-all;
+  @apply cursor-pointer;
+
+  &:disabled {
+    @apply cursor-not-allowed;
+
+    &,
+    &:hover,
+    &:active {
+      @apply bg-gray-100;
+    }
+  }
 
   &.btn-primary {
     @apply text-white;
-    @apply bg-brand-400;
+    @apply bg-brand-500;
     @apply ring-brand-200;
 
     &:hover {
-      @apply bg-brand-500;
+      @apply bg-brand-600;
     }
 
     &:active {
-      @apply bg-brand-600;
+      @apply bg-brand-700;
+    }
+
+    &:disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply bg-brand-300;
+      }
     }
   }
 
@@ -34,6 +81,14 @@ input[type="reset"] {
     &:active {
       @apply bg-emerald-700;
     }
+
+    &:disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply bg-emerald-300;
+      }
+    }
   }
 
   &.btn-danger {
@@ -47,6 +102,14 @@ input[type="reset"] {
 
     &:active {
       @apply bg-red-700;
+    }
+
+    &:disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply bg-red-300;
+      }
     }
   }
 }

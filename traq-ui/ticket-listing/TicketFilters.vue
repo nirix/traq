@@ -200,15 +200,20 @@ export default {
     </div>
     <div class="actions" v-if="isExpanded">
       <div class="apply">
-        <button @click="applyFilters">Apply</button>
+        <div class="btn-group">
+          <button class="btn-danger" @click="filters = []" :disabled="filters.length === 0">Clear</button>
+        </div>
       </div>
       <div class="add-filter">
-        <select name="new_filter" @change="addFilter">
-          <option value="" disabled selected>Add filter</option>
-          <option v-for="option in filterOptions" :value="option.field" :key="option.value">
-            {{ option.label }}
-          </option>
-        </select>
+        <div class="input-group">
+          <select name="new_filter" @change="addFilter">
+            <option value="" disabled selected>Add filter</option>
+            <option v-for="option in filterOptions" :value="option.field" :key="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <button class="btn-primary" @click="applyFilters" :disabled="filters.length === 0">Apply</button>
+        </div>
       </div>
     </div>
   </fieldset>
@@ -216,13 +221,22 @@ export default {
 
 <style scoped lang="postcss">
 select,
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   @apply border border-gray-400 focus:border-brand-600 rounded;
   @apply focus:ring-4 focus:ring-brand-100;
   @apply text-sm text-gray-800;
-  @apply px-2 py-1;
-  @apply box-border min-h-[32px];
+  @apply px-2 py-[.35rem];
   @apply transition-all;
+}
+
+select,
+input[type="text"],
+input[type="password"],
+input[type="button"],
+input[type="reset"],
+button {
+  @apply box-border min-h-[32px];
 }
 
 .ticket-filters-container {
@@ -331,6 +345,10 @@ input[type="text"] {
 
   & .add-filter {
     justify-items: end;
+
+    & select {
+      margin: 0;
+    }
   }
 }
 </style>
