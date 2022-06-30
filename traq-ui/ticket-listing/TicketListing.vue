@@ -14,13 +14,28 @@ export default {
       filters: [],
     }
   },
-  methods: {
-    getTickets() {
+  computed: {
+    getTicketUrl(): string {
       let ticketsUrl = window.traq.base + window.traq.project_slug + "/tickets.json"
+
       if (this.sort_by) {
         ticketsUrl = `${ticketsUrl}?order_by=${this.sort_by}.${this.sort_order}`
       }
-      axios.get(ticketsUrl).then((resp) => {
+
+      if (this.filters.length) {
+        const filterBits = this.filters.map((filter) => {
+          return filter.field + (filter.condition ? "" : "!") + filter.values.join(",")
+        })
+
+        ticketsUrl = ticketsUrl + (this.sort_by ? "&" : "?") + filterBits.join("&")
+      }
+
+      return ticketsUrl
+    },
+  },
+  methods: {
+    getTickets() {
+      axios.get(this.getTicketUrl).then((resp) => {
         this.tickets = resp.data.tickets
         this.page = resp.data.page
         this.total_pages = resp.data.total_pages
@@ -38,8 +53,8 @@ export default {
       return `${window.traq.base}users/${userId}`
     },
     applyFilters(filters) {
-      console.log(filters)
       this.filters = filters
+      this.getTickets()
     },
   },
   mounted() {
