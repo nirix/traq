@@ -16,7 +16,7 @@ interface FilterOption {
 export default {
   data() {
     return {
-      isExpanded: false,
+      isExpanded: true,
       filters: [],
       filterData: {
         milestones: [],
@@ -164,9 +164,9 @@ export default {
 </script>
 
 <template>
-  <fieldset class="ticket-filters-container">
+  <fieldset :class="['ticket-filters-container', isExpanded ? 'open' : '']">
     <legend @click="toggleExpand">Filters</legend>
-    <div class="active-filters" v-if="isExpanded">
+    <div class="active-filters">
       <div class="no-filters" v-if="filters.length === 0">No filters set.</div>
       <div v-for="filter in filters" :key="filter.field" class="filter">
         <div class="label">{{ filter.label }}</div>
@@ -223,7 +223,7 @@ export default {
         </div>
       </div>
     </div>
-    <div class="actions" v-if="isExpanded">
+    <div class="actions">
       <div class="apply">
         <div class="btn-group">
           <button class="btn-danger" @click="applyFilters([])" :disabled="filters.length === 0">Clear</button>
@@ -245,29 +245,20 @@ export default {
 </template>
 
 <style scoped lang="postcss">
-select,
-input[type="text"],
-input[type="password"] {
-  @apply border border-gray-400 focus:border-brand-600 rounded;
-  @apply focus:ring-4 focus:ring-brand-100;
-  @apply text-sm text-gray-800;
-  @apply px-2 py-[.35rem];
-  @apply transition-all;
-}
-
-select,
-input[type="text"],
-input[type="password"],
-input[type="button"],
-input[type="reset"],
-button {
-  @apply box-border min-h-[32px];
-}
+@import "../css/forms.css";
 
 .ticket-filters-container {
   padding: 0;
+  overflow: scroll;
+  transition: max-height ease-in-out 0.4s;
+  max-height: 0px;
+  background-color: #fff;
   @apply border-gray-400;
   @apply rounded;
+
+  &.open {
+    max-height: 600px;
+  }
 
   & legend {
     cursor: pointer;

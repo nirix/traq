@@ -1,0 +1,30 @@
+select,
+input[type="text"],
+input[type="password"] {
+  @apply border border-gray-400 focus:border-brand-600 rounded;
+  @apply focus:ring-4 focus:ring-brand-100;
+  @apply text-sm text-gray-800;
+  @apply py-2 px-3;
+  @apply transition-all;
+  @apply text-sm;
+}
+
+select,
+input[type="text"],
+input[type="password"],
+input[type="button"],
+input[type="reset"],
+button {
+  line-height: 1.25;
+  @apply box-border;
+  @apply appearance-none;
+  /* @apply min-h-[32px]; */
+}
+
+select:not([multiple]) {
+  padding-right: 30px;
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 10px;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>');
+}
