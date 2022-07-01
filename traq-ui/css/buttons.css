@@ -13,6 +13,9 @@
 }
 
 .input-group {
+  display: flex;
+  align-items: flex-start;
+
   & > * {
     @apply !rounded-none;
 
@@ -30,12 +33,16 @@ button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"] {
+  line-height: 1.25;
+  @apply text-sm;
   @apply py-2 px-3;
-  @apply border-0 rounded;
+  @apply border border-solid rounded;
   @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400;
-  @apply focus:ring-4 ring-gray-400;
+  @apply border-gray-200 hover:border-gray-300 active:border-gray-400;
+  @apply ring-0 focus:ring-4 ring-gray-400;
   @apply transition-all;
   @apply cursor-pointer;
+  @apply appearance-none;
 
   &:disabled {
     @apply cursor-not-allowed;
@@ -43,72 +50,51 @@ input[type="reset"] {
     &,
     &:hover,
     &:active {
-      @apply bg-gray-100;
+      @apply bg-gray-100 border-gray-100;
     }
   }
 
   &.btn-primary {
     @apply text-white;
-    @apply bg-brand-500;
+    @apply bg-brand-500 hover:bg-brand-600 active:bg-brand-700;
+    @apply border-brand-500 hover:border-brand-600 active:border-brand-700;
     @apply ring-brand-200;
-
-    &:hover {
-      @apply bg-brand-600;
-    }
-
-    &:active {
-      @apply bg-brand-700;
-    }
 
     &:disabled {
       &,
       &:hover,
       &:active {
-        @apply bg-brand-300;
+        @apply bg-brand-300 border-brand-300;
       }
     }
   }
 
   &.btn-success {
-    @apply bg-emerald-500;
-    @apply ring-emerald-200;
     @apply text-white;
-
-    &:hover {
-      @apply bg-emerald-600;
-    }
-
-    &:active {
-      @apply bg-emerald-700;
-    }
+    @apply bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700;
+    @apply border-emerald-500 hover:border-emerald-600 active:border-emerald-700;
+    @apply ring-emerald-200;
 
     &:disabled {
       &,
       &:hover,
       &:active {
-        @apply bg-emerald-300;
+        @apply bg-emerald-300 border-emerald-300;
       }
     }
   }
 
   &.btn-danger {
-    @apply bg-red-500;
-    @apply ring-red-200;
     @apply text-white;
-
-    &:hover {
-      @apply bg-red-600;
-    }
-
-    &:active {
-      @apply bg-red-700;
-    }
+    @apply bg-red-500 hover:bg-red-600 active:bg-red-700;
+    @apply border-red-500 hover:border-red-600 active:border-red-700;
+    @apply ring-red-200;
 
     &:disabled {
       &,
       &:hover,
       &:active {
-        @apply bg-red-300;
+        @apply bg-red-300 border-red-300;
       }
     }
   }
