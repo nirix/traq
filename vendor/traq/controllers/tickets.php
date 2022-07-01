@@ -97,26 +97,6 @@ class Tickets extends AppController
             }
         }
 
-        // Any filters stored in the session?
-        if (!count($filter_query->filters())
-        && isset($_SESSION['ticket_filters'])
-        && isset($_SESSION['ticket_filters'][$this->project->id])) {
-            foreach (explode('&', $_SESSION['ticket_filters'][$this->project->id]) as $filter_value) {
-                if (strpos($filter_value, '=')) {
-                    $filter_value = explode('=', $filter_value);
-                    if (in_array($filter_value[0], array_keys(ticket_filters_for($this->project)))) {
-                        $value = isset($filter_value[1]) ? explode(',', urldecode($filter_value[1])) : array();
-                        $filter_query->process($filter_value[0], $value);
-                    }
-                }
-            }
-        } else {
-            $_SESSION['ticket_filters'][$this->project->id] = Request::$query;
-        }
-
-        // Send filters to the view
-        View::set('filters', $filter_query->filters());
-
         // Fetch tickets
         $tickets = [];
         $rows = $this->db->select('tickets.*')->from('tickets')->custom_sql($filter_query->sql());
@@ -390,7 +370,7 @@ class Tickets extends AppController
             // Check if the ticket data is valid...
             // if it is, save the ticket to the DB and
             // redirect to the ticket page.
-            if (check_ticket_creation_delay($ticket) and $ticket->is_valid()) {
+            if (($this->user->group->is_admin || check_ticket_creation_delay($ticket)) && $ticket->is_valid()) {
                 // Set last ticket creation time
                 $_SESSION['last_ticket_creation'] = time();
 
@@ -803,96 +783,6 @@ class Tickets extends AppController
         setcookie('selected_tickets', '', time(), '/');
 
         Request::redirectTo($this->project->href('tickets'));
-    }
-
-    /**
-     * Processes the ticket filters form and
-     * builds the query string.
-     */
-    public function action_update_filters()
-    {
-        $query_string = array();
-
-        // Add filter
-        if (isset(Request::$post['add_filter'])) {
-            $new_filter = Request::$post['new_filter'];
-
-            // Make sure the filter index exists
-            if (!isset(Request::$post['filters'][$new_filter])) {
-                Request::$post['filters'][$new_filter] = array('values' => array());
-            }
-
-            // Add the blank value
-            Request::$post['filters'][$new_filter] = array(
-                'prefix' => '',
-                'values' => array()
-            );
-        }
-
-        foreach (Request::post('filters', array()) as $name => $filter) {
-            // Don't bother if this isn't a valid filter.
-            if (!in_array($name, array_keys(ticket_filters_for($this->project)))) {
-                continue;
-            }
-
-            // Process filters
-            switch ($name) {
-                // Summary, description,
-                // owner and assigned to
-                case 'summary':
-                case 'description':
-                case 'owner':
-                case 'assigned_to':
-                case 'search':
-                    $values = array();
-                    foreach ($filter['values'] as $value) {
-                        $values[] = urlencode($value);
-                    }
-                    $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
-                    break;
-
-                // Milestone, version, type,
-                // status and component
-                case 'milestone':
-                case 'version':
-                case 'type':
-                case 'status':
-                case 'component':
-                case 'priority':
-                case 'severity':
-                    // Class name
-                    $class = '\\traq\\models\\' . ucfirst($name == 'version' ? 'milestone' : $name);
-
-                    switch ($name) {
-                        case 'milestone':
-                        case 'version':
-                            $field = 'slug';
-                            break;
-
-                        default:
-                            $field = 'name';
-                            break;
-                    }
-
-                    // Values
-                    $values = array();
-                    foreach ($filter['values'] as $value) {
-                        $values[] = urlencode($class::find($value)->{$field});
-                    }
-
-                    $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
-                    break;
-            }
-
-            // Process custom field filters
-            if ($field = CustomField::find('slug', $name)) {
-                $query_string[] = "{$field->slug}={$filter['prefix']}" . implode(',', $filter['values']);
-            }
-        }
-
-        // Save to session and redirect
-        $_SESSION['ticket_filters'][$this->project->id] = implode('&', $query_string);
-        Request::redirectTo($this->project->href('tickets') . '?' . implode('&', $query_string));
     }
 
     /**

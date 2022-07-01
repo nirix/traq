@@ -20,7 +20,7 @@
 
 use avalon\http\Router;
 
-define("RTR_PROJSLUG", '(?P<project_slug>[a-zA-Z0-9\-\_]+)');
+const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
 Router::add('root', 'traq::controllers::Projects.index');
 Router::add('404', 'traq::controllers::Error.404');
@@ -51,54 +51,54 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete'
 // ------------------------------------------------
 // Project routes
 Router::add('/projects', 'traq::controllers::Projects.index');
-Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
-Router::add('/' . RTR_PROJSLUG . '/(timeline|roadmap|changelog)', 'traq::controllers::Projects.$2');
-Router::add('/' . RTR_PROJSLUG . '/timeline/([0-9]+)/delete', 'traq::controllers::Projects.delete_timeline_event/$2');
-Router::add('/' . RTR_PROJSLUG . '/roadmap/(completed|all|cancelled)', 'traq::controllers::Projects.roadmap/$2');
-Router::add('/' . RTR_PROJSLUG, 'traq::controllers::Projects.view');
+Router::add('/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
+Router::add('/' . PROJECT_SLUG . '/(timeline|roadmap|changelog)', 'traq::controllers::Projects.$2');
+Router::add('/' . PROJECT_SLUG . '/timeline/([0-9]+)/delete', 'traq::controllers::Projects.delete_timeline_event/$2');
+Router::add('/' . PROJECT_SLUG . '/roadmap/(completed|all|cancelled)', 'traq::controllers::Projects.roadmap/$2');
+Router::add('/' . PROJECT_SLUG, 'traq::controllers::Projects.view');
 
 // Ticket routes
-Router::add('/' . RTR_PROJSLUG . '/tickets/new', 'traq::controllers::Tickets.new');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'traq::controllers::Tickets.view/$2');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', 'traq::controllers::Tickets.move/$2');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', 'traq::controllers::Tickets.delete/$2');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote|voters)', 'traq::controllers::Tickets.$3/$2');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/edit', 'traq::controllers::TicketHistory.edit/$3');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/delete', 'traq::controllers::TicketHistory.delete/$3');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', 'traq::controllers::TicketTasks.manage/$2');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/([0-9]+)', 'traq::controllers::TicketTasks.toggle/$2,$3');
-Router::add('/' . RTR_PROJSLUG . '/tickets/mass_actions', 'traq::controllers::Tickets.mass_actions');
-Router::add('/' . RTR_PROJSLUG . '/tickets/update_filters', 'traq::controllers::Tickets.update_filters');
-Router::add('/' . RTR_PROJSLUG . '/tickets', 'traq::controllers::Tickets.index');
+Router::add('/' . PROJECT_SLUG . '/tickets/new', 'traq::controllers::Tickets.new');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'traq::controllers::Tickets.view/$2');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', 'traq::controllers::Tickets.move/$2');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', 'traq::controllers::Tickets.delete/$2');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote|voters)', 'traq::controllers::Tickets.$3/$2');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/edit', 'traq::controllers::TicketHistory.edit/$3');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+)/delete', 'traq::controllers::TicketHistory.delete/$3');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', 'traq::controllers::TicketTasks.manage/$2');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/([0-9]+)', 'traq::controllers::TicketTasks.toggle/$2,$3');
+Router::add('/' . PROJECT_SLUG . '/tickets/mass_actions', 'traq::controllers::Tickets.mass_actions');
+Router::add('/' . PROJECT_SLUG . '/tickets/update_filters', 'traq::controllers::Tickets.update_filters');
+Router::add('/' . PROJECT_SLUG . '/tickets', 'traq::controllers::Tickets.index');
 
 // Wiki routes
-Router::add('/' . RTR_PROJSLUG . '/wiki', 'traq::controllers::Wiki.view', array('slug' => 'main'));
-Router::add('/' . RTR_PROJSLUG . '/wiki/_pages', 'traq::controllers::Wiki.pages');
-Router::add('/' . RTR_PROJSLUG . '/wiki/_new', 'traq::controllers::Wiki.new');
-Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_edit', 'traq::controllers::Wiki.edit');
-Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_delete', 'traq::controllers::Wiki.delete');
-Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions', 'traq::controllers::Wiki.revisions/$2');
-Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(\d+)', 'traq::controllers::Wiki.revision/$2,$3');
-Router::add('/' . RTR_PROJSLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::controllers::Wiki.view');
+Router::add('/' . PROJECT_SLUG . '/wiki', 'traq::controllers::Wiki.view', array('slug' => 'main'));
+Router::add('/' . PROJECT_SLUG . '/wiki/_pages', 'traq::controllers::Wiki.pages');
+Router::add('/' . PROJECT_SLUG . '/wiki/_new', 'traq::controllers::Wiki.new');
+Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_edit', 'traq::controllers::Wiki.edit');
+Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_delete', 'traq::controllers::Wiki.delete');
+Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions', 'traq::controllers::Wiki.revisions/$2');
+Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(\d+)', 'traq::controllers::Wiki.revision/$2,$3');
+Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::controllers::Wiki.view');
 
 // Project settings routes
-Router::add('/' . RTR_PROJSLUG . '/settings', 'traq::controllers::ProjectSettings::Options.index');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)', 'traq::controllers::ProjectSettings::$2.index');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members|repositories)/new', 'traq::controllers::ProjectSettings::$2.new');
-Router::add('/' . RTR_PROJSLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
-Router::add('/' . RTR_PROJSLUG . '/settings/custom_fields', 'traq::controllers::ProjectSettings::CustomFields.index');
-Router::add('/' . RTR_PROJSLUG . '/settings/custom_fields/new', 'traq::controllers::ProjectSettings::CustomFields.new');
-Router::add('/' . RTR_PROJSLUG . '/settings/custom_fields/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::CustomFields.$3/$2');
+Router::add('/' . PROJECT_SLUG . '/settings', 'traq::controllers::ProjectSettings::Options.index');
+Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members|repositories)', 'traq::controllers::ProjectSettings::$2.index');
+Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members|repositories)/new', 'traq::controllers::ProjectSettings::$2.new');
+Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
+Router::add('/' . PROJECT_SLUG . '/settings/custom_fields', 'traq::controllers::ProjectSettings::CustomFields.index');
+Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/new', 'traq::controllers::ProjectSettings::CustomFields.new');
+Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::CustomFields.$3/$2');
 
-Router::add('/' . RTR_PROJSLUG . '/settings/members/save', 'traq::controllers::ProjectSettings::Members.save');
+Router::add('/' . PROJECT_SLUG . '/settings/members/save', 'traq::controllers::ProjectSettings::Members.save');
 
 // Project permission routes
-Router::add('/' . RTR_PROJSLUG . '/settings/permissions/(groups|roles)', 'traq::controllers::ProjectSettings::Permissions.index/$2');
+Router::add('/' . PROJECT_SLUG . '/settings/permissions/(groups|roles)', 'traq::controllers::ProjectSettings::Permissions.index/$2');
 
 // Subscription routes
-Router::add('/' . RTR_PROJSLUG . '/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/project,$1');
-Router::add('/' . RTR_PROJSLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/milestone,$2');
-Router::add('/' . RTR_PROJSLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/ticket,$2');
+Router::add('/' . PROJECT_SLUG . '/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/project,$1');
+Router::add('/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/milestone,$2');
+Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/ticket,$2');
 
 // ------------------------------------------------
 // AdminCP routes
