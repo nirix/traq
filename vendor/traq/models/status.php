@@ -72,4 +72,14 @@ class Status extends Model
         $this->errors = $errors;
         return !count($errors) > 0;
     }
+
+    public function __toArray($fields = null)
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'status' => (int) $this->status,
+            'changelog' => (bool) $this->changelog,
+        ];
+    }
 }

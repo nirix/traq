@@ -21,6 +21,8 @@
 namespace traq\controllers;
 
 use avalon\output\View;
+use avalon\http\Router;
+use avalon\output\Body;
 
 use avalon\core\Load;
 use traq\models\Status;
@@ -36,6 +38,17 @@ use traq\models\Priority;
  */
 class API extends AppController
 {
+    public function __construct()
+    {
+        Router::$extension = 'json';
+        parent::__construct();
+
+        $this->render['layout'] = false;
+        $this->render['view'] = false;
+
+        header('Content-Type: application/json; charset=UTF-8');
+    }
+
     /**
      * Ticket statuses.
      *
@@ -43,7 +56,7 @@ class API extends AppController
      */
     public function action_statuses()
     {
-        View::set('statuses', Status::fetch_all());
+        Body::append(to_json(Status::fetch_all()));
     }
 
     /**
@@ -53,6 +66,14 @@ class API extends AppController
      */
     public function action_priorities()
     {
-        View::set('priorities', Priority::fetch_all());
+        Body::append(to_json(Priority::fetch_all()));
+    }
+
+    /**
+     * Project components.
+     */
+    public function action_components()
+    {
+        Body::append(to_json($this->project->components->exec()->fetch_all()));
     }
 }

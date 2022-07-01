@@ -22,6 +22,7 @@ export default {
         milestones: [],
         components: [],
         statuses: [],
+        priorities: [],
       },
     }
   },
@@ -30,11 +31,54 @@ export default {
     this.convertQueryString()
 
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap.json"
+    const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
+    const statusesUrl = window.traq.base + "api/statuses"
+    const prioritiesUrl = window.traq.base + "api/priorities"
+
     axios.get(roadmapUrl).then((resp) => {
       this.filterData.milestones =
         resp.data.map((data) => ({
           label: data.name,
           value: data.slug,
+        })) ?? []
+    })
+
+    axios.get(statusesUrl).then((resp) => {
+      const open =
+        resp.data
+          .filter((status) => status.status === 1)
+          .map((data) => ({
+            label: data.name,
+            value: data.name,
+          })) ?? []
+
+      const closed =
+        resp.data
+          .filter((status) => status.status === 0)
+          .map((data) => ({
+            label: data.name,
+            value: data.name,
+          })) ?? []
+
+      this.filterData.statuses = {
+        Open: open,
+        Closed: closed,
+      }
+    })
+
+    axios.get(prioritiesUrl).then((resp) => {
+      this.filterData.priorities =
+        resp.data.map((data) => ({
+          label: data.name,
+          value: data.name,
+        })) ?? []
+    })
+
+    axios.get(componentsUrl).then((resp) => {
+      this.filterData.components =
+        resp.data.map((data) => ({
+          label: data.name,
+          value: data.name,
         })) ?? []
     })
   },
@@ -66,6 +110,7 @@ export default {
           field: "component",
           label: "Component",
           type: "is",
+          dataSet: "components",
         },
         {
           field: "milestone",
@@ -83,6 +128,13 @@ export default {
           field: "status",
           label: "Status",
           type: "is",
+          dataSet: "statuses",
+        },
+        {
+          field: "priority",
+          label: "Priorities",
+          type: "is",
+          dataSet: "priorities",
         },
       ]
 
@@ -180,7 +232,14 @@ export default {
             </div>
             <div class="value">
               <select multiple :name="`filters[${filter.field}][values][]`" v-model="filter.values">
-                <option v-for="option in filterData[filter.dataSet]" :key="option.value" :value="option.value">{{ option.label }}</option>
+                <template v-if="Array.isArray(filterData[filter.dataSet])">
+                  <option v-for="option in filterData[filter.dataSet]" :key="option.value" :value="option.value">{{ option.label }}</option>
+                </template>
+                <template v-else>
+                  <optgroup v-for="key in Object.keys(filterData[filter.dataSet])" :label="key" :key="key">
+                    <option v-for="option in filterData[filter.dataSet][key]" :key="option.value" :value="option.value">{{ option.label }}</option>
+                  </optgroup>
+                </template>
               </select>
             </div>
             <div class="remove">
