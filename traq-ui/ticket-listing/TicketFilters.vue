@@ -388,7 +388,7 @@ export default {
   & .label {
     text-align: right;
     font-weight: bold;
-    @apply w-28;
+    @apply w-32;
     @apply mr-3;
     @apply pt-2;
   }
