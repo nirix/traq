@@ -50,13 +50,12 @@ export default {
         this.page = resp.data.page
         this.total_pages = resp.data.total_pages
       })
-
-      this.updateUrl()
     },
     sortTickets(column): void {
       this.sort_order = column !== this.sort_by || this.sort_order === "desc" ? "asc" : "desc"
       this.sort_by = column
       this.getTickets()
+      this.updateUrl()
     },
     ticketUrl(ticketId): string {
       return `${window.traq.base}${window.traq.project_slug}/tickets/${ticketId}`
@@ -67,6 +66,7 @@ export default {
     applyFilters(filters): void {
       this.filters = filters
       this.getTickets()
+      this.updateUrl()
     },
     updateColumns(columns: Array<string>): void {
       this.columns = columns

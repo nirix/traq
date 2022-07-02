@@ -28,8 +28,6 @@ export default {
   },
 
   mounted() {
-    this.convertQueryString()
-
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap.json"
     const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
     const statusesUrl = window.traq.base + "api/statuses"
@@ -64,6 +62,9 @@ export default {
         Open: open,
         Closed: closed,
       }
+
+      // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
+      this.convertQueryString()
     })
 
     axios.get(prioritiesUrl).then((resp) => {
@@ -190,7 +191,7 @@ export default {
       }
     },
     convertQueryString() {
-      const filters = []
+      const activeFilters = []
       const params = new URLSearchParams(window.location.search.substring(1))
 
       // Loop over filter options and check params for a value
@@ -199,9 +200,15 @@ export default {
 
         if (paramValue) {
           const condition = !paramValue.startsWith("!")
-          const values = !condition ? paramValue.substring(1)?.split(",") : paramValue.split(",")
+          let values = !condition ? paramValue.substring(1)?.split(",") : paramValue.split(",")
 
-          filters.push({
+          // Convert the 'allOpen' and 'allClosed' for the status filter to actual open or closed statuses.
+          if (filter.field === "status" && (values[0] === "allopen" || values[0] === "allclosed")) {
+            const statusesKey = values[0] === "allopen" ? "Open" : "Closed"
+            values = this.filterData.statuses[statusesKey].map((status) => status.label)
+          }
+
+          activeFilters.push({
             ...filter,
             condition,
             values: values ?? [],
@@ -209,7 +216,7 @@ export default {
         }
       })
 
-      this.applyFilters(filters)
+      this.applyFilters(activeFilters)
     },
   },
 }
@@ -309,7 +316,7 @@ export default {
 .ticket-filters-container {
   padding: 0;
   overflow: scroll;
-  transition: max-height ease-in-out 0.4s;
+  transition: max-height ease-out 0.4s;
   max-height: 0px;
   background-color: #fff;
   @apply border-gray-400;
