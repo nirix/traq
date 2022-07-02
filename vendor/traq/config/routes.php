@@ -36,6 +36,7 @@ Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 Router::add('/api/statuses', 'traq::controllers::API.statuses');
 Router::add('/api/priorities', 'traq::controllers::API.priorities');
 Router::add('/api/'.PROJECT_SLUG.'/components', 'traq::controllers::API.components');
+Router::add('/api/'.PROJECT_SLUG.'/custom-fields', 'traq::controllers::API.customFields');
 
 // Misc
 Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');

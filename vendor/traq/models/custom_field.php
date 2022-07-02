@@ -379,4 +379,27 @@ class CustomField extends Model
 
         return false;
     }
+
+    public function __toArray($fields = null)
+    {
+        $ticketTypeIds = array_map(
+            fn($id) => (int) $id,
+            $this->ticket_type_ids
+        );
+
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'type' => $this->type,
+            'is_required' => (bool) $this->is_required,
+            'min_length' => (int) $this->min_length,
+            'max_length' => (int) $this->max_length,
+            'multiple' => (bool) $this->multiple,
+            'regex' => $this->regex,
+            'values' => $this->values,
+            'default_value' => $this->default_value,
+            'ticket_type_ids' => $ticketTypeIds,
+        ];
+    }
 }

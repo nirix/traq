@@ -76,4 +76,12 @@ class API extends AppController
     {
         Body::append(to_json($this->project->components->exec()->fetch_all()));
     }
+
+    /**
+     * Project components.
+     */
+    public function action_customFields()
+    {
+        Body::append(to_json($this->project->custom_fields->exec()->fetch_all()));
+    }
 }
