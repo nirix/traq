@@ -94,7 +94,7 @@ export default {
 .ticket-columns-container {
   padding: 0;
   overflow: scroll;
-  transition: max-height ease-in-out 0.4s;
+  transition: max-height ease-out 0.4s;
   max-height: 0px;
   background-color: #fff;
   @apply border-gray-400;

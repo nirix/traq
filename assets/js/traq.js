@@ -23,19 +23,19 @@
 var traq = {
   base: "/",
   load_ticket_template: function () {
-    var type_id = $("#type option:selected").val()
+    var type_id = jQuery("#type option:selected").val()
 
-    $("#description").load(traq.base + "_ajax/ticket_template/" + type_id)
+    jQuery("#description").load(traq.base + "_ajax/ticket_template/" + type_id)
 
     traq.show_hide_custom_fields()
   },
   show_hide_custom_fields: function () {
-    var type_id = $("#type option:selected").val()
+    var type_id = jQuery("#type option:selected").val()
 
     // Toggle visibility for custom fields that aren't relveant
     // for the selected type.
-    $(".properties .custom_field").each(function () {
-      var field = $(this)
+    jQuery(".properties .custom_field").each(function () {
+      var field = jQuery(this)
 
       // Hide the field
       field.hide()
@@ -58,19 +58,19 @@ var language = {}
 // how about a nice simple popover box.
 // Credit to arturo182
 var popover_confirm = function (parent, message, callback) {
-  var outerDiv = $("<div/>").addClass("popover_confirm")
-  var innerDiv = $("<div/>")
+  var outerDiv = jQuery("<div/>").addClass("popover_confirm")
+  var innerDiv = jQuery("<div/>")
 
   innerDiv.append(
-    $("<button/>", { text: language.yes }).click(function () {
-      $("#popover").fadeOut("fast")
+    jQuery("<button/>", { text: language.yes }).click(function () {
+      jQuery("#popover").fadeOut("fast")
       callback()
       return false
     })
   )
   innerDiv.append(
-    $("<button/>", { text: language.no }).click(function () {
-      $("#popover").fadeOut("fast")
+    jQuery("<button/>", { text: language.no }).click(function () {
+      jQuery("#popover").fadeOut("fast")
       return false
     })
   )
@@ -78,53 +78,53 @@ var popover_confirm = function (parent, message, callback) {
   outerDiv.append(message)
   outerDiv.append(innerDiv)
 
-  $("#popover").stop(true, true).hide().empty().append(outerDiv)
-  $("#popover").popover(parent)
+  jQuery("#popover").stop(true, true).hide().empty().append(outerDiv)
+  jQuery("#popover").popover(parent)
 }
 
-$(document).ready(function () {
-  $("#header h1").on("mouseenter", function () {
-    $("#project_switcher_btn").stop(true, true).fadeIn("fast")
-    $(this)
+jQuery(document).ready(function () {
+  jQuery("#header h1").on("mouseenter", function () {
+    jQuery("#project_switcher_btn").stop(true, true).fadeIn("fast")
+    jQuery(this)
       .off("mouseleave")
       .on("mouseleave", function () {
-        $("#project_switcher_btn").stop(true, true).fadeOut("fast")
+        jQuery("#project_switcher_btn").stop(true, true).fadeOut("fast")
       })
   })
 
-  $("#project_switcher_btn").on("mouseenter", function () {
-    $(this).stop(true, true).show()
-    $(this)
+  jQuery("#project_switcher_btn").on("mouseenter", function () {
+    jQuery(this).stop(true, true).show()
+    jQuery(this)
       .off("mouseleave")
       .on("mouseleave", function () {
-        $(this).stop(true, true).fadeOut("fast")
+        jQuery(this).stop(true, true).fadeOut("fast")
       })
   })
 
-  $("#project_switcher_btn").on("click", function () {
-    $(this).off("mouseleave")
-    $(".project_switcher").popover($(this))
+  jQuery("#project_switcher_btn").on("click", function () {
+    jQuery(this).off("mouseleave")
+    jQuery(".project_switcher").popover(jQuery(this))
     return false
   })
 
-  $(document).on("click", function () {
-    $("#project_switcher_btn").stop(true, true).fadeOut("fast")
+  jQuery(document).on("click", function () {
+    jQuery("#project_switcher_btn").stop(true, true).fadeOut("fast")
   })
 
-  $("[data-preview]").on("click", function () {
-    var data = $($(this).attr("data-preview")).val()
-    $("#overlay").load(traq.base + "_misc/preview_text", { data: data }, function () {
-      $("#overlay").overlay()
+  jQuery("[data-preview]").on("click", function () {
+    var data = jQuery(jQuery(this).attr("data-preview")).val()
+    jQuery("#overlay").load(traq.base + "_misc/preview_text", { data: data }, function () {
+      jQuery("#overlay").overlay()
     })
   })
 
   // Add the editor interface to all text areas, like a boss.
-  $("textarea.editor").likeaboss()
+  jQuery("textarea.editor").likeaboss()
 
   // Add a confirm-on-click event to call elements
   // with the data-confirm attribute.
-  $(document).on("click", "[data-confirm]", function () {
-    var parent = $(this)
+  jQuery(document).on("click", "[data-confirm]", function () {
+    var parent = jQuery(this)
 
     popover_confirm(parent, parent.attr("data-confirm"), function () {
       window.location.href = parent.attr("href")
@@ -136,8 +136,8 @@ $(document).ready(function () {
   // Add a click event to all elements with
   // the data-ajax attribute and send an ajax
   // call to the href attrib value.
-  $(document).on("click", "[data-ajax=1]", function () {
-    var e = $(this)
+  jQuery(document).on("click", "[data-ajax=1]", function () {
+    var e = jQuery(this)
     $.ajax({
       url: e.attr("href"),
       dataType: "script",
@@ -148,8 +148,8 @@ $(document).ready(function () {
   // Add a click event to ajax-confirm elements
   // that will confirm with the specified message
   // then send an ajax request if accepted.
-  $(document).on("click", "[data-ajax-confirm]", function () {
-    var e = $(this)
+  jQuery(document).on("click", "[data-ajax-confirm]", function () {
+    var e = jQuery(this)
 
     popover_confirm(e, e.attr("data-ajax-confirm"), function () {
       $.ajax({
@@ -165,13 +165,13 @@ $(document).ready(function () {
   // data-overlay attribute and load the elements
   // href value into the overlay container then show
   // the overlay.
-  $(document).on("click", "[data-overlay]", function () {
+  jQuery(document).on("click", "[data-overlay]", function () {
     var path
 
-    if ($(this).attr("data-overlay") == "1") {
-      path = $(this).attr("href").split("?")
+    if (jQuery(this).attr("data-overlay") == "1") {
+      path = jQuery(this).attr("href").split("?")
     } else {
-      path = $(this).attr("data-overlay").split("?")
+      path = jQuery(this).attr("data-overlay").split("?")
     }
 
     var uri = path[0] + "?overlay=true"
@@ -180,28 +180,28 @@ $(document).ready(function () {
       var uri = uri + "&" + path[1]
     }
 
-    $("#overlay").load(uri, function () {
-      $("#overlay textarea").likeaboss()
-      $("#overlay").overlay()
+    jQuery("#overlay").load(uri, function () {
+      jQuery("#overlay textarea").likeaboss()
+      jQuery("#overlay").overlay()
     })
     return false
   })
 
   // Add a hover event to all abbreviation elements inside
   // a form for sexy tooltips.
-  $(document).on(
+  jQuery(document).on(
     {
       mouseenter: function () {
-        $(this).sexyTooltip()
+        jQuery(this).sexyTooltip()
       },
     },
     "form abbr"
   )
 
-  $(document).on(
+  jQuery(document).on(
     {
       mouseenter: function () {
-        $(this).sexyTooltip("top")
+        jQuery(this).sexyTooltip("top")
       },
     },
     "[title]:not(form abbr),[data-tooltip]:not(form abbr)"
@@ -209,26 +209,26 @@ $(document).ready(function () {
 
   // Add a click event to all elements with
   // a data-popover attribute.
-  $(document).on("click", "[data-popover]", function () {
-    var parent = $(this)
-    $("#popover")
+  jQuery(document).on("click", "[data-popover]", function () {
+    var parent = jQuery(this)
+    jQuery("#popover")
       .stop(true, true)
       .hide()
-      .load($(this).attr("data-popover") + "?popover=true", function () {
-        $("#popover").popover(parent)
+      .load(jQuery(this).attr("data-popover") + "?popover=true", function () {
+        jQuery("#popover").popover(parent)
       })
     return false
   })
 
   // Add a click event to all elements with
   // a data-popover-hover attribute.
-  $(document).on("mouseenter", "[data-popover-hover]", function () {
-    var parent = $(this)
-    $("#popover")
+  jQuery(document).on("mouseenter", "[data-popover-hover]", function () {
+    var parent = jQuery(this)
+    jQuery("#popover")
       .stop(true, true)
       .hide()
-      .load($(this).attr("data-popover-hover") + "?popover=true", function () {
-        $("#popover").popover(parent, "hover")
+      .load(jQuery(this).attr("data-popover-hover") + "?popover=true", function () {
+        jQuery("#popover").popover(parent, "hover")
       })
     parent.off("click").click(function () {
       return false
@@ -237,22 +237,22 @@ $(document).ready(function () {
 
   // Loopover all the inputs with an autocomplete attribute
   // and set them up with the source as the attribute value.
-  $("input[data-autocomplete]").each(function () {
-    $(this).autocomplete({ source: $(this).attr("data-autocomplete") })
+  jQuery("input[data-autocomplete]").each(function () {
+    jQuery(this).autocomplete({ source: jQuery(this).attr("data-autocomplete") })
   })
 
   // Move ticket form refresh
-  $("form#move_ticket #project_id").change(function () {
-    $("form#move_ticket input:hidden[name=step]").val(2)
-    $("form#move_ticket").submit()
+  jQuery("form#move_ticket #project_id").change(function () {
+    jQuery("form#move_ticket input:hidden[name=step]").val(2)
+    jQuery("form#move_ticket").submit()
   })
 
   // Datepicker
-  $(document).on(
+  jQuery(document).on(
     {
       mouseenter: function () {
-        $(this).datepicker({
-          dateFormat: $(this).attr("data-date-format"),
+        jQuery(this).datepicker({
+          dateFormat: jQuery(this).attr("data-date-format"),
           changeMonth: true,
           changeYear: true,
         })
@@ -270,10 +270,10 @@ $(document).ready(function () {
  */
 ;(function ($) {
   $.fn.overlay = function () {
-    var element = $(this)
+    var element = jQuery(this)
     element.fadeIn()
     element.css({ left: jQuery(window).width() / 2 - element.width() / 2, top: "18%" })
-    $("#overlay_blackout").css({
+    jQuery("#overlay_blackout").css({
       display: "none",
       opacity: 0.7,
       position: "fixed",
@@ -282,9 +282,9 @@ $(document).ready(function () {
       top: -100 + "px",
       left: -100 + "px",
     })
-    $("#overlay_blackout").fadeIn("", function () {
-      $("#overlay_blackout").bind("click", function () {
-        $("#overlay_blackout").fadeOut()
+    jQuery("#overlay_blackout").fadeIn("", function () {
+      jQuery("#overlay_blackout").bind("click", function () {
+        jQuery("#overlay_blackout").fadeOut()
         element.fadeOut()
       })
     })
@@ -297,15 +297,15 @@ function close_overlay(func) {
     func = function () {}
   }
 
-  $("#overlay_blackout").fadeOut()
-  $("#overlay").fadeOut(function () {
+  jQuery("#overlay_blackout").fadeOut()
+  jQuery("#overlay").fadeOut(function () {
     func()
   })
 }
 
 // Search box
 function do_search() {
-  var project_slug = $('#search input[name="project_slug"]').val()
-  var query = $('#search input[name="search"]').val()
+  var project_slug = jQuery('#search input[name="project_slug"]').val()
+  var query = jQuery('#search input[name="search"]').val()
   window.location.href = traq.base + project_slug + "/tickets?search=" + query
 }
