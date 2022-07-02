@@ -14,6 +14,8 @@ interface FilterOption {
 }
 
 export default {
+  props: ["customFields"],
+
   data() {
     return {
       isExpanded: true,
@@ -24,6 +26,58 @@ export default {
         statuses: [],
         priorities: [],
       },
+      availableFilters: [
+        {
+          field: "summary",
+          label: "Summary",
+          type: "contains",
+        },
+        {
+          field: "description",
+          label: "Description",
+          type: "contains",
+        },
+        {
+          field: "owner",
+          label: "Owner",
+          type: "isOr",
+        },
+        {
+          field: "assigned_to",
+          label: "Assigned to",
+          type: "isOr",
+        },
+        {
+          field: "component",
+          label: "Component",
+          type: "is",
+          dataSet: "components",
+        },
+        {
+          field: "milestone",
+          label: "Milestone",
+          type: "is",
+          dataSet: "milestones",
+        },
+        {
+          field: "version",
+          label: "Version",
+          type: "is",
+          dataSet: "milestones",
+        },
+        {
+          field: "status",
+          label: "Status",
+          type: "is",
+          dataSet: "statuses",
+        },
+        {
+          field: "priority",
+          label: "Priorities",
+          type: "is",
+          dataSet: "priorities",
+        },
+      ],
     }
   },
 
@@ -84,60 +138,33 @@ export default {
     })
   },
 
+  watch: {
+    customFields(): void {
+      this.customFields.map((field) => {
+        const key = field.slug.replaceAll("-", "_")
+
+        if (Array.isArray(field.values)) {
+          this.filterData[key] = field.values.map((value) => ({ label: value, value }))
+        }
+
+        // Multi-select or contains will do just fine
+        const fieldType: "is" | "contains" = field.type === "select" ? "is" : "contains"
+
+        const filter: FilterOption = {
+          label: field.name,
+          field: field.slug,
+          type: fieldType,
+          dataSet: fieldType === "is" ? key : undefined,
+        }
+
+        this.availableFilters.push(filter)
+      })
+    },
+  },
+
   computed: {
     filterOptions(): FilterOption[] {
-      const options: FilterOption[] = [
-        {
-          field: "summary",
-          label: "Summary",
-          type: "contains",
-        },
-        {
-          field: "description",
-          label: "Description",
-          type: "contains",
-        },
-        {
-          field: "owner",
-          label: "Owner",
-          type: "isOr",
-        },
-        {
-          field: "assigned_to",
-          label: "Assigned to",
-          type: "isOr",
-        },
-        {
-          field: "component",
-          label: "Component",
-          type: "is",
-          dataSet: "components",
-        },
-        {
-          field: "milestone",
-          label: "Milestone",
-          type: "is",
-          dataSet: "milestones",
-        },
-        {
-          field: "version",
-          label: "Version",
-          type: "is",
-          dataSet: "milestones",
-        },
-        {
-          field: "status",
-          label: "Status",
-          type: "is",
-          dataSet: "statuses",
-        },
-        {
-          field: "priority",
-          label: "Priorities",
-          type: "is",
-          dataSet: "priorities",
-        },
-      ]
+      const options: FilterOption[] = this.availableFilters
 
       const filters = options.filter((filter: FilterOption) => {
         const added = this.filters.find((option: FilterOption) => option.field === filter.field)
@@ -153,17 +180,17 @@ export default {
   },
 
   methods: {
-    toggleExpand() {
+    toggleExpand(): void {
       this.isExpanded = !this.isExpanded
     },
-    applyFilters(filters = null) {
+    applyFilters(filters = null): void {
       if (Array.isArray(filters)) {
         this.filters = filters
       }
 
       this.$emit("applyFilters", this.filters)
     },
-    addFilter(event) {
+    addFilter(event): void {
       const field: string = event.target.value
       const filter: FilterOption = this.filterOptions.find((option: FilterOption) => option.field === field)
 
@@ -177,20 +204,20 @@ export default {
 
       event.target.value = ""
     },
-    addFilterValue(filter) {
+    addFilterValue(filter): void {
       filter.values.push("")
     },
-    setFilterValue(filter, index, event) {
+    setFilterValue(filter, index, event): void {
       filter.values[index] = event.target.value
     },
-    removeFilter(filter, valueIndex = null) {
+    removeFilter(filter, valueIndex = null): void {
       if (valueIndex === null || (valueIndex === 0 && filter.values.length === 1)) {
         this.filters = this.filters.filter((option: FilterOption) => option.field !== filter.field)
       } else {
         filter.values.splice(valueIndex, 1)
       }
     },
-    convertQueryString() {
+    convertQueryString(): void {
       const activeFilters = []
       const params = new URLSearchParams(window.location.search.substring(1))
 

@@ -97,7 +97,7 @@ export default {
   <div class="content">
     <h2 id="page_title">Tickets</h2>
   </div>
-  <TicketFilters @apply-filters="applyFilters" />
+  <TicketFilters @apply-filters="applyFilters" :custom-fields="customFields" />
   <TicketColumns @apply-columns="updateColumns" :custom-fields="customFields" />
   <table id="tickets" class="ticket-listing list">
     <thead>

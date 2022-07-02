@@ -397,7 +397,7 @@ class CustomField extends Model
             'max_length' => (int) $this->max_length,
             'multiple' => (bool) $this->multiple,
             'regex' => $this->regex,
-            'values' => $this->values,
+            'values' => $this->type === 'select' ? explode("\n", $this->values) : $this->values,
             'default_value' => $this->default_value,
             'ticket_type_ids' => $ticketTypeIds,
         ];

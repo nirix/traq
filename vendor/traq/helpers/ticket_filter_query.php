@@ -202,8 +202,12 @@ class TicketFilterQuery
 
             // Sort values low to high
             asort($values);
+            $values = array_map(
+                fn($val) => '"'.$val.'"',
+                $values
+            );
 
-            if (count($values) == 1 && !empty($values[0])) {
+            if (count($values) >= 1 && !empty($values[0])) {
                 $this->custom_field_sql[] = "
                     `fields`.`custom_field_id` = {$custom_field->id}
                     AND `fields`.`value` IN ('" . implode("','", $values) . "')
@@ -233,7 +237,9 @@ class TicketFilterQuery
         $sql = array();
 
         if (count($this->custom_field_sql)) {
-            $sql[] = "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields` ON (" . implode(' AND ', $this->custom_field_sql) . ")";
+            foreach ($this->custom_field_sql as $index => $customFieldSql) {
+                $sql[] = "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields${index}` ON (" . str_replace('`fields`', "`fields${index}`", $customFieldSql) . ")";
+            }
         }
 
         $sql[] = " WHERE `project_id` = {$this->project->id}";
