@@ -140,15 +140,17 @@ export default {
 
   watch: {
     customFields(): void {
+      // Map custom fields to available filters.
       this.customFields.map((field) => {
         const key = field.slug.replaceAll("-", "_")
 
+        // If the values are an array, create a data set.
         if (Array.isArray(field.values)) {
           this.filterData[key] = field.values.map((value) => ({ label: value, value }))
         }
 
-        // Multi-select or contains will do just fine
-        const fieldType: "is" | "contains" = field.type === "select" ? "is" : "contains"
+        // is/isOr will do just fine
+        const fieldType: "is" | "isOr" = field.type === "select" ? "is" : "isOr"
 
         const filter: FilterOption = {
           label: field.name,

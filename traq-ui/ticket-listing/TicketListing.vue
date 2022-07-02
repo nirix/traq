@@ -7,6 +7,7 @@ import TicketColumns from "./TicketColumns.vue"
 
 export default {
   components: { TicketFilters, TicketColumns },
+
   data() {
     return {
       tickets: [],
@@ -33,10 +34,12 @@ export default {
     getTicketUrl(): string {
       let ticketsUrl = window.traq.base + window.traq.project_slug + "/tickets.json"
 
+      // Add sorting options to URL
       if (this.sort_by) {
         ticketsUrl = `${ticketsUrl}?order_by=${this.sort_by}.${this.sort_order}`
       }
 
+      // Add filters to URL
       if (this.filters.length) {
         const filterBits = this.filters.map((filter) => {
           return `${filter.field}=` + (filter.condition ? "" : "!") + filter.values.join(",")
@@ -47,6 +50,7 @@ export default {
 
       return ticketsUrl
     },
+    // Icons
     faChevronUp() {
       return faChevronUp
     },

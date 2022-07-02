@@ -77,6 +77,7 @@ export default {
 
   watch: {
     customFields() {
+      // Map custom fields to available columns.
       this.customFields.map((field) => {
         this.columns.push({
           name: field.name,

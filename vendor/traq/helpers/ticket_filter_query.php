@@ -60,6 +60,8 @@ class TicketFilterQuery
             $values = explode(',', $values);
         }
 
+        $values = array_map(fn($val) => addslashes($val), $values);
+
         $condition = '';
         if (substr($values[0], 0, 1) == '!') {
             $condition = 'NOT';
@@ -210,7 +212,7 @@ class TicketFilterQuery
             if (count($values) >= 1 && !empty($values[0])) {
                 $this->custom_field_sql[] = "
                     `fields`.`custom_field_id` = {$custom_field->id}
-                    AND `fields`.`value` IN ('" . implode("','", $values) . "')
+                    AND `fields`.`value` ${condition} IN ('" . implode("','", $values) . "')
                     AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
                 ";
             }
