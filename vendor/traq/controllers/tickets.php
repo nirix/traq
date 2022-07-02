@@ -38,6 +38,7 @@ use traq\models\Component;
 use traq\models\User;
 use traq\models\Subscription;
 use traq\models\CustomField;
+use traq\models\CustomFieldValue;
 use traq\models\Timeline;
 use traq\helpers\TicketFilterQuery;
 use traq\helpers\Pagination;
@@ -159,9 +160,28 @@ class Tickets extends AppController
         View::set(compact('pagination'));
         unset($all_rows);
 
+        $customFields = [];
+        $ticketCustomFields = [];
+        $projectCustomFields = $this->project->custom_fields->exec()->fetch_all();
+
+        foreach ($projectCustomFields as $customField) {
+            $customFields[$customField->id] = $customField;
+        }
+
+        $customFieldValues = CustomFieldValue::fetch_all();
+        foreach ($customFieldValues as $customFieldValue) {
+            // $customFields[$customFieldValue->custom_field_id]['values'][$customFieldValue->ticket_id] = $customFieldValue->value;
+            $customField = $customFields[$customFieldValue->custom_field_id];
+            $slug = str_replace('-', '_', $customField->slug);
+            $ticketCustomFields[$customFieldValue->ticket_id][$slug] = $customFieldValue->value;
+        }
+
         // Add to tickets array
         foreach($rows->exec()->fetch_all() as $row) {
-            $tickets[] = new Ticket($row, false);
+            $ticket = (new Ticket($row, false))->__toArray();
+            $ticket['custom_fields'] = $ticketCustomFields[$ticket['id']] ?? [];
+
+            $tickets[] = $ticket;
         }
 
         // Send the tickets array to the view..
