@@ -10,6 +10,7 @@ export default {
 
   data() {
     return {
+      isLoading: true,
       tickets: [],
       page: 1,
       total_pages: 1,
@@ -27,6 +28,7 @@ export default {
     const customFieldsUrl = `${window.traq.base}api/${window.traq.project_slug}/custom-fields`
     axios.get(customFieldsUrl).then((resp) => {
       this.customFields = resp.data
+      this.isLoading = false
     })
   },
 
@@ -101,8 +103,8 @@ export default {
   <div class="content">
     <h2 id="page_title">Tickets</h2>
   </div>
-  <TicketFilters @apply-filters="applyFilters" :custom-fields="customFields" />
-  <TicketColumns @apply-columns="updateColumns" :custom-fields="customFields" />
+  <TicketFilters @apply-filters="applyFilters" :custom-fields="customFields" v-if="!isLoading" />
+  <TicketColumns @apply-columns="updateColumns" :custom-fields="customFields" v-if="!isLoading" />
   <table id="tickets" class="ticket-listing list">
     <thead>
       <tr>

@@ -3,6 +3,7 @@
   "editor.formatOnSave": true,
   "cSpell.ignoreWords": [
     "TRAQ",
-    "axios"
+    "axios",
+    "roadmap"
   ]
 }

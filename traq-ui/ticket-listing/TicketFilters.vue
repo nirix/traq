@@ -87,80 +87,56 @@ export default {
     const statusesUrl = window.traq.base + "api/statuses"
     const prioritiesUrl = window.traq.base + "api/priorities"
 
-    axios.get(roadmapUrl).then((resp) => {
-      this.filterData.milestones =
-        resp.data.map((data) => ({
-          label: data.name,
-          value: data.slug,
-        })) ?? []
-    })
+    Promise.all([axios.get(roadmapUrl), axios.get(statusesUrl), axios.get(prioritiesUrl), axios.get(componentsUrl)]).then(
+      ([roadmap, statuses, priorities, components]) => {
+        this.filterData.milestones =
+          roadmap.data.map((data) => ({
+            label: data.name,
+            value: data.slug,
+          })) ?? []
 
-    axios.get(statusesUrl).then((resp) => {
-      const open =
-        resp.data
-          .filter((status) => status.status === 1)
-          .map((data) => ({
+        const open =
+          statuses.data
+            .filter((status) => status.status === 1)
+            .map((data) => ({
+              label: data.name,
+              value: data.name,
+            })) ?? []
+
+        const closed =
+          statuses.data
+            .filter((status) => status.status === 0)
+            .map((data) => ({
+              label: data.name,
+              value: data.name,
+            })) ?? []
+
+        this.filterData.statuses = {
+          Open: open,
+          Closed: closed,
+        }
+
+        this.filterData.priorities =
+          priorities.data.map((data) => ({
             label: data.name,
             value: data.name,
           })) ?? []
 
-      const closed =
-        resp.data
-          .filter((status) => status.status === 0)
-          .map((data) => ({
+        this.filterData.components =
+          components.data.map((data) => ({
             label: data.name,
             value: data.name,
           })) ?? []
 
-      this.filterData.statuses = {
-        Open: open,
-        Closed: closed,
+        // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
+        this.buildCustomFields().then(() => this.convertQueryString())
       }
-
-      // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
-      this.convertQueryString()
-    })
-
-    axios.get(prioritiesUrl).then((resp) => {
-      this.filterData.priorities =
-        resp.data.map((data) => ({
-          label: data.name,
-          value: data.name,
-        })) ?? []
-    })
-
-    axios.get(componentsUrl).then((resp) => {
-      this.filterData.components =
-        resp.data.map((data) => ({
-          label: data.name,
-          value: data.name,
-        })) ?? []
-    })
+    )
   },
 
   watch: {
     customFields(): void {
-      // Map custom fields to available filters.
-      this.customFields.map((field) => {
-        const key = field.slug.replaceAll("-", "_")
-
-        // If the values are an array, create a data set.
-        if (Array.isArray(field.values)) {
-          this.filterData[key] = field.values.map((value) => ({ label: value, value }))
-        }
-
-        // is/isOr will do just fine
-        const fieldType: "is" | "isOr" = field.type === "select" ? "is" : "isOr"
-
-        const filter: FilterOption = {
-          label: field.name,
-          field: field.slug,
-          type: fieldType,
-          dataSet: fieldType === "is" ? key : undefined,
-        }
-
-        this.availableFilters.push(filter)
-      })
+      this.buildCustomFields()
     },
   },
 
@@ -218,6 +194,37 @@ export default {
       } else {
         filter.values.splice(valueIndex, 1)
       }
+    },
+    buildCustomFields(): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+        try {
+          // Map custom fields to available filters.
+          this.customFields.map((field) => {
+            const key = field.slug.replaceAll("-", "_")
+
+            // If the values are an array, create a data set.
+            if (Array.isArray(field.values)) {
+              this.filterData[key] = field.values.map((value) => ({ label: value, value }))
+            }
+
+            // is/isOr will do just fine
+            const fieldType: "is" | "isOr" = field.type === "select" ? "is" : "isOr"
+
+            const filter: FilterOption = {
+              label: field.name,
+              field: field.slug,
+              type: fieldType,
+              dataSet: fieldType === "is" ? key : undefined,
+            }
+
+            this.availableFilters.push(filter)
+          })
+
+          resolve(true)
+        } catch (error) {
+          reject(false)
+        }
+      })
     },
     convertQueryString(): void {
       const activeFilters = []

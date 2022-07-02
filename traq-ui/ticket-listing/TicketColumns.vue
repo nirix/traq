@@ -72,19 +72,13 @@ export default {
   },
 
   mounted() {
+    this.buildCustomFields()
     this.$emit("apply-columns", this.active)
   },
 
   watch: {
     customFields() {
-      // Map custom fields to available columns.
-      this.customFields.map((field) => {
-        this.columns.push({
-          name: field.name,
-          field: field.slug,
-          custom: true,
-        })
-      })
+      this.buildCustomFields()
     },
   },
 
@@ -100,6 +94,16 @@ export default {
       }
 
       this.$emit("apply-columns", this.active)
+    },
+    buildCustomFields(): void {
+      // Map custom fields to available columns.
+      this.customFields.map((field) => {
+        this.columns.push({
+          name: field.name,
+          field: field.slug,
+          custom: true,
+        })
+      })
     },
   },
 }
