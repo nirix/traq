@@ -33,6 +33,8 @@ Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
 Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 
 // API
+Router::add('/api/auth', 'traq::controllers::API.auth');
+Router::add('/api/auth/'.PROJECT_SLUG, 'traq::controllers::API.auth');
 Router::add('/api/statuses', 'traq::controllers::API.statuses');
 Router::add('/api/priorities', 'traq::controllers::API.priorities');
 Router::add('/api/'.PROJECT_SLUG.'/components', 'traq::controllers::API.components');

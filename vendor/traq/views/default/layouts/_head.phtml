@@ -18,7 +18,7 @@
 		<script src="<?=Request::base('_js')?>" type="text/javascript"></script>
 		<?=ui_package('main')?>
 
-		<?php if ($project): ?>
+		<?php if (isset($project)): ?>
 			<script>
 				window.traq.project_slug = <?php echo json_encode($project->slug); ?>
 			</script>

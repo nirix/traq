@@ -145,28 +145,42 @@ class User extends Model
             return true;
         }
 
-        // Check if the projects permissions has been fetched
-        // if not, fetch them.
-        if (!isset($this->permissions['project'][$project_id])) {
-            $this->permissions['project'][$project_id] = Permission::get_permissions($project_id, $this->_data['group_id']);
-        }
-
-        // Check if the user has a role for the project and
-        // fetch the permissions if not already done so...
-        $role_id = $this->get_project_role($project_id);
-        if ($role_id and !isset($this->permissions['role'][$project_id])) {
-            $this->permissions['role'][$project_id] = Permission::get_permissions($project_id, $role_id, 'role');
-        } elseif (!isset($this->permissions['role'][$project_id])) {
-            $this->permissions['role'][$project_id] = array();
-        }
-
-        $perms = array_merge($this->permissions['project'][$project_id], $this->permissions['role'][$project_id]);
+        $perms = $this->getPermissions($project_id, $action);
 
         if (!isset($perms[$action])) {
             return false;
         }
 
         return $perms[$action]->value;
+    }
+
+    /**
+     * Get the users permissions
+     * 
+     * @param int $projectId
+     * 
+     * @return array
+     */
+    public function getPermissions(int $projectId): array
+    {
+         // Check if the projects permissions has been fetched
+        // if not, fetch them.
+        if (!isset($this->permissions['project'][$projectId])) {
+            $this->permissions['project'][$projectId] = Permission::get_permissions($projectId, $this->_data['group_id']);
+        }
+
+        // Check if the user has a role for the project and
+        // fetch the permissions if not already done so...
+        $roleId = $this->get_project_role($projectId);
+        if ($roleId and !isset($this->permissions['role'][$projectId])) {
+            $this->permissions['role'][$projectId] = Permission::get_permissions($projectId, $roleId, 'role');
+        } elseif (!isset($this->permissions['role'][$projectId])) {
+            $this->permissions['role'][$projectId] = array();
+        }
+
+        $perms = array_merge($this->permissions['project'][$projectId], $this->permissions['role'][$projectId]);
+
+        return $perms;
     }
 
     /**

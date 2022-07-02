@@ -27,6 +27,7 @@ use avalon\output\Body;
 use avalon\core\Load;
 use traq\models\Status;
 use traq\models\Priority;
+use traq\models\Permission;
 
 /**
  * API controller.
@@ -83,5 +84,30 @@ class API extends AppController
     public function action_customFields()
     {
         Body::append(to_json($this->project->custom_fields->exec()->fetch_all()));
+    }
+
+    public function action_auth()
+    {
+        $data = $this->user->__toArray([
+            'id',
+            'username',
+            'name',
+            'group_id',
+            'locale',
+        ]);
+
+        $data['id'] = (int) $data['id'];
+        $data['group_id'] = (int) $data['group_id'];
+
+        $data['permissions'] = [];
+        if ($this->project) {
+            foreach ($this->user->getPermissions($this->project->id) as $permission) {
+                if ((bool) $permission->value) {
+                    $data['permissions'][$permission->action] = (bool) $permission->value;
+                }
+            }
+        }
+
+        Body::append(to_json($data));
     }
 }
