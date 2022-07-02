@@ -16,8 +16,19 @@ export default {
       sort_order: "desc",
       filters: [],
       columns: ["ticket_id", "summary", "status", "type", "owner", "component", "milestone"],
+      customFields: [],
     }
   },
+
+  mounted() {
+    this.getTickets()
+
+    const customFieldsUrl = `${window.traq.base}api/${window.traq.project_slug}/custom-fields`
+    axios.get(customFieldsUrl).then((resp) => {
+      this.customFields = resp.data
+    })
+  },
+
   computed: {
     getTicketUrl(): string {
       let ticketsUrl = window.traq.base + window.traq.project_slug + "/tickets.json"
@@ -79,9 +90,6 @@ export default {
       history.pushState({}, null, this.getTicketUrl.replace(".json", ""))
     },
   },
-  mounted() {
-    this.getTickets()
-  },
 }
 </script>
 
@@ -90,7 +98,7 @@ export default {
     <h2 id="page_title">Tickets</h2>
   </div>
   <TicketFilters @apply-filters="applyFilters" />
-  <TicketColumns @apply-columns="updateColumns" />
+  <TicketColumns @apply-columns="updateColumns" :custom-fields="customFields" />
   <table id="tickets" class="ticket-listing list">
     <thead>
       <tr>
@@ -185,6 +193,15 @@ export default {
             <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
           </template>
         </th>
+        <template v-for="field in customFields" :key="field.slug">
+          <th v-if="columns.includes(field.slug)">
+            <a href="#" @click="sortTickets(field.slug)">{{ field.name }}</a>
+            <template v-if="sort_by === field.slug">
+              <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
+              <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+            </template>
+          </th>
+        </template>
       </tr>
       <tr v-for="ticket in tickets" :key="ticket.id" :class="'priority-' + ticket.priority.id">
         <td v-if="columns.includes('ticket_id')">{{ ticket.id }}</td>
@@ -209,6 +226,9 @@ export default {
         <td v-if="columns.includes('created_at')">{{ formatDate(ticket.created_at) }}</td>
         <td v-if="columns.includes('updated_at')">{{ formatDate(ticket.updated_at) }}</td>
         <td v-if="columns.includes('votes')">{{ ticket.votes }}</td>
+        <template v-for="field in customFields" :key="field.slug">
+          <td v-if="columns.includes(field.slug)">{{ ticket.custom_fields[field.slug.replaceAll("-", "_")] ?? "-" }}</td>
+        </template>
       </tr>
     </thead>
   </table>

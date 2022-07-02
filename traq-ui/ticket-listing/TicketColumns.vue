@@ -8,6 +8,8 @@ export interface CustomField {
 }
 
 export default {
+  props: ["customFields"],
+
   data() {
     return {
       isExpanded: true,
@@ -70,18 +72,19 @@ export default {
   },
 
   mounted() {
-    const customFieldsUrl = `${window.traq.base}api/${window.traq.project_slug}/custom-fields`
-    axios.get(customFieldsUrl).then((resp) => {
-      resp.data.map((field) => {
+    this.$emit("apply-columns", this.active)
+  },
+
+  watch: {
+    customFields() {
+      this.customFields.map((field) => {
         this.columns.push({
           name: field.name,
           field: field.slug,
           custom: true,
         })
       })
-    })
-
-    this.$emit("apply-columns", this.active)
+    },
   },
 
   methods: {
