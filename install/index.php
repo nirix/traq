@@ -142,6 +142,7 @@ post('/step/3', function(){
         // Fetch the install SQL.
         $install_sql = file_get_contents('./install.sql');
         $install_sql = str_replace('traq_', $_SESSION['db']['prefix'], $install_sql);
+        $install_sql = preg_replace('/^(#.*)$/m', '', $install_sql);
         $queries = explode(';', $install_sql);
 
         // Run the install queries.
