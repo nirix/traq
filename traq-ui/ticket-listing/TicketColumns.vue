@@ -1,4 +1,12 @@
 <script lang="ts">
+import axios from "axios"
+
+export interface CustomField {
+  name: string
+  field: string
+  custom?: boolean
+}
+
 export default {
   data() {
     return {
@@ -11,6 +19,10 @@ export default {
         {
           name: "Summary",
           field: "summary",
+        },
+        {
+          name: "Status",
+          field: "status",
         },
         {
           name: "Owner",
@@ -53,8 +65,23 @@ export default {
           field: "votes",
         },
       ],
-      active: ["ticket_id", "summary", "owner", "type", "component", "milestone"],
+      active: ["ticket_id", "summary", "status", "owner", "type", "component", "milestone"],
     }
+  },
+
+  mounted() {
+    const customFieldsUrl = `${window.traq.base}api/${window.traq.project_slug}/custom-fields`
+    axios.get(customFieldsUrl).then((resp) => {
+      resp.data.map((field) => {
+        this.columns.push({
+          name: field.name,
+          field: field.slug,
+          custom: true,
+        })
+      })
+    })
+
+    this.$emit("apply-columns", this.active)
   },
 
   methods: {
