@@ -52,7 +52,8 @@ export default {
         {
           field: "assigned_to",
           label: "Assigned to",
-          type: "isOr",
+          type: "is",
+          dataSet: "assignees",
         },
         {
           field: "component",
@@ -91,61 +92,73 @@ export default {
   mounted() {
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap/all.json"
     const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
+    const membersUrl = window.traq.base + "api/" + window.traq.project_slug + "/members"
     const statusesUrl = window.traq.base + "api/statuses"
     const prioritiesUrl = window.traq.base + "api/priorities"
     const typesUrl = window.traq.base + "api/types"
 
-    Promise.all([axios.get(roadmapUrl), axios.get(statusesUrl), axios.get(prioritiesUrl), axios.get(componentsUrl), axios.get(typesUrl)]).then(
-      ([roadmap, statuses, priorities, components, ticketTypes]) => {
-        this.filterData.milestones =
-          roadmap.data.map((data) => ({
-            label: data.name,
-            value: data.slug,
-          })) ?? []
+    Promise.all([
+      axios.get(roadmapUrl),
+      axios.get(statusesUrl),
+      axios.get(prioritiesUrl),
+      axios.get(componentsUrl),
+      axios.get(typesUrl),
+      axios.get(membersUrl),
+    ]).then(([roadmap, statuses, priorities, components, ticketTypes, members]) => {
+      this.filterData.milestones =
+        roadmap.data.map((data) => ({
+          label: data.name,
+          value: data.slug,
+        })) ?? []
 
-        const open =
-          statuses.data
-            .filter((status) => status.status === 1)
-            .map((data) => ({
-              label: data.name,
-              value: data.name,
-            })) ?? []
-
-        const closed =
-          statuses.data
-            .filter((status) => status.status === 0)
-            .map((data) => ({
-              label: data.name,
-              value: data.name,
-            })) ?? []
-
-        this.filterData.statuses = {
-          Open: open,
-          Closed: closed,
-        }
-
-        this.filterData.priorities =
-          priorities.data.map((data) => ({
+      const open =
+        statuses.data
+          .filter((status) => status.status === 1)
+          .map((data) => ({
             label: data.name,
             value: data.name,
           })) ?? []
 
-        this.filterData.components =
-          components.data.map((data) => ({
+      const closed =
+        statuses.data
+          .filter((status) => status.status === 0)
+          .map((data) => ({
             label: data.name,
             value: data.name,
           })) ?? []
 
-        this.filterData.types =
-          ticketTypes.data.map((data) => ({
-            label: data.name,
-            value: data.name,
-          })) ?? []
-
-        // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
-        this.buildCustomFields().then(() => this.convertQueryString())
+      this.filterData.statuses = {
+        Open: open,
+        Closed: closed,
       }
-    )
+
+      this.filterData.priorities =
+        priorities.data.map((data) => ({
+          label: data.name,
+          value: data.name,
+        })) ?? []
+
+      this.filterData.components =
+        components.data.map((data) => ({
+          label: data.name,
+          value: data.name,
+        })) ?? []
+
+      this.filterData.types =
+        ticketTypes.data.map((data) => ({
+          label: data.name,
+          value: data.name,
+        })) ?? []
+
+      this.filterData.assignees =
+        members.data.map((data) => ({
+          label: data.name,
+          value: data.username,
+        })) ?? []
+
+      // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
+      this.buildCustomFields().then(() => this.convertQueryString())
+    })
   },
 
   watch: {
