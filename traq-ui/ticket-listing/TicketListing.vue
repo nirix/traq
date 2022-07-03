@@ -5,14 +5,22 @@ import { DateTime } from "luxon"
 import TicketFilters from "./TicketFilters.vue"
 import TicketColumns from "./TicketColumns.vue"
 import MassActions from "./MassActions.vue"
+import { useAuthStore } from "../stores/auth"
 
 export default {
   components: { TicketFilters, TicketColumns, MassActions },
 
+  setup() {
+    const auth = useAuthStore()
+
+    return {
+      auth,
+    }
+  },
+
   data() {
     return {
       isLoading: true,
-      user: null,
       tickets: [],
       page: 1,
       total_pages: 1,
@@ -33,7 +41,7 @@ export default {
 
     Promise.all([axios.get(customFieldsUrl), axios.get(authUrl)]).then(([customFields, auth]) => {
       this.customFields = customFields.data
-      this.user = auth.data
+      this.auth.setAuth(auth.data)
       this.isLoading = false
     })
   },
@@ -101,9 +109,6 @@ export default {
       // Update page URL to the same URL to fetch tickets without the .json extension.
       history.pushState({}, null, this.getTicketUrl.replace(".json", ""))
     },
-    userCan(action): boolean {
-      return this.user?.permissions[action] ?? false
-    },
     toggleTicket(ticketId): void {
       if (this.checkedTickets.includes(ticketId)) {
         this.checkedTickets = this.checkedTickets.filter((checkedId) => checkedId !== ticketId)
@@ -124,7 +129,7 @@ export default {
   <table id="tickets" class="ticket-listing list">
     <thead>
       <tr>
-        <th v-if="userCan('perform_mass_actions')">
+        <th v-if="auth.can('perform_mass_actions')">
           <input type="checkbox" />
         </th>
         <th v-if="columns.includes('ticket_id')">
@@ -229,7 +234,7 @@ export default {
         </template>
       </tr>
       <tr v-for="ticket in tickets" :key="ticket.id" :class="'priority-' + ticket.priority.id">
-        <td v-if="userCan('perform_mass_actions')">
+        <td v-if="auth.can('perform_mass_actions')">
           <input type="checkbox" @click="toggleTicket(ticket.ticket_id)" :checked="checkedTickets.includes(ticket.ticket_id)" />
         </td>
         <td v-if="columns.includes('ticket_id')">{{ ticket.ticket_id }}</td>
@@ -261,7 +266,7 @@ export default {
     </thead>
   </table>
 
-  <MassActions :ticket-ids="checkedTickets" />
+  <MassActions :ticket-ids="checkedTickets" v-if="auth.can('perform_mass_actions')" />
 </template>
 
 <style scoped lang="postcss">
