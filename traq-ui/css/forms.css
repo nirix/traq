@@ -2,7 +2,7 @@ select,
 input[type="text"],
 input[type="password"] {
   @apply border border-gray-400 focus:border-brand-600 rounded;
-  @apply focus:ring-4 focus:ring-brand-100;
+  @apply focus:ring-4 focus:ring-brand-500/30;
   @apply text-sm text-gray-800;
   @apply py-2 px-3;
   @apply transition-all;
@@ -38,7 +38,7 @@ input[type="checkbox"] {
   @apply p-2;
   @apply bg-gray-50 active:bg-gray-200;
   @apply border border-solid border-gray-400 focus:border-brand-600 rounded;
-  @apply ring-0 focus:ring-4 focus:ring-brand-100;
+  @apply focus:ring-4 focus:ring-brand-500/30;
   @apply transition-all;
 
   &:checked {

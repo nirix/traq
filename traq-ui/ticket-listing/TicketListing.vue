@@ -126,7 +126,7 @@ export default {
   </div>
   <TicketFilters @apply-filters="applyFilters" :custom-fields="customFields" v-if="!isLoading" />
   <TicketColumns @apply-columns="updateColumns" :custom-fields="customFields" v-if="!isLoading" />
-  <table id="tickets" class="ticket-listing list">
+  <table class="ticket-listing">
     <thead>
       <tr>
         <th v-if="auth.can('perform_mass_actions')">

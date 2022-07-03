@@ -39,7 +39,7 @@ input[type="reset"] {
   @apply border border-solid rounded;
   @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400;
   @apply border-gray-200 hover:border-gray-300 active:border-gray-400;
-  @apply ring-0 focus:ring-4 ring-gray-400;
+  @apply focus:ring-4 ring-gray-400/30;
   @apply transition-all;
   @apply cursor-pointer;
   @apply appearance-none;
@@ -58,7 +58,7 @@ input[type="reset"] {
     @apply text-white;
     @apply bg-brand-500 hover:bg-brand-600 active:bg-brand-700;
     @apply border-brand-500 hover:border-brand-600 active:border-brand-700;
-    @apply ring-brand-100;
+    @apply ring-brand-500/30;
 
     &:disabled {
       &,
@@ -73,7 +73,7 @@ input[type="reset"] {
     @apply text-white;
     @apply bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700;
     @apply border-emerald-500 hover:border-emerald-600 active:border-emerald-700;
-    @apply ring-emerald-200;
+    @apply ring-emerald-500/30;
 
     &:disabled {
       &,
@@ -88,7 +88,7 @@ input[type="reset"] {
     @apply text-white;
     @apply bg-red-500 hover:bg-red-600 active:bg-red-700;
     @apply border-red-500 hover:border-red-600 active:border-red-700;
-    @apply ring-red-200;
+    @apply ring-red-500/30;
 
     &:disabled {
       &,
