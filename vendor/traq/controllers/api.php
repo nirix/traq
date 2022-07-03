@@ -98,6 +98,26 @@ class API extends AppController
     }
 
     /**
+     * Project members.
+     */
+    public function action_projectMembers()
+    {
+        $members = array_map(
+            function ($userRole) {
+                return [
+                    'id' => $userRole->user->id,
+                    'username' => $userRole->user->username,
+                    'name' => $userRole->user->name,
+                    'role' => $userRole->role->name,
+                ];
+            },
+            $this->project->user_roles->exec()->fetch_all()
+        );
+
+        Body::append(to_json($members));
+    }
+
+    /**
      * Current authenticated user.
      */
     public function action_auth()
