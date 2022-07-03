@@ -25,6 +25,7 @@ export default {
         components: [],
         statuses: [],
         priorities: [],
+        types: [],
       },
       availableFilters: [
         {
@@ -36,6 +37,12 @@ export default {
           field: "description",
           label: "Description",
           type: "contains",
+        },
+        {
+          field: "type",
+          label: "Type",
+          type: "is",
+          dataSet: "types",
         },
         {
           field: "owner",
@@ -82,13 +89,14 @@ export default {
   },
 
   mounted() {
-    const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap.json"
+    const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap/all.json"
     const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
     const statusesUrl = window.traq.base + "api/statuses"
     const prioritiesUrl = window.traq.base + "api/priorities"
+    const typesUrl = window.traq.base + "api/types"
 
-    Promise.all([axios.get(roadmapUrl), axios.get(statusesUrl), axios.get(prioritiesUrl), axios.get(componentsUrl)]).then(
-      ([roadmap, statuses, priorities, components]) => {
+    Promise.all([axios.get(roadmapUrl), axios.get(statusesUrl), axios.get(prioritiesUrl), axios.get(componentsUrl), axios.get(typesUrl)]).then(
+      ([roadmap, statuses, priorities, components, ticketTypes]) => {
         this.filterData.milestones =
           roadmap.data.map((data) => ({
             label: data.name,
@@ -124,6 +132,12 @@ export default {
 
         this.filterData.components =
           components.data.map((data) => ({
+            label: data.name,
+            value: data.name,
+          })) ?? []
+
+        this.filterData.types =
+          ticketTypes.data.map((data) => ({
             label: data.name,
             value: data.name,
           })) ?? []
