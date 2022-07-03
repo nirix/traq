@@ -13,6 +13,7 @@ body {
   @apply bg-white;
   @apply text-black;
   @apply shadow-sm;
+  @apply pb-2;
 }
 
 .content {

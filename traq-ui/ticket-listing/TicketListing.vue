@@ -270,6 +270,8 @@ export default {
 </template>
 
 <style scoped lang="postcss">
+@import "../css/forms.css";
+
 table.ticket-listing {
   & th {
     & > svg {
