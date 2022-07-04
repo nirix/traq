@@ -1,7 +1,7 @@
 <script lang="ts">
 import axios from "axios"
 import { useAuthStore } from "../stores/auth"
-import EasyMDE from "../components/easymde.vue"
+import EasyMDE from "../components/EasyMDE.vue"
 
 export default {
   components: { EasyMDE },
