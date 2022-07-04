@@ -397,29 +397,6 @@ function ticket_filter_options_for($filter, $project_id = null) {
 }
 
 /**
- * Ticket listing sort indicator.
- *
- * @param string $column
- */
-function ticketlist_sort_indicator($column)
-{
-    // Default
-    $order = 'priority_id.ASC';
-
-    // Check if order_by is set, and use it if it is
-    if (isset(Request::$request['order_by'])) {
-        $order = Request::$request['order_by'];
-    }
-
-    // Split column and order
-    $order = explode('.', $order);
-
-    if ($column == $order[0]) {
-        return View::render('tickets/_sort_indicator', array('order' => strtolower($order[1])));
-    }
-}
-
-/**
  * Returns a list of available ticket history sorting options
  * for use with the `Form::select` helper.
  *

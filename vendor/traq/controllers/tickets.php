@@ -38,6 +38,7 @@ use traq\models\Component;
 use traq\models\User;
 use traq\models\Subscription;
 use traq\models\CustomField;
+use traq\models\CustomFieldValue;
 use traq\models\Timeline;
 use traq\helpers\TicketFilterQuery;
 use traq\helpers\Pagination;
@@ -82,7 +83,9 @@ class Tickets extends AppController
     public function action_index()
     {
         // Atom feed
-        $this->feeds[] = array(Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name));
+        $this->feeds[] = [
+            Request::requestUri() . ".atom", l('x_ticket_feed', $this->project->name)
+        ];
 
         // Create ticket filter query
         $filter_query = new TicketFilterQuery($this->project);
@@ -95,28 +98,8 @@ class Tickets extends AppController
             }
         }
 
-        // Any filters stored in the session?
-        if (!count($filter_query->filters())
-        and isset($_SESSION['ticket_filters'])
-        and isset($_SESSION['ticket_filters'][$this->project->id])) {
-            foreach (explode('&', $_SESSION['ticket_filters'][$this->project->id]) as $filter_value) {
-                if (strpos($filter_value, '=')) {
-                    $filter_value = explode('=', $filter_value);
-                    if (in_array($filter_value[0], array_keys(ticket_filters_for($this->project)))) {
-                        $value = isset($filter_value[1]) ? explode(',', urldecode($filter_value[1])) : array();
-                        $filter_query->process($filter_value[0], $value);
-                    }
-                }
-            }
-        } else {
-            $_SESSION['ticket_filters'][$this->project->id] = Request::$query;
-        }
-
-        // Send filters to the view
-        View::set('filters', $filter_query->filters());
-
         // Fetch tickets
-        $tickets = array();
+        $tickets = [];
         $rows = $this->db->select('tickets.*')->from('tickets')->custom_sql($filter_query->sql());
 
         // Order by creation date for atom feed
@@ -177,54 +160,32 @@ class Tickets extends AppController
         View::set(compact('pagination'));
         unset($all_rows);
 
+        $customFields = [];
+        $ticketCustomFields = [];
+        $projectCustomFields = $this->project->custom_fields->exec()->fetch_all();
+
+        foreach ($projectCustomFields as $customField) {
+            $customFields[$customField->id] = $customField;
+        }
+
+        $customFieldValues = CustomFieldValue::fetch_all();
+        foreach ($customFieldValues as $customFieldValue) {
+            // $customFields[$customFieldValue->custom_field_id]['values'][$customFieldValue->ticket_id] = $customFieldValue->value;
+            $customField = $customFields[$customFieldValue->custom_field_id];
+            $slug = str_replace('-', '_', $customField->slug);
+            $ticketCustomFields[$customFieldValue->ticket_id][$slug] = $customFieldValue->value;
+        }
+
         // Add to tickets array
         foreach($rows->exec()->fetch_all() as $row) {
-            $tickets[] = new Ticket($row, false);
+            $ticket = (new Ticket($row, false))->__toArray();
+            $ticket['custom_fields'] = $ticketCustomFields[$ticket['id']] ?? [];
+
+            $tickets[] = $ticket;
         }
 
         // Send the tickets array to the view..
         View::set('tickets', $tickets);
-
-        // Columns
-        $this->get_columns();
-    }
-
-    private function get_columns()
-    {
-        $allowed_columns = ticketlist_allowed_columns();
-
-        // Add custom fields
-        foreach ($this->custom_fields as $field) {
-            $allowed_columns[] = $field->id;
-        }
-
-        // Set columns from form
-        if (Request::method() == 'post' and isset(Request::$post['update_columns'])) {
-            $new_columns = array();
-            foreach (Request::$post['columns'] as $column) {
-                $new_columns[] = $column;
-            }
-            $_SESSION['columns'] = Request::$request['columns'] = $new_columns;
-        }
-
-        // Get columns
-        $columns = array();
-        if (isset($_SESSION['columns']) or isset(Request::$request['columns'])) {
-            // Loop over customs from session or request
-            foreach ((isset($_SESSION['columns']) ? $_SESSION['columns'] : explode(',', Request::$request['columns'])) as $column) {
-                // Make sure it's a valid column
-                if (in_array($column, $allowed_columns)) {
-                    $columns[] = $column;
-                }
-            }
-        }
-        // Use default columns
-        else {
-            $columns = ticket_columns();
-        }
-
-        // Send columns to view
-        View::set('columns', $columns);
     }
 
     /**
@@ -429,7 +390,7 @@ class Tickets extends AppController
             // Check if the ticket data is valid...
             // if it is, save the ticket to the DB and
             // redirect to the ticket page.
-            if (check_ticket_creation_delay($ticket) and $ticket->is_valid()) {
+            if (($this->user->group->is_admin || check_ticket_creation_delay($ticket)) && $ticket->is_valid()) {
                 // Set last ticket creation time
                 $_SESSION['last_ticket_creation'] = time();
 
@@ -771,7 +732,9 @@ class Tickets extends AppController
         }
 
         // Decode tickets array
-        $tickets = json_decode(Request::post('tickets'), true);
+        $tickets = is_array(Request::post('tickets'))
+            ? Request::post('tickets')
+            : $json_decode(Request::post('tickets'), true);
 
         // Make sure there are some tickets
         if (!is_array($tickets) and !count($tickets)) {
@@ -781,54 +744,61 @@ class Tickets extends AppController
         // Loop over tickets and process actions
         foreach ($tickets as $ticket_id) {
             $ticket = Ticket::select('*')->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
-
-            $data = array();
+            $data = [];
 
             // Type
             if ($this->user->permission($this->project->id, 'ticket_properties_change_type')
-            and Request::post('type', -1) != -1) {
+                && Request::post('type', -1) != -1
+            ) {
                 $data['type_id'] = Request::post('type');
             }
 
             // Milestone
             if ($this->user->permission($this->project->id, 'ticket_properties_change_milestone')
-            and Request::post('milestone', -1) != -1) {
+                && Request::post('milestone', -1) != -1
+            ) {
                 $data['milestone_id'] = Request::post('milestone');
             }
 
             // Version
             if ($this->user->permission($this->project->id, 'ticket_properties_change_version')
-            and Request::post('version', -1) != -1) {
+                && Request::post('version', -1) != -1
+            ) {
                 $data['version_id'] = Request::post('version');
             }
 
             // Component
             if ($this->user->permission($this->project->id, 'ticket_properties_change_component')
-            and Request::post('component', -1) != -1) {
+                && Request::post('component', -1) != -1
+            ) {
                 $data['component_id'] = Request::post('component');
             }
 
             // Severity
             if ($this->user->permission($this->project->id, 'ticket_properties_change_severity')
-            and Request::post('severity', -1) != -1) {
+                && Request::post('severity', -1) != -1
+            ) {
                 $data['severity_id'] = Request::post('severity');
             }
 
             // Priority
             if ($this->user->permission($this->project->id, 'ticket_properties_change_priority')
-            and Request::post('priority', -1) != -1) {
+                && Request::post('priority', -1) != -1
+            ) {
                 $data['priority_id'] = Request::post('priority');
             }
 
             // Status
             if ($this->user->permission($this->project->id, 'ticket_properties_change_status')
-            and Request::post('status', -1) != -1) {
+                && Request::post('status', -1) != -1
+            ) {
                 $data['status_id'] = Request::post('status');
             }
 
             // Assigned to
             if ($this->user->permission($this->project->id, 'ticket_properties_change_assigned_to')
-            and Request::post('assigned_to', -1) != -1) {
+                && Request::post('assigned_to', -1) != -1
+            ) {
                 $data['assigned_to_id'] = Request::post('assigned_to');
             }
 
@@ -841,97 +811,11 @@ class Tickets extends AppController
         // Clear selected tickets
         setcookie('selected_tickets', '', time(), '/');
 
-        Request::redirectTo($this->project->href('tickets'));
-    }
-
-    /**
-     * Processes the ticket filters form and
-     * builds the query string.
-     */
-    public function action_update_filters()
-    {
-        $query_string = array();
-
-        // Add filter
-        if (isset(Request::$post['add_filter'])) {
-            $new_filter = Request::$post['new_filter'];
-
-            // Make sure the filter index exists
-            if (!isset(Request::$post['filters'][$new_filter])) {
-                Request::$post['filters'][$new_filter] = array('values' => array());
-            }
-
-            // Add the blank value
-            Request::$post['filters'][$new_filter] = array(
-                'prefix' => '',
-                'values' => array()
-            );
+        if (Router::$extension === '.json') {
+            $this->apiResponse(['success' => true]);
+        } else {
+            Request::redirectTo($this->project->href('tickets'));
         }
-
-        foreach (Request::post('filters', array()) as $name => $filter) {
-            // Don't bother if this isn't a valid filter.
-            if (!in_array($name, array_keys(ticket_filters_for($this->project)))) {
-                continue;
-            }
-
-            // Process filters
-            switch ($name) {
-                // Summary, description,
-                // owner and assigned to
-                case 'summary':
-                case 'description':
-                case 'owner':
-                case 'assigned_to':
-                case 'search':
-                    $values = array();
-                    foreach ($filter['values'] as $value) {
-                        $values[] = urlencode($value);
-                    }
-                    $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
-                    break;
-
-                // Milestone, version, type,
-                // status and component
-                case 'milestone':
-                case 'version':
-                case 'type':
-                case 'status':
-                case 'component':
-                case 'priority':
-                case 'severity':
-                    // Class name
-                    $class = '\\traq\\models\\' . ucfirst($name == 'version' ? 'milestone' : $name);
-
-                    switch ($name) {
-                        case 'milestone':
-                        case 'version':
-                            $field = 'slug';
-                            break;
-
-                        default:
-                            $field = 'name';
-                            break;
-                    }
-
-                    // Values
-                    $values = array();
-                    foreach ($filter['values'] as $value) {
-                        $values[] = urlencode($class::find($value)->{$field});
-                    }
-
-                    $query_string[] = "{$name}=" . $filter['prefix'] . implode(',', $values);
-                    break;
-            }
-
-            // Process custom field filters
-            if ($field = CustomField::find('slug', $name)) {
-                $query_string[] = "{$field->slug}={$filter['prefix']}" . implode(',', $filter['values']);
-            }
-        }
-
-        // Save to session and redirect
-        $_SESSION['ticket_filters'][$this->project->id] = implode('&', $query_string);
-        Request::redirectTo($this->project->href('tickets') . '?' . implode('&', $query_string));
     }
 
     /**

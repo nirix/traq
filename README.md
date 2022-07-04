@@ -6,7 +6,7 @@ Traq is a PHP powered project manager, capable of tracking issues for multiple p
 Requirements
 ------------
 
-- PHP 7.4+
+- PHP 8.0+
 - MariaDB _(or MySQL)_
 - Apache mod_rewrite or server configured to use `index.php` as the 404 page.
 

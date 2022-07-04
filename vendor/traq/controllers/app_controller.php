@@ -28,6 +28,7 @@ use avalon\core\Load;
 use avalon\Database;
 use avalon\http\Request;
 use avalon\http\Router;
+use avalon\output\Body;
 use avalon\output\View;
 
 use traq\models\User;
@@ -224,6 +225,22 @@ class AppController extends Controller
         );
 
         View::set(compact('message'));
+    }
+
+    /**
+     * API Response.
+     * 
+     * @param array $data
+     */
+    protected function apiResponse(array $data)
+    {
+        Router::$extension = 'json';
+
+        $this->render['layout'] = false;
+        $this->render['view'] = false;
+
+        header('Content-Type: application/json; charset=UTF-8');
+        Body::append(to_json($data));
     }
 
     public function __shutdown()

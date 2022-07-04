@@ -1,0 +1,27 @@
+body {
+  /* background: #e9e9e9; */
+  @apply bg-gray-50;
+  @apply text-white;
+}
+
+#page_title {
+  line-height: 1;
+  @apply my-2;
+}
+
+#page {
+  @apply bg-white;
+  @apply text-black;
+  @apply shadow-sm;
+  @apply pb-2;
+}
+
+.content {
+  padding: 10px;
+}
+
+#footer {
+  @apply mt-5;
+  @apply text-gray-400;
+  @apply text-center;
+}

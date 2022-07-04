@@ -1,24 +1,26 @@
 <div id="meta_nav">
-	<ul id="user_nav">
-		<?php FishHook::run('template:layouts/_meta_nav/user_nav'); ?>
-	<?php if (LOGGEDIN) { ?>
-		<li<?php echo iif(active_nav(current_user()->href()), ' class="active"')?>><?php echo HTML::link(l('profile'), current_user()->href()) ?></li>
-		<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
-		<li><?php echo HTML::link(l('logout'), '/logout'); ?></li>
-		<?php if ($current_user->group->is_admin) { ?>
-		<li<?php echo iif(active_nav('/admin(.*)'), ' class="active"')?>><?php echo HTML::link(l('admincp'), '/admin'); ?></li>
+	<div class="container">
+		<ul id="user_nav">
+			<?php FishHook::run('template:layouts/_meta_nav/user_nav'); ?>
+		<?php if (LOGGEDIN) { ?>
+			<li<?php echo iif(active_nav(current_user()->href()), ' class="active"')?>><?php echo HTML::link(l('profile'), current_user()->href()) ?></li>
+			<li<?php echo iif(active_nav('/usercp'), ' class="active"')?>><?php echo HTML::link(l('usercp'), '/usercp'); ?></li>
+			<li><?php echo HTML::link(l('logout'), '/logout'); ?></li>
+			<?php if ($current_user->group->is_admin) { ?>
+			<li<?php echo iif(active_nav('/admin(.*)'), ' class="active"')?>><?php echo HTML::link(l('admincp'), '/admin'); ?></li>
+			<?php } ?>
+		<?php } else { ?>
+			<li<?php echo iif(active_nav('/login'), ' class="active"')?>><?php echo HTML::link(l('login'), '/login'); ?></li>
+			<?php if (settings('allow_registration')) { ?>
+			<li<?php echo iif(active_nav('/register'), ' class="active"')?>><?php echo HTML::link(l('register'), '/register'); ?></li>
+			<?php } ?>
 		<?php } ?>
-	<?php } else { ?>
-		<li<?php echo iif(active_nav('/login'), ' class="active"')?>><?php echo HTML::link(l('login'), '/login'); ?></li>
-		<?php if (settings('allow_registration')) { ?>
-		<li<?php echo iif(active_nav('/register'), ' class="active"')?>><?php echo HTML::link(l('register'), '/register'); ?></li>
-		<?php } ?>
-	<?php } ?>
-	</ul>
-	<ul>
-		<?php if (settings('site_name') !== '') { ?>
-		<li><a href="<?php echo settings('site_url'); ?>"><?php echo settings('site_name'); ?></a></li>
-		<?php } ?>
-		<?php if (Request::seg(0)) { ?><li><?php echo HTML::link(settings('title'), '/'); ?></li><?php } ?>
-	</ul>
+		</ul>
+		<ul>
+			<?php if (settings('site_name') !== '') { ?>
+			<li><a href="<?php echo settings('site_url'); ?>"><?php echo settings('site_name'); ?></a></li>
+			<?php } ?>
+			<?php if (Request::seg(0)) { ?><li><?php echo HTML::link(settings('title'), '/'); ?></li><?php } ?>
+		</ul>
+	</div>
 </div>

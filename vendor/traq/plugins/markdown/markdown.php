@@ -22,10 +22,12 @@
 
 namespace traq\plugins;
 
-require __DIR__ . '/Michelf/Markdown.php';
-require __DIR__ . '/Michelf/MarkdownExtra.php';
+require __DIR__ . '/Parsedown.php';
+require __DIR__ . '/ParsedownExtra.php';
 
 use \FishHook;
+use \Parsedown;
+use \ParsedownExtra;
 
 /**
  * Markdown Plugin.
@@ -41,7 +43,7 @@ class Markdown extends \traq\libraries\Plugin
 
     protected static $info = array(
         'name'    => 'Markdown',
-        'version' => '2.0.1',
+        'version' => '3.0.0',
         'author'  => 'Jack P.'
     );
 
@@ -65,11 +67,10 @@ class Markdown extends \traq\libraries\Plugin
 
         // Initialise parser
         if (!isset(static::$parser)) {
-            static::$parser = new \Michelf\MarkdownExtra;
-            static::$parser->no_markup = true;
+            static::$parser = new ParsedownExtra();
         }
 
         // Parse the text
-        $text = static::$parser->transform($text);
+        $text = static::$parser->text($text);
     }
 }
