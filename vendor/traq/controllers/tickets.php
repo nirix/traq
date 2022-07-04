@@ -732,7 +732,9 @@ class Tickets extends AppController
         }
 
         // Decode tickets array
-        $tickets = json_decode(Request::post('tickets'), true);
+        $tickets = is_array(Request::post('tickets'))
+            ? Request::post('tickets')
+            : $json_decode(Request::post('tickets'), true);
 
         // Make sure there are some tickets
         if (!is_array($tickets) and !count($tickets)) {
@@ -742,54 +744,61 @@ class Tickets extends AppController
         // Loop over tickets and process actions
         foreach ($tickets as $ticket_id) {
             $ticket = Ticket::select('*')->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
-
-            $data = array();
+            $data = [];
 
             // Type
             if ($this->user->permission($this->project->id, 'ticket_properties_change_type')
-            and Request::post('type', -1) != -1) {
+                && Request::post('type', -1) != -1
+            ) {
                 $data['type_id'] = Request::post('type');
             }
 
             // Milestone
             if ($this->user->permission($this->project->id, 'ticket_properties_change_milestone')
-            and Request::post('milestone', -1) != -1) {
+                && Request::post('milestone', -1) != -1
+            ) {
                 $data['milestone_id'] = Request::post('milestone');
             }
 
             // Version
             if ($this->user->permission($this->project->id, 'ticket_properties_change_version')
-            and Request::post('version', -1) != -1) {
+                && Request::post('version', -1) != -1
+            ) {
                 $data['version_id'] = Request::post('version');
             }
 
             // Component
             if ($this->user->permission($this->project->id, 'ticket_properties_change_component')
-            and Request::post('component', -1) != -1) {
+                && Request::post('component', -1) != -1
+            ) {
                 $data['component_id'] = Request::post('component');
             }
 
             // Severity
             if ($this->user->permission($this->project->id, 'ticket_properties_change_severity')
-            and Request::post('severity', -1) != -1) {
+                && Request::post('severity', -1) != -1
+            ) {
                 $data['severity_id'] = Request::post('severity');
             }
 
             // Priority
             if ($this->user->permission($this->project->id, 'ticket_properties_change_priority')
-            and Request::post('priority', -1) != -1) {
+                && Request::post('priority', -1) != -1
+            ) {
                 $data['priority_id'] = Request::post('priority');
             }
 
             // Status
             if ($this->user->permission($this->project->id, 'ticket_properties_change_status')
-            and Request::post('status', -1) != -1) {
+                && Request::post('status', -1) != -1
+            ) {
                 $data['status_id'] = Request::post('status');
             }
 
             // Assigned to
             if ($this->user->permission($this->project->id, 'ticket_properties_change_assigned_to')
-            and Request::post('assigned_to', -1) != -1) {
+                && Request::post('assigned_to', -1) != -1
+            ) {
                 $data['assigned_to_id'] = Request::post('assigned_to');
             }
 
@@ -802,7 +811,11 @@ class Tickets extends AppController
         // Clear selected tickets
         setcookie('selected_tickets', '', time(), '/');
 
-        Request::redirectTo($this->project->href('tickets'));
+        if (Router::$extension === '.json') {
+            $this->apiResponse(['success' => true]);
+        } else {
+            Request::redirectTo($this->project->href('tickets'));
+        }
     }
 
     /**

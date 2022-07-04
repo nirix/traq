@@ -25,6 +25,7 @@ export default {
       type: -1,
       priority: -1,
       milestone: -1,
+      component: -1,
       assignee: -1,
     }
   },
@@ -109,6 +110,34 @@ export default {
       ])
     },
   },
+
+  methods: {
+    updateTickets(): void {
+      const massActionsUrl = `${window.traq.base}${window.traq.project_slug}/tickets/mass-actions.json`
+
+      const formData = new FormData()
+      this.ticketIds.map((ticketId) => {
+        formData.append("tickets[]", ticketId)
+      })
+      formData.append("status", this.status)
+      formData.append("type", this.type)
+      formData.append("priority", this.priority)
+      formData.append("milestone", this.milestone)
+      formData.append("component", this.component)
+      formData.append("assigned_to", this.assignee)
+
+      axios
+        .post(massActionsUrl, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((resp) => {
+          console.log(resp.data)
+          this.$emit("on-update", resp.data)
+        })
+    },
+  },
 }
 </script>
 
@@ -162,6 +191,16 @@ export default {
           </select>
         </div>
 
+        <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_component')">
+          <label for="">Component</label>
+          <select name="component" v-model="component">
+            <option value="-1">No change</option>
+            <option v-for="component in components" :value="component.value" :key="component.value">
+              {{ component.label }}
+            </option>
+          </select>
+        </div>
+
         <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_assigned_to')">
           <label for="">Assignee</label>
           <select name="assigned_to" v-model="assignee">
@@ -174,7 +213,7 @@ export default {
         </div>
       </div>
       <div class="mass-actions-footer">
-        <button class="btn-primary">Update</button>
+        <button class="btn-primary" :onClick="updateTickets">Update</button>
       </div>
     </div>
   </div>

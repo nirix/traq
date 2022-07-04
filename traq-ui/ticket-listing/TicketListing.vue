@@ -116,6 +116,26 @@ export default {
         this.checkedTickets.push(ticketId)
       }
     },
+    massActionsTogglePage(event): void {
+      const ticketIds: number[] = this.tickets.map((ticket) => ticket.ticket_id)
+
+      if (event.target.checked) {
+        // If checked, add (missing) ticket ids to checked list
+        const missingIds = ticketIds.filter((ticketId) => !this.checkedTickets.includes(ticketId))
+        this.checkedTickets = [...this.checkedTickets, ...missingIds]
+      } else {
+        // If unchecked, remove ticket ids
+        this.checkedTickets = this.checkedTickets.filter((ticketId) => !ticketIds.includes(ticketId))
+      }
+    },
+    massActionsUpdated(): void {
+      this.getTickets()
+      this.checkedTickets = []
+    },
+    changePage(page: number): void {
+      this.page = page
+      this.$refs["massActionsAllToggler"].checked = false
+    },
   },
 }
 </script>
@@ -130,7 +150,7 @@ export default {
     <thead>
       <tr>
         <th v-if="auth.can('perform_mass_actions')">
-          <input type="checkbox" />
+          <input type="checkbox" name="mass_actions_current_page" @click="massActionsTogglePage" ref="massActionsAllToggler" />
         </th>
         <th v-if="columns.includes('ticket_id')">
           <a href="#" @click="sortTickets('ticket_id')">ID</a>
@@ -235,7 +255,13 @@ export default {
       </tr>
       <tr v-for="ticket in tickets" :key="ticket.id" :class="'priority-' + ticket.priority.id">
         <td v-if="auth.can('perform_mass_actions')">
-          <input type="checkbox" @click="toggleTicket(ticket.ticket_id)" :checked="checkedTickets.includes(ticket.ticket_id)" />
+          <input
+            type="checkbox"
+            name="mass_actions[]"
+            :value="ticket.ticket_id"
+            :checked="checkedTickets.includes(ticket.ticket_id)"
+            @click="toggleTicket(ticket.ticket_id)"
+          />
         </td>
         <td v-if="columns.includes('ticket_id')">{{ ticket.ticket_id }}</td>
         <td v-if="columns.includes('summary')">
@@ -266,7 +292,7 @@ export default {
     </thead>
   </table>
 
-  <MassActions :ticket-ids="checkedTickets" v-if="auth.can('perform_mass_actions')" />
+  <MassActions :ticket-ids="checkedTickets" v-if="auth.can('perform_mass_actions')" @on-update="massActionsUpdated" />
 </template>
 
 <style scoped lang="postcss">
