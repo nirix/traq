@@ -6,9 +6,10 @@ import TicketFilters from "./TicketFilters.vue"
 import TicketColumns from "./TicketColumns.vue"
 import MassActions from "./MassActions.vue"
 import { useAuthStore } from "../stores/auth"
+import PaginationLinks from "../components/PaginationLinks.vue"
 
 export default {
-  components: { TicketFilters, TicketColumns, MassActions },
+  components: { TicketFilters, TicketColumns, MassActions, PaginationLinks },
 
   setup() {
     const auth = useAuthStore()
@@ -22,10 +23,10 @@ export default {
     return {
       isLoading: true,
       tickets: [],
-      page: 1,
-      total_pages: 1,
-      sort_by: null,
-      sort_order: "desc",
+      currentPage: 1,
+      totalPages: 1,
+      sortBy: null,
+      sortOrder: "desc",
       filters: [],
       columns: ["ticket_id", "summary", "status", "type", "owner", "component", "milestone"],
       customFields: [],
@@ -51,8 +52,8 @@ export default {
       let ticketsUrl = window.traq.base + window.traq.project_slug + "/tickets.json"
 
       // Add sorting options to URL
-      if (this.sort_by) {
-        ticketsUrl = `${ticketsUrl}?order_by=${this.sort_by}.${this.sort_order}`
+      if (this.sortBy) {
+        ticketsUrl = `${ticketsUrl}?order_by=${this.sortBy}.${this.sortOrder}`
       }
 
       // Add filters to URL
@@ -61,7 +62,11 @@ export default {
           return `${filter.field}=` + (filter.condition ? "" : "!") + filter.values.join(",")
         })
 
-        ticketsUrl = ticketsUrl + (this.sort_by ? "&" : "?") + filterBits.join("&")
+        ticketsUrl = ticketsUrl + (this.sortBy ? "&" : "?") + filterBits.join("&")
+      }
+
+      if (this.currentPage > 1) {
+        ticketsUrl = ticketsUrl + (ticketsUrl.includes("?") ? "&" : "?") + `page=${this.currentPage}`
       }
 
       return ticketsUrl
@@ -79,13 +84,13 @@ export default {
     getTickets(): void {
       axios.get(this.getTicketUrl).then((resp) => {
         this.tickets = resp.data.tickets
-        this.page = resp.data.page
-        this.total_pages = resp.data.total_pages
+        this.currentPage = resp.data.page
+        this.totalPages = resp.data.total_pages
       })
     },
     sortTickets(column): void {
-      this.sort_order = column !== this.sort_by || this.sort_order === "desc" ? "asc" : "desc"
-      this.sort_by = column
+      this.sortOrder = column !== this.sortBy || this.sortOrder === "desc" ? "asc" : "desc"
+      this.sortBy = column
       this.getTickets()
       this.updateUrl()
     },
@@ -134,8 +139,10 @@ export default {
       this.checkedTickets = []
     },
     changePage(page: number): void {
-      this.page = page
+      this.currentPage = page
       this.$refs["massActionsAllToggler"].checked = false
+      this.getTickets()
+      this.updateUrl()
     },
   },
 }
@@ -155,101 +162,101 @@ export default {
         </th>
         <th v-if="columns.includes('ticket_id')">
           <a href="#" @click="sortTickets('ticket_id')">ID</a>
-          <template v-if="sort_by === 'ticket_id'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'ticket_id'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('summary')">
           <a href="#" @click="sortTickets('summary')">Summary</a>
-          <template v-if="sort_by === 'summary'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'summary'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('status')">
           <a href="#" @click="sortTickets('status')">Status</a>
-          <template v-if="sort_by === 'status'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'status'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('owner')">
           <a href="#" @click="sortTickets('user')">Owner</a>
-          <template v-if="sort_by === 'user'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'user'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('type')">
           <a href="#" @click="sortTickets('type')">Type</a>
-          <template v-if="sort_by === 'type'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'type'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('component')">
           <a href="#" @click="sortTickets('component')">Component</a>
-          <template v-if="sort_by === 'component'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'component'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('milestone')">
           <a href="#" @click="sortTickets('milestone')">Milestone</a>
-          <template v-if="sort_by === 'milestone'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'milestone'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('assigned_to')">
           <a href="#" @click="sortTickets('assigned_to')">Assignee</a>
-          <template v-if="sort_by === 'assigned_to'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'assigned_to'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('priority')">
           <a href="#" @click="sortTickets('priority')">Priority</a>
-          <template v-if="sort_by === 'priority'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'priority'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('severity')">
           <a href="#" @click="sortTickets('severity')">Severity</a>
-          <template v-if="sort_by === 'severity'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'severity'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('created_at')">
           <a href="#" @click="sortTickets('created_at')">Reported</a>
-          <template v-if="sort_by === 'created_at'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'created_at'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('updated_at')">
           <a href="#" @click="sortTickets('updated_at')">Updated</a>
-          <template v-if="sort_by === 'updated_at'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'updated_at'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <th v-if="columns.includes('votes')">
           <a href="#" @click="sortTickets('votes')">Votes</a>
-          <template v-if="sort_by === 'votes'">
-            <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-            <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+          <template v-if="sortBy === 'votes'">
+            <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+            <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
           </template>
         </th>
         <template v-for="field in customFields" :key="field.slug">
           <th v-if="columns.includes(field.slug)">
             <a href="#" @click="sortTickets(field.slug)">{{ field.name }}</a>
-            <template v-if="sort_by === field.slug">
-              <fa-icon :icon="faChevronUp" v-if="sort_order === 'asc'" />
-              <fa-icon :icon="faChevronDown" v-if="sort_order === 'desc'" />
+            <template v-if="sortBy === field.slug">
+              <fa-icon :icon="faChevronUp" v-if="sortOrder === 'asc'" />
+              <fa-icon :icon="faChevronDown" v-if="sortOrder === 'desc'" />
             </template>
           </th>
         </template>
@@ -292,6 +299,7 @@ export default {
       </tr>
     </thead>
   </table>
+  <PaginationLinks :current-page="currentPage" :total-pages="totalPages" @navigate="changePage" />
 
   <MassActions :ticket-ids="checkedTickets" v-if="auth.can('perform_mass_actions')" @on-update="massActionsUpdated" />
 </template>
