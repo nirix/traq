@@ -74,6 +74,7 @@ export default {
       return faChevronDown
     },
   },
+
   methods: {
     getTickets(): void {
       axios.get(this.getTicketUrl).then((resp) => {

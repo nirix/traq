@@ -5,13 +5,16 @@ import EasyMDE from "../components/easymde.vue"
 
 export default {
   components: { EasyMDE },
+
   props: ["ticketIds"],
+
   setup() {
     const auth = useAuthStore()
     return {
       auth,
     }
   },
+
   data() {
     return {
       types: [],
@@ -29,6 +32,7 @@ export default {
       assignee: -1,
     }
   },
+
   mounted() {
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap.json"
     const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
@@ -36,6 +40,8 @@ export default {
     const statusesUrl = window.traq.base + "api/statuses"
     const prioritiesUrl = window.traq.base + "api/priorities"
     const typesUrl = window.traq.base + "api/types"
+
+    // Fetch required data
     Promise.all([
       axios.get(roadmapUrl),
       axios.get(statusesUrl),
@@ -49,6 +55,7 @@ export default {
           label: data.name,
           value: data.id,
         })) ?? []
+
       const open =
         statuses.data
           .filter((status) => status.status === 1)
@@ -56,6 +63,7 @@ export default {
             label: data.name,
             value: data.id,
           })) ?? []
+
       const closed =
         statuses.data
           .filter((status) => status.status === 0)
@@ -63,25 +71,30 @@ export default {
             label: data.name,
             value: data.id,
           })) ?? []
+
       this.statuses = {
         Open: open,
         Closed: closed,
       }
+
       this.priorities =
         priorities.data.map((data) => ({
           label: data.name,
           value: data.id,
         })) ?? []
+
       this.components =
         components.data.map((data) => ({
           label: data.name,
           value: data.id,
         })) ?? []
+
       this.types =
         ticketTypes.data.map((data) => ({
           label: data.name,
           value: data.id,
         })) ?? []
+
       this.assignees =
         members.data.map((data) => ({
           label: data.name,
@@ -89,6 +102,7 @@ export default {
         })) ?? []
     })
   },
+
   computed: {
     canMassActions(): boolean {
       return this.auth.canOneOf([
@@ -101,10 +115,12 @@ export default {
       ])
     },
   },
+
   methods: {
     updateTickets(): void {
       const massActionsUrl = `${window.traq.base}${window.traq.project_slug}/tickets/mass-actions.json`
-      // this.comment = this.easyMDE.value()
+
+      // Build form data
       const formData = new FormData()
       this.ticketIds.map((ticketId) => {
         formData.append("tickets[]", ticketId)
@@ -116,6 +132,8 @@ export default {
       formData.append("milestone", this.milestone)
       formData.append("component", this.component)
       formData.append("assigned_to", this.assignee)
+
+      // Update tickets and emit event on completion
       axios
         .post(massActionsUrl, formData, {
           headers: {
