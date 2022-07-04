@@ -1,18 +1,17 @@
 <script lang="ts">
 import axios from "axios"
 import { useAuthStore } from "../stores/auth"
+import EasyMDE from "../components/easymde.vue"
 
 export default {
+  components: { EasyMDE },
   props: ["ticketIds"],
-
   setup() {
     const auth = useAuthStore()
-
     return {
       auth,
     }
   },
-
   data() {
     return {
       types: [],
@@ -21,6 +20,7 @@ export default {
       priorities: [],
       assignees: [],
       statuses: [],
+      comment: "",
       status: -1,
       type: -1,
       priority: -1,
@@ -29,7 +29,6 @@ export default {
       assignee: -1,
     }
   },
-
   mounted() {
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap.json"
     const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
@@ -37,7 +36,6 @@ export default {
     const statusesUrl = window.traq.base + "api/statuses"
     const prioritiesUrl = window.traq.base + "api/priorities"
     const typesUrl = window.traq.base + "api/types"
-
     Promise.all([
       axios.get(roadmapUrl),
       axios.get(statusesUrl),
@@ -51,7 +49,6 @@ export default {
           label: data.name,
           value: data.id,
         })) ?? []
-
       const open =
         statuses.data
           .filter((status) => status.status === 1)
@@ -59,7 +56,6 @@ export default {
             label: data.name,
             value: data.id,
           })) ?? []
-
       const closed =
         statuses.data
           .filter((status) => status.status === 0)
@@ -67,30 +63,25 @@ export default {
             label: data.name,
             value: data.id,
           })) ?? []
-
       this.statuses = {
         Open: open,
         Closed: closed,
       }
-
       this.priorities =
         priorities.data.map((data) => ({
           label: data.name,
           value: data.id,
         })) ?? []
-
       this.components =
         components.data.map((data) => ({
           label: data.name,
           value: data.id,
         })) ?? []
-
       this.types =
         ticketTypes.data.map((data) => ({
           label: data.name,
           value: data.id,
         })) ?? []
-
       this.assignees =
         members.data.map((data) => ({
           label: data.name,
@@ -98,7 +89,6 @@ export default {
         })) ?? []
     })
   },
-
   computed: {
     canMassActions(): boolean {
       return this.auth.canOneOf([
@@ -106,26 +96,26 @@ export default {
         "ticket_properties_change_type",
         "ticket_properties_change_priority",
         "ticket_properties_change_milestone",
+        "ticket_properties_change_component",
         "ticket_properties_change_assigned_to",
       ])
     },
   },
-
   methods: {
     updateTickets(): void {
       const massActionsUrl = `${window.traq.base}${window.traq.project_slug}/tickets/mass-actions.json`
-
+      // this.comment = this.easyMDE.value()
       const formData = new FormData()
       this.ticketIds.map((ticketId) => {
         formData.append("tickets[]", ticketId)
       })
+      formData.append("comment", this.comment)
       formData.append("status", this.status)
       formData.append("type", this.type)
       formData.append("priority", this.priority)
       formData.append("milestone", this.milestone)
       formData.append("component", this.component)
       formData.append("assigned_to", this.assignee)
-
       axios
         .post(massActionsUrl, formData, {
           headers: {
@@ -133,7 +123,6 @@ export default {
           },
         })
         .then((resp) => {
-          console.log(resp.data)
           this.$emit("on-update", resp.data)
         })
     },
@@ -148,6 +137,9 @@ export default {
     </h2>
 
     <div class="mass-actions-panel">
+      <div class="mass-actions-comment">
+        <EasyMDE v-model="comment" min-height="100px" />
+      </div>
       <div class="mass-actions-fields">
         <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_status')">
           <label for="">Status</label>
