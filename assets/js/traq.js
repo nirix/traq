@@ -83,30 +83,6 @@ var popover_confirm = function (parent, message, callback) {
 }
 
 jQuery(document).ready(function () {
-  jQuery("#header h1").on("mouseenter", function () {
-    jQuery("#project_switcher_btn").stop(true, true).fadeIn("fast")
-    jQuery(this)
-      .off("mouseleave")
-      .on("mouseleave", function () {
-        jQuery("#project_switcher_btn").stop(true, true).fadeOut("fast")
-      })
-  })
-
-  jQuery("#project_switcher_btn").on("mouseenter", function () {
-    jQuery(this).stop(true, true).show()
-    jQuery(this)
-      .off("mouseleave")
-      .on("mouseleave", function () {
-        jQuery(this).stop(true, true).fadeOut("fast")
-      })
-  })
-
-  jQuery("#project_switcher_btn").on("click", function () {
-    jQuery(this).off("mouseleave")
-    jQuery(".project_switcher").popover(jQuery(this))
-    return false
-  })
-
   jQuery(document).on("click", function () {
     jQuery("#project_switcher_btn").stop(true, true).fadeOut("fast")
   })
@@ -301,11 +277,4 @@ function close_overlay(func) {
   jQuery("#overlay").fadeOut(function () {
     func()
   })
-}
-
-// Search box
-function do_search() {
-  var project_slug = jQuery('#search input[name="project_slug"]').val()
-  var query = jQuery('#search input[name="search"]').val()
-  window.location.href = traq.base + project_slug + "/tickets?search=" + query
 }
