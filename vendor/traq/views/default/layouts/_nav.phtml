@@ -15,13 +15,17 @@
             <?php if ($project->enable_wiki): ?>
                 <li<?=iif(active_nav('/:slug/wiki(.*)'), ' class="active"')?>><?=HTML::link(l('wiki'), $project->href("wiki"))?></li>
             <?php endif ?>
-            
-            <?php if($current_user->permission($project->id, 'project_settings')): ?>
-                <li<?=iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>><?=HTML::link(l('settings'), $project->href("settings"))?></li>
-            <?php endif; ?>
         <?php else: ?>
             <li<?=iif(active_nav('/'), ' class="active"')?>><?=HTML::link(l('projects'), null)?></li>
         <?php endif; ?>
         <?php FishHook::run('template:layouts/default/main_nav', [isset($project) ? $project : false]); ?>
     </ul>
+    
+    <?php if($current_user->permission($project->id, 'project_settings')): ?>
+    <ul>
+        <li<?=iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>>
+            <?=HTML::link(l('settings'), $project->href('settings'))?>
+        </li>
+    </ul>
+    <?php endif; ?>
 </nav>

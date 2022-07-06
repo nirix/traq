@@ -20,8 +20,20 @@ body {
   padding: 10px;
 }
 
+.box,
+.inline_box {
+  @apply bg-gray-50;
+  @apply border border-solid border-gray-300 rounded;
+
+  & .box-title,
+  & .box_title {
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+}
+
 #footer {
-  @apply mt-5;
+  @apply my-5;
   @apply text-gray-400;
   @apply text-center;
 }

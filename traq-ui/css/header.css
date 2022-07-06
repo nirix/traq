@@ -62,6 +62,9 @@
 }
 
 #nav {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
   @apply ml-5;
 
   & > ul,
@@ -87,5 +90,9 @@
     &.active > a {
       @apply text-white;
     }
+  }
+
+  & > ul:first-child {
+    flex-grow: 1;
   }
 }
