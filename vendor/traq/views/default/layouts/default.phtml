@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo View::render('layouts/_head'); ?>
+		<?=View::render('layouts/_head')?>
 		<?php FishHook::run('template:layouts/default/head'); ?>
 	</head>
 	<body>
@@ -9,64 +9,34 @@
 		<div id="overlay"></div>
 		<div id="popover" class="popover"></div>
 		<div id="wrapper">
-			<?php echo View::render('layouts/_meta_nav'); ?>
+			<?=View::render('layouts/_meta_nav')?>
 			<header id="header">
 				<div class="container">
-					<h1><?php echo (isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null); ?></h1>
-					<?php echo View::render('layouts/_project_switcher'); ?>
-					<?php if (isset($project)) { ?>
-					<form onsubmit="do_search();return false;" id="search">
-						<input type="hidden" name="project_slug" value="<?php echo $project->slug; ?>" />
-						<input type="search" name="search" placeholder="<?php echo l('search'); ?>" />
-					</form>
-					<?php } ?>
+					<h1><?=(isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null)?></h1>
+					
+					<?=View::render('layouts/_nav')?>
 				</div>
 			</header>
-			<nav id="nav">
-				<div class="container">
-					<ul id="main_nav">
-					<?php if (isset($project)) { ?>
-						<li<?php echo iif(active_nav('/:slug'), ' class="active"')?>><?php echo HTML::link(l('project_info'), $project->href()); ?></li>
-						<li<?php echo iif(active_nav('/:slug/timeline'), ' class="active"')?>><?php echo HTML::link(l('timeline'), $project->href("timeline")); ?></li>
-						<li<?php echo iif(active_nav('/:slug/(roadmap|milestone)(.*)'), ' class="active"')?>><?php echo HTML::link(l('roadmap'), $project->href("roadmap")); ?></li>
-						<li<?php echo iif(active_nav('/:slug/tickets(?:/[0-9]+)?'), ' class="active"')?>><?php echo HTML::link(l('tickets'), $project->href("tickets")); ?></li>
-						<?php if($current_user->permission($project->id, 'create_tickets')) { ?>
-						<li<?php echo iif(active_nav('/:slug/tickets/new(.*)'), ' class="active"')?>><?php echo HTML::link(l('new_ticket'), $project->href('tickets/new')); ?></li>
-						<?php } ?>
-						<li<?php echo iif(active_nav('/:slug/changelog'), ' class="active"')?>><?php echo HTML::link(l('changelog'), $project->href('changelog')); ?></li>
-						<?php if ($project->enable_wiki) { ?>
-						<li<?php echo iif(active_nav('/:slug/wiki(.*)'), ' class="active"')?>><?php echo HTML::link(l('wiki'), $project->href("wiki")); ?></li>
-						<?php } ?>
-						<?php if($current_user->permission($project->id, 'project_settings')) { ?>
-						<li<?php echo iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>><?php echo HTML::link(l('settings'), $project->href("settings")); ?></li>
-						<?php } ?>
-					<?php } else { ?>
-						<li<?php echo iif(active_nav('/'), ' class="active"')?>><?php echo HTML::link(l('projects'), null); ?></li>
-					<?php } ?>
-					<?php FishHook::run('template:layouts/default/main_nav', array(isset($project) ? $project : false)); ?>
-					</ul>
-				</div>
-			</nav>
 			<div id="page">
 				<div class="container">
-					<?php if (current_user()->password_ver == 'sha1') : ?>
+					<?php if (current_user()->password_ver == 'sha1'): ?>
 						<div id="password-change-prompt">
 							<div class="error" style="text-align: center;">
 								<h3><?=l('password_change_prompt')?></h3>
-								<div><?php echo HTML::link(l('change_password'), '/usercp/password')?></div>
+								<div><?=HTML::link(l('change_password'), '/usercp/password')?></div>
 							</div>
 						</div>
 					<?php endif ?>
 
-					<?php echo $content; ?>
+					<?=$content?>
 				</div>
 			</div>
 			<footer id="footer">
 				<div class="container">
-					<?php echo l('copyright', TRAQ_VER, date("Y")); ?>
+					<?=l('copyright', TRAQ_VER, date("Y"))?>
 				</div>
 			</footer>
-			<!-- <?php echo round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3); ?>mb -->
+			<!-- <?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb -->
 		</div>
 	</body>
 </html>
