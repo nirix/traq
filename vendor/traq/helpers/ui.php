@@ -32,20 +32,35 @@ function ui_package($entry) {
   $manifestPath = dirname(dirname(dirname(__DIR__))).'/assets/ui/manifest.json';
   $manifest = json_decode(file_get_contents($manifestPath), true);
 
-  $index = "traq-ui/${entry}.ts";
+  // Direct match or no?
+  if (isset($manifest[$entry])) {
+    $index = $entry;
+  } else {
+    $index = "traq-ui/${entry}.ts";
+  }
+
   if (isset($manifest[$index])) {
     $info = $manifest[$index];
     $file = $info['file'];
 
     $html = [];
 
+    // CSS files
     if (isset($info['css'])) {
       foreach ($info['css'] as $cssFile) {
-        $html[] = HTML::css_link(Request::base()."assets/ui/${cssFile}");
+        $html[] = '<link rel="stylesheet" href="'.Request::base("assets/ui/${cssFile}").'" media="screen" />';
       }
     }
 
-    $html[] = HTML::js_inc(Request::base()."assets/ui/${file}");
+    // Modules/chunks
+    if (isset($info['imports'])) {
+      foreach ($info['imports'] as $importFile) {
+        $html[] = ui_package($importFile);
+      }
+    }
+
+    // Main file
+    $html[] = '<script type="module" src="'.Request::base("assets/ui/${file}").'" type="text/javascript"></script>';
 
     return implode(PHP_EOL, $html);
   }
