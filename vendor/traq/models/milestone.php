@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2022 Jack P.
+ * Copyright (C) 2012-2022 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -163,13 +166,16 @@ class Milestone extends Model
     public function save()
     {
         // Set completed date
-        if ($this->_data['status'] != 1 and $this->completed_on == null) {
+        if (isset($this->_data['status']) && $this->_data['status'] != 1 && $this->completed_on == null) {
             $this->set('completed_on', "NOW()");
         }
 
         if (parent::save()) {
             // Check if the status has been changed, if it has, is it completed or cancelled?
-            if ($this->original_status != $this->_data['status'] and $this->_data['status'] != 1) {
+            if (isset($this->original_status, $this->_data['stats'])
+                && $this->original_status != $this->_data['status']
+                && $this->_data['status'] != 1
+            ) {
                 $timeline = new Timeline(array(
                     'project_id' => $this->project_id,
                     'owner_id' => $this->id,
