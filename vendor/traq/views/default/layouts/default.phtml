@@ -12,7 +12,9 @@
 			<?=View::render('layouts/_meta_nav')?>
 			<header id="header">
 				<div class="container">
-					<h1><?=(isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null)?></h1>
+					<div>
+						<h1><?=(isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null)?></h1>
+					</div>
 					
 					<?=View::render('layouts/_nav')?>
 				</div>
