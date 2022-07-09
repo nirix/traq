@@ -21,7 +21,7 @@
         <?php FishHook::run('template:layouts/default/main_nav', [isset($project) ? $project : false]); ?>
     </ul>
     
-    <?php if($current_user->permission($project->id, 'project_settings')): ?>
+    <?php if(isset($project) && $current_user->permission($project->id, 'project_settings')): ?>
     <ul>
         <li<?=iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>>
             <?=HTML::link(l('settings'), $project->href('settings'))?>
