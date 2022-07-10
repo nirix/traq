@@ -1,4 +1,5 @@
 @import "easymde/dist/easymde.min.css";
+@import "./forms.css";
 
 @tailwind base;
 @tailwind components;

@@ -16,10 +16,13 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "axios": "^0.27.2",
+    "dompurify": "^2.3.8",
     "easymde": "^2.16.1",
     "luxon": "^2.4.0",
+    "marked": "^4.0.17",
     "pinia": "^2.0.14",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",

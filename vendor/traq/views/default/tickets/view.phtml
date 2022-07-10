@@ -1,4 +1,7 @@
-<div id="ticket_info">
+<div id="vue-tickets"></div>
+<?=ui_package('ticket')?>
+
+<!-- <div id="ticket_info">
 	<div class="ticket_actions">
 		<?php echo subscription_link_for($ticket); ?>
 		<?php if ($current_user->permission($ticket->project_id, 'delete_tickets')) {
@@ -167,4 +170,4 @@
 	</div>
 <?php } ?>
 </div>
-<?php echo View::render('tickets/_update_ticket_form'); ?>
+<?php echo View::render('tickets/_update_ticket_form'); ?> -->

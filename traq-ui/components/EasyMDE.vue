@@ -14,7 +14,7 @@ export default {
       element: this.$refs["textarea"],
       status: false,
       uploadImage: false,
-      minHeight: this.minHeight ?? "500px",
+      minHeight: this.minHeight ?? "150px",
     })
 
     this.easyMDE.codemirror.on("change", (instance, changeObj) => {
@@ -25,7 +25,7 @@ export default {
       this.$emit("update:modelValue", this.easyMDE.value())
     })
 
-    this.easyMDE.codemirror.on("blue", () => this.$emit("update:modelValue", this.easyMDE.value()))
+    this.easyMDE.codemirror.on("blur", () => this.$emit("update:modelValue", this.easyMDE.value()))
   },
 
   beforeUnmount() {
@@ -43,5 +43,5 @@ export default {
 </script>
 
 <template>
-  <textarea :name="name" ref="textarea"></textarea>
+  <textarea :name="name" ref="textarea" :value="modelValue"></textarea>
 </template>

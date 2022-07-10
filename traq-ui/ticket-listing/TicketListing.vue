@@ -36,15 +36,19 @@ export default {
 
   mounted() {
     const customFieldsUrl = `${window.traq.base}api/${window.traq.project_slug}/custom-fields`
-    const authUrl = `${window.traq.base}api/auth/${window.traq.project_slug}`
 
-    this.getTickets()
-
-    Promise.all([axios.get(customFieldsUrl), axios.get(authUrl)]).then(([customFields, auth]) => {
+    Promise.all([axios.get(customFieldsUrl)]).then(([customFields]) => {
       this.customFields = customFields.data
-      this.auth.setAuth(auth.data)
       this.isLoading = false
     })
+  },
+
+  watch: {
+    isLoading(newVal) {
+      if (newVal === true) {
+        this.getTickets()
+      }
+    },
   },
 
   computed: {
@@ -273,9 +277,12 @@ export default {
         </td>
         <td v-if="columns.includes('ticket_id')">{{ ticket.ticket_id }}</td>
         <td v-if="columns.includes('summary')">
-          <a :href="ticketUrl(ticket.id)">
+          <!-- <a :href="ticketUrl(ticket.id)">
             {{ ticket.summary }}
-          </a>
+          </a> -->
+          <router-link :to="{ name: 'ticket', params: { ticket: ticket.ticket_id } }">
+            {{ ticket.summary }}
+          </router-link>
         </td>
         <td v-if="columns.includes('status')">{{ ticket.status.name }}</td>
         <td v-if="columns.includes('owner')">

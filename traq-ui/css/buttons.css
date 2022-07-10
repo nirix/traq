@@ -84,6 +84,21 @@ input[type="reset"] {
     }
   }
 
+  &.btn-warning {
+    @apply text-black;
+    @apply bg-amber-300 hover:bg-amber-400 active:bg-amber-500;
+    @apply border-amber-300 hover:border-amber-400 active:border-amber-500;
+    @apply ring-amber-300/30;
+
+    &:disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply bg-amber-200 border-amber-200;
+      }
+    }
+  }
+
   &.btn-danger {
     @apply text-white;
     @apply bg-red-500 hover:bg-red-600 active:bg-red-700;

@@ -135,6 +135,8 @@ class API extends AppController
 
             $data['id'] = (int) $data['id'];
             $data['group_id'] = (int) $data['group_id'];
+            $data['group'] = $this->user->group->__toArray();
+            $data['group']['is_admin'] = $data['group']['is_admin'] === "1";
 
             $data['permissions'] = [];
             if ($this->project) {
