@@ -44,6 +44,11 @@ input[type="reset"] {
   @apply cursor-pointer;
   @apply appearance-none;
 
+  &.btn-sm {
+    @apply text-xs;
+    @apply py-1 px-2;
+  }
+
   &:disabled {
     @apply cursor-not-allowed;
 
@@ -65,6 +70,21 @@ input[type="reset"] {
       &:hover,
       &:active {
         @apply bg-brand-300 border-brand-300;
+      }
+    }
+  }
+
+  &.btn-info {
+    @apply text-white;
+    @apply bg-sky-500 hover:bg-sky-600 active:bg-sky-700;
+    @apply border-sky-500 hover:border-sky-600 active:border-sky-700;
+    @apply ring-sky-500/30;
+
+    &:disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply bg-sky-300 border-sky-300;
       }
     }
   }
