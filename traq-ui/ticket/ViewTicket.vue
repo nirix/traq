@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue"
+import { onMounted, ref, computed, watch } from "vue"
 import { useRoute } from "vue-router"
 import axios from "axios"
 import DOMPurify from "dompurify"
 import { marked } from "marked"
-import { faPencil } from "@fortawesome/free-solid-svg-icons"
+import { DateTime } from "luxon"
+import { faPencil, faTrashCan, faAnglesRight, faEnvelopeCircleCheck } from "@fortawesome/free-solid-svg-icons"
 import { useAuthStore } from "../stores/auth"
 import EasyMDE from "../components/EasyMDE.vue"
+import ConfirmDialog from "../components/ConfirmDialog.vue"
+import SkeletonLoader from "../components/SkeletonLoader.vue"
 
 const auth = useAuthStore()
 const route = useRoute()
@@ -14,7 +17,17 @@ const route = useRoute()
 const editing = ref<boolean>(false)
 const ticket = ref()
 const ticketDescription = ref<string>()
+
+watch(ticket, () => (document.title = `${ticket.value.summary} (#${ticket.value.ticket_id}) - ${ticket.value.project.name}`))
+
+// Computed
 const formattedDescription = computed(() => DOMPurify.sanitize(marked.parse(ticket.value.body)))
+const formattedCreatedAtDate = computed(() =>
+  ticket.value.created_at ? DateTime.fromSQL(ticket.value.created_at, { zone: "UTC" }).toLocal().toRelative() : "-"
+)
+const formattedUpdatedAtDate = computed(() =>
+  ticket.value.created_at ? DateTime.fromSQL(ticket.value.updated_at, { zone: "UTC" }).toLocal().toRelative() : "-"
+)
 
 onMounted((): void => {
   const { project: projectSlug, ticket: ticketId } = route.params
@@ -32,7 +45,26 @@ onMounted((): void => {
     <div class="ticket-info">
       <div class="ticket-header">
         <div class="summary">#{{ ticket.ticket_id }} - {{ ticket.summary }}</div>
-        <div class="actions"></div>
+        <div class="actions">
+          <div class="btn-group">
+            <button class="btn-info btn-sm" title="Subscribe to updates">
+              <fa-icon :icon="faEnvelopeCircleCheck" />
+              <span class="visually-hidden">Subscribe</span>
+            </button>
+            <button class="btn-warning btn-sm" title="Move ticket">
+              <fa-icon :icon="faAnglesRight" />
+              <span class="visually-hidden">Move</span>
+            </button>
+            <ConfirmDialog
+              btn-class="btn-danger btn-sm !rounded-r"
+              btn-title="Delete ticket"
+              btn-label="Delete"
+              :btn-icon="faTrashCan"
+              btn-label-class="visually-hidden"
+              :message="`Really delete '${ticket.summary}'?`"
+            />
+          </div>
+        </div>
       </div>
       <div class="ticket-properties">
         <div class="ticket-property">
@@ -72,12 +104,12 @@ onMounted((): void => {
 
         <div class="ticket-property">
           <strong>Created</strong>
-          <span></span>
+          <span>{{ formattedCreatedAtDate }}</span>
         </div>
 
         <div class="ticket-property">
           <strong>Updated</strong>
-          <span></span>
+          <span>{{ formattedUpdatedAtDate }}</span>
         </div>
       </div>
       <div class="ticket-description">
@@ -86,7 +118,7 @@ onMounted((): void => {
           <button class="btn-success" @click="() => (editing = false)">Save</button>
         </template>
         <template v-else>
-          <button class="btn-warning edit-btn" v-if="auth.can('edit_ticket_description')" @click="() => (editing = true)">
+          <button class="btn-warning btn-sm edit-btn" title="Edit description" v-if="auth.can('edit_ticket_description')" @click="() => (editing = true)">
             <fa-icon :icon="faPencil" />
           </button>
           <div v-html="formattedDescription"></div>
@@ -94,7 +126,11 @@ onMounted((): void => {
       </div>
     </div>
   </div>
-  <div v-else>Loading...</div>
+  <div v-else>
+    <SkeletonLoader height="250px" class="my-4" />
+    <SkeletonLoader height="200px" class="mb-4" />
+    <SkeletonLoader height="200px" class="mb-4" />
+  </div>
 </template>
 
 <style scoped lang="postcss">
@@ -120,6 +156,7 @@ onMounted((): void => {
   @apply border-b border-solid border-gold-600;
 
   & > .summary {
+    flex-grow: 1;
     @apply text-2xl;
   }
 }
