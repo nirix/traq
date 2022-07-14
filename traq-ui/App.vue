@@ -2,14 +2,17 @@
 import { watch } from "vue"
 import { useRoute } from "vue-router"
 import { useAuthStore } from "./stores/auth"
+import { useProjectStore } from "./stores/project"
 
 const route = useRoute()
 const auth = useAuthStore()
+const currentProject = useProjectStore()
 
 watch(
   () => route.params.project,
-  async (project) => {
-    await auth.getUser(project)
+  (project) => {
+    auth.getUser(project)
+    currentProject.getProject(project)
   }
 )
 </script>
