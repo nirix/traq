@@ -1,21 +1,37 @@
 <script lang="ts">
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons"
+import { onMounted } from "vue"
 import axios from "axios"
 import { DateTime } from "luxon"
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons"
 import TicketFilters from "./TicketFilters.vue"
 import TicketColumns from "./TicketColumns.vue"
 import MassActions from "./MassActions.vue"
 import { useAuthStore } from "../stores/auth"
 import PaginationLinks from "../components/PaginationLinks.vue"
+import SkeletonLoader from "../components/SkeletonLoader.vue"
+import { useProjectStore } from "../stores/project"
 
 export default {
-  components: { TicketFilters, TicketColumns, MassActions, PaginationLinks },
+  components: { TicketFilters, TicketColumns, MassActions, PaginationLinks, SkeletonLoader },
 
   setup() {
     const auth = useAuthStore()
+    const currentProject = useProjectStore()
+
+    onMounted(() => {
+      const setTitle = () => {
+        document.title = `Tickets - ${currentProject.name}`
+      }
+
+      currentProject.$subscribe(setTitle)
+      if (currentProject.name) {
+        setTitle()
+      }
+    })
 
     return {
       auth,
+      currentProject,
     }
   },
 
@@ -117,7 +133,7 @@ export default {
     },
     updateUrl() {
       // Update page URL to the same URL to fetch tickets without the .json extension.
-      history.pushState({}, null, this.getTicketUrl.replace(".json", ""))
+      this.$router.push(this.getTicketUrl.replace(".json", ""))
     },
     toggleTicket(ticketId): void {
       if (this.checkedTickets.includes(ticketId)) {
@@ -156,8 +172,14 @@ export default {
   <div class="content">
     <h2 id="page_title">Tickets</h2>
   </div>
-  <TicketFilters @apply-filters="applyFilters" :custom-fields="customFields" v-if="!isLoading" />
-  <TicketColumns @apply-columns="updateColumns" :custom-fields="customFields" v-if="!isLoading" />
+  <template v-if="isLoading">
+    <SkeletonLoader class="mb-5" />
+    <SkeletonLoader class="mb-5" />
+  </template>
+  <template v-if="!isLoading">
+    <TicketFilters @apply-filters="applyFilters" :custom-fields="customFields" v-if="!isLoading" />
+    <TicketColumns @apply-columns="updateColumns" :custom-fields="customFields" v-if="!isLoading" />
+  </template>
   <table class="ticket-listing">
     <thead>
       <tr>
@@ -265,45 +287,44 @@ export default {
           </th>
         </template>
       </tr>
-      <tr v-for="ticket in tickets" :key="ticket.id" :class="'priority-' + ticket.priority.id">
-        <td v-if="auth.can('perform_mass_actions')">
-          <input
-            type="checkbox"
-            name="mass_actions[]"
-            :value="ticket.ticket_id"
-            :checked="checkedTickets.includes(ticket.ticket_id)"
-            @click="toggleTicket(ticket.ticket_id)"
-          />
-        </td>
-        <td v-if="columns.includes('ticket_id')">{{ ticket.ticket_id }}</td>
-        <td v-if="columns.includes('summary')">
-          <!-- <a :href="ticketUrl(ticket.id)">
-            {{ ticket.summary }}
-          </a> -->
-          <router-link :to="{ name: 'ticket', params: { ticket: ticket.ticket_id } }">
-            {{ ticket.summary }}
-          </router-link>
-        </td>
-        <td v-if="columns.includes('status')">{{ ticket.status.name }}</td>
-        <td v-if="columns.includes('owner')">
-          <a :href="userUrl(ticket.user.id)">{{ ticket.user.name }}</a>
-        </td>
-        <td v-if="columns.includes('type')">{{ ticket.type.name }}</td>
-        <td v-if="columns.includes('component')">{{ ticket.component?.name ?? "-" }}</td>
-        <td v-if="columns.includes('milestone')">{{ ticket.milestone?.name ?? "-" }}</td>
-        <td v-if="columns.includes('assigned_to')">
-          <a v-if="ticket.assigned_to" :href="userUrl(ticket.assigned_to.id)">{{ ticket.assigned_to.name }}</a>
-          <template v-if="!ticket.assigned_to">-</template>
-        </td>
-        <td v-if="columns.includes('priority')">{{ ticket.priority.name }}</td>
-        <td v-if="columns.includes('severity')">{{ ticket.severity.name }}</td>
-        <td v-if="columns.includes('created_at')">{{ formatDate(ticket.created_at) }}</td>
-        <td v-if="columns.includes('updated_at')">{{ formatDate(ticket.updated_at) }}</td>
-        <td v-if="columns.includes('votes')">{{ ticket.votes }}</td>
-        <template v-for="field in customFields" :key="field.slug">
-          <td v-if="columns.includes(field.slug)">{{ ticket.custom_fields[field.slug.replaceAll("-", "_")] ?? "-" }}</td>
-        </template>
-      </tr>
+      <TransitionGroup enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0" enter-to-class="opacity-100">
+        <tr v-for="ticket in tickets" :key="ticket.id" :class="'priority-' + ticket.priority.id">
+          <td v-if="auth.can('perform_mass_actions')">
+            <input
+              type="checkbox"
+              name="mass_actions[]"
+              :value="ticket.ticket_id"
+              :checked="checkedTickets.includes(ticket.ticket_id)"
+              @click="toggleTicket(ticket.ticket_id)"
+            />
+          </td>
+          <td v-if="columns.includes('ticket_id')">{{ ticket.ticket_id }}</td>
+          <td v-if="columns.includes('summary')">
+            <router-link :to="{ name: 'ticket', params: { ticket: ticket.ticket_id } }">
+              {{ ticket.summary }}
+            </router-link>
+          </td>
+          <td v-if="columns.includes('status')">{{ ticket.status.name }}</td>
+          <td v-if="columns.includes('owner')">
+            <a :href="userUrl(ticket.user.id)">{{ ticket.user.name }}</a>
+          </td>
+          <td v-if="columns.includes('type')">{{ ticket.type.name }}</td>
+          <td v-if="columns.includes('component')">{{ ticket.component?.name ?? "-" }}</td>
+          <td v-if="columns.includes('milestone')">{{ ticket.milestone?.name ?? "-" }}</td>
+          <td v-if="columns.includes('assigned_to')">
+            <a v-if="ticket.assigned_to" :href="userUrl(ticket.assigned_to.id)">{{ ticket.assigned_to.name }}</a>
+            <template v-if="!ticket.assigned_to">-</template>
+          </td>
+          <td v-if="columns.includes('priority')">{{ ticket.priority.name }}</td>
+          <td v-if="columns.includes('severity')">{{ ticket.severity.name }}</td>
+          <td v-if="columns.includes('created_at')">{{ formatDate(ticket.created_at) }}</td>
+          <td v-if="columns.includes('updated_at')">{{ formatDate(ticket.updated_at) }}</td>
+          <td v-if="columns.includes('votes')">{{ ticket.votes }}</td>
+          <template v-for="field in customFields" :key="field.slug">
+            <td v-if="columns.includes(field.slug)">{{ ticket.custom_fields[field.slug.replaceAll("-", "_")] ?? "-" }}</td>
+          </template>
+        </tr>
+      </TransitionGroup>
     </thead>
   </table>
   <PaginationLinks :current-page="currentPage" :total-pages="totalPages" @navigate="changePage" />
