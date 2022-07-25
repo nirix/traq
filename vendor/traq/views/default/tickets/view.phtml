@@ -1,4 +1,8 @@
-<div id="vue-traq"></div>
+<div id="vue-traq">
+	<h2>#<?= $ticket->ticket_id ?> - <?= $ticket->summary ?></h2>
+	<h3><?= l('description') ?></h3>
+	<p><?= format_text($ticket->body) ?></p>
+</div>
 <?= ui_package('traq') ?>
 
 <div id="ticket_history">
