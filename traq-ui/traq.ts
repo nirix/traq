@@ -21,4 +21,4 @@ app.use(router)
 app.use(pinia)
 app.component("fa-icon", FontAwesomeIcon)
 
-app.mount("#vue-tickets")
+app.mount("#vue-traq")

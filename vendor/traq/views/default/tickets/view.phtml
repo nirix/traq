@@ -1,173 +1,186 @@
-<div id="vue-tickets"></div>
-<?=ui_package('ticket')?>
+<div class="ticket-view">
+	<div class="ticket-info">
+		<div class="ticket-header">
+			<div class="ticket-summary">
+				#<?= $ticket->ticket_id ?> - <?= htmlspecialchars($ticket->summary) ?>
+			</div>
+			<div class="ticket-actions">
+				<div class="btn-group">
+					<?= subscription_icon_for($ticket) ?>
+					<?php if ($current_user->permission($ticket->project_id, 'delete_tickets')) : ?>
+						<a href="<?= Request::base($ticket->href('delete')) ?>" class="btn-danger btn-sm" data-confirm="<?= l('confirm.delete_x', $ticket->summary) ?>" title="<?= l('delete') ?>">
+							<span class="fas fa-fw fa-trash"></span>
+							<span class="visually-hidden"><?= l('delete') ?></span>
+						</a>
+					<?php endif; ?>
+					<?php if ($current_user->permission($ticket->project_id, 'move_tickets')) : ?>
+						<a href="<?= Request::base($ticket->href('move')) ?>" class="btn-warning btn-sm" title="<?= l('move') ?>">
+							<span class="fas fa-fw fa-angles-right"></span>
+							<span class="visually-hidden"><?= l('move') ?></span>
+						</a>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
 
-<!-- <div id="ticket_info">
-	<div class="ticket_actions">
-		<?php echo subscription_link_for($ticket); ?>
-		<?php if ($current_user->permission($ticket->project_id, 'delete_tickets')) {
-			echo HTML::link(l('delete'), $ticket->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $ticket->summary)));
-		} ?>
-		<?php if ($current_user->permission($ticket->project_id, 'move_tickets')) {
-			echo HTML::link(l('move'), $ticket->href('move'), array('class' => 'button_move'));
-		} ?>
-	</div>
-	<h2 id="ticket_summary"><?php echo htmlspecialchars($ticket->summary); ?></h2>
-	<section class="properties">
-		<div class="property">
-			<?php echo Form::label(l('ticket_id')); ?>
-			<span class="value"><?php echo $ticket->ticket_id; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('type')); ?>
-			<span class="value"><?php echo $ticket->type->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('owner')); ?>
-			<span class="value"><?php echo HTML::link(strshorten($ticket->user->name, 20), $ticket->user->href()); ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('assigned_to')); ?>
-			<span class="value"><?php echo $ticket->assigned_to ? HTML::link(strshorten($ticket->assigned_to->name, 20), $ticket->assigned_to->href()) : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('milestone')); ?>
-			<span class="value"><?php echo $ticket->milestone ? HTML::link($ticket->milestone->name, $ticket->milestone->href()) : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('version')); ?>
-			<span class="value"><?php echo $ticket->version ? $ticket->version->name : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('component')); ?>
-			<span class="value"><?php echo $ticket->component ? $ticket->component->name : '-'; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('status')); ?>
-			<span class="value"><?php echo $ticket->status->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('priority')); ?>
-			<span class="value"><?php echo $ticket->priority->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('severity')); ?>
-			<span class="value"><?php echo $ticket->severity->name; ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('reported')); ?>
-			<span class="value"><?php echo time_ago($ticket->created_at, false, true); ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('updated')); ?>
-			<span class="value" id="updated_at"><?php echo $ticket->updated_at > $ticket->created_at ? time_ago($ticket->updated_at, false, true) : l('never'); ?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('votes')); ?>
-			<span class="value">
-				<?php echo ($ticket->votes == 0) ? "<span id=\"votes\">{$ticket->votes}</span>" : HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover-hover' => Request::base($ticket->href('/voters')))); ?>
-				<?php if (LOGGEDIN and $current_user->permission($project->id, 'vote_on_tickets') and !in_array($current_user->id, $ticket->extra['voted']) and $current_user->id != $ticket->user_id) {
-					echo HTML::link('+', $ticket->href('/vote'), array('data-ajax' => true));
-				} ?>
-			</span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('related_tickets')); ?>
-			<ul class="value">
-			<?php foreach ($ticket->related_tickets() as $related_ticket) { ?>
-				<li><?php echo HTML::link("#" . $related_ticket->ticket_id, $related_ticket->href()); ?></li>
-			<?php } ?>
-			</ul>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('proposed_time')); ?>
-			<span class="value"><?=$ticket->time_proposed?></span>
-		</div>
-		<div class="property">
-			<?php echo Form::label(l('worked_time')); ?>
-			<span class="value"><?=$ticket->time_worked?></span>
-		</div>
-		<?php
-		foreach ($custom_fields as $field) {
+		<section class="ticket-properties">
+			<div class="ticket-property">
+				<h3><?= l('type') ?></h3>
+				<span class="value"><?php echo $ticket->type->name; ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('status') ?></h3>
+				<span class="value"><?php echo $ticket->status->name; ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('milestone') ?></h3>
+				<span class="value"><?php echo $ticket->milestone ? HTML::link($ticket->milestone->name, $ticket->milestone->href()) : '-'; ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('version') ?></h3>
+				<span class="value"><?php echo $ticket->version ? $ticket->version->name : '-'; ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('component') ?></h3>
+				<span class="value"><?php echo $ticket->component ? $ticket->component->name : '-'; ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('priority') ?></h3>
+				<span class="value"><?php echo $ticket->priority->name; ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('severity') ?></h3>
+				<span class="value"><?php echo $ticket->severity->name; ?></span>
+			</div>
+
+			<div class="ticket-property">
+				<h3><?= l('owner') ?></h3>
+				<span class="value"><?php echo HTML::link(strshorten($ticket->user->name, 20), $ticket->user->href()); ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('assigned_to') ?></h3>
+				<span class="value"><?php echo $ticket->assigned_to ? HTML::link(strshorten($ticket->assigned_to->name, 20), $ticket->assigned_to->href()) : '-'; ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('reported') ?></h3>
+				<span class="value"><?php echo time_ago($ticket->created_at, false, true); ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('updated') ?></h3>
+				<span class="value" id="updated_at"><?php echo $ticket->updated_at > $ticket->created_at ? time_ago($ticket->updated_at, false, true) : l('never'); ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('votes') ?></h3>
+				<span class="value">
+					<?php echo ($ticket->votes == 0) ? "<span id=\"votes\">{$ticket->votes}</span>" : HTML::link($ticket->votes, $ticket->href('#'), array('id' => 'votes', 'data-popover-hover' => Request::base($ticket->href('/voters')))); ?>
+					<?php if (LOGGEDIN and $current_user->permission($project->id, 'vote_on_tickets') and !in_array($current_user->id, $ticket->extra['voted']) and $current_user->id != $ticket->user_id) {
+						echo HTML::link('+', $ticket->href('/vote'), array('data-ajax' => true));
+					} ?>
+				</span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('related_tickets') ?></h3>
+				<ul class="value">
+					<?php foreach ($ticket->related_tickets() as $related_ticket) { ?>
+						<li><?php echo HTML::link("#" . $related_ticket->ticket_id, $related_ticket->href()); ?></li>
+					<?php } ?>
+				</ul>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('proposed_time') ?></h3>
+				<span class="value"><?= $ticket->time_proposed ?></span>
+			</div>
+			<div class="ticket-property">
+				<h3><?= l('worked_time') ?></h3>
+				<span class="value"><?= $ticket->time_worked ?></span>
+			</div>
+			<?php
+			foreach ($custom_fields as $field) {
 				if ($field_value = $ticket->custom_field_value($field->id)) {
-		?>
-		<div class="property">
-			<?php echo Form::label($field->name); ?>
-			<span class="value"><?php echo implode(', ', (array)$field_value->value); ?></span>
-		</div>
-		<?php }
-		}
-		?>
-
-		<div class="clearfix"></div>
-	</section>
-	<section id="description">
-		<h3>
-			<?php echo l('description'); ?>
-			<?php if ($current_user->permission($project->id, 'edit_ticket_description')) {
-				echo HTML::link('', $ticket->href() . '/edit', array('title' => l('edit_ticket'), 'data-overlay' => true, 'class' => 'button_edit'));
-			} ?>
-		</h3>
-		<div class="body">
-			<?php echo format_text($ticket->body, true); ?>
-		</div>
-	</section>
-	<?php if (is_array($ticket->tasks) and count($ticket->tasks)) { ?>
-	<section id="tasks">
-		<h3><?php echo l('tasks')?></h3>
-		<ul>
-<?php foreach ($ticket->tasks as $id => $task) { ?>
-			<li class="task" id="task_<?php echo $id?>">
-				<?php echo Form::checkbox("task[{$id}]", 1, array('data-task-id' => $id, 'data-url' => Request::base($ticket->href("tasks/{$id}")), 'checked' => $task['completed'], 'disabled' => !current_user()->permission($project->id, 'ticket_properties_complete_tasks')))?>
-				<?php echo ticket_links($task['task'])?>
-			</li>
-<?php } ?>
-		</ul>
-	</section>
-	<?php } ?>
-	<?php if ($current_user->permission($ticket->project_id, 'view_attachments') and $attachments = $ticket->attachments->exec() and $attachments->row_count() > 0) { ?>
-	<section id="attachments">
-		<h3><?php echo l('attachments'); ?></h3>
-		<ul>
-		<?php foreach ($attachments->fetch_all() as $attachment) { ?>
-			<li>
-				<?php echo l('x_uploaded_by_x_x_ago', HTML::link("<span class=\"attachment_filename\">{$attachment->name}</span>", $attachment->href()), HTML::link(strshorten($attachment->user->name, 20), $attachment->user->href()), time_ago($attachment->created_at, false)); ?>
-				<?php if ($current_user->permission($ticket->project_id, 'delete_attachments')) {
-					echo HTML::link('', $attachment->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $attachment->name)));
-				} ?>
-			</li>
+			?>
+					<div class="ticket-property">
+						<h3><?= $field->name ?></h3>
+						<span class="value"><?php echo implode(', ', (array)$field_value->value); ?></span>
+					</div>
+			<?php }
+			}
+			?>
+		</section>
+		<section class="ticket-description" x-data="{ editing: false }">
+			<?php if ($current_user->permission($project->id, 'edit_ticket_description')) : ?>
+				<button @click="editing = !editing" class="btn-warning btn-sm ticket-edit-btn">
+					<span class="fas fa-fw fa-pencil"></span>
+				</button>
+			<?php endif ?>
+			<div class="body">
+				<div x-show="!editing">
+					<?= format_text($ticket->body, true) ?>
+				</div>
+				<?php if ($current_user->permission($project->id, 'edit_ticket_description')) : ?>
+					<div x-show="editing" x-init="new EasyMDE({ element: $el })">
+						wat
+					</div>
+				<?php endif; ?>
+			</div>
+		</section>
+		<?php if (is_array($ticket->tasks) and count($ticket->tasks)) { ?>
+			<section id="tasks">
+				<h3><?php echo l('tasks') ?></h3>
+				<ul>
+					<?php foreach ($ticket->tasks as $id => $task) { ?>
+						<li class="task" id="task_<?php echo $id ?>">
+							<?php echo Form::checkbox("task[{$id}]", 1, array('data-task-id' => $id, 'data-url' => Request::base($ticket->href("tasks/{$id}")), 'checked' => $task['completed'], 'disabled' => !current_user()->permission($project->id, 'ticket_properties_complete_tasks'))) ?>
+							<?php echo ticket_links($task['task']) ?>
+						</li>
+					<?php } ?>
+				</ul>
+			</section>
 		<?php } ?>
-		</ul>
-	</section>
-	<?php } ?>
+		<?php if ($current_user->permission($ticket->project_id, 'view_attachments') and $attachments = $ticket->attachments->exec() and $attachments->row_count() > 0) { ?>
+			<section id="attachments">
+				<h3><?php echo l('attachments'); ?></h3>
+				<ul>
+					<?php foreach ($attachments->fetch_all() as $attachment) { ?>
+						<li>
+							<?php echo l('x_uploaded_by_x_x_ago', HTML::link("<span class=\"attachment_filename\">{$attachment->name}</span>", $attachment->href()), HTML::link(strshorten($attachment->user->name, 20), $attachment->user->href()), time_ago($attachment->created_at, false)); ?>
+							<?php if ($current_user->permission($ticket->project_id, 'delete_attachments')) {
+								echo HTML::link('', $attachment->href('/delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $attachment->name)));
+							} ?>
+						</li>
+					<?php } ?>
+				</ul>
+			</section>
+		<?php } ?>
+	</div>
 </div>
 <div id="ticket_history">
 	<h3><?php echo l('ticket_history'); ?></h3>
-<?php foreach ($ticket_history as $update) { ?>
-	<div class="update" id="ticket_update_<?php echo $update->id; ?>">
-		<h4>
-			<?php echo l('x_by_x', time_ago($update->created_at), HTML::link(strshorten($update->user->name, 20), $update->user->href())); ?>
-			<?php
-			if ($current_user->permission($ticket->project_id, 'edit_ticket_history')) {
-				echo HTML::link('', $ticket->href("/history/{$update->id}/edit"), array('title' => l('edit'), 'class' => 'button_edit', 'data-overlay' => true));
-			}
-			if ($current_user->permission($ticket->project_id, 'delete_ticket_history')) {
-				echo HTML::link('', $ticket->href("/history/{$update->id}/delete"), array('title' => l('delete'), 'class' => 'button_delete', 'data-ajax-confirm' => l('confirm.delete')));
-			}
-			?>
-		</h4>
-		<?php if (is_array($update->changes)) { ?>
-		<ul class="changes">
-			<?php foreach ($update->changes as $change) { ?>
-			<li><?php echo View::render('tickets/_history_change_bit', array('change' => $change)); ?></li>
+	<?php foreach ($ticket_history as $update) { ?>
+		<div class="update" id="ticket_update_<?php echo $update->id; ?>">
+			<h4>
+				<?php echo l('x_by_x', time_ago($update->created_at), HTML::link(strshorten($update->user->name, 20), $update->user->href())); ?>
+				<?php
+				if ($current_user->permission($ticket->project_id, 'edit_ticket_history')) {
+					echo HTML::link('', $ticket->href("/history/{$update->id}/edit"), array('title' => l('edit'), 'class' => 'button_edit', 'data-overlay' => true));
+				}
+				if ($current_user->permission($ticket->project_id, 'delete_ticket_history')) {
+					echo HTML::link('', $ticket->href("/history/{$update->id}/delete"), array('title' => l('delete'), 'class' => 'button_delete', 'data-ajax-confirm' => l('confirm.delete')));
+				}
+				?>
+			</h4>
+			<?php if (is_array($update->changes)) { ?>
+				<ul class="changes">
+					<?php foreach ($update->changes as $change) { ?>
+						<li><?php echo View::render('tickets/_history_change_bit', array('change' => $change)); ?></li>
+					<?php } ?>
+				</ul>
 			<?php } ?>
-		</ul>
-		<?php } ?>
-		<?php if ($update->comment != '') { ?>
-		<div class="comment">
-			<?php echo format_text($update->comment); ?>
+			<?php if ($update->comment != '') { ?>
+				<div class="comment">
+					<?php echo format_text($update->comment); ?>
+				</div>
+			<?php } ?>
 		</div>
-		<?php } ?>
-	</div>
-<?php } ?>
+	<?php } ?>
 </div>
-<?php echo View::render('tickets/_update_ticket_form'); ?> -->
+<?php echo View::render('tickets/_update_ticket_form'); ?>

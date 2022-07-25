@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, computed, watch } from "vue"
+import { onMounted, ref, computed } from "vue"
 import { useRoute } from "vue-router"
 import axios from "axios"
 import DOMPurify from "dompurify"
@@ -17,8 +17,6 @@ const route = useRoute()
 const editing = ref<boolean>(false)
 const ticket = ref()
 const ticketDescription = ref<string>()
-
-watch(ticket, () => (document.title = `${ticket.value.summary} (#${ticket.value.ticket_id}) - ${ticket.value.project.name}`))
 
 // Computed
 const formattedDescription = computed(() => DOMPurify.sanitize(marked.parse(ticket.value.body)))

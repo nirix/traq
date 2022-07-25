@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./traq-ui/**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./traq-ui/**/*.{vue,js,ts,jsx,tsx}", "./vendor/traq/**/*.phtml", "./src/**/*.phtml"],
   theme: {
     extend: {
       colors: {

@@ -18,17 +18,6 @@ export default {
     const auth = useAuthStore()
     const currentProject = useProjectStore()
 
-    onMounted(() => {
-      const setTitle = () => {
-        document.title = `Tickets - ${currentProject.name}`
-      }
-
-      currentProject.$subscribe(setTitle)
-      if (currentProject.name) {
-        setTitle()
-      }
-    })
-
     return {
       auth,
       currentProject,
@@ -300,9 +289,7 @@ export default {
           </td>
           <td v-if="columns.includes('ticket_id')">{{ ticket.ticket_id }}</td>
           <td v-if="columns.includes('summary')">
-            <router-link :to="{ name: 'ticket', params: { ticket: ticket.ticket_id } }">
-              {{ ticket.summary }}
-            </router-link>
+            <a :href="ticketUrl(ticket.ticket_id)">{{ ticket.summary }}</a>
           </td>
           <td v-if="columns.includes('status')">{{ ticket.status.name }}</td>
           <td v-if="columns.includes('owner')">
@@ -333,8 +320,6 @@ export default {
 </template>
 
 <style scoped lang="postcss">
-@import "../css/forms.css";
-
 table.ticket-listing {
   & th {
     & > svg {
