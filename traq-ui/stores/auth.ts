@@ -24,12 +24,12 @@ export const useAuthStore = defineStore("auth", {
       return state.user?.name
     },
     isAuthenticated(state): boolean {
-      return state.user !== null
+      // Check if guest group id
+      return state.user.group_id !== 3
     },
   },
   actions: {
     async getUser(project) {
-      // const route = useRoute()
       let authUrl = `${window.traq.base}api/auth`
 
       if (project) {

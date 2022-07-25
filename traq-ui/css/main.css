@@ -1,4 +1,5 @@
 @import "easymde/dist/easymde.min.css";
+@import "./tickets.css";
 @import "./forms.css";
 @import "./utils.css";
 @import "./header.css";

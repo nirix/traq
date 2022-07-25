@@ -11,6 +11,7 @@ export default {
 
   mounted() {
     this.easyMDE = new EasyMDE({
+      autoDownloadFontAwesome: false,
       element: this.$refs["textarea"],
       status: false,
       uploadImage: false,
@@ -43,5 +44,5 @@ export default {
 </script>
 
 <template>
-  <textarea :name="name" ref="textarea" :value="modelValue"></textarea>
+  <textarea ref="textarea" :value="modelValue"></textarea>
 </template>
