@@ -1,5 +1,7 @@
 .btn-group {
-  & > button {
+  @apply flex;
+
+  & > * {
     @apply rounded-none;
 
     &:first-child {
@@ -29,11 +31,20 @@
   }
 }
 
+.btn-primary,
+.btn-secondary,
+.btn-info,
+.btn-success,
+.btn-warning,
+.btn-danger,
 button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"] {
   line-height: 1.25;
+  text-decoration: none;
+  display: inline-block;
+  @apply text-center;
   @apply text-sm;
   @apply py-2 px-3;
   @apply border border-solid rounded;
