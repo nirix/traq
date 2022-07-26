@@ -21,8 +21,8 @@ if (!function_exists('_mklocale')) {
 		return l(
 			"ticket_history.{$string}",
 			'<span class="ticket_history_property">' . l($change['property']) . '</span>',
-			'<span class="ticket_history_from">' . htmlspecialchars($change['from']) . '</span>',
-			'<span class="ticket_history_to">' . htmlspecialchars($change['to']) . '</span>'
+			'<span class="change-from">' . htmlspecialchars($change['from']) . '</span>',
+			'<span class="change-to">' . htmlspecialchars($change['to']) . '</span>'
 		);
 	}
 }

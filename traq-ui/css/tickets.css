@@ -1,0 +1,46 @@
+.ticket-history {
+  & > h3 {
+    @apply text-lg;
+  }
+
+  & > .update {
+    @apply bg-white;
+    @apply border border-solid border-gray-300 rounded;
+    @apply mb-4;
+
+    & > .update-meta {
+      display: flex;
+      align-items: center;
+      @apply rounded-t;
+      @apply bg-gray-50;
+      @apply p-2;
+
+      & > h4 {
+        flex-grow: 1;
+        margin: 0;
+      }
+    }
+
+    & > .changes,
+    & > .comment {
+      @apply m-2;
+    }
+
+    & .change-from {
+      @apply bg-red-50;
+      @apply line-through;
+      @apply rounded;
+    }
+
+    & .change-to {
+      @apply bg-green-50;
+      @apply rounded;
+    }
+  }
+}
+
+.update-ticket {
+  & > h3 {
+    @apply text-lg;
+  }
+}

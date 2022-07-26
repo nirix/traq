@@ -32,8 +32,57 @@ body {
   }
 }
 
+.panel {
+  @apply bg-gray-100 rounded;
+
+  & .panel-title {
+  }
+
+  & .panel-content {
+    @apply p-2;
+  }
+
+  & .panel-footer {
+    @apply p-2;
+    @apply text-center;
+    @apply bg-gray-50;
+    @apply rounded-b;
+  }
+}
+
 #footer {
   @apply my-5;
   @apply text-gray-400;
   @apply text-center;
+}
+
+.form-group {
+  --mass-action-field-width: 305px;
+  @apply mb-2 mx-1;
+
+  display: flex;
+  align-items: center;
+  min-width: var(--mass-action-field-width);
+  max-width: var(--mass-action-field-width);
+
+  & > label {
+    min-width: 60px;
+    text-align: right;
+    /* min-width: calc(var(--mass-action-field-width) / 3);
+    max-width: calc(var(--mass-action-field-width) / 3); */
+    min-width: 115px;
+    max-width: 115px;
+    box-sizing: border-box;
+
+    @apply pr-2;
+  }
+
+  & > select,
+  & input[type="text"],
+  & .property {
+    flex-grow: 1;
+    /* min-width: calc(var(--mass-action-field-width) / 1.5);
+    max-width: calc(var(--mass-action-field-width) / 1.5); */
+    margin: 0;
+  }
 }
