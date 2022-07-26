@@ -60,6 +60,11 @@ input[type="reset"] {
     @apply py-1 px-2;
   }
 
+  &.btn-xs {
+    @apply text-xs;
+    @apply p-1;
+  }
+
   &:disabled {
     @apply cursor-not-allowed;
 
