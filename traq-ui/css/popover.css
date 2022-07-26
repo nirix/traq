@@ -1,0 +1,31 @@
+.popover-confirm {
+  min-width: 200px;
+
+  @apply bg-white text-gray-900;
+  /* @apply border border-solid border-gray-100 rounded; */
+  @apply shadow-md;
+  @apply absolute;
+  @apply rounded;
+
+  & > .popover-confirm-content {
+    @apply p-2;
+    @apply text-lg text-center;
+  }
+
+  & > .popover-confirm-actions {
+    @apply flex;
+
+    & > button {
+      @apply grow;
+      @apply rounded-none;
+
+      &:first-child {
+        @apply rounded-bl;
+      }
+
+      &:last-child {
+        @apply rounded-br;
+      }
+    }
+  }
+}
