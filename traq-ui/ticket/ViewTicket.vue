@@ -185,7 +185,7 @@ const savingTask = (index): boolean => {
           <div v-html="formattedDescription"></div>
         </template>
       </div>
-      <div class="ticket-tasks">
+      <div class="ticket-tasks" v-if="ticket.tasks.length > 0">
         <h3>Tasks</h3>
         <ul>
           <template v-for="(task, index) in ticket.tasks" :key="index">
