@@ -18,16 +18,12 @@ export default defineConfig({
     assetsDir: "",
     manifest: true,
     rollupOptions: {
-      watch: {
-        include: "traq-ui/**",
-        exclude: "node_modules/**",
-      },
       input: {
         main: resolve(__dirname, "traq-ui/main.ts"),
         traq: resolve(__dirname, "traq-ui/traq.ts"),
       },
       manualChunks: {
-        easymde: ["easymde"],
+        // easymde: ["easymde"],
       },
     },
   },

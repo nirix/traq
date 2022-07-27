@@ -16,6 +16,7 @@ import {
   faColumns,
   faArrowsAlt,
   faQuestionCircle,
+  faCircleNotch,
 } from "@fortawesome/free-solid-svg-icons"
 
 library.add(faPencil)
@@ -33,4 +34,5 @@ library.add(faImage)
 library.add(faColumns)
 library.add(faArrowsAlt)
 library.add(faQuestionCircle)
+library.add(faCircleNotch)
 dom.watch()

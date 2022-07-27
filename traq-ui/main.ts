@@ -1,3 +1,4 @@
+import axios from "axios"
 import "./css/main.css"
 import "./main/FontAwesome"
 import EasyMDE from "easymde"
@@ -23,21 +24,9 @@ Alpine.directive("mde", (el, { value, modifiers, expression }, { Alpine, effect,
   }
 })
 
-// Alpine.bind("PopoverConfirm", () => ({
-//   "x-init"() {
-//     console.log("test")
-//   },
-//   "@click"() {
-//     console.log("tester")
-//     alert("a")
-//   },
-//   ":disabled"() {
-//     return true
-//   },
-// }))
-
-Alpine.data("popoverConfirm", ({ message, success }) => ({
+Alpine.data("popoverConfirm", ({ message, success, remote }) => ({
   open: false,
+  loading: false,
 
   init() {
     const el = document.createElement("div")
@@ -59,18 +48,30 @@ Alpine.data("popoverConfirm", ({ message, success }) => ({
       this.open = false
     })
 
-    const acceptBtn = document.createElement("button")
-    acceptBtn.classList.add("btn-danger")
-    acceptBtn.textContent = window.language.yes
-    acceptBtn.addEventListener("click", () => {
+    this.acceptBtn = document.createElement("button")
+    this.acceptBtn.classList.add("btn-danger")
+    this.acceptBtn.textContent = window.language.yes
+    this.acceptBtn.addEventListener("click", () => {
+      if (remote) {
+        this.loading = true
+
+        axios.post(remote).then((resp) => {
+          this.open = false
+          this.loading = false
+          success(resp)
+        })
+
+        return
+      }
+      this.open = false
+
       if (success) {
-        this.open = false
         success()
       }
     })
 
     actionsEl.append(cancelBtn)
-    actionsEl.append(acceptBtn)
+    actionsEl.append(this.acceptBtn)
 
     el.append(messageEl)
     el.append(actionsEl)
@@ -82,6 +83,14 @@ Alpine.data("popoverConfirm", ({ message, success }) => ({
       }
 
       this.closePopover()
+    })
+
+    this.$watch("loading", () => {
+      if (this.loading) {
+        this.acceptBtn.innerHTML = '<span class="fas fa-fw fa-spin fa-circle-notch"></span>'
+      } else {
+        this.acceptBtn.textContent = window.language.yes
+      }
     })
   },
 

@@ -22,7 +22,7 @@
 						</a>
 					<?php endif; ?>
 					<?php if ($current_user->permission($ticket->project_id, 'delete_ticket_history')) : ?>
-						<button title="<?= l('delete') ?>" x-data="popoverConfirm({ message: 'are you sure?', success: () => { document.getElementById('ticket-update-<?= $update->id ?>').remove() } })" @click="toggle" class="btn-danger btn-xs">
+						<button title="<?= l('delete') ?>" x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($ticket->href("/history/{$update->id}/delete")) ?>', success: () => { document.getElementById('ticket-update-<?= $update->id ?>').remove() } })" @click="toggle" class="btn-danger btn-xs">
 							<span class="fas fa-fw fa-trash"></span>
 							<span class="visually-hidden"><?= l('edit') ?></span>
 						</button>

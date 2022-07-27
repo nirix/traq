@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite build --watch --mode development",
+    "build-dev": "vite build --mode development",
     "build": "run-p type-check build-only",
-    "preview": "vite preview --port 4173",
     "test:unit": "vitest --environment jsdom",
-    "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
@@ -16,7 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@headlessui/vue": "^1.6.6",
-    "alpinejs": "^3.10.3",
+    "alpinejs": "3",
     "axios": "^0.27.2",
     "dompurify": "^2.3.8",
     "easymde": "^2.16.1",
