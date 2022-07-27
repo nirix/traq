@@ -48,9 +48,6 @@ var traq = {
   },
 }
 
-// Cookies, nom nom nom
-$.cookie.defaults.path = "/"
-
 // Language object
 var language = {}
 
