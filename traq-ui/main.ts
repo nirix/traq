@@ -10,7 +10,7 @@ import Alpine from "alpinejs"
 
 Alpine.directive("mde", (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
   try {
-    const options = evaluate(expression)
+    const options = expression ? evaluate(expression) : {}
 
     const mde = new EasyMDE({
       element: el,
