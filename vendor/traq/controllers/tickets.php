@@ -113,7 +113,7 @@ class Tickets extends AppController
 
             // Check if we need to do
             // anything with the field.
-            switch($order[0]) {
+            switch ($order[0]) {
                 case 'summary':
                 case 'body':
                 case 'votes':
@@ -177,7 +177,7 @@ class Tickets extends AppController
         }
 
         // Add to tickets array
-        foreach($rows->exec()->fetch_all() as $row) {
+        foreach ($rows->exec()->fetch_all() as $row) {
             $ticket = (new Ticket($row, false))->__toArray();
             $ticket['custom_fields'] = $ticketCustomFields[$ticket['id']] ?? [];
 
@@ -200,9 +200,11 @@ class Tickets extends AppController
 
         // If the ticket is private, only allow admins, projects members and the creator to view the ticket.
         if ($ticket->is_private) {
-            if ($this->user->id !== $ticket->user_id
-            && !$this->user->group->is_admin
-            && !$this->project->is_member($this->user)) {
+            if (
+                $this->user->id !== $ticket->user_id
+                && !$this->user->group->is_admin
+                && !$this->project->is_member($this->user)
+            ) {
                 return $this->show_no_permission();
             }
         }
@@ -210,7 +212,7 @@ class Tickets extends AppController
         // Ticket history
         $ticket_history = $ticket->history;
 
-        switch(settings('ticket_history_sorting')) {
+        switch (settings('ticket_history_sorting')) {
             case 'oldest_first':
                 $ticket_history->order_by('created_at', 'ASC');
                 break;
@@ -233,6 +235,7 @@ class Tickets extends AppController
         // Set title and send ticket to view
         $this->title($ticket->summary);
         View::set('ticket', $ticket);
+        View::set('attachments', $ticket->attachments->exec()->fetchAll());
         View::set('ticket_history', $ticket_history);
     }
 
@@ -747,56 +750,64 @@ class Tickets extends AppController
             $data = [];
 
             // Type
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_type')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_type')
                 && Request::post('type', -1) != -1
             ) {
                 $data['type_id'] = Request::post('type');
             }
 
             // Milestone
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_milestone')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_milestone')
                 && Request::post('milestone', -1) != -1
             ) {
                 $data['milestone_id'] = Request::post('milestone');
             }
 
             // Version
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_version')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_version')
                 && Request::post('version', -1) != -1
             ) {
                 $data['version_id'] = Request::post('version');
             }
 
             // Component
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_component')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_component')
                 && Request::post('component', -1) != -1
             ) {
                 $data['component_id'] = Request::post('component');
             }
 
             // Severity
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_severity')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_severity')
                 && Request::post('severity', -1) != -1
             ) {
                 $data['severity_id'] = Request::post('severity');
             }
 
             // Priority
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_priority')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_priority')
                 && Request::post('priority', -1) != -1
             ) {
                 $data['priority_id'] = Request::post('priority');
             }
 
             // Status
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_status')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_status')
                 && Request::post('status', -1) != -1
             ) {
                 $data['status_id'] = Request::post('status');
             }
 
             // Assigned to
-            if ($this->user->permission($this->project->id, 'ticket_properties_change_assigned_to')
+            if (
+                $this->user->permission($this->project->id, 'ticket_properties_change_assigned_to')
                 && Request::post('assigned_to', -1) != -1
             ) {
                 $data['assigned_to_id'] = Request::post('assigned_to');
@@ -824,28 +835,28 @@ class Tickets extends AppController
     public function _check_permission($method)
     {
         // Set the proper action depending on the method
-        switch($method) {
-            // View ticket
+        switch ($method) {
+                // View ticket
             case 'view':
                 $action = 'view_tickets';
                 break;
 
-            // Create ticket
+                // Create ticket
             case 'new':
                 $action = 'create_tickets';
                 break;
 
-            // Edit ticket description
+                // Edit ticket description
             case 'edit':
                 $action = 'edit_ticket_description';
                 break;
 
-            // Update ticket properties
+                // Update ticket properties
             case 'update':
                 $action = 'update_tickets';
                 break;
 
-            // Delete tickets
+                // Delete tickets
             case 'delete':
                 $action = 'delete_tickets';
                 break;

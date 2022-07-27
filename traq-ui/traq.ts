@@ -4,14 +4,10 @@ import { createPinia } from "pinia"
 import * as VueRouter from "vue-router"
 import App from "./App.vue"
 import TicketListing from "./ticket-listing/TicketListing.vue"
-import ViewTicket from "./ticket/ViewTicket.vue"
 
 const router = VueRouter.createRouter({
   history: VueRouter.createWebHistory(),
-  routes: [
-    { name: "tickets", path: "/:project/tickets", component: TicketListing },
-    { name: "ticket", path: "/:project/tickets/:ticket", component: ViewTicket },
-  ],
+  routes: [{ name: "tickets", path: "/:project/tickets", component: TicketListing }],
 })
 
 const pinia = createPinia()

@@ -17,7 +17,10 @@ import {
   faArrowsAlt,
   faQuestionCircle,
   faCircleNotch,
+  faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons"
+
+import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
 
 library.add(faPencil)
 library.add(faTrash)
@@ -35,4 +38,7 @@ library.add(faColumns)
 library.add(faArrowsAlt)
 library.add(faQuestionCircle)
 library.add(faCircleNotch)
+library.add(faAnglesRight)
+library.add(faSquare)
+library.add(faSquareCheck)
 dom.watch()
