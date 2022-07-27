@@ -1,4 +1,5 @@
 import Alpine from "alpinejs"
+import axios from "axios"
 
 Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => ({
   open: false,
