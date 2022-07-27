@@ -1,5 +1,7 @@
 .btn-group {
-  & > button {
+  @apply flex;
+
+  & > * {
     @apply rounded-none;
 
     &:first-child {
@@ -29,11 +31,20 @@
   }
 }
 
+.btn-primary,
+.btn-secondary,
+.btn-info,
+.btn-success,
+.btn-warning,
+.btn-danger,
 button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"] {
   line-height: 1.25;
+  text-decoration: none;
+  display: inline-block;
+  @apply text-center;
   @apply text-sm;
   @apply py-2 px-3;
   @apply border border-solid rounded;
@@ -43,6 +54,16 @@ input[type="reset"] {
   @apply transition-all;
   @apply cursor-pointer;
   @apply appearance-none;
+
+  &.btn-sm {
+    @apply text-xs;
+    @apply py-1 px-2;
+  }
+
+  &.btn-xs {
+    @apply text-xs;
+    @apply p-1;
+  }
 
   &:disabled {
     @apply cursor-not-allowed;
@@ -69,6 +90,21 @@ input[type="reset"] {
     }
   }
 
+  &.btn-info {
+    @apply text-white;
+    @apply bg-sky-500 hover:bg-sky-600 active:bg-sky-700;
+    @apply border-sky-500 hover:border-sky-600 active:border-sky-700;
+    @apply ring-sky-500/30;
+
+    &:disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply bg-sky-300 border-sky-300;
+      }
+    }
+  }
+
   &.btn-success {
     @apply text-white;
     @apply bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700;
@@ -80,6 +116,21 @@ input[type="reset"] {
       &:hover,
       &:active {
         @apply bg-emerald-300 border-emerald-300;
+      }
+    }
+  }
+
+  &.btn-warning {
+    @apply text-black;
+    @apply bg-amber-300 hover:bg-amber-400 active:bg-amber-500;
+    @apply border-amber-300 hover:border-amber-400 active:border-amber-500;
+    @apply ring-amber-300/30;
+
+    &:disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply bg-amber-200 border-amber-200;
       }
     }
   }

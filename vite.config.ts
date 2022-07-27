@@ -20,10 +20,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "traq-ui/main.ts"),
-        "ticket-listing": resolve(__dirname, "traq-ui/ticket-listing/ticket-listing.ts"),
+        traq: resolve(__dirname, "traq-ui/traq.ts"),
       },
       manualChunks: {
-        easymde: ["easymde"],
+        // easymde: ["easymde"],
       },
     },
   },

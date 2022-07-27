@@ -34,13 +34,13 @@ Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 
 // API
 Router::add('/api/auth', 'traq::controllers::API.auth');
-Router::add('/api/auth/'.PROJECT_SLUG, 'traq::controllers::API.auth');
+Router::add('/api/auth/' . PROJECT_SLUG, 'traq::controllers::API.auth');
 Router::add('/api/types', 'traq::controllers::API.types');
 Router::add('/api/statuses', 'traq::controllers::API.statuses');
 Router::add('/api/priorities', 'traq::controllers::API.priorities');
-Router::add('/api/'.PROJECT_SLUG.'/components', 'traq::controllers::API.components');
-Router::add('/api/'.PROJECT_SLUG.'/custom-fields', 'traq::controllers::API.customFields');
-Router::add('/api/'.PROJECT_SLUG.'/members', 'traq::controllers::API.projectMembers');
+Router::add('/api/' . PROJECT_SLUG . '/components', 'traq::controllers::API.components');
+Router::add('/api/' . PROJECT_SLUG . '/custom-fields', 'traq::controllers::API.customFields');
+Router::add('/api/' . PROJECT_SLUG . '/members', 'traq::controllers::API.projectMembers');
 
 // Misc
 Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');
@@ -74,7 +74,6 @@ Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', 'traq::controllers::TicketTasks.manage/$2');
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/([0-9]+)', 'traq::controllers::TicketTasks.toggle/$2,$3');
 Router::add('/' . PROJECT_SLUG . '/tickets/mass-actions', 'traq::controllers::Tickets.mass_actions');
-Router::add('/' . PROJECT_SLUG . '/tickets/update_filters', 'traq::controllers::Tickets.update_filters');
 Router::add('/' . PROJECT_SLUG . '/tickets', 'traq::controllers::Tickets.index');
 
 // Wiki routes

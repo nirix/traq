@@ -1,4 +1,11 @@
 @import "easymde/dist/easymde.min.css";
+@import "./forms.css";
+@import "./utils.css";
+@import "./popover.css";
+@import "./header.css";
+@import "./content.css";
+@import "./buttons.css";
+@import "./tickets.css";
 
 @tailwind base;
 @tailwind components;

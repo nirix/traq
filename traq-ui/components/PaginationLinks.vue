@@ -14,8 +14,27 @@ export default {
     }
   },
 
+  computed: {
+    nextUrl() {
+      const pageNum = parseInt(this.$route.query.page ?? 1)
+      const path = window.location.pathname
+      const search = window.location.search.replace(`page=${pageNum}`, "")
+
+      return search.includes("?") ? `${path}${search}&page=${pageNum + 1}` : `${path}${search}?page=${pageNum + 1}`
+    },
+    prevUrl() {
+      const pageNum = parseInt(this.$route.query.page ?? 1)
+      const path = window.location.pathname
+      const search = window.location.search.replace(`page=${pageNum}`, "")
+
+      return search.includes("?") ? `${path}${search}&page=${pageNum - 1}` : `${path}${search}?page=${pageNum - 1}`
+    },
+  },
+
   methods: {
-    navigate(page) {
+    navigate(page, event) {
+      event.preventDefault()
+
       this.currentPage
       this.$emit("navigate", page)
     },
@@ -29,7 +48,7 @@ export default {
       <fa-icon :icon="backIcon" />
       <span>Previous</span>
     </div>
-    <a :href="nextUrl" class="previous" v-if="currentPage > 1" @click="navigate(currentPage - 1)">
+    <a :href="prevUrl" class="previous" v-if="currentPage > 1" @click="(e) => navigate(currentPage - 1, e)">
       <fa-icon :icon="backIcon" />
       <span>Previous</span>
     </a>
@@ -40,7 +59,7 @@ export default {
       <span>Next</span>
       <fa-icon :icon="nextIcon" />
     </div>
-    <a :href="nextUrl" class="next" v-if="currentPage < totalPages" @click="navigate(currentPage + 1)">
+    <a :href="nextUrl" class="next" v-if="currentPage < totalPages" @click="(e) => navigate(currentPage + 1, e)">
       <span>Next</span>
       <fa-icon :icon="nextIcon" />
     </a>

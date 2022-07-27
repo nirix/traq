@@ -58,3 +58,24 @@ function subscription_link_for($object)
     $class = new ReflectionClass(get_class($object));
     return View::render('subscriptions/_subscribe', array('type' => strtolower($class->getShortName()), 'object' => $object));
 }
+
+/**
+ * Renders the subscription link
+ * for the passed object.
+ *
+ * @param object $object
+ */
+function subscription_icon_for($object)
+{
+    // Do nothing if the user is not logged in.
+    if (!LOGGEDIN) {
+        return false;
+    }
+
+    $class = new ReflectionClass(get_class($object));
+    return View::render('subscriptions/_subscribe', [
+        'type' => strtolower($class->getShortName()),
+        'object' => $object,
+        'icon' => true,
+    ]);
+}
