@@ -25,7 +25,7 @@ export const useAuthStore = defineStore("auth", {
     },
     isAuthenticated(state): boolean {
       // Check if guest group id
-      return state.user.group_id !== 3
+      return state.user ? state.user.group_id !== 3 : false
     },
   },
   actions: {
