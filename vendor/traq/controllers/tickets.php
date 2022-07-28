@@ -343,12 +343,12 @@ class Tickets extends AppController
 
             // Severity
             if ($this->user->permission($this->project->id, 'ticket_properties_set_severity')) {
-                $data['severity_id'] = Request::post('severity');
+                $data['severity_id'] = Request::post('severity', 4);
             }
 
             // Priority
             if ($this->user->permission($this->project->id, 'ticket_properties_set_priority')) {
-                $data['priority_id'] = Request::post('priority');
+                $data['priority_id'] = Request::post('priority', 3);
             }
 
             // Status

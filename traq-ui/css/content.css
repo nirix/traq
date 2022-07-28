@@ -56,33 +56,25 @@ body {
   @apply text-center;
 }
 
-.form-group {
-  --mass-action-field-width: 305px;
-  @apply mb-2 mx-1;
+.alert,
+.alert-danger {
+  @apply text-base;
+  @apply p-2 mb-2;
+  @apply border border-solid rounded;
 
-  display: flex;
-  align-items: center;
-  min-width: var(--mass-action-field-width);
-  max-width: var(--mass-action-field-width);
-
-  & > label {
-    min-width: 60px;
-    text-align: right;
-    /* min-width: calc(var(--mass-action-field-width) / 3);
-    max-width: calc(var(--mass-action-field-width) / 3); */
-    min-width: 115px;
-    max-width: 115px;
-    box-sizing: border-box;
-
-    @apply pr-2;
-  }
-
-  & > select,
-  & input[type="text"],
-  & .property {
-    flex-grow: 1;
-    /* min-width: calc(var(--mass-action-field-width) / 1.5);
-    max-width: calc(var(--mass-action-field-width) / 1.5); */
+  & > ul {
     margin: 0;
   }
+}
+
+.alert {
+  @apply bg-gray-100;
+  @apply border-gray-300;
+  @apply text-gray-900;
+}
+
+.alert-danger {
+  @apply bg-red-100;
+  @apply border-red-300;
+  @apply text-red-900;
 }
