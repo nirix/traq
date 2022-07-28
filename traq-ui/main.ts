@@ -11,6 +11,12 @@ Alpine.directive("mde", (el, { value, modifiers, expression }, { Alpine, effect,
   try {
     const options = expression ? evaluate(expression) : {}
 
+    // Don't initialise unless we need to.
+    if (el.dataset["mded"] === "yes") {
+      return
+    }
+    el.dataset["mded"] = "yes"
+
     const mde = new EasyMDE({
       element: el,
       autoDownloadFontAwesome: false,

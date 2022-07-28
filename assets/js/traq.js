@@ -80,10 +80,6 @@ var popover_confirm = function (parent, message, callback) {
 }
 
 jQuery(document).ready(function () {
-  jQuery(document).on("click", function () {
-    jQuery("#project_switcher_btn").stop(true, true).fadeOut("fast")
-  })
-
   jQuery("[data-preview]").on("click", function () {
     var data = jQuery(jQuery(this).attr("data-preview")).val()
     jQuery("#overlay").load(traq.base + "_misc/preview_text", { data: data }, function () {
@@ -154,7 +150,8 @@ jQuery(document).ready(function () {
     }
 
     jQuery("#overlay").load(uri, function () {
-      jQuery("#overlay textarea").likeaboss()
+      // jQuery("#overlay textarea").likeaboss()
+      window.Alpine.start()
       jQuery("#overlay").overlay()
     })
     return false

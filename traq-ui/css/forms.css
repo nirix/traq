@@ -74,6 +74,10 @@ input[type="checkbox"] {
     flex-grow: 1;
     margin: 0;
   }
+
+  & .EasyMDEContainer {
+    width: 100%;
+  }
 }
 
 .form-group {
