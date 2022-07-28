@@ -1,6 +1,5 @@
 import Alpine from "alpinejs"
 import axios from "axios"
-import DOMPurify from "dompurify"
 import { marked } from "marked"
 
 Alpine.data("remoteMde", ({ url, height }) => ({
@@ -29,7 +28,7 @@ Alpine.data("remoteMde", ({ url, height }) => ({
       .post(url, formData)
       .then(() => {
         this.original = this.mde.value()
-        this.$refs.ticketDescription.innerHTML = DOMPurify.sanitize(marked.parse(this.mde.value()))
+        this.$refs.ticketDescription.innerHTML = marked.parse(this.mde.value().replaceAll("<", "&lt;").replaceAll(">", "&gt;"))
         this.$data.editing = false
       })
       .finally(() => {
@@ -38,7 +37,7 @@ Alpine.data("remoteMde", ({ url, height }) => ({
   },
 
   cancel() {
-    const formattedDescription = DOMPurify.sanitize(marked.parse(this.original))
+    const formattedDescription = marked.parse(this.original.replaceAll("<", "&lt;").replaceAll(">", "&gt;"))
     this.$refs.ticketDescription.innerHTML = formattedDescription
     this.$data.editing = false
   },
