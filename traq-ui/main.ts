@@ -1,4 +1,3 @@
-import axios from "axios"
 import "./css/main.css"
 import "./main/FontAwesome"
 import EasyMDE from "easymde"
