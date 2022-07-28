@@ -65,6 +65,7 @@ class enUS extends \traq\libraries\Locale
             'wiki'             => "Wiki",
             'x_open'           => "{1} open",
             'x_closed'         => "{1} closed",
+            'x_total'          => "{1} total",
             'yes'              => "Yes",
             'no'               => "No",
             'created'          => "Created",
@@ -591,48 +592,48 @@ class enUS extends \traq\libraries\Locale
 
             // Ticket assigned
             'notifications.ticket_assigned.subject' => "Ticket #{2} on project {4} has been assigned to you",
-            'notifications.ticket_assigned.message' => "{2},<br /><br />".
-                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) on project {6} has been assigned to you.<br /><br />".
-                                                       "----------------------------------------------------------------<br />".
-                                                       "{5}".
-                                                       "----------------------------------------------------------------",
+            'notifications.ticket_assigned.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) on project {6} has been assigned to you.<br /><br />" .
+                "----------------------------------------------------------------<br />" .
+                "{5}" .
+                "----------------------------------------------------------------",
 
             // Ticket created
             'notifications.ticket_created.subject' => "New ticket #{2} ({3}) on project {4}",
-            'notifications.ticket_created.message' => "{2},<br /><br />".
-                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been created on project {6}.<br /><br />".
-                                                      "----------------------------------------------------------------<br />".
-                                                      "{5}".
-                                                      "----------------------------------------------------------------",
+            'notifications.ticket_created.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been created on project {6}.<br /><br />" .
+                "----------------------------------------------------------------<br />" .
+                "{5}" .
+                "----------------------------------------------------------------",
 
             // Ticket updated
             'notifications.ticket_updated.subject' => "Ticket #{2} ({3}) updated on project {4}",
-            'notifications.ticket_updated.message' => "{2},<br /><br />".
-                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been updated on project {6}.",
+            'notifications.ticket_updated.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been updated on project {6}.",
 
             // Ticket closed
             'notifications.ticket_closed.subject' => "Ticket #{2} ({3}) closed on project {4}",
-            'notifications.ticket_closed.message' => "{2},<br /><br />".
-                                                     "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been closed on project {6}.",
+            'notifications.ticket_closed.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been closed on project {6}.",
 
             // Ticket reopened
             'notifications.ticket_reopened.subject' => "Ticket #{2} ({3}) reopened on project {4}",
-            'notifications.ticket_reopened.message' => "{2},<br /><br />".
-                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been reopened on project {6}.",
+            'notifications.ticket_reopened.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been reopened on project {6}.",
 
             // Password reset
             'notifications.password_reset.subject' => "Password reset request",
-            'notifications.password_reset.message' => "{2},<br /><br />".
-                                                      "You are receiving this email because you or someone has requested a password reset<br />".
-                                                      "for your account '{3}' at {1}. If you did not request a password reset, ignore this email.<br /><br />".
-                                                      "If you did request a password reset, you can <a href=\"{4}\">continue by clicking here</a>.<br /><br />".
-                                                      "This reset request was done by someone with the IP of: {5}",
+            'notifications.password_reset.message' => "{2},<br /><br />" .
+                "You are receiving this email because you or someone has requested a password reset<br />" .
+                "for your account '{3}' at {1}. If you did not request a password reset, ignore this email.<br /><br />" .
+                "If you did request a password reset, you can <a href=\"{4}\">continue by clicking here</a>.<br /><br />" .
+                "This reset request was done by someone with the IP of: {5}",
 
             // Email validation
             'notifications.email_validation.subject' => "Account validation",
-            'notifications.email_validation.message' => "{name},<br /><br />".
-                                                        "To validate your account click the link below:<br />".
-                                                        "{link}",
+            'notifications.email_validation.message' => "{name},<br /><br />" .
+                "To validate your account click the link below:<br />" .
+                "{link}",
 
             // ----------------------------------------------------------------------------------------------------
 

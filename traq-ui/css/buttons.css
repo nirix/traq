@@ -150,3 +150,27 @@ input[type="reset"] {
     }
   }
 }
+
+.btn-pill-group {
+  width: max-content;
+  list-style: none;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+
+  @apply rounded-xl;
+  @apply bg-gray-200;
+  @apply p-1 mb-4;
+
+  & > a {
+    @apply text-gray-600;
+    @apply no-underline;
+    @apply px-4 py-2;
+
+    &.active {
+      @apply text-gray-900;
+      @apply bg-white;
+      @apply rounded-lg;
+    }
+  }
+}

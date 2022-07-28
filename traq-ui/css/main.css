@@ -6,6 +6,7 @@
 @import "./content.css";
 @import "./buttons.css";
 @import "./tickets.css";
+@import "./roadmap.css";
 
 @tailwind base;
 @tailwind components;

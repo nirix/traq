@@ -37,6 +37,9 @@ use avalon\helpers\Time;
  */
 class Milestone extends Model
 {
+    public const ACTIVE = 1;
+    public const COMPLETE = 2;
+
     protected static $_name = 'milestones';
     protected static $_properties = array(
         'id',
@@ -95,25 +98,31 @@ class Milestone extends Model
      *
      * @return integer
      */
-    public function ticket_count($status = 'total')
+    public function ticketCount(string $status = 'total'): int
     {
         // Holder for the counts array.
-        static $counts = array();
+        static $counts = [];
 
         // Check if we need to fetch
         // the ticket counts.
         if (!isset($counts[$this->id])) {
-            $counts[$this->id] = array(
-                'open' => $this->tickets->where('is_closed', 0)->exec()->row_count(),
-                'closed' => $this->tickets->where('is_closed', 1)->exec()->row_count()
-            );
+            $counts[$this->id] = [
+                'open' => $this->tickets->where('is_closed', 0)->exec()->rowCount(),
+                'closed' => $this->tickets->where('is_closed', 1)->exec()->rowCount()
+            ];
+
             $counts[$this->id]['total'] = $counts[$this->id]['open'] + $counts[$this->id]['closed'];
             $counts[$this->id]['open_percent'] = $counts[$this->id]['open'] ? get_percent($counts[$this->id]['open'], $counts[$this->id]['total']) : 0;
             $counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'], $counts[$this->id]['total']);
         }
 
         // Return the requested count index.
-        return $counts[$this->id][$status];
+        return $counts[$this->id][$status] ?? 0;
+    }
+
+    public function ticket_count(string $status = 'total'): int
+    {
+        return $this->ticketCount($status);
     }
 
     /**
@@ -172,7 +181,8 @@ class Milestone extends Model
 
         if (parent::save()) {
             // Check if the status has been changed, if it has, is it completed or cancelled?
-            if (isset($this->original_status, $this->_data['stats'])
+            if (
+                isset($this->original_status, $this->_data['stats'])
                 && $this->original_status != $this->_data['status']
                 && $this->_data['status'] != 1
             ) {
