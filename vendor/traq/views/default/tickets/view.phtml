@@ -211,5 +211,9 @@
 			<?php endif; ?>
 		</div>
 	<?php endforeach; ?>
+
+	<?php if (!count($ticket_history)) : ?>
+		<div class="alert"><?= l('ticket_history.no_ticket_updates') ?></div>
+	<?php endif; ?>
 </div>
 <?= View::render('tickets/_update_ticket_form') ?>

@@ -207,6 +207,7 @@ class enUS extends \traq\libraries\Locale
             'updates'               => "Updates",
             'severity'              => "Severity",
             'assigned_to'           => "Assigned to",
+            'assignee'              => "Assignee",
             'reported'              => "Reported",
             'priority'              => "Priority",
             'edit_ticket'           => "Edit Ticket",
@@ -471,6 +472,7 @@ class enUS extends \traq\libraries\Locale
             // Ticket history
             'ticket_history' => array(
                 'Ticket History',
+                'no_ticket_updates' => 'No ticket updates.',
 
                 // Most fields
                 'x_from_x_to_x'    => "Changed {1} from {2} to {3}",
