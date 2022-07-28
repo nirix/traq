@@ -457,18 +457,6 @@ class enUS extends \traq\libraries\Locale
             'x_changelog_feed' => "{1} Changelog Feed",
             'update_x'         => "Update #{1}",
 
-            // Editor
-            'editor' => array(
-                // Intentionally left empty to use the default
-                // strings from the editor.
-                //
-                // Enter your localisation strings here.
-                // example:
-                // 'h2' => "My custom string",
-                // 'h3' => "Another custom string",
-                // and so on...
-            ),
-
             // Ticket history
             'ticket_history' => array(
                 'Ticket History',

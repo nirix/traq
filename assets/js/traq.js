@@ -87,9 +87,6 @@ jQuery(document).ready(function () {
     })
   })
 
-  // Add the editor interface to all text areas, like a boss.
-  jQuery("textarea.editor").likeaboss()
-
   // Add a confirm-on-click event to call elements
   // with the data-confirm attribute.
   jQuery(document).on("click", "[data-confirm]", function () {
@@ -150,7 +147,6 @@ jQuery(document).ready(function () {
     }
 
     jQuery("#overlay").load(uri, function () {
-      // jQuery("#overlay textarea").likeaboss()
       window.Alpine.start()
       jQuery("#overlay").overlay()
     })
