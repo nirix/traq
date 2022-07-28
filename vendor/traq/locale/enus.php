@@ -34,7 +34,7 @@ class enUS extends \traq\libraries\Locale
     protected static $info = array(
         'name'    => "English",
         'author'  => "Jack Polgar",
-        'version' => "3.0",
+        'version' => "3.8",
 
         // Locale information
         'language'       => "English",
