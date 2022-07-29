@@ -74,8 +74,8 @@ input[type="checkbox"] {
   & > label {
     min-width: 60px;
     text-align: right;
-    min-width: 125px;
-    max-width: 125px;
+    min-width: 140px;
+    max-width: 140px;
     box-sizing: border-box;
 
     @apply pr-2;
@@ -83,6 +83,7 @@ input[type="checkbox"] {
 
   & > select,
   & input[type="text"],
+  & input[type="password"],
   & .property {
     flex-grow: 1;
     margin: 0;
