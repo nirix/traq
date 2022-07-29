@@ -592,6 +592,7 @@ class Tickets extends AppController
             }
         }
 
+        $this->action_view($ticket->id);
         View::set(compact('ticket'));
         $this->render['view'] = 'tickets/view';
     }
