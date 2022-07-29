@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2012-2022 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -81,6 +84,8 @@ class Usercp extends AppController
         }
 
         View::set('user', $user);
+
+        return $this->renderView('usercp/index.phtml');
     }
 
     /**
@@ -108,7 +113,7 @@ class Usercp extends AppController
             // Set the info
             $user->set($data);
 
-            if($user->is_valid()) {
+            if ($user->is_valid()) {
                 $user->set_password($data['new_password']);
 
                 // Save the user

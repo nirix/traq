@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2012-2022 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -19,15 +22,18 @@
  */
 
 use avalon\http\Router;
+use traq\controllers\Projects;
+use traq\controllers\Usercp;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
-Router::add('root', 'traq::controllers::Projects.index');
+Router::get('root', 'root', [Projects::class, 'action_index']);
+
 Router::add('404', 'traq::controllers::Error.404');
 Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
 Router::add('/login/resetpassword', 'traq::controllers::Users.reset_password');
 Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.reset_password/$1');
-Router::add('/usercp', 'traq::controllers::Usercp.index');
+Router::register('usercp', '/usercp', [Usercp::class, 'action_index'], methods: ['GET', 'POST']);
 Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
 Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
 Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');

@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2012-2022 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -27,6 +27,7 @@ use avalon\core\Controller;
 use avalon\core\Load;
 use avalon\Database;
 use avalon\http\Request;
+use avalon\http\Response;
 use avalon\http\Router;
 use avalon\output\Body;
 use avalon\output\View;
@@ -74,8 +75,21 @@ class AppController extends Controller
         $this->title(settings('title'));
 
         // Load helpers
-        Load::helper('html', 'errors', 'form', 'js', 'formats', 'time_ago', 'uri', 'string',
-            'subscriptions', 'timeline', 'formatting', 'tickets', 'ui');
+        Load::helper(
+            'html',
+            'errors',
+            'form',
+            'js',
+            'formats',
+            'time_ago',
+            'uri',
+            'string',
+            'subscriptions',
+            'timeline',
+            'formatting',
+            'tickets',
+            'ui'
+        );
 
         class_alias("\\traq\\helpers\\API", "API");
 
@@ -86,8 +100,10 @@ class AppController extends Controller
         View::set('traq', $this);
 
         // Check if we're on a project page and get the project info
-        if (isset(Router::$params['project_slug'])
-        and $this->project = is_project(Router::$params['project_slug'])) {
+        if (
+            isset(Router::$params['project_slug']) &&
+            $this->project = is_project(Router::$params['project_slug'])
+        ) {
             if ($this->user->permission($this->project->id, 'view')) {
                 // Add project name to page title
                 $this->title($this->project->name);
@@ -148,7 +164,7 @@ class AppController extends Controller
     public function show_login()
     {
         $this->render['action'] = false;
-        $this->render['view'] = 'users/login' . ($this->is_api ? '.api' :'');
+        $this->render['view'] = 'users/login' . ($this->is_api ? '.api' : '');
     }
 
     /**
@@ -229,7 +245,7 @@ class AppController extends Controller
 
     /**
      * API Response.
-     * 
+     *
      * @param array $data
      */
     protected function apiResponse(array $data)
@@ -283,5 +299,16 @@ class AppController extends Controller
 
         // Call the controllers shutdown method.
         parent::__shutdown();
+    }
+
+    public function renderView(string $name, array $vars = [])
+    {
+        $content = View::render(str_replace('.phtml', '', $name), $vars);
+
+        if ($this->render['layout']) {
+            $content = View::render("layouts/{$this->render['layout']}", ['content' => $content]);
+        }
+
+        return new Response($content);
     }
 }

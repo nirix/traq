@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2012-2022 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -28,7 +31,6 @@ use traq\models\Ticket;
 use traq\models\Timeline;
 use traq\models\Milestone;
 use traq\models\Type;
-use traq\models\Status;
 use traq\helpers\Pagination;
 
 /**
@@ -46,9 +48,7 @@ class Projects extends AppController
      */
     public function action_index()
     {
-        // No need to do anything here as the
-        // AppController fetches the projects
-        // for use with the project switcher.
+        return $this->renderView('projects/index.phtml');
     }
 
     /**
