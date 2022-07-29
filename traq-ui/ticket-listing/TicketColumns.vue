@@ -153,6 +153,7 @@ export default {
 }
 
 .ticket-column {
+  @apply text-xs;
   display: inline-block;
   cursor: pointer;
   transition: all ease-in-out 0.1s;

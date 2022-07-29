@@ -374,8 +374,6 @@ export default {
 </template>
 
 <style scoped lang="postcss">
-@import "../css/forms.css";
-
 .ticket-filters-container {
   padding: 0;
   overflow: scroll;

@@ -1,13 +1,18 @@
 @import "easymde/dist/easymde.min.css";
-@import "./forms.css";
-@import "./utils.css";
-@import "./popover.css";
+
+@import "tailwindcss/base";
 @import "./header.css";
 @import "./content.css";
-@import "./buttons.css";
+
+@import "tailwindcss/components";
+@import "./panel.css";
+@import "./tabs.css";
 @import "./tickets.css";
 @import "./roadmap.css";
+@import "./popover.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/utilities";
+
+@import "./buttons.css";
+@import "./forms.css";
+@import "./utils.css";

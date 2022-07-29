@@ -41,7 +41,7 @@ button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"] {
-  line-height: 1.25;
+  /* line-height: 1.25; */
   text-decoration: none;
   display: inline-block;
   @apply text-center;
@@ -158,12 +158,13 @@ input[type="reset"] {
   box-sizing: border-box;
   display: flex;
 
+  @apply text-sm;
   @apply rounded-xl;
   @apply bg-gray-200;
   @apply p-1 mb-4;
 
   & > a {
-    @apply text-gray-600;
+    @apply text-gray-600 hover:text-gray-800;
     @apply no-underline;
     @apply px-4 py-2;
 

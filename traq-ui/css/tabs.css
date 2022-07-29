@@ -1,0 +1,30 @@
+.tabs {
+  & ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    @apply px-2;
+    @apply border-b border-solid border-gray-400;
+
+    & > li {
+      & > a {
+        display: block;
+        margin-bottom: -1px;
+
+        @apply text-gray-600 hover:text-gray-900;
+        @apply border border-solid border-transparent rounded-t;
+        @apply hover:border-gray-400;
+        @apply hover:bg-gray-50;
+        @apply px-2 py-1 mr-1;
+      }
+
+      &.active > a {
+        @apply text-gray-900;
+        @apply bg-white;
+        @apply border-gray-400;
+        @apply border-b-white;
+      }
+    }
+  }
+}

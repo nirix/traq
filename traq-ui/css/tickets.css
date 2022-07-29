@@ -1,5 +1,4 @@
 .view-ticket {
-  @apply text-base;
   @apply pt-5;
 }
 
@@ -87,7 +86,6 @@
   }
 
   & > h3 {
-    @apply text-base;
     @apply pt-2;
     @apply border-t border-solid border-gold-600 rounded;
   }
