@@ -93,22 +93,17 @@ class User extends Model
     }
 
     /**
-     * Returns an array containing an array of the project and role
-     * the user belongs to.
-     *
-     * @return array
+     * Returns project memberships.
      */
-    public function projects()
+    public function projectMemberships(): array
     {
-        $projects = array();
+        static $memberships = null;
 
-        // Loop over the relations and add the project and role to the array
-        foreach (UserRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all() as $relation) {
-            $projects[] = array($relation->project, $relation->role);
+        if ($memberships === null) {
+            $memberships = UserRole::select()->where('user_id', $this->_data['id'])->exec()->fetch_all();
         }
 
-
-        return $projects;
+        return $memberships;
     }
 
     /**
@@ -156,14 +151,14 @@ class User extends Model
 
     /**
      * Get the users permissions
-     * 
+     *
      * @param int $projectId
-     * 
+     *
      * @return array
      */
     public function getPermissions(int $projectId): array
     {
-         // Check if the projects permissions has been fetched
+        // Check if the projects permissions has been fetched
         // if not, fetch them.
         if (!isset($this->permissions['project'][$projectId])) {
             $this->permissions['project'][$projectId] = Permission::get_permissions($projectId, $this->_data['group_id']);
@@ -192,8 +187,10 @@ class User extends Model
      */
     public function get_project_role($project_id)
     {
-        if ($role = UserRole::select()->where('project_id', $project_id)->where('user_id', $this->_data['id'])->exec()
-        and $role->row_count() > 0) {
+        if (
+            $role = UserRole::select()->where('project_id', $project_id)->where('user_id', $this->_data['id'])->exec()
+            and $role->row_count() > 0
+        ) {
             return $role->fetch()->project_role_id;
         } else {
             return 0;
@@ -209,13 +206,13 @@ class User extends Model
      */
     public function verify_password($password)
     {
-        switch($this->_data['password_ver']) {
-            // Passwords from Traq 0.1 to 2.3
+        switch ($this->_data['password_ver']) {
+                // Passwords from Traq 0.1 to 2.3
             case 'sha1':
                 return sha1($password) == $this->_data['password'];
                 break;
 
-            // Passwords from Traq 3+
+                // Passwords from Traq 3+
             case 'crypt':
                 return crypt($password, $this->_data['password']) == $this->_data['password'];
                 break;
@@ -319,9 +316,9 @@ class User extends Model
                 $this->errors['cofirm_password'] = l('errors.users.confirm_password_blank');
             } elseif ($this->_data['new_password'] !== $this->_data['confirm_password']) {
                 $this->errors['new_password'] = l('errors.users.invalid_confirm_password');
-            } elseif(!$this->verify_password($this->_data['old_password'])) {
+            } elseif (!$this->verify_password($this->_data['old_password'])) {
                 $this->errors['old_password'] = l('errors.users.invalid_password');
-            } elseif($this->_data['new_password'] === $this->_data['old_password']) {
+            } elseif ($this->_data['new_password'] === $this->_data['old_password']) {
                 $this->errors['old_password'] = l('errors.users.password_same');
             } else {
                 // password should be valid at this point
