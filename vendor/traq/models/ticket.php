@@ -195,6 +195,21 @@ class Ticket extends Model
                 ));
                 $timeline->save();
 
+                $ticketHistory = new TicketHistory(array(
+                    'user_id' => $this->user_id,
+                    'ticket_id' => $this->id,
+                    'changes' => json_encode([
+                        [
+                            'property' => 'status',
+                            'action' => 'create',
+                            'from' => null,
+                            'to' => Status::find($this->status_id)->name,
+                        ]
+                    ]),
+                    'comment' => ''
+                ));
+                $ticketHistory->save();
+
                 // Create timeline event is ticket
                 // is created with a closed status.
                 if ($this->_data['is_closed']) {
@@ -204,7 +219,7 @@ class Ticket extends Model
                         'action'     => 'ticket_closed',
                         'data'       => $this->status_id,
                         'user_id'    => $this->user_id,
-                        'created_at' => Time::date("Y-m-d H:i:s", time()-date("Z")+1)
+                        'created_at' => Time::date("Y-m-d H:i:s", time() - date("Z") + 1)
                     ));
                     $timeline->save();
                 }
@@ -262,7 +277,7 @@ class Ticket extends Model
 
             // Get the to and from values for different fields
             $from = $to = null;
-            switch($field) {
+            switch ($field) {
                 case 'assigned_to_id':
                     $from = $this->assigned_to_id == 0 ? null : $this->assigned_to->id;
                     $to = $value;
@@ -367,7 +382,7 @@ class Ticket extends Model
                     ));
 
                     $this->_is_closing = $change['action'] == 'close' ? true : false;
-                    $this->_is_reopening= $change['action'] == 'reopen' ? true : false;
+                    $this->_is_reopening = $change['action'] == 'reopen' ? true : false;
                 }
             }
             // Attaching a file?

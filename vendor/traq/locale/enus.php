@@ -462,20 +462,11 @@ class enUS extends \traq\libraries\Locale
                 'Ticket History',
                 'no_ticket_updates' => 'No ticket updates.',
 
-                // Most fields
-                'x_from_x_to_x'    => "Changed {1} from {2} to {3}",
-                'x_from_null_to_x' => "Set {1} to {3}",
-                'x_from_x_to_null' => "Cleared {1}, was {2}",
-
-                // Assignee field
-                'assignee_from_x_to_x'    => "Reassigned ticket from {2} to {3}",
-                'assignee_from_null_to_x' => "Assigned ticket to {3}",
-                'assignee_from_x_to_null' => "Unassigned ticket from {2}",
-
                 // Actions
+                'create'         => "Ticket created as {2}",
                 'close'          => "Closed ticket as {2}",
                 'reopen'         => "Reopened ticket as {2}",
-                'add_attachment' => "Added attachment {2}",
+                'add_attachment' => "Attached {2}",
             ),
 
             // Warnings
