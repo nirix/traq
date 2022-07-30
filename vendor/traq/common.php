@@ -24,6 +24,7 @@ use traq\models\Setting;
 use traq\models\Project;
 
 use traq\libraries\SCM;
+use traq\models\User;
 
 /**
  * Returns the value of the requested setting.
@@ -36,7 +37,8 @@ use traq\libraries\SCM;
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function settings($setting) {
+function settings($setting)
+{
     static $CACHE = array();
 
     if (isset($CACHE[$setting])) {
@@ -130,7 +132,7 @@ function theme_select_options()
         // Make sure this is a directory
         // and theres an _theme.php file
         if (is_dir($path) and file_exists($path . '/_theme.php')) {
-            $info = require ($path . '/_theme.php');
+            $info = require($path . '/_theme.php');
             $options[] = array(
                 'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
                 'value' => $file
@@ -149,14 +151,14 @@ function theme_select_options()
  *
  * @return string
  */
- function get_plugin_name($name)
- {
-     $bits = explode('_', $name);
-     foreach ($bits as $k => $v) {
-         $bits[$k] = ucfirst($v);
-     }
-     return implode('', $bits);
- }
+function get_plugin_name($name)
+{
+    $bits = explode('_', $name);
+    foreach ($bits as $k => $v) {
+        $bits[$k] = ucfirst($v);
+    }
+    return implode('', $bits);
+}
 
 /**
  * Checks if the given regex matches the request
@@ -181,6 +183,11 @@ function active_nav($uri)
  * @return object
  */
 function current_user()
+{
+    return Avalon::app()->user;
+}
+
+function currentUser(): User|false
 {
     return Avalon::app()->user;
 }
@@ -279,7 +286,8 @@ function scm_select_options()
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function is_project($find, $field = 'slug') {
+function is_project($find, $field = 'slug')
+{
     if ($project = Project::find($field, $find)) {
         return $project;
     } else {
@@ -315,8 +323,8 @@ function get_percent($min, $max)
 
     // We're good, calcuate it like a boss,
     // toss out the crap we dont want.
-    $calculate = ($min/$max*100);
-    $split = explode('.',$calculate);
+    $calculate = ($min / $max * 100);
+    $split = explode('.', $calculate);
 
     // Return it like a pro.
     return $split[0];
