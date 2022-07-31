@@ -58,7 +58,7 @@ export default {
 
   computed: {
     getTicketUrl(): string {
-      let ticketsUrl = window.traq.base + window.traq.project_slug + "/tickets.json"
+      let ticketsUrl = window.traq.base + "api/" + window.traq.project_slug + "/tickets.json"
 
       // Add sorting options to URL
       if (this.sortBy) {
@@ -122,7 +122,7 @@ export default {
     },
     updateUrl() {
       // Update page URL to the same URL to fetch tickets without the .json extension.
-      this.$router.push(this.getTicketUrl.replace(".json", ""))
+      this.$router.push(this.getTicketUrl.replace(".json", "").replace("/api", ""))
     },
     toggleTicket(ticketId): void {
       if (this.checkedTickets.includes(ticketId)) {

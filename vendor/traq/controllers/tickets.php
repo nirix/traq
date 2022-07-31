@@ -27,7 +27,7 @@ use avalon\http\Request;
 use avalon\http\Router;
 use avalon\output\View;
 use avalon\core\Load;
-
+use avalon\http\Response;
 use traq\models\Project;
 use traq\models\Ticket;
 use traq\models\TicketRelationship;
@@ -77,10 +77,15 @@ class Tickets extends AppController
         View::set('custom_fields', $this->custom_fields);
     }
 
+    public function index(): Response
+    {
+        return $this->renderView('tickets/index.phtml');
+    }
+
     /**
      * Handles the ticket listing index page.
      */
-    public function action_index()
+    public function action_api()
     {
         // Atom feed
         $this->feeds[] = [
@@ -184,8 +189,11 @@ class Tickets extends AppController
             $tickets[] = $ticket;
         }
 
-        // Send the tickets array to the view..
-        View::set('tickets', $tickets);
+        $this->apiResponse([
+            'page' => (int) ($pagination->total_pages > 0 ? $pagination->page : 1),
+            'total_pages' => (int) $pagination->total_pages,
+            'tickets' => $tickets,
+        ]);
     }
 
     /**
@@ -226,7 +234,7 @@ class Tickets extends AppController
 
         // Does ticket exist?
         if (!$ticket) {
-            return $this->show_404();
+            return $this->show404();
         }
 
         // Atom feed
@@ -588,7 +596,7 @@ class Tickets extends AppController
             if ($this->is_api) {
                 return \API::response(1, array('ticket' => $ticket));
             } else {
-                Request::redirectTo($ticket->href());
+                return Request::redirectTo($ticket->href());
             }
         }
 

@@ -24,6 +24,7 @@
 use avalon\http\Router;
 use Traq\Controllers\ProfileController;
 use traq\controllers\Projects;
+use traq\controllers\Tickets;
 use traq\controllers\Usercp;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
@@ -81,7 +82,8 @@ Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', 'traq::controllers::TicketTasks.manage/$2');
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/([0-9]+)', 'traq::controllers::TicketTasks.toggle/$2,$3');
 Router::add('/' . PROJECT_SLUG . '/tickets/mass-actions', 'traq::controllers::Tickets.mass_actions');
-Router::add('/' . PROJECT_SLUG . '/tickets', 'traq::controllers::Tickets.index');
+Router::get('tickets', '/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'index']);
+Router::get('api.tickets', '/api/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'action_api']);
 
 // Wiki routes
 Router::add('/' . PROJECT_SLUG . '/wiki', 'traq::controllers::Wiki.view', array('slug' => 'main'));
