@@ -17,9 +17,11 @@
 			<?php foreach ($components->exec()->fetch_all() as $component) { ?>
 				<tr>
 					<td><?php echo HTML::link($component->name, "{$project->slug}/settings/components/{$component->id}/edit", array('data-overlay' => true)); ?></td>
-					<td class="text-right">
-						<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
-						<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $component->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]); ?>
+					<td>
+						<div class="btn-group justify-end">
+							<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
+							<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $component->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]); ?>
+						</div>
 					</td>
 				</tr>
 			<?php } ?>

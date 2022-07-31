@@ -13,7 +13,7 @@
 				<th class="codename"><?php echo l('codename'); ?></th>
 				<th class="due"><?php echo l('due'); ?></th>
 				<th class="status"><?php echo l('status'); ?></th>
-				<th class="actions"><?php echo l('actions'); ?></th>
+				<th class="actions text-right"><?php echo l('actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,7 +28,7 @@
 						} ?></td>
 					<td><?php echo $milestone->status == 0 ? l('cancelled') : ($milestone->status == 1 ? l('active') : l('completed')); ?></td>
 					<td>
-						<div class="btn-group">
+						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
 							<?= HTML::link(l('delete'), "{$project->slug}/settings/milestones/{$milestone->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $milestone->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]); ?>
 						</div>
