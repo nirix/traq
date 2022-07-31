@@ -3,26 +3,26 @@
 </div>
 <?php echo View::render('project_settings/_nav'); ?>
 <div class="content">
-	<?php echo HTML::link(l('new_component'), "{$project->slug}/settings/components/new", array('class' => 'button_new', 'data-overlay' => true)); ?>
+	<?php echo HTML::link(l('new_component'), "{$project->slug}/settings/components/new", ['class' => 'btn-success', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-plus']); ?>
 </div>
 <div>
 	<table class="list">
 		<thead>
 			<tr>
 				<th class="component_name"><?php echo l('name'); ?></th>
-				<th class="actions"><?php echo l('actions'); ?></th>
+				<th class="actions text-right"><?php echo l('actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($components->exec()->fetch_all() as $component) { ?>
-			<tr>
-				<td><?php echo HTML::link($component->name, "{$project->slug}/settings/components/{$component->id}/edit", array('data-overlay' => true)); ?></td>
-				<td>
-					<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>
-					<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $component->name))); ?>
-				</td>
-			</tr>
-		<?php } ?>
+			<?php foreach ($components->exec()->fetch_all() as $component) { ?>
+				<tr>
+					<td><?php echo HTML::link($component->name, "{$project->slug}/settings/components/{$component->id}/edit", array('data-overlay' => true)); ?></td>
+					<td class="text-right">
+						<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
+						<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $component->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]); ?>
+					</td>
+				</tr>
+			<?php } ?>
 		</tbody>
 	</table>
 </div>
