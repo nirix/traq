@@ -18,10 +18,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Traq\\": [
-                "src/Traq",
-                "vendor/traq"
-            ],
+            "traq\\": "vendor/traq",
+            "Traq\\": "src/Traq",
             "avalon\\": "vendor/avalon",
             "Avalon\\": "vendor/avalon"
         }
