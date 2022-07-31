@@ -19,7 +19,7 @@ if (isset($change['action'])) {
 } else {
 ?>
 	<span class="change-property"><?= l($change['property']) ?></span>
-	<span class="change-from"><?= $change['from'] ?></span>
-	<span class="change-to"><?= $change['to'] ?></span>
+	<span class="change-from"><?= is_array($change['from']) ? implode(', ', $change['from']) : $change['from'] ?></span>
+	<span class="change-to"><?= is_array($change['to']) ? implode(', ', $change['to']) : $change['to'] ?></span>
 <?php
 }
