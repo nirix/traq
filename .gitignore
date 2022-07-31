@@ -2,6 +2,7 @@ vendor/autoload.php
 vendor/composer
 vendor/filp
 vendor/psr
+vendor/erusev
 
 vendor/traq/config/database.php
 vendor/traq/plugins/better_php_errors
