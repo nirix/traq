@@ -21,6 +21,10 @@ import {
   faPlus,
   faClone,
   faCog,
+  faPlugCircleBolt,
+  faPlugCircleXmark,
+  faPlugCirclePlus,
+  faPlugCircleMinus,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
@@ -47,4 +51,8 @@ library.add(faSquareCheck)
 library.add(faPlus)
 library.add(faClone)
 library.add(faCog)
+library.add(faPlugCircleBolt)
+library.add(faPlugCircleXmark)
+library.add(faPlugCirclePlus)
+library.add(faPlugCircleMinus)
 dom.watch()
