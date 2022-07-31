@@ -10,7 +10,7 @@
 	<label><?php echo l('codename'); ?></label>
 	<?php echo Form::text('codename', array('value' => $proj->codename)); ?>
 </div>
-<div class="form-group-row items-start">
+<div class="form-group-row !items-start">
 	<label><?php echo l('description'); ?></label>
 	<textarea name="info" x-data x-mde><?= $proj->info ?></textarea>
 </div>

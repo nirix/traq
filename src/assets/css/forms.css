@@ -108,8 +108,8 @@ input[type="checkbox"] {
     text-align: right;
     /* min-width: calc(var(--mass-action-field-width) / 3);
     max-width: calc(var(--mass-action-field-width) / 3); */
-    min-width: 125px;
-    max-width: 125px;
+    min-width: 140px;
+    max-width: 140px;
     box-sizing: border-box;
 
     @apply pr-2;
