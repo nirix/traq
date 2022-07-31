@@ -97,8 +97,8 @@ Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::con
 
 // Project settings routes
 Router::add('/' . PROJECT_SLUG . '/settings', 'traq::controllers::ProjectSettings::Options.index');
-Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members|repositories)', 'traq::controllers::ProjectSettings::$2.index');
-Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members|repositories)/new', 'traq::controllers::ProjectSettings::$2.new');
+Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)', 'traq::controllers::ProjectSettings::$2.index');
+Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/new', 'traq::controllers::ProjectSettings::$2.new');
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
 Router::add('/' . PROJECT_SLUG . '/settings/custom_fields', 'traq::controllers::ProjectSettings::CustomFields.index');
 Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/new', 'traq::controllers::ProjectSettings::CustomFields.new');

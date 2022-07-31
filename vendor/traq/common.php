@@ -23,7 +23,6 @@ use avalon\core\Kernel as Avalon;
 use traq\models\Setting;
 use traq\models\Project;
 
-use traq\libraries\SCM;
 use traq\models\User;
 
 /**
@@ -238,43 +237,6 @@ function permission_actions()
 }
 
 /**
- * Returns an array of available SCMs.
- *
- * @return array
- */
-function scm_types()
-{
-    static $scms = array();
-
-    if (count($scms) == 0) {
-        foreach (scandir(APPPATH . "/libraries/scm/adapters") as $file) {
-            if (substr($file, -3) == 'php') {
-                $name = str_replace('.php', '', $file);
-                $scm = SCM::factory($name);
-                $scms[$name] = $scm->name();
-            }
-        }
-    }
-
-    FishHook::run('function:scm_types', array(&$scms));
-    return $scms;
-}
-
-/**
- * Returns the available SCMS as form select options.
- *
- * @return array
- */
-function scm_select_options()
-{
-    $options = array();
-    foreach (scm_types() as $scm => $name) {
-        $options[] = array('label' => $name, 'value' => $scm);
-    }
-    return $options;
-}
-
-/**
  * Checks if the specified field is a project or not.
  *
  * @param mixed $find Value [or column] to search for.
@@ -328,4 +290,11 @@ function get_percent($min, $max)
 
     // Return it like a pro.
     return $split[0];
+}
+
+function dd(...$params)
+{
+    echo '<pre>';
+    var_dump($params);
+    exit;
 }
