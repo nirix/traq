@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2022 Jack P.
+ * Copyright (C) 2012-2022 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -25,23 +28,20 @@ define("DOCROOT", dirname(dirname(__FILE__)));
 
 // Load the framework
 require SYSPATH . '/base.php';
+
 use avalon\Database;
 use avalon\core\Load;
 
 // Setup the autoloader
 use avalon\Autoloader;
+
 Autoloader::vendorLocation(__DIR__);
 
-// Alias classes so we dont need to
-// have "use ...." in all files.
-Autoloader::aliasClasses(array(
-    'avalon\http\Router' => 'Router',
-    'avalon\output\View' => 'View',
-    'avalon\http\Request' => 'Request',
-
-    // Helpers
-    'avalon\helpers\Time' => 'Time'
-));
+// Alias classes so we dont need to have "use ...." in all files.
+class_alias('avalon\http\Router', 'Router');
+class_alias('avalon\http\Request', 'Request');
+class_alias('avalon\output\View', 'View');
+class_alias('avalon\helpers\Time', 'Time');
 
 // Register the autoloader
 Autoloader::register();
@@ -87,4 +87,3 @@ unset($plugins, $plugin);
 
 // Load the localization file
 $locale = traq\libraries\Locale::load(settings('locale'));
-

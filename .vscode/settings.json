@@ -4,6 +4,7 @@
   "cSpell.ignoreWords": [
     "Pinia",
     "TRAQ",
+    "autoloader",
     "axios",
     "dompurify",
     "fortawesome",
