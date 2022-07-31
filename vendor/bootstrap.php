@@ -37,14 +37,14 @@ use avalon\Autoloader;
 
 Autoloader::vendorLocation(__DIR__);
 
+// Register the autoloader
+Autoloader::register();
+
 // Alias classes so we dont need to have "use ...." in all files.
 class_alias('avalon\http\Router', 'Router');
 class_alias('avalon\http\Request', 'Request');
 class_alias('avalon\output\View', 'View');
 class_alias('avalon\helpers\Time', 'Time');
-
-// Register the autoloader
-Autoloader::register();
 
 // Fetch the routes
 require_once APPPATH . '/config/routes.php';
