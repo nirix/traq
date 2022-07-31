@@ -20,6 +20,7 @@ import {
   faAnglesRight,
   faPlus,
   faClone,
+  faCog,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
@@ -45,4 +46,5 @@ library.add(faSquare)
 library.add(faSquareCheck)
 library.add(faPlus)
 library.add(faClone)
+library.add(faCog)
 dom.watch()
