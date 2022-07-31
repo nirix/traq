@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers;
 
 use avalon\http\Request;
 use avalon\output\View;
@@ -31,20 +31,20 @@ use avalon\output\View;
  * @package Traq
  * @subpackage Controllers
  */
-class Options extends AppController
+class ProjectSettingsController extends AppController
 {
     /**
      * Project options / information page.
      */
-    public function action_index()
+    public function index()
     {
-        // Clone the project model so nothing
-        // funky happens when there are errors
-        // with the new information.
-        $project = clone $this->project;
-
-        // Check if the form has been submitted
         if (Request::method() == 'post') {
+            // Clone the project model so nothing
+            // funky happens when there are errors
+            // with the new information.
+            $project = clone $this->project;
+            View::set('proj', $project);
+
             // Update the information
             $project->set(array(
                 'name'         => Request::post('name', $project->name),
@@ -71,11 +71,14 @@ class Options extends AppController
                 if ($this->is_api) {
                     return \API::response(1, array('project' => $project));
                 } else {
-                    Request::redirectTo($project->href('settings'));
+                    return Request::redirectTo($project->href('settings'));
                 }
+            } else {
+                return $this->renderView('project_settings/index.phtml');
             }
         }
 
-        View::set('proj', $project);
+        View::set('proj', $this->project);
+        return $this->renderView('project_settings/index.phtml');
     }
 }

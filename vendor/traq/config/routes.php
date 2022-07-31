@@ -23,6 +23,7 @@
 
 use avalon\http\Router;
 use Traq\Controllers\ProfileController;
+use Traq\Controllers\ProjectSettingsController;
 use traq\controllers\Projects;
 use traq\controllers\Tickets;
 use traq\controllers\Usercp;
@@ -96,7 +97,7 @@ Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(
 Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::controllers::Wiki.view');
 
 // Project settings routes
-Router::add('/' . PROJECT_SLUG . '/settings', 'traq::controllers::ProjectSettings::Options.index');
+Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'index']);
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)', 'traq::controllers::ProjectSettings::$2.index');
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/new', 'traq::controllers::ProjectSettings::$2.new');
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
