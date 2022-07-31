@@ -1,13 +1,18 @@
-<?php if ($pagination->paginate) { ?>
-<div class="content">
-	<div class="pagination">
-	<?php if ($pagination->prev_page_url) { ?>
-		<a href="<?php echo $pagination->prev_page_url; ?>" class="button_previous prev_link"><?php echo l('previous'); ?></a>
-	<?php } ?>
-	<?php if ($pagination->next_page_url) { ?>
-		<a href="<?php echo $pagination->next_page_url; ?>" class="button_next next_link"><?php echo l('next'); ?></a>
-	<?php } ?>
-		<div class="clearfix"></div>
+<?php if ($pagination->paginate) : ?>
+	<div class="content">
+		<div class="pagination">
+			<?php if ($pagination->prev_page_url) : ?>
+				<a href="<?= $pagination->prev_page_url; ?>" class="btn-secondary">
+					<span class="fas fa-fw fa-angle-left"></span>
+					<span><?= l('previous'); ?></span>
+				</a>
+			<?php endif; ?>
+			<?php if ($pagination->next_page_url) : ?>
+				<a href="<?= $pagination->next_page_url; ?>" class="btn-secondary">
+					<span><?= l('next'); ?></span>
+					<span class="fas fa-fw fa-angle-right"></span>
+				</a>
+			<?php endif; ?>
+		</div>
 	</div>
-</div>
-<?php } ?>
+<?php endif; ?>
