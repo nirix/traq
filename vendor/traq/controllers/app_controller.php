@@ -100,9 +100,13 @@ class AppController extends Controller
         View::set('traq', $this);
 
         // Check if we're on a project page and get the project info
+        $projectSlug = isset(Router::$params['project_slug'])
+            ? Router::$params['project_slug']
+            : (isset(Router::$attributes['project_slug']) ? Router::$attributes['project_slug'] : false);
+
         if (
-            isset(Router::$params['project_slug']) &&
-            $this->project = is_project(Router::$params['project_slug'])
+            $projectSlug &&
+            $this->project = is_project($projectSlug)
         ) {
             if ($this->user->permission($this->project->id, 'view')) {
                 // Add project name to page title
@@ -301,7 +305,20 @@ class AppController extends Controller
         parent::__shutdown();
     }
 
-    public function renderView(string $name, array $vars = [])
+    protected function show404()
+    {
+        return $this->show_404();
+    }
+
+    /**
+     * Set view variable.
+     */
+    protected function set(string $name, $value)
+    {
+        View::set($name, $value);
+    }
+
+    protected function renderView(string $name, array $vars = [])
     {
         $content = View::render(str_replace('.phtml', '', $name), $vars);
 
