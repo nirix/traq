@@ -1,35 +1,46 @@
-<div class="form-group">
-	<label><?php echo l('name'); ?></label>
-	<?php echo Form::text('name', array('value' => $proj->name)); ?>
-</div>
-<div class="form-group">
-	<label><?php echo l('slug'); ?></label>
-	<?php echo Form::text('slug', array('value' => $proj->slug)); ?> <abbr title="<?php echo l('help.slug'); ?>">?</abbr>
-</div>
-<div class="form-group">
-	<label><?php echo l('codename'); ?></label>
-	<?php echo Form::text('codename', array('value' => $proj->codename)); ?>
-</div>
-<div class="form-group-row !items-start">
-	<label><?php echo l('description'); ?></label>
-	<textarea name="info" x-data x-mde><?= $proj->info ?></textarea>
-</div>
-<div class="form-group">
-	<label><?php echo l('enable_wiki'); ?></label>
-	<div>
-		<?php echo Form::checkbox('enable_wiki', 1, array('checked' => $proj->enable_wiki == 1 ? true : false)); ?> <?php echo Form::label(l('yes'), 'enable_wiki'); ?>
+<div class="flex p-4">
+	<div class="flex-grow mr-1">
+		<label for="name"><?= l('name') ?></label>
+		<?= Form::text('name', ['value' => $proj->name]) ?>
+	</div>
+	<div class="flex-grow ml-1">
+		<label for="codename"><?= l('codename') ?></label>
+		<?= Form::text('codename', array('value' => $proj->codename)) ?>
 	</div>
 </div>
-<div class="form-group">
-	<label><?php echo l('display_order'); ?></label>
-	<?php echo Form::text('displayorder', array('value' => $proj->displayorder)); ?>
+<div class="flex p-4 pt-0">
+	<div class="flex-grow mr-1">
+		<label for="slug"><?= l('slug') ?></label>
+		<div class="input-group">
+			<?= Form::text('slug', array('value' => $proj->slug)); ?>
+			<abbr class="input-tip-right" title="<?php echo l('help.slug') ?>">?</abbr>
+		</div>
+	</div>
+	<div class="flex-grow ml-1">
+		<label for="displayorder"><?= l('display_order') ?></label>
+		<?= Form::text('displayorder', array('value' => $proj->displayorder)) ?>
+	</div>
 </div>
-<div class="form-group">
-	<label><?php echo l('default_ticket_type'); ?></label>
-	<?php echo Form::select('default_ticket_type_id', traq\models\Type::select_options(), array('value' => $proj->default_ticket_type_id)); ?>
+<div class="px-4">
+	<label><?= l('description') ?></label>
+	<textarea name="info" x-data x-mde><?= $proj->info ?></textarea>
 </div>
-<div class="form-group">
-	<label><?php echo l('default_ticket_sorting'); ?></label>
-	<?php echo Form::select('default_ticket_sorting', ticket_sorting_select_options(), array('value' => $proj->default_ticket_sorting)); ?>
+
+<div class="flex p-5">
+	<div class="flex-grow mr-1">
+		<label><?= l('default_ticket_type') ?></label>
+		<?= Form::select('default_ticket_type_id', traq\models\Type::select_options(), array('value' => $proj->default_ticket_type_id)) ?>
+	</div>
+	<div class="flex-grow ml-1 mr-1">
+		<label><?= l('default_ticket_sorting') ?></label>
+		<?= Form::select('default_ticket_sorting', ticket_sorting_select_options(), array('value' => $proj->default_ticket_sorting)) ?>
+	</div>
+
+	<div class="flex-grow ml-1">
+		<label for="enable_wiki"><?= l('enable_wiki') ?></label>
+		<div>
+			<?= Form::checkbox('enable_wiki', 1, array('checked' => $proj->enable_wiki == 1 ? true : false)); ?> <?php echo Form::label(l('yes'), 'enable_wiki') ?>
+		</div>
+	</div>
 </div>
 <?php FishHook::run('template:projectsettings/options/_form', array($proj)); ?>
