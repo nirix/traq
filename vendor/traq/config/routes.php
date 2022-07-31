@@ -30,15 +30,15 @@ use traq\controllers\Usercp;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
-Router::get('root', 'root', [Projects::class, 'action_index']);
+Router::register('root', 'root', [Projects::class, 'action_index']);
 
 Router::add('404', 'traq::controllers::Error.404');
 Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
 Router::add('/login/resetpassword', 'traq::controllers::Users.reset_password');
 Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.reset_password/$1');
-Router::register('usercp', '/usercp', [Usercp::class, 'action_index'], methods: ['GET', 'POST']);
+Router::register('usercp', '/usercp', [Usercp::class, 'action_index']);
 Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
-Router::get('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
+Router::register('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
 Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 
 // API
@@ -83,8 +83,8 @@ Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', 'traq::controllers::TicketTasks.manage/$2');
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/([0-9]+)', 'traq::controllers::TicketTasks.toggle/$2,$3');
 Router::add('/' . PROJECT_SLUG . '/tickets/mass-actions', 'traq::controllers::Tickets.mass_actions');
-Router::get('tickets', '/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'index']);
-Router::get('api.tickets', '/api/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'action_api']);
+Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'index']);
+Router::register('api.tickets', '/api/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'action_api']);
 
 // Wiki routes
 Router::add('/' . PROJECT_SLUG . '/wiki', 'traq::controllers::Wiki.view', array('slug' => 'main'));
