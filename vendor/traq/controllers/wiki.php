@@ -213,7 +213,7 @@ class Wiki extends AppController
     /**
      * Deletes the specified wiki page.
      */
-    public function action_delete($slug)
+    public function action_delete()
     {
         // Get slug
         $slug = \avalon\http\Router::$params['slug'];

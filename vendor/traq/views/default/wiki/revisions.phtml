@@ -2,25 +2,39 @@
 <div class="wiki content">
 	<div id="head">
 		<h2 id="page_title"><?php echo $page->title; ?></h2>
-		<ul id="wiki_actions">
-		<?php if (current_user()->permission($project->id, 'create_wiki_page')) { ?>
-			<li><?php echo HTML::link(l('new_page'), $project->href('wiki/_new'), array('class' => 'button_new')); ?></li>
-		<?php } ?>
-		<?php if (current_user()->permission($project->id, 'edit_wiki_page')) { ?>
-			<li><?php echo HTML::link(l('edit_page'), $page->href('_edit'), array('class' => 'button_edit')); ?></li>
-		<?php } ?>
-		<?php if (current_user()->permission($project->id, 'delete_wiki_page')) { ?>
-			<li><?php echo HTML::link(l('delete_page'), $page->href('_delete'), array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $page->title))); ?></li>
-		<?php } ?>
-			<li><?php echo HTML::link(l('revisions'), $page->href('_revisions'), array('class' => 'button_revisions')); ?></li>
-		</ul>
+		<div id="wiki_actions">
+			<div class="btn-group">
+				<?php if (current_user()->permission($project->id, 'create_wiki_page')) : ?>
+					<a href="<?= Request::base($project->href('wiki/_new')) ?>" class="btn-success btn-sm" title="<?= l('new_page') ?>">
+						<span class="fas fa-fw fa-plus"></span>
+						<spa class="visually-hidden"><?= l('new_page') ?></span>
+					</a>
+				<?php endif; ?>
+				<?php if (current_user()->permission($project->id, 'edit_wiki_page')) : ?>
+					<a href="<?= Request::base($page->href('_edit')) ?>" class="btn-warning btn-sm" title="<?= l('edit_page') ?>">
+						<span class="fas fa-fw fa-pencil"></span>
+						<span class="visually-hidden"><?= l('edit_page') ?></span>
+					</a>
+				<?php endif; ?>
+				<?php if (current_user()->permission($project->id, 'delete_wiki_page')) : ?>
+					<button class="btn-danger btn-sm" title="<?= l('delete_page') ?>" x-data="popoverConfirm({ message: '<?= addslashes(l('confirm.delete_x', $page->title)) ?>', post: '<?= Request::base($page->href('_delete')) ?>' })" @click.prevent="toggle()">
+						<span class="fas fa-fw fa-trash"></span>
+						<span class="visually-hidden"><?= l('delete_page') ?></span>
+					</button>
+				<?php endif; ?>
+				<a href="<?= Request::base($page->href('_revisions')) ?>" class="btn-secondary btn-sm" title="<?= l('revisions') ?>">
+					<span class="fas fa-fw fa-clone"></span>
+					<span class="visually-hidden"><?= l('revisions') ?></span>
+				</a>
+			</div>
+		</div>
 	</div>
 	<ul id="pages">
-	<?php foreach ($page->revisions->exec()->fetch_all() as $revision) { ?>
-		<li>
-			<?php echo HTML::link(l("revision_x", $revision->revision), $page->href("_revisions/{$revision->revision}")); ?>
-			by <?php echo HTML::link($revision->user->username, $revision->user->href()); ?>
-		</li>
-	<?php } ?>
+		<?php foreach ($page->revisions->exec()->fetch_all() as $revision) { ?>
+			<li>
+				<?php echo HTML::link(l("revision_x", $revision->revision), $page->href("_revisions/{$revision->revision}")); ?>
+				by <?php echo HTML::link($revision->user->username, $revision->user->href()); ?>
+			</li>
+		<?php } ?>
 	</ul>
 </div>

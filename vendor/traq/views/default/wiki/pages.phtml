@@ -4,13 +4,18 @@
 		<h2 id="page_title"><?php echo l('pages'); ?></h2>
 		<ul id="wiki_actions">
 			<?php if (current_user()->permission($project->id, 'create_wiki_page')) { ?>
-			<li><?php echo HTML::link(l('new_page'), $project->href('wiki/_new'), array('class' => 'button_new')); ?></li>
+				<li>
+					<a href="<?= Request::base($project->href('wiki/_new')) ?>" class="btn-success btn-sm" title="<?= l('new_page') ?>">
+						<span class="fas fa-fw fa-plus"></span>
+						<span class="visually-hidden"><?= l('new_page') ?></span>
+					</a>
+				</li>
 			<?php } ?>
 		</ul>
 	</div>
 	<ul id="pages">
-	<?php foreach ($pages as $page) { ?>
-		<li><?php echo HTML::link($page->title, $page->href()); ?></li>
-	<?php } ?>
+		<?php foreach ($pages as $page) { ?>
+			<li><?php echo HTML::link($page->title, $page->href()); ?></li>
+		<?php } ?>
 	</ul>
 </div>

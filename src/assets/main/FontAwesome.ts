@@ -18,6 +18,8 @@ import {
   faQuestionCircle,
   faCircleNotch,
   faAnglesRight,
+  faPlus,
+  faClone,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
@@ -41,4 +43,6 @@ library.add(faCircleNotch)
 library.add(faAnglesRight)
 library.add(faSquare)
 library.add(faSquareCheck)
+library.add(faPlus)
+library.add(faClone)
 dom.watch()
