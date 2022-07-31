@@ -1,5 +1,5 @@
 <?php if (isset($projects) && is_array($projects) && count($projects) > 1) : ?>
-	<li x-data="{ open: false }">
+	<li x-cloak x-data="{ open: false }">
 		<a href="#" @click.prevent="open = !open" @click.outside="open = false"><?= l('projects') ?></a>
 		<ul class="project-switcher" x-show="open" x-transition>
 			<?php foreach ($projects as $p) : ?>

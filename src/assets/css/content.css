@@ -118,3 +118,7 @@ table {
   @apply border-red-300;
   @apply text-red-900;
 }
+
+[x-cloak] {
+  display: none !important;
+}
