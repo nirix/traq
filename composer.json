@@ -1,0 +1,27 @@
+{
+    "name": "traq/traq",
+    "description": "Project management system",
+    "type": "project",
+    "require-dev": {
+        "filp/whoops": "^2.14"
+    },
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Jack Polgar",
+            "email": "hello@jp.id.au"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Traq\\": [
+                "src/Traq",
+                "vendor/traq"
+            ],
+            "avalon\\": "vendor/avalon",
+            "Avalon\\": "vendor/avalon"
+        }
+    }
+}
