@@ -1,6 +1,7 @@
-vendor/
-!vendor/traq
-!vendor/avalon
+vendor/autoload.php
+vendor/composer
+vendor/filp
+vendor/psr
 
 vendor/traq/config/database.php
 vendor/traq/plugins/better_php_errors

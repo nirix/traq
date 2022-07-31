@@ -22,6 +22,7 @@
  */
 
 use avalon\http\Router;
+use Traq\Controllers\ProfileController;
 use traq\controllers\Projects;
 use traq\controllers\Usercp;
 
@@ -35,7 +36,7 @@ Router::add('/login/resetpassword', 'traq::controllers::Users.reset_password');
 Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.reset_password/$1');
 Router::register('usercp', '/usercp', [Usercp::class, 'action_index'], methods: ['GET', 'POST']);
 Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
-Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
+Router::get('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
 Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 
 // API

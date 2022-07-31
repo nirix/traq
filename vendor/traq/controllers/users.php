@@ -47,27 +47,6 @@ class Users extends AppController
     );
 
     /**
-     * User profile page.
-     *
-     * @param integer $user_id
-     */
-    public function action_view($user_id)
-    {
-        // If the user doesn't exist
-        // display the 404 page.
-        if (!$user = User::find($user_id)) {
-            return $this->show_404();
-        }
-
-        // Set the title
-        $this->title(l('users'));
-        $this->title(l('xs_profile', $user->name));
-
-        Load::helper('tickets');
-        View::set('profile', $user);
-    }
-
-    /**
      * Handles the login page.
      */
     public function action_login()
@@ -78,8 +57,10 @@ class Users extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Try to find the user in the database and verify their password
-            if ($user = User::find('username', Request::$post['username'])
-            and $user->verify_password(Request::$post['password'])) {
+            if (
+                $user = User::find('username', Request::$post['username'])
+                and $user->verify_password(Request::$post['password'])
+            ) {
                 // User found and verified, set the cookie and redirect them
                 // to the index page if no "redirect" page was set.
                 if ($user->is_activated()) {
@@ -218,7 +199,8 @@ class Users extends AppController
                     Notification::send(
                         $user, // User object
                         l('notifications.password_reset.subject'),     // Subject
-                        l('notifications.password_reset.message',    // Message
+                        l(
+                            'notifications.password_reset.message',    // Message
                             settings('title'), // Installation title
                             $user->name,       // Users name
                             $user->username,   // Users username
