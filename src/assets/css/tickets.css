@@ -115,17 +115,27 @@
   }
 
   & > .update-mini {
-    @apply flex items-center;
+    @apply flex flex-col;
     @apply mb-4;
     @apply text-gray-700;
 
-    & > .update-icon {
-      @apply bg-gray-100 rounded-full;
-      @apply p-2 mr-3;
+    & > .update-change {
+      @apply flex items-center;
+
+      & > .update-icon {
+        @apply bg-gray-100 rounded-full;
+        @apply p-2 mr-3;
+      }
+
+      & > .update-info {
+        @apply flex-grow;
+      }
     }
 
-    & > .update-info {
-      @apply flex-grow;
+    & > .update-comment {
+      @apply bg-white;
+      @apply border border-solid border-gray-300 rounded;
+      @apply p-2 ml-11;
     }
   }
 

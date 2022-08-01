@@ -8,23 +8,38 @@
     $icon = $action === 'create' ? 'plus' : ($action === 'reopen' ? 'rotate-left' : 'minus');
 ?>
     <div class="update-mini" id="ticket-update-<?= $update->id ?>">
-        <div class="update-icon">
-            <span class="fas fa-fw fa-<?= $icon ?>"></span>
-        </div>
-        <div class="update-info">
-            <?= l(
-                "ticket_history.x_{$action}_as_x_x_ago",
-                HTML::link($update->user->username, $update->user->href()),
-                $update->changes[0]['to'],
-                time_ago($update->created_at)
-            ) ?>
-        </div>
-        <?php if (currentUser()->permission($ticket->project_id, 'delete_ticket_history')) : ?>
+        <div class="update-change">
+            <div class="update-icon">
+                <span class="fas fa-fw fa-<?= $icon ?>"></span>
+            </div>
+            <div class="update-info">
+                <?= l(
+                    "ticket_history.x_{$action}_as_x_x_ago",
+                    HTML::link($update->user->username, $update->user->href()),
+                    $update->changes[0]['to'],
+                    time_ago($update->created_at)
+                ) ?>
+            </div>
             <div class="update-actions">
-                <button title="<?= l('delete') ?>" x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($ticket->href("/history/{$update->id}/delete")) ?>', success: () => { document.getElementById('ticket-update-<?= $update->id ?>').remove() } })" @click="toggle" class="btn-danger btn-xs">
-                    <span class="fas fa-fw fa-trash"></span>
-                    <span class="visually-hidden"><?= l('edit') ?></span>
-                </button>
+                <div class="btn-group">
+                    <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history')) : ?>
+                        <a href="<?= Request::base($ticket->href("/history/{$update->id}/edit")) ?>" title="<?= l('edit') ?>" data-overlay="1" class="btn-warning btn-xs">
+                            <span class="fas fa-fw fa-pencil"></span>
+                            <span class="visually-hidden"><?= l('edit') ?></span>
+                        </a>
+                    <?php endif; ?>
+                    <?php if (currentUser()->permission($ticket->project_id, 'delete_ticket_history')) : ?>
+                        <button title="<?= l('delete') ?>" x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($ticket->href("/history/{$update->id}/delete")) ?>', success: () => { document.getElementById('ticket-update-<?= $update->id ?>').remove() } })" @click="toggle" class="btn-danger btn-xs">
+                            <span class="fas fa-fw fa-trash"></span>
+                            <span class="visually-hidden"><?= l('edit') ?></span>
+                        </button>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <?php if ($update->comment != '') : ?>
+            <div class="update-comment">
+                <?= format_text($update->comment) ?>
             </div>
         <?php endif; ?>
     </div>
