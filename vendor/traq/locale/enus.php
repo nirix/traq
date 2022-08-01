@@ -467,6 +467,10 @@ class enUS extends \traq\libraries\Locale
                 'close'          => "Closed ticket as {2}",
                 'reopen'         => "Reopened ticket as {2}",
                 'add_attachment' => "Attached {2}",
+
+                'x_create_as_x_x_ago' => "{1} created as {2} {3}",
+                'x_close_as_x_x_ago' => "{1} closed as {2} {3}",
+                'x_reopen_as_x_x_ago' => "{1} reopened as {2} {3}",
             ),
 
             // Warnings

@@ -27,6 +27,8 @@ import {
   faPlugCircleMinus,
   faAngleLeft,
   faAngleRight,
+  faRotateLeft,
+  faMinus,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
@@ -59,4 +61,6 @@ library.add(faPlugCirclePlus)
 library.add(faPlugCircleMinus)
 library.add(faAngleLeft)
 library.add(faAngleRight)
+library.add(faMinus)
+library.add(faRotateLeft)
 dom.watch()

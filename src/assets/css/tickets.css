@@ -114,6 +114,21 @@
     @apply text-lg;
   }
 
+  & > .update-mini {
+    @apply flex items-center;
+    @apply mb-4;
+    @apply text-gray-700;
+
+    & > .update-icon {
+      @apply bg-gray-100 rounded-full;
+      @apply p-2 mr-3;
+    }
+
+    & > .update-info {
+      @apply flex-grow;
+    }
+  }
+
   & > .update {
     @apply bg-white;
     @apply border border-solid border-gray-300 rounded;
