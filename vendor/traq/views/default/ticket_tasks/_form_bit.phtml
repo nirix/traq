@@ -1,8 +1,12 @@
-<div id="ticket_task_bit_<?= $id ?>" class="task">
-	<?= Form::checkbox("tasks[{$id}][completed]", '1', array('checked' => $completed, 'data-task-id' => $id)) ?>
-	<?= Form::text("tasks[{$id}][task]", array('value' => $task, 'data-task-id' => $id)) ?>
-	<button type="button" class="btn-danger btn-sm delete_ticket_task" data-task-id="<?= $id ?>">
-		<span class="fas fa-fw fa-trash"></span>
-		<span class="visually-hidden"><?= l('delete') ?></span>
-	</button>
+<div id="ticket_task_bit_<?= $id ?>" class="task mb-2">
+	<div class="input-group">
+		<div class="input-group-checkbox">
+			<?= Form::checkbox("tasks[{$id}][completed]", '1', array('checked' => $completed, 'data-task-id' => $id)) ?>
+		</div>
+		<?= Form::text("tasks[{$id}][task]", array('value' => $task, 'data-task-id' => $id)) ?>
+		<button type="button" class="btn-danger delete_ticket_task" data-task-id="<?= $id ?>">
+			<span class="fas fa-fw fa-trash"></span>
+			<span class="visually-hidden"><?= l('delete') ?></span>
+		</button>
+	</div>
 </div>

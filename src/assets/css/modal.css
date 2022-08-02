@@ -40,4 +40,5 @@
 
 #overlay_blackout {
   @apply bg-gray-600;
+  z-index: 2000;
 }

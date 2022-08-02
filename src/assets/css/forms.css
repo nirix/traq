@@ -124,6 +124,12 @@ input[type="checkbox"] {
 }
 
 .input-group {
+  & .input-group-checkbox {
+    padding: 0.4rem;
+    @apply border border-solid border-gray-300 border-r-0;
+    @apply bg-gray-100;
+  }
+
   & .input-group-hint {
     @apply p-2;
     @apply border-l-0;
