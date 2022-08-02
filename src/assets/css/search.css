@@ -37,10 +37,16 @@
   }
 
   & > .search-results {
+    z-index: 999;
+    max-height: 500px;
+    overflow-y: scroll;
+    width: 400px;
+    margin-left: -160px;
+
     @apply text-black;
     @apply bg-white;
     @apply shadow-md rounded-md;
-    @apply absolute w-60;
+    @apply absolute;
     @apply mt-1 p-4;
 
     & .results-tickets,
