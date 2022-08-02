@@ -23,7 +23,7 @@
 #meta-nav {
   @apply bg-brand-600;
   @apply text-xs;
-  @apply h-5;
+  @apply py-2;
   @apply flex items-center;
 
   & > .container {
@@ -94,6 +94,7 @@
 
   & > ul {
     display: flex;
+    align-items: center;
   }
 
   & > ul > li {
