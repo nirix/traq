@@ -4,9 +4,12 @@ import Alpine from "alpinejs"
 Alpine.data("navbarSearch", () => ({
   open: false,
   hasResults: false,
+  global: false,
   results: {},
 
   fetchResults() {
+    this.global = window.traq.project_slug ? false : true
+
     const data = {
       query: this.$refs.input.value,
       project: window.traq.project_slug,

@@ -48,12 +48,11 @@ class SearchController extends AppController
         $milestones = Milestone::select()->where('name', $term, 'LIKE');
 
         // Filter by current project
+        $project = false;
         if (isset($search['project'])) {
             $project = Project::find('slug', $search['project']);
             $tickets->where('project_id', $project->id);
             $milestones->where('project_id', $project->id);
-        } else {
-            $projects = Project::select()->where('name', $term, 'LIKE');
         }
 
         $ticketData = array_map(
@@ -61,7 +60,7 @@ class SearchController extends AppController
                 return [
                     'ticket_id' => $ticket->ticket_id,
                     'summary' => $ticket->summary,
-                    'project' => isset($project)
+                    'project' => $project
                         ? ['name' => $project->name, 'slug' => $project->slug]
                         : ['name' => $ticket->project->name, 'slug' => $ticket->project->slug],
                 ];
@@ -75,7 +74,7 @@ class SearchController extends AppController
                     'name' => $milestone->name,
                     'codename' => $milestone->codename ? $milestone->codename : null,
                     'slug' => $milestone->slug,
-                    'project' => isset($project)
+                    'project' => $project
                         ? ['name' => $project->name, 'slug' => $project->slug]
                         : ['name' => $milestone->project->name, 'slug' => $milestone->project->slug],
                 ];
