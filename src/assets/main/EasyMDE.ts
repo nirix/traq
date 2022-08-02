@@ -21,6 +21,7 @@
  */
 
 import Alpine from "alpinejs"
+import EasyMDE from "easymde"
 
 Alpine.directive("mde", (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
   try {

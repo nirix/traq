@@ -9,6 +9,7 @@ input[type="text"],
 input[type="password"],
 input[type="email"],
 input[type="search"],
+input[type="date"],
 textarea {
   @apply appearance-none;
   @apply box-border;
@@ -82,16 +83,21 @@ input[type="checkbox"] {
     @apply pr-2;
   }
 
-  & > select,
-  & input[type="text"],
-  & input[type="password"],
-  & .property {
-    flex-grow: 1;
-    margin: 0;
-  }
-
   & .EasyMDEContainer {
     width: 100%;
+  }
+}
+
+.form-group,
+.form-group-row {
+  & > select,
+  & > input[type="text"],
+  & > input[type="password"],
+  & > input[type="date"],
+  & > .property,
+  & > .input-group {
+    flex-grow: 1;
+    margin: 0;
   }
 }
 
@@ -115,13 +121,13 @@ input[type="checkbox"] {
 
     @apply pr-2;
   }
+}
 
-  & > select,
-  & input[type="text"],
-  & .property {
-    flex-grow: 1;
-    /* min-width: calc(var(--mass-action-field-width) / 1.5);
-    max-width: calc(var(--mass-action-field-width) / 1.5); */
-    margin: 0;
+.input-group {
+  & .input-group-hint {
+    @apply p-2;
+    @apply border-l-0;
+    @apply outline-none;
+    @apply no-underline;
   }
 }
