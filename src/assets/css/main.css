@@ -3,6 +3,7 @@
 @import "tailwindcss/base";
 @import "./header.css";
 @import "./content.css";
+@import "./forms.css";
 
 @import "tailwindcss/components";
 @import "./panel.css";
@@ -10,9 +11,10 @@
 @import "./tickets.css";
 @import "./roadmap.css";
 @import "./popover.css";
+@import "./search.css";
 
 @import "tailwindcss/utilities";
 
 @import "./buttons.css";
-@import "./forms.css";
+
 @import "./utils.css";

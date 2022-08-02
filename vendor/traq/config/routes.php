@@ -25,6 +25,7 @@ use avalon\http\Router;
 use Traq\Controllers\ProfileController;
 use Traq\Controllers\ProjectSettingsController;
 use traq\controllers\Projects;
+use Traq\Controllers\SearchController;
 use traq\controllers\Tickets;
 use traq\controllers\Usercp;
 
@@ -50,6 +51,7 @@ Router::add('/api/priorities', 'traq::controllers::API.priorities');
 Router::add('/api/' . PROJECT_SLUG . '/components', 'traq::controllers::API.components');
 Router::add('/api/' . PROJECT_SLUG . '/custom-fields', 'traq::controllers::API.customFields');
 Router::add('/api/' . PROJECT_SLUG . '/members', 'traq::controllers::API.projectMembers');
+Router::register('search', '/api/search', [SearchController::class, 'search']);
 
 // Misc
 Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');

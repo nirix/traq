@@ -110,6 +110,9 @@ class enUS extends \traq\libraries\Locale
             'ascending'        => "Ascending",
             'descending'       => "Descending",
 
+            // Search
+            'search.no_results' => 'No search results...',
+
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
             'dashboard'                 => "Dashboard",

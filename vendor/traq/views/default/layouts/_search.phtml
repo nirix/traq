@@ -1,0 +1,45 @@
+<li x-cloak x-data="navbarSearch" :class="open ? 'navbar-search open' : 'navbar-search'" @click="open = true" @click.outside="open = false" @keyup.escape.window="open = false">
+    <span class="fas fa-fw fa-search search-icon"></span>
+    <input type="search" @input.debounce="fetchResults" x-ref="input">
+    <div class="search-results" x-show="open" x-transition>
+        <template x-if="!hasResults">
+            <div>
+                <?= l('search.no_results') ?>
+            </div>
+        </template>
+        <template x-if="hasResults">
+            <div>
+                <div x-show="results.tickets?.length > 0" x-transition class="results-tickets">
+                    <h3><?= l('tickets') ?></h3>
+                    <ul>
+                        <template x-for="ticket in results.tickets">
+                            <li>
+                                <a :href="ticketUrl(ticket)">
+                                    <span>#<span x-text="ticket.ticket_id">#</span></span>
+                                    <span>-</span>
+                                    <span x-text="ticket.summary"></span>
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+                <div x-show="results.milestones?.length > 0" x-transition class="results-milestones">
+                    <h3><?= l('milestones') ?></h3>
+                    <ul>
+                        <template x-for="milestone in results.milestones">
+                            <li>
+                                <a :href="milestoneUrl(milestone)">
+                                    <span x-text="milestone.name"></span>
+                                    <template x-if="milestone.codename">
+                                        <span>(<span x-text="milestone.codename"></span>)</span>
+                                    </template>
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+        </template>
+    </div>
+</li>

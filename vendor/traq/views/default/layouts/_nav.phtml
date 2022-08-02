@@ -1,5 +1,5 @@
 <nav id="nav">
-    <ul id="main_nav">
+    <ul id="main-nav">
         <?php if (isset($project)) : ?>
             <li class="<?= iif(active_nav('/:slug'), 'active') ?>"><?= HTML::link(l('project_info'), $project->href()) ?></li>
             <li class="<?= iif(active_nav('/:slug/timeline'), 'active') ?>"><?= HTML::link(l('timeline'), $project->href("timeline")) ?></li>
@@ -21,11 +21,12 @@
         <?php FishHook::run('template:layouts/default/main_nav', [isset($project) ? $project : false]); ?>
     </ul>
 
-    <?php if (isset($project) && currentUser()->permission($project->id, 'project_settings')) : ?>
-        <ul>
+    <ul id="secondary-nav">
+        <?= View::render('layouts/_search') ?>
+        <?php if (isset($project) && currentUser()->permission($project->id, 'project_settings')) : ?>
             <li class="<?= iif(active_nav('/:slug/settings(.*)'), 'active') ?>">
                 <?= HTML::link(l('settings'), $project->href('settings'), ['icon' => 'fas fa-fw fa-cog', 'sr-only' => true, 'title' => l('settings')]) ?>
             </li>
-        </ul>
-    <?php endif; ?>
+        <?php endif; ?>
+    </ul>
 </nav>
