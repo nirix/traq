@@ -44,8 +44,8 @@ class SearchController extends AppController
 
         $term = "%{$search['query']}%";
 
-        $tickets = Ticket::select()->where('summary', $term, 'LIKE');
-        $milestones = Milestone::select()->where('name', $term, 'LIKE');
+        $tickets = Ticket::select()->where('summary', $term, 'LIKE')->limit(25);
+        $milestones = Milestone::select()->where('name', $term, 'LIKE')->limit(25);
 
         // Filter by current project
         $project = false;
