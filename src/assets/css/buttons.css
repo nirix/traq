@@ -147,7 +147,7 @@ input[type="reset"] {
   display: flex;
 
   @apply text-sm;
-  @apply rounded-xl;
+  @apply rounded-md;
   @apply bg-gray-200;
   @apply p-1 mb-4;
 
@@ -159,7 +159,7 @@ input[type="reset"] {
     &.active {
       @apply text-gray-900;
       @apply bg-white;
-      @apply rounded-lg;
+      @apply rounded;
     }
   }
 }
