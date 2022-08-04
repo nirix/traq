@@ -45,6 +45,12 @@ ol {
 fieldset {
   @apply border border-solid border-gray-400 rounded;
   @apply mb-2;
+
+  &.panel {
+    & legend {
+      @apply px-1 mx-4;
+    }
+  }
 }
 
 table {
