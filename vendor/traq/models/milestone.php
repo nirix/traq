@@ -182,14 +182,14 @@ class Milestone extends Model
         if (parent::save()) {
             // Check if the status has been changed, if it has, is it completed or cancelled?
             if (
-                isset($this->original_status, $this->_data['stats'])
-                && $this->original_status != $this->_data['status']
-                && $this->_data['status'] != 1
+                isset($this->originalStatus, $this->_data['status']) &&
+                $this->originalStatus !== (int) $this->_data['status'] &&
+                (int) $this->_data['status'] !== static::ACTIVE
             ) {
                 $timeline = new Timeline(array(
                     'project_id' => $this->project_id,
                     'owner_id' => $this->id,
-                    'action' => $this->_data['status'] == 2 ? 'milestone_completed' : 'milestone_cancelled',
+                    'action' => (int) $this->_data['status'] === static::COMPLETE ? 'milestone_completed' : 'milestone_cancelled',
                     'user_id' => Avalon::app()->user->id
                 ));
                 $timeline->save();
@@ -232,7 +232,7 @@ class Milestone extends Model
     {
         // Status
         if (isset($this->_data['status'])) {
-            $this->original_status = $this->_data['status'];
+            $this->originalStatus = (int) $this->_data['status'];
         }
 
         // Completed on date from GMT to local
