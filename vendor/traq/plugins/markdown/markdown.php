@@ -68,6 +68,7 @@ class Markdown extends \traq\libraries\Plugin
         // Initialise parser
         if (!isset(static::$parser)) {
             static::$parser = new ParsedownExtra();
+            static::$parser->setSafeMode(true);
         }
 
         // Parse the text
