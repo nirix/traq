@@ -71,10 +71,10 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete'
 Router::add('/projects', 'traq::controllers::Projects.index');
 Router::add('/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
 Router::add('/' . PROJECT_SLUG . '/(roadmap|changelog)', 'traq::controllers::Projects.$2');
-Router::add('/' . PROJECT_SLUG . '/timeline/([0-9]+)/delete', 'traq::controllers::Projects.delete_timeline_event/$2');
 Router::add('/' . PROJECT_SLUG . '/roadmap/(completed|all|cancelled)', 'traq::controllers::Projects.roadmap/$2');
 Router::add('/' . PROJECT_SLUG, 'traq::controllers::Projects.view');
 Router::register('timeline', '/' . PROJECT_SLUG . '/timeline', [TimelineController::class, 'index']);
+Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>[0-9]+)/delete', [TimelineController::class, 'deleteEvent']);
 
 // Ticket routes
 Router::add('/' . PROJECT_SLUG . '/tickets/new', 'traq::controllers::Tickets.new');

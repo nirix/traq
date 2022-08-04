@@ -124,6 +124,29 @@ class TimelineController extends AppController
     }
 
     /**
+     * Delete timeline event.
+     *
+     * @param integer $eventId
+     */
+    public function deleteEvent($eventId)
+    {
+        if (!$this->user->permission($this->project->id, 'delete_timeline_events')) {
+            return $this->show_no_permission();
+        }
+
+        $event = Timeline::find($eventId);
+        $event->delete();
+
+        if (!Request::isAjax()) {
+            Request::redirectTo($this->project->href('timeline'));
+        }
+
+        return [
+            'success' => true,
+        ];
+    }
+
+    /**
      * Get the ticket info required for timeline events, not actual ticket models.
      */
     private function getTickets(array $ticketIds): array
