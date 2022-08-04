@@ -7,6 +7,11 @@
       @apply m-0 border-b-0;
     }
 
+    & .milestone-meta {
+      @apply text-gray-600;
+      @apply mb-1;
+    }
+
     & .milestone-name a {
       @apply no-underline;
       @apply font-bold;
