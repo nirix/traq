@@ -125,6 +125,16 @@ table {
   @apply text-red-900;
 }
 
+dl {
+  display: flex;
+  flex-wrap: wrap;
+
+  & dt,
+  & dd {
+    @apply w-1/2;
+  }
+}
+
 [x-cloak] {
   display: none !important;
 }
