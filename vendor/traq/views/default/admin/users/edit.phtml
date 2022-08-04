@@ -2,7 +2,7 @@
 	<h3><?php echo l('edit_user'); ?></h3>
 	<form action="<?php echo Request::requestUri(); ?>" method="post">
 		<?php echo show_errors($user->errors); ?>
-		<div class="tabular box">
+		<div class="panel">
 			<?php echo View::render('admin/users/_form'); ?>
 		</div>
 		<div class="actions">

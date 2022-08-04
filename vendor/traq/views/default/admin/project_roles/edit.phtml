@@ -1,12 +1,14 @@
 <div class="content">
-	<h3><?php echo l('edit_role'); ?></h3>
-	<form action="<?php echo Request::requestUri(); ?>" method="post">
-		<?php echo show_errors($role->errors); ?>
-		<div class="tabular box">
-			<?php echo View::render('admin/project_roles/_form'); ?>
+	<h3><?= l('edit_role'); ?></h3>
+	<form action="<?= Request::requestUri(); ?>" method="post">
+		<?= show_errors($role->errors); ?>
+		<div class="panel">
+			<div class="panel-content">
+				<?= View::render('admin/project_roles/_form'); ?>
+			</div>
 		</div>
 		<div class="actions">
-			<input type="submit" value="<?php echo l('save'); ?>" />
+			<input type="submit" value="<?= l('save'); ?>" />
 		</div>
 	</form>
 </div>
