@@ -8,11 +8,13 @@
 @import "tailwindcss/components";
 @import "./panel.css";
 @import "./tabs.css";
+@import "./search.css";
+@import "./popover.css";
+@import "./modal.css";
+@import "./pagination.css";
 @import "./tickets.css";
 @import "./roadmap.css";
-@import "./popover.css";
-@import "./search.css";
-@import "./modal.css";
+@import "./timeline.css";
 
 @import "tailwindcss/utilities";
 

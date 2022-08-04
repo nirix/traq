@@ -21,6 +21,7 @@
 namespace traq\models;
 
 use avalon\database\Model;
+use DateTime;
 
 /**
  * Timeline model.
@@ -45,6 +46,26 @@ class Timeline extends Model
     );
 
     protected static $_belongs_to = array('user');
+
+    public const TICKET_EVENTS = [
+        'ticket_created',
+        'ticket_updated',
+        'ticket_closed',
+        'ticket_reopened',
+        'ticket_comment',
+        'ticket_moved_from',
+        'ticket_moved_to',
+    ];
+
+    public const MILESTONE_EVENTS = [
+        'milestone_completed',
+        'milestone_cancelled',
+    ];
+
+    public const WIKI_EVENTS = [
+        'wiki_page_created',
+        'wiki_page_edited',
+    ];
 
     /**
      * If the row is a ticket change, the ticket
@@ -98,7 +119,8 @@ class Timeline extends Model
      *
      * @return object
      */
-    public function other_project() {
+    public function other_project()
+    {
         if (!isset($this->_other_project)) {
             $this->_other_project = Project::find($this->data);
         }
@@ -110,10 +132,39 @@ class Timeline extends Model
      *
      * @return object
      */
-    public function wiki_page() {
+    public function wiki_page()
+    {
         if (!isset($this->_wiki_page)) {
             $this->_wiki_page = WikiPage::find($this->owner_id);
         }
         return $this->_wiki_page;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return new DateTime($this->created_at);
+    }
+
+    public function getTranslationString(): string
+    {
+        return \sprintf(
+            'timeline.%s',
+            \str_replace('.', '_', $this->action)
+        );
+    }
+
+    public function isTicket(): bool
+    {
+        return \in_array($this->action, static::TICKET_EVENTS);
+    }
+
+    public function isMilestone(): bool
+    {
+        return \in_array($this->action, static::MILESTONE_EVENTS);
+    }
+
+    public function isWiki(): bool
+    {
+        return \in_array($this->action, static::WIKI_EVENTS);
     }
 }

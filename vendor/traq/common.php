@@ -191,6 +191,11 @@ function currentUser(): User|false
     return Avalon::app()->user;
 }
 
+function currentProject(): Project|false
+{
+    return Avalon::app()->project;
+}
+
 /**
  * Checks the condition and returns the respective value.
  *

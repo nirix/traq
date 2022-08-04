@@ -1,0 +1,35 @@
+.timeline-day {
+  @apply mb-4 pb-4;
+  @apply border-b border-solid border-gray-200;
+
+  & h3 {
+    @apply text-lg;
+  }
+
+  &:last-child {
+    @apply border-b-0;
+  }
+}
+
+.timeline-user-set {
+  @apply mb-4 pl-2;
+  @apply text-gray-600;
+
+  .timeline-user-set-events {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+
+    & .event-time {
+      @apply font-mono;
+    }
+  }
+
+  .timeline-user-set-author {
+    @apply ml-5;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

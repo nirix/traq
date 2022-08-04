@@ -27,6 +27,7 @@ use Traq\Controllers\ProjectSettingsController;
 use traq\controllers\Projects;
 use Traq\Controllers\SearchController;
 use traq\controllers\Tickets;
+use Traq\Controllers\TimelineController;
 use traq\controllers\Usercp;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
@@ -69,10 +70,11 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete'
 // Project routes
 Router::add('/projects', 'traq::controllers::Projects.index');
 Router::add('/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
-Router::add('/' . PROJECT_SLUG . '/(timeline|roadmap|changelog)', 'traq::controllers::Projects.$2');
+Router::add('/' . PROJECT_SLUG . '/(roadmap|changelog)', 'traq::controllers::Projects.$2');
 Router::add('/' . PROJECT_SLUG . '/timeline/([0-9]+)/delete', 'traq::controllers::Projects.delete_timeline_event/$2');
 Router::add('/' . PROJECT_SLUG . '/roadmap/(completed|all|cancelled)', 'traq::controllers::Projects.roadmap/$2');
 Router::add('/' . PROJECT_SLUG, 'traq::controllers::Projects.view');
+Router::register('timeline', '/' . PROJECT_SLUG . '/timeline', [TimelineController::class, 'index']);
 
 // Ticket routes
 Router::add('/' . PROJECT_SLUG . '/tickets/new', 'traq::controllers::Tickets.new');

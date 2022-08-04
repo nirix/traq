@@ -306,6 +306,7 @@ class enUS extends \traq\libraries\Locale
             // Pagination
             'previous' => "Previous",
             'next'     => "Next",
+            'x_of_x'   => "{page} of {total}",
 
             // Other
             'actions' => "Actions",
@@ -410,13 +411,13 @@ class enUS extends \traq\libraries\Locale
 
             // Timeline
             'timeline'                     => "Timeline",
-            'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) created",
-            'timeline.ticket_closed'       => "{ticket_type_name} #{ticket_id} ({ticket_summary}) closed as {ticket_status_name}",
-            'timeline.ticket_reopened'     => "{ticket_type_name} #{ticket_id} ({ticket_summary}) reopened as {ticket_status_name}",
-            'timeline.ticket_updated'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) updated",
-            'timeline.ticket_comment'      => "Commented on ticket {link}",
-            'timeline.milestone_completed' => "Milestone {milestone_name} completed",
-            'timeline.milestone_cancelled' => "Milestone {milestone_name} cancelled",
+            'timeline.ticket_created'      => "Created ticket {ticket_summary} (#{ticket_id})",
+            'timeline.ticket_closed'       => "Closed ticket {ticket_summary} (#{ticket_id}) as {status_name}",
+            'timeline.ticket_reopened'     => "Reopened ticket {ticket_summary} (#{ticket_id}) as {status_name}",
+            'timeline.ticket_updated'      => "Updated ticket {ticket_summary} (#{ticket_id})",
+            'timeline.ticket_comment'      => "Commented on ticket {ticket_summary} (#{ticket_id})",
+            'timeline.milestone_completed' => "Milestone {name} completed",
+            'timeline.milestone_cancelled' => "Milestone {name} cancelled",
             'timeline.ticket_moved_from'   => "Moved ticket ({ticket}) from {project}",
             'timeline.ticket_moved_to'     => "Moved ticket ({ticket}) to {project}",
             'timeline.wiki_page_created'   => "Created {title} wiki page",

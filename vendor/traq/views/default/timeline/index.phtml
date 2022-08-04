@@ -1,0 +1,55 @@
+<div class="content">
+    <h2 class="page-title"><?= l('timeline') ?></h2>
+
+    <?php foreach ($groupedEvents as $group) : ?>
+        <div class="timeline-day">
+            <h3><?= $group['date']->format(settings('timeline_day_format')) ?></h3>
+
+            <?php foreach ($group['events'] as $userEvents) : ?>
+                <div class="timeline-user-set">
+                    <ul class="timeline-user-set-events">
+                        <?php foreach ($userEvents['events'] as $event) : ?>
+                            <li>
+                                <span class="event-time"><?= $event->getCreatedAt()->format('h:ia') ?></span>
+                                <span>-</span>
+                                <span class="event-action">
+                                    <?php if ($event->isTicket()) : ?>
+                                        <?= HTML::link(
+                                            l(
+                                                $event->getTranslationString(),
+                                                $tickets[$event->owner_id]
+                                            ),
+                                            currentProject()->href("tickets/{$tickets[$event->owner_id]['ticket_id']}")
+                                        ) ?>
+                                    <?php elseif ($event->isMilestone()) : ?>
+                                        <?= HTML::link(
+                                            l(
+                                                $event->getTranslationString(),
+                                                $milestones[$event->owner_id]
+                                            ),
+                                            currentProject()->href("milestone/{$milestones[$event->owner_id]['slug']}")
+                                        ) ?>
+                                    <?php elseif ($event->isWiki()) : ?>
+                                        <?= HTML::link(
+                                            l(
+                                                $event->getTranslationString(),
+                                                $wikiPages[$event->owner_id]
+                                            ),
+                                            currentProject()->href("wiki/{$wikiPages[$event->owner_id]['slug']}")
+                                        ) ?>
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="timeline-user-set-author">
+                        <?= l('timeline.by_x', HTML::link($users[$event->user_id]->username, $users[$event->user_id]->href())) ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+    <?= View::render('layouts/_pagination', [
+        'pagination' => $pagination
+    ]) ?>
+</div>
