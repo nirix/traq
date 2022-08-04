@@ -26,6 +26,7 @@ namespace traq\controllers;
 use avalon\core\Controller;
 use avalon\core\Load;
 use avalon\Database;
+use avalon\database\PDO;
 use avalon\http\Request;
 use avalon\http\Response;
 use avalon\http\Router;
@@ -53,6 +54,8 @@ class AppController extends Controller
     public $is_api = false;
     public $title = array();
     public $feeds = array();
+
+    protected PDO $db;
 
     public function __construct()
     {
