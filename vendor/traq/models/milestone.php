@@ -107,7 +107,8 @@ class Milestone extends Model
             return $counts[$this->id][$status];
         }
 
-        $query = static::db()->prepare('
+        $prefix = static::db()->prefix;
+        $query = static::db()->prepare("
             SELECT
                 COUNT(t.id) as `total`,
                 SUM(
@@ -128,10 +129,10 @@ class Milestone extends Model
                         ELSE 0
                     END
                 ) AS `closed`
-            FROM t3_tickets t
-            LEFT JOIN t3_statuses s ON t.status_id = s.id
+            FROM {$prefix}tickets t
+            LEFT JOIN {$prefix}statuses s ON t.status_id = s.id
             WHERE milestone_id = :milestoneId
-        ');
+        ");
 
         $query->exec(['milestoneId' => $this->id]);
         $results = $query->fetch();
