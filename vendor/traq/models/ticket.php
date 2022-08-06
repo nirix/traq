@@ -443,9 +443,8 @@ class Ticket extends Model
             ));
 
             if (!$this->_is_closing and !$this->_is_reopening) {
-                // Changes (and possibly a comment)
-                // But not when moving the ticket.
-                if (count($changes) and !isset($data['project_id'])) {
+                // There are changes, but the ticket isn't being moved and the status hasn't changed.
+                if (count($changes) && (!isset($data['project_id']) && !isset($data['status_id']))) {
                     $this->_save_queue[] = new Timeline(array(
                         'project_id' => $this->project_id,
                         'owner_id'   => $this->id,
