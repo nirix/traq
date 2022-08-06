@@ -58,6 +58,7 @@ if (!file_exists(APPPATH . '/config/database.php')) {
     // No config file, redirect to installer
     new Request;
     header("Location: " . Request::base('install'));
+    exit;
 }
 // Include config and connect
 else {
