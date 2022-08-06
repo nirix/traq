@@ -59,11 +59,13 @@ class enUS extends \traq\libraries\Locale
             'slug'             => "Slug",
             'codename'         => "Codename",
             'open'             => "Open",
+            'started'          => "Started",
             'closed'           => "Closed",
             'cancel'           => "Cancel",
             'new'              => "New",
             'wiki'             => "Wiki",
             'x_open'           => "{1} open",
+            'x_started'        => "{1} started",
             'x_closed'         => "{1} closed",
             'x_total'          => "{1} total",
             'yes'              => "Yes",
@@ -412,6 +414,7 @@ class enUS extends \traq\libraries\Locale
             // Timeline
             'timeline'                     => "Timeline",
             'timeline.ticket_created'      => "Created ticket {ticket_summary} (#{ticket_id})",
+            'timeline.ticket_started'      => "Started ticket {ticket_summary} (#{ticket_id})",
             'timeline.ticket_closed'       => "Closed ticket {ticket_summary} (#{ticket_id}) as {status_name}",
             'timeline.ticket_reopened'     => "Reopened ticket {ticket_summary} (#{ticket_id}) as {status_name}",
             'timeline.ticket_updated'      => "Updated ticket {ticket_summary} (#{ticket_id})",
@@ -468,11 +471,13 @@ class enUS extends \traq\libraries\Locale
 
                 // Actions
                 'create'         => "Ticket created as {2}",
+                'start'          => "Ticket started as {2}",
                 'close'          => "Closed ticket as {2}",
                 'reopen'         => "Reopened ticket as {2}",
                 'add_attachment' => "Attached {2}",
 
                 'x_create_as_x_x_ago' => "{1} created as {2} {3}",
+                'x_start_as_x_x_ago' => "{1} started as {2} {3}",
                 'x_close_as_x_x_ago' => "{1} closed as {2} {3}",
                 'x_reopen_as_x_x_ago' => "{1} reopened as {2} {3}",
             ),

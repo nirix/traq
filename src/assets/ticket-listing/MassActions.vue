@@ -72,8 +72,17 @@ export default {
             value: data.id,
           })) ?? []
 
+      const started =
+        statuses.data
+          .filter((status) => status.status === 2)
+          .map((data) => ({
+            label: data.name,
+            value: data.id,
+          })) ?? []
+
       this.statuses = {
         Open: open,
+        Started: started,
         Closed: closed,
       }
 

@@ -33,6 +33,10 @@ use avalon\database\Model;
  */
 class Status extends Model
 {
+    public const STATUS_CLOSED = 0;
+    public const STATUS_OPEN = 1;
+    public const STATUS_STARTED = 2;
+
     protected static $_name = 'statuses';
     protected static $_properties = array(
         'id',
@@ -52,10 +56,19 @@ class Status extends Model
      */
     public static function select_options()
     {
-        $options = array(l('open') => array(), l('closed') => array());
+        $options = [
+            l('open') => [],
+            l('started') => [],
+            l('closed') => [],
+        ];
+
         foreach (static::fetch_all() as $status) {
-            $options[$status->status ? l('open') : l('closed')][] = array('label' => $status->name, 'value' => $status->id);
+            $key = l($status->isOpen()
+                ? 'open'
+                : ($status->isStarted() ? 'started' : 'closed'));
+            $options[$key][] = ['label' => $status->name, 'value' => $status->id];
         }
+
         return $options;
     }
 
@@ -71,6 +84,21 @@ class Status extends Model
 
         $this->errors = $errors;
         return !count($errors) > 0;
+    }
+
+    public function isOpen(): bool
+    {
+        return (int) $this->status === static::STATUS_OPEN;
+    }
+
+    public function isStarted(): bool
+    {
+        return (int) $this->status === static::STATUS_STARTED;
+    }
+
+    public function isClosed(): bool
+    {
+        return (int) $this->status === static::STATUS_CLOSED;
     }
 
     public function __toArray($fields = null)

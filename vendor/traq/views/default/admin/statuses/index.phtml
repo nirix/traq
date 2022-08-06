@@ -5,12 +5,14 @@
 	<table class="list">
 		<thead>
 			<th><?= l('name') ?></th>
+			<th><?= l('status') ?></th>
 			<th class="w-48 text-right"><?= l('actions') ?></th>
 		</thead>
 		<tbody>
 			<?php foreach ($statuses as $status) : ?>
 				<tr>
 					<td><?= HTML::link($status->name, "/admin/tickets/statuses/{$status->id}/edit", array('data-overlay' => true)) ?></td>
+					<td><?= l($status->isOpen() ? 'open' : ($status->isStarted() ? 'started' : 'closed')) ?></td>
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "/admin/tickets/statuses/{$status->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>

@@ -282,24 +282,29 @@ function random_hash()
  *
  * @return integer
  */
-function get_percent($min, $max)
+function get_percent(int $min, int $max): int
 {
     // Make sure we don't divide by zero
     // and end the entire universe
-    if ($min == 0 and $max == 0) return 0;
+    if (((int) $min == 0 && (int) $max == 0) || (int) $max === 0) {
+        return 0;
+    }
 
     // We're good, calcuate it like a boss,
     // toss out the crap we dont want.
-    $calculate = ($min / $max * 100);
+    $calculate = ((int) $min / (int) $max * 100);
     $split = explode('.', $calculate);
 
     // Return it like a pro.
-    return $split[0];
+    return (int) $split[0];
 }
 
 function dd(...$params)
 {
     echo '<pre>';
-    var_dump($params);
+    foreach ($params as $param) {
+        var_dump($param);
+        echo '<hr>';
+    }
     exit;
 }

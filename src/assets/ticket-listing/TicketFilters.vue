@@ -127,8 +127,17 @@ export default {
             value: data.name,
           })) ?? []
 
+      const started =
+        statuses.data
+          .filter((status) => status.status === 2)
+          .map((data) => ({
+            label: data.name,
+            value: data.name,
+          })) ?? []
+
       this.filterData.statuses = {
         Open: open,
+        Started: started,
         Closed: closed,
       }
 
@@ -266,8 +275,8 @@ export default {
           let values = !condition ? paramValue.substring(1)?.split(",") : paramValue.split(",")
 
           // Convert the 'allOpen' and 'allClosed' for the status filter to actual open or closed statuses.
-          if (filter.field === "status" && (values[0] === "allopen" || values[0] === "allclosed")) {
-            const statusesKey = values[0] === "allopen" ? "Open" : "Closed"
+          if (filter.field === "status" && (values[0] === "allopen" || values[0] === "allclosed" || values[0] === "allstarted")) {
+            const statusesKey = values[0] === "allopen" ? "Open" : values[0] === "allstarted" ? "Started" : "Closed"
             values = this.filterData.statuses[statusesKey].map((status) => status.label)
           }
 

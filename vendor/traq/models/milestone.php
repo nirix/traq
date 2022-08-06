@@ -98,24 +98,51 @@ class Milestone extends Model
      *
      * @return integer
      */
-    public function ticketCount(string $status = 'total'): int
+    public function ticketCount(string $status = 'total')
     {
         // Holder for the counts array.
         static $counts = [];
 
-        // Check if we need to fetch
-        // the ticket counts.
-        if (!isset($counts[$this->id])) {
-            $counts[$this->id] = [
-                'open' => $this->tickets->where('is_closed', 0)->exec()->rowCount(),
-                'closed' => $this->tickets->where('is_closed', 1)->exec()->rowCount()
-            ];
-
-            $counts[$this->id]['total'] = $counts[$this->id]['open'] + $counts[$this->id]['closed'];
-            $counts[$this->id]['open_percent'] = $counts[$this->id]['open'] ? get_percent($counts[$this->id]['open'], $counts[$this->id]['total']) : 0;
-            $counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'], $counts[$this->id]['total']);
+        if (isset($counts[$this->id])) {
+            return $counts[$this->id][$status];
         }
 
+        $query = static::db()->prepare('
+            SELECT
+                COUNT(t.id) as `total`,
+                SUM(
+                    CASE s.status
+                        WHEN 1 THEN 1
+                        ELSE 0
+                    END
+                ) AS `open`,
+                SUM(
+                    CASE s.status
+                        WHEN 2 THEN 1
+                        ELSE 0
+                    END
+                ) AS `started`,
+                SUM(
+                    CASE s.status
+                        WHEN 0 THEN 1
+                        ELSE 0
+                    END
+                ) AS `closed`
+            FROM t3_tickets t
+            LEFT JOIN t3_statuses s ON t.status_id = s.id
+            WHERE milestone_id = :milestoneId
+        ');
+
+        $query->exec(['milestoneId' => $this->id]);
+        $results = $query->fetch();
+
+        if (count($results)) {
+            $counts[$this->id] = $results;
+            $counts[$this->id]['open_percent'] = (int) get_percent($counts[$this->id]['open'] ?? 0, $counts[$this->id]['total']);
+            $counts[$this->id]['started_percent'] = (int) get_percent($counts[$this->id]['started'] ?? 0, $counts[$this->id]['total']);
+            $counts[$this->id]['closed_percent'] = (int) get_percent($counts[$this->id]['closed'] ?? 0, $counts[$this->id]['total']);
+        }
+        // dd($status, $counts[$this->id]);
         // Return the requested count index.
         return $counts[$this->id][$status] ?? 0;
     }

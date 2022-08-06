@@ -49,6 +49,7 @@ class Timeline extends Model
 
     public const TICKET_EVENTS = [
         'ticket_created',
+        'ticket_started',
         'ticket_updated',
         'ticket_closed',
         'ticket_reopened',

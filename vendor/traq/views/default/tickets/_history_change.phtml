@@ -2,7 +2,7 @@
     is_array($update->changes) &&
     count($update->changes) === 1 &&
     isset($update->changes[0]['action']) &&
-    in_array($update->changes[0]['action'], ['create', 'close', 'reopen'])
+    in_array($update->changes[0]['action'], ['create', 'close', 'reopen', 'start'])
 ) :
     $action = $update->changes[0]['action'];
     $icon = $action === 'create' ? 'plus' : ($action === 'reopen' ? 'rotate-left' : 'minus');
