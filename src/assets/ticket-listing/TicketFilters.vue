@@ -277,7 +277,16 @@ export default {
           // Convert the 'allOpen' and 'allClosed' for the status filter to actual open or closed statuses.
           if (filter.field === "status" && (values[0] === "allopen" || values[0] === "allclosed" || values[0] === "allstarted")) {
             const statusesKey = values[0] === "allopen" ? "Open" : values[0] === "allstarted" ? "Started" : "Closed"
-            values = this.filterData.statuses[statusesKey].map((status) => status.label)
+            // values = this.filterData.statuses[statusesKey].map((status) => status.label)
+
+            if (statusesKey === "Open") {
+              values = [
+                ...this.filterData.statuses["Open"].map((status: any) => status.label),
+                ...this.filterData.statuses["Started"].map((status: any) => status.label),
+              ]
+            } else {
+              values = this.filterData.statuses[statusesKey].map((status: any) => status.label)
+            }
           }
 
           activeFilters.push({

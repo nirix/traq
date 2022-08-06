@@ -114,6 +114,7 @@ class Milestone extends Model
                 SUM(
                     CASE s.status
                         WHEN 1 THEN 1
+                        WHEN 2 THEN 1
                         ELSE 0
                     END
                 ) AS `open`,
