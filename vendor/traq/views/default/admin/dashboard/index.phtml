@@ -1,50 +1,43 @@
 <div class="admin content">
-	<h2><?php echo l('dashboard'); ?></h2>
+	<h2><?= l('dashboard') ?></h2>
 
 	<div id="update">
-	<?php if (settings('check_for_update')) { ?>
-		<?php echo View::render('admin/dashboard/_update'); ?>
-	<?php } else { ?>
-		<strong><?php echo HTML::link(l('check_for_update'), '/admin/check_for_update'); ?></strong>
-	<?php } ?>
+		<?php if (settings('check_for_update')) { ?>
+			<?php echo View::render('admin/dashboard/_update'); ?>
+		<?php } else { ?>
+			<strong><?php echo HTML::link(l('check_for_update'), '/admin/check_for_update'); ?></strong>
+		<?php } ?>
 	</div>
 
-	<div class="column span-12">
-		<h3><?php echo l('tickets'); ?></h3>
-		<div class="box">
-			<dl>
-				<dt><?php echo l('open'); ?></dt>
-				<dd><?php echo $tickets['open']; ?></dd>
+	<div class="flex mt-2">
+		<div class="flex-grow mr-1">
+			<h3><?= l('tickets') ?></h3>
+			<div class="box">
+				<dl>
+					<dt><?php echo l('open'); ?></dt>
+					<dd><?php echo $tickets['open']; ?></dd>
 
-				<dt><?php echo l('closed'); ?></dt>
-				<dd><?php echo $tickets['closed']; ?></dd>
+					<dt><?php echo l('closed'); ?></dt>
+					<dd><?php echo $tickets['closed']; ?></dd>
 
-				<dt><?php echo l('total'); ?></dt>
-				<dd><?php echo $tickets['open'] + $tickets['closed']; ?></dd>
-			</dl>
+					<dt><?php echo l('total'); ?></dt>
+					<dd><?php echo $tickets['open'] + $tickets['closed']; ?></dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="flex-grow ml-1">
+			<h3><?= l('users') ?></h3>
+			<div class="box">
+				<dl>
+					<dt><?php echo l('total'); ?></dt>
+					<dd><?php echo $users; ?></dd>
+
+					<dt><?php echo l('newest'); ?></dt>
+					<dd><?php echo HTML::link($latest_user->username, $latest_user->href()); ?></dd>
+				</dl>
+			</div>
 		</div>
 	</div>
 
-	<div class="column span-11">
-		<h3><?php echo l('users'); ?></h3>
-		<div class="box">
-			<dl>
-				<dt><?php echo l('total'); ?></dt>
-				<dd><?php echo $users; ?></dd>
-
-				<dt><?php echo l('newest'); ?></dt>
-				<dd><?php echo HTML::link($latest_user->username, $latest_user->href()); ?></dd>
-			</dl>
-		</div>
-	</div>
-
-	<div id="traq_news" class="column span-23">
-		<h3><?php echo l('traq_news'); ?></h3>
-		<ul></ul>
-		<div class="secure_alert">
-			<?php echo l('admin.news.secure_connection'); ?>
-		</div>
-	</div>
-
-	<div class="clearfix"></div>
 </div>

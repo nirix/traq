@@ -29,6 +29,8 @@
  * @return string
  */
 function ui_package($entry) {
+  static $imported = [];
+
   $manifestPath = dirname(dirname(dirname(__DIR__))).'/assets/ui/manifest.json';
   $manifest = json_decode(file_get_contents($manifestPath), true);
 
@@ -38,6 +40,12 @@ function ui_package($entry) {
   } else {
     $index = "traq-ui/${entry}.ts";
   }
+
+  if (in_array($index, $imported)) {
+    return;
+  }
+
+  $imported[] = $index;
 
   if (isset($manifest[$index])) {
     $info = $manifest[$index];

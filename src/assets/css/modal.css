@@ -1,0 +1,44 @@
+#overlay {
+  display: none;
+  position: fixed;
+  z-index: 2100;
+  background: #fff;
+  color: #000;
+  padding: 0;
+
+  @apply rounded;
+  @apply shadow-lg;
+
+  .content {
+    @apply p-4;
+  }
+
+  h3 {
+    /* background: #3478aa; */
+    color: #fff;
+    margin: 0;
+
+    @apply bg-brand-500;
+    @apply rounded-t;
+    @apply px-4 py-2;
+  }
+
+  .box {
+    border: 0;
+    background: transparent;
+    margin: 0 5px;
+  }
+
+  .actions,
+  .overlay-actions {
+    @apply bg-gray-100;
+    @apply px-4 py-2;
+    @apply rounded-b;
+    @apply text-center;
+  }
+}
+
+#overlay_blackout {
+  @apply bg-gray-600;
+  z-index: 2000;
+}

@@ -1,7 +1,9 @@
 <?php
 /*
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2022 Jack P.
+ * Copyright (C) 2012-2022 Traq.io
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -24,7 +26,6 @@ header("content-type: text/css; charset: UTF-8;");
 // Check if we can gzip the page or not/
 if (extension_loaded('zlib')) {
     // We can!
-    ob_end_clean();
     ob_start('ob_gzhandler');
 }
 
@@ -35,7 +36,9 @@ if (!isset($_REQUEST['css']) and !isset($_REQUEST['theme'])) {
 
 // Fetch the request class.
 require "./vendor/avalon/http/request.php";
+
 use avalon\http\Request;
+
 Request::init();
 
 $output = array();

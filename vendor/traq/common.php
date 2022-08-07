@@ -23,7 +23,7 @@ use avalon\core\Kernel as Avalon;
 use traq\models\Setting;
 use traq\models\Project;
 
-use traq\libraries\SCM;
+use traq\models\User;
 
 /**
  * Returns the value of the requested setting.
@@ -36,7 +36,8 @@ use traq\libraries\SCM;
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function settings($setting) {
+function settings($setting)
+{
     static $CACHE = array();
 
     if (isset($CACHE[$setting])) {
@@ -130,7 +131,7 @@ function theme_select_options()
         // Make sure this is a directory
         // and theres an _theme.php file
         if (is_dir($path) and file_exists($path . '/_theme.php')) {
-            $info = require ($path . '/_theme.php');
+            $info = require($path . '/_theme.php');
             $options[] = array(
                 'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
                 'value' => $file
@@ -149,14 +150,14 @@ function theme_select_options()
  *
  * @return string
  */
- function get_plugin_name($name)
- {
-     $bits = explode('_', $name);
-     foreach ($bits as $k => $v) {
-         $bits[$k] = ucfirst($v);
-     }
-     return implode('', $bits);
- }
+function get_plugin_name($name)
+{
+    $bits = explode('_', $name);
+    foreach ($bits as $k => $v) {
+        $bits[$k] = ucfirst($v);
+    }
+    return implode('', $bits);
+}
 
 /**
  * Checks if the given regex matches the request
@@ -183,6 +184,16 @@ function active_nav($uri)
 function current_user()
 {
     return Avalon::app()->user;
+}
+
+function currentUser(): User|false
+{
+    return Avalon::app()->user;
+}
+
+function currentProject(): Project|false
+{
+    return Avalon::app()->project;
 }
 
 /**
@@ -231,43 +242,6 @@ function permission_actions()
 }
 
 /**
- * Returns an array of available SCMs.
- *
- * @return array
- */
-function scm_types()
-{
-    static $scms = array();
-
-    if (count($scms) == 0) {
-        foreach (scandir(APPPATH . "/libraries/scm/adapters") as $file) {
-            if (substr($file, -3) == 'php') {
-                $name = str_replace('.php', '', $file);
-                $scm = SCM::factory($name);
-                $scms[$name] = $scm->name();
-            }
-        }
-    }
-
-    FishHook::run('function:scm_types', array(&$scms));
-    return $scms;
-}
-
-/**
- * Returns the available SCMS as form select options.
- *
- * @return array
- */
-function scm_select_options()
-{
-    $options = array();
-    foreach (scm_types() as $scm => $name) {
-        $options[] = array('label' => $name, 'value' => $scm);
-    }
-    return $options;
-}
-
-/**
  * Checks if the specified field is a project or not.
  *
  * @param mixed $find Value [or column] to search for.
@@ -279,7 +253,8 @@ function scm_select_options()
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function is_project($find, $field = 'slug') {
+function is_project($find, $field = 'slug')
+{
     if ($project = Project::find($field, $find)) {
         return $project;
     } else {
@@ -307,17 +282,29 @@ function random_hash()
  *
  * @return integer
  */
-function get_percent($min, $max)
+function get_percent(int $min, int $max): int
 {
     // Make sure we don't divide by zero
     // and end the entire universe
-    if ($min == 0 and $max == 0) return 0;
+    if (((int) $min == 0 && (int) $max == 0) || (int) $max === 0) {
+        return 0;
+    }
 
     // We're good, calcuate it like a boss,
     // toss out the crap we dont want.
-    $calculate = ($min/$max*100);
-    $split = explode('.',$calculate);
+    $calculate = ((int) $min / (int) $max * 100);
+    $split = explode('.', $calculate);
 
     // Return it like a pro.
-    return $split[0];
+    return (int) $split[0];
+}
+
+function dd(...$params)
+{
+    echo '<pre>';
+    foreach ($params as $param) {
+        var_dump($param);
+        echo '<hr>';
+    }
+    exit;
 }

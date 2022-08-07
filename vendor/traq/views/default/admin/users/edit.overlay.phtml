@@ -1,8 +1,10 @@
 <h3><?php echo l('edit_user'); ?></h3>
-<form action="<?php echo Request::requestUri(); ?>" method="post" class="overlay_thin">
+<form action="<?php echo Request::requestUri(); ?>" method="post" class="overlay">
 	<?php echo show_errors($user->errors); ?>
-	<div class="tabular box">
-		<?php echo View::render('admin/users/_form'); ?>
+	<div class="content">
+		<div class="panel-content">
+			<?php echo View::render('admin/users/_form'); ?>
+		</div>
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?php echo l('save'); ?>" />

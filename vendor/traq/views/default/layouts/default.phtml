@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<?=View::render('layouts/_head')?>
-		<?php FishHook::run('template:layouts/default/head'); ?>
-	</head>
-	<body>
-		<div id="overlay_blackout"></div>
-		<div id="overlay"></div>
-		<div id="popover" class="popover"></div>
-		<div id="wrapper">
-			<?=View::render('layouts/_meta_nav')?>
-			<header id="header">
-				<div class="container">
-					<div>
-						<h1><?=(isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null)?></h1>
-					</div>
-					
-					<?=View::render('layouts/_nav')?>
-				</div>
-			</header>
-			<div id="page">
-				<div class="container">
-					<?php if (current_user()->password_ver == 'sha1'): ?>
-						<div id="password-change-prompt">
-							<div class="error" style="text-align: center;">
-								<h3><?=l('password_change_prompt')?></h3>
-								<div><?=HTML::link(l('change_password'), '/usercp/password')?></div>
-							</div>
-						</div>
-					<?php endif ?>
 
-					<?=$content?>
+<head>
+	<?= View::render('layouts/_head') ?>
+	<?php FishHook::run('template:layouts/default/head'); ?>
+</head>
+
+<body>
+	<div id="overlay_blackout"></div>
+	<div id="overlay"></div>
+	<div id="popover" class="popover"></div>
+	<div id="wrapper">
+		<?= View::render('layouts/_meta_nav') ?>
+		<header id="header">
+			<div class="container">
+				<div>
+					<h1><?= (isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null) ?></h1>
 				</div>
+
+				<?= View::render('layouts/_nav') ?>
 			</div>
-			<footer id="footer">
-				<div class="container">
-					<?=l('copyright', TRAQ_VER, date("Y"))?>
-				</div>
-			</footer>
-			<!-- <?=round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3)?>mb -->
+		</header>
+		<div id="page">
+			<div class="container">
+				<?php if (current_user()->password_ver == 'sha1') : ?>
+					<div id="password-change-prompt">
+						<div class="error" style="text-align: center;">
+							<h3><?= l('password_change_prompt') ?></h3>
+							<div><?= HTML::link(l('change_password'), '/usercp/password') ?></div>
+						</div>
+					</div>
+				<?php endif ?>
+
+				<?= $content ?>
+			</div>
 		</div>
-	</body>
+		<footer id="footer" data-stats="<?= round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3) ?>mb">
+			<div class="container">
+				<?= l('copyright', TRAQ_VER, date("Y")) ?>
+			</div>
+		</footer>
+	</div>
+</body>
+
 </html>

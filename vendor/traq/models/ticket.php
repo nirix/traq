@@ -164,7 +164,7 @@ class Ticket extends Model
 
         // Update ticket open/closed state if ticket status has changed.
         $status = Status::find($this->_data['status_id']);
-        $this->_data['is_closed'] = ($status and $status->status == 1) ? 0 : 1;
+        $this->_data['is_closed'] = $status && $status->isClosed() ? 1 : 0;
 
         if (parent::save()) {
             $this->project->save();
@@ -195,6 +195,21 @@ class Ticket extends Model
                 ));
                 $timeline->save();
 
+                $ticketHistory = new TicketHistory(array(
+                    'user_id' => $this->user_id,
+                    'ticket_id' => $this->id,
+                    'changes' => json_encode([
+                        [
+                            'property' => 'status',
+                            'action' => 'create',
+                            'from' => null,
+                            'to' => Status::find($this->status_id)->name,
+                        ]
+                    ]),
+                    'comment' => ''
+                ));
+                $ticketHistory->save();
+
                 // Create timeline event is ticket
                 // is created with a closed status.
                 if ($this->_data['is_closed']) {
@@ -204,7 +219,7 @@ class Ticket extends Model
                         'action'     => 'ticket_closed',
                         'data'       => $this->status_id,
                         'user_id'    => $this->user_id,
-                        'created_at' => Time::date("Y-m-d H:i:s", time()-date("Z")+1)
+                        'created_at' => Time::date("Y-m-d H:i:s", time() - date("Z") + 1)
                     ));
                     $timeline->save();
                 }
@@ -262,7 +277,7 @@ class Ticket extends Model
 
             // Get the to and from values for different fields
             $from = $to = null;
-            switch($field) {
+            switch ($field) {
                 case 'assigned_to_id':
                     $from = $this->assigned_to_id == 0 ? null : $this->assigned_to->id;
                     $to = $value;
@@ -353,21 +368,46 @@ class Ticket extends Model
             );
 
             // Has the status changed?
-            if ($field == 'status_id' and $this->status_id != $value) {
+            if ($field == 'status_id' && $this->status_id != $value) {
                 if ($this->status->status != $to_values[$field]->status) {
-                    $this->is_closed = $to_values[$field]->status ? 0 : 1;
-                    $change['action'] = $to_values[$field]->status == 1 ? 'reopen' : 'close';
+                    $this->is_closed = $to_values[$field]->isClosed() ? 1 : 0;
 
-                    $this->_save_queue[] = new Timeline(array(
+                    $timelineData = [
                         'project_id' => $this->project_id,
                         'owner_id' => $this->id,
-                        'action' => $change['action'] == 'close' ? 'ticket_closed' : 'ticket_reopened',
                         'data' => $to_values[$field]->id,
                         'user_id' => $user->id
-                    ));
+                    ];
+
+                    // Status action
+                    if ($this->status->isClosed()) {
+                        // From closed
+                        $change['action'] = 'reopen';
+                        $timelineData['action'] = 'ticket_reopened';
+                    } elseif ($this->status->isOpen()) {
+                        // From open
+                        if ($to_values[$field]->isStarted()) {
+                            $change['action'] = 'start';
+                            $timelineData['action'] = 'ticket_started';
+                        } elseif ($to_values[$field]->isClosed()) {
+                            $change['action'] = 'close';
+                            $timelineData['action'] = 'ticket_closed';
+                        }
+                    } elseif ($this->status->isStarted()) {
+                        // From started
+                        if ($to_values[$field]->isOpen()) {
+                            $change['action'] = 'update';
+                            $timelineData['action'] = 'ticket_updated';
+                        } elseif ($to_values[$field]->isClosed()) {
+                            $change['action'] = 'close';
+                            $timelineData['action'] = 'ticket_closed';
+                        }
+                    }
+
+                    $this->_save_queue[] = new Timeline($timelineData);
 
                     $this->_is_closing = $change['action'] == 'close' ? true : false;
-                    $this->_is_reopening= $change['action'] == 'reopen' ? true : false;
+                    $this->_is_reopening = $change['action'] == 'reopen' ? true : false;
                 }
             }
             // Attaching a file?
@@ -403,9 +443,8 @@ class Ticket extends Model
             ));
 
             if (!$this->_is_closing and !$this->_is_reopening) {
-                // Changes (and possibly a comment)
-                // But not when moving the ticket.
-                if (count($changes) and !isset($data['project_id'])) {
+                // There are changes, but the ticket isn't being moved and the status hasn't changed.
+                if (count($changes) && (!isset($data['project_id']) && !isset($data['status_id']))) {
                     $this->_save_queue[] = new Timeline(array(
                         'project_id' => $this->project_id,
                         'owner_id'   => $this->id,

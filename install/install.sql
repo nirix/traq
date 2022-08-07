@@ -492,10 +492,11 @@ LOCK TABLES `traq_statuses` WRITE;
 
 INSERT INTO `traq_statuses` (`id`, `name`, `status`, `changelog`)
 VALUES
-	(1,'New',1,0),
-	(2,'Accepted',1,0),
-	(3,'Closed',0,1),
-	(4,'Completed',0,1);
+  (1, 'New', 1, 0),
+  (2, 'Accepted', 1, 0),
+  (3, 'Started', 2, 0),
+  (4, 'Closed', 0, 1),
+  (5, 'Completed', 0, 1);
 
 UNLOCK TABLES;
 

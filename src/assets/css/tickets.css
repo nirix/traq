@@ -1,0 +1,182 @@
+.view-ticket {
+  @apply pt-5;
+}
+
+.ticket-info {
+  display: flex;
+  flex-direction: column;
+
+  @apply text-gold-900;
+  @apply bg-gold-300;
+  @apply border border-solid border-gold-600 rounded;
+  @apply mb-5;
+  @apply p-4;
+}
+
+.ticket-header {
+  display: flex;
+  align-items: center;
+  @apply border-b border-solid border-gold-600;
+
+  & > .ticket-summary {
+    flex-grow: 1;
+    @apply text-2xl;
+  }
+}
+
+.ticket-properties {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  @apply border-b border-solid border-gold-600 rounded;
+  @apply py-2;
+
+  & > .ticket-property {
+    max-width: 235px;
+    min-width: 235px;
+    @apply mb-1 mr-2;
+
+    & > * {
+      @apply text-sm;
+    }
+
+    & > strong {
+      display: inline-block;
+      @apply mr-2;
+      @apply font-semibold;
+    }
+
+    & > ul {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+
+      & > li {
+        display: inline;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.ticket-description {
+  @apply py-4;
+
+  & > .ticket-edit-btn {
+    float: right;
+    @apply text-sm;
+  }
+}
+
+.ticket-edit-actions {
+  @apply mt-2;
+
+  & > button {
+    @apply mr-2;
+  }
+}
+
+.ticket-tasks,
+.ticket-attachments {
+  @apply mb-2;
+
+  &:last-child {
+    @apply mb-0;
+  }
+
+  & > h3 {
+    @apply pt-2;
+    @apply border-t border-solid border-gold-600 rounded;
+  }
+
+  & > ul {
+    @apply m-0 p-0;
+    @apply list-none;
+    @apply inline-block;
+
+    & > li {
+      @apply m-0 p-0;
+    }
+  }
+
+  & .ticket-task {
+    @apply cursor-pointer;
+
+    & > span:last-child {
+      @apply ml-2;
+    }
+  }
+}
+
+.ticket-history {
+  & > h3 {
+    @apply text-lg;
+  }
+
+  & > .update-mini {
+    @apply flex flex-col;
+    @apply mb-4;
+    @apply text-gray-700;
+
+    & > .update-change {
+      @apply flex items-center;
+
+      & > .update-icon {
+        @apply bg-gray-100 rounded-full;
+        @apply p-2 mr-3;
+      }
+
+      & > .update-info {
+        @apply flex-grow;
+      }
+    }
+
+    & > .update-comment {
+      @apply bg-white;
+      @apply border border-solid border-gray-300 rounded;
+      @apply p-2 ml-11;
+    }
+  }
+
+  & > .update {
+    @apply bg-white;
+    @apply border border-solid border-gray-300 rounded;
+    @apply mb-4;
+
+    & > .update-meta {
+      display: flex;
+      align-items: center;
+      @apply rounded-t;
+      @apply bg-gray-50;
+      @apply p-2;
+
+      & > h4 {
+        flex-grow: 1;
+        margin: 0;
+      }
+    }
+
+    & > .changes,
+    & > .comment {
+      @apply m-2;
+    }
+
+    & .change-from {
+      @apply bg-red-50;
+      @apply line-through;
+      @apply rounded;
+    }
+
+    & .change-to {
+      @apply bg-green-50;
+      @apply rounded;
+    }
+  }
+}
+
+.update-ticket {
+  & > h3 {
+    @apply text-lg;
+  }
+}

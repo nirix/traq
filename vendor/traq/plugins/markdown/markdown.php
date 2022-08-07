@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2012-2022 Traq.io
  * http://traq.io
  *
  * This file is part of Traq.
@@ -22,11 +22,7 @@
 
 namespace traq\plugins;
 
-require __DIR__ . '/Parsedown.php';
-require __DIR__ . '/ParsedownExtra.php';
-
 use \FishHook;
-use \Parsedown;
 use \ParsedownExtra;
 
 /**
@@ -68,6 +64,7 @@ class Markdown extends \traq\libraries\Plugin
         // Initialise parser
         if (!isset(static::$parser)) {
             static::$parser = new ParsedownExtra();
+            static::$parser->setSafeMode(true);
         }
 
         // Parse the text

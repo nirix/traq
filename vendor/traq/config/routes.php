@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2012-2022 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -19,28 +22,37 @@
  */
 
 use avalon\http\Router;
+use Traq\Controllers\ProfileController;
+use Traq\Controllers\ProjectSettingsController;
+use traq\controllers\Projects;
+use Traq\Controllers\SearchController;
+use traq\controllers\Tickets;
+use Traq\Controllers\TimelineController;
+use traq\controllers\Usercp;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
-Router::add('root', 'traq::controllers::Projects.index');
+Router::register('root', 'root', [Projects::class, 'action_index']);
+
 Router::add('404', 'traq::controllers::Error.404');
 Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
 Router::add('/login/resetpassword', 'traq::controllers::Users.reset_password');
 Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.reset_password/$1');
-Router::add('/usercp', 'traq::controllers::Usercp.index');
+Router::register('usercp', '/usercp', [Usercp::class, 'action_index']);
 Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
-Router::add('/users/([0-9]+)', 'traq::controllers::Users.view/$1');
+Router::register('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
 Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 
 // API
 Router::add('/api/auth', 'traq::controllers::API.auth');
-Router::add('/api/auth/'.PROJECT_SLUG, 'traq::controllers::API.auth');
+Router::add('/api/auth/' . PROJECT_SLUG, 'traq::controllers::API.auth');
 Router::add('/api/types', 'traq::controllers::API.types');
 Router::add('/api/statuses', 'traq::controllers::API.statuses');
 Router::add('/api/priorities', 'traq::controllers::API.priorities');
-Router::add('/api/'.PROJECT_SLUG.'/components', 'traq::controllers::API.components');
-Router::add('/api/'.PROJECT_SLUG.'/custom-fields', 'traq::controllers::API.customFields');
-Router::add('/api/'.PROJECT_SLUG.'/members', 'traq::controllers::API.projectMembers');
+Router::add('/api/' . PROJECT_SLUG . '/components', 'traq::controllers::API.components');
+Router::add('/api/' . PROJECT_SLUG . '/custom-fields', 'traq::controllers::API.customFields');
+Router::add('/api/' . PROJECT_SLUG . '/members', 'traq::controllers::API.projectMembers');
+Router::register('search', '/api/search', [SearchController::class, 'search']);
 
 // Misc
 Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');
@@ -58,10 +70,11 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete'
 // Project routes
 Router::add('/projects', 'traq::controllers::Projects.index');
 Router::add('/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
-Router::add('/' . PROJECT_SLUG . '/(timeline|roadmap|changelog)', 'traq::controllers::Projects.$2');
-Router::add('/' . PROJECT_SLUG . '/timeline/([0-9]+)/delete', 'traq::controllers::Projects.delete_timeline_event/$2');
+Router::add('/' . PROJECT_SLUG . '/(roadmap|changelog)', 'traq::controllers::Projects.$2');
 Router::add('/' . PROJECT_SLUG . '/roadmap/(completed|all|cancelled)', 'traq::controllers::Projects.roadmap/$2');
 Router::add('/' . PROJECT_SLUG, 'traq::controllers::Projects.view');
+Router::register('timeline', '/' . PROJECT_SLUG . '/timeline', [TimelineController::class, 'index']);
+Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>[0-9]+)/delete', [TimelineController::class, 'deleteEvent']);
 
 // Ticket routes
 Router::add('/' . PROJECT_SLUG . '/tickets/new', 'traq::controllers::Tickets.new');
@@ -74,8 +87,8 @@ Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/([0-9]+
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', 'traq::controllers::TicketTasks.manage/$2');
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/([0-9]+)', 'traq::controllers::TicketTasks.toggle/$2,$3');
 Router::add('/' . PROJECT_SLUG . '/tickets/mass-actions', 'traq::controllers::Tickets.mass_actions');
-Router::add('/' . PROJECT_SLUG . '/tickets/update_filters', 'traq::controllers::Tickets.update_filters');
-Router::add('/' . PROJECT_SLUG . '/tickets', 'traq::controllers::Tickets.index');
+Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'index']);
+Router::register('api.tickets', '/api/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'action_api']);
 
 // Wiki routes
 Router::add('/' . PROJECT_SLUG . '/wiki', 'traq::controllers::Wiki.view', array('slug' => 'main'));
@@ -88,9 +101,9 @@ Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(
 Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::controllers::Wiki.view');
 
 // Project settings routes
-Router::add('/' . PROJECT_SLUG . '/settings', 'traq::controllers::ProjectSettings::Options.index');
-Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members|repositories)', 'traq::controllers::ProjectSettings::$2.index');
-Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members|repositories)/new', 'traq::controllers::ProjectSettings::$2.new');
+Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'index']);
+Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)', 'traq::controllers::ProjectSettings::$2.index');
+Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/new', 'traq::controllers::ProjectSettings::$2.new');
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
 Router::add('/' . PROJECT_SLUG . '/settings/custom_fields', 'traq::controllers::ProjectSettings::CustomFields.index');
 Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/new', 'traq::controllers::ProjectSettings::CustomFields.new');

@@ -46,7 +46,7 @@ class Milestones extends AppController
      */
     public function action_index()
     {
-        View::set('milestones', $this->project->milestones->order_by('displayorder', 'ASC'));
+        View::set('milestones', $this->project->milestones->order_by('displayorder', 'DESC'));
     }
 
     /**
@@ -84,7 +84,7 @@ class Milestones extends AppController
             }
         }
 
-       View::set(compact('milestone'));
+        View::set(compact('milestone'));
     }
 
     /**

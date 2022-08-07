@@ -2,8 +2,13 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "cSpell.ignoreWords": [
+    "Pinia",
     "TRAQ",
+    "autoloader",
     "axios",
-    "roadmap"
+    "dompurify",
+    "fortawesome",
+    "roadmap",
+    "semibold"
   ]
 }

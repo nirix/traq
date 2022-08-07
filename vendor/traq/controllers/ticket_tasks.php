@@ -75,6 +75,10 @@ class TicketTasks extends AppController
             $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
             $ticket->toggle_task($task_id);
             $ticket->save();
+
+            return $this->apiResponse(['success' => true]);
         }
+
+        return $this->apiResponse(['success' => false]);
     }
 }

@@ -1,28 +1,45 @@
 <div class="roadmap content">
-	<h2 id="page_title"><?php echo l('roadmap'); ?></h2>
-</div>
-<nav id="project_roadmap_nav" class="tabs">
-	<ul>
-		<li<?php echo iif(active_nav('/:slug/roadmap'), ' class="active"')?>><?php echo HTML::link(l('active'), $project->href('roadmap')); ?></li>
-		<li<?php echo iif(active_nav('/:slug/roadmap/completed'), ' class="active"')?>><?php echo HTML::link(l('completed'), $project->href('roadmap/completed')); ?></li>
-		<li<?php echo iif(active_nav('/:slug/roadmap/all'), ' class="active"')?>><?php echo HTML::link(l('all'), $project->href('roadmap/all')); ?></li>
-	</ul>
-</nav>
-<div class="roadmap content">
-	<ul id="milestones">
-		<?php foreach($milestones as $milestone) { ?>
-		<li class="milestone">
-			<h3><?php echo HTML::link($milestone->name . ($milestone->codename != '' ? ' <em>"' . $milestone->codename . '"</em>' : ''), $milestone->href()); ?></h3>
-			<?php if ($milestone->due > 0 and $milestone->status == 1) { ?>
-			<div class="due">
-				<em><?php echo l('due_x', time_from_now_ago($milestone->due)); ?></em>
+	<div class="flex">
+		<h2 class="page-title flex-grow"><?= l('roadmap') ?></h2>
+		<div class="btn-pill-group mt-2">
+			<a href="<?= Request::base($project->href('roadmap')) ?>" class="<?= active_nav('/:slug/roadmap') ? 'active' : '' ?>"><?= l('active') ?></a>
+			<a href="<?= Request::base($project->href('roadmap/completed')) ?>" class="<?= active_nav('/:slug/roadmap/completed') ? 'active' : '' ?>"><?= l('completed') ?></a>
+			<a href="<?= Request::base($project->href('roadmap/all')) ?>" class="<?= active_nav('/:slug/roadmap/all') ? 'active' : '' ?>"><?= l('all') ?></a>
+			<!-- <li class="<?= active_nav('/:slug/roadmap') ? 'active' : '' ?>">
+			</li>
+			<li class="<?= active_nav('/:slug/roadmap/completed') ? 'active' : '' ?>">
+				<a href="<?= Request::base($project->href('roadmap/completed')) ?>"><?= l('completed') ?></a>
+			</li>
+			<li class="<?= active_nav('/:slug/roadmap/all') ? 'active' : '' ?>">
+				<a href="<?= Request::base($project->href('roadmap/all')) ?>"><?= l('all') ?></a>
+			</li> -->
+		</div>
+	</div>
+
+	<?php foreach ($milestones as $milestone) : ?>
+		<div class="milestone">
+			<h3 class="milestone-name">
+				<a href="<?= Request::base($milestone->href()) ?>">
+					<span><?= $milestone->name ?></span>
+					<?php if ($milestone->codename) : ?>
+						<em>"<?= $milestone->codename ?>"</em>
+					<?php endif; ?>
+				</a>
+			</h3>
+
+			<div class="milestone-meta">
+				<?php if ($milestone->due > 0 and $milestone->status == 1) : ?>
+					<span class="due">
+						<em><?= l('due_x', time_from_now_ago($milestone->due)) ?></em>
+					</span>
+				<?php endif; ?>
 			</div>
-			<?php } ?>
-			<?php echo View::render('milestones/_progress', array('milestone' => $milestone)); ?>
-			<div class="milestone_info">
-				<?php echo format_text($milestone->info); ?>
+
+			<?= View::render('milestones/_progress', ['milestone' => $milestone]) ?>
+
+			<div class="milestone-info">
+				<?= format_text($milestone->info) ?>
 			</div>
-		</li>
-		<?php } ?>
-	</ul>
+		</div>
+	<?php endforeach; ?>
 </div>

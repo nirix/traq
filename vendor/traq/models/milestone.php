@@ -37,6 +37,9 @@ use avalon\helpers\Time;
  */
 class Milestone extends Model
 {
+    public const ACTIVE = 1;
+    public const COMPLETE = 2;
+
     protected static $_name = 'milestones';
     protected static $_properties = array(
         'id',
@@ -95,25 +98,60 @@ class Milestone extends Model
      *
      * @return integer
      */
-    public function ticket_count($status = 'total')
+    public function ticketCount(string $status = 'total')
     {
         // Holder for the counts array.
-        static $counts = array();
+        static $counts = [];
 
-        // Check if we need to fetch
-        // the ticket counts.
-        if (!isset($counts[$this->id])) {
-            $counts[$this->id] = array(
-                'open' => $this->tickets->where('is_closed', 0)->exec()->row_count(),
-                'closed' => $this->tickets->where('is_closed', 1)->exec()->row_count()
-            );
-            $counts[$this->id]['total'] = $counts[$this->id]['open'] + $counts[$this->id]['closed'];
-            $counts[$this->id]['open_percent'] = $counts[$this->id]['open'] ? get_percent($counts[$this->id]['open'], $counts[$this->id]['total']) : 0;
-            $counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'], $counts[$this->id]['total']);
+        if (isset($counts[$this->id])) {
+            return $counts[$this->id][$status];
         }
 
+        $prefix = static::db()->prefix;
+        $query = static::db()->prepare("
+            SELECT
+                COUNT(t.id) as `total`,
+                SUM(
+                    CASE s.status
+                        WHEN 1 THEN 1
+                        WHEN 2 THEN 1
+                        ELSE 0
+                    END
+                ) AS `open`,
+                SUM(
+                    CASE s.status
+                        WHEN 2 THEN 1
+                        ELSE 0
+                    END
+                ) AS `started`,
+                SUM(
+                    CASE s.status
+                        WHEN 0 THEN 1
+                        ELSE 0
+                    END
+                ) AS `closed`
+            FROM {$prefix}tickets t
+            LEFT JOIN {$prefix}statuses s ON t.status_id = s.id
+            WHERE milestone_id = :milestoneId
+        ");
+
+        $query->exec(['milestoneId' => $this->id]);
+        $results = $query->fetch();
+
+        if (count($results)) {
+            $counts[$this->id] = $results;
+            $counts[$this->id]['open_percent'] = (int) get_percent($counts[$this->id]['open'] ?? 0, $counts[$this->id]['total']);
+            $counts[$this->id]['started_percent'] = (int) get_percent($counts[$this->id]['started'] ?? 0, $counts[$this->id]['total']);
+            $counts[$this->id]['closed_percent'] = (int) get_percent($counts[$this->id]['closed'] ?? 0, $counts[$this->id]['total']);
+        }
+        // dd($status, $counts[$this->id]);
         // Return the requested count index.
-        return $counts[$this->id][$status];
+        return $counts[$this->id][$status] ?? 0;
+    }
+
+    public function ticket_count(string $status = 'total'): int
+    {
+        return $this->ticketCount($status);
     }
 
     /**
@@ -172,14 +210,15 @@ class Milestone extends Model
 
         if (parent::save()) {
             // Check if the status has been changed, if it has, is it completed or cancelled?
-            if (isset($this->original_status, $this->_data['stats'])
-                && $this->original_status != $this->_data['status']
-                && $this->_data['status'] != 1
+            if (
+                isset($this->originalStatus, $this->_data['status']) &&
+                $this->originalStatus !== (int) $this->_data['status'] &&
+                (int) $this->_data['status'] !== static::ACTIVE
             ) {
                 $timeline = new Timeline(array(
                     'project_id' => $this->project_id,
                     'owner_id' => $this->id,
-                    'action' => $this->_data['status'] == 2 ? 'milestone_completed' : 'milestone_cancelled',
+                    'action' => (int) $this->_data['status'] === static::COMPLETE ? 'milestone_completed' : 'milestone_cancelled',
                     'user_id' => Avalon::app()->user->id
                 ));
                 $timeline->save();
@@ -222,7 +261,7 @@ class Milestone extends Model
     {
         // Status
         if (isset($this->_data['status'])) {
-            $this->original_status = $this->_data['status'];
+            $this->originalStatus = (int) $this->_data['status'];
         }
 
         // Completed on date from GMT to local

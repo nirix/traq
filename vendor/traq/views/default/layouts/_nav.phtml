@@ -1,31 +1,32 @@
 <nav id="nav">
-    <ul id="main_nav">
-        <?php if (isset($project)): ?>
-            <li<?=iif(active_nav('/:slug'), ' class="active"')?>><?=HTML::link(l('project_info'), $project->href())?></li>
-            <li<?=iif(active_nav('/:slug/timeline'), ' class="active"')?>><?=HTML::link(l('timeline'), $project->href("timeline"))?></li>
-            <li<?=iif(active_nav('/:slug/(roadmap|milestone)(.*)'), ' class="active"')?>><?=HTML::link(l('roadmap'), $project->href("roadmap"))?></li>
-            <li<?=iif(active_nav('/:slug/tickets(?:/[0-9]+)?'), ' class="active"')?>><?=HTML::link(l('tickets'), $project->href("tickets"))?></li>
+    <ul id="main-nav">
+        <?php if (isset($project)) : ?>
+            <li class="<?= iif(active_nav('/:slug'), 'active') ?>"><?= HTML::link(l('project_info'), $project->href()) ?></li>
+            <li class="<?= iif(active_nav('/:slug/timeline'), 'active') ?>"><?= HTML::link(l('timeline'), $project->href("timeline")) ?></li>
+            <li class="<?= iif(active_nav('/:slug/(roadmap|milestone)(.*)'), 'active') ?>"><?= HTML::link(l('roadmap'), $project->href("roadmap")) ?></li>
+            <li class="<?= iif(active_nav('/:slug/tickets(?:/[0-9]+)?'), 'active') ?>"><?= HTML::link(l('tickets'), $project->href("tickets")) ?></li>
 
-            <?php if($current_user->permission($project->id, 'create_tickets')): ?>
-                <li<?=iif(active_nav('/:slug/tickets/new(.*)'), ' class="active"')?>><?=HTML::link(l('new_ticket'), $project->href('tickets/new'))?></li>
+            <?php if (currentUser()->permission($project->id, 'create_tickets')) : ?>
+                <li class="<?= iif(active_nav('/:slug/tickets/new(.*)'), 'active') ?>"><?= HTML::link(l('new_ticket'), $project->href('tickets/new'), ['class' => 'new-ticket']) ?></li>
             <?php endif ?>
-            
-            <li<?=iif(active_nav('/:slug/changelog'), ' class="active"')?>><?=HTML::link(l('changelog'), $project->href('changelog'))?></li>
-            
-            <?php if ($project->enable_wiki): ?>
-                <li<?=iif(active_nav('/:slug/wiki(.*)'), ' class="active"')?>><?=HTML::link(l('wiki'), $project->href("wiki"))?></li>
+
+            <li class="<?= iif(active_nav('/:slug/changelog'), 'active') ?>"><?= HTML::link(l('changelog'), $project->href('changelog')) ?></li>
+
+            <?php if ($project->enable_wiki) : ?>
+                <li class="<?= iif(active_nav('/:slug/wiki(.*)'), 'active') ?>"><?= HTML::link(l('wiki'), $project->href("wiki")) ?></li>
             <?php endif ?>
-        <?php else: ?>
-            <li<?=iif(active_nav('/'), ' class="active"')?>><?=HTML::link(l('projects'), null)?></li>
+        <?php else : ?>
+            <li class="<?= iif(active_nav('/'), 'active') ?>"><?= HTML::link(l('projects'), null) ?></li>
         <?php endif; ?>
         <?php FishHook::run('template:layouts/default/main_nav', [isset($project) ? $project : false]); ?>
     </ul>
-    
-    <?php if(isset($project) && $current_user->permission($project->id, 'project_settings')): ?>
-    <ul>
-        <li<?=iif(active_nav('/:slug/settings(.*)'), ' class="active"')?>>
-            <?=HTML::link(l('settings'), $project->href('settings'))?>
-        </li>
+
+    <ul id="secondary-nav">
+        <?= View::render('layouts/_search') ?>
+        <?php if (isset($project) && currentUser()->permission($project->id, 'project_settings')) : ?>
+            <li class="<?= iif(active_nav('/:slug/settings(.*)'), 'active') ?>">
+                <?= HTML::link(l('settings'), $project->href('settings'), ['icon' => 'fas fa-fw fa-cog', 'sr-only' => true, 'title' => l('settings')]) ?>
+            </li>
+        <?php endif; ?>
     </ul>
-    <?php endif; ?>
 </nav>

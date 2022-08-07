@@ -1,16 +1,19 @@
-<div class="group">
-	<label><?php echo l('name'); ?></label>
-	<?php echo Form::text('name', array('value' => $type->name)); ?>
+<div class="form-group-row">
+	<label><?= l('name'); ?></label>
+	<?= Form::text('name', array('value' => $type->name)); ?>
 </div>
-<div class="group">
-	<label><?php echo l('bullet'); ?></label>
-	<?php echo Form::text('bullet', array('value' => $type->bullet)); ?> <abbr title="<?php echo l('help.ticket_type_bullet'); ?>">?</abbr>
+<div class="form-group-row">
+	<label><?= l('bullet'); ?></label>
+	<div class="input-group">
+		<?= Form::text('bullet', array('value' => $type->bullet)); ?>
+		<abbr class="input-group-hint" title="<?php echo l('help.ticket_type_bullet'); ?>">?</abbr>
+	</div>
 </div>
-<div class="group">
-	<label><?php echo l('show_on_changelog'); ?></label>
-	<?php echo Form::checkbox('changelog', 1, array('checked' => $type->changelog)); ?>
+<div class="form-group-row">
+	<label><?= l('show_on_changelog'); ?></label>
+	<?= Form::checkbox('changelog', 1, array('checked' => $type->changelog)); ?>
 </div>
-<div class="group">
-	<label><?php echo l('template'); ?></label>
-	<?php echo Form::textarea('template', array('value' => $type->template, 'class' => 'editor')); ?>
+<div class="form-group-row items-start">
+	<label><?= l('template'); ?></label>
+	<?= Form::textarea('template', array('value' => $type->template, 'class' => 'editor')); ?>
 </div>

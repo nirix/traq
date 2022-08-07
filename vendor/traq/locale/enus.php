@@ -34,7 +34,7 @@ class enUS extends \traq\libraries\Locale
     protected static $info = array(
         'name'    => "English",
         'author'  => "Jack Polgar",
-        'version' => "3.0",
+        'version' => "3.8",
 
         // Locale information
         'language'       => "English",
@@ -59,12 +59,15 @@ class enUS extends \traq\libraries\Locale
             'slug'             => "Slug",
             'codename'         => "Codename",
             'open'             => "Open",
+            'started'          => "Started",
             'closed'           => "Closed",
             'cancel'           => "Cancel",
             'new'              => "New",
             'wiki'             => "Wiki",
             'x_open'           => "{1} open",
+            'x_started'        => "{1} started",
             'x_closed'         => "{1} closed",
+            'x_total'          => "{1} total",
             'yes'              => "Yes",
             'no'               => "No",
             'created'          => "Created",
@@ -108,6 +111,9 @@ class enUS extends \traq\libraries\Locale
             'profile'          => "Profile",
             'ascending'        => "Ascending",
             'descending'       => "Descending",
+
+            // Search
+            'search.no_results' => 'No search results...',
 
             // AdminCP
             'admin.theme_select_option' => "{1} (v{2} by {3})",
@@ -206,6 +212,7 @@ class enUS extends \traq\libraries\Locale
             'updates'               => "Updates",
             'severity'              => "Severity",
             'assigned_to'           => "Assigned to",
+            'assignee'              => "Assignee",
             'reported'              => "Reported",
             'priority'              => "Priority",
             'edit_ticket'           => "Edit Ticket",
@@ -301,6 +308,7 @@ class enUS extends \traq\libraries\Locale
             // Pagination
             'previous' => "Previous",
             'next'     => "Next",
+            'x_of_x'   => "{page} of {total}",
 
             // Other
             'actions' => "Actions",
@@ -405,13 +413,14 @@ class enUS extends \traq\libraries\Locale
 
             // Timeline
             'timeline'                     => "Timeline",
-            'timeline.ticket_created'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) created",
-            'timeline.ticket_closed'       => "{ticket_type_name} #{ticket_id} ({ticket_summary}) closed as {ticket_status_name}",
-            'timeline.ticket_reopened'     => "{ticket_type_name} #{ticket_id} ({ticket_summary}) reopened as {ticket_status_name}",
-            'timeline.ticket_updated'      => "{ticket_type_name} #{ticket_id} ({ticket_summary}) updated",
-            'timeline.ticket_comment'      => "Commented on ticket {link}",
-            'timeline.milestone_completed' => "Milestone {milestone_name} completed",
-            'timeline.milestone_cancelled' => "Milestone {milestone_name} cancelled",
+            'timeline.ticket_created'      => "Created ticket {ticket_summary} (#{ticket_id})",
+            'timeline.ticket_started'      => "Started ticket {ticket_summary} (#{ticket_id})",
+            'timeline.ticket_closed'       => "Closed ticket {ticket_summary} (#{ticket_id}) as {status_name}",
+            'timeline.ticket_reopened'     => "Reopened ticket {ticket_summary} (#{ticket_id}) as {status_name}",
+            'timeline.ticket_updated'      => "Updated ticket {ticket_summary} (#{ticket_id})",
+            'timeline.ticket_comment'      => "Commented on ticket {ticket_summary} (#{ticket_id})",
+            'timeline.milestone_completed' => "Milestone {name} completed",
+            'timeline.milestone_cancelled' => "Milestone {name} cancelled",
             'timeline.ticket_moved_from'   => "Moved ticket ({ticket}) from {project}",
             'timeline.ticket_moved_to'     => "Moved ticket ({ticket}) to {project}",
             'timeline.wiki_page_created'   => "Created {title} wiki page",
@@ -455,36 +464,22 @@ class enUS extends \traq\libraries\Locale
             'x_changelog_feed' => "{1} Changelog Feed",
             'update_x'         => "Update #{1}",
 
-            // Editor
-            'editor' => array(
-                // Intentionally left empty to use the default
-                // strings from the editor.
-                //
-                // Enter your localisation strings here.
-                // example:
-                // 'h2' => "My custom string",
-                // 'h3' => "Another custom string",
-                // and so on...
-            ),
-
             // Ticket history
             'ticket_history' => array(
                 'Ticket History',
-
-                // Most fields
-                'x_from_x_to_x'    => "Changed {1} from {2} to {3}",
-                'x_from_null_to_x' => "Set {1} to {3}",
-                'x_from_x_to_null' => "Cleared {1}, was {2}",
-
-                // Assignee field
-                'assignee_from_x_to_x'    => "Reassigned ticket from {2} to {3}",
-                'assignee_from_null_to_x' => "Assigned ticket to {3}",
-                'assignee_from_x_to_null' => "Unassigned ticket from {2}",
+                'no_ticket_updates' => 'No ticket updates.',
 
                 // Actions
+                'create'         => "Ticket created as {2}",
+                'start'          => "Ticket started as {2}",
                 'close'          => "Closed ticket as {2}",
                 'reopen'         => "Reopened ticket as {2}",
-                'add_attachment' => "Added attachment {2}",
+                'add_attachment' => "Attached {2}",
+
+                'x_create_as_x_x_ago' => "{1} created as {2} {3}",
+                'x_start_as_x_x_ago' => "{1} started as {2} {3}",
+                'x_close_as_x_x_ago' => "{1} closed as {2} {3}",
+                'x_reopen_as_x_x_ago' => "{1} reopened as {2} {3}",
             ),
 
             // Warnings
@@ -591,48 +586,48 @@ class enUS extends \traq\libraries\Locale
 
             // Ticket assigned
             'notifications.ticket_assigned.subject' => "Ticket #{2} on project {4} has been assigned to you",
-            'notifications.ticket_assigned.message' => "{2},<br /><br />".
-                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) on project {6} has been assigned to you.<br /><br />".
-                                                       "----------------------------------------------------------------<br />".
-                                                       "{5}".
-                                                       "----------------------------------------------------------------",
+            'notifications.ticket_assigned.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) on project {6} has been assigned to you.<br /><br />" .
+                "----------------------------------------------------------------<br />" .
+                "{5}" .
+                "----------------------------------------------------------------",
 
             // Ticket created
             'notifications.ticket_created.subject' => "New ticket #{2} ({3}) on project {4}",
-            'notifications.ticket_created.message' => "{2},<br /><br />".
-                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been created on project {6}.<br /><br />".
-                                                      "----------------------------------------------------------------<br />".
-                                                      "{5}".
-                                                      "----------------------------------------------------------------",
+            'notifications.ticket_created.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been created on project {6}.<br /><br />" .
+                "----------------------------------------------------------------<br />" .
+                "{5}" .
+                "----------------------------------------------------------------",
 
             // Ticket updated
             'notifications.ticket_updated.subject' => "Ticket #{2} ({3}) updated on project {4}",
-            'notifications.ticket_updated.message' => "{2},<br /><br />".
-                                                      "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been updated on project {6}.",
+            'notifications.ticket_updated.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been updated on project {6}.",
 
             // Ticket closed
             'notifications.ticket_closed.subject' => "Ticket #{2} ({3}) closed on project {4}",
-            'notifications.ticket_closed.message' => "{2},<br /><br />".
-                                                     "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been closed on project {6}.",
+            'notifications.ticket_closed.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been closed on project {6}.",
 
             // Ticket reopened
             'notifications.ticket_reopened.subject' => "Ticket #{2} ({3}) reopened on project {4}",
-            'notifications.ticket_reopened.message' => "{2},<br /><br />".
-                                                       "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been reopened on project {6}.",
+            'notifications.ticket_reopened.message' => "{2},<br /><br />" .
+                "Ticket #{3} (<a href=\"{8}\">{4}</a>) has been reopened on project {6}.",
 
             // Password reset
             'notifications.password_reset.subject' => "Password reset request",
-            'notifications.password_reset.message' => "{2},<br /><br />".
-                                                      "You are receiving this email because you or someone has requested a password reset<br />".
-                                                      "for your account '{3}' at {1}. If you did not request a password reset, ignore this email.<br /><br />".
-                                                      "If you did request a password reset, you can <a href=\"{4}\">continue by clicking here</a>.<br /><br />".
-                                                      "This reset request was done by someone with the IP of: {5}",
+            'notifications.password_reset.message' => "{2},<br /><br />" .
+                "You are receiving this email because you or someone has requested a password reset<br />" .
+                "for your account '{3}' at {1}. If you did not request a password reset, ignore this email.<br /><br />" .
+                "If you did request a password reset, you can <a href=\"{4}\">continue by clicking here</a>.<br /><br />" .
+                "This reset request was done by someone with the IP of: {5}",
 
             // Email validation
             'notifications.email_validation.subject' => "Account validation",
-            'notifications.email_validation.message' => "{name},<br /><br />".
-                                                        "To validate your account click the link below:<br />".
-                                                        "{link}",
+            'notifications.email_validation.message' => "{name},<br /><br />" .
+                "To validate your account click the link below:<br />" .
+                "{link}",
 
             // ----------------------------------------------------------------------------------------------------
 

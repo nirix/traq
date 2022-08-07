@@ -93,32 +93,4 @@ jQuery(document).ready(function () {
       jQuery(this).remove()
     })
   })
-
-  // Toggle task state
-  jQuery(document).on("click", '#ticket_info #tasks .task input[type="checkbox"]', function () {
-    var task_id = jQuery(this).attr("data-task-task")
-    var completed = false
-
-    // Get task state
-    if (jQuery(this).is(":checked")) {
-      completed = true
-    }
-
-    // Update task
-    $.ajax({
-      url: jQuery(this).attr("data-url"),
-      data: { completed: completed },
-      beforeSend: function () {
-        // Disable tasks
-        jQuery('#tasks input[type="checkbox"]').each(function () {
-          jQuery(this).attr("disabled", "disabled")
-        })
-      },
-    }).done(function () {
-      // Enable tasks
-      jQuery('#tasks input[type="checkbox"]').each(function () {
-        jQuery(this).removeAttr("disabled")
-      })
-    })
-  })
 })

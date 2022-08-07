@@ -1,4 +1,13 @@
 <?php
 $subbed = is_subscribed($current_user, $object);
-echo HTML::link(l(($subbed ? 'un' : '') . 'subscribe'), $object->href(($subbed ? 'un' : '') . 'subscribe'));
+$subunsub = $subbed ? 'unsubscribe' : 'subscribe';
+$icon = $icon ?? false;
 ?>
+<a href="<?= Request::base($object->href($subunsub)) ?>" class="<?= $icon ? 'btn-info btn-sm' : '' ?>" <?= $icon ? 'title="' . l($subunsub) . '"' : '' ?>>
+    <?php if ($icon) : ?>
+        <span class="fas fa-fw fa-<?= $subbed ? 'eye-slash' : 'eye' ?>"></span>
+        <span class="visually-hidden"><?= l($subunsub) ?></span>
+    <?php else : ?>
+        <?= l($subunsub) ?>
+    <?php endif; ?>
+</a>

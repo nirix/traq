@@ -1,0 +1,61 @@
+<div class="content">
+    <h2 class="page-title"><?= l('timeline') ?></h2>
+
+    <?php foreach ($groupedEvents as $group) : ?>
+        <div class="timeline-day">
+            <h3><?= $group['date']->format(settings('timeline_day_format')) ?></h3>
+
+            <?php foreach ($group['events'] as $userEvents) : ?>
+                <div class="timeline-user-set">
+                    <ul class="timeline-user-set-events">
+                        <?php foreach ($userEvents['events'] as $event) : ?>
+                            <li id="timeline-event-<?= $event->id ?>">
+                                <?php if (currentUser()->permission($project->id, 'delete_timeline_events')) { ?>
+                                    <button class="btn-danger btn-xs" x-data="popoverConfirm({ position: 'center', success: () => { const el = document.getElementById('timeline-event-<?= $event->id ?>').remove() }, remote: '<?= Request::base($project->href("timeline/{$event->id}/delete")) ?>' })" @click="toggle()">
+                                        <span class="fas fa-fw fa-trash"></span>
+                                        <span class="visually-hidden"><?= l('delete') ?></span>
+                                    </button>
+                                <?php } ?>
+                                <span class="event-time"><?= $event->getCreatedAt()->format('h:ia') ?></span>
+                                <span>-</span>
+                                <span class="event-action">
+                                    <?php if ($event->isTicket()) : ?>
+                                        <?= HTML::link(
+                                            l(
+                                                $event->getTranslationString(),
+                                                $tickets[$event->owner_id]
+                                            ),
+                                            currentProject()->href("tickets/{$tickets[$event->owner_id]['ticket_id']}")
+                                        ) ?>
+                                    <?php elseif ($event->isMilestone()) : ?>
+                                        <?= HTML::link(
+                                            l(
+                                                $event->getTranslationString(),
+                                                $milestones[$event->owner_id]
+                                            ),
+                                            currentProject()->href("milestone/{$milestones[$event->owner_id]['slug']}")
+                                        ) ?>
+                                    <?php elseif ($event->isWiki()) : ?>
+                                        <?= HTML::link(
+                                            l(
+                                                $event->getTranslationString(),
+                                                $wikiPages[$event->owner_id]
+                                            ),
+                                            currentProject()->href("wiki/{$wikiPages[$event->owner_id]['slug']}")
+                                        ) ?>
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="timeline-user-set-author">
+                        <?= l('timeline.by_x', HTML::link($users[$event->user_id]->username, $users[$event->user_id]->href())) ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+    <?= View::render('layouts/_pagination', [
+        'pagination' => $pagination
+    ]) ?>
+</div>

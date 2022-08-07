@@ -2,8 +2,10 @@
 	<h3><?php echo l('new_user'); ?></h3>
 	<form action="<?php echo Request::RequestUri(); ?>" method="post">
 		<?php echo show_errors($user->errors); ?>
-		<div class="tabular box">
-			<?php echo View::render('admin/users/_form'); ?>
+		<div class="panel">
+			<div class="panel-content">
+				<?php echo View::render('admin/users/_form'); ?>
+			</div>
 		</div>
 		<div class="actions">
 			<input type="submit" value="<?php echo l('create'); ?>" />

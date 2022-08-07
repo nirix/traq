@@ -1,24 +1,26 @@
 <div class="content">
-	<?php echo HTML::link(l('new_group'), '/admin/groups/new', array('class' => 'button_new', 'data-overlay' => true)); ?>
+	<?= HTML::link(l('new_group'), '/admin/groups/new', array('class' => 'btn-success', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-plus')) ?>
 </div>
 <div>
 	<table class="list">
 		<thead>
-			<th class="fixed_name"><?php echo l('name'); ?></th>
-			<th class="user_count"><?php echo l('users'); ?></th>
-			<th class="actions"><?php echo l('actions'); ?></th>
+			<th class="w-52"><?= l('name') ?></th>
+			<th><?= l('users') ?></th>
+			<th class="w-48 text-right"><?= l('actions') ?></th>
 		</thead>
 		<tbody>
-		<?php foreach ($groups as $group) { ?>
-			<tr>
-				<td><?php echo HTML::link($group->name, "/admin/groups/{$group->id}/edit", array('data-overlay' => true)); ?></td>
-				<td><?php echo $group->users->exec()->row_count(); ?></td>
-				<td>
-					<?php echo HTML::link(l('edit'), "/admin/groups/{$group->id}/edit", array('class' => 'button_edit', 'data-overlay' => true)); ?>
-					<?php echo HTML::link(l('delete'), "/admin/groups/{$group->id}/delete", array('class' => 'button_delete', 'data-confirm' => l('confirm.delete_x', $group->name))); ?>
-				</td>
-			</tr>
-		<?php } ?>
+			<?php foreach ($groups as $group) : ?>
+				<tr>
+					<td><?= HTML::link($group->name, "/admin/groups/{$group->id}/edit", array('data-overlay' => true)) ?></td>
+					<td><?= $group->users->exec()->row_count() ?></td>
+					<td>
+						<div class="btn-group justify-end">
+							<?= HTML::link(l('edit'), "/admin/groups/{$group->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
+							<?= HTML::link(l('delete'), "/admin/groups/{$group->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $group->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]) ?>
+						</div>
+					</td>
+				</tr>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 </div>

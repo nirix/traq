@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": fileURLToPath(new URL("./src/assets", import.meta.url)),
     },
   },
   build: {
@@ -19,11 +19,11 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "traq-ui/main.ts"),
-        "ticket-listing": resolve(__dirname, "traq-ui/ticket-listing/ticket-listing.ts"),
+        main: resolve(__dirname, "src/assets/main.ts"),
+        traq: resolve(__dirname, "src/assets/traq.ts"),
       },
       manualChunks: {
-        easymde: ["easymde"],
+        // easymde: ["easymde"],
       },
     },
   },

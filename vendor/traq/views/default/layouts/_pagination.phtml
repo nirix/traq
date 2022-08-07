@@ -1,13 +1,31 @@
-<?php if ($pagination->paginate) { ?>
-<div class="content">
-	<div class="pagination">
-	<?php if ($pagination->prev_page_url) { ?>
-		<a href="<?php echo $pagination->prev_page_url; ?>" class="button_previous prev_link"><?php echo l('previous'); ?></a>
-	<?php } ?>
-	<?php if ($pagination->next_page_url) { ?>
-		<a href="<?php echo $pagination->next_page_url; ?>" class="button_next next_link"><?php echo l('next'); ?></a>
-	<?php } ?>
-		<div class="clearfix"></div>
+<?php if ($pagination->paginate) : ?>
+	<div class="content">
+		<div class="pagination">
+			<?php if ($pagination->prev_page_url) : ?>
+				<a href="<?= $pagination->prev_page_url; ?>" class="previous">
+					<span class="fas fa-fw fa-angle-left"></span>
+					<span><?= l('previous'); ?></span>
+				</a>
+			<?php else : ?>
+				<div class="previous">
+					<span class="fas fa-fw fa-angle-left"></span>
+					<span><?= l('previous'); ?></span>
+				</div>
+			<?php endif; ?>
+
+			<div class="pages"><?= l('x_of_x', ['page' => $pagination->page, 'total' => $pagination->total_pages]) ?></div>
+
+			<?php if ($pagination->next_page_url) : ?>
+				<a href="<?= $pagination->next_page_url; ?>" class="next">
+					<span><?= l('next'); ?></span>
+					<span class="fas fa-fw fa-angle-right"></span>
+				</a>
+			<?php else : ?>
+				<div class="next">
+					<span><?= l('next'); ?></span>
+					<span class="fas fa-fw fa-angle-right"></span>
+				</div>
+			<?php endif; ?>
+		</div>
 	</div>
-</div>
-<?php } ?>
+<?php endif; ?>

@@ -1,19 +1,23 @@
-<div class="group">
-	<label><?php echo l('name'); ?></label>
-	<?php echo Form::text('name', array('value' => $status->name)); ?>
+<?php
+
+use traq\models\Status; ?>
+<div class="form-group-row">
+	<label><?= l('name'); ?></label>
+	<?= Form::text('name', array('value' => $status->name)); ?>
 </div>
-<div class="group">
-	<label><?php echo l('status'); ?></label>
+<div class="form-group-row">
+	<label><?= l('status'); ?></label>
 	<?php echo Form::select(
 		'status',
 		array(
-			array('value' => 1, 'label' => l('open')),
-			array('value' => 0, 'label' => l('closed'))
+			array('value' => Status::STATUS_OPEN, 'label' => l('open')),
+			array('value' => Status::STATUS_STARTED, 'label' => l('started')),
+			array('value' => Status::STATUS_CLOSED, 'label' => l('closed'))
 		),
 		array('value' => $status->status)
 	); ?>
 </div>
-<div class="group">
-	<label><?php echo l('show_on_changelog'); ?></label>
-	<?php echo Form::checkbox('changelog', 1, array('checked' => $status->changelog)); ?>
+<div class="form-group-row">
+	<label><?= l('show_on_changelog'); ?></label>
+	<?= Form::checkbox('changelog', 1, array('checked' => $status->changelog)); ?>
 </div>

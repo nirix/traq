@@ -48,9 +48,6 @@ var traq = {
   },
 }
 
-// Cookies, nom nom nom
-$.cookie.defaults.path = "/"
-
 // Language object
 var language = {}
 
@@ -83,19 +80,12 @@ var popover_confirm = function (parent, message, callback) {
 }
 
 jQuery(document).ready(function () {
-  jQuery(document).on("click", function () {
-    jQuery("#project_switcher_btn").stop(true, true).fadeOut("fast")
-  })
-
   jQuery("[data-preview]").on("click", function () {
     var data = jQuery(jQuery(this).attr("data-preview")).val()
     jQuery("#overlay").load(traq.base + "_misc/preview_text", { data: data }, function () {
       jQuery("#overlay").overlay()
     })
   })
-
-  // Add the editor interface to all text areas, like a boss.
-  jQuery("textarea.editor").likeaboss()
 
   // Add a confirm-on-click event to call elements
   // with the data-confirm attribute.
@@ -157,7 +147,7 @@ jQuery(document).ready(function () {
     }
 
     jQuery("#overlay").load(uri, function () {
-      jQuery("#overlay textarea").likeaboss()
+      window.Alpine.start()
       jQuery("#overlay").overlay()
     })
     return false

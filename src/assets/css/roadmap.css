@@ -1,0 +1,70 @@
+.roadmap {
+  & > .milestone {
+    @apply border-b border-solid border-gray-300;
+    @apply mb-5;
+
+    &:last-child {
+      @apply m-0 border-b-0;
+    }
+
+    & .milestone-meta {
+      @apply text-gray-600;
+      @apply mb-1;
+    }
+
+    & .milestone-name a {
+      @apply no-underline;
+      @apply font-bold;
+    }
+
+    & .milestone-info {
+      @apply my-4;
+
+      & > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.milestone-progress {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+
+  @apply bg-gray-100;
+  @apply rounded-md;
+  @apply h-5;
+
+  & > .progress-closed,
+  & > .progress-open,
+  & > .progress-started {
+    display: block;
+  }
+
+  & .progress-started {
+    @apply bg-emerald-300;
+  }
+
+  & .progress-closed {
+    @apply bg-emerald-500;
+  }
+}
+
+.milestone-progress-info {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  @apply my-1;
+
+  & > li {
+    display: inline;
+
+    @apply mr-10;
+
+    & > a {
+      @apply text-gray-400 hover:text-gray-500;
+      @apply italic;
+    }
+  }
+}

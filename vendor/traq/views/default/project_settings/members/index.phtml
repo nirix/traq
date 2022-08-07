@@ -1,45 +1,49 @@
 <div class="content">
-	<h2 id="page_title"><?php echo l('project_settings'); ?></h2>
+	<h2 id="page-title"><?= l('project_settings') ?></h2>
 </div>
-<?php echo View::render('project_settings/_nav'); ?>
+<?= View::render('project_settings/_nav') ?>
 <div class="content">
-	<?php if (isset($errors)) { show_errors($errors); } ?>
-	<form action="<?php echo Request::base($project->href("settings/members/new")); ?>" method="post" class="horizontal">
-		<div class="group">
-			<?php echo Form::label(l('username'), 'username'); ?>
-			<?php echo Form::text('username', array('data-autocomplete' => Request::base('/_ajax/autocomplete/username'))); ?>
+	<?php if (isset($errors)) : show_errors($errors);
+	endif; ?>
+
+	<form action="<?= Request::base($project->href("settings/members/new")) ?>" method="post" class="flex items-end">
+		<div class="mr-2">
+			<?= Form::label(l('username'), 'username') ?>
+			<?= Form::text('username', array('data-autocomplete' => Request::base('/_ajax/autocomplete/username'))) ?>
 		</div>
-		<div class="group">
-			<?php echo Form::label(l('role'), 'role'); ?>
-			<?php echo Form::select('role', traq\models\ProjectRole::select_options()); ?>
+		<div class="mr-2">
+			<?= Form::label(l('role'), 'role') ?>
+			<?= Form::select('role', traq\models\ProjectRole::select_options()) ?>
 		</div>
-		<div class="group">
-			<?php echo Form::submit(l('add')); ?>
+		<div>
+			<?= Form::submit(l('add')) ?>
 		</div>
 	</form>
 </div>
 <div>
-	<form action="<?php echo Request::base($project->href("settings/members/save"));; ?>" method="post">
+	<form action="<?= Request::base($project->href("settings/members/save")); ?>" method="post">
 		<table class="list">
 			<thead>
 				<tr>
-					<th class="fixed_name"><?php echo l('username'); ?></th>
-					<th class="role"><?php echo l('role'); ?></th>
-					<th class="actions"><?php echo l('actions'); ?></th>
+					<th class="fixed_name"><?= l('username') ?></th>
+					<th class="role"><?= l('role'); ?></th>
+					<th class="actions text-right"><?= l('actions') ?></th>
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($user_roles as $rel) { ?>
-				<tr>
-					<td><?php echo $rel->user->username; ?></td>
-					<td><?php echo Form::select("role[{$rel->id}]", traq\models\ProjectRole::select_options(), array('value' => $rel->project_role_id)); ?></td>
-					<td><?php echo HTML::link(l('delete'), $project->href("settings/members/{$rel->user_id}/delete"), array('class' => 'button_delete', 'data-confirm' => l('confirm.remove_x', $rel->user->username))); ?></td>
-				</tr>
-			<?php } ?>
+				<?php foreach ($user_roles as $rel) : ?>
+					<tr>
+						<td><?= $rel->user->username ?></td>
+						<td><?= Form::select("role[{$rel->id}]", traq\models\ProjectRole::select_options(), ['value' => $rel->project_role_id]) ?></td>
+						<td class="text-right">
+							<?= HTML::link(l('delete'), $project->href("settings/members/{$rel->user_id}/delete"), ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.remove_x', $rel->user->username), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]) ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
 			</tbody>
 		</table>
 		<div class="actions">
-			<?php echo Form::submit(l('save')); ?>
+			<?= Form::submit(l('save')) ?>
 		</div>
 	</form>
 </div>

@@ -213,10 +213,24 @@ class Wiki extends AppController
     /**
      * Deletes the specified wiki page.
      */
-    public function action_delete($slug)
+    public function action_delete()
     {
         // Get slug
         $slug = \avalon\http\Router::$params['slug'];
+
+        $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
+
+        // Timeline events
+        $createEvent = Timeline::select()->where('action', 'wiki_page_created')->where('owner_id', $page->id)->exec()->fetch()->delete();
+        $updateEvents = Timeline::select()->where('action', 'wiki_page_edited')->where('owner_id', $page->id)->exec()->fetchAll();
+
+        foreach ($updateEvents as $event) {
+            $event->delete();
+        }
+
+        foreach ($page->revisions->exec()->fetchAll() as $revision) {
+            $revision->delete();
+        }
 
         // Delete the page
         $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
@@ -225,7 +239,7 @@ class Wiki extends AppController
         if ($this->is_api) {
             return \API::response(1);
         } else {
-            Request::redirectTo($this->project->href('wiki'));
+            return Request::redirectTo($this->project->href('wiki'));
         }
     }
 

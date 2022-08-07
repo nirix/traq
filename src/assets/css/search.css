@@ -1,0 +1,77 @@
+.navbar-search {
+  & .search-icon {
+    @apply text-white/70;
+    position: absolute;
+    margin-top: 12px;
+    margin-left: 12px;
+    pointer-events: none;
+  }
+
+  & input[type="search"] {
+    @apply bg-transparent border-transparent;
+    @apply rounded-full;
+    @apply ring-white/30;
+    @apply w-10;
+    @apply transition-all;
+    @apply cursor-pointer;
+  }
+
+  &:hover {
+    & .search-icon {
+      @apply text-white;
+    }
+  }
+
+  &.open input[type="search"],
+  input[type="search"]:focus {
+    @apply cursor-text;
+    @apply pl-10 w-60;
+    @apply bg-white;
+  }
+
+  &.open,
+  &:focus-within {
+    & .search-icon {
+      @apply text-black;
+    }
+  }
+
+  & > .search-results {
+    z-index: 999;
+    max-height: 500px;
+    overflow-y: scroll;
+    width: 400px;
+    margin-left: -160px;
+
+    @apply text-black;
+    @apply bg-white;
+    @apply shadow-md rounded-md;
+    @apply absolute;
+    @apply mt-1 p-4;
+
+    & .results-tickets,
+    & .results-milestones {
+      & h3 {
+        @apply text-base;
+        @apply border-b border-solid border-l-gray-400;
+      }
+
+      & ul {
+        @apply mx-0 my-2 p-0 list-none;
+
+        & > li {
+          @apply block;
+        }
+
+        & a {
+          @apply block px-2 py-1;
+          @apply hover:text-black hover:bg-gray-100 rounded-md;
+        }
+      }
+
+      &:last-child ul {
+        @apply mb-0;
+      }
+    }
+  }
+}

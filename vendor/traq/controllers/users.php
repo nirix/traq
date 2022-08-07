@@ -41,31 +41,10 @@ use traq\models\User;
  */
 class Users extends AppController
 {
-    public $before = array(
-        'login'    => array('already_logged_in'),
-        'register' => array('already_logged_in')
-    );
-
-    /**
-     * User profile page.
-     *
-     * @param integer $user_id
-     */
-    public function action_view($user_id)
-    {
-        // If the user doesn't exist
-        // display the 404 page.
-        if (!$user = User::find($user_id)) {
-            return $this->show_404();
-        }
-
-        // Set the title
-        $this->title(l('users'));
-        $this->title(l('xs_profile', $user->name));
-
-        Load::helper('tickets');
-        View::set('profile', $user);
-    }
+    public $before = [
+        'login'    => ['already_logged_in'],
+        'register' => ['already_logged_in']
+    ];
 
     /**
      * Handles the login page.
@@ -77,25 +56,36 @@ class Users extends AppController
 
         // Check if the form has been submitted
         if (Request::method() == 'post') {
-            // Try to find the user in the database and verify their password
-            if ($user = User::find('username', Request::$post['username'])
-            and $user->verify_password(Request::$post['password'])) {
-                // User found and verified, set the cookie and redirect them
-                // to the index page if no "redirect" page was set.
-                if ($user->is_activated()) {
-                    setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
-                    Request::redirect(isset(Request::$post['redirect']) ? Request::$post['redirect'] : Request::base());
-                }
+            return $this->createSession();
+        }
+    }
+
+    private function createSession()
+    {
+        $user = User::find('username', Request::$post['username']);
+
+        // Try to find the user in the database and verify their password
+        if ($user && $user->verify_password(Request::$post['password'])) {
+            // User found and verified, set the cookie and redirect them
+            // to the index page if no "redirect" page was set.
+            if ($user->is_activated()) {
+                setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+
+                return Request::redirect(
+                    isset(Request::$post['redirect'])
+                        ? Request::$post['redirect']
+                        : Request::base()
+                );
+            } else {
                 // Tell the user to activate
-                else {
-                    View::set('validation_required', true);
-                }
-            }
-            // No user found
-            else {
-                View::set('error', true);
+                View::set('validation_required', true);
             }
         }
+
+        // No user found
+        View::set('error', true);
+
+        return $this->renderView('users/login.phtml');
     }
 
     /**
@@ -104,7 +94,8 @@ class Users extends AppController
     public function action_logout()
     {
         setcookie('_traq', sha1(time()), time() + 5, '/');
-        Request::redirectTo();
+
+        return Request::redirectTo();
     }
 
     /**
@@ -123,43 +114,50 @@ class Users extends AppController
 
         // Check if the form has been submitted
         if (Request::method() == 'post') {
-            // Build the data array
-            $data = array(
-                'username' => Request::$post['username'],
-                'name'     => Request::$post['name'],
-                'password' => Request::$post['password'],
-                'email'    => Request::$post['email']
-            );
+            return $this->createAccount();
+        }
 
-            // Create a model with the data
-            $user = new User($data);
+        View::set(compact('user', 'validation_required'));
+    }
 
-            // Email validation
+    private function createAccount()
+    {
+        // Build the data array
+        $data = array(
+            'username' => Request::$post['username'],
+            'name'     => Request::$post['name'],
+            'password' => Request::$post['password'],
+            'email'    => Request::$post['email']
+        );
+
+        // Create a model with the data
+        $user = new User($data);
+
+        // Email validation
+        if (settings('email_validation')) {
+            $user->option('validation_key', sha1($user->username . $user->name . microtime() . rand(0, 1000)));
+        }
+
+        // Run plugin hooks
+        FishHook::run('controller:users.register', array(&$user));
+
+        // Check if the model is valid
+        $validation_required = false;
+        if ($user->save()) {
+            // Send validation email
             if (settings('email_validation')) {
-                $user->option('validation_key', sha1($user->username . $user->name . microtime() . rand(0, 1000)));
-            }
+                Notification::send_to(
+                    $user,
+                    'email_validation',
+                    [
+                        'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base("users/validate/" . $user->option('validation_key'))
+                    ]
+                );
 
-            // Run plugin hooks
-            FishHook::run('controller:users.register', array(&$user));
-
-            // Check if the model is valid
-            if ($user->save()) {
-                // Send validation email
-                if (settings('email_validation')) {
-                    Notification::send_to(
-                        $user,
-                        'email_validation',
-                        array(
-                            'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base("users/validate/" . $user->option('validation_key'))
-                        )
-                    );
-
-                    $validation_required = true;
-                }
+                $validation_required = true;
+            } else {
                 // Redirect to login page
-                else {
-                    Request::redirectTo('login');
-                }
+                Request::redirectTo('login');
             }
         }
 
@@ -218,7 +216,8 @@ class Users extends AppController
                     Notification::send(
                         $user, // User object
                         l('notifications.password_reset.subject'),     // Subject
-                        l('notifications.password_reset.message',    // Message
+                        l(
+                            'notifications.password_reset.message',    // Message
                             settings('title'), // Installation title
                             $user->name,       // Users name
                             $user->username,   // Users username

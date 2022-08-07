@@ -1,7 +1,7 @@
 <h3><?php echo l('new_user'); ?></h3>
-<form action="<?php echo Request::requestUri(); ?>" method="post" class="overlay_thin">
+<form action="<?php echo Request::requestUri(); ?>" method="post" class="overlay">
 	<?php echo show_errors($user->errors); ?>
-	<div class="tabular box">
+	<div class="content">
 		<?php echo View::render('admin/users/_form'); ?>
 	</div>
 	<div class="actions">
