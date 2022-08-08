@@ -175,6 +175,10 @@ class enUS extends \traq\libraries\Locale
             'assignable'                => "Assignable",
             'ticket_creation_delay'     => "Creation Delay",
             'traq_news'                 => "Traq news",
+            'mailer_configuration'      => 'Mailer configuration',
+            'mailer_configuration_hint' => 'Is the mailer configured by file or the setting below.',
+            'mailer_dsn'                => 'Mailer DSN',
+            'mailer_dsn_hint'           => 'Mailer DSN string: smtp://{user}:{pass}@{host}:{port}',
 
             'admin.news.secure_connection' => "Secure connection detected, loading of news is disabled.",
 

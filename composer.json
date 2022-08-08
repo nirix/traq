@@ -2,6 +2,11 @@
     "name": "traq/traq",
     "description": "Project management system",
     "type": "project",
+    "config": {
+        "platform": {
+            "php": "8.0.2"
+        }
+    },
     "require-dev": {
         "filp/whoops": "^2.14"
     },
@@ -14,7 +19,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "erusev/parsedown-extra": "^0.8.1"
+        "erusev/parsedown-extra": "^0.8.1",
+        "symfony/mailer": "^6.0"
     },
     "autoload": {
         "psr-4": {

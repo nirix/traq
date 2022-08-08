@@ -393,22 +393,24 @@ LOCK TABLES `traq_settings` WRITE;
 
 INSERT INTO `traq_settings` (`setting`, `value`)
 VALUES
-	('allow_registration','1'),
-  ('email_validation','0'),
-	('check_for_update','1'),
-	('date_time_format','g:iA d/m/Y'),
-  ('date_format','d/m/Y'),
-	('locale','enus'),
-	('theme','default'),
+  ('allow_registration', '1'),
+  ('email_validation', '0'),
+  ('check_for_update', '1'),
+  ('date_time_format', 'g:iA d/m/Y'),
+  ('date_format', 'd/m/Y'),
+  ('locale', 'enus'),
+  ('theme', 'default'),
   ('ticket_creation_delay', '30'),
   ('ticket_history_sorting', 'oldest_first'),
   ('tickets_per_page', '25'),
-	('timeline_day_format','l, jS F Y'),
-  ('timeline_days_per_page','7'),
-	('timeline_time_format','h:iA'),
-	('title','Traq'),
+  ('timeline_day_format', 'l, jS F Y'),
+  ('timeline_days_per_page', '7'),
+  ('timeline_time_format', 'h:iA'),
+  ('title', 'Traq'),
   ('site_name', ''),
-  ('site_url', '');
+  ('site_url', ''),
+  ('mailer_config', 'config'),
+  ('mailer_dsn', 'sendmail://default');
 
 UNLOCK TABLES;
 

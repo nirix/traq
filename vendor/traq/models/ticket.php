@@ -396,7 +396,7 @@ class Ticket extends Model
                     } elseif ($this->status->isStarted()) {
                         // From started
                         if ($to_values[$field]->isOpen()) {
-                            $change['action'] = 'update';
+                            $change['action'] = false;
                             $timelineData['action'] = 'ticket_updated';
                         } elseif ($to_values[$field]->isClosed()) {
                             $change['action'] = 'close';
@@ -428,6 +428,9 @@ class Ticket extends Model
                 $this->set($field, $value);
             }
 
+            if (isset($change['action']) && !$change['action']) {
+                unset($change['action']);
+            }
             $changes[] = $change;
         }
 

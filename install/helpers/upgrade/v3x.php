@@ -55,7 +55,10 @@ class v3x extends Base
         30500,
 
         // 3.7.0
-        30700
+        30700,
+
+        // 3.8.x
+        30800,
     );
 
     /**
@@ -234,7 +237,7 @@ class v3x extends Base
     public static function v30201($db)
     {
         // Add default ticket type ID column to projects table
-        $db->query("ALTER TABLE `". $db->prefix . "projects` ADD COLUMN `default_ticket_type_id` int AFTER `enable_wiki`;");
+        $db->query("ALTER TABLE `" . $db->prefix . "projects` ADD COLUMN `default_ticket_type_id` int AFTER `enable_wiki`;");
     }
 
     /**
@@ -253,7 +256,7 @@ class v3x extends Base
     {
         // Custom field values table
         $db->query("
-            CREATE TABLE `". $db->prefix . "custom_field_values` (
+            CREATE TABLE `" . $db->prefix . "custom_field_values` (
               `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
               `custom_field_id` bigint(20) NOT NULL,
               `ticket_id` bigint(20) NOT NULL,
@@ -427,5 +430,15 @@ class v3x extends Base
         $db->query("ALTER TABLE `{$db->prefix}wiki` MODIFY `revision_id` bigint(20) NULL");
         $db->query("ALTER TABLE `{$db->prefix}wiki_revisions` MODIFY `updated_at` datetime NULL");
         $db->query("ALTER TABLE `{$db->prefix}milestones` MODIFY `changelog` longtext COLLATE utf8_unicode_ci NULL");
+    }
+
+    /**
+     * Traq 3.8.0
+     */
+    public static function v30800($db)
+    {
+        $db->query("DELETE FROM `{$db->prefix}settings` WHERE `setting` = 'timeline_days_per_page'");
+        $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('mailer_config', 'setting')");
+        $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('mailer_dsn', 'sendmail://default')");
     }
 }

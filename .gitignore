@@ -1,10 +1,16 @@
+vendor/bin
 vendor/autoload.php
 vendor/composer
 vendor/filp
 vendor/psr
 vendor/erusev
+vendor/symfony
+vendor/doctrine
+vendor/async-aws
+vendor/egulias
 
 vendor/traq/config/database.php
+vendor/traq/config/mailer.php
 vendor/traq/plugins/better_php_errors
 .sass-cache
 .project
