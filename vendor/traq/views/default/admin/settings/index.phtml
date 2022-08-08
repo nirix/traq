@@ -97,6 +97,23 @@
 					<label><?= l('notifications_from_email'); ?></label>
 					<?= Form::text('settings[notification_from_email]', array('value' => settings('notification_from_email'))); ?>
 				</div>
+				<div class="form-group-row">
+					<label><?= l('mailer_configuration'); ?></label>
+					<div class="input-group">
+						<?= Form::select('settings[mailer_config]', [
+							['label' => 'Config file', 'value' => 'config'],
+							['label' => 'Setting (DSN)', 'value' => 'setting']
+						], ['value' => settings('mailer_config')]); ?>
+						<abbr class="input-group-hint" title="<?= l('mailer_configuration_hint') ?>">?</abbr>
+					</div>
+				</div>
+				<div class="form-group-row">
+					<label><?= l('mailer_dsn'); ?></label>
+					<div class="input-group">
+						<?= Form::text('settings[mailer_dsn]', array('value' => settings('mailer_dsn'))); ?>
+						<abbr class="input-group-hint" title="<?= l('mailer_dsn_hint') ?>">?</abbr>
+					</div>
+				</div>
 			</div>
 		</fieldset>
 
@@ -119,7 +136,7 @@
 		</fieldset>
 
 		<div class="actions">
-			<button type="button" class="btn-primary">
+			<button type="submit" class="btn-primary">
 				<?= l('save'); ?>
 			</button>
 		</div>

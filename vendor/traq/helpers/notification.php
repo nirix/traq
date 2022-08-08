@@ -20,7 +20,14 @@
 
 namespace traq\helpers;
 
+use avalon\core\Error;
 use avalon\http\Request;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use traq\models\User;
 use traq\models\Subscription;
 
@@ -34,7 +41,9 @@ use traq\models\Subscription;
  */
 class Notification
 {
-    private static $sent = array();
+    private static array $sent = [];
+    private static ?TransportInterface $transport = null;
+    private static ?MailerInterface $mailer = null;
 
     /**
      * Send a notification to a user, no checking.
@@ -124,9 +133,9 @@ class Notification
         $message = "notifications.{$options['type']}.message";
 
         switch ($options['type']) {
-            // Ticket assigned to user
-            // Ticket created
-            // Ticket closed
+                // Ticket assigned to user
+                // Ticket created
+                // Ticket closed
             case 'ticket_assigned':
             case 'ticket_created':
             case 'ticket_updated':
@@ -153,7 +162,7 @@ class Notification
                 );
                 break;
 
-            // Email validation
+                // Email validation
             case 'email_validation':
                 // Subject
                 $subject_vars = array(
@@ -185,14 +194,49 @@ class Notification
      */
     public static function send($user, $subject, $message)
     {
-        // Headers
-        $headers = array(
-            "From: " . settings('title') . " <" . settings('notification_from_email') . ">",
-            "MIME-Version: 1.0",
-            "Content-type: text/html; charset=utf-8"
-        );
+        $mailer = static::getMailer();
 
-        // Send
-        return mail($user->email, $subject, $message, implode(PHP_EOL, $headers));
+        $email = (new Email())
+            ->from(new Address(settings('notification_from_email'), settings('title')))
+            ->to($user->email)
+            ->subject($subject)
+            ->html($message);
+
+        try {
+            $result = $mailer->send($email);
+        } catch (\Exception $e) {
+            Error::halt('Unable to send email');
+        }
+
+        return $result;
+    }
+
+    private static function getTransportDsn(): string
+    {
+        $file = APPPATH . '/config/mailer.php';
+        if (settings('mailer_config') === 'config' && file_exists($file)) {
+            $config = require $file;
+            return $config['dsn'];
+        }
+
+        return settings('mailer_dsn');
+    }
+
+    private static function getTransport(): TransportInterface
+    {
+        if (!static::$transport) {
+            static::$transport = Transport::fromDsn(static::getTransportDsn());
+        }
+
+        return static::$transport;
+    }
+
+    public static function getMailer(): Mailer
+    {
+        if (!static::$mailer) {
+            static::$mailer = new Mailer(static::getTransport());
+        }
+
+        return static::$mailer;
     }
 }
