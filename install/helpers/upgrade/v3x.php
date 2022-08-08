@@ -437,8 +437,8 @@ class v3x extends Base
      */
     public static function v30800($db)
     {
-        $db->query("DELETE FROM `{$db->prefix}settings WHERE `setting` = 'timeline_days_per_page'");
-        $db->query("INSERT INTO `{$db->prefix}settings (`setting`, `value`) VALUES('mailer_config', 'setting')");
-        $db->query("INSERT INTO `{$db->prefix}settings (`setting`, `value`) VALUES('mailer_dsn', 'sendmail://default')");
+        $db->query("DELETE FROM `{$db->prefix}settings` WHERE `setting` = 'timeline_days_per_page'");
+        $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('mailer_config', 'setting')");
+        $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('mailer_dsn', 'sendmail://default')");
     }
 }
