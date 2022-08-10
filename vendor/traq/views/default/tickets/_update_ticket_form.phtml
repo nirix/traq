@@ -14,105 +14,113 @@
 						<div class="flex flex-wrap p-4">
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_type')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('type'), 'type'); ?>
-									<?php echo Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
+									<?= Form::label(l('type'), 'type'); ?>
+									<?= Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_assigned_to')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('assigned_to'), 'assigned_to'); ?>
-									<?php echo Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->assignable_member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
+									<?= Form::label(l('assigned_to'), 'assigned_to'); ?>
+									<?= Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->assignable_member_select_options()), array('value' => $ticket->assigned_to_id)); ?>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_milestone')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('milestone'), 'milestone'); ?>
-									<?php echo Form::select(
-										'milestone',
-										($ticket->milestone and $ticket->milestone->status != 1) ? array_merge($ticket->milestone->select_option(), $project->milestone_select_options('open')) : $project->milestone_select_options('open'),
-										array('value' => $ticket->milestone_id)
-									); ?>
-									<abbr title="<?php echo l('help.milestone'); ?>" class="hint">?</abbr>
+									<?= Form::label(l('milestone'), 'milestone'); ?>
+									<div class="input-group">
+										<?= Form::select(
+											'milestone',
+											($ticket->milestone and $ticket->milestone->status != 1) ? array_merge($ticket->milestone->select_option(), $project->milestone_select_options('open')) : $project->milestone_select_options('open'),
+											array('value' => $ticket->milestone_id)
+										) ?>
+										<abbr title="<?= l('help.milestone'); ?>" class="input-group-hint">?</abbr>
+									</div>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_version')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('version'), 'version'); ?>
-									<?php echo Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('all', 'DESC')), array('value' => $ticket->version_id)); ?>
-									<abbr title="<?php echo l('help.version'); ?>" class="hint">?</abbr>
+									<?= Form::label(l('version'), 'version'); ?>
+									<div class="input-group">
+										<?= Form::select('version', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->milestone_select_options('all', 'DESC')), array('value' => $ticket->version_id)); ?>
+										<abbr title="<?= l('help.version'); ?>" class="input-group-hint">?</abbr>
+									</div>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_component')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('component'), 'component'); ?>
-									<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
-									<abbr title="<?php echo l('help.component'); ?>" class="hint">?</abbr>
+									<?= Form::label(l('component'), 'component'); ?>
+									<div class="input-group">
+										<?= Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
+										<abbr title="<?= l('help.component'); ?>" class="input-group-hint">?</abbr>
+									</div>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_severity')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('severity'), 'severity'); ?>
-									<?php echo Form::select('severity', traq\models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
-									<abbr title="<?php echo l('help.severity'); ?>" class="hint">?</abbr>
+									<?= Form::label(l('severity'), 'severity'); ?>
+									<div class="input-group">
+										<?= Form::select('severity', traq\models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
+										<abbr title="<?= l('help.severity'); ?>" class="input-group-hint">?</abbr>
+									</div>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_priority')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('priority'), 'priority'); ?>
-									<?php echo Form::select('priority', traq\models\Priority::select_options(), array('value' => $ticket->priority_id)); ?>
+									<?= Form::label(l('priority'), 'priority'); ?>
+									<?= Form::select('priority', traq\models\Priority::select_options(), array('value' => $ticket->priority_id)); ?>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_status')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('status'), 'status'); ?>
-									<?php echo Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
+									<?= Form::label(l('status'), 'status'); ?>
+									<?= Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_summary')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('summary'), 'summary'); ?>
-									<?php echo Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
+									<?= Form::label(l('summary'), 'summary'); ?>
+									<?= Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
 								</div>
 							<?php } ?>
 							<?php if (current_user()->permission($project->id, 'ticket_properties_change_tasks')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('tasks')) ?>
-									<button type="button" id="manage_ticket_tasks" data-url="<?php echo Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage")) ?>"><?php echo l('manage') ?></button>
+									<?= Form::label(l('tasks')) ?>
+									<button type="button" id="manage_ticket_tasks" data-url="<?= Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage")) ?>"><?php echo l('manage') ?></button>
 									<div id="ticket_tasks_data">
-										<input type="hidden" name="task_count" value="<?php echo count($ticket->tasks) ?>">
-										<input type="hidden" name="tasks" value="<?php echo htmlentities(json_encode($ticket->tasks)) ?>">
+										<input type="hidden" name="task_count" value="<?= count($ticket->tasks) ?>">
+										<input type="hidden" name="tasks" value="<?= htmlentities(json_encode($ticket->tasks)) ?>">
 									</div>
 								</div>
 							<?php } ?>
 							<?php if ($current_user->permission($project->id, 'add_attachments')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('attachment'), 'attachment'); ?>
+									<?= Form::label(l('attachment'), 'attachment'); ?>
 									<input type="file" id="attachment" name="attachment" />
 								</div>
 							<?php } ?>
 							<?php if ($current_user->permission($project->id, 'ticket_properties_change_related_tickets')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('related_tickets'), 'related_tickets'); ?>
-									<?php echo Form::text('related_tickets', array('value' => implode(', ', $ticket->related_ticket_tids(false)))); ?>
+									<?= Form::label(l('related_tickets'), 'related_tickets'); ?>
+									<?= Form::text('related_tickets', array('value' => implode(', ', $ticket->related_ticket_tids(false)))); ?>
 								</div>
 							<?php } ?>
 							<?php if ($current_user->permission($project->id, 'ticket_properties_change_time_proposed')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('proposed_time'), 'time_proposed'); ?>
-									<?php echo Form::text('time_proposed', array('value' => $ticket->time_proposed)); ?>
+									<?= Form::label(l('proposed_time'), 'time_proposed'); ?>
+									<?= Form::text('time_proposed', array('value' => $ticket->time_proposed)); ?>
 								</div>
 							<?php } ?>
 							<?php if ($current_user->permission($project->id, 'ticket_properties_change_time_worked')) { ?>
 								<div class="form-group">
-									<?php echo Form::label(l('worked_time'), 'time_worked'); ?>
-									<?php echo Form::text('time_worked', array('value' => $ticket->time_worked)); ?>
+									<?= Form::label(l('worked_time'), 'time_worked'); ?>
+									<?= Form::text('time_worked', array('value' => $ticket->time_worked)); ?>
 								</div>
 							<?php } ?>
 							<div class="form-group">
-								<?php echo Form::label(l('is_private'), 'is_private'); ?>
-								<?php echo Form::checkbox('is_private', 1, ['checked' => $ticket->is_private]); ?>
+								<?= Form::label(l('is_private'), 'is_private'); ?>
+								<?= Form::checkbox('is_private', 1, ['checked' => $ticket->is_private]); ?>
 							</div>
-							<?php echo View::render('tickets/_custom_fields_form'); ?>
+							<?= View::render('tickets/_custom_fields_form'); ?>
 						</div>
 					<?php } ?>
 				</div>
