@@ -1,11 +1,11 @@
 <div class="content">
-	<h2 id="page_title"><?php echo l('project_settings'); ?></h2>
+	<h2 class="page-title"><?php echo l('project_settings'); ?></h2>
 </div>
 <?php echo View::render('project_settings/_nav'); ?>
 <div class="content">
 	<div class="push-6 span-11">
 		<h3><?php echo l('delete_milestone'); ?></h3>
-		<form  action="<?php echo Request::requestUri(); ?>" method="post">
+		<form action="<?php echo Request::requestUri(); ?>" method="post">
 			<div class="notice">
 				<?php echo l('warnings.delete_milestone'); ?>
 			</div>

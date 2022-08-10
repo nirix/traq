@@ -8,7 +8,7 @@
 			<div class="panel-content">
 				<div class="form-group-row">
 					<label for="type"><?= l('type') ?></label>
-					<?php echo Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
+					<?= Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
 				</div>
 				<div class="form-group-row">
 					<label for="summary"><?= l('summary') ?></label>
@@ -17,7 +17,7 @@
 				<?php if (current_user()->permission($project->id, 'ticket_properties_set_status')) : ?>
 					<div class="form-group-row">
 						<label for="status"><?= l('status') ?></label>
-						<?php echo Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
+						<?= Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
 					</div>
 				<?php endif; ?>
 				<div>
@@ -27,23 +27,29 @@
 				<div class="form-group-grid">
 					<div class="form-group">
 						<label for="milestone"><?= l('milestone') ?></label>
-						<?php echo Form::select('milestone', $project->milestone_select_options('open'), array('value' => $ticket->milestone_id)); ?>
-						<abbr title="<?php echo l('help.milestone'); ?>" class="hint">?</abbr>
+						<div class="input-group">
+							<?= Form::select('milestone', $project->milestone_select_options('open'), array('value' => $ticket->milestone_id)); ?>
+							<abbr title="<?= l('help.milestone'); ?>" class="input-group-hint">?</abbr>
+						</div>
 					</div>
 
 					<?php if (current_user()->permission($project->id, 'ticket_properties_set_version')) : ?>
 						<div class="form-group">
 							<label for="version"><?= l('version') ?></label>
-							<?= Form::select('version', array_merge([['value' => 0, 'label' => l('none')]], $project->milestone_select_options('all', 'DESC')), ['value' => $ticket->version_id]) ?>
-							<abbr title="<?= l('help.version') ?>" class="hint">?</abbr>
+							<div class="input-group">
+								<?= Form::select('version', array_merge([['value' => 0, 'label' => l('none')]], $project->milestone_select_options('all', 'DESC')), ['value' => $ticket->version_id]) ?>
+								<abbr title="<?= l('help.version') ?>" class="input-group-hint">?</abbr>
+							</div>
 						</div>
 					<?php endif; ?>
 
 					<?php if (current_user()->permission($project->id, 'ticket_properties_set_component')) : ?>
 						<div class="form-group">
 							<label for="component"><?= l('component') ?></label>
-							<?php echo Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
-							<abbr title="<? l('help.component') ?>" class="hint">?</abbr>
+							<div class="input-group">
+								<?= Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
+								<abbr title="<? l('help.component') ?>" class="input-group-hint">?</abbr>
+							</div>
 						</div>
 					<?php endif; ?>
 
@@ -75,26 +81,26 @@
 					<?php if ($current_user->permission($project->id, 'ticket_properties_set_related_tickets')) : ?>
 						<div class="form-group">
 							<label for="related_tickets"><?= l('related_tickets') ?></label>
-							<?php echo Form::text('related_tickets'); ?>
+							<?= Form::text('related_tickets'); ?>
 						</div>
 					<?php endif; ?>
 					<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_proposed')) : ?>
 						<div class="form-group">
 							<label for="time_proposed"><?= l('time_proposed') ?></label>
-							<?php echo Form::text('time_proposed'); ?>
+							<?= Form::text('time_proposed'); ?>
 						</div>
 					<?php endif; ?>
 					<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_worked')) : ?>
 						<div class="form-group">
 							<label for="time_worked"><?= l('time_worked') ?></label>
-							<?php echo Form::text('time_worked'); ?>
+							<?= Form::text('time_worked'); ?>
 						</div>
 					<?php endif; ?>
 					<div class="form-group">
-						<?php echo Form::label(l('is_private'), 'is_private'); ?>
-						<?php echo Form::checkbox('is_private', 1); ?>
+						<?= Form::label(l('is_private'), 'is_private'); ?>
+						<?= Form::checkbox('is_private', 1); ?>
 					</div>
-					<?php echo View::render('tickets/_custom_fields_form'); ?>
+					<?= View::render('tickets/_custom_fields_form'); ?>
 				</div>
 			</div>
 			<div class="panel-footer">

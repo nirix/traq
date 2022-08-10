@@ -1,7 +1,7 @@
 <?php echo View::render('wiki/_nav'); ?>
 <div class="wiki content">
 	<div id="head">
-		<h2 id="page_title"><?php echo l('new_page'); ?></h2>
+		<h2 class="page-title"><?php echo l('new_page'); ?></h2>
 	</div>
 	<form action="<?php echo Request::requestUri(); ?>" method="post">
 		<?php echo show_errors($page->errors); ?>
