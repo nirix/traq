@@ -159,7 +159,7 @@ export default {
 
 <template>
   <div class="content">
-    <h2 id="page_title">Tickets</h2>
+    <h2 class="page-title">Tickets</h2>
   </div>
   <template v-if="isLoading">
     <SkeletonLoader class="mb-5" />
