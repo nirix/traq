@@ -149,7 +149,11 @@ export default {
     },
     changePage(page: number): void {
       this.currentPage = page
-      this.$refs["massActionsAllToggler"].checked = false
+
+      if (this.$refs["massActionsAllToggler"]) {
+        this.$refs["massActionsAllToggler"].checked = false
+      }
+
       this.getTickets()
       this.updateUrl()
     },
