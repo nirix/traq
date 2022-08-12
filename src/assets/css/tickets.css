@@ -180,3 +180,68 @@
     @apply text-lg;
   }
 }
+
+table.ticket-listing {
+  & th {
+    & > svg {
+      float: right;
+    }
+  }
+
+  & tr {
+    &.priority-1 {
+      & td {
+        @apply bg-red-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-red-100;
+      }
+    }
+
+    &.priority-2 {
+      & td {
+        @apply bg-yellow-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-yellow-100;
+      }
+    }
+
+    &.priority-3 {
+      & td {
+        @apply bg-sky-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-sky-100;
+      }
+    }
+
+    &.priority-4 {
+      & td {
+        @apply bg-violet-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-violet-100;
+      }
+    }
+
+    &.priority-5 {
+      & td {
+        @apply bg-gray-50;
+      }
+
+      &:nth-child(even) td {
+        @apply bg-gray-100;
+      }
+    }
+
+    &:hover td,
+    &:hover:nth-child(even) td {
+      @apply bg-white;
+    }
+  }
+}
