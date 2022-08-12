@@ -1,5 +1,5 @@
-<script lang="ts">
-import { onMounted } from "vue"
+<script setup lang="ts">
+import { onMounted, computed, ref, watch } from "vue"
 import axios from "axios"
 import { DateTime } from "luxon"
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons"
@@ -10,155 +10,145 @@ import { useAuthStore } from "../stores/auth"
 import PaginationLinks from "../components/PaginationLinks.vue"
 import SkeletonLoader from "../components/SkeletonLoader.vue"
 import { useProjectStore } from "../stores/project"
+import { useRouter } from "vue-router"
+import type { CustomFieldInterface, FilterInterface, TicketInterface } from "../interfaces"
 
-export default {
-  components: { TicketFilters, TicketColumns, MassActions, PaginationLinks, SkeletonLoader },
+const router = useRouter()
+const auth = useAuthStore()
+const currentProject = useProjectStore()
 
-  setup() {
-    const auth = useAuthStore()
-    const currentProject = useProjectStore()
+const massActionsAllToggler = ref(null)
+const isLoading = ref(false)
+const currentPage = ref(1)
+const totalPages = ref(1)
+const sortBy = ref<string | null>(null)
+const sortOrder = ref<"asc" | "desc">("desc")
+const filters = ref<FilterInterface[]>([])
+const tickets = ref<TicketInterface[]>([])
+const columns = ref<string[]>(["ticket_id", "summary", "status", "type", "owner", "component", "milestone"])
+const customFields = ref<CustomFieldInterface[]>([])
+const checkedTickets = ref<number[]>([])
 
-    return {
-      auth,
-      currentProject,
+watch(
+  () => isLoading,
+  (loading) => {
+    if (loading) {
+      getTickets()
     }
-  },
+  }
+)
 
-  data() {
-    return {
-      isLoading: true,
-      tickets: [],
-      currentPage: 1,
-      totalPages: 1,
-      sortBy: null,
-      sortOrder: "desc",
-      filters: [],
-      columns: ["ticket_id", "summary", "status", "type", "owner", "component", "milestone"],
-      customFields: [],
-      checkedTickets: [],
-    }
-  },
+const getTicketsUrl = computed(() => {
+  let ticketsUrl = window.traq.base + "api/" + window.traq.project_slug + "/tickets.json"
 
-  mounted() {
-    const customFieldsUrl = `${window.traq.base}api/${window.traq.project_slug}/custom-fields`
+  // Add sorting options to URL
+  if (sortBy.value) {
+    ticketsUrl = `${ticketsUrl}?order_by=${sortBy.value}.${sortOrder.value}`
+  }
 
-    Promise.all([axios.get(customFieldsUrl)]).then(([customFields]) => {
-      this.customFields = customFields.data
-      this.isLoading = false
+  // Add filters to URL
+  if (filters.value.length) {
+    const filterBits = filters.value.map((filter: FilterInterface) => {
+      return `${filter.field}=` + (filter.condition ? "" : "!") + filter.values.join(",")
     })
-  },
 
-  watch: {
-    isLoading(newVal) {
-      if (newVal === true) {
-        this.getTickets()
-      }
-    },
-  },
+    ticketsUrl = ticketsUrl + (sortBy.value ? "&" : "?") + filterBits.join("&")
+  }
 
-  computed: {
-    getTicketUrl(): string {
-      let ticketsUrl = window.traq.base + "api/" + window.traq.project_slug + "/tickets.json"
+  if (currentPage.value > 1) {
+    ticketsUrl = ticketsUrl + (ticketsUrl.includes("?") ? "&" : "?") + `page=${currentPage.value}`
+  }
 
-      // Add sorting options to URL
-      if (this.sortBy) {
-        ticketsUrl = `${ticketsUrl}?order_by=${this.sortBy}.${this.sortOrder}`
-      }
+  return ticketsUrl
+})
 
-      // Add filters to URL
-      if (this.filters.length) {
-        const filterBits = this.filters.map((filter) => {
-          return `${filter.field}=` + (filter.condition ? "" : "!") + filter.values.join(",")
-        })
-
-        ticketsUrl = ticketsUrl + (this.sortBy ? "&" : "?") + filterBits.join("&")
-      }
-
-      if (this.currentPage > 1) {
-        ticketsUrl = ticketsUrl + (ticketsUrl.includes("?") ? "&" : "?") + `page=${this.currentPage}`
-      }
-
-      return ticketsUrl
-    },
-    // Icons
-    faChevronUp() {
-      return faChevronUp
-    },
-    faChevronDown() {
-      return faChevronDown
-    },
-  },
-
-  methods: {
-    getTickets(): void {
-      axios.get(this.getTicketUrl).then((resp) => {
-        this.tickets = resp.data.tickets
-        this.currentPage = resp.data.page
-        this.totalPages = resp.data.total_pages
-      })
-    },
-    sortTickets(column): void {
-      this.sortOrder = column !== this.sortBy || this.sortOrder === "desc" ? "asc" : "desc"
-      this.sortBy = column
-      this.getTickets()
-      this.updateUrl()
-    },
-    ticketUrl(ticketId): string {
-      return `${window.traq.base}${window.traq.project_slug}/tickets/${ticketId}`
-    },
-    userUrl(userId): string {
-      return `${window.traq.base}users/${userId}`
-    },
-    applyFilters(filters): void {
-      this.filters = filters
-      this.getTickets()
-      this.updateUrl()
-    },
-    updateColumns(columns: Array<string>): void {
-      this.columns = columns
-    },
-    formatDate(date): string {
-      return date ? DateTime.fromSQL(date, { zone: "UTC" }).toLocal().toRelative() : "-"
-    },
-    updateUrl() {
-      // Update page URL to the same URL to fetch tickets without the .json extension.
-      this.$router.push(this.getTicketUrl.replace(".json", "").replace("/api", ""))
-    },
-    toggleTicket(ticketId): void {
-      if (this.checkedTickets.includes(ticketId)) {
-        this.checkedTickets = this.checkedTickets.filter((checkedId) => checkedId !== ticketId)
-      } else {
-        this.checkedTickets.push(ticketId)
-      }
-    },
-    massActionsTogglePage(event): void {
-      const ticketIds: number[] = this.tickets.map((ticket) => ticket.ticket_id)
-
-      if (event.target.checked) {
-        // If checked, add (missing) ticket ids to checked list
-        const missingIds = ticketIds.filter((ticketId) => !this.checkedTickets.includes(ticketId))
-        this.checkedTickets = [...this.checkedTickets, ...missingIds]
-      } else {
-        // If unchecked, remove ticket ids
-        this.checkedTickets = this.checkedTickets.filter((ticketId) => !ticketIds.includes(ticketId))
-      }
-    },
-    massActionsUpdated(): void {
-      this.getTickets()
-      this.checkedTickets = []
-    },
-    changePage(page: number): void {
-      this.currentPage = page
-
-      if (this.$refs["massActionsAllToggler"]) {
-        this.$refs["massActionsAllToggler"].checked = false
-      }
-
-      this.getTickets()
-      this.updateUrl()
-    },
-  },
+const getTickets = () => {
+  axios.get(getTicketsUrl.value).then((resp) => {
+    tickets.value = resp.data.tickets
+    currentPage.value = resp.data.page
+    totalPages.value = resp.data.total_pages
+  })
 }
+
+const sortTickets = (column: string) => {
+  sortOrder.value = column !== sortBy.value || sortOrder.value === "desc" ? "asc" : "desc"
+  sortBy.value = column
+  getTickets()
+  updateUrl()
+}
+
+const ticketUrl = (ticketId: number): string => {
+  return `${window.traq.base}${window.traq.project_slug}/tickets/${ticketId}`
+}
+
+const userUrl = (userId: number): string => {
+  return `${window.traq.base}users/${userId}`
+}
+
+const applyFilters = (newFilters: FilterInterface[]): void => {
+  filters.value = newFilters
+  getTickets()
+  updateUrl()
+}
+
+const updateColumns = (newColumns: string[]): void => {
+  columns.value = newColumns
+}
+
+const formatDate = (date: DateTime): string => {
+  return date ? DateTime.fromSQL(date, { zone: "UTC" }).toLocal().toRelative() : "-"
+}
+
+const updateUrl = () => {
+  // Update page URL to the same URL to fetch tickets without the .json extension.
+  router.push(getTicketsUrl.value.replace(".json", "").replace("/api", ""))
+}
+
+const toggleTicket = (ticketId: number): void => {
+  if (checkedTickets.value.includes(ticketId)) {
+    checkedTickets.value = checkedTickets.value.filter((checkedId) => checkedId !== ticketId)
+  } else {
+    checkedTickets.value.push(ticketId)
+  }
+}
+
+const massActionsTogglePage = (event): void => {
+  const ticketIds: number[] = tickets.value.map((ticket) => ticket.ticket_id)
+
+  if (event.target.checked) {
+    // If checked, add (missing) ticket ids to checked list
+    const missingIds = ticketIds.filter((ticketId) => !checkedTickets.value.includes(ticketId))
+    checkedTickets.value = [...checkedTickets.value, ...missingIds]
+  } else {
+    // If unchecked, remove ticket ids
+    checkedTickets.value = checkedTickets.value.filter((ticketId: number) => !ticketIds.includes(ticketId))
+  }
+}
+
+const massActionsUpdated = (): void => {
+  getTickets()
+  checkedTickets.value = []
+}
+
+const changePage = (page: number): void => {
+  currentPage.value = page
+
+  if (massActionsAllToggler.value) {
+    massActionsAllToggler.value.checked = false
+  }
+
+  getTickets()
+  updateUrl()
+}
+
+onMounted(() => {
+  const customFieldsUrl = `${window.traq.base}api/${window.traq.project_slug}/custom-fields`
+
+  Promise.all([axios.get(customFieldsUrl)]).then(([fieldsResp]) => {
+    customFields.value = fieldsResp.data
+    isLoading.value = false
+  })
+})
 </script>
 
 <template>
@@ -322,70 +312,3 @@ export default {
 
   <MassActions :ticket-ids="checkedTickets" v-if="auth.can('perform_mass_actions')" @on-update="massActionsUpdated" />
 </template>
-
-<style scoped lang="postcss">
-table.ticket-listing {
-  & th {
-    & > svg {
-      float: right;
-    }
-  }
-
-  & tr {
-    &.priority-1 {
-      & td {
-        @apply bg-red-50;
-      }
-
-      &:nth-child(even) td {
-        @apply bg-red-100;
-      }
-    }
-
-    &.priority-2 {
-      & td {
-        @apply bg-yellow-50;
-      }
-
-      &:nth-child(even) td {
-        @apply bg-yellow-100;
-      }
-    }
-
-    &.priority-3 {
-      & td {
-        @apply bg-sky-50;
-      }
-
-      &:nth-child(even) td {
-        @apply bg-sky-100;
-      }
-    }
-
-    &.priority-4 {
-      & td {
-        @apply bg-violet-50;
-      }
-
-      &:nth-child(even) td {
-        @apply bg-violet-100;
-      }
-    }
-
-    &.priority-5 {
-      & td {
-        @apply bg-gray-50;
-      }
-
-      &:nth-child(even) td {
-        @apply bg-gray-100;
-      }
-    }
-
-    &:hover td,
-    &:hover:nth-child(even) td {
-      @apply bg-white;
-    }
-  }
-}
-</style>
