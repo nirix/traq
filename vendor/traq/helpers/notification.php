@@ -205,7 +205,7 @@ class Notification
         try {
             $result = $mailer->send($email);
         } catch (\Exception $e) {
-            Error::halt('Unable to send email');
+            Error::halt('Unable to send email', 'There was an error when attempting to send an email', $e->getMessage());
         }
 
         return $result;
