@@ -136,7 +136,7 @@ class Locale
 
         // Exact match?
         if (isset($locale[$string])) {
-            if(is_array($locale[$string]) && isset($locale[$string][0])) {
+            if (is_array($locale[$string]) && isset($locale[$string][0])) {
                 return $locale[$string][0];
             } else {
                 return $locale[$string];
@@ -226,12 +226,12 @@ class Locale
             }
 
             // Replace placeholder with value
-            $translation = str_replace(array("{{$key}}"), $val, $translation);
+            $translation = str_replace(array("{{$key}}"), $val ?? '', $translation);
         }
 
         // Match plural:n,{x, y}
         if (preg_match_all("/{plural:(?<value>-{0,1}\d+)(,|, ){(?<replacements>.*?)}}/i", $translation, $matches)) {
-            foreach($matches[0] as $id => $match) {
+            foreach ($matches[0] as $id => $match) {
                 // Split the replacements into an array.
                 // There's an extra | at the start to allow for better matching
                 // with values.

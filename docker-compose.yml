@@ -5,7 +5,7 @@ services:
     container_name: traq3_web
     build:
       context: .
-      dockerfile: dev/docker/php80-apache
+      dockerfile: dev/docker/php8-apache
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
