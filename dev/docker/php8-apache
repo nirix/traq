@@ -1,0 +1,8 @@
+FROM php:8.1-apache
+
+RUN docker-php-ext-install pdo_mysql
+
+RUN a2enmod rewrite
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN sed -i "s|;error_log = syslog|error_log = /dev/stderr|g" "$PHP_INI_DIR/php.ini"
