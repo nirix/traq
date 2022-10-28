@@ -20,7 +20,8 @@
     "minimum-stability": "stable",
     "require": {
         "erusev/parsedown-extra": "^0.8.1",
-        "symfony/mailer": "^6.0"
+        "symfony/mailer": "^6.0",
+        "ramsey/uuid": "^4.5"
     },
     "autoload": {
         "psr-4": {

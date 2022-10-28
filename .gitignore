@@ -8,6 +8,8 @@ vendor/symfony
 vendor/doctrine
 vendor/async-aws
 vendor/egulias
+vendor/brick
+vendor/ramsey
 
 vendor/traq/config/database.php
 vendor/traq/config/mailer.php

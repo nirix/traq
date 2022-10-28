@@ -20,7 +20,10 @@
 
 namespace Installer\Helpers\Upgrade;
 
+use avalon\database\PDO;
 use Installer\Helpers\Fixes;
+use Ramsey\Uuid\Uuid;
+use traq\models\Subscription;
 
 /**
  * Traq 3.x upgrades.
@@ -435,10 +438,27 @@ class v3x extends Base
     /**
      * Traq 3.8.0
      */
-    public static function v30800($db)
+    public static function v30800(PDO $db)
     {
         $db->query("DELETE FROM `{$db->prefix}settings` WHERE `setting` = 'timeline_days_per_page'");
         $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('mailer_config', 'setting')");
         $db->query("INSERT INTO `{$db->prefix}settings` (`setting`, `value`) VALUES('mailer_dsn', 'sendmail://default')");
+
+        // Add nullable UUID column to subscriptions
+        $db->query("ALTER TABLE `{$db->prefix}subscriptions` ADD COLUMN `uuid` varchar(36)");
+
+        // Set a UUID on all subscriptions
+        $subs = $db->select()->from('subscriptions')->exec()->fetchAll();
+        foreach ($subs as $sub) {
+            $uuid = Uuid::uuid4();
+            $query = $db->prepare("UPDATE `{$db->prefix}subscriptions` SET uuid = :uuid WHERE id = :id");
+            $query->execute([
+                'id' => $sub['id'],
+                'uuid' => $uuid,
+            ]);
+        };
+
+        // Change the UUID column to NOT NULL
+        $db->query("ALTER TABLE `{$db->prefix}subscriptions` CHANGE `uuid` `uuid` varchar(36) NOT NULL");
     }
 }
