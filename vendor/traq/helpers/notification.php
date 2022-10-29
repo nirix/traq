@@ -213,9 +213,10 @@ class Notification
             );
 
             $message = \sprintf(
-                "%s<br><br><hr>%s",
+                '%s<br><br><hr><a href="%s">%s</a>',
                 $message,
-                \sprintf('<a href="%s">%s</a>', $unsubUrl, l('unsubscribe'))
+                $unsubUrl,
+                l('unsubscribe')
             );
         }
 
