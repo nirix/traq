@@ -24,8 +24,10 @@ define("SYSPATH", dirname(__DIR__) . '/vendor/avalon');
 require '../vendor/traq/version.php';
 
 require SYSPATH . '/autoloader.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 use avalon\Autoloader;
+
 Autoloader::vendorLocation(dirname(__DIR__) . '/vendor');
 Autoloader::register();
 

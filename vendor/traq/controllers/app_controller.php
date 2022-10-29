@@ -27,6 +27,7 @@ use avalon\core\Controller;
 use avalon\core\Load;
 use avalon\Database;
 use avalon\database\PDO;
+use avalon\http\RedirectResponse;
 use avalon\http\Request;
 use avalon\http\Response;
 use avalon\http\Router;
@@ -330,5 +331,10 @@ class AppController extends Controller
         }
 
         return new Response($content);
+    }
+
+    protected function redirectTo(string $url): Response
+    {
+        return new RedirectResponse($url);
     }
 }

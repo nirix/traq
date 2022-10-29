@@ -8,6 +8,8 @@ vendor/symfony
 vendor/doctrine
 vendor/async-aws
 vendor/egulias
+vendor/brick
+vendor/ramsey
 
 vendor/traq/config/database.php
 vendor/traq/config/mailer.php
@@ -19,6 +21,7 @@ vendor/traq/plugins/better_php_errors
 .htaccess
 _dev/
 assets/ui
+/php.php
 
 # Logs
 logs
