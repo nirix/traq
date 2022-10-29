@@ -22,6 +22,7 @@ namespace traq\helpers;
 
 use avalon\core\Error;
 use avalon\http\Request;
+use HTML;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
@@ -115,7 +116,7 @@ class Notification
         // Run subscriptions
         foreach (Subscription::fetch_all_for($data['project']->id) as $sub) {
             if (static::should_notify($data['type'], $sub, $data)) {
-                static::notify($sub->user, $data);
+                static::notify($sub->user, $data, $sub);
             }
         }
     }
@@ -125,8 +126,9 @@ class Notification
      *
      * @param object $user    User object
      * @param array  $options Notification options
+     * @param object $sub     Subscription object
      */
-    private static function notify($user, array $options)
+    private static function notify(User $user, array $options, Subscription $sub = null)
     {
         // Subject and message translation indexes
         $subject = "notifications.{$options['type']}.subject";
@@ -181,7 +183,7 @@ class Notification
         // Send notification
         if (!in_array($user->id, static::$sent)) {
             static::$sent[] = $user->id;
-            return static::send($user, l($subject, $subject_vars), l($message, $message_vars));
+            return static::send($user, l($subject, $subject_vars), l($message, $message_vars), $sub);
         }
     }
 
@@ -191,10 +193,28 @@ class Notification
      * @param object $user    User object
      * @param string $subject Email subject
      * @param string $message Email message
+     * @param object $sub     Subscription object
      */
-    public static function send($user, $subject, $message)
+    public static function send(User $user, $subject, $message, Subscription $sub = null)
     {
         $mailer = static::getMailer();
+
+        // Add unsubscribe link if this is a subscription
+        if ($sub) {
+            $unsubUrl = \sprintf(
+                '%s://%s%s/unsubscribe/%s',
+                Request::isSecure() ? 'https' : 'http',
+                Request::$port ? Request::$host . ':' . Request::$port : Request::$host,
+                trim(Request::base() ?? '', '/'),
+                $sub->uuid
+            );
+
+            $message = \sprintf(
+                "%s<br><br><hr>%s",
+                $message,
+                \sprintf('<a href="%s">%s</a>', $unsubUrl, l('unsubscribe'))
+            );
+        }
 
         $email = (new Email())
             ->from(new Address(settings('notification_from_email'), settings('title')))

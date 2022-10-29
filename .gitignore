@@ -21,6 +21,7 @@ vendor/traq/plugins/better_php_errors
 .htaccess
 _dev/
 assets/ui
+/php.php
 
 # Logs
 logs
