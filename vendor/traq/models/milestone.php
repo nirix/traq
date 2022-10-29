@@ -140,7 +140,7 @@ class Milestone extends Model
 
         if (count($results)) {
             $counts[$this->id] = $results;
-            $counts[$this->id]['open_percent'] = (int) get_percent($counts[$this->id]['open'] ?? 0, $counts[$this->id]['total']);
+            $counts[$this->id]['open_percent'] = (int) get_percent(($counts[$this->id]['open'] ?? 0) - ($counts[$this->id]['started'] ?? 0), $counts[$this->id]['total']);
             $counts[$this->id]['started_percent'] = (int) get_percent($counts[$this->id]['started'] ?? 0, $counts[$this->id]['total']);
             $counts[$this->id]['closed_percent'] = (int) get_percent($counts[$this->id]['closed'] ?? 0, $counts[$this->id]['total']);
         }
