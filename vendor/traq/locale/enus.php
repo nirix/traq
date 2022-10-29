@@ -515,6 +515,7 @@ class enUS extends \traq\libraries\Locale
                 'values_blank'                 => "You need to enter some values",
                 'email_validation_required'    => "You need to validate your email, check your inbox",
                 'you_must_wait_x'      => "You must wait {1}",
+                'display_order' => 'Display order must be a number',
 
                 // Custom fields
                 'custom_fields' => array(

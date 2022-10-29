@@ -50,6 +50,10 @@ class CustomTab extends \avalon\database\model
             $this->errors['url'] = l('errors.url_empty');
         }
 
+        if (empty($this->_data['display_order'])) {
+            $this->errors['display_order'] = l('errors.display_order');
+        }
+
         return !count($this->errors) > 0;
     }
 }

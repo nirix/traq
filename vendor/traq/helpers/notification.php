@@ -201,18 +201,22 @@ class Notification
 
         // Add unsubscribe link if this is a subscription
         if ($sub) {
+            $port = in_array(Request::$port, [80, 443]) ? null : Request::$port;
+            $host = $port ? Request::$host . ':' . $port : Request::$host;
+
             $unsubUrl = \sprintf(
                 '%s://%s%s/unsubscribe/%s',
-                Request::isSecure() ? 'https' : 'http',
-                Request::$port ? Request::$host . ':' . Request::$port : Request::$host,
+                Request::isSecure() || Request::$port === 443 ? 'https' : 'http',
+                $host,
                 trim(Request::base() ?? '', '/'),
                 $sub->uuid
             );
 
             $message = \sprintf(
-                "%s<br><br><hr>%s",
+                '%s<br><br><hr><a href="%s">%s</a>',
                 $message,
-                \sprintf('<a href="%s">%s</a>', $unsubUrl, l('unsubscribe'))
+                $unsubUrl,
+                l('unsubscribe')
             );
         }
 
