@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2012-2022 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -21,7 +24,8 @@
 namespace traq\models;
 
 use avalon\database\Model;
-
+use Ramsey\Uuid\Rfc4122\UuidV4;
+use Ramsey\Uuid\Uuid;
 use traq\models\Project;
 use traq\models\Milestone;
 use traq\models\Ticket;
@@ -42,10 +46,15 @@ class Subscription extends Model
         'type',
         'user_id',
         'project_id',
-        'object_id'
+        'object_id',
+        'uuid',
     );
 
     protected static $_belongs_to = array('user');
+
+    protected static $_filters_before = [
+        'create' => ['createUuid'],
+    ];
 
     private $object;
 
@@ -66,7 +75,8 @@ class Subscription extends Model
      *
      * @return object
      */
-    public function object() {
+    public function object()
+    {
         if ($this->object !== null) {
             return $this->object;
         }
@@ -88,6 +98,23 @@ class Subscription extends Model
         return $this->object;
     }
 
+    public function objectTitle(): string
+    {
+        switch ($this->type) {
+            case 'project':
+                return Project::find($this->object_id)->name;
+                break;
+
+            case 'milestone':
+                return Milestone::find($this->object_id)->name;
+                break;
+
+            case 'ticket':
+                return Ticket::find($this->object_id)->summary;
+                break;
+        }
+    }
+
     /**
      * Checks if the groups data is valid.
      *
@@ -96,5 +123,15 @@ class Subscription extends Model
     public function is_valid()
     {
         return true;
+    }
+
+    public function createUuid(): void
+    {
+        $this->uuid = Uuid::uuid4();
+    }
+
+    public static function findByUuid(string $uuid): mixed
+    {
+        return static::find('uuid', $uuid);
     }
 }

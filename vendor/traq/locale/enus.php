@@ -282,7 +282,6 @@ class enUS extends \traq\libraries\Locale
             'information'          => "Information",
             'options'              => "Options",
             'watch_my_new_tickets' => "Watch my new tickets",
-            'subscriptions'        => "Subscriptions",
             'forgot_password'      => "Forgot Password",
             'reset'                => "Reset",
             'api_key'              => "API Key",
@@ -320,6 +319,16 @@ class enUS extends \traq\libraries\Locale
             'save'    => "Save",
             'edit'    => "Edit",
             'delete'  => "Delete",
+
+            // Subscriptions
+            'subscriptions' => [
+                'Subscriptions',
+
+                'unsubscribe' => [
+                    'title' => 'Unsubscribed',
+                    'message' => "You've been unsubscribed, you will no longer receive notifications related to the {1} {2}"
+                ]
+            ],
 
             // Permissions
             'group_permissions' => "Group Permissions",

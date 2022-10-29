@@ -26,6 +26,7 @@ use Traq\Controllers\ProfileController;
 use Traq\Controllers\ProjectSettingsController;
 use traq\controllers\Projects;
 use Traq\Controllers\SearchController;
+use Traq\Controllers\SubscriptionsController;
 use traq\controllers\Tickets;
 use Traq\Controllers\TimelineController;
 use traq\controllers\Usercp;
@@ -115,9 +116,10 @@ Router::add('/' . PROJECT_SLUG . '/settings/members/save', 'traq::controllers::P
 Router::add('/' . PROJECT_SLUG . '/settings/permissions/(groups|roles)', 'traq::controllers::ProjectSettings::Permissions.index/$2');
 
 // Subscription routes
-Router::add('/' . PROJECT_SLUG . '/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/project,$1');
-Router::add('/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/milestone,$2');
-Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscribe', 'traq::controllers::Subscriptions.toggle/ticket,$2');
+Router::register('unsubscribe', '/unsubscribe/(?P<uuid>[\w\-]+)', [SubscriptionsController::class, 'unsubscribe']);
+Router::register('project_subunsub', '/' . PROJECT_SLUG . '/(?:un)?subscribe', [SubscriptionsController::class, 'toggleProject']);
+Router::register('milestone_subunsub', '/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)/(?:un)?subscribe', [SubscriptionsController::class, 'toggleMilestone']);
+Router::register('ticket_subunsub', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscribe', [SubscriptionsController::class, 'toggleTicket']);
 
 // ------------------------------------------------
 // AdminCP routes
