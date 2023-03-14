@@ -24,11 +24,11 @@ services:
       - MARIADB_USER=traq
       - MARIADB_PASSWORD=dev
       - MARIADB_ROOT_PASSWORD=secret
-
-  phpmyadmin:
-    container_name: traq3_pma
-    image: phpmyadmin/phpmyadmin:latest
-    ports:
-      - 3003:80
-    links:
-      - mysql:db
+  #
+  # phpmyadmin:
+  #   container_name: traq3_pma
+  #   image: phpmyadmin/phpmyadmin:latest
+  #   ports:
+  #     - 3003:80
+  #   links:
+  #     - mysql:db
