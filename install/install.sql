@@ -1,6 +1,6 @@
 #
 # Traq
-# Copyright (C) 2009-2016 Traq.io
+# Copyright (C) 2009-2023 Traq.io
 #
 # This file is part of Traq.
 #
@@ -316,67 +316,6 @@ CREATE TABLE `traq_projects` (
   `private_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-# Dump of table traq_repo_changes
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `traq_repo_changes`;
-
-CREATE TABLE `traq_repo_changes` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `changeset_id` bigint(20) NOT NULL,
-  `action` varchar(1) NOT NULL DEFAULT '',
-  `path` text NOT NULL,
-  `from_path` text,
-  `revision` varchar(255) DEFAULT NULL,
-  `branch` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dump of table traq_repo_changeset_parents
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `traq_repo_changeset_parents`;
-
-CREATE TABLE `traq_repo_changeset_parents` (
-  `changeset_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`changeset_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dump of table traq_repo_changesets
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `traq_repo_changesets`;
-
-CREATE TABLE `traq_repo_changesets` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `repository_id` bigint(20) NOT NULL,
-  `revision` varchar(255) NOT NULL DEFAULT '',
-  `commiter` varchar(255) DEFAULT '',
-  `committed_on` datetime NOT NULL,
-  `comment` text,
-  `user_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dump of table traq_repositories
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `traq_repositories`;
-
-CREATE TABLE `traq_repositories` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `project_id` bigint(20) NOT NULL,
-  `slug` varchar(255) NOT NULL DEFAULT '',
-  `type` varchar(255) NOT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `extra` text,
-  `is_default` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Dump of table traq_settings
 # ------------------------------------------------------------
