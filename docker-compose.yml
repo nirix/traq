@@ -2,7 +2,6 @@ version: "3.7"
 
 services:
   web:
-    container_name: traq3_web
     build:
       context: .
       dockerfile: dev/docker/php8-apache
@@ -11,12 +10,9 @@ services:
       - .:/var/www/html
     ports:
       - 3000:80
-    links:
-      - mysql:db
 
-  mysql:
-    container_name: traq3_db
-    image: mariadb:10
+  mariadb:
+    image: docker.io/library/mariadb
     ports:
       - 3002:3306
     environment:
