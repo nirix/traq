@@ -1,6 +1,8 @@
-RewriteEngine On 
+RewriteEngine On
 
-RewriteCond %{REQUEST_FILENAME} !-f 
-RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule ^(.*)$ index.php?/$1 [L]
+# If this doesn't work, your server set up is different.
+# You will need to find a rewrite rule that works for your server.
+RewriteRule ^(.*)$ index.php/$1 [L]
