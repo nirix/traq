@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2023 Jack Polgar
+ * Copyright (C) 2012-2023 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -20,7 +20,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DateTime } from "luxon"
+import type { DateTime } from 'luxon'
 
 export interface FilterInterface {
   field: string
@@ -31,6 +31,8 @@ export interface FilterInterface {
 export interface MilestoneInterface {
   id: number
   name: string
+  slug: string
+  project: ProjectInterface
 }
 
 export interface ComponentInterface {
@@ -77,6 +79,7 @@ export interface TicketInterface {
   milestone: MilestoneInterface
   status: StatusInterface
   priority: PriorityInterface
+  project: ProjectInterface
   severity: SeverityInterface
   component: ComponentInterface
   type: TypeInterface
@@ -86,4 +89,9 @@ export interface TicketInterface {
   custom_fields: Array<string>
   created_at: string | DateTime
   updated_at: string | DateTime
+}
+
+export interface ProjectInterface {
+  name: string
+  slug: string
 }

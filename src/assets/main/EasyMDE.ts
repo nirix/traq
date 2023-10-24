@@ -20,31 +20,35 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Alpine from "alpinejs"
-import EasyMDE from "easymde"
+import Alpine from 'alpinejs'
+import EasyMDE from 'easymde'
 
-Alpine.directive("mde", (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
+type EasyMDEType = {
+  height?: string
+}
+
+Alpine.directive('mde', (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
   try {
-    const options = expression ? evaluate(expression) : {}
+    const options: EasyMDEType = expression ? (evaluate(expression) as EasyMDEType) : {}
 
     // Don't initialise unless we need to.
-    if (el.dataset["mded"] === "yes") {
+    if (el.dataset['mded'] === 'yes') {
       return
     }
-    el.dataset["mded"] = "yes"
+    el.dataset['mded'] = 'yes'
 
     const mde = new EasyMDE({
       element: el,
       autoDownloadFontAwesome: false,
-      minHeight: options.height ?? "150px",
+      minHeight: options.height ?? '150px',
       status: false,
       uploadImage: false,
     })
 
     if (el.name) {
-      window[`mde-${el.name}`] = mde;
+      window[`mde-${el.name}`] = mde
     }
   } catch {
-    console.error("Unable to initialise EasyMDE")
+    console.error('Unable to initialise EasyMDE')
   }
 })

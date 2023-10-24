@@ -4,8 +4,9 @@
   "endOfLine": "lf",
   "tabs": false,
   "semi": false,
-  "trailingComma": "es5",
+  "trailingComma": "all",
   "quoteProps": "as-needed",
   "bracketSpacing": true,
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "singleQuote": true
 }

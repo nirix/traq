@@ -20,13 +20,19 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import axios from "axios"
-import Alpine from "alpinejs"
+import axios from 'axios'
+import Alpine from 'alpinejs'
 
-Alpine.data("ticketTasks", ({ url, can }) => ({
+type TicketTasksType = {
+  url: string
+  can: boolean
+}
+
+// @ts-ignore: bitches about the parameter types without this
+Alpine.data('ticketTasks', ({ url, can }: TicketTasksType) => ({
   saving: {},
 
-  toggle(id) {
+  toggle(id: number) {
     if (!can) {
       return
     }
@@ -34,7 +40,7 @@ Alpine.data("ticketTasks", ({ url, can }) => ({
     this.saving[id] = true
 
     axios
-      .post(url + "/" + id)
+      .post(url + '/' + id)
       .then(() => {
         this.$data.complete = !this.$data.complete
       })
@@ -43,7 +49,7 @@ Alpine.data("ticketTasks", ({ url, can }) => ({
       })
   },
 
-  isSaving(id) {
+  isSaving(id: number) {
     return this.saving[id] ?? false
   },
 }))

@@ -10,5 +10,12 @@
     "fortawesome",
     "roadmap",
     "semibold"
-  ]
+  ],
+  "cSpell.words": [
+    "alpinejs",
+    "easymde",
+    "initialise",
+    "luxon"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -20,37 +20,38 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Alpine from "alpinejs"
-import axios from "axios"
+import Alpine from 'alpinejs'
+import axios from 'axios'
 
-Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => ({
+// @ts-ignore: single-line error better than entire file /shrug
+Alpine.data('popoverConfirm', ({ position, message, success, remote, post }) => ({
   open: false,
   loading: false,
 
   init() {
-    const el = document.createElement("div")
-    el.id = "popover-confirm"
-    el.classList.add("popover-confirm")
+    const el = document.createElement('div')
+    el.id = 'popover-confirm'
+    el.classList.add('popover-confirm')
     this.el = el
 
-    const messageEl = document.createElement("div")
-    messageEl.innerHTML = message ?? "Are you sure?"
-    messageEl.classList.add("popover-confirm-content")
+    const messageEl = document.createElement('div')
+    messageEl.innerHTML = message ?? 'Are you sure?'
+    messageEl.classList.add('popover-confirm-content')
 
-    const actionsEl = document.createElement("div")
-    actionsEl.classList.add("popover-confirm-actions")
+    const actionsEl = document.createElement('div')
+    actionsEl.classList.add('popover-confirm-actions')
 
-    const cancelBtn = document.createElement("button")
-    cancelBtn.classList.add("btn")
+    const cancelBtn = document.createElement('button')
+    cancelBtn.classList.add('btn')
     cancelBtn.textContent = window.language.no
-    cancelBtn.addEventListener("click", () => {
+    cancelBtn.addEventListener('click', () => {
       this.open = false
     })
 
-    this.acceptBtn = document.createElement("button")
-    this.acceptBtn.classList.add("btn-danger")
+    this.acceptBtn = document.createElement('button')
+    this.acceptBtn.classList.add('btn-danger')
     this.acceptBtn.textContent = window.language.yes
-    this.acceptBtn.addEventListener("click", () => {
+    this.acceptBtn.addEventListener('click', () => {
       if (remote) {
         this.loading = true
 
@@ -64,10 +65,10 @@ Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => 
       }
 
       if (post) {
-        const form = document.createElement("form")
-        form.setAttribute("method", "post")
-        form.setAttribute("action", post)
-        form.id = "popover-confirm-post-form"
+        const form = document.createElement('form')
+        form.setAttribute('method', 'post')
+        form.setAttribute('action', post)
+        form.id = 'popover-confirm-post-form'
         document.body.append(form)
         form.submit()
       }
@@ -85,7 +86,7 @@ Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => 
     el.append(messageEl)
     el.append(actionsEl)
 
-    this.$watch("open", () => {
+    this.$watch('open', () => {
       if (this.open) {
         this.openPopover()
         return
@@ -94,7 +95,7 @@ Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => 
       this.closePopover()
     })
 
-    this.$watch("loading", () => {
+    this.$watch('loading', () => {
       if (this.loading) {
         this.acceptBtn.innerHTML = '<span class="fas fa-fw fa-spin fa-circle-notch"></span>'
       } else {
@@ -112,7 +113,7 @@ Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => 
 
     this.position()
 
-    this.resizeEvent = window.addEventListener("resize", () => {
+    this.resizeEvent = window.addEventListener('resize', () => {
       this.position()
     })
   },
@@ -123,7 +124,7 @@ Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => 
     const top = rootRect.y + rootRect.height + 5 + window.scrollY
 
     let right
-    if (position === "center") {
+    if (position === 'center') {
       right = rootRect.right - rect.width / 2 - rootRect.width / 2
     } else {
       right = rootRect.right - rect.width
@@ -138,7 +139,7 @@ Alpine.data("popoverConfirm", ({ position, message, success, remote, post }) => 
   },
 
   closePopover() {
-    window.removeEventListener("resize", this.resizeEvent)
+    window.removeEventListener('resize', this.resizeEvent)
     this.el.remove()
   },
 }))

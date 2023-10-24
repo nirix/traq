@@ -20,32 +20,33 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Alpine from "alpinejs"
-import axios from "axios"
+import Alpine from 'alpinejs'
+import axios from 'axios'
+import type EasyMDE from 'easymde'
 
 type TicketTemplatesType = {
   ['mde-instance']?: string
 }
 
-Alpine.directive("ticket-template", (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
+Alpine.directive('ticket-template', (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
   try {
-    const options: TicketTemplatesType = expression ? evaluate(expression) as TicketTemplatesType : {}
+    const options: TicketTemplatesType = expression ? (evaluate(expression) as TicketTemplatesType) : {}
 
     if (!options['mde-instance']) {
       return
     }
 
     el.addEventListener('change', () => {
-      const mde = window[`mde-${options['mde-instance']}`]
+      const mde = window[`mde-${options['mde-instance']}`] as EasyMDE
       if (!mde) {
-        return;
+        return
       }
 
-      axios.get(traq.base + "_ajax/ticket_template/" + el.value).then((resp) => {
-        mde.value(resp.data);
+      axios.get(window.traq.base + '_ajax/ticket_template/' + el.value).then((resp) => {
+        mde.value(resp.data)
       })
     })
   } catch {
-    console.error("Unable to initialise ticket templates")
+    console.error('Unable to initialise ticket templates')
   }
 })

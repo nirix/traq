@@ -20,10 +20,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import axios from "axios"
-import Alpine from "alpinejs"
+import axios from 'axios'
+import Alpine from 'alpinejs'
+import type { TicketInterface, MilestoneInterface } from '../interfaces'
 
-Alpine.data("navbarSearch", () => ({
+Alpine.data('navbarSearch', () => ({
   open: false,
   hasResults: false,
   global: false,
@@ -43,11 +44,11 @@ Alpine.data("navbarSearch", () => ({
     })
   },
 
-  ticketUrl(ticket) {
+  ticketUrl(ticket: TicketInterface) {
     return `${window.traq.base}${ticket.project.slug}/tickets/${ticket.ticket_id}`
   },
 
-  milestoneUrl(milestone) {
+  milestoneUrl(milestone: MilestoneInterface) {
     return `${window.traq.base}${milestone.project.slug}/milestone/${milestone.slug}`
   },
 }))
