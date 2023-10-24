@@ -22,13 +22,6 @@
 // The main Traq object
 var traq = {
   base: "/",
-  load_ticket_template: function () {
-    var type_id = jQuery("#type option:selected").val()
-
-    jQuery("#description").load(traq.base + "_ajax/ticket_template/" + type_id)
-
-    traq.show_hide_custom_fields()
-  },
   show_hide_custom_fields: function () {
     var type_id = jQuery("#type option:selected").val()
 

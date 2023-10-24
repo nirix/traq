@@ -8,7 +8,15 @@
 			<div class="panel-content">
 				<div class="form-group-row">
 					<label for="type"><?= l('type') ?></label>
-					<?= Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
+					<?= Form::select(
+						'type',
+						traq\models\Type::select_options(),
+						[
+							'value' => $ticket->type_id,
+							'x-data' => '',
+							'x-ticket-template' => "{'mde-instance': 'description'}"
+						]
+					); ?>
 				</div>
 				<div class="form-group-row">
 					<label for="summary"><?= l('summary') ?></label>
@@ -111,14 +119,3 @@
 		</div>
 	</form>
 </div>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		if ($('#description').val() == '') {
-			traq.load_ticket_template();
-		}
-		$('#type').change(function() {
-			traq.load_ticket_template();
-		});
-	});
-</script>

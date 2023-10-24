@@ -31,6 +31,7 @@ import Alpine from "alpinejs"
 
 import "./main/PopoverConfirm"
 import "./main/TicketTasks"
+import "./main/TicketTemplates"
 import "./main/RemoteMDE"
 import "./main/EasyMDE"
 import "./main/NavbarSearch"

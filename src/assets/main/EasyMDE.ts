@@ -40,6 +40,10 @@ Alpine.directive("mde", (el, { value, modifiers, expression }, { Alpine, effect,
       status: false,
       uploadImage: false,
     })
+
+    if (el.name) {
+      window[`mde-${el.name}`] = mde;
+    }
   } catch {
     console.error("Unable to initialise EasyMDE")
   }
