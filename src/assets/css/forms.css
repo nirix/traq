@@ -132,8 +132,24 @@ input[type="checkbox"] {
 
   & .input-group-hint {
     @apply p-2;
-    @apply border-l-0;
+    @apply text-sky-800;
+    @apply border border-l-0 rounded-l-sm border-sky-600;
     @apply outline-none;
     @apply no-underline;
+    @apply bg-sky-200;
+    cursor: help;
+  }
+}
+
+#overlay {
+  #ticket_tasks_manager {
+    padding: 10px;
+  }
+}
+
+form {
+  .actions {
+    @apply mt-4;
+    text-align: center;
   }
 }

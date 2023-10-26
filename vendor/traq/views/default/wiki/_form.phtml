@@ -4,7 +4,9 @@
 </div>
 <div class="form-group">
 	<label><?php echo l('slug'); ?></label>
-	<?php echo Form::text('slug', array('value' => $page->slug)); ?> <abbr title="<?php echo l('help.slug'); ?>">?</abbr>
+	<div class="input-group">
+		<?php echo Form::text('slug', array('value' => $page->slug)); ?> <abbr class="input-group-hint" title="<?php echo l('help.slug'); ?>">?</abbr>
+	</div>
 </div>
 <div>
 	<label><?php echo l('page_content'); ?></label>

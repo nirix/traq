@@ -1,0 +1,47 @@
+h3.list_title {
+    font-size: 15px;
+}
+
+.list_title {
+    margin-bottom: 0;
+}
+
+.list {
+    th {
+        &.fixed_username, &.fixed_name {
+            width: 200px;
+        }
+
+        &.actions, &.fixed_repo_slug {
+            width: 140px;
+        }
+    }
+}
+
+table.list {
+    margin: 0;
+}
+
+thead th {
+    background: #3478AA;
+    color: #fff;
+
+    a {
+        color: #fff;
+    }
+
+    &:hover, a:hover {
+        color: #fff;
+    }
+}
+
+.permissions.list {
+    .permission_section {
+        background: #265F98;
+        color: #fff;
+
+        &:nth-child(even) td {
+            background: inherit;
+        }
+    }
+}

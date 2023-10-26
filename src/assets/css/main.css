@@ -6,15 +6,22 @@
 @import "./forms.css";
 
 @import "tailwindcss/components";
-@import "./panel.css";
-@import "./tabs.css";
-@import "./search.css";
-@import "./popover.css";
+@import "./changelog.css";
+@import "./jquery.css";
 @import "./modal.css";
 @import "./pagination.css";
-@import "./tickets.css";
+@import "./panel.css";
+@import "./popover.css";
+@import "./profiles.css";
+@import "./projects.css";
 @import "./roadmap.css";
+@import "./search.css";
+@import "./sexy-tooltips.css";
+@import "./tables.css";
+@import "./tabs.css";
+@import "./tickets.css";
 @import "./timeline.css";
+@import "./wiki.css";
 
 @import "tailwindcss/utilities";
 

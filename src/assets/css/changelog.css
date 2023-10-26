@@ -1,0 +1,19 @@
+.changelog.content {
+    #changeset {
+        margin-top: 10px;
+
+        ul {
+            list-style: none;
+            padding-left: 5px;
+
+            li {
+                &:before {
+                    margin-right: 8px;
+                    width: 5px;
+                    text-align: center;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
