@@ -3,7 +3,7 @@
 
 	<style>
 		<?php foreach ($types as $type) { ?>.type_<?php echo $type->id; ?>:before {
-			content: "<?php echo utf8_encode($type->bullet); ?>";
+			content: "<?=mb_convert_encoding($type->bullet, 'UTF-8')?>";
 		}
 
 		<?php } ?>

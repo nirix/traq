@@ -40,6 +40,8 @@ class Pagination
     public $next_page_url;
     public $prev_page_url;
     public $limit;
+    public $page;
+    public $total_pages;
 
     /**
      * Generates pagination information.

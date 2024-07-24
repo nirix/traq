@@ -62,6 +62,8 @@ class Tickets extends AppController
         'delete' => array('_check_permission')
     );
 
+    protected $custom_fields = [];
+
     /**
      * Custom constructor, we need to do extra stuff.
      */

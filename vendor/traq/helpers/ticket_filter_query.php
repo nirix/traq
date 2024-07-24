@@ -212,7 +212,7 @@ class TicketFilterQuery
             if (count($values) >= 1 && !empty($values[0])) {
                 $this->custom_field_sql[] = "
                     `fields`.`custom_field_id` = {$custom_field->id}
-                    AND `fields`.`value` ${condition} IN ('" . implode("','", $values) . "')
+                    AND `fields`.`value` {$condition} IN ('" . implode("','", $values) . "')
                     AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
                 ";
             }
@@ -240,7 +240,7 @@ class TicketFilterQuery
 
         if (count($this->custom_field_sql)) {
             foreach ($this->custom_field_sql as $index => $customFieldSql) {
-                $sql[] = "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields${index}` ON (" . str_replace('`fields`', "`fields${index}`", $customFieldSql) . ")";
+                $sql[] = "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields{$index}` ON (" . str_replace('`fields`', "`fields{$index}`", $customFieldSql) . ")";
             }
         }
 

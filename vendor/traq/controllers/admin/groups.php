@@ -61,6 +61,7 @@ class Groups extends AppController
         if (Request::method() == 'post') {
             // Set the groups name.
             $group->set('name', Request::$post['name']);
+            $group->set('is_admin', 0);
 
             // Make sure the data is valid.
             if ($group->is_valid()) {

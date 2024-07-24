@@ -25,7 +25,7 @@
  * Returns the HTML to include a UI asset package.
  *
  * @since 3.8
- * 
+ *
  * @return string
  */
 function ui_package($entry) {
@@ -38,7 +38,7 @@ function ui_package($entry) {
   if (isset($manifest[$entry])) {
     $index = $entry;
   } else {
-    $index = "traq-ui/${entry}.ts";
+    $index = "traq-ui/{$entry}.ts";
   }
 
   if (in_array($index, $imported)) {
@@ -56,7 +56,7 @@ function ui_package($entry) {
     // CSS files
     if (isset($info['css'])) {
       foreach ($info['css'] as $cssFile) {
-        $html[] = '<link rel="stylesheet" href="'.Request::base("assets/ui/${cssFile}").'" media="screen" />';
+        $html[] = '<link rel="stylesheet" href="'.Request::base("assets/ui/{$cssFile}").'" media="screen" />';
       }
     }
 
@@ -68,7 +68,7 @@ function ui_package($entry) {
     }
 
     // Main file
-    $html[] = '<script type="module" src="'.Request::base("assets/ui/${file}").'" type="text/javascript"></script>';
+    $html[] = '<script type="module" src="'.Request::base("assets/ui/{$file}").'" type="text/javascript"></script>';
 
     return implode(PHP_EOL, $html);
   }
