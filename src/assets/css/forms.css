@@ -23,6 +23,8 @@ textarea {
   @apply block;
   @apply w-full;
 
+  background-color: #fff;
+
   /* line-height: 1.25; */
 }
 
@@ -73,7 +75,7 @@ input[type="checkbox"] {
   display: flex;
   align-items: center;
 
-  & > label {
+  &>label {
     min-width: 60px;
     text-align: right;
     min-width: 150px;
@@ -90,12 +92,13 @@ input[type="checkbox"] {
 
 .form-group,
 .form-group-row {
-  & > select,
-  & > input[type="text"],
-  & > input[type="password"],
-  & > input[type="date"],
-  & > .property,
-  & > .input-group {
+
+  &>select,
+  &>input[type="text"],
+  &>input[type="password"],
+  &>input[type="date"],
+  &>.property,
+  &>.input-group {
     flex-grow: 1;
     margin: 0;
   }
@@ -110,7 +113,7 @@ input[type="checkbox"] {
   min-width: var(--mass-action-field-width);
   max-width: var(--mass-action-field-width);
 
-  & > label {
+  &>label {
     min-width: 60px;
     text-align: right;
     /* min-width: calc(var(--mass-action-field-width) / 3);
