@@ -165,7 +165,7 @@ class Ticket extends Model
             // Get the next ticket id and update
             // the value for the next ticket.
             $this->ticket_id = $this->project->next_tid;
-            $this->project->next_tid++;
+            $this->project->set('next_tid', $this->project->next_tid + 1);
         }
 
         // Update ticket open/closed state if ticket status has changed.
@@ -483,8 +483,6 @@ class Ticket extends Model
 
         // Save
         if ($this->save()) {
-            $this->project = Project::find($this->project_id);
-
             // Closed notification
             if (isset($this->_is_closing) and $this->_is_closing) {
                 Notification::send_for_ticket('closed', $this);
@@ -499,7 +497,7 @@ class Ticket extends Model
             }
 
             // Assigned to notification
-            if (in_array('assigned_to_id', $this->_changed_properties) and $this->_data['assigned_to_id'] != 0) {
+            if (in_array('assigned_to_id', $this->_changed_properties) && $this->_data['assigned_to_id'] != 0) {
                 Notification::send_to($this->_data['assigned_to_id'], 'ticket_assigned', array('ticket' => $this, 'project' => $this->project));
             }
 
