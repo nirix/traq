@@ -73,8 +73,14 @@ class Ticket extends Model
     );
 
     protected static $_belongs_to = array(
-        'user', 'project', 'milestone', 'component',
-        'priority', 'severity', 'type', 'status',
+        'user',
+        'project',
+        'milestone',
+        'component',
+        'priority',
+        'severity',
+        'type',
+        'status',
 
         // Relations with different models and such
         'assigned_to' => array('model' => 'User'),
@@ -412,14 +418,21 @@ class Ticket extends Model
             }
             // Attaching a file?
             elseif ($field == 'attachment' and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
-                $this->_save_queue[] = new Attachment(array(
-                    'name' => $_FILES['attachment']['name'],
-                    'contents' => base64_encode(file_get_contents($_FILES['attachment']['tmp_name'])),
-                    'type' => $_FILES['attachment']['type'],
-                    'size' => $_FILES['attachment']['size'],
-                    'user_id' => $user->id,
-                    'ticket_id' => $this->id
-                ));
+                $tmpName = $_FILES['attachment']['tmp_name'];
+
+                if (!strlen($tmpName)) {
+                    $this->_add_error('attachment', l('errors.attachments.unable_to_upload_file'));
+                } else {
+                    $this->_save_queue[] = new Attachment(array(
+                        'name' => $_FILES['attachment']['name'],
+                        'contents' => base64_encode(file_get_contents($_FILES['attachment']['tmp_name'])),
+                        'type' => $_FILES['attachment']['type'],
+                        'size' => $_FILES['attachment']['size'],
+                        'user_id' => $user->id,
+                        'ticket_id' => $this->id
+                    ));
+                }
+
                 $change['action'] = 'add_attachment';
             }
 

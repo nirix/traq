@@ -517,6 +517,11 @@ class enUS extends \traq\libraries\Locale
                 'you_must_wait_x'      => "You must wait {1}",
                 'display_order' => 'Display order must be a number',
 
+                // Attachments
+                'attachments' => [
+                    'unable_to_upload_file' => 'Unable to upload the attached file',
+                ],
+
                 // Custom fields
                 'custom_fields' => array(
                     'x_required'     => "{1} is required",

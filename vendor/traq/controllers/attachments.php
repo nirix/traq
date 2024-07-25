@@ -37,6 +37,8 @@ use traq\models\Attachment;
  */
 class Attachments extends AppController
 {
+    private $attachment;
+
     // Before filters
     public $before = array(
         'view' => array('_check_permission'),
@@ -57,7 +59,7 @@ class Attachments extends AppController
         $content_type = explode('/', $this->attachment->type);
 
         // Check what type of file we're dealing with.
-        if($content_type[0] == 'text' or $content_type[0] == 'image') {
+        if ($content_type[0] == 'text' or $content_type[0] == 'image') {
             // If the mime-type is text, we can just display it
             // as plain text. I hate having to download files.
             if ($content_type[0] == 'text') {
