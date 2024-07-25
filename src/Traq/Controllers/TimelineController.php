@@ -41,6 +41,7 @@ class TimelineController extends AppController
 
         $rows = $this->db->select('*')
             ->from('timeline')
+            ->where('project_id', $this->project->id)
             ->orderBy('created_at', 'DESC');
 
         $pagination = new Pagination(
