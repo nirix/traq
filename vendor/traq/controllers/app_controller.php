@@ -311,7 +311,10 @@ class AppController extends Controller
 
     protected function show404()
     {
-        return $this->show_404();
+        header('HTTP/1.0 404 Not Found');
+        View::set('request', Request::requestUri());
+        $this->render['view'] = 'error/404';
+        $this->render['action'] = false;
     }
 
     /**
