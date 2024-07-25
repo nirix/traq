@@ -654,6 +654,7 @@ class enUS extends \traq\libraries\Locale
 
             // Testing purposes only...
             'test' => array(
+                'Test',
                 'plurals' => "There {plural:{1}, {is {1} bottle|are {1} bottles}} of scotch on the shelf."
             )
         );

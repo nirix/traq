@@ -179,9 +179,11 @@ class Tickets extends AppController
         $customFieldValues = CustomFieldValue::fetch_all();
         foreach ($customFieldValues as $customFieldValue) {
             // $customFields[$customFieldValue->custom_field_id]['values'][$customFieldValue->ticket_id] = $customFieldValue->value;
-            $customField = $customFields[$customFieldValue->custom_field_id];
-            $slug = str_replace('-', '_', $customField->slug);
-            $ticketCustomFields[$customFieldValue->ticket_id][$slug] = $customFieldValue->value;
+            if (isset($customFields[$customFieldValue->custom_field_id])) {
+                $customField = $customFields[$customFieldValue->custom_field_id];
+                $slug = str_replace('-', '_', $customField->slug);
+                $ticketCustomFields[$customFieldValue->ticket_id][$slug] = $customFieldValue->value;
+            }
         }
 
         // Add to tickets array

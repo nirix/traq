@@ -101,6 +101,8 @@ class Ticket extends Model
     protected $_related_tickets    = array();
     protected $_custom_field_queue = array();
 
+    protected $_custom_fields = [];
+
     /**
      * Returns the URI for the ticket.
      *
@@ -634,11 +636,9 @@ class Ticket extends Model
      */
     public function fetch_custom_fields()
     {
-        if (isset($this->_custom_fields)) {
+        if (count($this->_custom_fields)) {
             return $this->_custom_fields;
         }
-
-        $this->_custom_fields = array();
 
         $values = CustomFieldValue::select()->where('ticket_id', $this->id)->exec()->fetch_all();
         foreach ($values as $value) {
