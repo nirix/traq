@@ -1,0 +1,60 @@
+name: Build Tag
+
+on:
+  push:
+    tags:
+      - v*.**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Setup required tools
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20.x
+
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@2.31.1
+        with:
+          php-version: '8.1'
+
+      # Node stuff
+      # TODO: use pnpm
+      - name: Install node dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      # PHP stuff
+      - name: Update Git submodules
+        run: |
+              git submodule init
+              git submodule update
+
+      - name: Install PHP dependencies
+        run: composer install
+
+      # Cleanup crap
+      - name: Remove dev files
+        run: |
+             rm -rf node_modules
+             rm -rf dev
+             rm -rf src/assets
+             rm -rf .git
+             rm -rf vendor/avalon/.git
+             rm -rf .github
+             rm ./*.js ./*.ts ./*.yaml ./*.yml ./tsconfig.* ./package.json ./package-lock.json ./.prettierrc.json
+             rm .gitignore .gitmodules
+
+      # Upload build artifact
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: traq-${{ github.ref_name }}
+          path: ./
