@@ -1,7 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2024 Jack P.
+ * Copyright (C) 2012-2024 Traq.io
  *
  * This file is part of Traq.
  *
@@ -20,8 +21,8 @@
 
 require './bootstrap.php';
 
-use avalon\Database;
-use avalon\output\View;
+use Avalon\Database;
+use Avalon\Output\View;
 
 use traq\models\User;
 use traq\models\Setting;
@@ -36,20 +37,20 @@ if (file_exists('../vendor/traq/config/database.php')) {
 }
 
 // Index
-get('/', function(){
+get('/', function () {
     View::set('title', 'License Agreement');
     render('index');
 });
 
 // Database config
-post('/step/1', function(){
+post('/step/1', function () {
     View::set('title', 'Step 1 - Database Details');
     View::set('errors', array());
     render('database_config');
 });
 
 // Admin account
-post('/step/2', function(){
+post('/step/2', function () {
     // Check for form errors
     $errors = array();
     $fields = array('type');
@@ -57,11 +58,11 @@ post('/step/2', function(){
     switch ($_POST['type']) {
         case 'mysql':
         case 'postgresql':
-                $fields = array_merge($fields, array('host', 'username', 'database'));
+            $fields = array_merge($fields, array('host', 'username', 'database'));
             break;
 
         case 'sqlite':
-                $fields[] = 'path';
+            $fields[] = 'path';
             break;
     }
 
@@ -120,7 +121,7 @@ post('/step/2', function(){
 });
 
 // Create tables, insert data
-post('/step/3', function(){
+post('/step/3', function () {
     // Check for form errors
     $errors = array();
     foreach (array('username', 'name', 'password', 'email') as $field) {
@@ -146,8 +147,8 @@ post('/step/3', function(){
         $queries = explode(';', $install_sql);
 
         // Run the install queries.
-        foreach($queries as $query) {
-            if(!empty($query) && strlen($query) > 5) {
+        foreach ($queries as $query) {
+            if (!empty($query) && strlen($query) > 5) {
                 $conn->query($query);
             }
         }
@@ -207,7 +208,7 @@ post('/step/3', function(){
         $config = implode(PHP_EOL, $config);
 
         // Write the config to file
-        if(!file_exists('../vendor/traq/config/database.php') and is_writable('../vendor/traq/config')) {
+        if (!file_exists('../vendor/traq/config/database.php') && is_writable('../vendor/traq/config')) {
             $handle = fopen('../vendor/traq/config/database.php', 'w+');
             fwrite($handle, $config);
             fclose($handle);

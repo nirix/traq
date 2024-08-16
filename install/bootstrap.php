@@ -1,7 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2024 Jack P.
+ * Copyright (C) 2012-2024 Traq.io
  *
  * This file is part of Traq.
  *
@@ -19,7 +20,7 @@
  */
 
 define("APPPATH", dirname(__FILE__));
-define("SYSPATH", dirname(__DIR__) . '/vendor/avalon');
+define("SYSPATH", dirname(__DIR__) . '/vendor/avalon/framework');
 
 require '../vendor/traq/version.php';
 
@@ -37,7 +38,7 @@ require '../vendor/traq/models/user.php';
 require '../vendor/traq/common.php';
 require 'common.php';
 
-use avalon\output\View;
+use Avalon\Output\View;
 
 session_start();
 

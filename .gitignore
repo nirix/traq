@@ -1,15 +1,16 @@
-vendor/bin
+vendor/async-aws
 vendor/autoload.php
+vendor/avalon
+vendor/bin
+vendor/brick
 vendor/composer
+vendor/doctrine
+vendor/egulias
+vendor/erusev
 vendor/filp
 vendor/psr
-vendor/erusev
-vendor/symfony
-vendor/doctrine
-vendor/async-aws
-vendor/egulias
-vendor/brick
 vendor/ramsey
+vendor/symfony
 
 vendor/traq/config/database.php
 vendor/traq/config/mailer.php

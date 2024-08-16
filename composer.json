@@ -5,6 +5,9 @@
     "config": {
         "platform": {
             "php": "8.3.0"
+        },
+        "preferred-install": {
+            "avalon/framework": "source"
         }
     },
     "require-dev": {
@@ -21,14 +24,13 @@
     "require": {
         "erusev/parsedown-extra": "^0.8.1",
         "symfony/mailer": "^6.4",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "avalon/framework": "dev-master"
     },
     "autoload": {
         "psr-4": {
             "traq\\": "vendor/traq",
-            "Traq\\": "src/Traq",
-            "avalon\\": "vendor/avalon",
-            "Avalon\\": "vendor/avalon"
+            "Traq\\": "src/Traq"
         }
     }
 }

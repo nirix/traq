@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ff799944db5ebb677dfb98286014b52",
+    "content-hash": "ebb943d3a354092f28ba303e372018ba",
     "packages": [
+        {
+            "name": "avalon/framework",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nirix/avalon.git",
+                "reference": "fb740ec00bfef436cbfe0cae48dade6268c5a195"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nirix/avalon/zipball/fb740ec00bfef436cbfe0cae48dade6268c5a195",
+                "reference": "fb740ec00bfef436cbfe0cae48dade6268c5a195",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Avalon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nirix"
+                }
+            ],
+            "description": "The Avalon framework",
+            "support": {
+                "source": "https://github.com/nirix/avalon/tree/master"
+            },
+            "time": "2024-08-09T16:09:01+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.12.1",
@@ -1509,7 +1545,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "avalon/framework": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

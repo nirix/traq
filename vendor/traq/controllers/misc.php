@@ -23,10 +23,10 @@
 
 namespace traq\controllers;
 
-use avalon\core\Controller;
-use avalon\http\Request;
-use avalon\output\View;
-use avalon\core\Load;
+use Avalon\Core\Controller;
+use Avalon\Http\Request;
+use Avalon\Output\View;
+use Avalon\Core\Load;
 
 use traq\models\Type;
 use traq\models\User;

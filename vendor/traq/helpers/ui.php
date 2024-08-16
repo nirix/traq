@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ * Copyright (C) 2009-2024 Jack P.
+ * Copyright (C) 2012-2024 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -28,11 +28,17 @@
  *
  * @return string
  */
-function ui_package($entry) {
+function ui_package($entry)
+{
   static $imported = [];
 
-  $manifestPath = dirname(dirname(dirname(__DIR__))).'/assets/ui/manifest.json';
-  $manifest = json_decode(file_get_contents($manifestPath), true);
+  $manifestPath = dirname(dirname(dirname(__DIR__))) . '/assets/ui/manifest.json';
+
+  try {
+    $manifest = json_decode(file_get_contents($manifestPath), true);
+  } catch (ErrorException $e) {
+    return "Unable to open file {$manifestPath}";
+  }
 
   // Direct match or no?
   if (isset($manifest[$entry])) {
@@ -56,7 +62,7 @@ function ui_package($entry) {
     // CSS files
     if (isset($info['css'])) {
       foreach ($info['css'] as $cssFile) {
-        $html[] = '<link rel="stylesheet" href="'.Request::base("assets/ui/{$cssFile}").'" media="screen" />';
+        $html[] = '<link rel="stylesheet" href="' . Request::base("assets/ui/{$cssFile}") . '" media="screen" />';
       }
     }
 
@@ -68,7 +74,7 @@ function ui_package($entry) {
     }
 
     // Main file
-    $html[] = '<script type="module" src="'.Request::base("assets/ui/{$file}").'" type="text/javascript"></script>';
+    $html[] = '<script type="module" src="' . Request::base("assets/ui/{$file}") . '" type="text/javascript"></script>';
 
     return implode(PHP_EOL, $html);
   }

@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack P.
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2024 Jack P.
+ * Copyright (C) 2012-2024 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -22,15 +22,15 @@
  */
 
 // Define the paths needed
-define("SYSPATH", dirname(__FILE__) . '/avalon');
+define("SYSPATH", dirname(__FILE__) . '/avalon/framework');
 define("APPPATH", dirname(__FILE__) . '/traq');
 define("DOCROOT", dirname(dirname(__FILE__)));
 
 // Load the framework
 require SYSPATH . '/base.php';
 
-use avalon\Database;
-use avalon\core\Load;
+use Avalon\Database;
+use Avalon\Core\Load;
 
 // Setup the autoloader
 use avalon\Autoloader;
@@ -41,9 +41,11 @@ Autoloader::vendorLocation(__DIR__);
 Autoloader::register();
 
 // Alias classes so we dont need to have "use ...." in all files.
-class_alias('avalon\http\Router', 'Router');
-class_alias('avalon\http\Request', 'Request');
-class_alias('avalon\output\View', 'View');
+class_alias('Avalon\Http\Router', 'Router');
+class_alias('Avalon\Http\Request', 'Request');
+class_alias('Avalon\Output\View', 'View');
+
+Load::helper('time');
 class_alias('avalon\helpers\Time', 'Time');
 
 // Fetch the routes

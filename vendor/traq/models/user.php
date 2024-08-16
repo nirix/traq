@@ -1,7 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2024 Jack P.
+ * Copyright (C) 2012-2024 Traq.io
  *
  * This file is part of Traq.
  *
@@ -20,7 +21,7 @@
 
 namespace traq\models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
 
 /**
  * User model.

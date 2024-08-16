@@ -20,15 +20,12 @@
 
 namespace traq\controllers;
 
-use avalon\output\View;
-use avalon\http\Router;
-use avalon\output\Body;
+use Avalon\Http\Router;
+use Avalon\Output\Body;
 
-use avalon\core\Load;
 use traq\models\Type;
 use traq\models\Status;
 use traq\models\Priority;
-use traq\models\Permission;
 
 /**
  * API controller.

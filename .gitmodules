@@ -1,3 +1,0 @@
-[submodule "vendor/avalon"]
-	path = vendor/avalon
-	url = https://github.com/nirix/avalon.git
