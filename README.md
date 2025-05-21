@@ -15,8 +15,8 @@ After cloning the repository:
 
 ```
 # Initialise and update submodules (Avalon framework)
-git submodules init
-git submodules update
+git submodule init
+git submodule update
 
 # Install dependencies with npm
 npm i
