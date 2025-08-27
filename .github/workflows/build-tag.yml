@@ -24,18 +24,19 @@ jobs:
           php-version: '8.1'
 
       # Node stuff
-      # TODO: use pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
       - name: Install node dependencies
-        run: npm ci
+        run: pnpm i
 
       - name: Build assets
-        run: npm run build
+        run: pnpm run build
 
       # PHP stuff
       - name: Update Git submodules
         run: |
-              git submodule init
-              git submodule update
+          git submodule init
+          git submodule update
 
       - name: Install PHP dependencies
         run: composer install
@@ -43,14 +44,15 @@ jobs:
       # Cleanup crap
       - name: Remove dev files
         run: |
-             rm -rf node_modules
-             rm -rf dev
-             rm -rf src/assets
-             rm -rf .git
-             rm -rf vendor/avalon/.git
-             rm -rf .github
-             rm ./*.js ./*.ts ./*.yaml ./*.yml ./tsconfig.* ./package.json ./package-lock.json ./.prettierrc.json
-             rm .gitignore .gitmodules
+          rm -rf node_modules
+          rm -rf dev
+          rm -rf src/assets
+          rm -rf .git
+          rm -rf vendor/avalon/.git
+          rm -rf vendor/avalon/framework/.git
+          rm -rf .github
+          rm ./*.js ./*.ts ./*.yaml ./*.yml ./tsconfig.* ./package.json ./package-lock.json ./.prettierrc.json
+          rm .gitignore .gitmodules
 
       # Upload build artifact
       - name: Upload a Build Artifact

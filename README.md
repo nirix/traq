@@ -4,7 +4,7 @@ Traq is a PHP powered project manager, capable of tracking issues for multiple p
 
 ## Requirements
 
-- PHP 8.1+
+- PHP 8.3+
 - MariaDB _(or MySQL)_
 - Apache mod*rewrite *(or server configured to use `index.php` as the 404 page).\_
   - Rename `htaccess.txt` to `.htaccess` or find one that works on your server
@@ -14,15 +14,14 @@ Traq is a PHP powered project manager, capable of tracking issues for multiple p
 After cloning the repository:
 
 ```
-# Initialise and update submodules (Avalon framework)
-git submodule init
-git submodule update
+# Install PHP dependencies
+composer install
 
-# Install dependencies with npm
-npm i
+# Install node dependencies
+pnpm i
 
 # Build UI
-npm run build
+pnpm run build
 ```
 
 ## Installation
