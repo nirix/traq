@@ -236,7 +236,7 @@ class Ticket extends Model
                 Notification::send_for_ticket('created', $this);
 
                 // Assigned to notification
-                if ($this->_data['assigned_to_id'] != 0) {
+                if (isset($this->_data['assigned_to_id']) && $this->_data['assigned_to_id'] != 0) {
                     Notification::send_to($this->_data['assigned_to_id'], 'ticket_assigned', array('ticket' => $this, 'project' => $this->project));
                 }
             }
