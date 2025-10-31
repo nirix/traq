@@ -1,4 +1,29 @@
-.popover-confirm {
+#popover {
+  min-width: 200px;
+  position: absolute;
+
+  .popover_confirm {
+    @apply p-2 text-center;
+
+    & > div {
+      @apply mt-2;
+
+      button {
+        &:first-child {
+          @apply bg-red-500 border-red-500 hover:bg-red-600 text-white;
+          @apply rounded-r-none;
+        }
+
+        &:last-child {
+          @apply rounded-l-none;
+        }
+      }
+    }
+  }
+}
+
+.popover-confirm,
+.popover_confirm {
   min-width: 200px;
   z-index: 999;
 
