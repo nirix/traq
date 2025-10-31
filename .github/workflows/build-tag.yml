@@ -21,7 +21,7 @@ jobs:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@2.31.1
         with:
-          php-version: '8.1'
+          php-version: "8.3"
 
       # Node stuff
       - name: Install pnpm
@@ -32,27 +32,35 @@ jobs:
       - name: Build assets
         run: pnpm run build
 
-      # PHP stuff
-      - name: Update Git submodules
-        run: |
-          git submodule init
-          git submodule update
-
       - name: Install PHP dependencies
         run: composer install
 
       # Cleanup crap
       - name: Remove dev files
         run: |
-          rm -rf node_modules
-          rm -rf dev
-          rm -rf src/assets
-          rm -rf .git
-          rm -rf vendor/avalon/.git
-          rm -rf vendor/avalon/framework/.git
           rm -rf .github
-          rm ./*.js ./*.ts ./*.yaml ./*.yml ./tsconfig.* ./package.json ./package-lock.json ./.prettierrc.json
-          rm .gitignore .gitmodules
+          rm -rf .vscode
+          rm -rf .git
+          rm -rf dev
+          rm -rf node_modules
+          rm -rf src/assets
+          rm -rf vendor/avalon/framework/.git
+          rm ./*.js
+          rm ./*.ts
+          rm ./*.yaml
+          rm ./*.yml
+          rm ./.eslintrc.cjs
+          rm .gitignore
+          rm ./.prettierrc.json
+          rm ./docker-compose.yml
+          rm ./env.d.ts
+          rm ./package.json
+          rm ./package-lock.json
+          rm ./pnpm-lock.yaml
+          rm ./postcss.config.js
+          rm ./tailwind.config.js
+          rm ./tsconfig.*
+          rm ./vite.config.ts
 
       # Upload build artifact
       - name: Upload a Build Artifact
