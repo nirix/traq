@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/avalon.git",
-                "reference": "fb740ec00bfef436cbfe0cae48dade6268c5a195"
+                "reference": "c1e6f424ff9ae3716640ec98cb778bcb89a57a89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/avalon/zipball/fb740ec00bfef436cbfe0cae48dade6268c5a195",
-                "reference": "fb740ec00bfef436cbfe0cae48dade6268c5a195",
+                "url": "https://api.github.com/repos/nirix/avalon/zipball/c1e6f424ff9ae3716640ec98cb778bcb89a57a89",
+                "reference": "c1e6f424ff9ae3716640ec98cb778bcb89a57a89",
                 "shasum": ""
             },
             "default-branch": true,
@@ -38,9 +38,9 @@
             ],
             "description": "The Avalon framework",
             "support": {
-                "source": "https://github.com/nirix/avalon/tree/master"
+                "source": "https://github.com/nirix/avalon/tree/v0.8"
             },
-            "time": "2024-08-09T16:09:01+00:00"
+            "time": "2024-08-10T07:47:39+00:00"
         },
         {
             "name": "brick/math",
@@ -1550,8 +1550,8 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {},
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.3.0"
     },
