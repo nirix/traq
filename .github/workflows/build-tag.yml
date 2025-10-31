@@ -8,7 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write # This is required to allow the action to create a GitHub Release
     steps:
       - uses: actions/checkout@v4
 
@@ -45,26 +46,38 @@ jobs:
           rm -rf node_modules
           rm -rf src/assets
           rm -rf vendor/avalon/framework/.git
-          rm ./*.js
-          rm ./*.ts
-          rm ./*.yaml
-          rm ./*.yml
           rm ./.eslintrc.cjs
           rm .gitignore
           rm ./.prettierrc.json
-          rm ./docker-compose.yml
-          rm ./env.d.ts
-          rm ./package.json
-          rm ./package-lock.json
-          rm ./pnpm-lock.yaml
-          rm ./postcss.config.js
-          rm ./tailwind.config.js
-          rm ./tsconfig.*
-          rm ./vite.config.ts
+          rm ./*.json
+          rm ./*.lock
+          rm ./*.yml
+          rm ./*.yaml
+          rm ./*.js
+          rm ./*.ts
 
-      # Upload build artifact
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.4
         with:
           name: traq-${{ github.ref_name }}
           path: ./
+
+      # Create a zip and tar.gz archive of the build
+      - name: Create Release Archives
+        run: |
+          zip -r ../traq-${{ github.ref_name }}.zip . -x "traq-${{ github.ref_name }}.tar.gz" -x "traq-${{ github.ref_name }}.zip"
+          tar -czf ../traq-${{ github.ref_name }}.tar.gz --exclude="traq-${{ github.ref_name }}.tar.gz" --exclude="traq-${{ github.ref_name }}.zip" .
+
+      # Create the GitHub Release
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # This line automatically sets the prerelease flag
+          # if the tag name contains '-alpha' or '-beta'
+          prerelease: ${{ contains(github.ref_name, '-alpha') || contains(github.ref_name, '-beta') }}
+
+          # This attaches both archives to the release using a glob pattern
+          files: ../traq-${{ github.ref_name }}.*
+        env:
+          # The GITHUB_TOKEN is automatically provided by Actions
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
