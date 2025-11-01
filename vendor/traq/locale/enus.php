@@ -111,6 +111,7 @@ class enUS extends \traq\libraries\Locale
             'profile'          => "Profile",
             'ascending'        => "Ascending",
             'descending'       => "Descending",
+            'sort_by_x'        => "Sort by {1}",
 
             // Search
             'search.no_results' => 'No search results...',

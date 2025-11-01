@@ -87,6 +87,24 @@ class ProjectController extends AppController
         // Get the projects milestones and send them to the view.
         $milestones = Milestone::select()->where('project_id', $this->project->id);
 
+        $sortBy = explode('.', Request::get('sort', 'display_order.desc'));
+        $sort = strtolower($sortBy[0]);
+        $order = strtoupper($sortBy[1]) === 'ASC' ? 'ASC' : 'DESC';
+
+        // Determine sort field
+        switch ($sort) {
+            case 'due':
+                $sortField = 'due';
+                break;
+            case 'name':
+                $sortField = 'name';
+                break;
+            case 'display_order':
+            default:
+                $sortField = 'displayorder';
+                break;
+        }
+
         // Are we displaying all milestones?
         if ($filter == 'all') {
             // We do NOTHING!
@@ -105,7 +123,7 @@ class ProjectController extends AppController
         }
 
         // Get the milestones and send them to the view
-        $milestones = $milestones->order_by('displayorder', 'ASC')->exec()->fetch_all();
+        $milestones = $milestones->order_by($sortField, $order)->exec()->fetch_all();
 
         if (Router::$extension === '.json') {
             $data = [];
@@ -117,7 +135,9 @@ class ProjectController extends AppController
 
         return $this->renderView('projects/roadmap.phtml', [
             'filter' => $filter,
-            'milestones' => $milestones
+            'sort' => $sort,
+            'order' => $order === 'ASC' ? 'ASC' : 'DESC',
+            'milestones' => $milestones,
         ]);
     }
 

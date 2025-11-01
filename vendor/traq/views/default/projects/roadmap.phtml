@@ -1,18 +1,13 @@
 <div class="roadmap content">
 	<div class="flex">
 		<h2 class="page-title flex-grow"><?= l('roadmap') ?></h2>
-		<div class="btn-pill-group mt-2">
-			<a href="<?= Request::base($project->href('roadmap')) ?>" class="<?= active_nav('/:slug/roadmap') ? 'active' : '' ?>"><?= l('active') ?></a>
-			<a href="<?= Request::base($project->href('roadmap/completed')) ?>" class="<?= active_nav('/:slug/roadmap/completed') ? 'active' : '' ?>"><?= l('completed') ?></a>
-			<a href="<?= Request::base($project->href('roadmap/all')) ?>" class="<?= active_nav('/:slug/roadmap/all') ? 'active' : '' ?>"><?= l('all') ?></a>
-			<!-- <li class="<?= active_nav('/:slug/roadmap') ? 'active' : '' ?>">
-			</li>
-			<li class="<?= active_nav('/:slug/roadmap/completed') ? 'active' : '' ?>">
-				<a href="<?= Request::base($project->href('roadmap/completed')) ?>"><?= l('completed') ?></a>
-			</li>
-			<li class="<?= active_nav('/:slug/roadmap/all') ? 'active' : '' ?>">
-				<a href="<?= Request::base($project->href('roadmap/all')) ?>"><?= l('all') ?></a>
-			</li> -->
+		<div class="flex items-center gap-4">
+			<?= View::render('projects/_roadmap_sort', ['sort' => $sort, 'order' => $order]) ?>
+			<div class="btn-pill-group mt-2">
+				<a href="<?= Request::base($project->href('roadmap')) ?>" class="<?= active_nav('/:slug/roadmap') ? 'active' : '' ?>"><?= l('active') ?></a>
+				<a href="<?= Request::base($project->href('roadmap/completed')) ?>" class="<?= active_nav('/:slug/roadmap/completed') ? 'active' : '' ?>"><?= l('completed') ?></a>
+				<a href="<?= Request::base($project->href('roadmap/all')) ?>" class="<?= active_nav('/:slug/roadmap/all') ? 'active' : '' ?>"><?= l('all') ?></a>
+			</div>
 		</div>
 	</div>
 
