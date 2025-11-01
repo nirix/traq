@@ -104,7 +104,7 @@ class Milestone extends Model
         static $counts = [];
 
         if (isset($counts[$this->id])) {
-            return $counts[$this->id][$status];
+            return $counts[$this->id][$status] ?? 0;
         }
 
         $prefix = static::db()->prefix;
@@ -144,7 +144,7 @@ class Milestone extends Model
             $counts[$this->id]['started_percent'] = (int) get_percent($counts[$this->id]['started'] ?? 0, $counts[$this->id]['total']);
             $counts[$this->id]['closed_percent'] = (int) get_percent($counts[$this->id]['closed'] ?? 0, $counts[$this->id]['total']);
         }
-        // dd($status, $counts[$this->id]);
+
         // Return the requested count index.
         return $counts[$this->id][$status] ?? 0;
     }
