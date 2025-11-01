@@ -1,0 +1,37 @@
+<div
+	x-data="{
+		sort: '<?= $sort ?>',
+		order: '<?= $order ?>',
+		updateUrl() {
+			const newSearch = `?sort=${this.sort}.${this.order}`;
+			window.location.search = newSearch;
+		}
+	}"
+	class="mb-4 flex shadow-sm rounded-md">
+	<select
+		x-model="sort"
+		@change="updateUrl()"
+		name="sort"
+		id="sort"
+		class="block w-full border-gray-300 rounded-r-none rounded-l-md pl-3 pr-10 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm">
+		<option value="display_order"><?= l('sort_by_x', l('display_order')) ?></option>
+		<option value="due"><?= l('sort_by_x', l('due')) ?></option>
+		<option value="name"><?= l('sort_by_x', l('name')) ?></option>
+	</select>
+
+	<button
+		type="button"
+		@click="order = (order === 'ASC') ? 'DESC' : 'ASC'; updateUrl()"
+		class="relative -ml-px inline-flex items-center rounded-l-none rounded-r-md border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+		<span x-show="order === 'ASC'" class="m-0">
+			<svg class="h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+				<path fill="currentColor" d="M160 288C147.1 288 135.4 280.2 130.4 268.2C125.4 256.2 128.2 242.5 137.4 233.4L297.4 73.4C309.9 60.9 330.2 60.9 342.7 73.4L502.7 233.4C511.9 242.6 514.6 256.3 509.6 268.3C504.6 280.3 492.9 288 480 288L160 288z" />
+			</svg>
+		</span>
+		<span x-show="order === 'DESC'" class="m-0">
+			<svg class="h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+				<path fill="currentColor" d="M160 352C147.1 352 135.4 359.8 130.4 371.8C125.4 383.8 128.2 397.5 137.4 406.6L297.4 566.6C309.9 579.1 330.2 579.1 342.7 566.6L502.7 406.6C511.9 397.4 514.6 383.7 509.6 371.7C504.6 359.7 492.9 352 480 352L160 352z" />
+			</svg>
+		</span>
+	</button>
+</div>
