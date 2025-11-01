@@ -327,13 +327,27 @@ class AppController extends Controller
 
     protected function renderView(string $name, array $vars = [])
     {
-        $content = View::render(str_replace('.phtml', '', $name), $vars);
+        $content = View::render(str_replace(['.phtml', '.php'], '', $name), $vars);
 
         if ($this->render['layout']) {
             $content = View::render("layouts/{$this->render['layout']}", ['content' => $content]);
         }
 
         return new Response($content);
+    }
+
+    protected function json(array $data)
+    {
+        $badKeys = ['password', 'login_hash', 'api_key', 'private_key'];
+
+        // Remove bad keys from data array, at all array levels
+        array_walk_recursive($data, function (&$item, $key) use ($badKeys) {
+            if (in_array($key, $badKeys)) {
+                $item = null;
+            }
+        });
+
+        return new \Avalon\Http\JsonResponse($data);
     }
 
     protected function redirectTo(string $url): Response

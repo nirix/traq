@@ -30,13 +30,17 @@ class Atom
 {
     private $title;
     private $entries;
+    private $link;
+    private $feed_link;
+    private $updated;
 
     /**
      * Feed constructor.
      *
      * @param array $options
      */
-    public function __construct(array $options) {
+    public function __construct(array $options)
+    {
         foreach ($options as $option => $value) {
             $this->{$option} = $value;
         }
@@ -84,7 +88,7 @@ class Atom
 
             // Content
             if (isset($entry['content'])) {
-                $feed[] = "    <content" . (array_key_exists('type', $entry['content']) ? " type=\"{$entry['content']['type']}\"" :'' ) . ">";
+                $feed[] = "    <content" . (array_key_exists('type', $entry['content']) ? " type=\"{$entry['content']['type']}\"" : '') . ">";
                 $feed[] = "      {$entry['content']['data']}";
                 $feed[] = "    </author>";
             }

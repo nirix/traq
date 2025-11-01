@@ -25,13 +25,10 @@ namespace Traq\Controllers;
 
 use avalon\http\Request;
 use avalon\output\View;
-use avalon\Database;
-
+use Avalon\Http\Router;
 use traq\models\Ticket;
-use traq\models\Timeline;
 use traq\models\Milestone;
 use traq\models\Type;
-use traq\helpers\Pagination;
 
 /**
  * Project controller.
@@ -48,6 +45,14 @@ class ProjectController extends AppController
      */
     public function index()
     {
+        if (Router::$extension === '.json') {
+            $projects = [];
+            foreach (\traq\models\Project::fetch_all() as $project) {
+                $projects[] = $project->__toArray();
+            }
+            return $this->json($projects);
+        }
+
         return $this->renderView('projects/index.phtml');
     }
 
@@ -59,6 +64,10 @@ class ProjectController extends AppController
         // Make sure this is a project
         if (!$this->project) {
             return $this->show404();
+        }
+
+        if (Router::$extension === '.json') {
+            return $this->json($this->project->__toArray());
         }
 
         // Get open and closed ticket counts.
@@ -98,7 +107,18 @@ class ProjectController extends AppController
         // Get the milestones and send them to the view
         $milestones = $milestones->order_by('displayorder', 'ASC')->exec()->fetch_all();
 
-        return $this->renderView('projects/roadmap.phtml', ['milestones' => $milestones, 'filter' => $filter]);
+        if (Router::$extension === '.json') {
+            $data = [];
+            foreach ($milestones as $milestone) {
+                $data[] = $milestone->__toArray();
+            }
+            return $this->json($data);
+        }
+
+        return $this->renderView('projects/roadmap.phtml', [
+            'filter' => $filter,
+            'milestones' => $milestones
+        ]);
     }
 
     /**
@@ -115,6 +135,10 @@ class ProjectController extends AppController
         // Make sure milestone exists
         if (!$milestone) {
             return $this->show404();
+        }
+
+        if (Router::$extension === '.json') {
+            return $this->json($milestone->__toArray());
         }
 
         // And send it to the view
@@ -137,9 +161,14 @@ class ProjectController extends AppController
             $types[$type->id] = $type;
         }
 
-        return $this->renderView('projects/changelog.phtml', [
-            'milestones' => $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all(),
-            'types' => $types
-        ]);
+        View::set('types', $types);
+        View::set('milestones', $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all());
+
+        if (Router::$extension === '.atom') {
+            $this->render['layout'] = false;
+            return $this->renderView('projects/changelog.atom.php');
+        }
+
+        return $this->renderView('projects/changelog.phtml');
     }
 }
