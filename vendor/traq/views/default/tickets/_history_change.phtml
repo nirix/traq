@@ -22,7 +22,7 @@
             </div>
             <div class="update-actions">
                 <div class="btn-group">
-                    <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history')) : ?>
+                    <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history') || $update->user->id === currentUser()->id) : ?>
                         <a href="<?= Request::base($ticket->href("/history/{$update->id}/edit")) ?>" title="<?= l('edit') ?>" data-overlay="1" class="btn-warning btn-xs">
                             <span class="fas fa-fw fa-pencil"></span>
                             <span class="visually-hidden"><?= l('edit') ?></span>
@@ -50,7 +50,7 @@
                 <?= l('x_by_x', time_ago($update->created_at), HTML::link(strshorten($update->user->name, 20), $update->user->href())) ?>
             </h4>
             <div class="btn-group">
-                <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history')) : ?>
+                <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history') || $update->user->id === currentUser()->id) : ?>
                     <a href="<?= Request::base($ticket->href("/history/{$update->id}/edit")) ?>" title="<?= l('edit') ?>" data-overlay="1" class="btn-warning btn-xs">
                         <span class="fas fa-fw fa-pencil"></span>
                         <span class="visually-hidden"><?= l('edit') ?></span>

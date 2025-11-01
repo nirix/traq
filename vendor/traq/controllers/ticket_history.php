@@ -38,7 +38,7 @@ class TicketHistory extends AppController
 {
     // Before filters
     public $before = array(
-        'edit' => array('_check_permission'),
+        // 'edit' => array('_check_permission'),
         'delete' => array('_check_permission')
     );
 
@@ -51,6 +51,12 @@ class TicketHistory extends AppController
     {
         // Get the ticket update
         $history = \traq\models\TicketHistory::find($id);
+
+        if ($history->user_id !== current_user()->id && !current_user()->permission($this->project->id, "edit_ticket_history")) {
+            // oh noes! display the no permission page.
+            $this->show_no_permission();
+            return false;
+        }
 
         // Has the form been submitted?
         if (Request::method() == 'post') {
