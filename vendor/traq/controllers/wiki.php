@@ -74,7 +74,7 @@ class Wiki extends AppController
         if (!$page->row_count()) {
             // it doesnt, show the new page form if the user has permission
             // otherwise display the 404 page.
-            return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show_404();
+            return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show404();
         }
 
         View::set('page', $page->fetch());
