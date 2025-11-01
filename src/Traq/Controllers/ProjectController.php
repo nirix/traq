@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use avalon\http\Request;
 use avalon\output\View;
@@ -41,12 +41,12 @@ use traq\helpers\Pagination;
  * @package Traq
  * @subpackage Controllers
  */
-class Projects extends AppController
+class ProjectController extends AppController
 {
     /**
      * Project listing page.
      */
-    public function action_index()
+    public function index()
     {
         return $this->renderView('projects/index.phtml');
     }
@@ -54,11 +54,11 @@ class Projects extends AppController
     /**
      * Handles the project info page.
      */
-    public function action_view()
+    public function view()
     {
         // Make sure this is a project
         if (!$this->project) {
-            return $this->show_404();
+            return $this->show404();
         }
 
         // Get open and closed ticket counts.
@@ -66,26 +66,28 @@ class Projects extends AppController
             'open' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->exec()->row_count(),
             'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->exec()->row_count()
         ));
+
+        return $this->renderView('projects/view.phtml');
     }
 
     /**
      * Handles the roadmap page.
      */
-    public function action_roadmap($which = 'active')
+    public function roadmap(string $filter = 'active')
     {
         // Get the projects milestones and send them to the view.
         $milestones = Milestone::select()->where('project_id', $this->project->id);
 
         // Are we displaying all milestones?
-        if ($which == 'all') {
+        if ($filter == 'all') {
             // We do NOTHING!
         }
         // Just the completed ones?
-        elseif ($which == 'completed') {
+        elseif ($filter == 'completed') {
             $milestones = $milestones->where('status', 2);
         }
         // Just the cancelled ones?
-        elseif ($which == 'cancelled') {
+        elseif ($filter == 'cancelled') {
             $milestones = $milestones->where('status', 0);
         }
         // Looks like just the active ones
@@ -95,13 +97,14 @@ class Projects extends AppController
 
         // Get the milestones and send them to the view
         $milestones = $milestones->order_by('displayorder', 'ASC')->exec()->fetch_all();
-        View::set('milestones', $milestones);
+
+        return $this->renderView('projects/roadmap.phtml', ['milestones' => $milestones, 'filter' => $filter]);
     }
 
     /**
      * Handles the milestone page.
      */
-    public function action_milestone($milestone_slug)
+    public function viewMilestone($milestone_slug)
     {
         // Get the milestone
         $milestone = Milestone::select()->where(array(
@@ -111,17 +114,19 @@ class Projects extends AppController
 
         // Make sure milestone exists
         if (!$milestone) {
-            return $this->show_404();
+            return $this->show404();
         }
 
         // And send it to the view
         View::set('milestone', $milestone);
+
+        return $this->renderView('projects/milestone.phtml');
     }
 
     /**
      * Handles the changelog page.
      */
-    public function action_changelog()
+    public function changelog()
     {
         // Atom feed
         $this->feeds[] = array(Request::requestUri() . ".atom", l('x_changelog_feed', $this->project->name));
@@ -132,7 +137,9 @@ class Projects extends AppController
             $types[$type->id] = $type;
         }
 
-        View::set('milestones', $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all());
-        View::set('types', $types);
+        return $this->renderView('projects/changelog.phtml', [
+            'milestones' => $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all(),
+            'types' => $types
+        ]);
     }
 }

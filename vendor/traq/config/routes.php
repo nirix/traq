@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,8 +23,8 @@
 
 use avalon\http\Router;
 use Traq\Controllers\ProfileController;
+use Traq\Controllers\ProjectController;
 use Traq\Controllers\ProjectSettingsController;
-use traq\controllers\Projects;
 use Traq\Controllers\SearchController;
 use Traq\Controllers\SubscriptionsController;
 use traq\controllers\Tickets;
@@ -33,7 +33,7 @@ use traq\controllers\Usercp;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
-Router::register('root', 'root', [Projects::class, 'action_index']);
+Router::register('root', 'root', [ProjectController::class, 'index']);
 
 Router::add('404', 'traq::controllers::Error.404');
 Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
@@ -69,11 +69,13 @@ Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete'
 
 // ------------------------------------------------
 // Project routes
-Router::add('/projects', 'traq::controllers::Projects.index');
-Router::add('/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', 'traq::controllers::Projects.milestone/$2');
-Router::add('/' . PROJECT_SLUG . '/(roadmap|changelog)', 'traq::controllers::Projects.$2');
-Router::add('/' . PROJECT_SLUG . '/roadmap/(completed|all|cancelled)', 'traq::controllers::Projects.roadmap/$2');
-Router::add('/' . PROJECT_SLUG, 'traq::controllers::Projects.view');
+// Router::add('/projects', 'traq::controllers::Projects.index');
+Router::register('projects', '/projects', [ProjectController::class, 'index']);
+Router::register('project', '/' . PROJECT_SLUG, [ProjectController::class, 'view']);
+Router::register('project.roadmap', '/' . PROJECT_SLUG . '/roadmap', [ProjectController::class, 'roadmap']);
+Router::register('project.roadmap.filtered', '/' . PROJECT_SLUG . '/roadmap/(?<filter>completed|all|cancelled)', [ProjectController::class, 'roadmap']);
+Router::register('project.changelog', '/' . PROJECT_SLUG . '/changelog', [ProjectController::class, 'changelog']);
+Router::register('project.milestone', '/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', [ProjectController::class, 'viewMilestone']);
 Router::register('timeline', '/' . PROJECT_SLUG . '/timeline', [TimelineController::class, 'index']);
 Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>[0-9]+)/delete', [TimelineController::class, 'deleteEvent']);
 
