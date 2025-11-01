@@ -20,6 +20,14 @@
       }
     }
   }
+
+  .popover-content {
+    @apply p-2 bg-white text-gray-900 shadow-md rounded;
+
+    & > ol {
+      @apply m-0;
+    }
+  }
 }
 
 .popover-confirm,
