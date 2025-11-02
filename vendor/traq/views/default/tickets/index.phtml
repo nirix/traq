@@ -1,2 +1,183 @@
-<div id="vue-traq"></div>
-<?php echo ui_package('src/assets/traq.ts'); ?>
+<div class="content">
+    <h2 class="page-title"><?php echo l('tickets'); ?></h2>
+</div>
+<div x-data="ticketList">
+    <fieldset class="ticket-columns-container" :class=" { 'open' : showColumnSettings }">
+        <legend @click="showColumnSettings = !showColumnSettings"><?= l('columns') ?></legend>
+        <div>
+            <ul>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.id">
+                        <?= l('id') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.summary">
+                        <?= l('summary') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.status">
+                        <?= l('status') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.owner">
+                        <?= l('owner') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.type">
+                        <?= l('type') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.component">
+                        <?= l('component') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.milestone">
+                        <?= l('milestone') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.assignee">
+                        <?= l('assignee') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.priority">
+                        <?= l('priority') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.severity">
+                        <?= l('severity') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.reported">
+                        <?= l('reported') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.updated">
+                        <?= l('updated') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.votes">
+                        <?= l('votes') ?>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </fieldset>
+    <table class="ticket-listing rounded">
+        <thead class="rounded-t">
+            <tr class="rounded-t">
+                <template x-if="columns.id">
+                    <th><?= l('id') ?></th>
+                </template>
+                <template x-if="columns.summary">
+                    <th><?= l('summary') ?></th>
+                </template>
+                <template x-if="columns.status">
+                    <th><?= l('status') ?></th>
+                </template>
+                <template x-if="columns.owner">
+                    <th><?= l('owner') ?></th>
+                </template>
+                <template x-if="columns.type">
+                    <th><?= l('type') ?></th>
+                </template>
+                <template x-if="columns.component">
+                    <th><?= l('component') ?></th>
+                </template>
+                <template x-if="columns.milestone">
+                    <th><?= l('milestone') ?></th>
+                </template>
+                <template x-if="columns.assignee">
+                    <th><?= l('assignee') ?></th>
+                </template>
+                <template x-if="columns.priority">
+                    <th><?= l('priority') ?></th>
+                </template>
+                <template x-if="columns.severity">
+                    <th><?= l('severity') ?></th>
+                </template>
+                <template x-if="columns.reported">
+                    <th><?= l('reported') ?></th>
+                </template>
+                <template x-if="columns.updated">
+                    <th><?= l('updated') ?></th>
+                </template>
+                <template x-if="columns.votes">
+                    <th><?= l('votes') ?></th>
+                </template>
+            </tr>
+        </thead>
+        <tbody>
+            <template x-for="ticket in tickets" :key="ticket.ticket_id">
+                <tr>
+                    <template x-if="columns.id">
+                        <td x-text="ticket.ticket_id"></td>
+                    </template>
+                    <template x-if="columns.summary">
+                        <td>
+                            <a :href="`${window.traq.base}${window.traq.project_slug}/tickets/${ticket.ticket_id}`" x-text="ticket.summary"></a>
+                        </td>
+                    </template>
+                    <template x-if+="columns.status">
+                        <td x-text="ticket.status"></td>
+                    </template>
+                    <template x-if+="columns.owner">
+                        <td x-text="ticket.owner"></td>
+                    </template>
+                    <template x-if+="columns.type">
+                        <td x-text="ticket.type"></td>
+                    </template>
+                    <template x-if+="columns.component">
+                        <td x-text="ticket.component"></td>
+                    </template>
+                    <template x-if+="columns.milestone">
+                        <td x-text="ticket.milestone"></td>
+                    </template>
+                    <template x-if+="columns.assignee">
+                        <td x-text="ticket.assignee"></td>
+                    </template>
+                    <template x-if+="columns.priority">
+                        <td x-text="ticket.priority"></td>
+                    </template>
+                    <template x-if+="columns.severity">
+                        <td x-text="ticket.severity"></td>
+                    </template>
+                    <template x-if+="columns.reported">
+                        <td x-text="ticket.created_at"></td>
+                    </template>
+                    <template x-if+="columns.updated">
+                        <td x-text="ticket.updated_at"></td>
+                    </template>
+                    <template x-if+="columns.votes">
+                        <td x-text="ticket.votes"></td>
+                    </template>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+
+</div>

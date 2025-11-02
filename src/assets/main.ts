@@ -35,6 +35,7 @@ import "./main/TicketTemplates"
 import "./main/RemoteMDE"
 import "./main/EasyMDE"
 import "./main/NavbarSearch"
+import "./main/TicketList"
 
 window.Alpine = Alpine
 Alpine.start()

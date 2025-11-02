@@ -245,3 +245,46 @@ table.ticket-listing {
     }
   }
 }
+
+.ticket-columns-container {
+  padding: 0;
+  overflow: scroll;
+  transition: max-height ease-out 0.4s;
+  max-height: 0px;
+  background-color: #fff;
+  @apply border-gray-400;
+  @apply rounded;
+
+  &.open {
+    max-height: 600px;
+  }
+
+  & legend {
+    cursor: pointer;
+    @apply text-gray-600;
+    @apply px-2 py-0;
+    @apply ml-3;
+    @apply underline;
+  }
+}
+
+.ticket-columns {
+  @apply p-2;
+}
+
+.ticket-column {
+  @apply text-xs;
+  display: inline-block;
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+
+  @apply mx-1 my-1;
+  @apply text-gray-500;
+  @apply bg-gray-100;
+  @apply border border-solid border-gray-400 rounded;
+  @apply py-2 px-3;
+
+  &.column-active {
+    @apply border-emerald-300 bg-emerald-50 text-emerald-800;
+  }
+}
