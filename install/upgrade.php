@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -30,8 +30,8 @@ use Installer\Helpers\Upgrade\v3x as v3xUpgrades;
 use Installer\Helpers\Fixes;
 
 // Framework libraries
-use avalon\Database;
-use avalon\output\View;
+use Avalon\Database;
+use Avalon\Output\View;
 
 // Set page and title
 View::set('page', 'upgrade');
@@ -48,7 +48,7 @@ $db_ver = $db->query("SELECT * FROM `{$db->prefix}settings` WHERE `setting` = 'd
 define('DB_VER', $db_ver['value']);
 
 // Index
-get('/', function(){
+get('/', function () {
     if (DB_VER < TRAQ_DB_VER) {
         render('upgrade/welcome');
     } else {
@@ -57,7 +57,7 @@ get('/', function(){
 });
 
 // Upgrade
-post('/step/1', function(){
+post('/step/1', function () {
     global $db, $revisions;
 
     // Traq 3.x upgrades

@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -18,8 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use avalon\output\View;
-use avalon\Database;
+use Avalon\output\View;
+use Avalon\Database;
 
 /**
  * Utilises Avalon's view class to render the specified view.
