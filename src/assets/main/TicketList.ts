@@ -1,3 +1,4 @@
+import { FilterInterface } from './../interfaces';
 /*!
  * Traq
  * Copyright (C) 2009-2025 Jack Polgar
@@ -23,6 +24,15 @@
 import axios from 'axios'
 import Alpine from 'alpinejs'
 
+interface FilterOption {
+  field: string
+  type: "is" | "isOr" | "contains"
+  condition?: boolean
+  dataSet?: string
+  value?: Array<string | number>
+  count?: number
+}
+
 Alpine.data('ticketList', () => ({
   columns: {
     'id': true,
@@ -40,17 +50,157 @@ Alpine.data('ticketList', () => ({
     'votes': false,
   },
 
-  tickets: [],
-  page: 1,
-  totalPages: 1,
   isLoading: false,
   showColumnSettings: true,
   showFilters: true,
+
+  page: 1,
+  totalPages: 1,
   sortColumn: null as string | null,
   sortOrder: 'asc',
 
+  tickets: [],
+  filters: [] as FilterOption[],
+  filterData: {
+    milestones: [] as Array<{ label: string; value: string }>,
+    statuses: {} as { [group: string]: Array<{ label: string; value: string }> },
+    priorities: [] as Array<{ label: string; value: string }>,
+    components: [] as Array<{ label: string; value: string }>,
+    types: [] as Array<{ label: string; value: string }>,
+    assignees: [] as Array<{ label: string; value: string }>,
+  },
+
+  availableFilters: [
+    {
+      field: "summary",
+      type: "contains",
+    },
+    {
+      field: "description",
+      type: "contains",
+    },
+    {
+      field: "type",
+      type: "is",
+      dataSet: "types",
+    },
+    {
+      field: "owner",
+      type: "isOr",
+    },
+    {
+      field: "assigned_to",
+      type: "is",
+      dataSet: "assignees",
+    },
+    {
+      field: "component",
+      type: "is",
+      dataSet: "components",
+    },
+    {
+      field: "milestone",
+      type: "is",
+      dataSet: "milestones",
+    },
+    {
+      field: "version",
+      type: "is",
+      dataSet: "milestones",
+    },
+    {
+      field: "status",
+      type: "is",
+      dataSet: "statuses",
+    },
+    {
+      field: "priority",
+      type: "is",
+      dataSet: "priorities",
+    },
+  ] as FilterOption[],
+
   init() {
     this.page = parseInt((new URLSearchParams(window.location.search)).get('page') || '1', 10) || 1;
+
+    const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap/all.json"
+    const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
+    const membersUrl = window.traq.base + "api/" + window.traq.project_slug + "/members"
+    const statusesUrl = window.traq.base + "api/statuses"
+    const prioritiesUrl = window.traq.base + "api/priorities"
+    const typesUrl = window.traq.base + "api/types"
+
+        Promise.all([
+      axios.get(roadmapUrl),
+      axios.get(statusesUrl),
+      axios.get(prioritiesUrl),
+      axios.get(componentsUrl),
+      axios.get(typesUrl),
+      axios.get(membersUrl),
+    ]).then(([roadmap, statuses, priorities, components, ticketTypes, members]) => {
+      this.filterData.milestones =
+        roadmap.data.map((data: any) => ({
+          label: data.name,
+          value: data.slug,
+        })) ?? []
+
+      const open =
+        statuses.data
+          .filter((status: any) => status.status === 1)
+          .map((data: any) => ({
+            label: data.name,
+            value: data.name,
+          })) ?? []
+
+      const closed =
+        statuses.data
+          .filter((status: any) => status.status === 0)
+          .map((data: any) => ({
+            label: data.name,
+            value: data.name,
+          })) ?? []
+
+      const started =
+        statuses.data
+          .filter((status: any) => status.status === 2)
+          .map((data: any) => ({
+            label: data.name,
+            value: data.name,
+          })) ?? []
+
+      this.filterData.statuses = {
+        Open: open,
+        Started: started,
+        Closed: closed,
+      }
+
+      this.filterData.priorities =
+        priorities.data.map((data: any) => ({
+          label: data.name,
+          value: data.name,
+        })) ?? []
+
+      this.filterData.components =
+        components.data.map((data: any) => ({
+          label: data.name,
+          value: data.name,
+        })) ?? []
+
+      this.filterData.types =
+        ticketTypes.data.map((data: any) => ({
+          label: data.name,
+          value: data.name,
+        })) ?? []
+
+      this.filterData.assignees =
+        members.data.map((data: any) => ({
+          label: data.name,
+          value: data.username,
+        })) ?? []
+
+      // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
+      // this.buildCustomFields().then(() => this.convertQueryString())
+    })
 
     this.fetchTickets();
   },
@@ -60,9 +210,6 @@ Alpine.data('ticketList', () => ({
 
     const params = new URLSearchParams(window.location.search);
 
-    // if (this.sortColumn) {
-    //   url += `?order_by=${this.sortColumn}.${this.sortOrder}`;
-    // }
     params.set('page', this.page.toString());
     if (this.sortColumn) {
       params.set('order_by', `${this.sortColumn}.${this.sortOrder}`);
@@ -76,7 +223,6 @@ Alpine.data('ticketList', () => ({
     return url;
   },
 
-  // 4. Add your methods
   fetchTickets() {
     this.isLoading = true;
     axios.get(this.fetchUrl())
@@ -100,6 +246,27 @@ Alpine.data('ticketList', () => ({
     this.sortColumn = column;
 
     this.fetchTickets();
+  },
+
+  addFilter(field: string) {
+    const filter = this.availableFilters.find(f => f.field === field);
+    (this.$refs.newFilterSelect as HTMLSelectElement).value = '';
+
+    if (!filter) {
+      return;
+    }
+
+    this.filters.push({
+      ...filter,
+      condition: true,
+      values: ["isOr", "contains"].includes(filter.type) ? [""] : [],
+    })
+  },
+  addFilterValue(filter: FilterInterface): void {
+      filter.values.push("")
+    },
+  removeFilter(index: number) {
+    this.filters.splice(index, 1);
   },
 
   prevPageUrl() {

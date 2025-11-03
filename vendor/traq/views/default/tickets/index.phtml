@@ -5,6 +5,94 @@
     <fieldset class="ticket-filters-container" :class=" { 'open' : showFilters }">
         <legend @click="showFilters = !showFilters"><?= l('filters') ?></legend>
 
+        <div class="active-filters">
+            <template x-for="(filter, fIndex) in filters" :key="fIndex">
+                <div class="filter">
+                    <div class="label" x-text="language[filter.field]"></div>
+                    <template x-if="filter.type === 'is'">
+                        <div class="conditions-and-values">
+                            <div>
+                                <div class="condition">
+                                    <select :name="`filters[${filter.field}][prefix]`" x-model="filter.condition">
+                                        <option :value="true"><?= l('is') ?></option>
+                                        <option :value="false"><?= l('is_not') ?></option>
+                                    </select>
+                                </div>
+                                <div class="value">
+                                    <select multiple :name="`filters[${filter.field}][values][]`" x-model="filter.values">
+                                        <template x-if="Array.isArray(filterData[filter.dataSet])">
+                                            <template x-for="option in filterData[filter.dataSet]" :key="option.value">
+                                                <option :value="option.value" x-text="option.label"></option>
+                                            </template>
+                                        </template>
+                                        <template x-if="!Array.isArray(filterData[filter.dataSet])">
+                                            <template x-for="(options, key) in filterData[filter.dataSet]" :key="key">
+                                                <optgroup :label="key">
+                                                    <template x-for="option in options" :key="option.value">
+                                                        <option :value="option.value" x-text="option.label"></option>
+                                                    </template>
+                                                </optgroup>
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                                <div class="remove">
+                                    <button class="btn-danger" @click="removeFilter(filter)" type="button" title="<?= l('remove') ?>">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="['isOr', 'contains'].includes(filter.type)">
+                        <div class="conditions-and-values">
+                            <template x-for="(value, vIndex) in filter.values">
+                                <div :key="filter.field + vIndex">
+                                    <template x-if="vIndex === 0">
+                                        <div class="condition">
+                                            <template x-if="['is', 'isOr'].includes(filter.type)">
+                                                <select :name="`filters[${filter.field}][prefix]`" x-model="filter.condition">
+                                                    <option :value="true"><?= l('is') ?></option>
+                                                    <option :value="false"><?= l('is_not') ?></option>
+                                                </select>
+                                            </template>
+                                            <template x-if="['contains'].includes(filter.type)">
+                                                <select :name="`filters[${filter.field}][prefix]`" x-model="filter.condition">
+                                                    <option :value="true"><?= l('contains') ?></option>
+                                                    <option :value="false"><?= l('does_not_contain') ?></option>
+                                                </select>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template x-if="vIndex >= 1">
+                                        <div class="condition condition-static">
+                                            <span><?= l('or') ?></span>
+                                        </div>
+                                    </template>
+                                    <div class="value">
+                                        <input type="text" :name="`filters[${filter.field}][values][]`" :value="value" @change="(event) => setFilterValue(filter, vIndex, event)" />
+                                    </div>
+                                    <div class="add" v-if="vIndex === filter.values.length - 1">
+                                        <button class="btn-success" @click="addFilterValue(filter)">
+                                            +
+                                        </button>
+                                    </div>
+                                    <div class="remove">
+                                        <button class="btn-danger" @click="removeFilter(filter, vIndex)">
+                                            D
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
         <div class="actions">
             <div class="apply">
                 <div class="btn-group">
@@ -13,18 +101,11 @@
             </div>
             <div class="add-filter">
                 <div class="input-group">
-                    <select name="new_filter">
-                        <option disabled="" value=""><?= l('add_filter') ?></option>
-                        <option value="summary"><?= l('summary') ?></option>
-                        <option value="description"><?= l('description') ?></option>
-                        <option value="type"><?= l('type') ?></option>
-                        <option value="owner"><?= l('owner') ?></option>
-                        <option value="assigned_to"><?= l('assigned_to') ?></option>
-                        <option value="component"><?= l('component') ?></option>
-                        <option value="milestone"><?= l('milestone') ?></option>
-                        <option value="version"><?= l('version') ?></option>
-                        <option value="status"><?= l('status') ?></option>
-                        <option value="priority"><?= l('priority') ?></option>
+                    <select name="new_filter" @change="addFilter($event.target.value)" x-ref="newFilterSelect">
+                        <option disabled="" selected value=""><?= l('add_filter') ?></option>
+                        <template x-for="filter in availableFilters">
+                            <option :value="filter.field" x-text="language[filter.field]"></option>
+                        </template>
                     </select>
                     <button class="btn-primary"><?= l('apply') ?></button>
                 </div>
