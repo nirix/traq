@@ -208,8 +208,6 @@ Alpine.data('ticketList', () => ({
       this.buildCustomFields().then(() => this.convertQueryString())
     })
 
-    this.fetchTickets();
-
     this.$watch('page', () => {
       this.updateUrl();
       this.fetchTickets();
@@ -244,6 +242,8 @@ Alpine.data('ticketList', () => ({
     });
 
     this.filters = filters;
+
+    this.fetchTickets();
   },
 
   fetchUrl() {
@@ -334,6 +334,8 @@ Alpine.data('ticketList', () => ({
   },
   clearFilters() {
     this.filters = [];
+    this.updateUrl();
+    this.fetchTickets();
   },
   applyFilters() {
     this.updateUrl();
