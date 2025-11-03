@@ -41,17 +41,38 @@ use traq\models\User;
  */
 class TicketFilterQuery
 {
+    protected static array $fieldMapping = [
+        'summary' => 't.summary',
+        'description' => 't.body',
+        'owner' => 'ru.name',
+        'assigned_to' => 'au.name',
+        'milestone' => 'm.slug',
+        'status' => 's.name',
+        'type' => 'tp.name',
+        'version' => 'v.slug',
+        'component' => 'c.name',
+        'priority' => 'p.name',
+        'severity' => 'sv.name',
+    ];
+
+    protected array $filters = [];
+
     public function __construct(
         protected int $projectId,
         protected string $sortField = 'created_at',
         protected string $sortDirection = 'DESC',
-    ) {}
+        string $queryString = ''
+    ) {
+        $this->processQueryString($queryString);
+    }
 
     public function query(bool $withLimit = false): string
     {
         $prefix = Database::connection()->prefix;
 
         $limit = $withLimit ? 'LIMIT :limit OFFSET :offset' : '';
+
+        $filtersSql = $this->buildFiltersSql();
 
         return "
             SELECT
@@ -73,7 +94,9 @@ class TicketFilterQuery
                 c.name AS component,
                 s.name AS `status`,
                 p.name AS priority,
-                sv.name AS severity
+                t.priority_id,
+                sv.name AS severity,
+                t.severity_id
 
             FROM {$prefix}tickets t
             LEFT JOIN {$prefix}users ru ON t.user_id = ru.id
@@ -89,6 +112,8 @@ class TicketFilterQuery
             WHERE
                 t.project_id = :projectId
 
+            {$filtersSql}
+
             ORDER BY {$this->sortField} {$this->sortDirection}
 
             {$limit}
@@ -102,6 +127,11 @@ class TicketFilterQuery
 
         $stmt = $db->prepare($query);
         $stmt->bindValue(':projectId', $this->projectId, \PDO::PARAM_INT);
+
+        foreach ($this->getValueParams() as $param => $value) {
+            $stmt->bindValue($param, $value, \PDO::PARAM_STR);
+        }
+
         $stmt->execute();
 
         return $stmt->rowCount();
@@ -110,19 +140,97 @@ class TicketFilterQuery
     public function getTickets(?int $limit = null, ?int $offset = null): array
     {
         $db = Database::connection();
-        $query = $this->query($limit > 0);
+        $query = $this->query($limit !== null && $offset !== null);
 
         $stmt = $db->prepare($query);
         $stmt->bindValue(':projectId', $this->projectId, \PDO::PARAM_INT);
+
         if ($limit !== null && $offset !== null) {
             $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
             $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
         }
+
+        foreach ($this->getValueParams() as $param => $value) {
+            $stmt->bindValue($param, $value, \PDO::PARAM_STR);
+        }
+
         $stmt->execute();
 
         $stmt->setFetchMode(\PDO::FETCH_CLASS, TicketView::class);
 
         return $stmt->fetchAll();
+    }
+
+    public function processQueryString(string $queryString): void
+    {
+        parse_str($queryString, $params);
+
+        unset($params['page']);
+
+        foreach ($params as $field => $value) {
+            // Get condition from first value and update if necessary
+            $condition = strlen($value) >= 1 && $value[0] === '!' ? 'NOT' : '';
+            if ($condition === 'NOT') {
+                $value = substr($value, 1);
+            }
+
+            $filter = [
+                'condition' => $condition,
+                'values' => explode(',', $value),
+            ];
+
+            $this->filters[$field] = $filter;
+        }
+    }
+
+    protected function buildFiltersSql(): string
+    {
+        $sqlParts = [];
+
+        foreach ($this->filters as $field => $filter) {
+            $condition = $filter['condition'];
+            $values = $filter['values'];
+            $fieldName = static::$fieldMapping[$field];
+
+            // Build SQL for each filter type
+            if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity'])) {
+                // Named placeholders for each value
+                $placeholders = [];
+                foreach ($values as $index => $value) {
+                    $placeholders[] = ":{$field}_{$index}";
+                }
+                $placeholders = implode(',', $placeholders);
+
+                $sqlParts[] = "{$fieldName} {$condition} IN ({$placeholders})";
+            } elseif (in_array($field, ['summary', 'description'])) {
+                $likeClauses = [];
+                foreach ($values as $index => $value) {
+                    $likeClauses[] = "{$fieldName} {$condition} LIKE :{$field}_{$index}";
+                }
+                $sqlParts[] = '(' . implode(' OR ', $likeClauses) . ')';
+            }
+        }
+
+        $sql = count($sqlParts) ? 'AND ' . implode(' AND ', $sqlParts) : '';
+
+        return $sql;
+    }
+
+    protected function getValueParams(): array
+    {
+        $params = [];
+
+        foreach ($this->filters as $field => $filter) {
+            foreach ($filter['values'] as $index => $value) {
+                if (in_array($field, ['summary', 'description'])) {
+                    $value = '%' . str_replace('*', '%', $value) . '%';
+                }
+
+                $params[":{$field}_{$index}"] = $value;
+            }
+        }
+        // dd($params);
+        return $params;
     }
 
     //--------------------------------------------------------------
@@ -131,8 +239,6 @@ class TicketFilterQuery
 
     private $sql = array();
     private $custom_field_sql = array();
-    private $filters = array();
-    private $project;
 
     /**
      * Processes a filter.

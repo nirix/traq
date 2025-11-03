@@ -50,7 +50,9 @@ class TicketView
     protected ?string $component;
     protected string $status;
     protected string $priority;
+    protected int $priority_id;
     protected string $severity;
+    protected int $severity_id;
 
     public function getTicketId(): int
     {

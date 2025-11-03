@@ -211,8 +211,8 @@
     </fieldset>
 
     <table class="ticket-listing rounded">
-        <thead class="rounded-t">
-            <tr class="rounded-t">
+        <thead>
+            <tr>
                 <template x-if="columns.id">
                     <th @click="sort('ticket_id')" :class="{ sort: sortColumn === 'ticket_id', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }">
                         <?= l('id') ?>
@@ -260,7 +260,7 @@
         </thead>
         <tbody>
             <template x-for="ticket in tickets" :key="ticket.ticket_id">
-                <tr>
+                <tr :class="`priority-${ticket.priority_id}`">
                     <template x-if="columns.id">
                         <td x-text="ticket.ticket_id"></td>
                     </template>
@@ -308,7 +308,7 @@
     </table>
 
     <div class="pagination">
-        <a :href="prevPageUrl()" class="previous" :class="{ disabled: page === 1 }" @click.prevent="prevPage()">
+        <a :href="prevPageUrl()" class="btn-secondary previous" :class="{ disabled: page === 1 }" @click.prevent="prevPage()">
             <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                 <path class="" fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
             </svg>
@@ -319,7 +319,7 @@
             <span x-text="page"></span> / <span x-text="totalPages"></span>
         </div>
 
-        <a :href="nextPageUrl()" class="next" :class="{ disabled: page === totalPages }" @click.prevent="nextPage()">
+        <a :href="nextPageUrl()" class="btn-secondary next" :class="{ disabled: page === totalPages }" @click.prevent="nextPage()">
             <span><?= l('next') ?></span>
             <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                 <path class="" fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
