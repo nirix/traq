@@ -40,9 +40,8 @@ use traq\models\Subscription;
 use traq\models\CustomField;
 use traq\models\CustomFieldValue;
 use traq\models\Timeline;
-use traq\helpers\TicketFilterQuery;
 use traq\helpers\Pagination;
-use Traq\Queries\TicketFilterQuery as QueriesTicketFilterQuery;
+use Traq\Queries\TicketFilterQuery as TicketFilterQuery;
 use Traq\ViewModels\TicketView;
 
 /**
@@ -83,10 +82,15 @@ class Tickets extends AppController
 
     public function index(): Response
     {
-        if (!$this->isJson) {
-            return $this->renderView('tickets/index.phtml');
+        if ($this->isJson) {
+            return $this->ticketsJson();
         }
 
+        return $this->renderView('tickets/index.phtml');
+    }
+
+    public function ticketsJson(): Response
+    {
         $sortField = 't.ticket_id';
         $sortDirection = 'DESC';
         $allowedColumns = [
@@ -110,10 +114,11 @@ class Tickets extends AppController
             $sortDirection = strtoupper($sortBits[1]) === 'ASC' ? 'ASC' : 'DESC';
         }
 
-        $ticketFilterQuery = new QueriesTicketFilterQuery(
+        $ticketFilterQuery = new TicketFilterQuery(
             projectId: $this->project->id,
             sortField: $sortField,
             sortDirection: $sortDirection,
+            queryString: $_SERVER['QUERY_STRING'] ?? ''
         );
 
         $pagination = new Pagination(
@@ -129,123 +134,6 @@ class Tickets extends AppController
         });
 
         return $this->json([
-            'page' => (int) ($pagination->total_pages > 0 ? $pagination->page : 1),
-            'total_pages' => (int) $pagination->total_pages,
-            'tickets' => $tickets,
-        ]);
-    }
-
-    /**
-     * Handles the ticket listing index page.
-     */
-    public function action_api()
-    {
-        // Atom feed
-        $this->feeds[] = [
-            Request::requestUri() . ".atom",
-            l('x_ticket_feed', $this->project->name)
-        ];
-
-        // Create ticket filter query
-        $filter_query = new TicketFilterQuery($this->project);
-
-        // Loop over request variables
-        foreach (Request::$request as $filter => $value) {
-            // Check if the filter exists...
-            if (in_array($filter, array_keys(ticket_filters_for($this->project)))) {
-                $filter_query->process($filter, $value);
-            }
-        }
-
-        // Fetch tickets
-        $tickets = [];
-        $rows = $this->db->select('tickets.*')->from('tickets')->custom_sql($filter_query->sql());
-
-        // Order by creation date for atom feed
-        if (Router::$extension == '.atom') {
-            $rows->order_by('created_at', 'DESC');
-        }
-        // Sort from URI, if set
-        else {
-            // field.direction
-            $order = explode('.', ticket_sort_order($this->project->default_ticket_sorting));
-
-            // Check if we need to do
-            // anything with the field.
-            switch ($order[0]) {
-                case 'summary':
-                case 'body':
-                case 'votes':
-                case 'created_at':
-                case 'updated_at':
-                    $property = $order[0];
-                    break;
-
-                case 'user':
-                case 'milestone':
-                case 'version':
-                case 'component':
-                case 'type':
-                case 'status':
-                case 'priority':
-                case 'severity':
-                case 'assigned_to':
-                    $property = "{$order[0]}_id";
-                    break;
-
-                case 'id':
-                    $property = "ticket_id";
-                    break;
-
-                default:
-                    $property = 'ticket_id';
-            }
-
-            // Order rows
-            $rows->order_by($property, (strtolower($order[1]) == 'asc' ? "ASC" : "DESC"));
-        }
-
-        // Paginate tickets
-        $pagination = new Pagination(
-            (isset(Request::$request['page']) ? Request::$request['page'] : 1), // Page
-            settings('tickets_per_page'), // Per page
-            $rows->exec()->row_count() // Row count
-        );
-
-        if ($pagination->paginate) {
-            $rows->limit($pagination->limit, settings('tickets_per_page'));
-        }
-
-        View::set(compact('pagination'));
-        unset($all_rows);
-
-        $customFields = [];
-        $ticketCustomFields = [];
-        $projectCustomFields = $this->project->custom_fields->exec()->fetch_all();
-
-        foreach ($projectCustomFields as $customField) {
-            $customFields[$customField->id] = $customField;
-        }
-
-        $customFieldValues = CustomFieldValue::fetch_all();
-        foreach ($customFieldValues as $customFieldValue) {
-            // $customFields[$customFieldValue->custom_field_id]['values'][$customFieldValue->ticket_id] = $customFieldValue->value;
-            if (isset($customFields[$customFieldValue->custom_field_id])) {
-                $customField = $customFields[$customFieldValue->custom_field_id];
-                $slug = str_replace('-', '_', $customField->slug);
-                $ticketCustomFields[$customFieldValue->ticket_id][$slug] = $customFieldValue->value;
-            }
-        }
-
-        // Add to tickets array
-        foreach ($rows->exec()->fetch_all() as $row) {
-            $ticket = (new Ticket($row, false))->__toArray();
-            $ticket['custom_fields'] = $ticketCustomFields[$ticket['id']] ?? [];
-
-            $tickets[] = $ticket;
-        }
-
-        $this->apiResponse([
             'page' => (int) ($pagination->total_pages > 0 ? $pagination->page : 1),
             'total_pages' => (int) $pagination->total_pages,
             'tickets' => $tickets,
