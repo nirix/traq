@@ -87,7 +87,7 @@ class ProjectController extends AppController
         // Get the projects milestones and send them to the view.
         $milestones = Milestone::select()->where('project_id', $this->project->id);
 
-        $sortBy = explode('.', Request::get('sort', 'display_order.desc'));
+        $sortBy = explode('.', Request::get('sort', 'display_order.asc'));
         $sort = strtolower($sortBy[0]);
         $order = strtoupper($sortBy[1]) === 'ASC' ? 'ASC' : 'DESC';
 
