@@ -25,6 +25,7 @@ import axios from 'axios'
 import Alpine from 'alpinejs'
 
 interface FilterOption {
+  label?: string
   field: string
   type: "is" | "isOr" | "contains"
   condition?: boolean
@@ -60,7 +61,7 @@ Alpine.data('ticketList', () => ({
   sortOrder: 'asc',
 
   tickets: [],
-  filters: [] as FilterOption[],
+  filters: [] as FilterInterface[],
   filterData: {
     milestones: [] as Array<{ label: string; value: string }>,
     statuses: {} as { [group: string]: Array<{ label: string; value: string }> },
@@ -69,6 +70,7 @@ Alpine.data('ticketList', () => ({
     types: [] as Array<{ label: string; value: string }>,
     assignees: [] as Array<{ label: string; value: string }>,
   },
+  customFields: [] as any[],
 
   availableFilters: [
     {
@@ -129,15 +131,17 @@ Alpine.data('ticketList', () => ({
     const statusesUrl = window.traq.base + "api/statuses"
     const prioritiesUrl = window.traq.base + "api/priorities"
     const typesUrl = window.traq.base + "api/types"
+    const customFieldsUrl = window.traq.base + 'api/' + window.traq.project_slug + '/custom-fields';
 
-        Promise.all([
+    Promise.all([
       axios.get(roadmapUrl),
       axios.get(statusesUrl),
       axios.get(prioritiesUrl),
       axios.get(componentsUrl),
       axios.get(typesUrl),
       axios.get(membersUrl),
-    ]).then(([roadmap, statuses, priorities, components, ticketTypes, members]) => {
+      axios.get(customFieldsUrl),
+    ]).then(([roadmap, statuses, priorities, components, ticketTypes, members, customFields]) => {
       this.filterData.milestones =
         roadmap.data.map((data: any) => ({
           label: data.name,
@@ -198,19 +202,68 @@ Alpine.data('ticketList', () => ({
           value: data.username,
         })) ?? []
 
+      this.customFields = customFields.data;
+
       // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
-      // this.buildCustomFields().then(() => this.convertQueryString())
+      this.buildCustomFields().then(() => this.convertQueryString())
     })
 
     this.fetchTickets();
+
+    this.$watch('page', () => {
+      this.updateUrl();
+      this.fetchTickets();
+    });
+  },
+
+  convertQueryString() {
+    const filters: FilterInterface[] = [];
+    const params = new URLSearchParams(window.location.search);
+
+    params.forEach((value, key) => {
+      const filterOption = this.availableFilters.find(f => f.field === key);
+      if (!filterOption) {
+        return;
+      }
+
+      let condition = true;
+      let values: string[] = [];
+
+      if (value.startsWith('!')) {
+        condition = false;
+        value = value.substring(1);
+      }
+
+      values = value.split(',');
+
+      filters.push({
+        ...filterOption,
+        condition,
+        values,
+      });
+    });
+
+    this.filters = filters;
   },
 
   fetchUrl() {
     let url = `${window.traq.base}${window.traq.project_slug}/tickets.json`;
 
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams();
 
-    params.set('page', this.page.toString());
+    // Apply filters
+    if (this.filters.length) {
+      this.filters.map((filter: FilterInterface) => {
+        params.set(filter.field, (filter.condition ? "" : "!") + filter.values.join(","));
+      })
+    }
+
+    if (this.page > 1) {
+      params.set('page', this.page.toString());
+    } else {
+      params.delete('page');
+    }
+
     if (this.sortColumn) {
       params.set('order_by', `${this.sortColumn}.${this.sortOrder}`);
     }
@@ -221,6 +274,10 @@ Alpine.data('ticketList', () => ({
     }
 
     return url;
+  },
+
+  updateUrl() {
+    window.history.replaceState({}, '', this.fetchUrl().replace('.json', ''));
   },
 
   fetchTickets() {
@@ -265,8 +322,22 @@ Alpine.data('ticketList', () => ({
   addFilterValue(filter: FilterInterface): void {
       filter.values.push("")
     },
-  removeFilter(index: number) {
-    this.filters.splice(index, 1);
+  removeFilter(filter: FilterInterface, valueIndex: number | null = null) {
+    if (valueIndex === null || (valueIndex === 0 && filter.values.length === 1)) {
+      this.filters = this.filters.filter((option: FilterInterface) => option.field !== filter.field)
+    } else {
+      filter.values.splice(valueIndex, 1)
+    }
+  },
+  setFilterValue(filter: FilterInterface, index: number, event: Event): void {
+    filter.values[index] = (event.target as HTMLInputElement).value
+  },
+  clearFilters() {
+    this.filters = [];
+  },
+  applyFilters() {
+    this.updateUrl();
+    this.fetchTickets();
   },
 
   prevPageUrl() {
@@ -289,7 +360,6 @@ Alpine.data('ticketList', () => ({
     }
 
     this.page--;
-    this.fetchTickets();
   },
   nextPage() {
     if (this.page >= this.totalPages) {
@@ -297,6 +367,37 @@ Alpine.data('ticketList', () => ({
     }
 
     this.page++;
-    this.fetchTickets();
+  },
+
+  buildCustomFields(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        // Map custom fields to available filters.
+        this.customFields.map((field) => {
+          const key = field.slug.replaceAll("-", "_")
+
+          // If the values are an array, create a data set.
+          if (Array.isArray(field.values)) {
+            this.filterData[key] = field.values.map((value) => ({ label: value, value }))
+          }
+
+          // is/isOr will do just fine
+          const fieldType: "is" | "isOr" = field.type === "select" ? "is" : "isOr"
+
+          const filter: FilterOption = {
+            label: field.name,
+            field: field.slug,
+            type: fieldType,
+            dataSet: fieldType === "is" ? key : undefined,
+          }
+
+          this.availableFilters.push(filter)
+        })
+
+        resolve(true)
+      } catch (error) {
+        reject(false)
+      }
+    })
   },
 }));
