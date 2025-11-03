@@ -56,6 +56,9 @@ class AppController extends Controller
     public $title = array();
     public $feeds = array();
 
+    protected bool $isJson = false;
+    protected bool $isAtom = false;
+
     protected PDO $db;
 
     public function __construct()
@@ -135,6 +138,14 @@ class AppController extends Controller
         View::set('projects', $this->projects);
 
         View::set('app', $this);
+
+        if (Router::$extension == '.json') {
+            $this->isJson = true;
+        }
+
+        if (Router::$extension == '.atom' || Router::$extension == '.rss') {
+            $this->isAtom = true;
+        }
     }
 
     /**
@@ -353,5 +364,10 @@ class AppController extends Controller
     protected function redirectTo(string $url): Response
     {
         return new RedirectResponse($url);
+    }
+
+    protected function db(): PDO
+    {
+        return $this->db;
     }
 }

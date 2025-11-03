@@ -42,6 +42,8 @@ use traq\models\CustomFieldValue;
 use traq\models\Timeline;
 use traq\helpers\TicketFilterQuery;
 use traq\helpers\Pagination;
+use Traq\Queries\TicketFilterQuery as QueriesTicketFilterQuery;
+use Traq\ViewModels\TicketView;
 
 /**
  * Ticket controller.
@@ -81,7 +83,56 @@ class Tickets extends AppController
 
     public function index(): Response
     {
-        return $this->renderView('tickets/index.phtml');
+        if (!$this->isJson) {
+            return $this->renderView('tickets/index.phtml');
+        }
+
+        $sortField = 't.ticket_id';
+        $sortDirection = 'DESC';
+        $allowedColumns = [
+            'ticket_id' => 't.ticket_id',
+            'summary' => 't.summary',
+            'votes' => 't.votes',
+            'created_at' => 't.created_at',
+            'updated_at' => 't.updated_at',
+            'user' => 'user',
+            'assigned_to' => 'assigned_to',
+            'milestone' => 'milestone',
+            'component' => 'component',
+            'type' => 'type',
+            'status' => 'status',
+            'priority' => 'p.id',
+            'severity' => 'sv.id',
+        ];
+        if (Request::get('order_by')) {
+            $sortBits = explode('.', Request::get('order_by'));
+            $sortField = isset($allowedColumns[$sortBits[0]]) ? $allowedColumns[$sortBits[0]] : 't.ticket_id';
+            $sortDirection = strtoupper($sortBits[1]) === 'ASC' ? 'ASC' : 'DESC';
+        }
+
+        $ticketFilterQuery = new QueriesTicketFilterQuery(
+            projectId: $this->project->id,
+            sortField: $sortField,
+            sortDirection: $sortDirection,
+        );
+
+        $pagination = new Pagination(
+            (isset(Request::$request['page']) ? Request::$request['page'] : 1),
+            settings('tickets_per_page'),
+            $ticketFilterQuery->getRowCount()
+        );
+
+        $tickets = $ticketFilterQuery->getTickets(settings('tickets_per_page'), $pagination->limit);
+
+        array_walk($tickets, function (&$ticket) {
+            $ticket = $ticket->toArray();
+        });
+
+        return $this->json([
+            'page' => (int) ($pagination->total_pages > 0 ? $pagination->page : 1),
+            'total_pages' => (int) $pagination->total_pages,
+            'tickets' => $tickets,
+        ]);
     }
 
     /**
@@ -854,27 +905,27 @@ class Tickets extends AppController
     {
         // Set the proper action depending on the method
         switch ($method) {
-                // View ticket
+            // View ticket
             case 'view':
                 $action = 'view_tickets';
                 break;
 
-                // Create ticket
+            // Create ticket
             case 'new':
                 $action = 'create_tickets';
                 break;
 
-                // Edit ticket description
+            // Edit ticket description
             case 'edit':
                 $action = 'edit_ticket_description';
                 break;
 
-                // Update ticket properties
+            // Update ticket properties
             case 'update':
                 $action = 'update_tickets';
                 break;
 
-                // Delete tickets
+            // Delete tickets
             case 'delete':
                 $action = 'delete_tickets';
                 break;

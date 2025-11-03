@@ -2,6 +2,36 @@
     <h2 class="page-title"><?php echo l('tickets'); ?></h2>
 </div>
 <div x-data="ticketList">
+    <fieldset class="ticket-filters-container" :class=" { 'open' : showFilters }">
+        <legend @click="showFilters = !showFilters"><?= l('filters') ?></legend>
+
+        <div class="actions">
+            <div class="apply">
+                <div class="btn-group">
+                    <button class="btn-danger" disabled=""><?= l('clear') ?></button>
+                </div>
+            </div>
+            <div class="add-filter">
+                <div class="input-group">
+                    <select name="new_filter">
+                        <option disabled="" value=""><?= l('add_filter') ?></option>
+                        <option value="summary"><?= l('summary') ?></option>
+                        <option value="description"><?= l('description') ?></option>
+                        <option value="type"><?= l('type') ?></option>
+                        <option value="owner"><?= l('owner') ?></option>
+                        <option value="assigned_to"><?= l('assigned_to') ?></option>
+                        <option value="component"><?= l('component') ?></option>
+                        <option value="milestone"><?= l('milestone') ?></option>
+                        <option value="version"><?= l('version') ?></option>
+                        <option value="status"><?= l('status') ?></option>
+                        <option value="priority"><?= l('priority') ?></option>
+                    </select>
+                    <button class="btn-primary"><?= l('apply') ?></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
     <fieldset class="ticket-columns-container" :class=" { 'open' : showColumnSettings }">
         <legend @click="showColumnSettings = !showColumnSettings"><?= l('columns') ?></legend>
         <div>
@@ -87,47 +117,52 @@
             </ul>
         </div>
     </fieldset>
+
     <table class="ticket-listing rounded">
         <thead class="rounded-t">
             <tr class="rounded-t">
                 <template x-if="columns.id">
-                    <th><?= l('id') ?></th>
+                    <th @click="sort('ticket_id')" :class="{ sort: sortColumn === 'ticket_id', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }">
+                        <?= l('id') ?>
+                    </th>
                 </template>
                 <template x-if="columns.summary">
-                    <th><?= l('summary') ?></th>
+                    <th @click="sort('summary')" :class="{ sort: sortColumn === 'summary', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }">
+                        <?= l('summary') ?>
+                    </th>
                 </template>
                 <template x-if="columns.status">
-                    <th><?= l('status') ?></th>
+                    <th @click="sort('status')" :class="{ sort: sortColumn === 'status', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('status') ?></th>
                 </template>
                 <template x-if="columns.owner">
-                    <th><?= l('owner') ?></th>
+                    <th @click="sort('user')" :class="{ sort: sortColumn === 'user', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('owner') ?></th>
                 </template>
                 <template x-if="columns.type">
-                    <th><?= l('type') ?></th>
+                    <th @click="sort('type')" :class="{ sort: sortColumn === 'type', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('type') ?></th>
                 </template>
                 <template x-if="columns.component">
-                    <th><?= l('component') ?></th>
+                    <th @click="sort('component')" :class="{ sort: sortColumn === 'component', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('component') ?></th>
                 </template>
                 <template x-if="columns.milestone">
-                    <th><?= l('milestone') ?></th>
+                    <th @click="sort('milestone')" :class="{ sort: sortColumn === 'milestone', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('milestone') ?></th>
                 </template>
                 <template x-if="columns.assignee">
-                    <th><?= l('assignee') ?></th>
+                    <th @click="sort('assigned_to')" :class="{ sort: sortColumn === 'assigned_to', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('assignee') ?></th>
                 </template>
                 <template x-if="columns.priority">
-                    <th><?= l('priority') ?></th>
+                    <th @click="sort('priority')" :class="{ sort: sortColumn === 'priority', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('priority') ?></th>
                 </template>
                 <template x-if="columns.severity">
-                    <th><?= l('severity') ?></th>
+                    <th @click="sort('severity')" :class="{ sort: sortColumn === 'severity', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('severity') ?></th>
                 </template>
                 <template x-if="columns.reported">
-                    <th><?= l('reported') ?></th>
+                    <th @click="sort('created_at')" :class="{ sort: sortColumn === 'created_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('reported') ?></th>
                 </template>
                 <template x-if="columns.updated">
-                    <th><?= l('updated') ?></th>
+                    <th @click="sort('updated_at')" :class="{ sort: sortColumn === 'updated_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('updated') ?></th>
                 </template>
                 <template x-if="columns.votes">
-                    <th><?= l('votes') ?></th>
+                    <th @click="sort('votes')" :class="{ sort: sortColumn === 'votes', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('votes') ?></th>
                 </template>
             </tr>
         </thead>
@@ -180,4 +215,23 @@
         </tbody>
     </table>
 
+    <div class="pagination">
+        <a :href="prevPageUrl()" class="previous" :class="{ disabled: page === 1 }" @click.prevent="prevPage()">
+            <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <path class="" fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
+            </svg>
+            <span><?= l('previous') ?></span>
+        </a>
+
+        <div class="pages">
+            <span x-text="page"></span> / <span x-text="totalPages"></span>
+        </div>
+
+        <a :href="nextPageUrl()" class="next" :class="{ disabled: page === totalPages }" @click.prevent="nextPage()">
+            <span><?= l('next') ?></span>
+            <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <path class="" fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
+            </svg>
+        </a>
+    </div>
 </div>

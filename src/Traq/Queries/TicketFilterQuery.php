@@ -23,31 +23,116 @@
 
 namespace Traq\Queries;
 
+use Avalon\Database;
+use Traq\ViewModels\TicketView;
+
+// Legacy
 use avalon\core\Kernel as Avalon;
-use avalon\Database;
 use traq\models\CustomField;
 use traq\models\Status;
 use traq\models\User;
 
 /**
- * Ticket filter query builder.
+ * Ticket filter query.
  *
- * @author Jack P.
- * @since 3.0
  * @package Traq
- * @subpackage Helpers
+ * @subpackage Queries
+ * @since 3.9.0
  */
 class TicketFilterQuery
 {
+    public function __construct(
+        protected int $projectId,
+        protected string $sortField = 'created_at',
+        protected string $sortDirection = 'DESC',
+    ) {}
+
+    public function query(bool $withLimit = false): string
+    {
+        $prefix = Database::connection()->prefix;
+
+        $limit = $withLimit ? 'LIMIT :limit OFFSET :offset' : '';
+
+        return "
+            SELECT
+                t.ticket_id,
+                t.summary,
+                t.user_id,
+                t.assigned_to_id,
+                t.votes,
+                t.created_at,
+                t.updated_at,
+                t.is_closed,
+                ru.name AS owner,
+                au.name AS assignee,
+                tp.name AS type,
+                m.name AS milestone,
+                m.slug AS milestone_slug,
+                v.name AS version,
+                v.slug AS version_slug,
+                c.name AS component,
+                s.name AS `status`,
+                p.name AS priority,
+                sv.name AS severity
+
+            FROM {$prefix}tickets t
+            LEFT JOIN {$prefix}users ru ON t.user_id = ru.id
+            LEFT JOIN {$prefix}users au ON t.assigned_to_id = au.id
+            LEFT JOIN {$prefix}milestones m ON t.milestone_id = m.id
+            LEFT JOIN {$prefix}milestones v ON t.version_id = v.id
+            LEFT JOIN {$prefix}statuses s ON t.status_id = s.id
+            LEFT JOIN {$prefix}components c ON t.component_id = c.id
+            LEFT JOIN {$prefix}types tp ON t.type_id = tp.id
+            LEFT JOIN {$prefix}priorities p ON t.priority_id = p.id
+            LEFT JOIN {$prefix}severities sv ON t.severity_id = sv.id
+
+            WHERE
+                t.project_id = :projectId
+
+            ORDER BY {$this->sortField} {$this->sortDirection}
+
+            {$limit}
+        ";
+    }
+
+    public function getRowCount(): int
+    {
+        $db = Database::connection();
+        $query = $this->query();
+
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':projectId', $this->projectId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function getTickets(?int $limit = null, ?int $offset = null): array
+    {
+        $db = Database::connection();
+        $query = $this->query($limit > 0);
+
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':projectId', $this->projectId, \PDO::PARAM_INT);
+        if ($limit !== null && $offset !== null) {
+            $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        }
+        $stmt->execute();
+
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, TicketView::class);
+
+        return $stmt->fetchAll();
+    }
+
+    //--------------------------------------------------------------
+    // Legacy code
+    //--------------------------------------------------------------
+
     private $sql = array();
     private $custom_field_sql = array();
     private $filters = array();
     private $project;
-
-    public function __construct($project)
-    {
-        $this->project = $project;
-    }
 
     /**
      * Processes a filter.
