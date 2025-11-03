@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\helpers;
+namespace Traq\Queries;
 
 use avalon\core\Kernel as Avalon;
 use avalon\Database;
@@ -69,7 +72,7 @@ class TicketFilterQuery
         }
 
         // Add to filters array
-        $this->filters[$field] = array('prefix' => ($condition == 'NOT' ? '!' :''), 'values' => array());
+        $this->filters[$field] = array('prefix' => ($condition == 'NOT' ? '!' : ''), 'values' => array());
 
         if ($values[0] == '' or end($values) == '') {
             $this->filters[$field]['values'][] = '';
@@ -205,7 +208,7 @@ class TicketFilterQuery
             // Sort values low to high
             asort($values);
             $values = array_map(
-                fn($val) => '"'.$val.'"',
+                fn($val) => '"' . $val . '"',
                 $values
             );
 
