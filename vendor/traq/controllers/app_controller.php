@@ -63,6 +63,13 @@ class AppController extends Controller
         // Set DB connection
         $this->db = Database::connection();
 
+        $dbVersion = settings('db_version');
+        if ($dbVersion < TRAQ_DB_VER) {
+            // Database version is out of date, redirect to upgrader
+            header("Location: " . Request::base('install/upgrade.php'));
+            exit;
+        }
+
         // Set the theme
         View::$theme = settings('theme');
         View::$inherit_from = APPPATH . "/views/default";
