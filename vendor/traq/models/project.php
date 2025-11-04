@@ -55,7 +55,11 @@ class Project extends Model
 
     // Has-many relationships with other models
     protected static $_has_many = array(
-        'tickets', 'milestones', 'components', 'subscriptions', 'permissions',
+        'tickets',
+        'milestones',
+        'components',
+        'subscriptions',
+        'permissions',
         'wiki_pages'   => array('model' => 'WikiPage'),
         'roles'        => array('model' => 'ProjectRole'),
         'user_roles'   => array('model' => 'UserRole'),
@@ -174,6 +178,16 @@ class Project extends Model
         }
 
         return false;
+    }
+
+    /**
+     * Get all custom fields for this project.
+     *
+     * @return CustomField[]
+     */
+    public function getCustomFields(): array
+    {
+        return CustomField::forProject($this->id);
     }
 
     /**

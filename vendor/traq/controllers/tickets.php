@@ -86,7 +86,11 @@ class Tickets extends AppController
             return $this->ticketsJson();
         }
 
-        return $this->renderView('tickets/index.phtml');
+        $customFields = $this->project->getCustomFields();
+
+        return $this->renderView('tickets/index.phtml', [
+            'customFields' => $customFields
+        ]);
     }
 
     public function ticketsJson(): Response
@@ -108,6 +112,11 @@ class Tickets extends AppController
             'priority' => 'p.id',
             'severity' => 'sv.id',
         ];
+
+        foreach ($this->project->getCustomFields() as $index => $field) {
+            $allowedColumns[$field->slug] = "cf_{$index}.value";
+        }
+
         if (Request::get('order_by')) {
             $sortBits = explode('.', Request::get('order_by'));
             $sortField = isset($allowedColumns[$sortBits[0]]) ? $allowedColumns[$sortBits[0]] : 't.ticket_id';

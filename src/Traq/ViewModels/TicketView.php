@@ -29,7 +29,10 @@ namespace Traq\ViewModels;
  * @package Traq
  * @subpackage ViewModels
  * @since 3.9.0
+ *
+ * Dynamic properties enabled for custom fields.
  */
+#[\AllowDynamicProperties]
 class TicketView
 {
     protected int $ticket_id;

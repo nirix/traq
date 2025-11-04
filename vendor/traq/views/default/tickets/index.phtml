@@ -206,6 +206,14 @@
                         <?= l('votes') ?>
                     </label>
                 </li>
+                <?php foreach ($customFields as $field): ?>
+                    <li>
+                        <label>
+                            <input type="checkbox" x-model="columns.<?= $field->slug ?>">
+                            <?= $field->name ?>
+                        </label>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </fieldset>
@@ -256,6 +264,11 @@
                 <template x-if="columns.votes">
                     <th @click="sort('votes')" :class="{ sort: sortColumn === 'votes', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('votes') ?></th>
                 </template>
+                <?php foreach ($customFields as $field): ?>
+                    <template x-if="columns.<?= $field->slug ?>">
+                        <th @click="sort('<?= $field->slug ?>')" :class="{ sort: sortColumn === '<?= $field->slug ?>', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= $field->name ?></th>
+                    </template>
+                <?php endforeach; ?>
             </tr>
         </thead>
         <tbody>
@@ -302,6 +315,11 @@
                     <template x-if+="columns.votes">
                         <td x-text="ticket.votes"></td>
                     </template>
+                    <?php foreach ($customFields as $field): ?>
+                        <template x-if="columns.<?= $field->slug ?>">
+                            <td x-text="ticket.<?= $field->slug ?>"></td>
+                        </template>
+                    <?php endforeach; ?>
                 </tr>
             </template>
         </tbody>

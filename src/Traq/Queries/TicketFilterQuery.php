@@ -56,6 +56,8 @@ class TicketFilterQuery
     ];
 
     protected array $filters = [];
+    protected array $customFields = [];
+    protected array $customFieldSlugs = [];
 
     public function __construct(
         protected int $projectId,
@@ -64,6 +66,11 @@ class TicketFilterQuery
         string $queryString = ''
     ) {
         $this->processQueryString($queryString);
+        $this->customFields = CustomField::forProject($this->projectId);
+
+        foreach ($this->customFields as $index => $field) {
+            $this->customFieldSlugs[] = $field->slug;
+        }
     }
 
     public function query(bool $withLimit = false): string
@@ -73,6 +80,9 @@ class TicketFilterQuery
         $limit = $withLimit ? 'LIMIT :limit OFFSET :offset' : '';
 
         $filtersSql = $this->buildFiltersSql();
+
+        $customFieldSql =  $this->buildCustomFieldSql();
+        $customFieldSelect = $customFieldSql['select'] ? ',' . $customFieldSql['select'] : '';
 
         return "
             SELECT
@@ -97,6 +107,7 @@ class TicketFilterQuery
                 t.priority_id,
                 sv.name AS severity,
                 t.severity_id
+                {$customFieldSelect}
 
             FROM {$prefix}tickets t
             LEFT JOIN {$prefix}users ru ON t.user_id = ru.id
@@ -108,6 +119,7 @@ class TicketFilterQuery
             LEFT JOIN {$prefix}types tp ON t.type_id = tp.id
             LEFT JOIN {$prefix}priorities p ON t.priority_id = p.id
             LEFT JOIN {$prefix}severities sv ON t.severity_id = sv.id
+            {$customFieldSql['join']}
 
             WHERE
                 t.project_id = :projectId
@@ -158,14 +170,35 @@ class TicketFilterQuery
 
         $stmt->setFetchMode(\PDO::FETCH_CLASS, TicketView::class);
 
-        return $stmt->fetchAll();
+        $tickets = array_map(function (TicketView $ticket) {
+            foreach ($this->customFields as $index => $field) {
+                $prop = "custom_field_{$index}";
+                $value = $ticket->{$prop};
+                if ($value) {
+                    $value = json_decode($ticket->{$prop});
+                }
+
+                if ($value && $field->type === 'integer') {
+                    $value = (int) $value;
+                }
+
+                $ticket->{$field->slug} = $value;
+                unset($ticket->{$prop});
+            }
+
+            return $ticket;
+        }, $stmt->fetchAll());
+
+        return $tickets;
     }
 
     public function processQueryString(string $queryString): void
     {
         parse_str($queryString, $params);
 
+        // page number and ordering aren't filters
         unset($params['page']);
+        unset($params['order_by']);
 
         foreach ($params as $field => $value) {
             // Get condition from first value and update if necessary
@@ -186,11 +219,18 @@ class TicketFilterQuery
     protected function buildFiltersSql(): string
     {
         $sqlParts = [];
+        $fieldMapping = static::$fieldMapping;
+        $customFields = [];
+
+        foreach ($this->customFields as $index => $field) {
+            $customFields[$field->slug] = $field;
+            $fieldMapping[$field->slug] = "cf_{$index}.value";
+        }
 
         foreach ($this->filters as $field => $filter) {
             $condition = $filter['condition'];
             $values = $filter['values'];
-            $fieldName = static::$fieldMapping[$field];
+            $fieldName = $fieldMapping[$field];
 
             // Build SQL for each filter type
             if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity'])) {
@@ -203,6 +243,12 @@ class TicketFilterQuery
 
                 $sqlParts[] = "{$fieldName} {$condition} IN ({$placeholders})";
             } elseif (in_array($field, ['summary', 'description'])) {
+                $likeClauses = [];
+                foreach ($values as $index => $value) {
+                    $likeClauses[] = "{$fieldName} {$condition} LIKE :{$field}_{$index}";
+                }
+                $sqlParts[] = '(' . implode(' OR ', $likeClauses) . ')';
+            } elseif (in_array($field, array_keys($customFields))) {
                 $likeClauses = [];
                 foreach ($values as $index => $value) {
                     $likeClauses[] = "{$fieldName} {$condition} LIKE :{$field}_{$index}";
@@ -222,228 +268,32 @@ class TicketFilterQuery
 
         foreach ($this->filters as $field => $filter) {
             foreach ($filter['values'] as $index => $value) {
-                if (in_array($field, ['summary', 'description'])) {
+                if (in_array($field, ['summary', 'description', ...$this->customFieldSlugs])) {
                     $value = '%' . str_replace('*', '%', $value) . '%';
                 }
 
                 $params[":{$field}_{$index}"] = $value;
             }
         }
-        // dd($params);
+
         return $params;
     }
 
-    //--------------------------------------------------------------
-    // Legacy code
-    //--------------------------------------------------------------
-
-    private $sql = array();
-    private $custom_field_sql = array();
-
-    /**
-     * Processes a filter.
-     *
-     * @param string $filed
-     * @param array $values
-     */
-    public function process($field, $values)
+    protected function buildCustomFieldSql(): array
     {
-        if ($field == 'search') {
-            $values = is_array($values) ? $values : array($values);
-        } elseif (!is_array($values)) {
-            $values = explode(',', $values);
+        $prefix = Database::connection()->prefix;
+
+        $selectSql = [];
+        $joinSql = [];
+
+        foreach ($this->customFields as $index => $field) {
+            $selectSql[] = "cf_{$index}.value AS custom_field_{$index}";
+            $joinSql[] = "LEFT JOIN {$prefix}custom_field_values cf_{$index} ON t.id = cf_{$index}.ticket_id AND cf_{$index}.custom_field_id = {$field->id}";
         }
 
-        $values = array_map(fn($val) => addslashes($val), $values);
-
-        $condition = '';
-        if (substr($values[0], 0, 1) == '!') {
-            $condition = 'NOT';
-            $values[0] = substr($values[0], 1);
-        }
-
-        // Add to filters array
-        $this->filters[$field] = array('prefix' => ($condition == 'NOT' ? '!' : ''), 'values' => array());
-
-        if ($values[0] == '' or end($values) == '') {
-            $this->filters[$field]['values'][] = '';
-        }
-
-        if (count($values)) {
-            $this->add($field, $condition, $values);
-        }
-    }
-
-    /**
-     * Checks the values and constructs the query.
-     *
-     * @param string $field
-     * @param string $condition
-     * @param array $values
-     */
-    private function add($field, $condition, $values)
-    {
-        $query_values = array();
-
-        if (!count($values)) {
-            return;
-        }
-
-        // Milestone, version, status, type and component
-        if (in_array($field, array('milestone', 'status', 'type', 'version', 'component', 'priority', 'severity'))) {
-            $class = "\\traq\\models\\" . ucfirst($field == 'version' ? 'milestone' : $field);
-            foreach ($values as $value) {
-                // What column to use when
-                // looking up row.
-                switch ($field) {
-                    // Milestone and version
-                    case 'milestone':
-                    case 'version':
-                        $find = 'slug';
-                        break;
-
-                    // Everything else
-                    default:
-                        $find = 'name';
-                        break;
-                }
-
-                // Status, type, priority and severity
-                if (in_array($field, array('status', 'type', 'priority', 'severity'))) {
-                    // Find row and add ID to query values if it exists
-                    if ($field == 'status' and ($value == 'allopen' or $value == 'allclosed')) {
-                        foreach (Status::select('id')->where('status', ($value == 'allopen' ? 1 : 0))->exec()->fetch_all() as $status) {
-                            $query_values[] = $status->id;
-                        }
-                    } elseif ($row = $class::find($find, $value) and $row) {
-                        $query_values[] = $row->id;
-                    }
-                }
-                // Everything else
-                else {
-                    if ($row = $class::select()->where('project_id', Avalon::app()->project->id)->where($find, $value)->exec()->fetch()) {
-                        $query_values[] = $row->id;
-                    }
-                }
-            }
-
-            // Sort values low to high
-            asort($query_values);
-
-            // Value
-            $value = "IN (" . implode(',', $query_values) . ")";
-
-            // Add to query if there's any values
-            if (count($query_values)) {
-                $this->sql[] = "`{$field}_id` {$condition} {$value}";
-            }
-
-            $this->filters[$field]['values'] = array_merge($query_values, $this->filters[$field]['values']);
-        }
-        // Summary and description
-        elseif (in_array($field, array('summary', 'description'))) {
-            $class = "\\traq\\models\\" . ucfirst($field);
-            $query_values = array();
-            foreach ($values as $value) {
-                if (!empty($value)) {
-                    $field_name = ($field == 'summary' ? 'summary' : 'body');
-                    $query_values[] = "`{$field_name}` {$condition} LIKE '%" . str_replace('*', '%', $value) . "%'";
-                }
-            }
-
-            if (count($query_values)) {
-                $this->sql[] = "(" . implode(' OR ', $query_values) . ")";
-                $this->filters[$field]['values'] = $values;
-            }
-        }
-        // Owner and Assigned to
-        elseif (in_array($field, array('owner', 'assigned_to'))) {
-            $column = ($field == 'owner') ? 'user' : $field;
-
-            $query_values[] = 0;
-            foreach ($values as $value) {
-                if (!empty($value)) {
-                    if ($user = User::find('username', $value)) {
-                        $query_values[] = $user->id;
-                    }
-                }
-            }
-
-            // Sort values low to high
-            asort($query_values);
-
-            // Value
-            $value = "IN (" . implode(',', $query_values) . ")";
-
-            // Add to query if there's any values
-            if (count($query_values)) {
-                $this->sql[] = "`{$column}_id` {$condition} {$value}";
-                $this->filters[$field]['values'] = array_merge($values, $this->filters[$field]['values']);
-            }
-        }
-        // Search
-        elseif ($field == 'search') {
-            $value = str_replace('*', '%', implode('%', $values));
-
-            $value = \addslashes($value);
-
-            $this->sql[] = "(`summary` LIKE '%{$value}%' OR `body` LIKE '%{$value}%')";
-            $this->filters['search']['values'] = $values;
-        }
-        // Custom fields
-        elseif (in_array($field, array_keys(custom_field_filters_for($this->project)))) {
-            $custom_field = CustomField::find('slug', $field);
-            $this->filters[$field]['label'] = $custom_field->name;
-            $this->filters[$field]['values'] = $values;
-
-            // Sort values low to high
-            asort($values);
-            $values = array_map(
-                fn($val) => '"' . $val . '"',
-                $values
-            );
-
-            if (count($values) >= 1 && !empty($values[0])) {
-                $this->custom_field_sql[] = "
-                    `fields`.`custom_field_id` = {$custom_field->id}
-                    AND `fields`.`value` {$condition} IN ('" . implode("','", $values) . "')
-                    AND `fields`.`ticket_id` = `" . Database::connection()->prefix . "tickets`.`id`
-                ";
-            }
-        }
-    }
-
-    /**
-     * Returns filters.
-     *
-     * @return array
-     */
-    public function filters()
-    {
-        return $this->filters;
-    }
-
-    /**
-     * Returns the query.
-     *
-     * @return string
-     */
-    public function sql()
-    {
-        $sql = array();
-
-        if (count($this->custom_field_sql)) {
-            foreach ($this->custom_field_sql as $index => $customFieldSql) {
-                $sql[] = "JOIN `" . Database::connection()->prefix . "custom_field_values` AS `fields{$index}` ON (" . str_replace('`fields`', "`fields{$index}`", $customFieldSql) . ")";
-            }
-        }
-
-        $sql[] = " WHERE `project_id` = {$this->project->id}";
-
-        if (count($this->sql)) {
-            $sql[] = "AND " . implode(" AND ", $this->sql);
-        }
-
-        return implode(" ", $sql);
+        return [
+            'select' => count($selectSql) ? implode(',', $selectSql) : null,
+            'join' => count($joinSql) ? implode("\n", $joinSql) : null,
+        ];
     }
 }
