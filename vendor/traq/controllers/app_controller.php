@@ -49,12 +49,12 @@ use traq\helpers\API;
  */
 class AppController extends Controller
 {
-    public $project;
+    public ?Project $project;
     public $projects;
-    public $user;
-    public $is_api = false;
-    public $title = array();
-    public $feeds = array();
+    public ?User $user;
+    public bool $is_api = false;
+    public array $title = array();
+    public array $feeds = array();
 
     protected bool $isJson = false;
     protected bool $isAtom = false;
