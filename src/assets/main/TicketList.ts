@@ -392,6 +392,7 @@ Alpine.data('ticketList', () => ({
     }
 
     this.page--;
+    document.getElementById('ticket-listing')?.scrollIntoView({ behavior: 'smooth' })
   },
   nextPage() {
     if (this.page >= this.totalPages) {
@@ -399,6 +400,7 @@ Alpine.data('ticketList', () => ({
     }
 
     this.page++;
+    document.getElementById('ticket-listing')?.scrollIntoView({ behavior: 'smooth' })
   },
 
   buildCustomFields(): Promise<boolean> {
