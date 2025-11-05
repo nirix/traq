@@ -168,9 +168,11 @@ class TicketFilterQuery
 
         $stmt->execute();
 
+        // Fetch as TicketView objects
         $stmt->setFetchMode(\PDO::FETCH_CLASS, TicketView::class);
 
         $tickets = array_map(function (TicketView $ticket) {
+            // Populate custom fields
             foreach ($this->customFields as $index => $field) {
                 $prop = "custom_field_{$index}";
                 $value = $ticket->{$prop};
@@ -233,7 +235,7 @@ class TicketFilterQuery
             $fieldName = $fieldMapping[$field];
 
             // Build SQL for each filter type
-            if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity'])) {
+            if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity', 'assigned_to'])) {
                 // Named placeholders for each value
                 $placeholders = [];
                 foreach ($values as $index => $value) {
@@ -242,7 +244,7 @@ class TicketFilterQuery
                 $placeholders = implode(',', $placeholders);
 
                 $sqlParts[] = "{$fieldName} {$condition} IN ({$placeholders})";
-            } elseif (in_array($field, ['summary', 'description'])) {
+            } elseif (in_array($field, ['summary', 'description', 'owner'])) {
                 $likeClauses = [];
                 foreach ($values as $index => $value) {
                     $likeClauses[] = "{$fieldName} {$condition} LIKE :{$field}_{$index}";
