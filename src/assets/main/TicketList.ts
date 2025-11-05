@@ -1,4 +1,3 @@
-import { FilterInterface } from './../interfaces';
 /*!
  * Traq
  * Copyright (C) 2009-2025 Jack Polgar
@@ -23,6 +22,7 @@ import { FilterInterface } from './../interfaces';
 
 import axios from 'axios'
 import Alpine from 'alpinejs'
+import { CustomFieldInterface, FilterInterface, TicketInterface } from './../interfaces';
 
 interface FilterOption {
   label?: string
@@ -54,6 +54,7 @@ Alpine.data('ticketList', () => ({
   isLoading: false,
   showColumnSettings: true,
   showFilters: true,
+  enableMassActions: false,
 
   page: 1,
   totalPages: 1,
@@ -69,8 +70,9 @@ Alpine.data('ticketList', () => ({
     components: [] as Array<{ label: string; value: string }>,
     types: [] as Array<{ label: string; value: string }>,
     assignees: [] as Array<{ label: string; value: string }>,
-  },
-  customFields: [] as any[],
+  } as Record<string, Array<{ label: string; value: string }> | { [group: string]: Array<{ label: string; value: string }> }>,
+  customFields: [] as CustomFieldInterface[],
+  checkedTickets: [] as number[],
 
   availableFilters: [
     {
@@ -123,6 +125,7 @@ Alpine.data('ticketList', () => ({
   ] as FilterOption[],
 
   init() {
+    this.enableMassActions = this.$el.hasAttribute('data-mass-actions');
     this.page = parseInt((new URLSearchParams(window.location.search)).get('page') || '1', 10) || 1;
 
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap/all.json"
@@ -146,6 +149,7 @@ Alpine.data('ticketList', () => ({
         roadmap.data.map((data: any) => ({
           label: data.name,
           value: data.slug,
+          id: data.id,
         })) ?? []
 
       const open =
@@ -154,6 +158,7 @@ Alpine.data('ticketList', () => ({
           .map((data: any) => ({
             label: data.name,
             value: data.name,
+            id: data.id,
           })) ?? []
 
       const closed =
@@ -162,6 +167,7 @@ Alpine.data('ticketList', () => ({
           .map((data: any) => ({
             label: data.name,
             value: data.name,
+            id: data.id,
           })) ?? []
 
       const started =
@@ -170,6 +176,7 @@ Alpine.data('ticketList', () => ({
           .map((data: any) => ({
             label: data.name,
             value: data.name,
+            id: data.id,
           })) ?? []
 
       this.filterData.statuses = {
@@ -182,24 +189,28 @@ Alpine.data('ticketList', () => ({
         priorities.data.map((data: any) => ({
           label: data.name,
           value: data.name,
+          id: data.id,
         })) ?? []
 
       this.filterData.components =
         components.data.map((data: any) => ({
           label: data.name,
           value: data.name,
+          id: data.id,
         })) ?? []
 
       this.filterData.types =
         ticketTypes.data.map((data: any) => ({
           label: data.name,
           value: data.name,
+          id: data.id,
         })) ?? []
 
       this.filterData.assignees =
         members.data.map((data: any) => ({
           label: data.name,
           value: data.username,
+          id: data.id,
         })) ?? []
 
       this.customFields = customFields.data;
@@ -232,7 +243,16 @@ Alpine.data('ticketList', () => ({
         value = value.substring(1);
       }
 
-      values = value.split(',');
+      // Handle allopen, allstarted and allclosed status filter values
+      if (filterOption.field === 'status' && value === 'allopen') {
+        values = this.filterData.statuses.Open.map((status: { label: string; value: string }) => status.value);
+      } else if (filterOption.field === 'status' && value === 'allclosed') {
+        values = this.filterData.statuses.Closed.map((status: { label: string; value: string }) => status.value);
+      } else if (filterOption.field === 'status' && value === 'allstarted') {
+        values = this.filterData.statuses.Started.map((status: { label: string; value: string }) => status.value);
+      } else {
+        values = value.split(',');
+      }
 
       filters.push({
         ...filterOption,
@@ -288,6 +308,7 @@ Alpine.data('ticketList', () => ({
         this.page = response.data.page;
         this.totalPages = response.data.total_pages;
         this.isLoading = false;
+        this.checkedTickets = [];
       })
       .catch(err => {
         console.error(err);
@@ -375,8 +396,8 @@ Alpine.data('ticketList', () => ({
     return new Promise((resolve, reject) => {
       try {
         // Map custom fields to available filters.
-        this.customFields.map((field) => {
-          const key = field.slug.replaceAll("-", "_")
+        for (const field of this.customFields) {
+          const key: string = field.slug.replaceAll("-", "_")
 
           // If the values are an array, create a data set.
           if (Array.isArray(field.values)) {
@@ -394,12 +415,27 @@ Alpine.data('ticketList', () => ({
           }
 
           this.availableFilters.push(filter)
-        })
+        }
 
         resolve(true)
       } catch (error) {
         reject(false)
       }
     })
+  },
+
+  massActionsTogglePage() {
+    if (this.checkedTickets.length === this.tickets.length) {
+      this.checkedTickets = [];
+    } else {
+      this.checkedTickets = this.tickets.map((ticket: TicketInterface) => ticket.ticket_id);
+    }
+  },
+  toggleTicket(ticketId: number) {
+    if (this.checkedTickets.includes(ticketId)) {
+      this.checkedTickets = this.checkedTickets.filter((id) => id !== ticketId)
+    }else {
+      this.checkedTickets.push(ticketId)
+    }
   },
 }));

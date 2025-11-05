@@ -1,16 +1,17 @@
 <div class="content">
     <h2 class="page-title"><?php echo l('tickets'); ?></h2>
 </div>
-<div x-data="ticketList">
+<div x-data="ticketList" <?= currentUser()->permission($project->id, 'perform_mass_actions') ? 'data-mass-actions' : '' ?>>
     <fieldset class="ticket-filters-container" :class=" { 'open' : showFilters }">
         <legend @click="showFilters = !showFilters"><?= l('filters') ?></legend>
 
         <div class="active-filters">
             <template x-if="filters.length === 0">
-                <div class="no-filters">No filters set.</div>
+                <div class="no-filters"><?= l('no_filters_set') ?></div>
             </template>
             <template x-for="(filter, fIndex) in filters" :key="fIndex">
-                <div class="filter">
+                <div
+                    class="filter">
                     <div class="label" x-text="filter.label ?? language[filter.field]"></div>
                     <template x-if="filter.type === 'is'">
                         <div class="conditions-and-values">
@@ -40,7 +41,7 @@
                                     </select>
                                 </div>
                                 <div class="remove">
-                                    <button class="btn-danger" @click="removeFilter(filter)" type="button" title="<?= l('remove') ?>">
+                                    <button class="btn-danger" @click="removeFilter(filter)" type="button">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                         </svg>
@@ -221,104 +222,68 @@
     <table class="ticket-listing rounded">
         <thead>
             <tr>
-                <template x-if="columns.id">
-                    <th @click="sort('ticket_id')" :class="{ sort: sortColumn === 'ticket_id', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }">
-                        <?= l('id') ?>
+                <template x-if="enableMassActions">
+                    <th>
+                        <input type="checkbox" name="mass_actions_current_page" @click="massActionsTogglePage" x-ref="massActionToggle" :checked="checkedTickets.length === tickets.length" />
                     </th>
                 </template>
-                <template x-if="columns.summary">
-                    <th @click="sort('summary')" :class="{ sort: sortColumn === 'summary', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }">
-                        <?= l('summary') ?>
-                    </th>
-                </template>
-                <template x-if="columns.status">
-                    <th @click="sort('status')" :class="{ sort: sortColumn === 'status', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('status') ?></th>
-                </template>
-                <template x-if="columns.owner">
-                    <th @click="sort('user')" :class="{ sort: sortColumn === 'user', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('owner') ?></th>
-                </template>
-                <template x-if="columns.type">
-                    <th @click="sort('type')" :class="{ sort: sortColumn === 'type', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('type') ?></th>
-                </template>
-                <template x-if="columns.component">
-                    <th @click="sort('component')" :class="{ sort: sortColumn === 'component', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('component') ?></th>
-                </template>
-                <template x-if="columns.milestone">
-                    <th @click="sort('milestone')" :class="{ sort: sortColumn === 'milestone', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('milestone') ?></th>
-                </template>
-                <template x-if="columns.assignee">
-                    <th @click="sort('assigned_to')" :class="{ sort: sortColumn === 'assigned_to', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('assignee') ?></th>
-                </template>
-                <template x-if="columns.priority">
-                    <th @click="sort('priority')" :class="{ sort: sortColumn === 'priority', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('priority') ?></th>
-                </template>
-                <template x-if="columns.severity">
-                    <th @click="sort('severity')" :class="{ sort: sortColumn === 'severity', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('severity') ?></th>
-                </template>
-                <template x-if="columns.reported">
-                    <th @click="sort('created_at')" :class="{ sort: sortColumn === 'created_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('reported') ?></th>
-                </template>
-                <template x-if="columns.updated">
-                    <th @click="sort('updated_at')" :class="{ sort: sortColumn === 'updated_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('updated') ?></th>
-                </template>
-                <template x-if="columns.votes">
-                    <th @click="sort('votes')" :class="{ sort: sortColumn === 'votes', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= l('votes') ?></th>
-                </template>
+                <th @click="sort('ticket_id')" :class="{ sort: sortColumn === 'ticket_id', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.id">
+                    <?= l('id') ?>
+                </th>
+                <th @click="sort('summary')" :class="{ sort: sortColumn === 'summary', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.summary">
+                    <?= l('summary') ?>
+                </th>
+                <th @click="sort('status')" :class="{ sort: sortColumn === 'status', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.status"><?= l('status') ?></th>
+                <th @click="sort('user')" :class="{ sort: sortColumn === 'user', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.owner"><?= l('owner') ?></th>
+                <th @click="sort('type')" :class="{ sort: sortColumn === 'type', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.type"><?= l('type') ?></th>
+                <th @click="sort('component')" :class="{ sort: sortColumn === 'component', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.component"><?= l('component') ?></th>
+                <th @click="sort('milestone')" :class="{ sort: sortColumn === 'milestone', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.milestone"><?= l('milestone') ?></th>
+                <th @click="sort('assigned_to')" :class="{ sort: sortColumn === 'assigned_to', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.assignee"><?= l('assignee') ?></th>
+                <th @click="sort('priority')" :class="{ sort: sortColumn === 'priority', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.priority"><?= l('priority') ?></th>
+                <th @click="sort('severity')" :class="{ sort: sortColumn === 'severity', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.severity"><?= l('severity') ?></th>
+                <th @click="sort('created_at')" :class="{ sort: sortColumn === 'created_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.reported"><?= l('reported') ?></th>
+                <th @click="sort('updated_at')" :class="{ sort: sortColumn === 'updated_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.updated"><?= l('updated') ?></th>
+                <th @click="sort('votes')" :class="{ sort: sortColumn === 'votes', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.votes"><?= l('votes') ?></th>
+
                 <?php foreach ($customFields as $field): ?>
-                    <template x-if="columns.<?= $field->slug ?>">
-                        <th @click="sort('<?= $field->slug ?>')" :class="{ sort: sortColumn === '<?= $field->slug ?>', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }"><?= $field->name ?></th>
-                    </template>
+                    <th @click="sort('<?= $field->slug ?>')" :class="{ sort: sortColumn === '<?= $field->slug ?>', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.<?= $field->slug ?>">
+                        <?= $field->name ?>
+                    </th>
                 <?php endforeach; ?>
             </tr>
         </thead>
         <tbody>
             <template x-for="ticket in tickets" :key="ticket.ticket_id">
                 <tr :class="`priority-${ticket.priority_id}`">
-                    <template x-if="columns.id">
-                        <td x-text="ticket.ticket_id"></td>
-                    </template>
-                    <template x-if="columns.summary">
+                    <template x-if="enableMassActions">
                         <td>
-                            <a :href="`${window.traq.base}${window.traq.project_slug}/tickets/${ticket.ticket_id}`" x-text="ticket.summary"></a>
+                            <input
+                                type="checkbox"
+                                name="mass_actions[]"
+                                :value="ticket.ticket_id"
+                                :checked="checkedTickets.includes(ticket.ticket_id)"
+                                @click="toggleTicket(ticket.ticket_id)" />
                         </td>
                     </template>
-                    <template x-if+="columns.status">
-                        <td x-text="ticket.status"></td>
-                    </template>
-                    <template x-if+="columns.owner">
-                        <td x-text="ticket.owner"></td>
-                    </template>
-                    <template x-if+="columns.type">
-                        <td x-text="ticket.type"></td>
-                    </template>
-                    <template x-if+="columns.component">
-                        <td x-text="ticket.component"></td>
-                    </template>
-                    <template x-if+="columns.milestone">
-                        <td x-text="ticket.milestone"></td>
-                    </template>
-                    <template x-if+="columns.assignee">
-                        <td x-text="ticket.assignee"></td>
-                    </template>
-                    <template x-if+="columns.priority">
-                        <td x-text="ticket.priority"></td>
-                    </template>
-                    <template x-if+="columns.severity">
-                        <td x-text="ticket.severity"></td>
-                    </template>
-                    <template x-if+="columns.reported">
-                        <td x-text="ticket.created_at"></td>
-                    </template>
-                    <template x-if+="columns.updated">
-                        <td x-text="ticket.updated_at"></td>
-                    </template>
-                    <template x-if+="columns.votes">
-                        <td x-text="ticket.votes"></td>
-                    </template>
+
+                    <td x-text="ticket.ticket_id" x-show="columns.id"></td>
+                    <td x-show="columns.summary">
+                        <a :href="`${window.traq.base}${window.traq.project_slug}/tickets/${ticket.ticket_id}`" x-text="ticket.summary"></a>
+                    </td>
+                    <td x-text="ticket.status" x-show="columns.status"></td>
+                    <td x-text="ticket.owner" x-show="columns.owner"></td>
+                    <td x-text="ticket.type" x-show="columns.type"></td>
+                    <td x-text="ticket.component" x-show="columns.component"></td>
+                    <td x-text="ticket.milestone" x-show="columns.milestone"></td>
+                    <td x-text="ticket.assignee" x-show="columns.assignee"></td>
+                    <td x-text="ticket.priority" x-show="columns.priority"></td>
+                    <td x-text="ticket.severity" x-show="columns.severity"></td>
+                    <td x-text="ticket.created_at" x-show="columns.reported"></td>
+                    <td x-text="ticket.updated_at" x-show="columns.updated"></td>
+                    <td x-text="ticket.votes" x-show="columns.votes"></td>
+
                     <?php foreach ($customFields as $field): ?>
-                        <template x-if="columns.<?= $field->slug ?>">
-                            <td x-text="ticket.<?= $field->slug ?>"></td>
-                        </template>
+                        <td x-text="ticket.<?= $field->slug ?>" x-show="columns.<?= $field->slug ?>"></td>
                     <?php endforeach; ?>
                 </tr>
             </template>
@@ -344,4 +309,95 @@
             </svg>
         </a>
     </div>
+
+    <template x-if="enableMassActions">
+        <div
+            class="mass-actions-container"
+            x-show="checkedTickets.length > 0"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95">
+            <h2>
+                <?= l('mass_actions') ?> <small x-text="`(${checkedTickets.length} tickets)`"></small>
+            </h2>
+
+            <div class="mass-actions-panel">
+                <div class="mass-actions-comment">
+                    <EasyMDE v-model="comment" min-height="100px" />
+                </div>
+                <div class="mass-actions-fields">
+                    <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_status')">
+                        <label for=""><?= l('status') ?></label>
+                        <select name="status" v-model="status">
+                            <option value="-1"><?= l('no_change') ?></option>
+                            <template x-for="group in Object.keys(filterData.statuses)" :key="group">
+                                <optgroup :label="group">
+                                    <template x-for="status in filterData.statuses[group]" :key="status.value">
+                                        <option :value="status.id" x-text="status.label"></option>
+                                    </template>
+                                </optgroup>
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_type')">
+                        <label for=""><?= l('type') ?></label>
+                        <select name="type" v-model="type">
+                            <option value="-1"><?= l('no_change') ?></option>
+                            <template x-for="ticketType in filterData.types" :key="ticketType.value">
+                                <option :value="ticketType.id" x-text="ticketType.label"></option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_priority')">
+                        <label for=""><?= l('priority') ?></label>
+                        <select name="priority" v-model="priority">
+                            <option value="-1"><?= l('no_change') ?></option>
+                            <template x-for="priority in filterData.priorities" :key="priority.value">
+                                <option :value="priority.id" x-text="priority.label"></option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_milestone')">
+                        <label for=""><?= l('milestone') ?></label>
+                        <select name="milestone" v-model="milestone">
+                            <option value="-1"><?= l('no_change') ?></option>
+                            <template x-for="milestone in filterData.milestones" :key="milestone.value">
+                                <option :value="milestone.id" x-text="milestone.label"></option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_component')">
+                        <label for=""><?= l('component') ?></label>
+                        <select name="component" v-model="component">
+                            <option value="-1"><?= l('no_change') ?></option>
+                            <template x-for="component in filterData.components" :key="component.value">
+                                <option :value="component.id" x-text="component.label"></option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="mass-actions-field" v-if="auth.can('ticket_properties_change_assigned_to')">
+                        <label for=""><?= l('assignee') ?></label>
+                        <select name="assigned_to" v-model="assignee">
+                            <option value="-1"><?= l('no_change') ?></option>
+                            <option value="0"><?= l('none') ?></option>
+                            <template x-for="assignee in filterData.assignees" :key="assignee.value">
+                                <option :value="assignee.id" x-text="assignee.label"></option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+                <div class="mass-actions-footer">
+                    <button class="btn-primary" @click="updateTickets"><?= l('update') ?></button>
+                </div>
+            </div>
+        </div>
+    </template>
 </div>

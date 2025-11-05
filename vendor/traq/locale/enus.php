@@ -115,6 +115,8 @@ class enUS extends \traq\libraries\Locale
             'clear'            => 'Clear',
             'apply'            => 'Apply',
             'add_filter'       => 'Add filter',
+            'no_change'        => 'No change',
+            'no_filters_set'   => 'No filters set.',
 
             // Search
             'search.no_results' => 'No search results...',

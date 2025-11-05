@@ -256,3 +256,64 @@ table.ticket-listing {
     }
   }
 }
+
+.mass-actions-container {
+  @apply mt-5;
+
+  & > h2 {
+    @apply text-lg;
+
+    & > small {
+      @apply text-sm;
+    }
+  }
+
+  & .mass-actions-panel {
+    @apply rounded;
+    @apply bg-gray-50;
+
+    & .mass-actions-fields {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+
+      @apply p-4;
+      @apply bg-gray-100;
+      @apply rounded;
+    }
+
+    & .mass-actions-field {
+      --mass-action-field-width: 305px;
+
+      display: flex;
+      align-items: center;
+      min-width: var(--mass-action-field-width);
+      max-width: var(--mass-action-field-width);
+
+      @apply mb-2;
+
+      & > label {
+        min-width: 60px;
+        text-align: right;
+        min-width: calc(var(--mass-action-field-width) / 3);
+        max-width: calc(var(--mass-action-field-width) / 3);
+        box-sizing: border-box;
+
+        @apply pr-2;
+      }
+
+      & > select {
+        min-width: calc(var(--mass-action-field-width) / 1.5);
+        max-width: calc(var(--mass-action-field-width) / 1.5);
+      }
+    }
+
+    & .mass-actions-footer {
+      @apply p-2;
+      @apply rounded-b;
+
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
