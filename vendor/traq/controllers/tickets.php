@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -696,7 +696,7 @@ class Tickets extends AppController
         // Decode tickets array
         $tickets = is_array(Request::post('tickets'))
             ? Request::post('tickets')
-            : $json_decode(Request::post('tickets'), true);
+            : json_decode(Request::post('tickets'), true);
 
         // Make sure there are some tickets
         if (!is_array($tickets) and !count($tickets)) {
