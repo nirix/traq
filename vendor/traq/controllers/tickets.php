@@ -26,23 +26,16 @@ namespace traq\controllers;
 use avalon\http\Request;
 use avalon\http\Router;
 use avalon\output\View;
-use avalon\core\Load;
 use avalon\http\Response;
 use traq\models\Project;
 use traq\models\Ticket;
 use traq\models\TicketRelationship;
-use traq\models\Milestone;
-use traq\models\Status;
-use traq\models\Type;
-use traq\models\Component;
 use traq\models\User;
 use traq\models\Subscription;
 use traq\models\CustomField;
-use traq\models\CustomFieldValue;
 use traq\models\Timeline;
 use traq\helpers\Pagination;
 use Traq\Queries\TicketFilterQuery as TicketFilterQuery;
-use Traq\ViewModels\TicketView;
 
 /**
  * Ticket controller.

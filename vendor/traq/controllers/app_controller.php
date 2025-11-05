@@ -49,9 +49,9 @@ use traq\helpers\API;
  */
 class AppController extends Controller
 {
-    public ?Project $project;
+    public ?Project $project = null;
     public $projects;
-    public ?User $user;
+    public ?User $user = null;
     public bool $is_api = false;
     public array $title = array();
     public array $feeds = array();
