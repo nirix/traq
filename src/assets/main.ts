@@ -36,6 +36,7 @@ import "./main/RemoteMDE"
 import "./main/EasyMDE"
 import "./main/NavbarSearch"
 import "./main/TicketList"
+import "./stores/auth"
 
 window.Alpine = Alpine
 Alpine.start()

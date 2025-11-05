@@ -73,6 +73,15 @@ Alpine.data('ticketList', () => ({
   } as Record<string, Array<{ label: string; value: string }> | { [group: string]: Array<{ label: string; value: string }> }>,
   customFields: [] as CustomFieldInterface[],
   checkedTickets: [] as number[],
+  massActions: {
+    comment: '',
+    status: '-1',
+    type: '-1',
+    priority: '-1',
+    milestone: '-1',
+    component: '-1',
+    assignee: '-1',
+  },
 
   availableFilters: [
     {
@@ -437,5 +446,45 @@ Alpine.data('ticketList', () => ({
     }else {
       this.checkedTickets.push(ticketId)
     }
+  },
+
+  updateTickets() {
+    const massActionsUrl = `${window.traq.base}${window.traq.project_slug}/tickets/mass-actions.json`
+
+    // Build form data
+    const formData = new FormData()
+    this.checkedTickets.map((ticketId) => {
+      formData.append("tickets[]", ticketId.toString())
+    })
+    formData.append("comment", this.massActions.comment)
+    formData.append("status", this.massActions.status)
+    formData.append("type", this.massActions.type)
+    formData.append("priority", this.massActions.priority)
+    formData.append("milestone", this.massActions.milestone)
+    formData.append("component", this.massActions.component)
+    formData.append("assigned_to", this.massActions.assignee)
+
+    // Update tickets
+    axios
+      .post(massActionsUrl, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((resp) => {
+        if (resp.data.success) {
+          this.fetchTickets();
+          this.checkedTickets = [];
+          this.massActions = {
+            comment: '',
+            status: '-1',
+            type: '-1',
+            priority: '-1',
+            milestone: '-1',
+            component: '-1',
+            assignee: '-1',
+          };
+        }
+      })
   },
 }));

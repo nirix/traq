@@ -25,6 +25,7 @@ import EasyMDE from 'easymde'
 
 type EasyMDEType = {
   height?: string
+  onChange?: (value: string) => void
 }
 
 Alpine.directive('mde', (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
@@ -44,6 +45,12 @@ Alpine.directive('mde', (el, { value, modifiers, expression }, { Alpine, effect,
       status: false,
       uploadImage: false,
     })
+
+    if (options.onChange && mde) {
+      mde.codemirror.on('change', () => {
+        options.onChange?.(mde.value() ?? '')
+      })
+    }
 
     if (el.name) {
       window[`mde-${el.name}`] = mde
