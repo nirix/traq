@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -27,6 +27,9 @@ import axios from 'axios'
 Alpine.data('popoverConfirm', ({ position, message, success, remote, post }) => ({
   open: false,
   loading: false,
+  el: null as unknown as HTMLDivElement,
+  acceptBtn: null as unknown as HTMLButtonElement,
+  resizeEvent: null as unknown as () => void,
 
   init() {
     const el = document.createElement('div')
@@ -113,9 +116,10 @@ Alpine.data('popoverConfirm', ({ position, message, success, remote, post }) => 
 
     this.position()
 
-    this.resizeEvent = window.addEventListener('resize', () => {
+    this.resizeEvent = () => {
       this.position()
-    })
+    }
+    window.addEventListener('resize', this.resizeEvent)
   },
 
   position() {
