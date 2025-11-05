@@ -20,7 +20,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "src/assets/main.ts"),
-        traq: resolve(__dirname, "src/assets/traq.ts"),
       },
       manualChunks: {
         // easymde: ["easymde"],
