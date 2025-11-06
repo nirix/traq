@@ -1,13 +1,10 @@
 import { fileURLToPath, URL } from "url"
-
 import { defineConfig } from "vite"
-import vue from "@vitejs/plugin-vue"
-
 import path, { resolve } from "path"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src/assets", import.meta.url)),
@@ -21,8 +18,12 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "src/assets/main.ts"),
       },
-      manualChunks: {
-        // easymde: ["easymde"],
+      output: {
+        manualChunks: {
+          vendor: ["alpinejs", "axios", "luxon", "marked"],
+          easymde: ["easymde"],
+          fontawesome: ["@fortawesome/fontawesome-svg-core", "@fortawesome/free-regular-svg-icons", "@fortawesome/free-solid-svg-icons", "@fortawesome/vue-fontawesome"],
+        }
       },
     },
   },

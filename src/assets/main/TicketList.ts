@@ -22,7 +22,7 @@
 
 import axios from 'axios'
 import Alpine from 'alpinejs'
-import { CustomFieldInterface, FilterInterface, TicketInterface } from './../interfaces';
+import type { CustomFieldInterface, FilterInterface, TicketInterface } from './../interfaces'
 
 interface FilterOption {
   label?: string
@@ -134,8 +134,8 @@ Alpine.data('ticketList', () => ({
   ] as FilterOption[],
 
   init() {
-    this.enableMassActions = this.$el.hasAttribute('data-mass-actions');
-    this.page = parseInt((new URLSearchParams(window.location.search)).get('page') || '1', 10) || 1;
+    this.enableMassActions = this.$el.hasAttribute('data-mass-actions')
+    this.page = parseInt((new URLSearchParams(window.location.search)).get('page') || '1', 10) || 1
 
     const roadmapUrl = window.traq.base + window.traq.project_slug + "/roadmap/all.json"
     const componentsUrl = window.traq.base + "api/" + window.traq.project_slug + "/components"
@@ -143,7 +143,7 @@ Alpine.data('ticketList', () => ({
     const statusesUrl = window.traq.base + "api/statuses"
     const prioritiesUrl = window.traq.base + "api/priorities"
     const typesUrl = window.traq.base + "api/types"
-    const customFieldsUrl = window.traq.base + 'api/' + window.traq.project_slug + '/custom-fields';
+    const customFieldsUrl = window.traq.base + 'api/' + window.traq.project_slug + '/custom-fields'
 
     Promise.all([
       axios.get(roadmapUrl),
@@ -222,125 +222,125 @@ Alpine.data('ticketList', () => ({
           id: data.id,
         })) ?? []
 
-      this.customFields = customFields.data;
+      this.customFields = customFields.data
 
       // Convert query string after we get statuses, as we convert 'allOpen' and 'allClosed'
       this.buildCustomFields().then(() => this.convertQueryString())
     })
 
     this.$watch('page', () => {
-      this.updateUrl();
-      this.fetchTickets();
-    });
+      this.updateUrl()
+      this.fetchTickets()
+    })
   },
 
   convertQueryString() {
-    const filters: FilterInterface[] = [];
-    const params = new URLSearchParams(window.location.search);
+    const filters: FilterInterface[] = []
+    const params = new URLSearchParams(window.location.search)
 
     params.forEach((value, key) => {
-      const filterOption = this.availableFilters.find(f => f.field === key);
+      const filterOption = this.availableFilters.find(f => f.field === key)
       if (!filterOption) {
-        return;
+        return
       }
 
-      let condition = true;
-      let values: string[] = [];
+      let condition = true
+      let values: string[] = []
 
       if (value.startsWith('!')) {
-        condition = false;
-        value = value.substring(1);
+        condition = false
+        value = value.substring(1)
       }
 
       // Handle allopen, allstarted and allclosed status filter values
       if (filterOption.field === 'status' && value === 'allopen') {
-        values = this.filterData.statuses.Open.map((status: { label: string; value: string }) => status.value);
+        values = this.filterData.statuses.Open.map((status: { label: string; value: string }) => status.value)
       } else if (filterOption.field === 'status' && value === 'allclosed') {
-        values = this.filterData.statuses.Closed.map((status: { label: string; value: string }) => status.value);
+        values = this.filterData.statuses.Closed.map((status: { label: string; value: string }) => status.value)
       } else if (filterOption.field === 'status' && value === 'allstarted') {
-        values = this.filterData.statuses.Started.map((status: { label: string; value: string }) => status.value);
+        values = this.filterData.statuses.Started.map((status: { label: string; value: string }) => status.value)
       } else {
-        values = value.split(',');
+        values = value.split(',')
       }
 
       filters.push({
         ...filterOption,
         condition,
         values,
-      });
-    });
+      })
+    })
 
-    this.filters = filters;
+    this.filters = filters
 
-    this.fetchTickets();
+    this.fetchTickets()
   },
 
   fetchUrl() {
-    let url = `${window.traq.base}${window.traq.project_slug}/tickets.json`;
+    let url = `${window.traq.base}${window.traq.project_slug}/tickets.json`
 
-    const params = new URLSearchParams();
+    const params = new URLSearchParams()
 
     // Apply filters
     if (this.filters.length) {
       this.filters.map((filter: FilterInterface) => {
-        params.set(filter.field, (filter.condition ? "" : "!") + filter.values.join(","));
+        params.set(filter.field, (filter.condition ? "" : "!") + filter.values.join(","))
       })
     }
 
     if (this.page > 1) {
-      params.set('page', this.page.toString());
+      params.set('page', this.page.toString())
     } else {
-      params.delete('page');
+      params.delete('page')
     }
 
     if (this.sortColumn) {
-      params.set('order_by', `${this.sortColumn}.${this.sortOrder}`);
+      params.set('order_by', `${this.sortColumn}.${this.sortOrder}`)
     }
 
-    const paramString = params.toString();
+    const paramString = params.toString()
     if (paramString) {
-      url += `?${paramString}`;
+      url += `?${paramString}`
     }
 
-    return url;
+    return url
   },
 
   updateUrl() {
-    window.history.replaceState({}, '', this.fetchUrl().replace('.json', ''));
+    window.history.replaceState({}, '', this.fetchUrl().replace('.json', ''))
   },
 
   fetchTickets() {
-    this.isLoading = true;
+    this.isLoading = true
     axios.get(this.fetchUrl())
       .then(response => {
-        this.tickets = response.data.tickets;
-        this.page = response.data.page;
-        this.totalPages = response.data.total_pages;
-        this.isLoading = false;
-        this.checkedTickets = [];
+        this.tickets = response.data.tickets
+        this.page = response.data.page
+        this.totalPages = response.data.total_pages
+        this.isLoading = false
+        this.checkedTickets = []
       })
       .catch(err => {
-        console.error(err);
-        this.isLoading = false;
-      });
+        console.error(err)
+        this.isLoading = false
+      })
   },
 
   sort(column: string) {
     if (this.sortColumn === column) {
-      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
     }
 
-    this.sortColumn = column;
+    this.sortColumn = column
 
-    this.fetchTickets();
+    this.fetchTickets()
   },
 
   addFilter(field: string) {
     const filter = this.availableFilters.find(f => f.field === field);
-    (this.$refs.newFilterSelect as HTMLSelectElement).value = '';
+    (this.$refs.newFilterSelect as HTMLSelectElement).value = ''
 
     if (!filter) {
-      return;
+      return
     }
 
     this.filters.push({
@@ -363,43 +363,43 @@ Alpine.data('ticketList', () => ({
     filter.values[index] = (event.target as HTMLInputElement).value
   },
   clearFilters() {
-    this.filters = [];
-    this.updateUrl();
-    this.fetchTickets();
+    this.filters = []
+    this.updateUrl()
+    this.fetchTickets()
   },
   applyFilters() {
-    this.updateUrl();
-    this.fetchTickets();
+    this.updateUrl()
+    this.fetchTickets()
   },
 
   prevPageUrl() {
     if (this.page <= 1) {
-      return '#';
+      return '#'
     }
 
-    return `${window.traq.base}${window.traq.project_slug}/tickets?page=${this.page - 1}`;
+    return `${window.traq.base}${window.traq.project_slug}/tickets?page=${this.page - 1}`
   },
   nextPageUrl() {
     if (this.page >= this.totalPages) {
-      return '#';
+      return '#'
     }
 
-    return `${window.traq.base}${window.traq.project_slug}/tickets?page=${this.page + 1}`;
+    return `${window.traq.base}${window.traq.project_slug}/tickets?page=${this.page + 1}`
   },
   prevPage() {
     if (this.page <= 1) {
-      return;
+      return
     }
 
-    this.page--;
+    this.page--
     document.getElementById('ticket-listing')?.scrollIntoView({ behavior: 'smooth' })
   },
   nextPage() {
     if (this.page >= this.totalPages) {
-      return;
+      return
     }
 
-    this.page++;
+    this.page++
     document.getElementById('ticket-listing')?.scrollIntoView({ behavior: 'smooth' })
   },
 
@@ -437,9 +437,9 @@ Alpine.data('ticketList', () => ({
 
   massActionsTogglePage() {
     if (this.checkedTickets.length === this.tickets.length) {
-      this.checkedTickets = [];
+      this.checkedTickets = []
     } else {
-      this.checkedTickets = this.tickets.map((ticket: TicketInterface) => ticket.ticket_id);
+      this.checkedTickets = this.tickets.map((ticket: TicketInterface) => ticket.ticket_id)
     }
   },
   toggleTicket(ticketId: number) {
@@ -475,8 +475,8 @@ Alpine.data('ticketList', () => ({
       })
       .then((resp) => {
         if (resp.data.success) {
-          this.fetchTickets();
-          this.checkedTickets = [];
+          this.fetchTickets()
+          this.checkedTickets = []
           this.massActions = {
             comment: '',
             status: '-1',
@@ -485,8 +485,8 @@ Alpine.data('ticketList', () => ({
             milestone: '-1',
             component: '-1',
             assignee: '-1',
-          };
+          }
         }
       })
   },
-}));
+}))
