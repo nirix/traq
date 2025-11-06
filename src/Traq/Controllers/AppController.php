@@ -332,6 +332,8 @@ class AppController extends Controller
         View::set('request', Request::requestUri());
         $this->render['view'] = 'error/404';
         $this->render['action'] = false;
+
+        return $this->renderView('error/404');
     }
 
     /**
