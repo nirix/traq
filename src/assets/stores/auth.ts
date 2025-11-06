@@ -1,6 +1,5 @@
-import { useRoute } from "vue-router"
 import axios from "axios"
-import { defineStore } from "pinia"
+import Alpine from "alpinejs"
 
 export interface User {
   id: number
@@ -9,49 +8,39 @@ export interface User {
   group_id: number
   is_admin: boolean
   permissions: { [key: string]: boolean }
+  group: {
+    is_admin: boolean
+  }
 }
 
-interface AuthStore {
-  user: User
-}
+Alpine.store('auth', {
+  user: null as User | null,
 
-export const useAuthStore = defineStore("auth", {
-  state: (): AuthStore => ({
-    user: null,
-  }),
-  getters: {
-    name(state): string {
-      return state.user?.name
-    },
-    isAuthenticated(state): boolean {
-      // Check if guest group id
-      return state.user ? state.user.group_id !== 3 : false
-    },
+  init() {
+    this.getUser(window.traq.project_slug)
   },
-  actions: {
-    async getUser(project) {
-      let authUrl = `${window.traq.base}api/auth`
 
-      if (project) {
-        authUrl = `${authUrl}/${project}`
-      }
+  getUser(project: string) {
+    let authUrl = `${window.traq.base}api/auth`
 
-      axios.get(authUrl).then((resp) => {
-        this.setAuth(resp.data)
-      })
-    },
-    setAuth(user: User): void {
-      this.user = user
-    },
-    can(action: string): boolean {
-      if (this.user?.group?.is_admin) {
-        return true
-      }
+    if (project) {
+      authUrl = `${authUrl}/${project}`
+    }
 
-      return this.user?.permissions && this.user?.permissions[action] === true
-    },
-    canOneOf(permissions: string[]): boolean {
-      return permissions.map((p) => this.can(p)).includes(true)
-    },
+    axios.get(authUrl).then((resp) => {
+      this.user = resp.data
+    })
   },
-})
+
+  can(action: string) {
+    return this.user?.permissions && this.user?.permissions[action] === true
+  },
+
+  canOneOf(permissions: string[]) {
+    return permissions.map((p) => this.can(p)).includes(true)
+  },
+
+  isAdmin() {
+    return this.user?.group?.is_admin === true
+  },
+});

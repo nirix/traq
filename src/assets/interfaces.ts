@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2023 Jack Polgar
- * Copyright (C) 2012-2023 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -69,6 +69,8 @@ export interface CustomFieldInterface {
   id: number
   name: string
   slug: string
+  values: string[]
+  type: string
 }
 
 export interface TicketInterface {

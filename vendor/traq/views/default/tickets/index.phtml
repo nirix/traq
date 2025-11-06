@@ -1,2 +1,415 @@
-<div id="vue-traq"></div>
-<?php echo ui_package('src/assets/traq.ts'); ?>
+<div class="content">
+    <h2 class="page-title"><?php echo l('tickets'); ?></h2>
+</div>
+<div x-data="ticketList" <?= currentUser()->permission($project->id, 'perform_mass_actions') ? 'data-mass-actions' : '' ?>>
+    <fieldset class="ticket-filters-container" :class=" { 'open' : showFilters }">
+        <legend @click="showFilters = !showFilters"><?= l('filters') ?></legend>
+
+        <div class="active-filters">
+            <template x-if="filters.length === 0">
+                <div class="no-filters"><?= l('no_filters_set') ?></div>
+            </template>
+            <template x-for="(filter, fIndex) in filters" :key="fIndex">
+                <div
+                    class="filter">
+                    <div class="label" x-text="filter.label ?? language[filter.field]"></div>
+                    <template x-if="filter.type === 'is'">
+                        <div class="conditions-and-values">
+                            <div>
+                                <div class="condition">
+                                    <select :name="`filters[${filter.field}][prefix]`" x-model.boolean="filter.condition">
+                                        <option value="true"><?= l('is') ?></option>
+                                        <option value="false"><?= l('is_not') ?></option>
+                                    </select>
+                                </div>
+                                <div class="value">
+                                    <select multiple :name="`filters[${filter.field}][values][]`" x-model="filter.values">
+                                        <template x-if="Array.isArray(filterData[filter.dataSet])">
+                                            <template x-for="option in filterData[filter.dataSet]" :key="option.value">
+                                                <option :value="option.value" x-text="option.label" :selected="filter.values.includes(option.value)"></option>
+                                            </template>
+                                        </template>
+                                        <template x-if="!Array.isArray(filterData[filter.dataSet])">
+                                            <template x-for="(options, key) in filterData[filter.dataSet]" :key="key">
+                                                <optgroup :label="key">
+                                                    <template x-for="option in options" :key="option.value">
+                                                        <option :value="option.value" x-text="option.label" :selected="filter.values.includes(option.value)"></option>
+                                                    </template>
+                                                </optgroup>
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                                <div class="remove">
+                                    <button class="btn-danger" @click="removeFilter(filter)" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="['isOr', 'contains'].includes(filter.type)">
+                        <div class="conditions-and-values">
+                            <template x-for="(value, vIndex) in filter.values">
+                                <div :key="filter.field + vIndex">
+                                    <template x-if="vIndex === 0">
+                                        <div class="condition">
+                                            <template x-if="['is', 'isOr'].includes(filter.type)">
+                                                <select :name="`filters[${filter.field}][prefix]`" x-model.boolean="filter.condition">
+                                                    <option value="true"><?= l('is') ?></option>
+                                                    <option value="false"><?= l('is_not') ?></option>
+                                                </select>
+                                            </template>
+                                            <template x-if="['contains'].includes(filter.type)">
+                                                <select :name="`filters[${filter.field}][prefix]`" x-model.boolean="filter.condition">
+                                                    <option value="true"><?= l('contains') ?></option>
+                                                    <option value="false"><?= l('does_not_contain') ?></option>
+                                                </select>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template x-if="vIndex >= 1">
+                                        <div class="condition condition-static">
+                                            <span><?= l('or') ?></span>
+                                        </div>
+                                    </template>
+                                    <div class="value">
+                                        <input type="text" :name="`filters[${filter.field}][values][]`" :value="value" @change="(event) => setFilterValue(filter, vIndex, event)" />
+                                    </div>
+                                    <template x-if="vIndex === filter.values.length - 1">
+                                        <div class="add">
+                                            <button class="btn-success" @click="addFilterValue(filter)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="h-4 w-4" fill="currentColor">
+                                                    <path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <div class="remove">
+                                        <button class="btn-danger" @click="removeFilter(filter, vIndex)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <div class="actions">
+            <div class="apply">
+                <div class="btn-group">
+                    <button class="btn-danger" :disabled="!filters.length" @click="clearFilters()"><?= l('clear') ?></button>
+                </div>
+            </div>
+            <div class="add-filter">
+                <div class="input-group">
+                    <select name="new_filter" @change="addFilter($event.target.value)" x-ref="newFilterSelect">
+                        <option disabled="" selected value=""><?= l('add_filter') ?></option>
+                        <template x-for="filter in availableFilters" :key="filter.field">
+                            <template x-if="!filters.find(f => f.field === filter.field)">
+                                <option :value="filter.field" x-text="filter.label ?? language[filter.field]"></option>
+                            </template>
+                        </template>r
+                    </select>
+                    <button class="btn-primary" @click="applyFilters()" type="button"><?= l('apply') ?></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="ticket-columns-container" :class=" { 'open' : showColumnSettings }">
+        <legend @click="showColumnSettings = !showColumnSettings"><?= l('columns') ?></legend>
+        <div>
+            <ul>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.id">
+                        <?= l('id') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.summary">
+                        <?= l('summary') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.status">
+                        <?= l('status') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.owner">
+                        <?= l('owner') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.type">
+                        <?= l('type') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.component">
+                        <?= l('component') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.milestone">
+                        <?= l('milestone') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.assignee">
+                        <?= l('assignee') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.priority">
+                        <?= l('priority') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.severity">
+                        <?= l('severity') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.reported">
+                        <?= l('reported') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.updated">
+                        <?= l('updated') ?>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" x-model="columns.votes">
+                        <?= l('votes') ?>
+                    </label>
+                </li>
+                <?php foreach ($customFields as $field): ?>
+                    <li>
+                        <label>
+                            <input type="checkbox" x-model="columns.<?= $field->slug ?>">
+                            <?= $field->name ?>
+                        </label>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </fieldset>
+
+    <table class="ticket-listing" id="ticket-listing">
+        <thead>
+            <tr>
+                <template x-if="enableMassActions">
+                    <th>
+                        <input type="checkbox" name="mass_actions_current_page" @click="massActionsTogglePage" x-ref="massActionToggle" :checked="checkedTickets.length === tickets.length" />
+                    </th>
+                </template>
+                <th @click="sort('ticket_id')" :class="{ sort: sortColumn === 'ticket_id', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.id">
+                    <?= l('id') ?>
+                </th>
+                <th @click="sort('summary')" :class="{ sort: sortColumn === 'summary', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.summary">
+                    <?= l('summary') ?>
+                </th>
+                <th @click="sort('status')" :class="{ sort: sortColumn === 'status', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.status"><?= l('status') ?></th>
+                <th @click="sort('user')" :class="{ sort: sortColumn === 'user', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.owner"><?= l('owner') ?></th>
+                <th @click="sort('type')" :class="{ sort: sortColumn === 'type', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.type"><?= l('type') ?></th>
+                <th @click="sort('component')" :class="{ sort: sortColumn === 'component', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.component"><?= l('component') ?></th>
+                <th @click="sort('milestone')" :class="{ sort: sortColumn === 'milestone', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.milestone"><?= l('milestone') ?></th>
+                <th @click="sort('assigned_to')" :class="{ sort: sortColumn === 'assigned_to', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.assignee"><?= l('assignee') ?></th>
+                <th @click="sort('priority')" :class="{ sort: sortColumn === 'priority', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.priority"><?= l('priority') ?></th>
+                <th @click="sort('severity')" :class="{ sort: sortColumn === 'severity', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.severity"><?= l('severity') ?></th>
+                <th @click="sort('created_at')" :class="{ sort: sortColumn === 'created_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.reported"><?= l('reported') ?></th>
+                <th @click="sort('updated_at')" :class="{ sort: sortColumn === 'updated_at', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.updated"><?= l('updated') ?></th>
+                <th @click="sort('votes')" :class="{ sort: sortColumn === 'votes', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.votes"><?= l('votes') ?></th>
+
+                <?php foreach ($customFields as $field): ?>
+                    <th @click="sort('<?= $field->slug ?>')" :class="{ sort: sortColumn === '<?= $field->slug ?>', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.<?= $field->slug ?>">
+                        <?= $field->name ?>
+                    </th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <template x-for="ticket in tickets" :key="ticket.ticket_id">
+                <tr :class="`priority-${ticket.priority_id}`">
+                    <template x-if="enableMassActions">
+                        <td>
+                            <input
+                                type="checkbox"
+                                name="mass_actions[]"
+                                :value="ticket.ticket_id"
+                                :checked="checkedTickets.includes(ticket.ticket_id)"
+                                @click="toggleTicket(ticket.ticket_id)" />
+                        </td>
+                    </template>
+
+                    <td x-text="ticket.ticket_id" x-show="columns.id"></td>
+                    <td x-show="columns.summary">
+                        <a :href="`${window.traq.base}${window.traq.project_slug}/tickets/${ticket.ticket_id}`" x-text="ticket.summary"></a>
+                    </td>
+                    <td x-text="ticket.status" x-show="columns.status"></td>
+                    <td x-text="ticket.owner" x-show="columns.owner"></td>
+                    <td x-text="ticket.type" x-show="columns.type"></td>
+                    <td x-text="ticket.component" x-show="columns.component"></td>
+                    <td x-text="ticket.milestone" x-show="columns.milestone"></td>
+                    <td x-text="ticket.assignee" x-show="columns.assignee"></td>
+                    <td x-text="ticket.priority" x-show="columns.priority"></td>
+                    <td x-text="ticket.severity" x-show="columns.severity"></td>
+                    <td x-text="ticket.created_at" x-show="columns.reported"></td>
+                    <td x-text="ticket.updated_at" x-show="columns.updated"></td>
+                    <td x-text="ticket.votes" x-show="columns.votes"></td>
+
+                    <?php foreach ($customFields as $field): ?>
+                        <td x-text="ticket.<?= $field->slug ?>" x-show="columns.<?= $field->slug ?>"></td>
+                    <?php endforeach; ?>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <a :href="prevPageUrl()" class="btn-secondary previous" :class="{ disabled: page === 1 }" @click.prevent="prevPage()">
+            <svg class="svg-inline--fa fa-chevron-left" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <path class="" fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
+            </svg>
+            <span><?= l('previous') ?></span>
+        </a>
+
+        <div class="pages">
+            <span x-text="page"></span> / <span x-text="totalPages"></span>
+        </div>
+
+        <a :href="nextPageUrl()" class="btn-secondary next" :class="{ disabled: page === totalPages }" @click.prevent="nextPage()">
+            <span><?= l('next') ?></span>
+            <svg class="svg-inline--fa fa-chevron-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <path class="" fill="currentColor" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"></path>
+            </svg>
+        </a>
+    </div>
+
+    <template x-if="enableMassActions">
+        <div
+            class="mass-actions-container"
+            x-show="checkedTickets.length > 0"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95">
+            <h2>
+                <?= l('mass_actions') ?> <small x-text="`(${checkedTickets.length} tickets)`"></small>
+            </h2>
+
+            <div class="mass-actions-panel">
+                <div class="mass-actions-comment">
+                    <textarea name="comment" x-model="massActions.comment" x-mde="{ onChange: (value) => massActions.comment = value }"></textarea>
+                </div>
+                <div class="mass-actions-fields">
+                    <template x-if="$store.auth.can('ticket_properties_change_status')">
+                        <div class="mass-actions-field">
+                            <label for=""><?= l('status') ?></label>
+                            <select name="status" x-model="massActions.status">
+                                <option value="-1"><?= l('no_change') ?></option>
+                                <template x-for="group in Object.keys(filterData.statuses)" :key="group">
+                                    <optgroup :label="group">
+                                        <template x-for="status in filterData.statuses[group]" :key="status.value">
+                                            <option :value="status.id" x-text="status.label"></option>
+                                        </template>
+                                    </optgroup>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+
+                    <template x-if="$store.auth.can('ticket_properties_change_type')">
+                        <div class="mass-actions-field">
+                            <label for=""><?= l('type') ?></label>
+                            <select name="type" x-model="massActions.type">
+                                <option value="-1"><?= l('no_change') ?></option>
+                                <template x-for="ticketType in filterData.types" :key="ticketType.value">
+                                    <option :value="ticketType.id" x-text="ticketType.label"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+
+                    <template x-if="$store.auth.can('ticket_properties_change_priority')">
+                        <div class="mass-actions-field">
+                            <label for=""><?= l('priority') ?></label>
+                            <select name="priority" x-model="massActions.priority">
+                                <option value="-1"><?= l('no_change') ?></option>
+                                <template x-for="priority in filterData.priorities" :key="priority.value">
+                                    <option :value="priority.id" x-text="priority.label"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+
+                    <template x-if="$store.auth.can('ticket_properties_change_milestone')">
+                        <div class="mass-actions-field">
+                            <label for=""><?= l('milestone') ?></label>
+                            <select name="milestone" x-model="massActions.milestone">
+                                <option value="-1"><?= l('no_change') ?></option>
+                                <template x-for="milestone in filterData.milestones" :key="milestone.value">
+                                    <option :value="milestone.id" x-text="milestone.label"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+
+                    <template x-if="$store.auth.can('ticket_properties_change_component')">
+                        <div class="mass-actions-field">
+                            <label for=""><?= l('component') ?></label>
+                            <select name="component" x-model="massActions.component">
+                                <option value="-1"><?= l('no_change') ?></option>
+                                <template x-for="component in filterData.components" :key="component.value">
+                                    <option :value="component.id" x-text="component.label"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+
+                    <template x-if="$store.auth.can('ticket_properties_change_assigned_to')">
+                        <div class="mass-actions-field">
+                            <label for=""><?= l('assignee') ?></label>
+                            <select name="assigned_to" x-model="massActions.assignee">
+                                <option value="-1"><?= l('no_change') ?></option>
+                                <option value="0"><?= l('none') ?></option>
+                                <template x-for="assignee in filterData.assignees" :key="assignee.value">
+                                    <option :value="assignee.id" x-text="assignee.label"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+                </div>
+                <div class="mass-actions-footer">
+                    <button class="btn-primary" @click="updateTickets"><?= l('update') ?></button>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>

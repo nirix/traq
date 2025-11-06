@@ -36,15 +36,4 @@
 
     @apply text-gray-500;
   }
-
-  & a.previous,
-  & a.next {
-    cursor: pointer;
-    text-decoration: none;
-
-    @apply text-gray-900;
-    @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400;
-    @apply border-gray-200 hover:border-gray-300 active:border-gray-400;
-    @apply focus:ring-4 ring-gray-400/30;
-  }
 }

@@ -49,12 +49,15 @@ use traq\helpers\API;
  */
 class AppController extends Controller
 {
-    public $project;
+    public ?Project $project = null;
     public $projects;
-    public $user;
-    public $is_api = false;
-    public $title = array();
-    public $feeds = array();
+    public ?User $user = null;
+    public bool $is_api = false;
+    public array $title = array();
+    public array $feeds = array();
+
+    protected bool $isJson = false;
+    protected bool $isAtom = false;
 
     protected PDO $db;
 
@@ -142,6 +145,14 @@ class AppController extends Controller
         View::set('projects', $this->projects);
 
         View::set('app', $this);
+
+        if (Router::$extension == '.json') {
+            $this->isJson = true;
+        }
+
+        if (Router::$extension == '.atom' || Router::$extension == '.rss') {
+            $this->isAtom = true;
+        }
     }
 
     /**
@@ -360,5 +371,10 @@ class AppController extends Controller
     protected function redirectTo(string $url): Response
     {
         return new RedirectResponse($url);
+    }
+
+    protected function db(): PDO
+    {
+        return $this->db;
     }
 }

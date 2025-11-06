@@ -49,7 +49,8 @@ input[type="reset"] {
     @apply p-1;
   }
 
-  &:disabled {
+  &:disabled,
+  &.disabled {
     @apply cursor-not-allowed;
 
     &,
@@ -65,7 +66,8 @@ input[type="reset"] {
     @apply border-brand-500 hover:border-brand-600 active:border-brand-700;
     @apply ring-brand-500/30;
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       &,
       &:hover,
       &:active {
@@ -84,7 +86,8 @@ input[type="reset"] {
     @apply border-sky-500 hover:border-sky-600 active:border-sky-700;
     @apply ring-sky-500/30;
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       &,
       &:hover,
       &:active {
@@ -99,7 +102,8 @@ input[type="reset"] {
     @apply border-emerald-500 hover:border-emerald-600 active:border-emerald-700;
     @apply ring-emerald-500/30;
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       &,
       &:hover,
       &:active {
@@ -114,7 +118,8 @@ input[type="reset"] {
     @apply border-amber-300 hover:border-amber-400 active:border-amber-500;
     @apply ring-amber-300/30;
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       &,
       &:hover,
       &:active {
@@ -129,7 +134,8 @@ input[type="reset"] {
     @apply border-red-500 hover:border-red-600 active:border-red-700;
     @apply ring-red-500/30;
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       &,
       &:hover,
       &:active {

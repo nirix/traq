@@ -112,6 +112,11 @@ class enUS extends \traq\libraries\Locale
             'ascending'        => "Ascending",
             'descending'       => "Descending",
             'sort_by_x'        => "Sort by {1}",
+            'clear'            => 'Clear',
+            'apply'            => 'Apply',
+            'add_filter'       => 'Add filter',
+            'no_change'        => 'No change',
+            'no_filters_set'   => 'No filters set.',
 
             // Search
             'search.no_results' => 'No search results...',

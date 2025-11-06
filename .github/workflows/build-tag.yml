@@ -46,14 +46,12 @@ jobs:
           rm -rf node_modules
           rm -rf src/assets
           rm -rf vendor/avalon/framework/.git
-          rm ./.eslintrc.cjs
           rm .gitignore
           rm ./.prettierrc.json
-          rm ./*.json
-          rm ./*.lock
           rm ./*.yml
           rm ./*.yaml
           rm ./*.js
+          rm ./tsconfig.json
           rm ./*.ts
 
       - name: Upload a Build Artifact

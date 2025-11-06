@@ -21,6 +21,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Avalon\Http\Request;
+
 /**
  * Returns the HTML to include a UI asset package.
  *
@@ -32,7 +34,7 @@ function ui_package($entry)
 {
   static $imported = [];
 
-  $manifestPath = dirname(dirname(dirname(__DIR__))) . '/assets/ui/manifest.json';
+  $manifestPath = dirname(dirname(dirname(__DIR__))) . '/assets/ui/.vite/manifest.json';
 
   try {
     $manifest = json_decode(file_get_contents($manifestPath), true);

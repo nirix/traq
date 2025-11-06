@@ -55,7 +55,7 @@ class CustomField extends Model
      * @param array   $data
      * @param boolean $is_new
      */
-    public function __construct($data = null, $is_new = true )
+    public function __construct($data = null, $is_new = true)
     {
         parent::__construct($data, $is_new);
 
@@ -69,13 +69,19 @@ class CustomField extends Model
     /**
      * Returns the custom fields for the specified project.
      *
-     * @param integer $project_id
+     * @param integer $projectId
      *
-     * @return array
+     * @return CustomField[]
      */
-    public static function for_project($project_id)
+    public static function forProject(int $projectId): array
     {
-        return static::select()->where('project_id', $project_id)->exec()->fetch_all();
+        return static::select()->where('project_id', $projectId)->exec()->fetchAll();
+    }
+
+    // TODO: remove this after updating all code to use forProject
+    public static function for_project($project_id): array
+    {
+        return static::forProject($project_id);
     }
 
     /**
@@ -187,20 +193,24 @@ class CustomField extends Model
      */
     public function validate($value)
     {
-        switch($this->type) {
+        switch ($this->type) {
             case 'text':
-                if ($this->validate_min_length($value)
-                and $this->validate_max_length($value)
-                and $this->validate_regex($value)) {
+                if (
+                    $this->validate_min_length($value)
+                    and $this->validate_max_length($value)
+                    and $this->validate_regex($value)
+                ) {
                     return true;
                 }
                 break;
 
             case 'integer':
-                if ($this->validate_min_length($value)
-                and $this->validate_max_length($value)
-                and $this->validate_regex($value)
-                and is_numeric($value)) {
+                if (
+                    $this->validate_min_length($value)
+                    and $this->validate_max_length($value)
+                    and $this->validate_regex($value)
+                    and is_numeric($value)
+                ) {
                     return true;
                 }
                 break;
