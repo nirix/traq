@@ -12,9 +12,10 @@ vendor/psr
 vendor/ramsey
 vendor/symfony
 
-vendor/traq/config/database.php
-vendor/traq/config/mailer.php
-vendor/traq/plugins/better_php_errors
+data/config/database.php
+data/config/mailer.php
+data/plugins/better_php_errors
+data/themes
 .sass-cache
 .project
 .settings

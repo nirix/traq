@@ -13,7 +13,7 @@
 		</div>
 		<div class="mr-2">
 			<?= Form::label(l('role'), 'role') ?>
-			<?= Form::select('role', traq\models\ProjectRole::select_options()) ?>
+			<?= Form::select('role', $projectRoles) ?>
 		</div>
 		<div>
 			<?= Form::submit(l('add')) ?>
@@ -31,10 +31,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($user_roles as $rel) : ?>
+				<?php foreach ($userRoles as $rel) : ?>
 					<tr>
 						<td><?= $rel->user->username ?></td>
-						<td><?= Form::select("role[{$rel->id}]", traq\models\ProjectRole::select_options(), ['value' => $rel->project_role_id]) ?></td>
+						<td><?= Form::select("role[{$rel->id}]", $projectRoles, ['value' => $rel->project_role_id]) ?></td>
 						<td class="text-right">
 							<?= HTML::link(l('delete'), $project->href("settings/members/{$rel->user_id}/delete"), ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.remove_x', $rel->user->username), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]) ?>
 						</td>

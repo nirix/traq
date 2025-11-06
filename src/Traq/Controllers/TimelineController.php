@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -24,7 +24,6 @@
 namespace Traq\Controllers;
 
 use avalon\http\Request;
-use traq\controllers\AppController;
 use traq\helpers\Pagination;
 use traq\models\Timeline;
 use traq\models\User;
