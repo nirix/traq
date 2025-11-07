@@ -32,7 +32,7 @@ View::set('page', 'install');
 View::set('page_title', 'Installation');
 
 // Make sure the config file doesn't exist...
-if (file_exists('../vendor/traq/config/database.php')) {
+if (file_exists('../data/config/database.php')) {
     InstallError::halt('Error', 'Config file already exists.');
 }
 
@@ -59,10 +59,6 @@ post('/step/2', function () {
         case 'mysql':
         case 'postgresql':
             $fields = array_merge($fields, array('host', 'username', 'database'));
-            break;
-
-        case 'sqlite':
-            $fields[] = 'path';
             break;
     }
 

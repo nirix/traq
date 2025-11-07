@@ -1,7 +1,7 @@
 <?php
 /*!
  * Nanite
- * Copyright (C) 2012 Jack P.
+ * Copyright (C) 2012-2025 Jack P.
  * https://github.com/nirix
  *
  * Nanite is free software: you can redistribute it and/or modify
@@ -85,7 +85,7 @@ class Nanite
      */
     public static function base_uri($segments = null)
     {
-        return str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']) . ($segments ? trim($segnebts, '/') : '');
+        return str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']) . ($segments ? trim($segments, '/') : '');
     }
 
     /**
