@@ -49,7 +49,7 @@ use traq\helpers\API;
  */
 class AppController extends Controller
 {
-    public ?Project $project = null;
+    public Project|false $project = false;
     public array $projects = [];
     public ?User $user = null;
     public bool $is_api = false;
