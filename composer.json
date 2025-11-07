@@ -11,7 +11,7 @@
         }
     },
     "require-dev": {
-        "filp/whoops": "^2.15"
+        "filp/whoops": "^2.18"
     },
     "license": "GPLv3",
     "authors": [
