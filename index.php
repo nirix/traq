@@ -1,7 +1,7 @@
 <?php
 /*
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
+ * Copyright (C) 2009-2025 Jack Polgar
  *
  * This file is part of Traq.
  *
@@ -20,7 +20,11 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-if (class_exists('\Whoops\Run')) {
+if (file_exists(__DIR__ . '/data/config/config.php')) {
+    require __DIR__ . '/data/config/config.php';
+}
+
+if (class_exists('\Whoops\Run') && defined('DEBUG') && DEBUG) {
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
     $whoops->register();

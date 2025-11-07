@@ -12,6 +12,7 @@ vendor/psr
 vendor/ramsey
 vendor/symfony
 
+data/config/config.php
 data/config/database.php
 data/config/mailer.php
 data/plugins/better_php_errors
