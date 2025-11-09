@@ -1,13 +1,14 @@
-<div class="content">
-	<h3 class="list_title"><?php echo l('enabled_plugins'); ?></h3>
-</div>
-<div>
-	<?php echo View::render('admin/plugins/_list', array('plugins' => $plugins['enabled'])); ?>
-</div>
-<hr />
-<div class="content">
-	<h3 class="list_title"><?php echo l('disabled_plugins'); ?></h3>
-</div>
-<div>
-	<?php echo View::render('admin/plugins/_list', array('plugins' => $plugins['disabled'])); ?>
+<div class="content flex flex-row gap-4">
+	<div class="flex-grow">
+		<h3 class="list_title"><?= l('enabled_plugins'); ?></h3>
+		<div>
+			<?= View::render('admin/plugins/_list', ['plugins' => $plugins['enabled']]); ?>
+		</div>
+	</div>
+	<div class="flex-grow">
+		<h3 class="list_title"><?= l('disabled_plugins'); ?></h3>
+		<div>
+			<?= View::render('admin/plugins/_list', ['plugins' => $plugins['disabled']]); ?>
+		</div>
+	</div>
 </div>

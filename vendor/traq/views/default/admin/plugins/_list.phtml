@@ -1,4 +1,4 @@
-<table class="admin projects list">
+<table class="admin plugins list">
 	<thead>
 		<th class="fixed_name"><?= l('name') ?></th>
 		<th class="fixed_author"><?= l('author') ?></th>
@@ -13,16 +13,29 @@
 				<td><?= $plugin['version'] ?></td>
 				<td>
 					<div class=" btn-group justify-end">
-						<?php if ($plugin['installed'] and $plugin['enabled']) {
-							echo HTML::link(l('disable'), "/admin/plugins/disable/{$plugin['file']}", ['class' => 'btn-warning', 'icon' => 'fas fa-fw fa-plug-circle-minus', 'sr-only' => true, 'title' => l('disable')]);
-						} elseif ($plugin['installed'] and !$plugin['enabled']) {
-							echo HTML::link(l('enable'), "/admin/plugins/enable/{$plugin['file']}", ['class' => 'btn-success', 'icon' => 'fas fa-fw fa-plug-circle-plus', 'sr-only' => true, 'title' => l('enable')]);
-						} ?>
-						<?php if ($plugin['installed']) {
-							echo HTML::link(l('uninstall'), "/admin/plugins/uninstall/{$plugin['file']}", ['class' => 'btn-danger', 'icon' => 'fas fa-fw fa-plug-circle-xmark', 'sr-only' => true, 'title' => l('uninstall')]);
-						} else {
-							echo HTML::link(l('install'), "/admin/plugins/install/{$plugin['file']}", ['class' => 'btn-success', 'icon' => 'fas fa-fw fa-plug-circle-bolt', 'sr-only' => true, 'title' => l('install')]);
-						} ?>
+						<?php if ($plugin['installed'] && $plugin['enabled']) : ?>
+							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/disable") ?>" class="btn-warning" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('disable') ?>">
+								<i class="fas fa-fw fa-plug-circle-minus"></i>
+								<span class="visually-hidden"><?= l('disable') ?></span>
+							</a>
+						<?php elseif ($plugin['installed'] && !$plugin['enabled']) : ?>
+							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/enable") ?>" class="btn-success" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('enable') ?>">
+								<i class="fas fa-fw fa-plug-circle-plus"></i>
+								<span class="visually-hidden"><?= l('enable') ?></span>
+							</a>
+						<?php endif; ?>
+
+						<?php if ($plugin['installed']) : ?>
+							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/uninstall") ?>" class="btn-danger" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('uninstall') ?>">
+								<i class="fas fa-fw fa-plug-circle-xmark"></i>
+								<span class="visually-hidden"><?= l('uninstall') ?></span>
+							</a>
+						<?php else : ?>
+							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/install") ?>" class="btn-success" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('install') ?>">
+								<i class="fas fa-fw fa-plug-circle-xmark"></i>
+								<span class="visually-hidden"><?= l('install') ?></span>
+							</a>
+						<?php endif; ?>
 					</div>
 				</td>
 			</tr>

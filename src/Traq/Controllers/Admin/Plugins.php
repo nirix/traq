@@ -21,10 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 
 use traq\models\Plugin;
 
@@ -36,9 +36,9 @@ use traq\models\Plugin;
  * @package Traq
  * @subpackage Controllers
  */
-class Plugins extends AppController
+class Plugins extends \traq\controllers\admin\AppController
 {
-    public function action_index()
+    public function index()
     {
         $this->title(l('plugins'));
 
@@ -109,7 +109,7 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function action_enable($file)
+    public function enable($file)
     {
         $file = htmlspecialchars($file);
 
@@ -135,7 +135,7 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function action_disable($file)
+    public function disable($file)
     {
         $file = htmlspecialchars($file);
 
@@ -155,7 +155,7 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename
      */
-    public function action_install($file)
+    public function install($file)
     {
         $file = htmlspecialchars($file);
         require APPPATH . "/plugins/{$file}/{$file}.php";
@@ -176,7 +176,7 @@ class Plugins extends AppController
      *
      * @param string $file The plugin filename
      */
-    public function action_uninstall($file)
+    public function uninstall($file)
     {
         $file = htmlspecialchars($file);
 
