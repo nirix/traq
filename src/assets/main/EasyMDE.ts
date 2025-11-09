@@ -28,7 +28,7 @@ type EasyMDEType = {
   onChange?: (value: string) => void
 }
 
-Alpine.directive('mde', (el, { value, modifiers, expression }, { Alpine, effect, cleanup, evaluate }) => {
+Alpine.directive('mde', (el, { expression }, { evaluate }) => {
   try {
     const options: EasyMDEType = expression ? (evaluate(expression) as EasyMDEType) : {}
 
@@ -52,7 +52,8 @@ Alpine.directive('mde', (el, { value, modifiers, expression }, { Alpine, effect,
       })
     }
 
-    if (el.name) {
+    if ((el as HTMLInputElement).name) {
+      // @ts-expect-error stfu
       window[`mde-${el.name}`] = mde
     }
   } catch {

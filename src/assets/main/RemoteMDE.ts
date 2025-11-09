@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -24,10 +24,26 @@ import Alpine from 'alpinejs'
 import axios from 'axios'
 import { marked } from 'marked'
 
-// @ts-ignore ignore this
+interface IRemoteMDEStore {
+  saving: boolean
+  original: string
+  init: () => void
+  save: () => void
+  cancel: () => void
+  mde: EasyMDE | null
+  $refs: {
+    editor: HTMLTextAreaElement
+    ticketDescription: HTMLDivElement
+  }
+  $data: {
+    editing: boolean
+  }
+}
+
 Alpine.data('remoteMde', ({ url, height }) => ({
   saving: false,
   original: '',
+  mde: null as EasyMDE | null,
 
   init() {
     this.original = this.$refs.editor.value
@@ -45,13 +61,13 @@ Alpine.data('remoteMde', ({ url, height }) => ({
     this.saving = true
 
     const formData = new FormData()
-    formData.append('body', this.mde.value())
+    formData.append('body', this.mde?.value() ?? '')
 
     axios
       .post(url, formData)
-      .then(() => {
-        this.original = this.mde.value()
-        this.$refs.ticketDescription.innerHTML = marked.parse(this.mde.value().replaceAll('<', '&lt;').replaceAll('>', '&gt;'))
+      .then(async () => {
+        this.original = this.mde?.value() ?? ''
+        this.$refs.ticketDescription.innerHTML = await marked.parse(this.mde?.value()?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? '')
         this.$data.editing = false
       })
       .finally(() => {
@@ -61,7 +77,7 @@ Alpine.data('remoteMde', ({ url, height }) => ({
 
   cancel() {
     const formattedDescription = marked.parse(this.original.replaceAll('<', '&lt;').replaceAll('>', '&gt;'))
-    this.$refs.ticketDescription.innerHTML = formattedDescription
+    this.$refs.ticketDescription.innerHTML = formattedDescription.toString()
     this.$data.editing = false
   },
-}))
+} as IRemoteMDEStore))

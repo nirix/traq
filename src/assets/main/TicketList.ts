@@ -65,7 +65,7 @@ Alpine.data('ticketList', () => ({
   filters: [] as FilterInterface[],
   filterData: {
     milestones: [] as Array<{ label: string; value: string }>,
-    statuses: {} as { [group: string]: Array<{ label: string; value: string }> },
+    statuses: {} as { [group: string]: Array<{ label: string; value: string }>, },
     priorities: [] as Array<{ label: string; value: string }>,
     components: [] as Array<{ label: string; value: string }>,
     types: [] as Array<{ label: string; value: string }>,
@@ -155,7 +155,7 @@ Alpine.data('ticketList', () => ({
       axios.get(customFieldsUrl),
     ]).then(([roadmap, statuses, priorities, components, ticketTypes, members, customFields]) => {
       this.filterData.milestones =
-        roadmap.data.map((data: any) => ({
+        roadmap.data.map((data: Record<string, unknown>) => ({
           label: data.name,
           value: data.slug,
           id: data.id,
@@ -163,8 +163,8 @@ Alpine.data('ticketList', () => ({
 
       const open =
         statuses.data
-          .filter((status: any) => status.status === 1)
-          .map((data: any) => ({
+          .filter((status: Record<string, unknown>) => status.status === 1)
+          .map((data: Record<string, unknown>) => ({
             label: data.name,
             value: data.name,
             id: data.id,
@@ -172,8 +172,8 @@ Alpine.data('ticketList', () => ({
 
       const closed =
         statuses.data
-          .filter((status: any) => status.status === 0)
-          .map((data: any) => ({
+          .filter((status: Record<string, unknown>) => status.status === 0)
+          .map((data: Record<string, unknown>) => ({
             label: data.name,
             value: data.name,
             id: data.id,
@@ -181,8 +181,8 @@ Alpine.data('ticketList', () => ({
 
       const started =
         statuses.data
-          .filter((status: any) => status.status === 2)
-          .map((data: any) => ({
+          .filter((status: Record<string, unknown>) => status.status === 2)
+          .map((data: Record<string, unknown>) => ({
             label: data.name,
             value: data.name,
             id: data.id,
@@ -195,28 +195,28 @@ Alpine.data('ticketList', () => ({
       }
 
       this.filterData.priorities =
-        priorities.data.map((data: any) => ({
+        priorities.data.map((data: Record<string, unknown>) => ({
           label: data.name,
           value: data.name,
           id: data.id,
         })) ?? []
 
       this.filterData.components =
-        components.data.map((data: any) => ({
+        components.data.map((data: Record<string, unknown>) => ({
           label: data.name,
           value: data.name,
           id: data.id,
         })) ?? []
 
       this.filterData.types =
-        ticketTypes.data.map((data: any) => ({
+        ticketTypes.data.map((data: Record<string, unknown>) => ({
           label: data.name,
           value: data.name,
           id: data.id,
         })) ?? []
 
       this.filterData.assignees =
-        members.data.map((data: any) => ({
+        members.data.map((data: Record<string, unknown>) => ({
           label: data.name,
           value: data.username,
           id: data.id,
@@ -254,10 +254,13 @@ Alpine.data('ticketList', () => ({
 
       // Handle allopen, allstarted and allclosed status filter values
       if (filterOption.field === 'status' && value === 'allopen') {
+        // @ts-expect-error tsfu
         values = this.filterData.statuses.Open.map((status: { label: string; value: string }) => status.value)
       } else if (filterOption.field === 'status' && value === 'allclosed') {
+        // @ts-expect-error tsfu
         values = this.filterData.statuses.Closed.map((status: { label: string; value: string }) => status.value)
       } else if (filterOption.field === 'status' && value === 'allstarted') {
+        // @ts-expect-error tsfu
         values = this.filterData.statuses.Started.map((status: { label: string; value: string }) => status.value)
       } else {
         values = value.split(',')
@@ -430,6 +433,7 @@ Alpine.data('ticketList', () => ({
 
         resolve(true)
       } catch (error) {
+        console.error(error)
         reject(false)
       }
     })

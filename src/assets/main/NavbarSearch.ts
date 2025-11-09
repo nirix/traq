@@ -28,13 +28,16 @@ Alpine.data('navbarSearch', () => ({
   open: false,
   hasResults: false,
   global: false,
-  results: {},
+  results: {
+    milestones: [],
+    tickets: [],
+  },
 
   fetchResults() {
     this.global = window.traq.project_slug ? false : true
 
     const data = {
-      query: this.$refs.input.value,
+      query: (this.$refs.input as HTMLInputElement).value,
       project: window.traq.project_slug,
     }
 

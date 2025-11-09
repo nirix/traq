@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -28,7 +28,15 @@ type TicketTasksType = {
   can: boolean
 }
 
-// @ts-ignore: bitches about the parameter types without this
+interface ITicketTasksStore {
+  $data: {
+    complete: boolean
+  }
+  saving: { [key: number]: boolean }
+  toggle: (id: number) => void
+  isSaving: (id: number) => boolean
+}
+
 Alpine.data('ticketTasks', ({ url, can }: TicketTasksType) => ({
   saving: {},
 
@@ -52,4 +60,4 @@ Alpine.data('ticketTasks', ({ url, can }: TicketTasksType) => ({
   isSaving(id: number) {
     return this.saving[id] ?? false
   },
-}))
+} as ITicketTasksStore))

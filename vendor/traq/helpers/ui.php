@@ -76,7 +76,7 @@ function ui_package($entry)
     }
 
     // Main file
-    $html[] = '<script type="module" src="' . Request::base("assets/ui/{$file}") . '" type="text/javascript"></script>';
+    $html[] = '<script src="' . Request::base("assets/ui/{$file}") . '" type="module"></script>';
 
     return implode(PHP_EOL, $html);
   }
