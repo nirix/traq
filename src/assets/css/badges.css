@@ -1,0 +1,38 @@
+.badge {
+    @apply inline-block;
+    @apply px-2 py-1;
+    @apply rounded-md;
+    @apply text-xs;
+    @apply font-medium;
+    @apply text-white;
+    @apply bg-gray-500;
+    @apply border border-solid border-gray-500;
+    @apply transition-all;
+    @apply cursor-pointer;
+    @apply appearance-none;
+}
+
+.badge.priority-1 {
+    @apply bg-red-500;
+    @apply border-red-500;
+}
+
+.badge.priority-2 {
+    @apply bg-yellow-500;
+    @apply border-yellow-500;
+}
+
+.badge.priority-3 {
+    @apply bg-sky-500;
+    @apply border-sky-500;
+}
+
+.badge.priority-4 {
+    @apply bg-violet-500;
+    @apply border-violet-500;
+}
+
+.badge.priority-5 {
+    @apply bg-gray-500;
+    @apply border-gray-500;
+}

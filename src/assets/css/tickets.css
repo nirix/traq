@@ -2,21 +2,10 @@
   @apply pt-5;
 }
 
-.ticket-info {
-  display: flex;
-  flex-direction: column;
-
-  @apply text-gold-900;
-  @apply bg-gold-300;
-  @apply border border-solid border-gold-600 rounded;
-  @apply mb-5;
-  @apply p-4;
-}
-
 .ticket-header {
   display: flex;
   align-items: center;
-  @apply border-b border-solid border-gold-600;
+  @apply mb-3;
 
   & > .ticket-summary {
     flex-grow: 1;
@@ -24,49 +13,58 @@
   }
 }
 
-.ticket-properties {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  @apply border-b border-solid border-gold-600 rounded;
-  @apply py-2;
+.ticket-info-section {
+  @apply rounded-lg shadow-sm bg-gray-50;
+  @apply border border-solid border-gray-300 rounded;
 
-  & > .ticket-property {
-    max-width: 235px;
-    min-width: 235px;
-    @apply mb-1 mr-2;
+  & > h3 {
+    @apply flex justify-between items-center px-3 py-2 border-b-0 cursor-pointer;
+    @apply text-[1rem] font-medium;
 
-    & > * {
-      @apply text-sm;
+    & > svg {
+      @apply h-3 w-3;
     }
+  }
 
-    & > strong {
-      display: inline-block;
-      @apply mr-2;
-      @apply font-semibold;
-    }
+  &.open > h3 {
+    @apply border-b;
+  }
 
-    & > ul {
-      display: inline-block;
-      margin: 0;
-      padding: 0;
+  & > .ticket-info-content {
+    @apply p-3;
 
-      & > li {
-        display: inline;
-        margin: 0;
-        padding: 0;
+    & > div {
+      @apply grid grid-cols-3 gap-3;
+      @apply mb-3;
+
+      & > label {
+        @apply font-semibold block;
+        @apply text-gray-700;
+        @apply col-span-1;
+      }
+
+      & > div {
+        @apply text-gray-900;
+        @apply col-span-2;
+      }
+
+      &:last-child {
+        @apply mb-0;
       }
     }
   }
 }
 
 .ticket-description {
-  @apply py-4;
+  display: flex;
+  flex-direction: column;
 
-  & > .ticket-edit-btn {
-    float: right;
-    @apply text-sm;
-  }
+  @apply shadow-sm;
+  @apply text-gold-900;
+  @apply bg-gold-300;
+  @apply border border-solid border-gold-600 rounded;
+  @apply p-4;
+
 }
 
 .ticket-edit-actions {
@@ -125,6 +123,8 @@
       & > .update-icon {
         @apply bg-gray-100 rounded-full;
         @apply p-2 mr-3;
+        @apply w-9 h-9;
+        @apply flex items-center justify-center;
       }
 
       & > .update-info {
@@ -140,7 +140,7 @@
   }
 
   & > .update {
-    @apply bg-white;
+    @apply bg-white shadow-sm;
     @apply border border-solid border-gray-300 rounded;
     @apply mb-4;
 
@@ -176,7 +176,72 @@
 }
 
 .update-ticket {
+  @apply rounded-lg shadow-sm bg-gray-50;
+  @apply border border-solid border-gray-300 rounded;
+  @apply mt-4;
+
   & > h3 {
-    @apply text-lg;
+    @apply flex justify-between items-center px-3 py-2 border-b cursor-pointer m-0;
+    @apply text-[1rem] font-medium;
+  }
+
+  & .EasyMDEContainer {
+    & .editor-toolbar,
+    & .CodeMirror {
+      @apply border-0;
+      @apply border-b;
+    }
+  }
+
+  .panel-content {
+    @apply grid grid-cols-2 gap-4 p-4;
+    box-sizing: border-box;
+
+    & .form-group {
+      @apply col-span-1 m-0 max-w-full min-w-full;
+    }
+  }
+}
+
+.ticket-related-tickets {
+  @apply rounded-lg shadow-sm bg-gray-50;
+  @apply border border-solid border-gray-300 rounded;
+
+  & > h3 {
+    @apply flex justify-between items-center px-3 py-2 border-b-0 cursor-pointer;
+    @apply text-[1rem] font-medium;
+
+    & > svg {
+      @apply h-3 w-3;
+    }
+  }
+
+  &.open > h3 {
+    @apply border-b;
+  }
+
+  & > div {
+    @apply p-3;
+
+    & > div {
+      @apply mb-4;
+
+      &:last-child {
+        @apply mb-0;
+      }
+    }
+  }
+
+  & h4 {
+    @apply text-[1rem] mb-2;
+  }
+
+  ul {
+    @apply list-none p-0 m-0;
+    @apply flex flex-col gap-1;
+  }
+
+  ul > li {
+    @apply flex gap-2;
   }
 }

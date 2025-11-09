@@ -23,6 +23,7 @@
 @import "./ticket-listing.css";
 @import "./timeline.css";
 @import "./wiki.css";
+@import "./badges.css";
 
 @import "tailwindcss/utilities";
 

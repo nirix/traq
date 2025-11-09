@@ -39,7 +39,7 @@ class enUS extends \traq\libraries\Locale
         // Locale information
         'language'       => "English",
         'language_short' => "en",
-        'locale'         => "US"
+        'locale'         => "AU"
     );
 
     public static function locale()
@@ -241,6 +241,8 @@ class enUS extends \traq\libraries\Locale
             'time_proposed'         => "Proposed time",
             'time_worked'           => "Worked time",
             'is_private'            => 'Is private',
+            'details'               => 'Details',
+            'tracking'              => 'Tracking',
 
             // Ticket columns
             'columns'    => "Columns",
@@ -484,8 +486,8 @@ class enUS extends \traq\libraries\Locale
             'update_x'         => "Update #{1}",
 
             // Ticket history
+            'activity' => 'Activity',
             'ticket_history' => array(
-                'Ticket History',
                 'no_ticket_updates' => 'No ticket updates.',
 
                 // Actions

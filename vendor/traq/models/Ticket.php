@@ -29,6 +29,7 @@ use avalon\http\Request;
 use avalon\helpers\Time;
 
 use traq\helpers\Notification;
+use Traq\ViewModels\RelatedTicketsView;
 
 /**
  * Ticket model.
@@ -101,7 +102,7 @@ class Ticket extends Model
 
     protected $_changes            = array();
     protected $_save_queue         = array();
-    protected $_related_tickets    = array();
+    protected $_relatedTickets    = array();
     protected $_custom_field_queue = array();
 
     protected $_custom_fields = [];
@@ -669,33 +670,58 @@ class Ticket extends Model
      *
      * @return array
      */
-    public function related_tickets($include_reverse = true)
+    public function relatedTickets(bool $reverse = false): array
     {
-        // Check if we've already fetched related tickets.
-        if (isset($this->_related_tickets[$include_reverse])) {
-            return $this->_related_tickets[$include_reverse];
+        static $tickets;
+
+        if ($tickets) {
+            return $tickets[$reverse ? 'reverse' : 'direct'];
         }
 
-        $tickets = array();
+        $tickets = [
+            'direct' => [],
+            'reverse' => []
+        ];
 
-        // Related tickets
-        $related_tickets = TicketRelationship::select()->where('ticket_id', $this->id)->exec()->fetch_all();
-        foreach ($related_tickets as $relation) {
-            $tickets[] = $relation->related_ticket;
-        }
+        $prefix = $this->db()->prefix;
+        $query = "SELECT
+            r.id,
+            t.ticket_id AS ticket_id,
+            t.summary AS summary,
+            t.priority_id AS priority_id,
+            p.slug AS project_slug,
+            rt.ticket_id AS related_ticket_id,
+            rt.summary AS related_summary,
+            rt.priority_id AS related_priority_id,
+            rp.slug AS related_project_slug,
+            CASE
+                WHEN r.ticket_id = :ticketId
+                THEN true
+                ELSE false
+            END as direct
+        FROM {$prefix}ticket_relationships r
+        LEFT JOIN {$prefix}tickets t ON t.id = r.ticket_id
+        LEFT JOIN {$prefix}projects p ON p.id = t.project_id
+        LEFT JOIN {$prefix}tickets rt ON rt.id = r.related_ticket_id
+        LEFT JOIN {$prefix}projects rp ON rp.id = rt.project_id
+        WHERE r.ticket_id = :ticketId OR r.related_ticket_id = :ticketId";
 
-        // Tickets related to this
-        if ($include_reverse) {
-            $tickets_related = TicketRelationship::select()->where('related_ticket_id', $this->id)->exec()->fetch_all();
-            foreach ($tickets_related as $relation) {
-                $tickets[] = $relation->ticket;
+        $stmt = $this->db()->prepare($query);
+        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, RelatedTicketsView::class);
+
+        $relations = $stmt->fetchAll();
+        foreach ($relations as $relation) {
+            if ($relation->direct == $this->id) {
+                $tickets['direct'][] = $relation;
+            } else {
+                $tickets['reverse'][] = $relation;
             }
         }
 
-        $this->_related_tickets[$include_reverse] = $tickets;
-        unset($tickets);
-
-        return $this->_related_tickets[$include_reverse];
+        // dd($tickets);
+        return $tickets[$reverse ? 'reverse' : 'direct'];
     }
 
     /**
@@ -705,15 +731,15 @@ class Ticket extends Model
      *
      * @return array
      */
-    public function related_ticket_tids($include_reverse = true)
+    public function relatedTicketTids($reverse = false): array
     {
-        $ticket_ids = array();
+        $ticketIds = [];
 
-        foreach ($this->related_tickets($include_reverse) as $ticket) {
-            $ticket_ids[] = $ticket->ticket_id;
+        foreach ($this->relatedTickets($reverse) as $ticket) {
+            $ticketIds[] = $ticket->ticket_id;
         }
 
-        return $ticket_ids;
+        return $ticketIds;
     }
 
     /**

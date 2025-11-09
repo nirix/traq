@@ -494,7 +494,7 @@ class Tickets extends AppController
 
         // Related tickets
         if ($this->user->permission($this->project->id, 'ticket_properties_change_related_tickets')) {
-            $related_tickets = $ticket->related_ticket_tids();
+            $related_tickets = $ticket->relatedTicketTids();
             $posted_related_tickets = array();
 
             foreach (explode(',', Request::post('related_tickets')) as $posted_related_ticket) {
