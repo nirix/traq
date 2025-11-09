@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: dev/docker/php8-apache
+      dockerfile: .dev/docker/php8-apache
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html

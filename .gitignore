@@ -1,3 +1,4 @@
+# Ignore all vendor/ directory except for Traq
 vendor/async-aws
 vendor/autoload.php
 vendor/avalon
@@ -11,21 +12,26 @@ vendor/filp
 vendor/psr
 vendor/ramsey
 vendor/symfony
+vendor/league
+vendor/nette
+vendor/dflydev
 
+# Ignore config files
 data/config/config.php
 data/config/database.php
 data/config/mailer.php
-data/plugins/better_php_errors
-.sass-cache
-.project
-.settings
-.buildpath
+
+# dev files
+.env
 .htaccess
-_dev/
+*.local
+.vscode/
+.dev/database
 assets/ui
-/php.php
+node_modules
 
 # Logs
+data/logs/
 logs
 *.log
 npm-debug.log*
@@ -34,16 +40,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-.DS_Store
-dist
-dist-ssr
-coverage
-*.local
-
-/cypress/videos/
-/cypress/screenshots/
-
 # Editor directories and files
 .idea
 *.suo
@@ -51,3 +47,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# Misc
+.DS_Store
