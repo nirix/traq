@@ -22,10 +22,10 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "erusev/parsedown-extra": "^0.8.1",
-        "symfony/mailer": "^6.4",
+        "symfony/mailer": "^7.3",
         "ramsey/uuid": "^4.7",
-        "avalon/framework": "dev-master"
+        "avalon/framework": "dev-master",
+        "league/commonmark": "^2.7"
     },
     "autoload": {
         "psr-4": {

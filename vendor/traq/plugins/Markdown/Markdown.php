@@ -24,6 +24,16 @@
 namespace Traq\Plugins;
 
 use \FishHook;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\DisallowedRawHtml\DisallowedRawHtmlExtension;
+use League\CommonMark\Extension\Footnote\FootnoteExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\Extension\TaskList\TaskListExtension;
+use League\CommonMark\MarkdownConverter;
 use \ParsedownExtra;
 use Traq\Libraries\Plugin;
 
@@ -37,11 +47,11 @@ use Traq\Libraries\Plugin;
  */
 class Markdown extends Plugin
 {
-    protected static ParsedownExtra $parser;
+    protected static MarkdownConverter $parser;
 
     protected static $info = [
         'name'    => 'Markdown',
-        'version' => '3.0.0',
+        'version' => '4.0.0',
         'author'  => 'Jack P.',
     ];
 
@@ -56,20 +66,31 @@ class Markdown extends Plugin
     /**
      * Handles the format_text function hook.
      */
-    public static function format_text(&$text, $strip_html)
+    public static function format_text(&$text, $stripHtml): void
     {
         // If HTML is being converted to text, undo it.
-        if ($strip_html) {
+        if ($stripHtml) {
             $text = htmlspecialchars_decode($text);
         }
 
         // Initialise parser
         if (!isset(static::$parser)) {
-            static::$parser = new ParsedownExtra();
-            static::$parser->setSafeMode(true);
+            static::setupParser();
         }
 
         // Parse the text
-        $text = static::$parser->text($text);
+        $text = static::$parser->convert($text);
+    }
+
+    private static function setupParser(): void
+    {
+        $environment = new Environment();
+        $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new AutolinkExtension());
+        $environment->addExtension(new DisallowedRawHtmlExtension());
+        $environment->addExtension(new StrikethroughExtension());
+        $environment->addExtension(new TableExtension());
+
+        static::$parser = new MarkdownConverter($environment);
     }
 }
