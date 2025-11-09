@@ -23,9 +23,8 @@
 
 namespace Traq\Controllers\Admin;
 
-use Avalon\Http\Request;
-use Avalon\Output\View;
-
+use Avalon\Http\RedirectResponse;
+use Avalon\Http\Response;
 use traq\models\Plugin;
 
 /**
@@ -38,22 +37,23 @@ use traq\models\Plugin;
  */
 class Plugins extends \traq\controllers\admin\AppController
 {
-    public function index()
+    public function index(): Response
     {
         $this->title(l('plugins'));
 
-        $plugins = array(
-            'enabled' => array(),
-            'disabled' => array()
-        );
+        $plugins = [
+            'enabled' => [],
+            'disabled' => []
+        ];
 
-        foreach ($this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all() as $plugin) {
+        $installedPlugins = $this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all();
+        foreach ($installedPlugins as $plugin) {
             // Make sure the plugin file exists
             if (
                 file_exists(DATADIR . "/plugins/{$plugin['file']}/{$plugin['file']}.php")
                 || file_exists(APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php")
             ) {
-                $plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, array('installed' => true));
+                $plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, ['installed' => true]);
             }
         }
 
@@ -67,41 +67,42 @@ class Plugins extends \traq\controllers\admin\AppController
         foreach ($pluginPaths as $pluginPath) {
             if (is_dir($pluginPath)) {
                 foreach (scandir($pluginPath) as $file) {
-                    // Make sure its a plugin, not some weird
-                    // or unwanted file or directory.
+                    // Make sure its a plugin, not some weird or unwanted file or directory.
                     if ($file[0] == '.' or !is_dir("{$pluginPath}/{$file}") or !file_exists("{$pluginPath}/{$file}/{$file}.php")) {
                         continue;
                     }
 
-                    // If the plugin isn't enabled, fetch the plugin
-                    // file and then call the info() method.
+                    // If the plugin isn't enabled, fetch the plugin file and then call the info() method.
                     if (!isset($plugins['enabled'][$file])) {
                         require_once $pluginPath . "{$file}/{$file}.php";
-                        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-                        if (class_exists($class_name)) {
+                        $className = "\\traq\plugins\\" . get_plugin_name($file);
+
+                        if (class_exists($className)) {
                             $plugins['disabled'][$file] = array_merge(
-                                $class_name::info(),
-                                array(
+                                $className::info(),
+                                [
                                     'installed' => isset($plugins['disabled'][$file]),
                                     'enabled' => false,
                                     'file' => $file
-                                )
+                                ]
                             );
                         }
                     }
                     // It's enabled, only call the info() method.
                     else {
-                        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-                        if (class_exists($class_name)) {
+                        $className = "\\traq\plugins\\" . get_plugin_name($file);
+                        if (class_exists($className)) {
                             $key = isset($plugins['enabled'][$file]) ? 'enabled' : 'disabled';
-                            $plugins[$key][$file] = array_merge($class_name::info(), $plugins[$key][$file]);
+                            $plugins[$key][$file] = array_merge($className::info(), $plugins[$key][$file]);
                         }
                     }
                 }
             }
         }
 
-        View::set('plugins', $plugins);
+        return $this->renderView('admin/plugins/index.phtml', [
+            'plugins' => $plugins
+        ]);
     }
 
     /**
@@ -109,25 +110,21 @@ class Plugins extends \traq\controllers\admin\AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function enable($file)
+    public function enable(string $file): RedirectResponse
     {
         $file = htmlspecialchars($file);
+        $this->loadPlugin($file);
 
-        if (file_exists(DATADIR . "/plugins/{$file}/{$file}.php")) {
-            require_once DATADIR . "/plugins/{$file}/{$file}.php";
-        } else {
-            require_once APPPATH . "/plugins/{$file}/{$file}.php";
-        }
+        $className = "\\traq\plugins\\" . get_plugin_name($file);
+        if (class_exists($className)) {
+            $className::__enable();
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-        if (class_exists($class_name)) {
-            $class_name::__enable();
             $plugin = Plugin::find('file', $file);
             $plugin->set('enabled', 1);
             $plugin->save();
         }
 
-        Request::redirectTo('/admin/plugins');
+        return $this->redirectTo('/admin/plugins');
     }
 
     /**
@@ -135,19 +132,20 @@ class Plugins extends \traq\controllers\admin\AppController
      *
      * @param string $file The plugin filename (without .plugin.php)
      */
-    public function disable($file)
+    public function disable(string $file): RedirectResponse
     {
         $file = htmlspecialchars($file);
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-        if (class_exists($class_name)) {
-            $class_name::__disable();
-            $plugin = Plugin::find('file', $file);
-            $plugin->set('enabled', 0);
-            $plugin->save();
+        $className = "\\traq\\plugins\\" . get_plugin_name($file);
+        if (class_exists($className)) {
+            $className::__disable();
         }
 
-        Request::redirectTo('/admin/plugins');
+        $plugin = Plugin::find('file', $file);
+        $plugin->set('enabled', 0);
+        $plugin->save();
+
+        return $this->redirectTo('/admin/plugins');
     }
 
     /**
@@ -155,20 +153,21 @@ class Plugins extends \traq\controllers\admin\AppController
      *
      * @param string $file The plugin filename
      */
-    public function install($file)
+    public function install(string $file): RedirectResponse
     {
         $file = htmlspecialchars($file);
-        require APPPATH . "/plugins/{$file}/{$file}.php";
+        $this->loadPlugin($file);
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-        if (class_exists($class_name)) {
-            $class_name::__install();
+        $className = "\\traq\\plugins\\" . get_plugin_name($file);
+        if (class_exists($className)) {
+            $className::__install();
+
             $plugin = new Plugin(array('file' => $file));
             $plugin->set('enabled', 1);
             $plugin->save();
         }
 
-        Request::redirectTo('/admin/plugins');
+        return $this->redirectTo('/admin/plugins');
     }
 
     /**
@@ -176,25 +175,33 @@ class Plugins extends \traq\controllers\admin\AppController
      *
      * @param string $file The plugin filename
      */
-    public function uninstall($file)
+    public function uninstall(string $file): RedirectResponse
     {
         $file = htmlspecialchars($file);
+        $className = "\\traq\\plugins\\" . get_plugin_name($file);
 
-        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
+        $this->loadPlugin($file);
 
-        // Check if the plugin file exists
-        if (file_exists(APPPATH . "/plugins/{$file}.plugin.php") and !class_exists($class_name)) {
-            require APPPATH . "/plugins/{$file}.plugin.php";
-        }
-
-        // Check if the class exists
-        if (class_exists($class_name)) {
-            $class_name::__uninstall();
+        if (class_exists($className)) {
+            $className::__uninstall();
         }
 
         $plugin = Plugin::find('file', $file);
         $plugin->delete();
 
-        Request::redirectTo('/admin/plugins');
+        return $this->redirectTo('/admin/plugins');
+    }
+
+    private function loadPlugin(string $file): bool
+    {
+        if (file_exists(DATADIR . "/plugins/{$file}/{$file}.php")) {
+            require_once DATADIR . "/plugins/{$file}/{$file}.php";
+            return true;
+        } else {
+            require_once APPPATH . "/plugins/{$file}/{$file}.php";
+            return true;
+        }
+
+        return false;
     }
 }
