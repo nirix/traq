@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -27,7 +30,7 @@ use avalon\Database;
 use avalon\http\Router;
 use avalon\http\Request;
 use avalon\output\View;
-
+use Traq\Libraries\Plugin;
 use traq\models\Setting;
 
 /**
@@ -38,19 +41,16 @@ use traq\models\Setting;
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class SecurityQuestions extends \traq\libraries\Plugin
+class SecurityQuestions extends Plugin
 {
     protected static $info = array(
         'name'    => 'Security Questions',
-        'version' => '1.0',
+        'version' => '1.1',
         'author'  => 'Jack P.'
     );
 
     public static function init()
     {
-        // Register namespace
-        Autoloader::registerNamespace('SecurityQuestions', __DIR__);
-
         // Add routes
         Router::add('/admin/settings/security_questions', 'SecurityQuestions::controllers::Questions.index');
         Router::add('/admin/settings/security_questions/new_question', 'SecurityQuestions::controllers::Questions.new_question');
@@ -80,26 +80,26 @@ class SecurityQuestions extends \traq\libraries\Plugin
     /**
      * Adds the question field to the register form.
      */
-     public static function question_field()
-     {
-         // Get the questions
-         $questions = json_decode(settings('security_questions'), true);
+    public static function question_field()
+    {
+        // Get the questions
+        $questions = json_decode(settings('security_questions'), true);
 
-         // Get a random question
-         $id = rand(0, count($questions) - 1);
-         $question = $questions[$id];
-         $_SESSION['question_id'] = $id;
+        // Get a random question
+        $id = rand(0, count($questions) - 1);
+        $question = $questions[$id];
+        $_SESSION['question_id'] = $id;
 
-         echo View::render('users/_question_field', array('question' => $question));
-     }
+        echo View::render('users/_question_field', array('question' => $question));
+    }
 
-     /**
-      * Checks the submitted answer.
-      *
-      * @param object $model
-      */
-     public static function check_answer(&$model)
-     {
+    /**
+     * Checks the submitted answer.
+     *
+     * @param object $model
+     */
+    public static function check_answer(&$model)
+    {
         $questions = json_decode(settings('security_questions'), true);
         $question  = $questions[$_SESSION['question_id']];
         $answers   = explode('|', $question['answers']);
@@ -107,7 +107,7 @@ class SecurityQuestions extends \traq\libraries\Plugin
         if (!in_array(Request::$post['answer'], $answers)) {
             $model->_add_error('answer', l('errors.security_questions.answer_is_wrong'));
         }
-     }
+    }
 
     /**
      * Creates the setting row.

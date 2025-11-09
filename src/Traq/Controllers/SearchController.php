@@ -24,7 +24,6 @@
 namespace Traq\Controllers;
 
 use avalon\http\Request;
-use traq\controllers\AppController;
 use traq\models\Milestone;
 use traq\models\Project;
 use traq\models\Ticket;

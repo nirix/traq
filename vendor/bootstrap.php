@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2024 Jack P.
- * Copyright (C) 2012-2024 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -25,20 +25,14 @@
 define("SYSPATH", dirname(__FILE__) . '/avalon/framework');
 define("APPPATH", dirname(__FILE__) . '/traq');
 define("DOCROOT", dirname(dirname(__FILE__)));
-
-// Load the framework
-require SYSPATH . '/base.php';
+define("DATADIR", DOCROOT . '/data');
 
 use Avalon\Database;
 use Avalon\Core\Load;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 
-// Setup the autoloader
-use avalon\Autoloader;
-
-Autoloader::vendorLocation(__DIR__);
-
-// Register the autoloader
-Autoloader::register();
+require SYSPATH . '/libs/fishhook.php';
 
 // Alias classes so we dont need to have "use ...." in all files.
 class_alias('Avalon\Http\Router', 'Router');
@@ -56,7 +50,7 @@ require APPPATH . '/common.php';
 require APPPATH . '/version.php';
 
 // Check for the database config file
-if (!file_exists(APPPATH . '/config/database.php')) {
+if (!file_exists(DATADIR . '/config/database.php')) {
     // No config file, redirect to installer
     new Request;
     header("Location: " . Request::base('install'));
@@ -64,29 +58,40 @@ if (!file_exists(APPPATH . '/config/database.php')) {
 }
 // Include config and connect
 else {
-    require APPPATH . '/config/database.php';
+    require DATADIR . '/config/database.php';
     Database::init($db);
 }
 
 // Load the plugins
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
-foreach ($plugins as $plugin) {
-    // Plugin file plath
-    $path = APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php";
+$pluginPaths = [
+    DATADIR . '/plugins',
+    APPPATH . '/plugins',
+];
+foreach ($pluginPaths as $pluginPath) {
+    foreach ($plugins as $plugin) {
+        // Plugin file plath
+        $path = $pluginPath . "/{$plugin['file']}/{$plugin['file']}.php";
 
-    // Check if the file exists
-    if (file_exists($path)) {
-        require $path;
+        // Check if the file exists
+        if (file_exists($path)) {
+            require $path;
+            $pluginName = get_plugin_name($plugin['file']);
 
-        // Register the path to check for controllers and views
-        Load::register_path(APPPATH . "/plugins/{$plugin['file']}");
+            // Register the path to check for controllers and views
+            View::$searchPaths[] = $pluginPath . "/{$plugin['file']}/views";
 
-        // Initiate the plugin
-        $plugin = "\\traq\plugins\\" . get_plugin_name($plugin['file']);
-        $plugin = $plugin::init();
+            // Register the namespace
+            $autoloader = require DOCROOT . '/vendor/autoload.php';
+            $autoloader->addPsr4("{$pluginName}\\", $pluginPath . "/{$plugin['file']}");
+
+            // Initiate the plugin
+            $plugin = "\\traq\plugins\\" . get_plugin_name($plugin['file']);
+            $plugin = $plugin::init();
+        }
     }
 }
-unset($plugins, $plugin);
+unset($plugins, $plugin, $pluginPath, $pluginPaths);
 
 // Load the localization file
 $locale = traq\libraries\Locale::load(settings('locale'));

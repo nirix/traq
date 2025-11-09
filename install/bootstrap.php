@@ -24,17 +24,10 @@ define("SYSPATH", dirname(__DIR__) . '/vendor/avalon/framework');
 
 require '../vendor/traq/version.php';
 
-require SYSPATH . '/autoloader.php';
 require dirname(__DIR__) . '/vendor/autoload.php';
-
-use avalon\Autoloader;
-
-Autoloader::vendorLocation(dirname(__DIR__) . '/vendor');
-Autoloader::register();
 
 require 'nanite.php';
 require SYSPATH . '/libs/fishhook.php';
-require '../vendor/traq/models/user.php';
 require '../vendor/traq/common.php';
 require 'common.php';
 

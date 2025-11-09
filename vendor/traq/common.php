@@ -19,7 +19,7 @@
  */
 
 use avalon\core\Kernel as Avalon;
-
+use Avalon\Http\Request;
 use traq\models\Setting;
 use traq\models\Project;
 
@@ -121,21 +121,25 @@ function locale_select_options()
  *
  * @return array
  */
-function theme_select_options()
+function theme_select_options(): array
 {
-    $options = array();
+    $options = [];
 
-    foreach (scandir(APPPATH . '/views') as $file) {
-        $path = APPPATH . '/views/' . $file;
+    // Scan data/themes/*/_theme.php and vendor/traq/views/*/_theme.php
+    $themePaths = [
+        APPPATH . '/views',
+        DATADIR . '/themes',
+    ];
 
-        // Make sure this is a directory
-        // and theres an _theme.php file
-        if (is_dir($path) and file_exists($path . '/_theme.php')) {
-            $info = require($path . '/_theme.php');
-            $options[] = array(
-                'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
-                'value' => $file
-            );
+    foreach ($themePaths as $path) {
+        foreach (scandir($path) as $file) {
+            if (is_dir($path . '/' . $file) and file_exists($path . '/' . $file . '/_theme.php')) {
+                $info = require($path . '/' . $file . '/_theme.php');
+                $options[] = [
+                    'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
+                    'value' => $file
+                ];
+            }
         }
     }
 
@@ -180,6 +184,7 @@ function active_nav($uri)
  * Returns the logged in users model.
  *
  * @return object
+ * @deprecated Use currentUser() instead
  */
 function current_user()
 {

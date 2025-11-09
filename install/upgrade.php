@@ -38,7 +38,7 @@ View::set('page', 'upgrade');
 View::set('page_title', 'Upgrade');
 
 // Make sure the config file exists...
-if (!file_exists('../vendor/traq/config/database.php')) {
+if (!file_exists('../data/config/database.php')) {
     InstallError::halt('Error', 'Config file not found.');
 }
 
@@ -64,7 +64,7 @@ post('/step/1', function () {
     v3xUpgrades::run($db, DB_VER);
 
     // Update database version setting
-    $db->query("UPDATE `{$db->prefix}settings` SET `value` = '" . TRAQ_VER_CODE . "' WHERE `setting` = 'db_version' LIMIT 1");
+    $db->query("UPDATE `{$db->prefix}settings` SET `value` = '" . TRAQ_DB_VER . "' WHERE `setting` = 'db_version' LIMIT 1");
 
     render('upgrade/complete');
 });

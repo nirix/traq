@@ -30,7 +30,7 @@ use Avalon\Database;
  */
 function render($view)
 {
-    echo View::get('layout', array('output' => View::get($view)));
+    echo View::render('layout', array('output' => View::get($view)));
 }
 
 /**
@@ -58,7 +58,7 @@ function get_connection()
         return $conn;
     }
 
-    require '../vendor/traq/config/database.php';
+    require '../data/config/database.php';
     $conn = Database::factory($db, 'main');
     return $conn;
 }

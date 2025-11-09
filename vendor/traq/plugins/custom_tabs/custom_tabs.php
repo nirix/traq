@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -29,6 +32,7 @@ use avalon\http\Request;
 use avalon\output\View;
 
 use CustomTabs\models\CustomTab;
+use Traq\Libraries\Plugin;
 
 /**
  * Custom tabs plugin.
@@ -39,7 +43,7 @@ use CustomTabs\models\CustomTab;
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class CustomTabs extends \traq\libraries\Plugin
+class CustomTabs extends Plugin
 {
     protected static $info = array(
         'name'    => 'Custom Tabs',
@@ -51,9 +55,6 @@ class CustomTabs extends \traq\libraries\Plugin
 
     public static function init()
     {
-        // Register namespace
-        Autoloader::registerNamespace('CustomTabs', __DIR__);
-
         // Add routes
         Router::add('/admin/custom_tabs', 'CustomTabs::controllers::admin::CustomTabs.index');
         Router::add('/admin/custom_tabs/new', 'CustomTabs::controllers::admin::CustomTabs.new');
