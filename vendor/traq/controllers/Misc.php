@@ -46,10 +46,9 @@ class Misc extends Controller
      */
     public function __construct()
     {
-        // Set the theme
-        View::$theme = '_misc';
-
         parent::__construct();
+
+        View::$searchPaths[] = APPPATH . '/views/_misc';
 
         // Load helpers
         Load::helper("html");

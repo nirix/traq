@@ -49,43 +49,53 @@ class Plugins extends AppController
 
         foreach ($this->db->select()->from('plugins')->order_by('enabled', 'ASC')->exec()->fetch_all() as $plugin) {
             // Make sure the plugin file exists
-            if (file_exists(DATADIR . "/plugins/{$plugin['file']}/{$plugin['file']}.php")) {
+            if (
+                file_exists(DATADIR . "/plugins/{$plugin['file']}/{$plugin['file']}.php")
+                || file_exists(APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php")
+            ) {
                 $plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, array('installed' => true));
             }
         }
 
         // Scan the plugin directory
-        $plugins_dir = DATADIR . '/plugins/';
-        if (is_dir($plugins_dir)) {
-            foreach (scandir($plugins_dir) as $file) {
-                // Make sure its a plugin, not some weird
-                // or unwanted file or directory.
-                if ($file[0] == '.' or !is_dir("{$plugins_dir}/{$file}") or !file_exists("{$plugins_dir}/{$file}/{$file}.php")) {
-                    continue;
-                }
+        $pluginPaths = [
+            DATADIR . '/plugins/',
+            APPPATH . '/plugins/',
+        ];
 
-                // If the plugin isn't enabled, fetch the plugin
-                // file and then call the info() method.
-                if (!isset($plugins['enabled'][$file])) {
-                    require $plugins_dir . "{$file}/{$file}.php";
-                    $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-                    if (class_exists($class_name)) {
-                        $plugins['disabled'][$file] = array_merge(
-                            $class_name::info(),
-                            array(
-                                'installed' => isset($plugins['disabled'][$file]),
-                                'enabled' => false,
-                                'file' => $file
-                            )
-                        );
+        // Scan both plugin paths
+        foreach ($pluginPaths as $pluginPath) {
+            if (is_dir($pluginPath)) {
+                foreach (scandir($pluginPath) as $file) {
+                    // Make sure its a plugin, not some weird
+                    // or unwanted file or directory.
+                    if ($file[0] == '.' or !is_dir("{$pluginPath}/{$file}") or !file_exists("{$pluginPath}/{$file}/{$file}.php")) {
+                        continue;
                     }
-                }
-                // It's enabled, only call the info() method.
-                else {
-                    $class_name = "\\traq\plugins\\" . get_plugin_name($file);
-                    if (class_exists($class_name)) {
-                        $key = isset($plugins['enabled'][$file]) ? 'enabled' : 'disabled';
-                        $plugins[$key][$file] = array_merge($class_name::info(), $plugins[$key][$file]);
+
+                    // If the plugin isn't enabled, fetch the plugin
+                    // file and then call the info() method.
+                    if (!isset($plugins['enabled'][$file])) {
+                        require_once $pluginPath . "{$file}/{$file}.php";
+                        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
+                        if (class_exists($class_name)) {
+                            $plugins['disabled'][$file] = array_merge(
+                                $class_name::info(),
+                                array(
+                                    'installed' => isset($plugins['disabled'][$file]),
+                                    'enabled' => false,
+                                    'file' => $file
+                                )
+                            );
+                        }
+                    }
+                    // It's enabled, only call the info() method.
+                    else {
+                        $class_name = "\\traq\plugins\\" . get_plugin_name($file);
+                        if (class_exists($class_name)) {
+                            $key = isset($plugins['enabled'][$file]) ? 'enabled' : 'disabled';
+                            $plugins[$key][$file] = array_merge($class_name::info(), $plugins[$key][$file]);
+                        }
                     }
                 }
             }
@@ -102,7 +112,12 @@ class Plugins extends AppController
     public function action_enable($file)
     {
         $file = htmlspecialchars($file);
-        require DATADIR . "/plugins/{$file}/{$file}.php";
+
+        if (file_exists(DATADIR . "/plugins/{$file}/{$file}.php")) {
+            require_once DATADIR . "/plugins/{$file}/{$file}.php";
+        } else {
+            require_once APPPATH . "/plugins/{$file}/{$file}.php";
+        }
 
         $class_name = "\\traq\plugins\\" . get_plugin_name($file);
         if (class_exists($class_name)) {

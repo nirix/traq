@@ -30,6 +30,7 @@ define("DATADIR", DOCROOT . '/data');
 use Avalon\Database;
 use Avalon\Core\Load;
 use Avalon\Http\Request;
+use Avalon\Output\View;
 
 require SYSPATH . '/libs/fishhook.php';
 
@@ -63,23 +64,34 @@ else {
 
 // Load the plugins
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
-foreach ($plugins as $plugin) {
-    // Plugin file plath
-    $path = DATADIR . "/plugins/{$plugin['file']}/{$plugin['file']}.php";
+$pluginPaths = [
+    DATADIR . '/plugins',
+    APPPATH . '/plugins',
+];
+foreach ($pluginPaths as $pluginPath) {
+    foreach ($plugins as $plugin) {
+        // Plugin file plath
+        $path = $pluginPath . "/{$plugin['file']}/{$plugin['file']}.php";
 
-    // Check if the file exists
-    if (file_exists($path)) {
-        require $path;
+        // Check if the file exists
+        if (file_exists($path)) {
+            require $path;
+            $pluginName = get_plugin_name($plugin['file']);
 
-        // Register the path to check for controllers and views
-        Load::register_path(DATADIR . "/plugins/{$plugin['file']}");
+            // Register the path to check for controllers and views
+            View::$searchPaths[] = $pluginPath . "/{$plugin['file']}/views";
 
-        // Initiate the plugin
-        $plugin = "\\traq\plugins\\" . get_plugin_name($plugin['file']);
-        $plugin = $plugin::init();
+            // Register the namespace
+            $autoloader = require DOCROOT . '/vendor/autoload.php';
+            $autoloader->addPsr4("{$pluginName}\\", $pluginPath . "/{$plugin['file']}");
+
+            // Initiate the plugin
+            $plugin = "\\traq\plugins\\" . get_plugin_name($plugin['file']);
+            $plugin = $plugin::init();
+        }
     }
 }
-unset($plugins, $plugin);
+unset($plugins, $plugin, $pluginPath, $pluginPaths);
 
 // Load the localization file
 $locale = traq\libraries\Locale::load(settings('locale'));
