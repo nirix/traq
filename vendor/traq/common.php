@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -36,18 +36,22 @@ use traq\models\User;
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function settings($setting)
+function settings(string $setting): string
 {
-    static $CACHE = array();
+    static $cache = [];
 
-    if (isset($CACHE[$setting])) {
-        return $CACHE[$setting];
+    if (isset($cache[$setting])) {
+        return $cache[$setting];
     }
 
-    $data = Setting::find($setting);
+    // Cache all settings
+    $settings = Setting::fetchAll();
+    foreach ($settings as $row) {
+        $cache[$row->setting] = $row->value;
+    }
+    unset($settings, $row);
 
-    $CACHE[$setting] = $data ? $data->value : null;
-    return $CACHE[$setting];
+    return $cache[$setting];
 }
 
 /**
@@ -133,7 +137,7 @@ function theme_select_options(): array
 
     foreach ($themePaths as $path) {
         foreach (scandir($path) as $file) {
-            if (is_dir($path . '/' . $file) and file_exists($path . '/' . $file . '/_theme.php')) {
+            if (is_dir($path . '/' . $file) && file_exists($path . '/' . $file . '/_theme.php')) {
                 $info = require($path . '/' . $file . '/_theme.php');
                 $options[] = [
                     'label' => l('admin.theme_select_option', $info['name'], $info['version'], $info['author']),
