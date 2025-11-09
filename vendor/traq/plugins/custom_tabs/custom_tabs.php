@@ -32,6 +32,7 @@ use avalon\http\Request;
 use avalon\output\View;
 
 use CustomTabs\models\CustomTab;
+use Traq\Libraries\Plugin;
 
 /**
  * Custom tabs plugin.
@@ -42,7 +43,7 @@ use CustomTabs\models\CustomTab;
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class CustomTabs extends \traq\libraries\Plugin
+class CustomTabs extends Plugin
 {
     protected static $info = array(
         'name'    => 'Custom Tabs',
@@ -54,10 +55,6 @@ class CustomTabs extends \traq\libraries\Plugin
 
     public static function init()
     {
-        // Register namespace
-        $autoloader = require DOCROOT . '/vendor/autoload.php';
-        $autoloader->addPsr4('CustomTabs\\', __DIR__);
-
         // Add routes
         Router::add('/admin/custom_tabs', 'CustomTabs::controllers::admin::CustomTabs.index');
         Router::add('/admin/custom_tabs/new', 'CustomTabs::controllers::admin::CustomTabs.new');

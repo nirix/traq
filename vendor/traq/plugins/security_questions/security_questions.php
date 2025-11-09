@@ -30,7 +30,7 @@ use avalon\Database;
 use avalon\http\Router;
 use avalon\http\Request;
 use avalon\output\View;
-
+use Traq\Libraries\Plugin;
 use traq\models\Setting;
 
 /**
@@ -41,20 +41,16 @@ use traq\models\Setting;
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class SecurityQuestions extends \traq\libraries\Plugin
+class SecurityQuestions extends Plugin
 {
     protected static $info = array(
         'name'    => 'Security Questions',
-        'version' => '1.0',
+        'version' => '1.1',
         'author'  => 'Jack P.'
     );
 
     public static function init()
     {
-        // Register namespace
-        $autoloader = require DOCROOT . '/vendor/autoload.php';
-        $autoloader->addPsr4('SecurityQuestions\\', __DIR__);
-
         // Add routes
         Router::add('/admin/settings/security_questions', 'SecurityQuestions::controllers::Questions.index');
         Router::add('/admin/settings/security_questions/new_question', 'SecurityQuestions::controllers::Questions.new_question');
