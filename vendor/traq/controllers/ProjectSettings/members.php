@@ -41,8 +41,6 @@ class Members extends AppController
 {
     public function action_index()
     {
-        define('DEBUG', true);
-
         $projectRoles = ProjectRole::select_options();
         $userRoles = UserRole::select()->where('project_id', $this->project->id)->exec()->fetch_all();
 
