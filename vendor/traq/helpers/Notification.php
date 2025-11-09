@@ -23,7 +23,7 @@
 
 namespace traq\helpers;
 
-use avalon\core\Error;
+use Avalon\Core\Error;
 use avalon\http\Request;
 use HTML;
 use Symfony\Component\Mailer\Mailer;
@@ -240,7 +240,7 @@ class Notification
 
     private static function getTransportDsn(): string
     {
-        $file = APPPATH . '/config/mailer.php';
+        $file = DATADIR . '/config/mailer.php';
         if (settings('mailer_config') === 'config' && file_exists($file)) {
             $config = require $file;
             return $config['dsn'];
