@@ -24,18 +24,19 @@
 namespace Traq\Plugins;
 
 use \FishHook;
+use Avalon\Core\Kernel as Avalon;
+use Avalon\Http\Request;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\DisallowedRawHtml\DisallowedRawHtmlExtension;
-use League\CommonMark\Extension\Footnote\FootnoteExtension;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\Mention\Mention;
+use League\CommonMark\Extension\Mention\MentionExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 use League\CommonMark\Extension\Table\TableExtension;
-use League\CommonMark\Extension\TaskList\TaskListExtension;
 use League\CommonMark\MarkdownConverter;
-use \ParsedownExtra;
 use Traq\Libraries\Plugin;
+use traq\models\User;
 
 /**
  * Markdown Plugin.
@@ -84,8 +85,40 @@ class Markdown extends Plugin
 
     private static function setupParser(): void
     {
-        $environment = new Environment();
+        $config = [
+            'mentions' => [
+                'user' => [
+                    'prefix' => '@',
+                    'pattern' => '[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}(?!\w)',
+                    'generator' => function (Mention $mention) {
+                        $user = User::find('username', $mention->getIdentifier());
+
+                        if ($user) {
+                            $mention->setUrl(Request::base('users/' . $user->id));
+                        }
+
+                        return $mention;
+                    },
+                ],
+                'ticket' => [
+                    'prefix' => '#',
+                    'pattern' => '\d+',
+                    'generator' => function (Mention $mention) {
+                        $project = Avalon::app()->project;
+
+                        if ($project) {
+                            $mention->setUrl(Request::base($project->href("tickets/{$mention->getIdentifier()}")));
+                        }
+
+                        return $mention;
+                    },
+                ],
+            ],
+        ];
+
+        $environment = new Environment($config);
         $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new MentionExtension());
         $environment->addExtension(new AutolinkExtension());
         $environment->addExtension(new DisallowedRawHtmlExtension());
         $environment->addExtension(new StrikethroughExtension());
