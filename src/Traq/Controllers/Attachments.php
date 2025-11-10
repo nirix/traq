@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use avalon\http\Request;
 use avalon\http\Router;
@@ -51,7 +51,7 @@ class Attachments extends AppController
      *
      * @param integer $attachment_id
      */
-    public function action_view($attachment_id)
+    public function view()
     {
         // Don't try to load a view
         $this->render['view'] = false;
@@ -83,7 +83,7 @@ class Attachments extends AppController
      *
      * @param integer $attachment_id
      */
-    public function action_delete($attachment_id)
+    public function delete()
     {
         // Delete and redirect
         $this->attachment->delete();
@@ -96,7 +96,7 @@ class Attachments extends AppController
     public function _check_permission($action)
     {
         // Get the attachment
-        $this->attachment = Attachment::find(Router::$params[0]);
+        $this->attachment = Attachment::find(Router::$attributes['attachment_id']);
 
         // Check if the user has permission
         if (!current_user()->permission($this->attachment->ticket->project_id, "{$action}_attachments")) {

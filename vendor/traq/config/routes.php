@@ -23,6 +23,8 @@
 
 use avalon\http\Router;
 use Traq\Controllers\Admin\Plugins;
+use Traq\Controllers\Attachments;
+use Traq\Controllers\ErrorController;
 use Traq\Controllers\ProfileController;
 use Traq\Controllers\ProjectController;
 use Traq\Controllers\ProjectSettingsController;
@@ -36,7 +38,7 @@ const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
 Router::register('root', 'root', [ProjectController::class, 'index']);
 
-Router::add('404', 'traq::controllers::Error.404');
+Router::register('errors.404', '404', [ErrorController::class, 'error404']);
 Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
 Router::add('/login/resetpassword', 'traq::controllers::Users.reset_password');
 Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.reset_password/$1');
@@ -65,8 +67,8 @@ Router::add('/_misc/ticket_tasks_bit', 'traq::controllers::TicketTasks.form_bit'
 Router::add('/_misc/format_text', 'traq::controllers::Misc.format_text');
 
 // Attachment routes
-Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', 'traq::controllers::Attachments.view/$1');
-Router::add('/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', 'traq::controllers::Attachments.delete/$1');
+Router::register('attachments.view', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', [Attachments::class, 'view']);
+Router::register('attachments.delete', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', [Attachments::class, 'delete']);
 
 // ------------------------------------------------
 // Project routes

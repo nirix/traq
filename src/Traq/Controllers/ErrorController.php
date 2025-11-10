@@ -21,9 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use avalon\http\Request;
+use Avalon\Http\Response;
 use avalon\output\View;
 use Traq\Controllers\AppController;
 
@@ -35,13 +36,15 @@ use Traq\Controllers\AppController;
  * @package Traq
  * @subpackage Controllers
  */
-class Error extends AppController
+class ErrorController extends AppController
 {
-    public function action_404()
+    public function error404(): Response
     {
         header("HTTP/1.0 404 Not Found");
 
         // Send the request URL to the view.
         View::set('request', Request::requestUri());
+
+        return $this->renderView('error/404');
     }
 }
