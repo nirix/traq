@@ -233,7 +233,7 @@
 						<div>
 							<label for="updated"><?= l('updated') ?></label>
 							<div>
-								<?= time_ago($ticket->updated_at) ?>
+								<?= $ticket->updated_at ? time_ago($ticket->updated_at) : '-' ?>
 							</div>
 						</div>
 						<div>
