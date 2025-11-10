@@ -131,7 +131,7 @@ function theme_select_options(): array
 
     // Scan data/themes/*/_theme.php and vendor/traq/views/*/_theme.php
     $themePaths = [
-        APPPATH . '/views',
+        DOCROOT . '/src/views',
         DATADIR . '/themes',
     ];
 

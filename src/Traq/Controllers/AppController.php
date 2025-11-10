@@ -75,8 +75,7 @@ class AppController extends Controller
 
         // Set the theme
         View::$searchPaths[] = DATADIR . '/themes/' . settings('theme');
-        View::$searchPaths[] = APPPATH . '/views/' . settings('theme');
-        View::$searchPaths[] = APPPATH . '/views/default';
+        View::$searchPaths[] = dirname(__DIR__, 2) . '/views/' . settings('theme');
         View::$searchPaths[] = dirname(__DIR__, 2) . '/views';
 
         // Call the controller class constructor
