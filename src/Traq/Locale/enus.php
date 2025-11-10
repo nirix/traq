@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2016 Jack P.
- * Copyright (C) 2012-2016 Traq.io
+ * Copyright (C) 2009-2025 Jack P.
+ * Copyright (C) 2012-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -19,7 +19,9 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\locale;
+namespace Traq\Locale;
+
+use Traq\Locale;
 
 /**
  * enUS localization class.
@@ -29,7 +31,7 @@ namespace traq\locale;
  * @package Traq
  * @subpackage Locale
  */
-class enUS extends \traq\libraries\Locale
+class enUS extends Locale
 {
     protected static $info = array(
         'name'    => "English",

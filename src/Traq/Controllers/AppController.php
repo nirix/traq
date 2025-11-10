@@ -34,9 +34,9 @@ use Avalon\Http\Router;
 use Avalon\Output\Body;
 use Avalon\Output\View;
 
+use Traq\Locale;
 use traq\models\User;
 use traq\models\Project;
-use traq\libraries\Locale;
 use traq\helpers\API;
 
 /**

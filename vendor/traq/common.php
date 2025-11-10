@@ -93,30 +93,28 @@ function locale_select_options()
 {
     $options = array();
 
-    foreach (scandir(APPPATH . '/locale') as $file) {
-        if (substr($file, -4) == '.php') {
-            // Clean the name and set the class
-            $name = substr($file, 0, -4);
-            $class = "\\traq\locale\\{$name}";
+    $paths = [
+        DOCROOT . "/src/Traq/Locale",
+        DATADIR . "/locale",
+    ];
 
-            // Make sure the locale class
-            // isn't already loaded
-            if ($name != settings('locale') and $name != Avalon::app()->user->locale) {
-                require APPPATH . '/locale/' . $file;
+    $locales = [];
+    foreach ($paths as $path) {
+        foreach (scandir($path) as $file) {
+            if (substr($file, -4) == '.php') {
+                $name = substr($file, 0, -4);
+                $class = "\\Traq\Locale\\{$name}";
+
+                $info = $class::info();
+                $locales[] = [
+                    'label' => "{$info['name']} ({$info['language_short']}{$info['locale']})",
+                    'value' => $name
+                ];
             }
-
-            // Get the info
-            $info = $class::info();
-
-            // Add it to the options
-            $options[] = array(
-                'label' => "{$info['name']} ({$info['language_short']}{$info['locale']})",
-                'value' => substr($file, 0, -4)
-            );
         }
     }
 
-    return $options;
+    return $locales;
 }
 
 /**

@@ -98,4 +98,4 @@ foreach ($pluginPaths as $pluginPath) {
 unset($plugins, $plugin, $pluginPath, $pluginPaths);
 
 // Load the localization file
-$locale = traq\libraries\Locale::load(settings('locale'));
+$locale = Traq\Locale::load(settings('locale'));

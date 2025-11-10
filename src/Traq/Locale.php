@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\libraries;
+namespace Traq;
 
 use \avalon\core\Load;
 use \Time;
@@ -64,11 +64,22 @@ class Locale
      */
     public static function load($locale)
     {
-        $file_path = APPPATH . "/locale/{$locale}.php";
+        $paths = [
+            DOCROOT . "/src/Traq/Locale",
+            DATADIR . "/locale",
+        ];
+
+        $path = null;
+        foreach ($paths as $path) {
+            if (file_exists($path . "/{$locale}.php")) {
+                $path = $path . "/{$locale}.php";
+                break;
+            }
+        }
 
         // Check if the file exists..
-        if (file_exists($file_path)) {
-            $class = "\\traq\locale\\{$locale}";
+        if ($path) {
+            $class = "\\Traq\Locale\\{$locale}";
 
             // Make sure the class isn't loaded already
             if (!class_exists($class)) {
