@@ -26,7 +26,7 @@ data/config/mailer.php
 .htaccess
 *.local
 .vscode/
-.dev/database
+.dev/data/db
 assets/ui
 node_modules
 

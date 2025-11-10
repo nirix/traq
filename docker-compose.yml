@@ -20,6 +20,8 @@ services:
       - MARIADB_USER=traq
       - MARIADB_PASSWORD=dev
       - MARIADB_ROOT_PASSWORD=secret
+    volumes:
+      - ./.dev/data/db:/var/lib/mysql
 
   phpmyadmin:
     image: docker.io/library/phpmyadmin:latest
@@ -27,3 +29,5 @@ services:
       - 3003:80
     environment:
       - PMA_HOST=mariadb
+      - PMA_USER=root
+      - PMA_PASSWORD=secret
