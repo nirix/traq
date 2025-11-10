@@ -75,8 +75,8 @@ post('/step/2', function () {
         View::set('title', 'Step 1 - Database Details');
         render('database_config');
     }
-    // Make sure there's no Traq installed here with the same table prefix
-    else if (false and is_installed(array_merge(array('driver' => 'pdo'), $_POST))) {
+    // Make sure there's no Traq installed here
+    else if (false && is_installed(array_merge(array('driver' => 'pdo'), $_POST))) {
         InstallError::halt('Error', 'Traq is already installed.');
     }
     // Confirm details
@@ -94,24 +94,13 @@ post('/step/2', function () {
                     'database' => $_POST['database']
                 );
                 break;
-
-            case 'sqlite':
-                $_SESSION['db'] = array(
-                    'driver' => 'pdo',
-                    'type'   => 'sqlite',
-                    'path'   => $_POST['path']
-                );
-                break;
         }
 
-        $_SESSION['db']['prefix'] = $_POST['prefix'];
-
-
         // Remote database info from _POST
-        unset($_POST['type'], $_POST['host'], $_POST['username'], $_POST['password'], $_POST['database'], $_POST['prefix']);
+        unset($_POST['type'], $_POST['host'], $_POST['username'], $_POST['password'], $_POST['database']);
 
         View::set('title', 'Step 2 - Admin Account');
-        View::set('errors', array());
+        View::set('errors', []);
         render('admin_account');
     }
 });
@@ -138,7 +127,7 @@ post('/step/3', function () {
 
         // Fetch the install SQL.
         $install_sql = file_get_contents('./install.sql');
-        $install_sql = str_replace('traq_', $_SESSION['db']['prefix'], $install_sql);
+        $install_sql = str_replace('traq_', '', $install_sql);
         $install_sql = preg_replace('/^(#.*)$/m', '', $install_sql);
         $queries = explode(';', $install_sql);
 
@@ -204,8 +193,8 @@ post('/step/3', function () {
         $config = implode(PHP_EOL, $config);
 
         // Write the config to file
-        if (!file_exists('../vendor/traq/config/database.php') && is_writable('../vendor/traq/config')) {
-            $handle = fopen('../vendor/traq/config/database.php', 'w+');
+        if (!file_exists('../data/config/database.php') && is_writable('../data/config')) {
+            $handle = fopen('../data/config/database.php', 'w+');
             fwrite($handle, $config);
             fclose($handle);
             $config_created = true;

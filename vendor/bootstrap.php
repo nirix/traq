@@ -59,6 +59,10 @@ if (!file_exists(DATADIR . '/config/database.php')) {
 // Include config and connect
 else {
     require DATADIR . '/config/database.php';
+    // If no prefix is set, use an empty string
+    if (!isset($db['prefix'])) {
+        $db['prefix'] = '';
+    }
     Database::init($db);
 }
 

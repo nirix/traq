@@ -59,6 +59,12 @@ function get_connection()
     }
 
     require '../data/config/database.php';
+
+    // If no prefix is set, use an empty string
+    if (!isset($db['prefix'])) {
+        $db['prefix'] = '';
+    }
+
     $conn = Database::factory($db, 'main');
     return $conn;
 }

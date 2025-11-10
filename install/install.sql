@@ -1,6 +1,6 @@
 #
 # Traq
-# Copyright (C) 2009-2023 Traq.io
+# Copyright (C) 2009-2025 Traq.io
 #
 # This file is part of Traq.
 #
@@ -17,12 +17,12 @@
 # along with Traq. If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Dump of table traq_attachments
+# Dump of table attachments
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_attachments`;
+DROP TABLE IF EXISTS `attachments`;
 
-CREATE TABLE `traq_attachments` (
+CREATE TABLE `attachments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `contents` longtext COLLATE utf8_unicode_ci NOT NULL,
@@ -34,24 +34,24 @@ CREATE TABLE `traq_attachments` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_components
+# Dump of table components
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_components`;
+DROP TABLE IF EXISTS `components`;
 
-CREATE TABLE `traq_components` (
+CREATE TABLE `components` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `project_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_custom_field_values
+# Dump of table custom_field_values
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_custom_field_values`;
+DROP TABLE IF EXISTS `custom_field_values`;
 
-CREATE TABLE `traq_custom_field_values` (
+CREATE TABLE `custom_field_values` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `custom_field_id` bigint(20) NOT NULL,
   `ticket_id` bigint(20) NOT NULL,
@@ -59,12 +59,12 @@ CREATE TABLE `traq_custom_field_values` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dump of table traq_custom_fields
+# Dump of table custom_fields
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_custom_fields`;
+DROP TABLE IF EXISTS `custom_fields`;
 
-CREATE TABLE `traq_custom_fields` (
+CREATE TABLE `custom_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
@@ -81,12 +81,12 @@ CREATE TABLE `traq_custom_fields` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dump of table traq_milestones
+# Dump of table milestones
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_milestones`;
+DROP TABLE IF EXISTS `milestones`;
 
-CREATE TABLE `traq_milestones` (
+CREATE TABLE `milestones` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -102,12 +102,12 @@ CREATE TABLE `traq_milestones` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_permissions
+# Dump of table permissions
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_permissions`;
+DROP TABLE IF EXISTS `permissions`;
 
-CREATE TABLE `traq_permissions` (
+CREATE TABLE `permissions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) NOT NULL DEFAULT '0',
   `type` varchar(255) DEFAULT NULL,
@@ -117,9 +117,9 @@ CREATE TABLE `traq_permissions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `traq_permissions` WRITE;
+LOCK TABLES `permissions` WRITE;
 
-INSERT INTO `traq_permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
+INSERT INTO `permissions` (`project_id`, `type`, `type_id`, `action`, `value`)
 VALUES
   (0,'usergroup',0,'view',1),
   (0,'usergroup',0,'project_settings',0),
@@ -231,40 +231,40 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_plugins
+# Dump of table plugins
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_plugins`;
+DROP TABLE IF EXISTS `plugins`;
 
-CREATE TABLE `traq_plugins` (
+CREATE TABLE `plugins` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `file` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_plugins` WRITE;
+LOCK TABLES `plugins` WRITE;
 
-INSERT INTO `traq_plugins` (`id`, `file`, `enabled`)
+INSERT INTO `plugins` (`id`, `file`, `enabled`)
 VALUES
 	(1,'markdown',1);
 
 UNLOCK TABLES;
 
-# Dump of table traq_priorities
+# Dump of table priorities
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_priorities`;
+DROP TABLE IF EXISTS `priorities`;
 
-CREATE TABLE `traq_priorities` (
+CREATE TABLE `priorities` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_priorities` WRITE;
+LOCK TABLES `priorities` WRITE;
 
-INSERT INTO `traq_priorities` (`id`, `name`)
+INSERT INTO `priorities` (`id`, `name`)
 VALUES
 	(1,'Highest'),
 	(2,'High'),
@@ -274,12 +274,12 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_project_roles
+# Dump of table project_roles
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_project_roles`;
+DROP TABLE IF EXISTS `project_roles`;
 
-CREATE TABLE `traq_project_roles` (
+CREATE TABLE `project_roles` (
   `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `assignable` varchar(255) NOT NULL DEFAULT '1',
@@ -287,9 +287,9 @@ CREATE TABLE `traq_project_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `traq_project_roles` WRITE;
+LOCK TABLES `project_roles` WRITE;
 
-INSERT INTO `traq_project_roles` (`id`, `name`, `assignable`, `project_id`)
+INSERT INTO `project_roles` (`id`, `name`, `assignable`, `project_id`)
 VALUES
 	(1,'Manager',1,0),
 	(2,'Developer',1,0),
@@ -297,12 +297,12 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_projects
+# Dump of table projects
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_projects`;
+DROP TABLE IF EXISTS `projects`;
 
-CREATE TABLE `traq_projects` (
+CREATE TABLE `projects` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -317,20 +317,20 @@ CREATE TABLE `traq_projects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_settings
+# Dump of table settings
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_settings`;
+DROP TABLE IF EXISTS `settings`;
 
-CREATE TABLE `traq_settings` (
+CREATE TABLE `settings` (
   `setting` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `value` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`setting`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_settings` WRITE;
+LOCK TABLES `settings` WRITE;
 
-INSERT INTO `traq_settings` (`setting`, `value`)
+INSERT INTO `settings` (`setting`, `value`)
 VALUES
   ('allow_registration', '1'),
   ('email_validation', '0'),
@@ -353,30 +353,30 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_ticket_relationships
+# Dump of table ticket_relationships
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `traq_ticket_relationships` (
+CREATE TABLE IF NOT EXISTS `ticket_relationships` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ticket_id` bigint(20) NOT NULL,
   `related_ticket_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-# Dump of table traq_severities
+# Dump of table severities
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_severities`;
+DROP TABLE IF EXISTS `severities`;
 
-CREATE TABLE `traq_severities` (
+CREATE TABLE `severities` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_severities` WRITE;
+LOCK TABLES `severities` WRITE;
 
-INSERT INTO `traq_severities` (`id`, `name`)
+INSERT INTO `severities` (`id`, `name`)
 VALUES
 	(1,'Blocker'),
 	(2,'Critical'),
@@ -387,12 +387,12 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_subscriptions
+# Dump of table subscriptions
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_subscriptions`;
+DROP TABLE IF EXISTS `subscriptions`;
 
-CREATE TABLE `traq_subscriptions` (
+CREATE TABLE `subscriptions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `user_id` bigint(20) NOT NULL,
@@ -402,12 +402,12 @@ CREATE TABLE `traq_subscriptions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_ticket_history
+# Dump of table ticket_history
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_ticket_history`;
+DROP TABLE IF EXISTS `ticket_history`;
 
-CREATE TABLE `traq_ticket_history` (
+CREATE TABLE `ticket_history` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `ticket_id` bigint(20) NOT NULL,
@@ -417,12 +417,12 @@ CREATE TABLE `traq_ticket_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_statuses
+# Dump of table statuses
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_statuses`;
+DROP TABLE IF EXISTS `statuses`;
 
-CREATE TABLE `traq_statuses` (
+CREATE TABLE `statuses` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` smallint(6) NOT NULL,
@@ -430,9 +430,9 @@ CREATE TABLE `traq_statuses` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_statuses` WRITE;
+LOCK TABLES `statuses` WRITE;
 
-INSERT INTO `traq_statuses` (`id`, `name`, `status`, `changelog`)
+INSERT INTO `statuses` (`id`, `name`, `status`, `changelog`)
 VALUES
   (1, 'New', 1, 0),
   (2, 'Accepted', 1, 0),
@@ -442,12 +442,12 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_types
+# Dump of table types
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_types`;
+DROP TABLE IF EXISTS `types`;
 
-CREATE TABLE `traq_types` (
+CREATE TABLE `types` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bullet` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
@@ -456,9 +456,9 @@ CREATE TABLE `traq_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_types` WRITE;
+LOCK TABLES `types` WRITE;
 
-INSERT INTO `traq_types` (`id`, `name`, `bullet`, `changelog`, `template`)
+INSERT INTO `types` (`id`, `name`, `bullet`, `changelog`, `template`)
 VALUES
 	(1,'Defect','-',1,''),
 	(2,'Feature Request','+',1,''),
@@ -467,12 +467,12 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_tickets
+# Dump of table tickets
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_tickets`;
+DROP TABLE IF EXISTS `tickets`;
 
-CREATE TABLE `traq_tickets` (
+CREATE TABLE `tickets` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ticket_id` bigint(20) NOT NULL,
   `summary` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -499,12 +499,12 @@ CREATE TABLE `traq_tickets` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_timeline
+# Dump of table timeline
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_timeline`;
+DROP TABLE IF EXISTS `timeline`;
 
-CREATE TABLE `traq_timeline` (
+CREATE TABLE `timeline` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) NOT NULL,
   `owner_id` bigint(20) NOT NULL,
@@ -515,12 +515,12 @@ CREATE TABLE `traq_timeline` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_user_roles
+# Dump of table user_roles
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_user_roles`;
+DROP TABLE IF EXISTS `user_roles`;
 
-CREATE TABLE `traq_user_roles` (
+CREATE TABLE `user_roles` (
   `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(20) DEFAULT NULL,
   `project_id` int(20) DEFAULT NULL,
@@ -528,21 +528,21 @@ CREATE TABLE `traq_user_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dump of table traq_usergroups
+# Dump of table usergroups
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_usergroups`;
+DROP TABLE IF EXISTS `usergroups`;
 
-CREATE TABLE `traq_usergroups` (
+CREATE TABLE `usergroups` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_admin` smallint(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `traq_usergroups` WRITE;
+LOCK TABLES `usergroups` WRITE;
 
-INSERT INTO `traq_usergroups` (`id`, `name`, `is_admin`)
+INSERT INTO `usergroups` (`id`, `name`, `is_admin`)
 VALUES
 	(1,'Administrators',1),
 	(2,'Members',0),
@@ -550,12 +550,12 @@ VALUES
 
 UNLOCK TABLES;
 
-# Dump of table traq_users
+# Dump of table users
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_users`;
+DROP TABLE IF EXISTS `users`;
 
-CREATE TABLE `traq_users` (
+CREATE TABLE `users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -571,12 +571,12 @@ CREATE TABLE `traq_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_wiki
+# Dump of table wiki
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_wiki`;
+DROP TABLE IF EXISTS `wiki`;
 
-CREATE TABLE `traq_wiki` (
+CREATE TABLE `wiki` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -586,12 +586,12 @@ CREATE TABLE `traq_wiki` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dump of table traq_wiki_revisions
+# Dump of table wiki_revisions
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `traq_wiki_revisions`;
+DROP TABLE IF EXISTS `wiki_revisions`;
 
-CREATE TABLE `traq_wiki_revisions` (
+CREATE TABLE `wiki_revisions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `wiki_page_id` bigint(20) NOT NULL,
   `revision` bigint(20) NOT NULL DEFAULT '1',
