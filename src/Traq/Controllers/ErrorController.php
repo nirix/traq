@@ -25,7 +25,6 @@ namespace Traq\Controllers;
 
 use avalon\http\Request;
 use Avalon\Http\Response;
-use avalon\output\View;
 use Traq\Controllers\AppController;
 
 /**
@@ -40,11 +39,11 @@ class ErrorController extends AppController
 {
     public function error404(): Response
     {
-        header("HTTP/1.0 404 Not Found");
+        $response = $this->renderView('error/404', [
+            'request' => Request::requestUri(),
+        ]);
+        $response->setStatusCode(404);
 
-        // Send the request URL to the view.
-        View::set('request', Request::requestUri());
-
-        return $this->renderView('error/404');
+        return $response;
     }
 }
