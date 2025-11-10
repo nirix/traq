@@ -43,7 +43,7 @@ Load::helper('time');
 class_alias('avalon\helpers\Time', 'Time');
 
 // Fetch the routes
-require_once APPPATH . '/config/routes.php';
+require_once DOCROOT . '/src/Traq/Config/routes.php';
 
 // Load common functions and version file
 require APPPATH . '/common.php';
