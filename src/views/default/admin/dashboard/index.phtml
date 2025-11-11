@@ -1,7 +1,7 @@
 <div class="admin content">
 	<h2><?= l('dashboard') ?></h2>
 
-	<?php if (DB_HAS_PREFIX) { ?>
+	<?php if (defined('DB_HAS_PREFIX') && DB_HAS_PREFIX) { ?>
 		<div class="alert alert-danger">
 			This Traq installation has a database table prefix. This feature was deprecated in Traq 3.9 and will be removed in Traq 3.11.
 		</div>
