@@ -25,7 +25,7 @@ namespace traq\controllers\ProjectSettings;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\Component;
 
 /**
@@ -65,7 +65,7 @@ class Components extends AppController
         if (Request::method() == 'post') {
             // Set the information
             $component->set(array(
-                'name'       => Request::post('name'),
+                'name'       => Request::get('name'),
                 'project_id' => $this->project->id
             ));
 
@@ -73,8 +73,8 @@ class Components extends AppController
             if ($component->is_valid()) {
                 // Save and redirect
                 $component->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('component' => $component));
+                if ($this->isApi) {
+                    return API::response(1, array('component' => $component));
                 } else {
                     Request::redirectTo("{$this->project->slug}/settings/components");
                 }
@@ -104,15 +104,15 @@ class Components extends AppController
         if (Request::method() == 'post') {
             // Update the information
             $component->set(array(
-                'name' => Request::post('name'),
+                'name' => Request::get('name'),
             ));
 
             // Check if the data is valid
             if ($component->is_valid()) {
                 // Save and redirect
                 $component->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('component' => $component));
+                if ($this->isApi) {
+                    return API::response(1, array('component' => $component));
                 } else {
                     Request::redirectTo("{$this->project->slug}/settings/components");
                 }
@@ -139,8 +139,8 @@ class Components extends AppController
         // Delete component
         $component->delete();
 
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             Request::redirectTo($this->project->href("settings/components"));
         }

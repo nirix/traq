@@ -25,7 +25,7 @@ namespace traq\controllers\admin;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\Group;
 
 /**
@@ -71,8 +71,8 @@ class Groups extends AppController
                 $group->save();
 
                 // Return API response
-                if ($this->is_api) {
-                    return \API::response(1, array('group' => $group));
+                if ($this->isApi) {
+                    return API::response(1, array('group' => $group));
                 } else {
                     Request::redirect(Request::base('/admin/groups'));
                 }
@@ -105,8 +105,8 @@ class Groups extends AppController
                 $group->save();
 
                 // Return API response
-                if ($this->is_api) {
-                    return \API::response(1, array('group' => $group));
+                if ($this->isApi) {
+                    return API::response(1, array('group' => $group));
                 } else {
                     Request::redirect(Request::base('/admin/groups'));
                 }
@@ -129,8 +129,8 @@ class Groups extends AppController
         $group->delete();
 
         // Return API response
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             Request::redirect(Request::base('/admin/groups'));
         }

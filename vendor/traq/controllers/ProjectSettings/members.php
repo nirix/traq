@@ -25,6 +25,7 @@ namespace traq\controllers\ProjectSettings;
 
 use avalon\http\Request;
 use avalon\output\View;
+use traq\helpers\API;
 use traq\models\ProjectRole;
 use traq\models\User;
 use traq\models\UserRole;
@@ -107,11 +108,11 @@ class Members extends AppController
             $user_role->delete();
         }
 
-        if ($this->is_api) {
+        if ($this->isApi) {
             if ($user_role) {
-                return \API::response(1);
+                return API::response(1);
             } else {
-                return \API::response(0);
+                return API::response(0);
             }
         } else {
             Request::redirectTo($this->project->href('settings/members'));

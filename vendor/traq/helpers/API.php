@@ -32,32 +32,10 @@ use avalon\http\Request;
  * @since 3.1
  * @package Traq
  * @subpackage Helpers
+ * @deprecated 3.9.0
  */
 class API
 {
-    /**
-     * Check for an access token (API key) and return it,
-     * otherwise return null.
-     *
-     * @return mixed
-     */
-    public static function get_key()
-    {
-        // Check request
-        if (isset(Request::$request['access_token']) and isset(Request::$request['access_token'][5])) {
-            return Request::$request['access_token'];
-        }
-        // Check header
-        elseif (isset($_SERVER['HTTP_ACCESS_TOKEN']) and isset($_SERVER['HTTP_ACCESS_TOKEN'][5])) {
-            return $_SERVER['HTTP_ACCESS_TOKEN'];
-        }
-        // Set, but not >= 5 characters
-        elseif (isset(Request::$request['access_token']) or isset($_SERVER['HTTP_ACCESS_TOKEN'])) {
-            return false;
-        }
-
-        return null;
-    }
     /**
      * Returns a JSON formatted response.
      *

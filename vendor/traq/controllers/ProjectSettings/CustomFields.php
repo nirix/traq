@@ -25,7 +25,7 @@ namespace traq\controllers\ProjectSettings;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\CustomField;
 
 /**
@@ -93,8 +93,8 @@ class CustomFields extends AppController
 
             // Save and redirect
             if ($field->save()) {
-                if ($this->is_api) {
-                    return \API::response(1, array('field' => $field));
+                if ($this->isApi) {
+                    return API::response(1, array('field' => $field));
                 } else {
                     Request::redirectTo($this->project->href('settings/custom_fields'));
                 }
@@ -140,12 +140,12 @@ class CustomFields extends AppController
                 $data['max_length'] = 255;
             }
 
-            if ($this->is_api) {
-                $data['is_required'] = Request::post('is_required', $field->is_required);
-                $data['multiple'] = Request::post('multiple', $field->multiple);
+            if ($this->isApi) {
+                $data['is_required'] = Request::get('is_required', $field->is_required);
+                $data['multiple'] = Request::get('multiple', $field->multiple);
             } else {
-                $data['is_required'] = Request::post('is_required', 0);
-                $data['multiple'] = Request::post('multiple', 0);
+                $data['is_required'] = Request::get('is_required', 0);
+                $data['multiple'] = Request::get('multiple', 0);
             }
 
             // Set field properties
@@ -153,8 +153,8 @@ class CustomFields extends AppController
 
             // Save and redirect
             if ($field->save()) {
-                if ($this->is_api) {
-                    return \API::response(1, array('field' => $field));
+                if ($this->isApi) {
+                    return API::response(1, array('field' => $field));
                 } else {
                     Request::redirectTo($this->project->href('settings/custom_fields'));
                 }
@@ -181,8 +181,8 @@ class CustomFields extends AppController
         // Delete and redirect
         $field->delete();
 
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             Request::redirectTo($this->project->href('settings/custom_fields'));
         }

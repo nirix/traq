@@ -25,7 +25,7 @@ namespace traq\controllers\admin;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\Project;
 
 /**
@@ -62,14 +62,14 @@ class Projects extends AppController
 
         if (Request::method() == 'post') {
             $project->set(array(
-                'name'         => Request::post('name'),
-                'slug'         => Request::post('slug'),
-                'codename'     => Request::post('codename'),
-                'info'         => Request::post('info'),
+                'name'         => Request::get('name'),
+                'slug'         => Request::get('slug'),
+                'codename'     => Request::get('codename'),
+                'info'         => Request::get('info'),
                 'enable_wiki'  => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0),
-                'default_ticket_type_id' => Request::post('default_ticket_type_id'),
-                'default_ticket_sorting' => Request::post('default_ticket_sorting'),
-                'displayorder' => Request::post('displayorder', 0)
+                'default_ticket_type_id' => Request::get('default_ticket_type_id'),
+                'default_ticket_sorting' => Request::get('default_ticket_sorting'),
+                'displayorder' => Request::get('displayorder', 0)
             ));
 
             if (!is_numeric($project->displayorder)) {
@@ -79,7 +79,7 @@ class Projects extends AppController
             // Save project
             if ($project->save()) {
                 // Is this an API request?
-                if ($this->is_api) {
+                if ($this->isAapi) {
                     // Return JSON formatted response
                     return API::response(1, array('project' => $project));
                 } else {
@@ -102,7 +102,7 @@ class Projects extends AppController
         $project->delete();
 
         // Is this an API request?
-        if ($this->is_api) {
+        if ($this->isApi) {
             return API::response(1);
         } else {
             Request::redirectTo('admin/projects');

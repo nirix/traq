@@ -27,6 +27,7 @@ use avalon\http\Request;
 use avalon\output\View;
 use \FishHook;
 use Traq\Controllers\AppController;
+use traq\helpers\API;
 use traq\models\Subscription;
 
 /**
@@ -61,22 +62,22 @@ class Usercp extends AppController
         // Has the form been submitted?
         if (Request::method() == 'post') {
             $data = array(
-                'name'   => Request::post('name', $user->name),
-                'email'  => Request::post('email', $user->email),
-                'locale' => Request::post('locale', $user->locale)
+                'name'   => Request::get('name', $user->name),
+                'email'  => Request::get('email', $user->email),
+                'locale' => Request::get('locale', $user->locale)
             );
 
             FishHook::add('controller:users::usercp/save', array(&$data));
 
             // Set the info
             $user->set($data);
-            $user->option('watch_created_tickets', Request::post('watch_created_tickets'));
+            $user->option('watch_created_tickets', Request::get('watch_created_tickets'));
 
             // Save the user
             if ($user->save()) {
                 // Redirect if successful
-                if ($this->is_api) {
-                    return \API::response(1, array('user' => $user));
+                if ($this->isApi) {
+                    return API::response(1, array('user' => $user));
                 } else {
                     Request::redirect(Request::requestUri());
                 }
@@ -94,7 +95,7 @@ class Usercp extends AppController
     public function action_password()
     {
         // Make sure the user is logged in
-        if (!LOGGEDIN or $this->is_api) {
+        if (!LOGGEDIN or $this->isApi) {
             return $this->show_no_permission();
         }
 

@@ -28,6 +28,7 @@ use avalon\http\Router;
 use avalon\output\View;
 use avalon\http\Response;
 use Traq\Controllers\AppController;
+use traq\helpers\API;
 use traq\models\Project;
 use traq\models\Ticket;
 use traq\models\TicketRelationship;
@@ -388,15 +389,25 @@ class Tickets extends AppController
                     $sub->save();
                 }
 
-                if ($this->is_api) {
-                    return \traq\helpers\API::response(1, array('ticket' => $ticket));
+                if ($this->isApi) {
+                    return $this->json([
+                        'ticket' => $ticket->__toArray()
+                    ]);
                 } else {
                     Request::redirectTo($ticket->href());
                 }
             }
         }
 
-        View::set('ticket', $ticket);
+        if ($this->isJson) {
+            return $this->json([
+                'errors' => $ticket->errors,
+            ], 422);
+        }
+
+        return $this->render('tickets/new.phtml', [
+            'ticket' => $ticket
+        ]);
     }
 
     /**
@@ -544,8 +555,8 @@ class Tickets extends AppController
 
         // Update the ticket
         if ($ticket->update_data($data)) {
-            if ($this->is_api) {
-                return \API::response(1, array('ticket' => $ticket));
+            if ($this->isApi) {
+                return API::response(1, array('ticket' => $ticket));
             } else {
                 return Request::redirectTo($ticket->href());
             }

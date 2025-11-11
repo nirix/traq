@@ -25,7 +25,7 @@ namespace traq\controllers\admin;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\User;
 use traq\models\Setting;
 
@@ -65,11 +65,11 @@ class Users extends AppController
         if (Request::method() == 'post') {
             // Set the users information
             $user->set(array(
-                'username' => Request::post('username'),
-                'name'     => Request::post('name'),
-                'password' => Request::post('password'),
-                'email'    => Request::post('email'),
-                'group_id' => Request::post('group_id', 2)
+                'username' => Request::get('username'),
+                'name'     => Request::get('name'),
+                'password' => Request::get('password'),
+                'email'    => Request::get('email'),
+                'group_id' => Request::get('group_id', 2)
             ));
 
             // Check if the data is valid
@@ -79,7 +79,7 @@ class Users extends AppController
                 $user->save();
 
                 // Return JSON for API
-                if ($this->is_api) {
+                if ($this->isApi) {
                     return API::response(1, array('user' => $user));
                 } else {
                     Request::redirect(Request::base('/admin/users'));
@@ -107,10 +107,10 @@ class Users extends AppController
         if (Request::method() == 'post') {
             // Update the users information.
             $user->set(array(
-                'username' => Request::post('username', $user->username),
-                'name'     => Request::post('name', $user->name),
-                'email'    => Request::post('email', $user->email),
-                'group_id' => Request::post('group_id', $user->group_id)
+                'username' => Request::get('username', $user->username),
+                'name'     => Request::get('name', $user->name),
+                'email'    => Request::get('email', $user->email),
+                'group_id' => Request::get('group_id', $user->group_id)
             ));
 
             // Check if we're changing their password.
@@ -131,7 +131,7 @@ class Users extends AppController
                 $user->save();
 
                 // Return JSON for API
-                if ($this->is_api) {
+                if ($this->isApi) {
                     return API::response(1, array('user' => $user));
                 } else {
                     Request::redirect(Request::base('/admin/users'));
@@ -155,7 +155,7 @@ class Users extends AppController
         $user = User::find($id)->delete();
 
         // Return JSON for API, like always...
-        if ($this->is_api) {
+        if ($this->isApi) {
             return API::response(1);
         } else {
             Request::redirect(Request::base('/admin/users'));
@@ -177,9 +177,9 @@ class Users extends AppController
         $anon_id = Setting::find('setting', 'anonymous_user_id')->value;
 
         // What are we deleting?
-        $delete_user     = Request::post('delete_user') == 1 ? true : false;
-        $delete_tickets  = Request::post('delete_tickets') == 1 ? true : false;
-        $delete_comments = Request::post('delete_comments') == 1 ? true : false;
+        $delete_user     = Request::get('delete_user') == 1 ? true : false;
+        $delete_tickets  = Request::get('delete_tickets') == 1 ? true : false;
+        $delete_comments = Request::get('delete_comments') == 1 ? true : false;
 
         // Loop over users
         foreach (Request::$post['users'] as $user_id) {

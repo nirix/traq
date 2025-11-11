@@ -25,7 +25,7 @@ namespace traq\controllers\admin;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\Status;
 
 /**
@@ -64,17 +64,17 @@ class Statuses extends AppController
         if (Request::method() == 'post') {
             // Set the information.
             $status->set(array(
-                'name'      => Request::post('name'),
-                'status'    => Request::post('status'),
-                'changelog' => Request::post('changelog', 0)
+                'name'      => Request::get('name'),
+                'status'    => Request::get('status'),
+                'changelog' => Request::get('changelog', 0)
             ));
 
             // Check if the data is valid.
             if ($status->is_valid()) {
                 // Save and redirect.
                 $status->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('status' => $status));
+                if ($this->isApi) {
+                    return API::response(1, array('status' => $status));
                 } else {
                     Request::redirectTo('/admin/tickets/statuses');
                 }
@@ -101,13 +101,13 @@ class Statuses extends AppController
         if (Request::method() == 'post') {
             // Set the information.
             $status->set(array(
-                'name'   => Request::post('name', $status->name),
-                'status' => Request::post('status', $status->status)
+                'name'   => Request::get('name', $status->name),
+                'status' => Request::get('status', $status->status)
             ));
 
             // Set changelog value
-            if ($this->is_api) {
-                $status->changelog = Request::post('changelog', $status->changelog);
+            if ($this->isApi) {
+                $status->changelog = Request::get('changelog', $status->changelog);
             } else {
                 $status->changelog = isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0;
             }
@@ -116,8 +116,8 @@ class Statuses extends AppController
             if ($status->is_valid()) {
                 // Save and redirect.
                 $status->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('status' => $status));
+                if ($this->isApi) {
+                    return API::response(1, array('status' => $status));
                 } else {
                     Request::redirectTo('/admin/tickets/statuses');
                 }
@@ -137,8 +137,8 @@ class Statuses extends AppController
     {
         // Fetch the status, delete it and redirect.
         $status = Status::find($id)->delete();
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             Request::redirectTo('/admin/tickets/statuses');
         }

@@ -25,7 +25,7 @@ namespace traq\controllers\admin;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\ProjectRole;
 
 /**
@@ -63,16 +63,16 @@ class ProjectRoles extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Set the role name
-            $role->name       = Request::post('name');
-            $role->assignable = Request::post('assignable');
-            $role->project_id = Request::post('project');
+            $role->name       = Request::get('name');
+            $role->assignable = Request::get('assignable');
+            $role->project_id = Request::get('project');
 
             // Validate the data
             if ($role->is_valid()) {
                 $role->save();
 
-                if ($this->is_api) {
-                    return \API::response(1, array('role' => $role));
+                if ($this->isApi) {
+                    return API::response(1, array('role' => $role));
                 } else {
                     Request::redirectTo('/admin/roles');
                 }
@@ -93,16 +93,16 @@ class ProjectRoles extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Update the role name
-            $role->name       = Request::post('name', $role->name);
-            $role->assignable = Request::post('assignable', 0);
-            $role->project_id = Request::post('project', $role->project_id);
+            $role->name       = Request::get('name', $role->name);
+            $role->assignable = Request::get('assignable', 0);
+            $role->project_id = Request::get('project', $role->project_id);
 
             // Validate the data
             if ($role->is_valid()) {
                 $role->save();
 
-                if ($this->is_api) {
-                    return \API::response(1, array('role' => $role));
+                if ($this->isApi) {
+                    return API::response(1, array('role' => $role));
                 } else {
                     Request::redirectTo('/admin/roles');
                 }
@@ -120,8 +120,8 @@ class ProjectRoles extends AppController
         // Fetch and delete the role, then redirect
         $role = ProjectRole::find($id)->delete();
 
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             Request::redirectTo('/admin/roles');
         }

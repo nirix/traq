@@ -25,7 +25,7 @@ namespace traq\controllers\admin;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\Severity;
 
 /**
@@ -63,12 +63,12 @@ class Severities extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Set the name
-            $severity->set('name', Request::post('name'));
+            $severity->set('name', Request::get('name'));
 
             // Save and redirect
             if ($severity->save()) {
-                if ($this->is_api) {
-                    return \API::response(1, array('severity' => $severity));
+                if ($this->isApi) {
+                    return API::response(1, array('severity' => $severity));
                 } else {
                     Request::redirectTo('/admin/severities');
                 }
@@ -91,12 +91,12 @@ class Severities extends AppController
         // Check if the form has been submitted
         if (Request::method() == 'post') {
             // Set the name
-            $severity->set('name', Request::post('name', $severity->name));
+            $severity->set('name', Request::get('name', $severity->name));
 
             // Save and redirect
             if ($severity->save()) {
-                if ($this->is_api) {
-                    return \API::response(1, array('severity' => $severity));
+                if ($this->isApi) {
+                    return API::response(1, array('severity' => $severity));
                 } else {
                     Request::redirectTo('/admin/severities');
                 }
@@ -116,8 +116,8 @@ class Severities extends AppController
         // Get the severity and delete
         $severity = Severity::find($id)->delete();
 
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             Request::redirectTo('/admin/severities');
         }

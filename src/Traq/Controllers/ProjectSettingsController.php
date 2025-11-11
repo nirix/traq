@@ -20,8 +20,8 @@
 
 namespace Traq\Controllers;
 
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 
 /**
  * Project settings controller
@@ -64,7 +64,7 @@ class ProjectSettingsController extends AppController
         ]);
 
         // Set enable_wiki
-        if ($this->is_api) {
+        if ($this->isApi) {
             $project->enable_wiki = Request::get('enable_wiki', $project->enable_wiki);
         } else {
             $project->enable_wiki = Request::get('enable_wiki', 0);
@@ -75,7 +75,7 @@ class ProjectSettingsController extends AppController
             // Save and redirect
             $project->save();
 
-            if ($this->is_api) {
+            if ($this->isApi) {
                 return $this->json(['project' => $project]);
             } else {
                 return Request::redirectTo($project->href('settings'));

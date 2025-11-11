@@ -25,7 +25,7 @@ namespace traq\controllers\ProjectSettings;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\Milestone;
 
 /**
@@ -65,13 +65,13 @@ class Milestones extends AppController
         if (Request::method() == 'post') {
             // Set the information
             $milestone->set(array(
-                'name'         => Request::post('name'),
-                'slug'         => Request::post('slug'),
-                'codename'     => Request::post('codename'),
-                'info'         => Request::post('info'),
-                'due'          => Request::post('due') != '' ? Request::post('due') : 'NULL',
+                'name'         => Request::get('name'),
+                'slug'         => Request::get('slug'),
+                'codename'     => Request::get('codename'),
+                'info'         => Request::get('info'),
+                'due'          => Request::get('due') != '' ? Request::get('due') : 'NULL',
                 'project_id'   => $this->project->id,
-                'displayorder' => Request::post('displayorder') == '' ? 0 : Request::post('displayorder')
+                'displayorder' => Request::get('displayorder') == '' ? 0 : Request::get('displayorder')
             ));
 
             // Check if the data is valid
@@ -79,8 +79,8 @@ class Milestones extends AppController
                 // Save and redirect
                 $milestone->save();
 
-                if ($this->is_api) {
-                    return \API::response(1, array('milestone' => $milestone));
+                if ($this->isApi) {
+                    return API::response(1, array('milestone' => $milestone));
                 } else {
                     Request::redirectTo("{$this->project->slug}/settings/milestones");
                 }
@@ -110,15 +110,15 @@ class Milestones extends AppController
         if (Request::method() == 'post') {
             // Update the information
             $milestone->set(array(
-                'name'         => Request::post('name', $milestone->name),
-                'slug'         => Request::post('slug', $milestone->slug),
-                'codename'     => Request::post('codename', $milestone->codename),
-                'info'         => Request::post('info', $milestone->info),
-                'due'          => Request::post('due') != '' ? Request::post('due') : 'NULL',
-                'status'       => Request::post('status', $milestone->status),
-                'displayorder' => Request::post('displayorder', $milestone->displayorder) == ''
+                'name'         => Request::get('name', $milestone->name),
+                'slug'         => Request::get('slug', $milestone->slug),
+                'codename'     => Request::get('codename', $milestone->codename),
+                'info'         => Request::get('info', $milestone->info),
+                'due'          => Request::get('due') != '' ? Request::get('due') : 'NULL',
+                'status'       => Request::get('status', $milestone->status),
+                'displayorder' => Request::get('displayorder', $milestone->displayorder) == ''
                     ? 0
-                    : Request::post('displayorder', $milestone->displayorder)
+                    : Request::get('displayorder', $milestone->displayorder)
             ));
 
             // Make sure the data is valid
@@ -126,8 +126,8 @@ class Milestones extends AppController
                 // Save and redirect
                 $milestone->save();
 
-                if ($this->is_api) {
-                    return \API::response(1, array('milestone' => $milestone));
+                if ($this->isApi) {
+                    return API::response(1, array('milestone' => $milestone));
                 } else {
                     Request::redirectTo("{$this->project->slug}/settings/milestones");
                 }
@@ -170,8 +170,8 @@ class Milestones extends AppController
             $milestone->delete();
 
             // Redirect
-            if ($this->is_api) {
-                return \API::response(1);
+            if ($this->isApi) {
+                return API::response(1);
             } else {
                 Request::redirectTo("{$this->project->slug}/settings/milestones");
             }

@@ -28,6 +28,7 @@ use avalon\output\View;
 use Avalon\Http\Router;
 use traq\models\Ticket;
 use traq\models\Milestone;
+use traq\models\Project;
 use traq\models\Type;
 
 /**
@@ -45,9 +46,9 @@ class ProjectController extends AppController
      */
     public function index()
     {
-        if (Router::$extension === '.json') {
+        if ($this->isJson) {
             $projects = [];
-            foreach (\traq\models\Project::fetch_all() as $project) {
+            foreach (Project::fetchAll() as $project) {
                 $projects[] = $project->__toArray();
             }
             return $this->json($projects);

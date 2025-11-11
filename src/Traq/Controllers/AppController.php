@@ -27,6 +27,7 @@ use Avalon\Core\Controller;
 use Avalon\Core\Load;
 use Avalon\Database;
 use Avalon\Database\PDO;
+use Avalon\Http\JsonResponse;
 use Avalon\Http\RedirectResponse;
 use Avalon\Http\Request;
 use Avalon\Http\Response;
@@ -49,17 +50,25 @@ use traq\helpers\API;
  */
 class AppController extends Controller
 {
-    public Project|false $project = false;
-    public array $projects = [];
-    public ?User $user = null;
-    public bool $is_api = false;
     public array $title = [];
     public array $feeds = [];
-
-    protected bool $isJson = false;
+    public ?User $user = null;
+    public Project|false $project = false;
+    public array $projects = [];
     protected bool $isAtom = false;
-
     protected PDO $db;
+
+    // true for JSON and API requests
+    protected bool $isJson = false;
+
+    // true for API requests
+    protected bool $isApi = false;
+
+    /**
+     * @deprecated 3.9.0
+     * @see AppController::$isApi
+     */
+    public bool $is_api = false;
 
     protected array $helpers = [
         'uri',
@@ -113,7 +122,7 @@ class AppController extends Controller
         class_alias("\\traq\\helpers\\API", "API");
 
         // Get the user info
-        $this->_get_user();
+        $this->getUser();
 
         // Set the theme, title and pass the app object to the view.
         View::set('traq', $this);
@@ -150,7 +159,7 @@ class AppController extends Controller
 
         View::set('app', $this);
 
-        if (Router::$extension == '.json') {
+        if (Router::$extension == '.json' || $_SERVER['HTTP_ACCEPT'] == 'application/json') {
             $this->isJson = true;
         }
 
@@ -197,6 +206,17 @@ class AppController extends Controller
         $this->render['view'] = 'users/login' . ($this->is_api ? '.api' : '');
     }
 
+    private function getApiKey(): ?string
+    {
+        $authHeader = $_SERVER['HTTP_X_API_KEY'] ?? null;
+
+        if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
+            return trim(substr($authHeader, 7));
+        }
+
+        return $authHeader;
+    }
+
     /**
      * Does the checking for the session cookie and fetches the users info.
      *
@@ -204,25 +224,26 @@ class AppController extends Controller
      * @since 3.0
      * @access private
      */
-    private function _get_user(): void
+    private function getUser(): void
     {
         global $locale;
 
         // Check if the session cookie is set, if so, check if it matches a user
         // and set set the user info.
-        if (isset($_COOKIE['_traq']) and $user = User::find('login_hash', $_COOKIE['_traq'])) {
+        if (isset($_COOKIE['_traq']) && $user = User::find('login_hash', $_COOKIE['_traq'])) {
             $this->user = $user;
         }
         // Check if the API key is set
         else {
-            // Get API key
-            $api_key = API::get_key();
+            $apiKey = $this->getApiKey();
 
-            if ($api_key) {
-                $this->user = User::find('api_key', $api_key);
+            if ($apiKey) {
+                $this->user = User::find('api_key', $apiKey);
 
                 // Set is_api and JSON view extension
                 $this->is_api = true;
+                $this->isApi = true;
+                $this->isJson = true;
                 Router::$extension = '.json';
                 $this->render['view'] = $this->render['view'] . ".json";
             }
@@ -259,7 +280,7 @@ class AppController extends Controller
      *
      * @param string $error Error message
      *
-     * @deprecated
+     * @deprecated 3.9.0
      */
     protected function bad_api_request(string $message): void
     {
@@ -279,6 +300,7 @@ class AppController extends Controller
      * API Response.
      *
      * @param array $data
+     * @deprecated 3.9.0
      */
     protected function apiResponse(array $data): void
     {
@@ -291,15 +313,14 @@ class AppController extends Controller
         Body::append(to_json($data));
     }
 
+    /**
+     * @deprecated 3.9.0
+     */
     public function __shutdown()
     {
         // Plain layout for JSON and API requests
-        if (Router::$extension == '.json' or $this->is_api) {
+        if (Router::$extension == '.json' || $this->isApi) {
             $this->render['layout'] = 'plain';
-        }
-        // Bad API request?
-        if (API::get_key() === false) {
-            $this->bad_api_request('invalid_api_key');
         }
 
         // Was the page requested via ajax?
@@ -367,7 +388,7 @@ class AppController extends Controller
         return $content;
     }
 
-    protected function json(array $data)
+    protected function json(array $data, int $statusCode = 200): JsonResponse
     {
         $badKeys = ['password', 'login_hash', 'api_key', 'private_key'];
 
@@ -378,7 +399,7 @@ class AppController extends Controller
             }
         });
 
-        return new \Avalon\Http\JsonResponse($data);
+        return new JsonResponse($data, $statusCode);
     }
 
     protected function redirectTo(string $url): Response

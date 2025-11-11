@@ -27,6 +27,7 @@ use avalon\http\Request;
 use avalon\http\Router;
 use avalon\output\View;
 use Traq\Controllers\AppController;
+use traq\helpers\API;
 use traq\models\WikiPage;
 use traq\models\WikiRevision;
 use traq\models\Timeline;
@@ -141,8 +142,8 @@ class Wiki extends AppController
                 ));
                 $timeline->save();
 
-                if ($this->is_api) {
-                    return \API::response(1, array('page' => $page));
+                if ($this->isApi) {
+                    return API::response(1, array('page' => $page));
                 } else {
                     Request::redirectTo($page->href());
                 }
@@ -199,8 +200,8 @@ class Wiki extends AppController
                 ));
                 $timeline->save();
 
-                if ($this->is_api) {
-                    return \API::response(1, array('page' => $page));
+                if ($this->isApi) {
+                    return API::response(1, array('page' => $page));
                 } else {
                     Request::redirectTo($page->href());
                 }
@@ -236,8 +237,8 @@ class Wiki extends AppController
         $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
 
         // Redirect to main page
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             return Request::redirectTo($this->project->href('wiki'));
         }

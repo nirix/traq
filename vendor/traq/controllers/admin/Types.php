@@ -25,7 +25,7 @@ namespace traq\controllers\admin;
 
 use avalon\http\Request;
 use avalon\output\View;
-
+use traq\helpers\API;
 use traq\models\Type;
 
 /**
@@ -62,18 +62,18 @@ class Types extends AppController
         if (Request::method() == 'post') {
             // Set the information
             $type->set(array(
-                'name'      => Request::post('name'),
-                'bullet'    => Request::post('bullet'),
-                'changelog' => Request::post('changelog', 0),
-                'template'  => Request::post('template'),
+                'name'      => Request::get('name'),
+                'bullet'    => Request::get('bullet'),
+                'changelog' => Request::get('changelog', 0),
+                'template'  => Request::get('template'),
             ));
 
             // Check if the data is valid
             if ($type->is_valid()) {
                 // Save and redirect
                 $type->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('type' => $type));
+                if ($this->isApi) {
+                    return API::response(1, array('type' => $type));
                 } else {
                     Request::redirectTo('/admin/tickets/types');
                 }
@@ -98,15 +98,15 @@ class Types extends AppController
         if (Request::method() == 'post') {
             // Update the information
             $type->set(array(
-                'name'      => Request::post('name'),
+                'name'      => Request::get('name'),
                 $type->name,
-                'bullet'    => Request::post('bullet', $type->bullet),
-                'template'  => Request::post('template', $type->template),
+                'bullet'    => Request::get('bullet', $type->bullet),
+                'template'  => Request::get('template', $type->template),
             ));
 
             // Set changelog value
-            if ($this->is_api) {
-                $type->changelog = Request::post('changelog', $type->changelog);
+            if ($this->isApi) {
+                $type->changelog = Request::get('changelog', $type->changelog);
             } else {
                 $type->changelog = isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0;
             }
@@ -115,8 +115,8 @@ class Types extends AppController
             if ($type->is_valid()) {
                 // Save and redirect.
                 $type->save();
-                if ($this->is_api) {
-                    return \API::response(1, array('type' => $type));
+                if ($this->isApi) {
+                    return API::response(1, array('type' => $type));
                 } else {
                     Request::redirectTo('/admin/tickets/types');
                 }
@@ -136,8 +136,8 @@ class Types extends AppController
     {
         // Find the type, delete and redirect.
         $type = Type::find($id)->delete();
-        if ($this->is_api) {
-            return \API::response(1);
+        if ($this->isApi) {
+            return API::response(1);
         } else {
             Request::redirectTo('/admin/tickets/types');
         }
