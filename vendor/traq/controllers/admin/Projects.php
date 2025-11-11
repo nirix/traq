@@ -79,7 +79,7 @@ class Projects extends AppController
             // Save project
             if ($project->save()) {
                 // Is this an API request?
-                if ($this->isAapi) {
+                if ($this->isApi) {
                     // Return JSON formatted response
                     return API::response(1, array('project' => $project));
                 } else {
