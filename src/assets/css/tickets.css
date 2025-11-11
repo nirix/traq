@@ -194,6 +194,10 @@
     }
   }
 
+  .panel {
+    border: 0;
+  }
+
   .panel-content {
     @apply grid grid-cols-2 gap-4 p-4;
     box-sizing: border-box;

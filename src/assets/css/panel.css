@@ -1,5 +1,8 @@
 .panel {
-  @apply bg-gray-100 rounded;
+  /* @apply bg-gray-100 rounded; */
+@apply rounded-lg shadow-sm bg-gray-50;
+@apply border border-solid border-gray-300 rounded;
+
 
   & .panel-title {
   }
@@ -11,7 +14,7 @@
   & .panel-footer {
     @apply p-2;
     @apply text-center;
-    @apply bg-gray-50;
+    @apply bg-gray-100;
     @apply rounded-b;
   }
 }
