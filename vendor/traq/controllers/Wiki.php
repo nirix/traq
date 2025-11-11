@@ -107,7 +107,7 @@ class Wiki extends AppController
         $page = new WikiPage(array('slug' => $slug));
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Update the page information
             $page->set(array(
                 'title'      => Request::get('title'),
@@ -167,7 +167,7 @@ class Wiki extends AppController
         $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Update the page information
             $page->set(array(
                 'title'      => Request::get('title'),

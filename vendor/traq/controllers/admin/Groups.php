@@ -61,7 +61,7 @@ class Groups extends AppController
         $group = new Group;
 
         // Check if the form has been submitted.
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the groups name.
             $group->set('name', Request::$post['name']);
             $group->set('is_admin', 0);
@@ -96,7 +96,7 @@ class Groups extends AppController
         $group = Group::find($id);
 
         // Check if the form has been submitted.
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the groups name
             $group->set('name', Request::$post['name']);
 

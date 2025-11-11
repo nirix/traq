@@ -92,7 +92,7 @@ class Members extends AppController
 
     public function action_save()
     {
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             foreach (Request::$post['role'] as $role_id => $value) {
                 $role = UserRole::find($role_id);
                 $role->project_role_id = $value;

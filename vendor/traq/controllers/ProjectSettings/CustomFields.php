@@ -61,7 +61,7 @@ class CustomFields extends AppController
         ));
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $data = array();
 
             // Loop over properties
@@ -121,7 +121,7 @@ class CustomFields extends AppController
         }
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $data = array();
 
             // Loop over properties

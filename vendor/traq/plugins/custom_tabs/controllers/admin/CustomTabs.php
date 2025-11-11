@@ -52,7 +52,7 @@ class CustomTabs extends \traq\controllers\admin\AppController
         $tab = new CustomTab;
 
         // Check if the form has been submitted.
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $tab->set(array(
                 'label'         => Request::get('label'),
                 'url'           => Request::get('url'),
@@ -80,7 +80,7 @@ class CustomTabs extends \traq\controllers\admin\AppController
         $tab = CustomTab::find($id);
 
         // Check if the form has been submitted.
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $tab->set(array(
                 'label'         => Request::get('label', $tab->label),
                 'url'           => Request::get('url', $tab->url),

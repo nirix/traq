@@ -62,7 +62,7 @@ class Milestones extends AppController
         $milestone = new Milestone();
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the information
             $milestone->set(array(
                 'name'         => Request::get('name'),
@@ -107,7 +107,7 @@ class Milestones extends AppController
         }
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Update the information
             $milestone->set(array(
                 'name'         => Request::get('name', $milestone->name),
@@ -162,7 +162,7 @@ class Milestones extends AppController
         }
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Move tickets
             $this->db->update('tickets')->set(array('milestone_id' => Request::$post['milestone']))->where('milestone_id', $id)->exec();
 

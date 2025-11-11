@@ -69,7 +69,7 @@ class Permissions extends AppController
         $type = $type == 'groups' ? 'usergroup' : 'role';
 
         // Has the form been submitted?
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $global_defaults = Permission::defaults(0, 0, $type);
 
             // Loop over group/role and get id and permissions

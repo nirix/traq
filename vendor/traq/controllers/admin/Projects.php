@@ -60,7 +60,7 @@ class Projects extends AppController
 
         $project = new Project;
 
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $project->set(array(
                 'name'         => Request::get('name'),
                 'slug'         => Request::get('slug'),

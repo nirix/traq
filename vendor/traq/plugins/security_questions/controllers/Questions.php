@@ -54,7 +54,7 @@ class Questions extends \traq\controllers\admin\AppController
 
         // Check if the form has been submitted
         $errors = array();
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Process questions
             $updated_questions = array();
             foreach (Request::$post['questions'] as $id => $question) {

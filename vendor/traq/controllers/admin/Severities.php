@@ -61,7 +61,7 @@ class Severities extends AppController
         $severity = new Severity();
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the name
             $severity->set('name', Request::get('name'));
 
@@ -89,7 +89,7 @@ class Severities extends AppController
         $severity = Severity::find($id);
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the name
             $severity->set('name', Request::get('name', $severity->name));
 

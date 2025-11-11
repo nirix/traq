@@ -62,7 +62,7 @@ class Components extends AppController
         $component = new Component();
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the information
             $component->set(array(
                 'name'       => Request::get('name'),
@@ -101,7 +101,7 @@ class Components extends AppController
         }
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Update the information
             $component->set(array(
                 'name' => Request::get('name'),

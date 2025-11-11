@@ -61,7 +61,7 @@ class Statuses extends AppController
         $status = new Status;
 
         // Check if the form has been submitted.
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the information.
             $status->set(array(
                 'name'      => Request::get('name'),
@@ -98,7 +98,7 @@ class Statuses extends AppController
         $status = Status::find($id);
 
         // Check if the form has been submitted.
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the information.
             $status->set(array(
                 'name'   => Request::get('name', $status->name),

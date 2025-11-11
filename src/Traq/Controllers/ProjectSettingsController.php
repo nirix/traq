@@ -38,7 +38,7 @@ class ProjectSettingsController extends AppController
      */
     public function index()
     {
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             return $this->save();
         }
 

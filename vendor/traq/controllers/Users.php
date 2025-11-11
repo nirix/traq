@@ -55,7 +55,7 @@ class Users extends AppController
         $this->title(l('login'));
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             return $this->createSession();
         }
     }
@@ -113,7 +113,7 @@ class Users extends AppController
         $user = new User;
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             return $this->createAccount();
         }
 
@@ -202,7 +202,7 @@ class Users extends AppController
         // Find user and generate key
         else {
             // Check if the form has been submitted
-            if (Request::method() == 'post') {
+            if (Request::method() == 'POST') {
                 // Generate key
                 if ($user = User::find('username', Request::$post['username'])) {
                     // Generate reset key

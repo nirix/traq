@@ -60,7 +60,7 @@ class Usercp extends AppController
         $user = clone $this->user;
 
         // Has the form been submitted?
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $data = array(
                 'name'   => Request::get('name', $user->name),
                 'email'  => Request::get('email', $user->email),
@@ -102,7 +102,7 @@ class Usercp extends AppController
         // Clone the logged in user object
         $user = clone $this->user;
 
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             $data = array(
                 'old_password'     => Request::$post['password'],
                 'new_password'     => Request::$post['new_password'],

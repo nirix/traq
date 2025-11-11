@@ -60,7 +60,7 @@ class TicketHistory extends AppController
         }
 
         // Has the form been submitted?
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Update the comment
             $history->set('comment', Request::$post['comment']);
 

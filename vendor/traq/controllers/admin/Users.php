@@ -62,7 +62,7 @@ class Users extends AppController
         $user = new User(array('group_id' => 2));
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the users information
             $user->set(array(
                 'username' => Request::get('username'),
@@ -104,7 +104,7 @@ class Users extends AppController
         $user = User::find($id);
 
         // Check if the form has been submitted.
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Update the users information.
             $user->set(array(
                 'username' => Request::get('username', $user->username),
