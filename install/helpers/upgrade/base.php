@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2013 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -30,6 +30,8 @@ namespace Installer\Helpers\Upgrade;
  */
 class Base
 {
+    protected static $revisions = [];
+
     /**
      * Upgrade version numbers.
      *

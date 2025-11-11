@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2024 Jack P.
- * Copyright (C) 2012-2024 Traq.io
+ * Copyright (C) 2009-2025 Jack P.
+ * Copyright (C) 2012-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -123,19 +123,40 @@ post('/step/3', function () {
     }
     // Setup the database
     else {
+        /** @var \Avalon\Database\PDO $conn */
         $conn = Database::factory($_SESSION['db'], 'main');
 
-        // Fetch the install SQL.
-        $install_sql = file_get_contents('./install.sql');
-        $install_sql = str_replace('traq_', '', $install_sql);
-        $install_sql = preg_replace('/^(#.*)$/m', '', $install_sql);
-        $queries = explode(';', $install_sql);
+        $fileHandle = fopen('./install.sql', 'r');
+        if (!$fileHandle) {
+            InstallError::halt('Error', 'Failed to open install.sql file.');
+        }
 
-        // Run the install queries.
-        foreach ($queries as $query) {
-            if (!empty($query) && strlen($query) > 5) {
-                $conn->query($query);
+        try {
+            // Loop through each line of install.sql
+            $query = '';
+            while (($line = fgets($fileHandle)) !== false) {
+                // Skip comments and empty lines
+                if (trim($line) === '' || str_starts_with($line, '--') || str_starts_with($line, '/*') || str_starts_with($line, '#')) {
+                    continue;
+                }
+
+                // Add this line to the current query buffer
+                $query .= $line;
+
+                // Check if this line is the end of a query
+                if (str_ends_with(trim($line), ';')) {
+                    // Execute the query
+                    $conn->exec($query);
+
+                    // Reset the query buffer
+                    $query = '';
+                }
             }
+
+            // Close the file
+            fclose($fileHandle);
+        } catch (\Exception $e) {
+            InstallError::halt('Error', 'Failed to execute install.sql file: ' . $e->getMessage());
         }
 
         // Insert admin account

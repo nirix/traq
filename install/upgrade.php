@@ -19,7 +19,7 @@
  */
 
 require __DIR__ . '/bootstrap.php';
-require '../vendor/traq/helpers/uri.php';
+require '../src/Traq/Helpers/uri.php';
 
 // Helpers
 require __DIR__ . '/helpers/upgrade/base.php';
@@ -61,7 +61,11 @@ post('/step/1', function () {
     global $db, $revisions;
 
     // Traq 3.x upgrades
-    v3xUpgrades::run($db, DB_VER);
+    try {
+        v3xUpgrades::run($db, DB_VER);
+    } catch (\Exception $e) {
+        InstallError::halt('Error', "There was an error during the upgrade, please roll back your database:<br /><br />" . $e->getMessage());
+    }
 
     // Update database version setting
     $db->query("UPDATE `{$db->prefix}settings` SET `value` = '" . TRAQ_DB_VER . "' WHERE `setting` = 'db_version' LIMIT 1");

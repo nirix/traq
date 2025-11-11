@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2024 Jack P.
- * Copyright (C) 2012-2024 Traq.io
+ * Copyright (C) 2009-2025 Jack P.
+ * Copyright (C) 2012-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -60,6 +60,7 @@ class InstallError
         @ob_end_clean();
         View::set('title', $title);
         View::set('message', $message);
-        die(render('error'));
+        render('error');
+        exit;
     }
 }

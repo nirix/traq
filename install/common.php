@@ -28,9 +28,9 @@ use Avalon\Database;
  *
  * @return string
  */
-function render($view)
+function render($view, array $data = [])
 {
-    echo View::render('layout', array('output' => View::get($view)));
+    echo View::render('layout', array('output' => View::render($view, $data)));
 }
 
 /**
