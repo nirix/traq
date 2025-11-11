@@ -38,7 +38,7 @@ class TicketView
     protected int $ticket_id;
     protected string $summary;
     protected int $user_id;
-    protected int $assigned_to_id;
+    protected ?int $assigned_to_id;
     protected int $votes;
     protected string $created_at;
     protected ?string $updated_at;
