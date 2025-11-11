@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/avalon.git",
-                "reference": "f3e559966c06fe9227cd51b384ce94a64ad1e7f1"
+                "reference": "fba98e8920cdd85280d1c51989c4b6c95beb65e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/avalon/zipball/f3e559966c06fe9227cd51b384ce94a64ad1e7f1",
-                "reference": "f3e559966c06fe9227cd51b384ce94a64ad1e7f1",
+                "url": "https://api.github.com/repos/nirix/avalon/zipball/fba98e8920cdd85280d1c51989c4b6c95beb65e7",
+                "reference": "fba98e8920cdd85280d1c51989c4b6c95beb65e7",
                 "shasum": ""
             },
             "default-branch": true,
@@ -40,7 +40,7 @@
             "support": {
                 "source": "https://github.com/nirix/avalon/tree/master"
             },
-            "time": "2025-11-10T13:26:57+00:00"
+            "time": "2025-11-11T09:14:21+00:00"
         },
         {
             "name": "brick/math",
