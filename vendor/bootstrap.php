@@ -62,6 +62,8 @@ else {
     // If no prefix is set, use an empty string
     if (!isset($db['prefix'])) {
         $db['prefix'] = '';
+    } else {
+        define('DB_HAS_PREFIX', true);
     }
     Database::init($db);
 }
