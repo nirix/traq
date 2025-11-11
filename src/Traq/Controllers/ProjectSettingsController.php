@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -48,28 +48,26 @@ class ProjectSettingsController extends AppController
 
     public function save()
     {
-        // Clone the project model so nothing
-        // funky happens when there are errors
-        // with the new information.
+        // Clone the project model so nothing funky happens when there are errors with the new information.
         $project = clone $this->project;
         View::set('proj', $project);
 
         // Update the information
-        $project->set(array(
-            'name'         => Request::post('name', $project->name),
-            'slug'         => Request::post('slug', $project->slug),
-            'codename'     => Request::post('codename', $project->codename),
-            'info'         => Request::post('info', $project->info),
-            'displayorder' => Request::post('displayorder', $project->displayorder),
-            'default_ticket_type_id' => Request::post('default_ticket_type_id', $project->default_ticket_type_id),
-            'default_ticket_sorting' => Request::post('default_ticket_sorting', $project->default_ticket_sorting)
-        ));
+        $project->set([
+            'name'         => Request::get('name', $project->name),
+            'slug'         => Request::get('slug', $project->slug),
+            'codename'     => Request::get('codename', $project->codename),
+            'info'         => Request::get('info', $project->info),
+            'displayorder' => Request::get('displayorder', $project->displayorder),
+            'default_ticket_type_id' => Request::get('default_ticket_type_id', $project->default_ticket_type_id),
+            'default_ticket_sorting' => Request::get('default_ticket_sorting', $project->default_ticket_sorting)
+        ]);
 
         // Set enable_wiki
         if ($this->is_api) {
-            $project->enable_wiki = Request::post('enable_wiki', $project->enable_wiki);
+            $project->enable_wiki = Request::get('enable_wiki', $project->enable_wiki);
         } else {
-            $project->enable_wiki = Request::post('enable_wiki', 0);
+            $project->enable_wiki = Request::get('enable_wiki', 0);
         }
 
         // Check if the data is valid
@@ -78,7 +76,7 @@ class ProjectSettingsController extends AppController
             $project->save();
 
             if ($this->is_api) {
-                return \API::response(1, array('project' => $project));
+                return $this->json(['project' => $project]);
             } else {
                 return Request::redirectTo($project->href('settings'));
             }
