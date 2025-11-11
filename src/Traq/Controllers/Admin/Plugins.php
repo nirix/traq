@@ -100,7 +100,7 @@ class Plugins extends \traq\controllers\admin\AppController
             }
         }
 
-        return $this->renderView('admin/plugins/index.phtml', [
+        return $this->render('admin/plugins/index.phtml', [
             'plugins' => $plugins
         ]);
     }

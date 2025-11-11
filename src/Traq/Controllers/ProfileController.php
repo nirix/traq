@@ -46,7 +46,7 @@ class ProfileController extends AppController
 
         Load::helper('tickets');
 
-        return $this->renderView('profile/view.phtml', [
+        return $this->render('profile/view.phtml', [
             'profile' => $user
         ]);
     }

@@ -43,7 +43,7 @@ class ProjectSettingsController extends AppController
         }
 
         View::set('proj', $this->project);
-        return $this->renderView('project_settings/index.phtml');
+        return $this->render('project_settings/index.phtml');
     }
 
     public function save()
@@ -84,6 +84,6 @@ class ProjectSettingsController extends AppController
             }
         }
 
-        return $this->renderView('project_settings/index.phtml');
+        return $this->render('project_settings/index.phtml');
     }
 }

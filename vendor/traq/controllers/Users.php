@@ -85,7 +85,7 @@ class Users extends AppController
         // No user found
         View::set('error', true);
 
-        return $this->renderView('users/login.phtml');
+        return $this->render('users/login.phtml');
     }
 
     /**

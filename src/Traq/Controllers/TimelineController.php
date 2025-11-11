@@ -113,7 +113,7 @@ class TimelineController extends AppController
         $milestones = \count($milestoneIds) ? $this->getMilestones($milestoneIds) : [];
         $wikiPages = \count($wikiIds) ? $this->getWikiPages($wikiIds) : [];
 
-        return $this->renderView('timeline/index', [
+        return $this->render('timeline/index', [
             'pagination' => $pagination,
             'groupedEvents' => $groupedEvents,
             'users' => $users,

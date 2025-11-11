@@ -53,7 +53,7 @@ class ProjectController extends AppController
             return $this->json($projects);
         }
 
-        return $this->renderView('projects/index.phtml');
+        return $this->render('projects/index.phtml');
     }
 
     /**
@@ -76,7 +76,7 @@ class ProjectController extends AppController
             'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->exec()->row_count()
         ));
 
-        return $this->renderView('projects/view.phtml');
+        return $this->render('projects/view.phtml');
     }
 
     /**
@@ -133,7 +133,7 @@ class ProjectController extends AppController
             return $this->json($data);
         }
 
-        return $this->renderView('projects/roadmap.phtml', [
+        return $this->render('projects/roadmap.phtml', [
             'filter' => $filter,
             'sort' => $sort,
             'order' => $order === 'ASC' ? 'ASC' : 'DESC',
@@ -164,7 +164,7 @@ class ProjectController extends AppController
         // And send it to the view
         View::set('milestone', $milestone);
 
-        return $this->renderView('projects/milestone.phtml');
+        return $this->render('projects/milestone.phtml');
     }
 
     /**
@@ -186,9 +186,9 @@ class ProjectController extends AppController
 
         if (Router::$extension === '.atom') {
             $this->render['layout'] = false;
-            return $this->renderView('projects/changelog.atom.php');
+            return $this->render('projects/changelog.atom.php');
         }
 
-        return $this->renderView('projects/changelog.phtml');
+        return $this->render('projects/changelog.phtml');
     }
 }

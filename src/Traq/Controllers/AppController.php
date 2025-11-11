@@ -334,7 +334,7 @@ class AppController extends Controller
         $this->render['view'] = 'error/404';
         $this->render['action'] = false;
 
-        return $this->renderView('error/404');
+        return $this->render('error/404');
     }
 
     /**
@@ -345,7 +345,12 @@ class AppController extends Controller
         View::set($name, $value);
     }
 
-    protected function renderView(string $name, array $vars = [])
+    protected function render(string $name, array $vars = [], int $statusCode = 200): Response
+    {
+        return new Response($this->renderView($name, $vars), $statusCode);
+    }
+
+    protected function renderView(string $name, array $vars = []): string
     {
         $content = View::render(str_replace(['.phtml', '.php'], '', $name), $vars);
 
@@ -353,7 +358,7 @@ class AppController extends Controller
             $content = View::render("layouts/{$this->render['layout']}", ['content' => $content]);
         }
 
-        return new Response($content);
+        return $content;
     }
 
     protected function json(array $data)

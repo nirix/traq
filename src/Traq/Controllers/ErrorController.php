@@ -39,7 +39,7 @@ class ErrorController extends AppController
 {
     public function error404(): Response
     {
-        $response = $this->renderView('error/404', [
+        $response = $this->render('error/404', [
             'request' => Request::requestUri(),
         ]);
         $response->setStatusCode(404);

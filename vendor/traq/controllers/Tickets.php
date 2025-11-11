@@ -82,7 +82,7 @@ class Tickets extends AppController
 
         $customFields = $this->project->getCustomFields();
 
-        return $this->renderView('tickets/index.phtml', [
+        return $this->render('tickets/index.phtml', [
             'customFields' => $customFields
         ]);
     }

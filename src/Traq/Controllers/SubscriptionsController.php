@@ -52,7 +52,7 @@ class SubscriptionsController extends AppController
 
         $sub->delete();
 
-        return $this->renderView('subscriptions/unsubscribed.phtml', [
+        return $this->render('subscriptions/unsubscribed.phtml', [
             'sub' => $sub,
         ]);
     }

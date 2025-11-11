@@ -85,7 +85,7 @@ class Usercp extends AppController
 
         View::set('user', $user);
 
-        return $this->renderView('usercp/index.phtml');
+        return $this->render('usercp/index.phtml');
     }
 
     /**
