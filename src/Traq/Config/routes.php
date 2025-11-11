@@ -48,14 +48,14 @@ Router::register('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 
 Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 
 // API
-Router::add('/api/auth', 'traq::controllers::API.auth');
-Router::add('/api/auth/' . PROJECT_SLUG, 'traq::controllers::API.auth');
-Router::add('/api/types', 'traq::controllers::API.types');
-Router::add('/api/statuses', 'traq::controllers::API.statuses');
-Router::add('/api/priorities', 'traq::controllers::API.priorities');
-Router::add('/api/' . PROJECT_SLUG . '/components', 'traq::controllers::API.components');
-Router::add('/api/' . PROJECT_SLUG . '/custom-fields', 'traq::controllers::API.customFields');
-Router::add('/api/' . PROJECT_SLUG . '/members', 'traq::controllers::API.projectMembers');
+Router::register('api.auth', '/api/auth', ['\Traq\Controllers\ApiController', 'auth']);
+Router::register('api.auth.project', '/api/auth/' . PROJECT_SLUG, ['\Traq\Controllers\ApiController', 'auth']);
+Router::register('api.types', '/api/types', ['\Traq\Controllers\ApiController', 'types']);
+Router::register('api.statuses', '/api/statuses', ['\Traq\Controllers\ApiController', 'statuses']);
+Router::register('api.priorities', '/api/priorities', ['\Traq\Controllers\ApiController', 'priorities']);
+Router::register('api.components', '/api/' . PROJECT_SLUG . '/components', ['\Traq\Controllers\ApiController', 'components']);
+Router::register('api.customFields', '/api/' . PROJECT_SLUG . '/custom-fields', ['\Traq\Controllers\ApiController', 'customFields']);
+Router::register('api.projectMembers', '/api/' . PROJECT_SLUG . '/members', ['\Traq\Controllers\ApiController', 'projectMembers']);
 Router::register('search', '/api/search', [SearchController::class, 'search']);
 
 // Misc

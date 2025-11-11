@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use Avalon\Http\Router;
 use Avalon\Output\Body;
-use Traq\Controllers\AppController;
 use traq\models\Type;
 use traq\models\Status;
 use traq\models\Priority;
@@ -38,7 +37,7 @@ use traq\models\Priority;
  * @package Traq
  * @subpackage Controllers
  */
-class API extends AppController
+class ApiController extends AppController
 {
     public function __construct()
     {
@@ -56,7 +55,7 @@ class API extends AppController
      *
      * @return string
      */
-    public function action_types()
+    public function types()
     {
         Body::append(to_json(Type::fetch_all()));
     }
@@ -66,7 +65,7 @@ class API extends AppController
      *
      * @return string
      */
-    public function action_statuses()
+    public function statuses()
     {
         Body::append(to_json(Status::fetch_all()));
     }
@@ -76,7 +75,7 @@ class API extends AppController
      *
      * @return string
      */
-    public function action_priorities()
+    public function priorities()
     {
         Body::append(to_json(Priority::fetch_all()));
     }
@@ -84,7 +83,7 @@ class API extends AppController
     /**
      * Project components.
      */
-    public function action_components()
+    public function components()
     {
         Body::append(to_json($this->project->components->exec()->fetch_all()));
     }
@@ -92,7 +91,7 @@ class API extends AppController
     /**
      * Project components.
      */
-    public function action_customFields()
+    public function customFields()
     {
         Body::append(to_json($this->project->custom_fields->exec()->fetch_all()));
     }
@@ -100,7 +99,7 @@ class API extends AppController
     /**
      * Project members.
      */
-    public function action_projectMembers()
+    public function projectMembers()
     {
         $members = array_map(
             function ($userRole) {
@@ -120,7 +119,7 @@ class API extends AppController
     /**
      * Current authenticated user.
      */
-    public function action_auth()
+    public function auth()
     {
         $data = false;
 
