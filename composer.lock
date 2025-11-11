@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/avalon.git",
-                "reference": "d980d1da494fa665045e58b31f6ab6277d78a779"
+                "reference": "bbf8103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/avalon/zipball/d980d1da494fa665045e58b31f6ab6277d78a779",
-                "reference": "d980d1da494fa665045e58b31f6ab6277d78a779",
+                "url": "https://api.github.com/repos/nirix/avalon/zipball/bbf8103",
+                "reference": "bbf8103",
                 "shasum": ""
             },
             "default-branch": true,
