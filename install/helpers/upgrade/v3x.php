@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -66,6 +66,9 @@ class v3x extends Base
 
         // 3.8.x
         30800,
+
+        // 3.9.0
+        30900,
     );
 
     /**
@@ -471,14 +474,40 @@ class v3x extends Base
      */
     public static function v30900(PDO $db)
     {
-        // Set foreign key constraints on tickets table
-        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `project` FOREIGN KEY (`project_id`) REFERENCES `{$db->prefix}projects`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
-        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `{$db->prefix}users`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
-        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `milestone` FOREIGN KEY (`milestone_id`) REFERENCES `{$db->prefix}milestones`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
-        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `priority` FOREIGN KEY (`priority_id`) REFERENCES `{$db->prefix}priorities`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
+        // Update column types, nullable and defaults
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `is_closed` `is_closed` TINYINT(1) NOT NULL DEFAULT '0'; ");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NULL DEFAULT NULL;");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `version_id` `version_id` BIGINT(20) NULL DEFAULT NULL;");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `component_id` `component_id` BIGINT(20) NULL DEFAULT NULL;");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `assigned_to_id` `assigned_to_id` BIGINT(20) NULL DEFAULT NULL;");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `is_private` `is_private` TINYINT(1) NOT NULL DEFAULT '0';");
 
-        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `version_id` `version_id` BIGINT(20) NULL; ");
-        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `component_id` `component_id` BIGINT(20) NULL; ");
-        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `assigned_to_id` `assigned_to_id` BIGINT(20) NULL DEFAULT '0'; ");
+        // Fix orphans
+        $db->query("UPDATE {$db->prefix}tickets SET type_id = (SELECT id FROM {$db->prefix}types ORDER BY id ASC LIMIT 1) WHERE type_id NOT IN (SELECT id FROM {$db->prefix}types)");
+        $db->query("UPDATE {$db->prefix}tickets SET status_id = (SELECT id FROM {$db->prefix}statuses s WHERE s.status = 1 ORDER BY id ASC LIMIT 1) WHERE status_id NOT IN (SELECT id FROM {$db->prefix}statuses) AND is_closed = 0");
+        $db->query("UPDATE {$db->prefix}tickets SET priority_id = (SELECT id FROM {$db->prefix}priorities ORDER BY id ASC LIMIT 1) WHERE priority_id NOT IN (SELECT id FROM {$db->prefix}priorities)");
+
+        // Delete orphans
+        $db->query("DELETE FROM {$db->prefix}tickets WHERE project_id NOT IN (SELECT id FROM {$db->prefix}projects);");
+        $db->query("DELETE FROM {$db->prefix}custom_fields WHERE project_id NOT IN (SELECT id FROM {$db->prefix}projects);");
+        $db->query("DELETE FROM {$db->prefix}timeline WHERE project_id NOT IN (SELECT id FROM {$db->prefix}projects);");
+        $db->query("DELETE FROM {$db->prefix}ticket_history WHERE ticket_id NOT IN (SELECT id FROM {$db->prefix}tickets);");
+        $db->query("DELETE FROM {$db->prefix}custom_field_values WHERE ticket_id NOT IN (SELECT id FROM {$db->prefix}tickets);");
+
+        // Null any 0 values
+        $db->query("UPDATE {$db->prefix}tickets SET milestone_id = NULL WHERE milestone_id = 0;");
+        $db->query("UPDATE {$db->prefix}tickets SET version_id = NULL WHERE version_id = 0;");
+        $db->query("UPDATE {$db->prefix}tickets SET component_id = NULL WHERE component_id = 0;");
+        $db->query("UPDATE {$db->prefix}tickets SET assigned_to_id = NULL WHERE assigned_to_id = 0;");
+
+        // Set foreign key constraints on tickets table
+        $db->query("ALTER TABLE `{$db->prefix}tickets`
+            ADD CONSTRAINT `rl_component` FOREIGN KEY (`component_id`) REFERENCES `{$db->prefix}components` (`id`),
+            ADD CONSTRAINT `rl_milestone` FOREIGN KEY (`milestone_id`) REFERENCES `{$db->prefix}milestones` (`id`),
+            ADD CONSTRAINT `rl_priority` FOREIGN KEY (`priority_id`) REFERENCES `{$db->prefix}priorities` (`id`),
+            ADD CONSTRAINT `rl_project` FOREIGN KEY (`project_id`) REFERENCES `{$db->prefix}projects` (`id`),
+            ADD CONSTRAINT `rl_type` FOREIGN KEY (`type_id`) REFERENCES `{$db->prefix}types` (`id`),
+            ADD CONSTRAINT `rl_user` FOREIGN KEY (`user_id`) REFERENCES `{$db->prefix}users` (`id`),
+            ADD CONSTRAINT `rl_version` FOREIGN KEY (`version_id`) REFERENCES `{$db->prefix}milestones` (`id`);");
     }
 }
