@@ -69,9 +69,10 @@
 
 .ticket-edit-actions {
   @apply mt-2;
+  text-align: right;
 
   & > button {
-    @apply mr-2;
+    @apply mr-1;
   }
 }
 
