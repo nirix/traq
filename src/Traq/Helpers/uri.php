@@ -18,6 +18,8 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Avalon\Http\Router;
+
 /**
  * Used to create URI slugs.
  *
@@ -47,4 +49,19 @@ function create_slug($uri)
 
     // We're done here.
     return $uri;
+}
+
+function route(string $name, array $params = []): string
+{
+    $url = Router::getPath($name);
+
+    foreach ($params as $key => $value) {
+        // Build a regex to find the (?P<key>...) block
+        // We use preg_quote on the key to ensure it's treated literally
+        $pattern = '/\(\?P<' . preg_quote($key, '/') . '>[^)]+\)/';
+
+        $url = preg_replace($pattern, (string) $value, $url);
+    }
+
+    return $url;
 }

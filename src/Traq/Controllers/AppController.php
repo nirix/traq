@@ -61,11 +61,15 @@ class AppController extends Controller
 
     protected PDO $db;
 
+    protected array $helpers = [
+        'uri',
+        'ui',
+    ];
+
     public function __construct()
     {
         // Set DB connection
         $this->db = Database::connection();
-
         $dbVersion = settings('db_version');
         if ($dbVersion < TRAQ_DB_VER) {
             // Database version is out of date, redirect to upgrader
@@ -97,14 +101,14 @@ class AppController extends Controller
             'js',
             'formats',
             'time_ago',
-            'uri',
             'string',
             'subscriptions',
             'timeline',
             'formatting',
             'tickets',
-            'ui'
         );
+
+        $this->loadHelpers();
 
         class_alias("\\traq\\helpers\\API", "API");
 
@@ -254,6 +258,8 @@ class AppController extends Controller
      * Display a bad API request.
      *
      * @param string $error Error message
+     *
+     * @deprecated
      */
     protected function bad_api_request(string $message): void
     {
@@ -383,5 +389,12 @@ class AppController extends Controller
     protected function db(): PDO
     {
         return $this->db;
+    }
+
+    private function loadHelpers(): void
+    {
+        foreach ($this->helpers as $helper) {
+            require dirname(__DIR__) . '/Helpers/' . $helper . '.php';
+        }
     }
 }
