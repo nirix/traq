@@ -54,11 +54,11 @@ class CustomTabs extends \traq\controllers\admin\AppController
         // Check if the form has been submitted.
         if (Request::method() == 'post') {
             $tab->set(array(
-                'label'         => Request::post('label'),
-                'url'           => Request::post('url'),
-                'groups'        => implode(',', Request::post('groups', \traq\models\Group::all_group_ids())),
-                'display_order' => Request::post('display_order', 0),
-                'project_id'    => Request::post('project_id', 0)
+                'label'         => Request::get('label'),
+                'url'           => Request::get('url'),
+                'groups'        => implode(',', Request::get('groups', \traq\models\Group::all_group_ids())),
+                'display_order' => Request::get('display_order', 0),
+                'project_id'    => Request::get('project_id', 0)
             ));
 
             // Save and reidrect
@@ -82,11 +82,11 @@ class CustomTabs extends \traq\controllers\admin\AppController
         // Check if the form has been submitted.
         if (Request::method() == 'post') {
             $tab->set(array(
-                'label'         => Request::post('label', $tab->label),
-                'url'           => Request::post('url', $tab->url),
-                'groups'        => implode(',', Request::post('groups', explode(',', $tab->groups))),
-                'display_order' => Request::post('display_order', $tab->display_order),
-                'project_id'    => Request::post('project_id', $tab->project_id)
+                'label'         => Request::get('label', $tab->label),
+                'url'           => Request::get('url', $tab->url),
+                'groups'        => implode(',', Request::get('groups', explode(',', $tab->groups))),
+                'display_order' => Request::get('display_order', $tab->display_order),
+                'project_id'    => Request::get('project_id', $tab->project_id)
             ));
 
             // Save and redirect

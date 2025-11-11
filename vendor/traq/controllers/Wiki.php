@@ -110,8 +110,8 @@ class Wiki extends AppController
         if (Request::method() == 'post') {
             // Update the page information
             $page->set(array(
-                'title'      => Request::post('title'),
-                'slug'       => Request::post('slug'),
+                'title'      => Request::get('title'),
+                'slug'       => Request::get('slug'),
                 'project_id' => $this->project->id
             ));
 
@@ -119,7 +119,7 @@ class Wiki extends AppController
             $page->revision->set(array(
                 'revision' => 1,
                 'user_id'  => $this->user->id,
-                'content'  => Request::post('body')
+                'content'  => Request::get('body')
             ));
 
             // Save and redirect
@@ -170,16 +170,16 @@ class Wiki extends AppController
         if (Request::method() == 'post') {
             // Update the page information
             $page->set(array(
-                'title'      => Request::post('title'),
-                'slug'       => Request::post('slug'),
+                'title'      => Request::get('title'),
+                'slug'       => Request::get('slug'),
                 'project_id' => $this->project->id
             ));
 
-            if (Request::post('body') != $page->revision->content) {
+            if (Request::get('body') != $page->revision->content) {
                 $page->revision = new WikiRevision(array(
                     'wiki_page_id' => $page->id,
                     'revision'     => $page->revision->revision + 1,
-                    'content'      => Request::post('body'),
+                    'content'      => Request::get('body'),
                     'user_id'      => $this->user->id
                 ));
             }
@@ -292,7 +292,7 @@ class Wiki extends AppController
         $action = (Router::$method == 'new' ? 'create' : Router::$method);
 
         // Check if the user has permission
-        if (!current_user()->permission($this->project->id, "{$action}_wiki_page")) {
+        if (!$this->user->permission($this->project->id, "{$action}_wiki_page")) {
             // oh noes! display the no permission page.
             $this->show_no_permission();
             return false;

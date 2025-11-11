@@ -14,9 +14,9 @@ use traq\models\Milestone;
 			</div>
 			<div class="group">
 				<label for="project_id"><?php echo l('new_project') ?></label>
-				<?php echo Form::select('project_id', Project::select_options(), array('value' => Request::post('project_id', $ticket->project_id))) ?>
+				<?php echo Form::select('project_id', Project::select_options(), array('value' => Request::get('project_id', $ticket->project_id))) ?>
 			</div>
-			<?php if (Request::post('step') == 2) { ?>
+			<?php if (Request::get('step') == 2) { ?>
 				<div class="group">
 					<label for="milestone_id"><?php echo l('milestone') ?></label>
 					<?php echo Form::select('milestone_id', $new_project->milestone_select_options('open')) ?>
@@ -35,7 +35,7 @@ use traq\models\Milestone;
 				</div>
 			<?php } ?>
 			<div class="actions">
-				<?php echo Form::submit(l(Request::post('step', 1) == 1 ? 'continue' : 'move'), 'move') ?>
+				<?php echo Form::submit(l(Request::get('step', 1) == 1 ? 'continue' : 'move'), 'move') ?>
 			</div>
 		</div>
 	</form>
