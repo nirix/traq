@@ -61,7 +61,7 @@ Router::register('search', '/api/search', [SearchController::class, 'search']);
 // Misc
 Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');
 Router::add('/_ajax/ticket_template/([0-9]+)', 'traq::controllers::Misc.ticket_template/$1');
-Router::add('/_ajax/autocomplete/(username)', 'traq::controllers::Misc.autocomplete_$1');
+Router::register('autocomplete.username', '/_ajax/autocomplete/username', ['\traq\controllers\Misc', 'autocompleteUsername']);
 Router::add('/_misc/preview_text', 'traq::controllers::Misc.preview_text');
 Router::add('/_misc/ticket_tasks_bit', 'traq::controllers::TicketTasks.form_bit');
 Router::add('/_misc/format_text', 'traq::controllers::Misc.format_text');

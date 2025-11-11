@@ -24,12 +24,13 @@
 namespace traq\controllers;
 
 use Avalon\Core\Controller;
+use Avalon\Core\Load;
+use Avalon\Database;
+use Avalon\Http\JsonResponse;
 use Avalon\Http\Request;
 use Avalon\Output\View;
-use Avalon\Core\Load;
-
+use PDO;
 use traq\models\Type;
-use traq\models\User;
 
 /**
  * Misc controller
@@ -48,7 +49,7 @@ class Misc extends Controller
     {
         parent::__construct();
 
-        View::$searchPaths[] = APPPATH . '/views/_misc';
+        View::$searchPaths[] = DOCROOT . '/src/views/_misc';
 
         // Load helpers
         Load::helper("html");
@@ -84,25 +85,26 @@ class Misc extends Controller
     /**
      * Used to autocomplete usernames
      */
-    public function action_autocomplete_username()
+    public function autocompleteUsername(): JsonResponse
     {
-        // No view, just json content
-        $this->render['view'] = false;
-        header("Content-type: application/json");
+        $term = Request::get('term', '');
 
-        // Get the users, and loop over them
-        $users = User::select('username')->where('username', str_replace('*', '%', Request::$request['term']) . "%", 'LIKE')->exec()->fetch_all();
-        $options = array();
-        foreach ($users as $user) {
-            // Add the user to the optionls array
-            $options[] = $user->username;
+        if (empty($term)) {
+            return new JsonResponse([]);
         }
 
-        // Make sure there are some options
-        if (count($options)) {
-            // Output in javascript array format
-            return '["' . implode('","', $options) . '"]';
-        }
+        $db = Database::connection();
+        $prefix = $db->prefix;
+        $stmt = $db->prepare("SELECT username FROM {$prefix}users WHERE username LIKE :username");
+        $stmt->execute([
+            'username' => str_replace('*', '%', $term . "%")
+        ]);
+        $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $usernames = array_map(function ($row) {
+            return $row['username'];
+        }, $rows);
+
+        return new JsonResponse($usernames);
     }
 
     public function action_preview_text()
