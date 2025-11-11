@@ -40,16 +40,20 @@ class v3x extends Base
      */
     protected static $revisions = array(
         // 3.0.x
-        30006, 30007,
+        30006,
+        30007,
 
         // 3.1.x
         30100,
 
         // 3.2.x
-        30200, 30201, 30202,
+        30200,
+        30201,
+        30202,
 
         // 3.3.x
-        30300, 30304,
+        30300,
+        30304,
 
         // 3.4.x
         30400,
@@ -460,5 +464,21 @@ class v3x extends Base
 
         // Change the UUID column to NOT NULL
         $db->query("ALTER TABLE `{$db->prefix}subscriptions` CHANGE `uuid` `uuid` varchar(36) NOT NULL");
+    }
+
+    /**
+     * Traq 3.9.0
+     */
+    public static function v30900(PDO $db)
+    {
+        // Set foreign key constraints on tickets table
+        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `project` FOREIGN KEY (`project_id`) REFERENCES `{$db->prefix}projects`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
+        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `{$db->prefix}users`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
+        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `milestone` FOREIGN KEY (`milestone_id`) REFERENCES `{$db->prefix}milestones`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
+        // $db->query("ALTER TABLE `{$db->prefix}tickets` ADD CONSTRAINT `priority` FOREIGN KEY (`priority_id`) REFERENCES `{$db->prefix}priorities`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
+
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `version_id` `version_id` BIGINT(20) NULL; ");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `component_id` `component_id` BIGINT(20) NULL; ");
+        $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `assigned_to_id` `assigned_to_id` BIGINT(20) NULL DEFAULT '0'; ");
     }
 }

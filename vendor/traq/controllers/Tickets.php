@@ -77,6 +77,10 @@ class Tickets extends AppController
 
     public function index(): Response
     {
+        if (Request::method() === 'POST') {
+            return $this->action_new();
+        }
+
         if ($this->isJson) {
             return $this->ticketsJson();
         }
@@ -270,19 +274,19 @@ class Tickets extends AppController
         ));
 
         // Check if the form has been submitted
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the ticket data
             $data = array(
                 'summary'      => Request::get('summary'),
                 'body'         => Request::get('description'),
                 'user_id'      => $this->user->id,
                 'project_id'   => $this->project->id,
-                'milestone_id' => 0,
-                'version_id'   => 0,
-                'component_id' => 0,
+                'milestone_id' => null,
+                'version_id'   => null,
+                'component_id' => null,
                 'type_id'      => Request::get('type', 1),
                 'severity_id'  => 4,
-                'tasks'        => array(),
+                'tasks'        => [],
                 'is_private'   => Request::get('is_private') ? 1 : 0
             );
 
@@ -318,15 +322,15 @@ class Tickets extends AppController
 
             // Assigned to
             if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
-                $data['assigned_to_id'] = Request::get('assigned_to');
+                $data['assigned_to_id'] = (int) Request::get('assigned_to');
             }
 
             // Ticket tasks
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_tasks') and Request::get('tasks') != null) {
+            if ($this->user->permission($this->project->id, 'ticket_properties_set_tasks') && Request::get('tasks') != null) {
                 $tasks = json_decode(Request::get('tasks'), true);
 
                 foreach ($tasks as $id => $task) {
-                    if (is_array($task) and !empty($task['task'])) {
+                    if (is_array($task) && !empty($task['task'])) {
                         $data['tasks'][] = $task;
                     }
                 }
@@ -606,7 +610,7 @@ class Tickets extends AppController
         $this->title(l('edit_ticket'));
 
         // Has the form been submitted?
-        if (Request::method() == 'post') {
+        if (Request::method() == 'POST') {
             // Set the ticket body
             $ticket->body = Request::$post['body'];
 

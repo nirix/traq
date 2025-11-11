@@ -46,8 +46,8 @@ class TicketView
     protected string $owner;
     protected ?string $assignee;
     protected string $type;
-    protected string $milestone;
-    protected string $milestone_slug;
+    protected ?string $milestone;
+    protected ?string $milestone_slug;
     protected ?string $version;
     protected ?string $version_slug;
     protected ?string $component;

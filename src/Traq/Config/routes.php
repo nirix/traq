@@ -83,7 +83,7 @@ Router::register('timeline', '/' . PROJECT_SLUG . '/timeline', [TimelineControll
 Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>[0-9]+)/delete', [TimelineController::class, 'deleteEvent']);
 
 // Ticket routes
-Router::add('/' . PROJECT_SLUG . '/tickets/new', 'traq::controllers::Tickets.new');
+Router::register('tickets.new', '/' . PROJECT_SLUG . '/tickets/new', [Tickets::class, 'action_new']);
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'traq::controllers::Tickets.view/$2');
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', 'traq::controllers::Tickets.move/$2');
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', 'traq::controllers::Tickets.delete/$2');

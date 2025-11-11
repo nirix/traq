@@ -187,7 +187,7 @@
 						<div>
 							<label for="milestone"><?= l('milestone') ?></label>
 							<div>
-								<?= $ticket->milestone->name ?>
+								<?= $ticket->milestone ? $ticket->milestone->name : '-' ?>
 							</div>
 						</div>
 						<div>

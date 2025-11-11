@@ -202,7 +202,7 @@ class Ticket extends Model
                     'project_id' => $this->project_id,
                     'owner_id'   => $this->id,
                     'action'     => 'ticket_created',
-                    'data'       => $this->status_id || 1,
+                    'data'       => $this->status_id ?? 1,
                     'user_id'    => $this->user_id
                 ));
                 $timeline->save();
@@ -215,7 +215,7 @@ class Ticket extends Model
                             'property' => 'status',
                             'action' => 'create',
                             'from' => null,
-                            'to' => Status::find($this->status_id)->name,
+                            'to' => Status::find($this->status_id ?? 1)->name,
                         ]
                     ]),
                     'comment' => ''
