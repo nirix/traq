@@ -19,6 +19,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
+define("DOCROOT", dirname(__DIR__));
 define("APPPATH", dirname(__FILE__));
 define("SYSPATH", dirname(__DIR__) . '/vendor/avalon/framework');
 
@@ -32,6 +33,8 @@ require '../vendor/traq/common.php';
 require 'common.php';
 
 use Avalon\Output\View;
+
+View::$searchPaths[] = DOCROOT . '/install/views';
 
 session_start();
 
