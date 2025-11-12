@@ -22,9 +22,9 @@
  */
 
 // Define the paths needed
-define("SYSPATH", dirname(__FILE__) . '/avalon/framework');
-define("APPPATH", dirname(__FILE__) . '/traq');
-define("DOCROOT", dirname(dirname(__FILE__)));
+define("DOCROOT", dirname(__DIR__));
+define("SYSPATH", DOCROOT . '/vendor/avalon/framework');
+define("APPPATH", DOCROOT . '/vendor/traq');
 define("DATADIR", DOCROOT . '/data');
 
 use Avalon\Database;

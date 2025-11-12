@@ -33,7 +33,7 @@ if (class_exists('\Whoops\Run') && defined('DEBUG') && DEBUG) {
 define('START_TIME', microtime(true));
 define('START_MEM',  memory_get_usage());
 
-require dirname(__FILE__) . '/vendor/bootstrap.php';
+require dirname(__FILE__) . '/src/bootstrap.php';
 
 use Avalon\Core\Kernel as Avalon;
 
