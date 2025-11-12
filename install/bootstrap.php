@@ -21,7 +21,7 @@
 
 define("DOCROOT", dirname(__DIR__));
 define("APPPATH", dirname(__FILE__));
-define("SYSPATH", dirname(__DIR__) . '/vendor/avalon/framework');
+define("SYSPATH", DOCROOT . '/vendor/avalon/framework');
 
 require '../src/Traq/version.php';
 
@@ -29,7 +29,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 require 'nanite.php';
 require SYSPATH . '/libs/fishhook.php';
-require '../vendor/traq/common.php';
+require '../src/Traq/common.php';
 require 'common.php';
 
 use Avalon\Output\View;

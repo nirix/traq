@@ -18,11 +18,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use avalon\core\Kernel as Avalon;
+use Avalon\Core\Kernel as Avalon;
 use Avalon\Http\Request;
 use traq\models\Setting;
 use traq\models\Project;
-
 use traq\models\User;
 
 /**

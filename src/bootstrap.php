@@ -46,7 +46,7 @@ class_alias('avalon\helpers\Time', 'Time');
 require_once DOCROOT . '/src/Traq/Config/routes.php';
 
 // Load common functions and version file
-require APPPATH . '/common.php';
+require DOCROOT . '/src/Traq/common.php';
 require DOCROOT . '/src/Traq/version.php';
 
 // Check for the database config file
