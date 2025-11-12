@@ -56,6 +56,8 @@ class Milestone extends Model
         'displayorder'
     );
 
+    protected ?int $originalStatus = null;
+
     protected static $_escape = array(
         'name'
     );
@@ -203,6 +205,10 @@ class Milestone extends Model
      */
     public function save()
     {
+        $shouldCreateTimelineEvent = isset($this->originalStatus, $this->_data['status']) &&
+            $this->originalStatus !== (int) $this->_data['status'] &&
+            (int) $this->_data['status'] !== static::ACTIVE;
+
         // Set completed date
         if (isset($this->_data['status']) && $this->_data['status'] != 1 && $this->completed_on == null) {
             $this->set('completed_on', "NOW()");
@@ -210,11 +216,7 @@ class Milestone extends Model
 
         if (parent::save()) {
             // Check if the status has been changed, if it has, is it completed or cancelled?
-            if (
-                isset($this->originalStatus, $this->_data['status']) &&
-                $this->originalStatus !== (int) $this->_data['status'] &&
-                (int) $this->_data['status'] !== static::ACTIVE
-            ) {
+            if ($shouldCreateTimelineEvent) {
                 $timeline = new Timeline(array(
                     'project_id' => $this->project_id,
                     'owner_id' => $this->id,
