@@ -21,13 +21,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use Avalon\Core\Controller;
 use Avalon\Core\Load;
 use Avalon\Database;
 use Avalon\Http\JsonResponse;
 use Avalon\Http\Request;
+use Avalon\Http\Response;
 use Avalon\Output\View;
 use PDO;
 use traq\models\Type;
@@ -40,7 +41,7 @@ use traq\models\Type;
  * @package Traq
  * @subpackage Controllers
  */
-class Misc extends Controller
+class MiscController extends Controller
 {
     /**
      * Custom constructor, we need to do extra stuff.
@@ -59,27 +60,11 @@ class Misc extends Controller
     /**
      * "Dynamic JavaScript"
      */
-    public function action_javascript()
+    public function javascript(): Response
     {
-        global $locale;
-
-        // Set the content type to javascript
-        header("Content-type: text/javascript");
-
-        // Set the view without the controller namespace
-        $this->render['view'] = 'javascript';
-    }
-
-    /**
-     * Used to get the ticket template.
-     *
-     * @param integer $type_id
-     */
-    public function action_ticket_template($type_id)
-    {
-        // No view, just print the ticket template
-        $this->render['view'] = false;
-        return Type::find($type_id)->template;
+        return new Response(View::render('javascript'), headers: [
+            'Content-Type' => 'text/javascript',
+        ]);
     }
 
     /**
@@ -105,16 +90,5 @@ class Misc extends Controller
         }, $rows);
 
         return new JsonResponse($usernames);
-    }
-
-    public function action_preview_text()
-    {
-        $this->render['view'] = 'preview_text';
-        View::set('data', format_text(Request::$request['data']));
-    }
-
-    public function action_format_text()
-    {
-        return format_text(Request::$request['data']);
     }
 }

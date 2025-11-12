@@ -46,4 +46,12 @@ class ErrorController extends AppController
 
         return $response;
     }
+
+    /**
+     * @deprecated
+     */
+    public function action_error404(): Response
+    {
+        return $this->error404();
+    }
 }

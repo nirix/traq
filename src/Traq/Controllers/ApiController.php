@@ -60,6 +60,11 @@ class ApiController extends AppController
         return $this->json(Type::fetchAll());
     }
 
+    public function type(int $type_id)
+    {
+        return $this->json(Type::find($type_id)->toArray());
+    }
+
     /**
      * Ticket statuses.
      *

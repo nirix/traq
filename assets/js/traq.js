@@ -21,20 +21,20 @@
 
 // The main Traq object
 var traq = {
-  base: "/",
+  base: '/',
   show_hide_custom_fields: function () {
-    var type_id = jQuery("#type option:selected").val()
+    var type_id = jQuery('#type option:selected').val()
 
     // Toggle visibility for custom fields that aren't relveant
     // for the selected type.
-    jQuery(".properties .custom_field").each(function () {
+    jQuery('.properties .custom_field').each(function () {
       var field = jQuery(this)
 
       // Hide the field
       field.hide()
 
       // Check if it is for 0 (all) or the selected type ID and show it.
-      if (field.hasClass("field-for-type-0") || field.hasClass("field-for-type-" + type_id)) {
+      if (field.hasClass('field-for-type-0') || field.hasClass('field-for-type-' + type_id)) {
         field.show()
       }
     })
@@ -48,45 +48,38 @@ var language = {}
 // how about a nice simple popover box.
 // Credit to arturo182
 var popover_confirm = function (parent, message, callback) {
-  var outerDiv = jQuery("<div/>").addClass("popover_confirm")
-  var innerDiv = jQuery("<div/>")
+  var outerDiv = jQuery('<div/>').addClass('popover_confirm')
+  var innerDiv = jQuery('<div/>')
 
   innerDiv.append(
-    jQuery("<button/>", { text: language.yes }).click(function () {
-      jQuery("#popover").fadeOut("fast")
+    jQuery('<button/>', { text: language.yes }).click(function () {
+      jQuery('#popover').fadeOut('fast')
       callback()
       return false
-    })
+    }),
   )
   innerDiv.append(
-    jQuery("<button/>", { text: language.no }).click(function () {
-      jQuery("#popover").fadeOut("fast")
+    jQuery('<button/>', { text: language.no }).click(function () {
+      jQuery('#popover').fadeOut('fast')
       return false
-    })
+    }),
   )
 
   outerDiv.append(message)
   outerDiv.append(innerDiv)
 
-  jQuery("#popover").stop(true, true).hide().empty().append(outerDiv)
-  jQuery("#popover").popover(parent)
+  jQuery('#popover').stop(true, true).hide().empty().append(outerDiv)
+  jQuery('#popover').popover(parent)
 }
 
 jQuery(document).ready(function () {
-  jQuery("[data-preview]").on("click", function () {
-    var data = jQuery(jQuery(this).attr("data-preview")).val()
-    jQuery("#overlay").load(traq.base + "_misc/preview_text", { data: data }, function () {
-      jQuery("#overlay").overlay()
-    })
-  })
-
   // Add a confirm-on-click event to call elements
   // with the data-confirm attribute.
-  jQuery(document).on("click", "[data-confirm]", function () {
+  jQuery(document).on('click', '[data-confirm]', function () {
     var parent = jQuery(this)
 
-    popover_confirm(parent, parent.attr("data-confirm"), function () {
-      window.location.href = parent.attr("href")
+    popover_confirm(parent, parent.attr('data-confirm'), function () {
+      window.location.href = parent.attr('href')
     })
 
     return false
@@ -95,11 +88,11 @@ jQuery(document).ready(function () {
   // Add a click event to all elements with
   // the data-ajax attribute and send an ajax
   // call to the href attrib value.
-  jQuery(document).on("click", "[data-ajax=1]", function () {
+  jQuery(document).on('click', '[data-ajax=1]', function () {
     var e = jQuery(this)
     $.ajax({
-      url: e.attr("href"),
-      dataType: "script",
+      url: e.attr('href'),
+      dataType: 'script',
     })
     return false
   })
@@ -107,13 +100,13 @@ jQuery(document).ready(function () {
   // Add a click event to ajax-confirm elements
   // that will confirm with the specified message
   // then send an ajax request if accepted.
-  jQuery(document).on("click", "[data-ajax-confirm]", function () {
+  jQuery(document).on('click', '[data-ajax-confirm]', function () {
     var e = jQuery(this)
 
-    popover_confirm(e, e.attr("data-ajax-confirm"), function () {
+    popover_confirm(e, e.attr('data-ajax-confirm'), function () {
       $.ajax({
-        url: e.attr("href"),
-        dataType: "script",
+        url: e.attr('href'),
+        dataType: 'script',
       })
     })
 
@@ -124,24 +117,24 @@ jQuery(document).ready(function () {
   // data-overlay attribute and load the elements
   // href value into the overlay container then show
   // the overlay.
-  jQuery(document).on("click", "[data-overlay]", function () {
+  jQuery(document).on('click', '[data-overlay]', function () {
     var path
 
-    if (jQuery(this).attr("data-overlay") == "1") {
-      path = jQuery(this).attr("href").split("?")
+    if (jQuery(this).attr('data-overlay') == '1') {
+      path = jQuery(this).attr('href').split('?')
     } else {
-      path = jQuery(this).attr("data-overlay").split("?")
+      path = jQuery(this).attr('data-overlay').split('?')
     }
 
-    var uri = path[0] + "?overlay=true"
+    var uri = path[0] + '?overlay=true'
 
     if (path.length > 1) {
-      var uri = uri + "&" + path[1]
+      var uri = uri + '&' + path[1]
     }
 
-    jQuery("#overlay").load(uri, function () {
+    jQuery('#overlay').load(uri, function () {
       window.Alpine.start()
-      jQuery("#overlay").overlay()
+      jQuery('#overlay').overlay()
     })
     return false
   })
@@ -154,56 +147,56 @@ jQuery(document).ready(function () {
         jQuery(this).sexyTooltip()
       },
     },
-    "form abbr"
+    'form abbr',
   )
 
   jQuery(document).on(
     {
       mouseenter: function () {
-        jQuery(this).sexyTooltip("top")
+        jQuery(this).sexyTooltip('top')
       },
     },
-    "[title]:not(form abbr),[data-tooltip]:not(form abbr)"
+    '[title]:not(form abbr),[data-tooltip]:not(form abbr)',
   )
 
   // Add a click event to all elements with
   // a data-popover attribute.
-  jQuery(document).on("click", "[data-popover]", function () {
+  jQuery(document).on('click', '[data-popover]', function () {
     var parent = jQuery(this)
-    jQuery("#popover")
+    jQuery('#popover')
       .stop(true, true)
       .hide()
-      .load(jQuery(this).attr("data-popover") + "?popover=true", function () {
-        jQuery("#popover").popover(parent)
+      .load(jQuery(this).attr('data-popover') + '?popover=true', function () {
+        jQuery('#popover').popover(parent)
       })
     return false
   })
 
   // Add a click event to all elements with
   // a data-popover-hover attribute.
-  jQuery(document).on("mouseenter", "[data-popover-hover]", function () {
+  jQuery(document).on('mouseenter', '[data-popover-hover]', function () {
     var parent = jQuery(this)
-    jQuery("#popover")
+    jQuery('#popover')
       .stop(true, true)
       .hide()
-      .load(jQuery(this).attr("data-popover-hover") + "?popover=true", function () {
-        jQuery("#popover").popover(parent, "hover")
+      .load(jQuery(this).attr('data-popover-hover') + '?popover=true', function () {
+        jQuery('#popover').popover(parent, 'hover')
       })
-    parent.off("click").click(function () {
+    parent.off('click').click(function () {
       return false
     })
   })
 
   // Loopover all the inputs with an autocomplete attribute
   // and set them up with the source as the attribute value.
-  jQuery("input[data-autocomplete]").each(function () {
-    jQuery(this).autocomplete({ source: jQuery(this).attr("data-autocomplete") })
+  jQuery('input[data-autocomplete]').each(function () {
+    jQuery(this).autocomplete({ source: jQuery(this).attr('data-autocomplete') })
   })
 
   // Move ticket form refresh
-  jQuery("form#move_ticket #project_id").change(function () {
-    jQuery("form#move_ticket input:hidden[name=step]").val(2)
-    jQuery("form#move_ticket").submit()
+  jQuery('form#move_ticket #project_id').change(function () {
+    jQuery('form#move_ticket input:hidden[name=step]').val(2)
+    jQuery('form#move_ticket').submit()
   })
 
   // Datepicker
@@ -211,13 +204,13 @@ jQuery(document).ready(function () {
     {
       mouseenter: function () {
         jQuery(this).datepicker({
-          dateFormat: jQuery(this).attr("data-date-format"),
+          dateFormat: jQuery(this).attr('data-date-format'),
           changeMonth: true,
           changeYear: true,
         })
       },
     },
-    "input.datepicker"
+    'input.datepicker',
   )
 })
 
@@ -231,19 +224,19 @@ jQuery(document).ready(function () {
   $.fn.overlay = function () {
     var element = jQuery(this)
     element.fadeIn()
-    element.css({ left: jQuery(window).width() / 2 - element.width() / 2, top: "18%" })
-    jQuery("#overlay_blackout").css({
-      display: "none",
+    element.css({ left: jQuery(window).width() / 2 - element.width() / 2, top: '18%' })
+    jQuery('#overlay_blackout').css({
+      display: 'none',
       opacity: 0.7,
-      position: "fixed",
+      position: 'fixed',
       width: jQuery(document).width() + 100,
       height: jQuery(document).height() + 100,
-      top: -100 + "px",
-      left: -100 + "px",
+      top: -100 + 'px',
+      left: -100 + 'px',
     })
-    jQuery("#overlay_blackout").fadeIn("", function () {
-      jQuery("#overlay_blackout").bind("click", function () {
-        jQuery("#overlay_blackout").fadeOut()
+    jQuery('#overlay_blackout').fadeIn('', function () {
+      jQuery('#overlay_blackout').bind('click', function () {
+        jQuery('#overlay_blackout').fadeOut()
         element.fadeOut()
       })
     })
@@ -256,8 +249,8 @@ function close_overlay(func) {
     func = function () {}
   }
 
-  jQuery("#overlay_blackout").fadeOut()
-  jQuery("#overlay").fadeOut(function () {
+  jQuery('#overlay_blackout').fadeOut()
+  jQuery('#overlay').fadeOut(function () {
     func()
   })
 }

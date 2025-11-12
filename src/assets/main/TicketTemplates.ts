@@ -43,8 +43,8 @@ Alpine.directive('ticket-template', (el, { expression }, { evaluate }) => {
         return
       }
 
-      axios.get(window.traq.base + '_ajax/ticket_template/' + (el as HTMLInputElement).value).then((resp) => {
-        mde.value(resp.data)
+      axios.get(window.traq.base + 'api/types/' + (el as HTMLInputElement).value).then((resp) => {
+        mde.value(resp.data.template)
       })
     })
   } catch {

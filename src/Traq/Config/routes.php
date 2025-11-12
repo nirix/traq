@@ -25,6 +25,7 @@ use Avalon\Http\Router;
 use Traq\Controllers\Admin\Plugins;
 use Traq\Controllers\Attachments;
 use Traq\Controllers\ErrorController;
+use Traq\Controllers\MiscController;
 use Traq\Controllers\ProfileController;
 use Traq\Controllers\ProjectController;
 use Traq\Controllers\ProjectSettings\SettingsController;
@@ -52,6 +53,7 @@ Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 Router::register('api.auth', '/api/auth', ['\Traq\Controllers\ApiController', 'auth']);
 Router::register('api.auth.project', '/api/auth/' . PROJECT_SLUG, ['\Traq\Controllers\ApiController', 'auth']);
 Router::register('api.types', '/api/types', ['\Traq\Controllers\ApiController', 'types']);
+Router::register('api.type', '/api/types/(?P<type_id>[0-9]+)', ['\Traq\Controllers\ApiController', 'type']);
 Router::register('api.statuses', '/api/statuses', ['\Traq\Controllers\ApiController', 'statuses']);
 Router::register('api.priorities', '/api/priorities', ['\Traq\Controllers\ApiController', 'priorities']);
 Router::register('api.components', '/api/' . PROJECT_SLUG . '/components', ['\Traq\Controllers\ApiController', 'components']);
@@ -60,12 +62,9 @@ Router::register('api.projectMembers', '/api/' . PROJECT_SLUG . '/members', ['\T
 Router::register('search', '/api/search', [SearchController::class, 'search']);
 
 // Misc
-Router::add('/_js(?:.js)?', 'traq::controllers::Misc.javascript');
-Router::add('/_ajax/ticket_template/([0-9]+)', 'traq::controllers::Misc.ticket_template/$1');
-Router::register('autocomplete.username', '/_ajax/autocomplete/username', ['\traq\controllers\Misc', 'autocompleteUsername']);
-Router::add('/_misc/preview_text', 'traq::controllers::Misc.preview_text');
+Router::register('misc.javascript', '/_js(?:.js)?', [MiscController::class, 'javascript']);
+Router::register('autocomplete.username', '/_ajax/autocomplete/username', [MiscController::class, 'autocompleteUsername']);
 Router::add('/_misc/ticket_tasks_bit', 'traq::controllers::TicketTasks.form_bit');
-Router::add('/_misc/format_text', 'traq::controllers::Misc.format_text');
 
 // Attachment routes
 Router::register('attachments.view', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', [Attachments::class, 'view']);
