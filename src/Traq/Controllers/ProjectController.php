@@ -84,6 +84,8 @@ class ProjectController extends AppController
      */
     public function roadmap(string $filter = 'active')
     {
+        $this->title(l('roadmap'));
+
         // Get the projects milestones and send them to the view.
         $milestones = Milestone::select()->where('project_id', $this->project->id);
 
@@ -146,6 +148,8 @@ class ProjectController extends AppController
      */
     public function viewMilestone($milestone_slug)
     {
+        $this->title(l('roadmap'));
+
         // Get the milestone
         $milestone = Milestone::select()->where(array(
             array('project_id', $this->project->id),
@@ -161,6 +165,8 @@ class ProjectController extends AppController
             return $this->json($milestone->__toArray());
         }
 
+        $this->title($milestone->name);
+
         // And send it to the view
         View::set('milestone', $milestone);
 
@@ -172,6 +178,8 @@ class ProjectController extends AppController
      */
     public function changelog()
     {
+        $this->title(l('changelog'));
+
         // Atom feed
         $this->feeds[] = array(Request::requestUri() . ".atom", l('x_changelog_feed', $this->project->name));
 

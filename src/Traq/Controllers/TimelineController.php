@@ -37,6 +37,8 @@ class TimelineController extends AppController
 {
     public function index()
     {
+        $this->title(l('timeline'));
+
         $page = Request::$request['page'] ?? 1;
 
         $rows = $this->db->select('*')
