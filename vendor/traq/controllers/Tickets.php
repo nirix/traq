@@ -292,17 +292,17 @@ class Tickets extends AppController
 
             // Milestone
             if ($this->user->permission($this->project->id, 'ticket_properties_set_milestone')) {
-                $data['milestone_id'] = (int) Request::get('milestone');
+                $data['milestone_id'] = (int) Request::get('milestone') === 0 ? null : (int) Request::get('milestone');
             }
 
             // Version
             if ($this->user->permission($this->project->id, 'ticket_properties_set_version')) {
-                $data['version_id'] = (int) Request::get('version');
+                $data['version_id'] = (int) Request::get('version') === 0 ? null : (int) Request::get('version');
             }
 
             // Component
             if ($this->user->permission($this->project->id, 'ticket_properties_set_component')) {
-                $data['component_id'] = (int) Request::get('component');
+                $data['component_id'] = (int) Request::get('component') === 0 ? null : (int) Request::get('component');
             }
 
             // Severity
@@ -322,7 +322,7 @@ class Tickets extends AppController
 
             // Assigned to
             if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
-                $data['assigned_to_id'] = (int) Request::get('assigned_to');
+                $data['assigned_to_id'] = (int) Request::get('assigned_to') === 0 ? null : (int) Request::get('assigned_to');
             }
 
             // Ticket tasks

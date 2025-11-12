@@ -278,12 +278,12 @@ class Ticket extends Model
         // Loop over the data
         foreach ($data as $field => $value) {
             // Check if the value is different
-            if (isset($this->_data[$field]) and $this->_data[$field] == $value) {
+            if (isset($this->_data[$field]) && $this->_data[$field] == $value) {
                 continue;
             }
 
             // If this field is an attachment, check permissions
-            if ($field == 'attachment' and !$user->permission($this->project_id, 'add_attachments')) {
+            if ($field == 'attachment' && !$user->permission($this->project_id, 'add_attachments')) {
                 continue;
             }
 
@@ -291,8 +291,8 @@ class Ticket extends Model
             $from = $to = null;
             switch ($field) {
                 case 'assigned_to_id':
-                    $from = $this->assigned_to_id == 0 ? null : $this->assigned_to->id;
-                    $to = $value;
+                    $from = !$this->assigned_to_id ? null : $this->assigned_to->id;
+                    $to = !$value ? null : User::find($value)->id;
                     break;
 
                 case 'status_id':
@@ -315,11 +315,22 @@ class Ticket extends Model
                     break;
 
                 case 'milestone_id':
-                case 'version_id':
                     $to_values[$field] = Milestone::find($value);
 
                     if ($this->milestone) {
                         $from = $this->milestone->name;
+                    }
+
+                    if ($to_values[$field]) {
+                        $to = $to_values[$field]->name;
+                    }
+                    break;
+
+                case 'version_id':
+                    $to_values[$field] = Milestone::find($value);
+
+                    if ($this->version) {
+                        $from = $this->version->name;
                     }
 
                     if ($to_values[$field]) {
