@@ -32,6 +32,9 @@ Load::helper('array');
  * @copyright Copyright (c) Jack P.
  * @package Traq
  * @subpackage Helpers
+ *
+ * @deprecated 3.9.0
+ * @see AppController::json()
  */
 function to_json($data, $options = array())
 {
@@ -83,8 +86,7 @@ function mime_type_for($extension)
     );
 
     // Check if it's in the allowed mime types array
-    if (isset($mime_types[$extension]))
-    {
+    if (isset($mime_types[$extension])) {
         return $mime_types[$extension];
     }
 

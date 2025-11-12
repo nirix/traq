@@ -57,7 +57,7 @@ class ApiController extends AppController
      */
     public function types()
     {
-        Body::append(to_json(Type::fetch_all()));
+        return $this->json(Type::fetchAll());
     }
 
     /**
@@ -67,7 +67,7 @@ class ApiController extends AppController
      */
     public function statuses()
     {
-        Body::append(to_json(Status::fetch_all()));
+        return $this->json(Status::fetchAll());
     }
 
     /**
@@ -77,7 +77,7 @@ class ApiController extends AppController
      */
     public function priorities()
     {
-        Body::append(to_json(Priority::fetch_all()));
+        return $this->json(Priority::fetchAll());
     }
 
     /**
@@ -85,7 +85,7 @@ class ApiController extends AppController
      */
     public function components()
     {
-        Body::append(to_json($this->project->components->exec()->fetch_all()));
+        return $this->json($this->project->components->exec()->fetchAll());
     }
 
     /**
@@ -93,7 +93,7 @@ class ApiController extends AppController
      */
     public function customFields()
     {
-        Body::append(to_json($this->project->custom_fields->exec()->fetch_all()));
+        return $this->json($this->project->custom_fields->exec()->fetchAll());
     }
 
     /**
@@ -110,10 +110,10 @@ class ApiController extends AppController
                     'role' => $userRole->role->name,
                 ];
             },
-            $this->project->user_roles->exec()->fetch_all()
+            $this->project->user_roles->exec()->fetchAll()
         );
 
-        Body::append(to_json($members));
+        return $this->json($members);
     }
 
     /**
@@ -147,6 +147,6 @@ class ApiController extends AppController
             }
         }
 
-        Body::append(to_json($data));
+        return $this->json($data);
     }
 }

@@ -392,6 +392,14 @@ class AppController extends Controller
     {
         $badKeys = ['password', 'login_hash', 'api_key', 'private_key'];
 
+        if (!is_array($data)) {
+            $data = to_array($data);
+        }
+
+        foreach ($data as $k => $v) {
+            $data[$k] = to_array($v);
+        }
+
         // Remove bad keys from data array, at all array levels
         array_walk_recursive($data, function (&$item, $key) use ($badKeys) {
             if (in_array($key, $badKeys)) {
