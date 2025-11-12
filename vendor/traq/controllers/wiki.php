@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2014 Jack Polgar
- * Copyright (C) 2012-2014 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -69,7 +69,6 @@ class Wiki extends AppController
 
         // Get the page
         $page = $this->project->wiki_pages->where('slug', $slug)->exec();
-
         // Check if the page exists
         if (!$page->row_count()) {
             // it doesnt, show the new page form if the user has permission
@@ -77,7 +76,10 @@ class Wiki extends AppController
             return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show404();
         }
 
-        View::set('page', $page->fetch());
+        $page = $page->fetch();
+        $this->title($page->title);
+
+        View::set('page', $page);
     }
 
     /**
@@ -160,10 +162,11 @@ class Wiki extends AppController
         // Get slug
         $slug = \avalon\http\Router::$params['slug'];
 
-        $this->title(l('edit'));
-
         // Fetch the page from the database
         $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
+
+        $this->title($page->title);
+        $this->title(l('edit'));
 
         // Check if the form has been submitted
         if (Request::method() == 'post') {
@@ -250,6 +253,7 @@ class Wiki extends AppController
      */
     public function action_revisions($slug)
     {
+        $this->title(l('revisions'));
         $page = WikiPage::select()->where('project_id', $this->project->id)->where('slug', $slug)->exec()->fetch();
         View::set(compact('page'));
     }
@@ -264,6 +268,9 @@ class Wiki extends AppController
     {
         $page = WikiPage::select()->where('project_id', $this->project->id)->where('slug', $slug)->exec()->fetch();
         $page->revision = $page->revisions->where('revision', $revision)->exec()->fetch();
+
+        $this->title($page->title);
+        $this->title(l('revision_x', $revision));
 
         View::set(compact('page'));
 
