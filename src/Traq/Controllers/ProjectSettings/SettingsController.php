@@ -18,10 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Controllers;
+namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
 use Avalon\Output\View;
+use traq\controllers\ProjectSettings\AppController;
 
 /**
  * Project settings controller
@@ -31,7 +32,7 @@ use Avalon\Output\View;
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsController extends AppController
+class SettingsController extends AppController
 {
     /**
      * Project options / information page.

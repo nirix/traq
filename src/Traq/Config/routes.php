@@ -21,13 +21,13 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use avalon\http\Router;
+use Avalon\Http\Router;
 use Traq\Controllers\Admin\Plugins;
 use Traq\Controllers\Attachments;
 use Traq\Controllers\ErrorController;
 use Traq\Controllers\ProfileController;
 use Traq\Controllers\ProjectController;
-use Traq\Controllers\ProjectSettingsController;
+use Traq\Controllers\ProjectSettings\SettingsController;
 use Traq\Controllers\SearchController;
 use Traq\Controllers\SubscriptionsController;
 use traq\controllers\Tickets;
@@ -107,7 +107,7 @@ Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(
 Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::controllers::Wiki.view');
 
 // Project settings routes
-Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'index']);
+Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [SettingsController::class, 'index']);
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)', 'traq::controllers::ProjectSettings::$2.index');
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/new', 'traq::controllers::ProjectSettings::$2.new');
 Router::add('/' . PROJECT_SLUG . '/settings/(milestones|components|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
