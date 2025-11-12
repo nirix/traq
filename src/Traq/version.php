@@ -33,4 +33,4 @@ define("TRAQ_VER_CODE", 30900); // Used to check for new versions
 define("TRAQ_DB_VER", 30900);   // Database version
 
 // API version
-define("TRAQ_API_VER", "1.1");
+define("TRAQ_API_VER", "1.3");

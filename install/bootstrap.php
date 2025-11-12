@@ -23,7 +23,7 @@ define("DOCROOT", dirname(__DIR__));
 define("APPPATH", dirname(__FILE__));
 define("SYSPATH", dirname(__DIR__) . '/vendor/avalon/framework');
 
-require '../vendor/traq/version.php';
+require '../src/Traq/version.php';
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 

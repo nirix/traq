@@ -47,7 +47,7 @@ require_once DOCROOT . '/src/Traq/Config/routes.php';
 
 // Load common functions and version file
 require APPPATH . '/common.php';
-require APPPATH . '/version.php';
+require DOCROOT . '/src/Traq/version.php';
 
 // Check for the database config file
 if (!file_exists(DATADIR . '/config/database.php')) {
