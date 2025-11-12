@@ -193,7 +193,7 @@ post('/step/3', function () {
         // Create DB version setting
         $db_ver = new Setting(array(
             'setting' => 'db_version',
-            'value'   => TRAQ_VER_CODE
+            'value'   => TRAQ_DB_VER
         ));
         $db_ver->save();
 
