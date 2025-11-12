@@ -12,6 +12,8 @@ vendor/psr
 vendor/ramsey
 vendor/symfony
 
+.dev/data
+data/
 vendor/traq/config/database.php
 vendor/traq/config/mailer.php
 vendor/traq/plugins/better_php_errors
