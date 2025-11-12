@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Output\View;
-use Traq\Controllers\AppController;
 
 /**
  * Ticket History controller
@@ -35,28 +34,27 @@ use Traq\Controllers\AppController;
  * @package Traq
  * @subpackage Controllers
  */
-class TicketHistory extends AppController
+class TicketHistoryController extends AppController
 {
     // Before filters
-    public $before = array(
+    public $before = [
         // 'edit' => array('_check_permission'),
-        'delete' => array('_check_permission')
-    );
+        'delete' => ['_check_permission']
+    ];
 
     /**
      * Edit ticket update
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function edit(int $id)
     {
         // Get the ticket update
         $history = \traq\models\TicketHistory::find($id);
 
-        if ($history->user_id !== current_user()->id && !current_user()->permission($this->project->id, "edit_ticket_history")) {
+        if ($history->user_id !== $this->user->id && !$this->user->permission($this->project->id, "edit_ticket_history")) {
             // oh noes! display the no permission page.
-            $this->show_no_permission();
-            return false;
+            return $this->renderNoPermission();
         }
 
         // Has the form been submitted?
@@ -66,11 +64,16 @@ class TicketHistory extends AppController
 
             // Save and redirect
             if ($history->save()) {
-                Request::redirectTo($history->ticket->href());
+                return $this->redirectTo($history->ticket->href());
             }
         }
 
-        View::set('history', $history);
+        // View::set('history', $history);
+
+        $this->render['layout'] = false;
+        return $this->render('ticket_history/edit.overlay.phtml', [
+            'history' => $history
+        ]);
     }
 
     /**
@@ -78,7 +81,7 @@ class TicketHistory extends AppController
      *
      * @param integer $id
      */
-    public function action_delete($id)
+    public function delete(int $id)
     {
         // Get the ticket update
         $history = \traq\models\TicketHistory::find($id);
@@ -86,14 +89,7 @@ class TicketHistory extends AppController
         // Delete the update
         $history->delete();
 
-        // Is this an ajax request?
-        if (Request::isAjax()) {
-            // Render the view
-            View::set('history', $history);
-        } else {
-            // Just redirect back to the ticket
-            Request::redirectTo($history->ticket->href());
-        }
+        return $this->redirectTo($history->ticket->href());
     }
 
     /**
@@ -102,7 +98,7 @@ class TicketHistory extends AppController
     public function _check_permission($action)
     {
         // Check if the user has permission
-        if (!current_user()->permission($this->project->id, "{$action}_ticket_history")) {
+        if (!$this->user->permission($this->project->id, "{$action}_ticket_history")) {
             // oh noes! display the no permission page.
             $this->show_no_permission();
             return false;

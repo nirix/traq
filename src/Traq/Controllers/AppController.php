@@ -197,6 +197,11 @@ class AppController extends Controller
         $this->render['action'] = false;
     }
 
+    public function renderNoPermission(): Response
+    {
+        return $this->render('error/no_permission', statusCode: 401);
+    }
+
     /**
      * Used to display the login page.
      */

@@ -1,11 +1,11 @@
-<h3><?php echo l('edit_ticket_history'); ?></h3>
-<form action="<?php echo Request::requestUri(); ?>" method="post">
-	<?php echo show_errors($history->errors); ?>
+<h3><?= l('edit_ticket_history'); ?></h3>
+<form action="<?= Request::requestUri(); ?>" method="post">
+	<?= show_errors($history->errors); ?>
 	<div class="flex p-4">
-		<?php echo View::render('ticket_history/_form'); ?>
+		<?= View::render('ticket_history/_form', ['history' => $history]); ?>
 	</div>
 	<div class="actions">
-		<input type="submit" value="<?php echo l('save'); ?>" class="btn-success" />
-		<input type="button" value="<?php echo l('cancel'); ?>" onclick="close_overlay();" />
+		<input type="submit" value="<?= l('save'); ?>" class="btn-success" />
+		<input type="button" value="<?= l('cancel'); ?>" onclick="close_overlay();" />
 	</div>
 </form>
