@@ -23,9 +23,9 @@
 
 namespace traq\models;
 
-use avalon\database\Model;
-use avalon\core\Kernel as Avalon;
-use avalon\http\Request;
+use Avalon\Database\Model;
+use Avalon\Core\Kernel as Avalon;
+use Avalon\Http\Request;
 use avalon\helpers\Time;
 
 use traq\helpers\Notification;

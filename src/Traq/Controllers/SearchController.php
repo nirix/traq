@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers;
 
-use avalon\http\Request;
+use Avalon\Http\Request;
 use traq\models\Milestone;
 use traq\models\Project;
 use traq\models\Ticket;

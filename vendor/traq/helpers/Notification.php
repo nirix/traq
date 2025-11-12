@@ -24,7 +24,7 @@
 namespace traq\helpers;
 
 use Avalon\Core\Error;
-use avalon\http\Request;
+use Avalon\Http\Request;
 use HTML;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;

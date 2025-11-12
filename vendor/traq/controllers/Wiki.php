@@ -23,9 +23,9 @@
 
 namespace traq\controllers;
 
-use avalon\http\Request;
-use avalon\http\Router;
-use avalon\output\View;
+use Avalon\Http\Request;
+use Avalon\Http\Router;
+use Avalon\Output\View;
 use Traq\Controllers\AppController;
 use traq\helpers\API;
 use traq\models\WikiPage;
@@ -66,7 +66,7 @@ class Wiki extends AppController
     public function action_view()
     {
         // Get slug
-        $slug = \avalon\http\Router::$params['slug'];
+        $slug = \Avalon\Http\Router::$params['slug'];
 
         // Get the page
         $page = $this->project->wiki_pages->where('slug', $slug)->exec();
@@ -159,7 +159,7 @@ class Wiki extends AppController
     public function action_edit()
     {
         // Get slug
-        $slug = \avalon\http\Router::$params['slug'];
+        $slug = \Avalon\Http\Router::$params['slug'];
 
         $this->title(l('edit'));
 
@@ -217,7 +217,7 @@ class Wiki extends AppController
     public function action_delete()
     {
         // Get slug
-        $slug = \avalon\http\Router::$params['slug'];
+        $slug = \Avalon\Http\Router::$params['slug'];
 
         $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
 

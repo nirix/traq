@@ -23,9 +23,9 @@
 
 namespace traq\controllers\admin;
 
-use avalon\Database;
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\Database;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 
 /**
  * Admin Settings controller

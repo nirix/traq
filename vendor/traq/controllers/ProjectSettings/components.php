@@ -23,8 +23,8 @@
 
 namespace traq\controllers\ProjectSettings;
 
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 use traq\helpers\API;
 use traq\models\Component;
 

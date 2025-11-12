@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers;
 
-use avalon\http\Request;
+use Avalon\Http\Request;
 use traq\helpers\Pagination;
 use traq\models\Timeline;
 use traq\models\User;

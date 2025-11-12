@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use avalon\core\Kernel as Avalon;
+use Avalon\Core\Kernel as Avalon;
 
 use traq\models\Type;
 use traq\models\Status;
@@ -34,7 +34,8 @@ use traq\models\CustomField;
  *
  * @return string
  */
-function ticket_sort_url_for($column) {
+function ticket_sort_url_for($column)
+{
     // Get current order
     if (isset(Request::$request['order_by'])) {
         $order = explode('.', Request::$request['order_by']);
@@ -49,7 +50,7 @@ function ticket_sort_url_for($column) {
         $query = "{$column}.{$order[1]}";
     }
 
-    return str_replace("order_by=". implode('.', $order), "order_by={$query}", Request::requestUri());
+    return str_replace("order_by=" . implode('.', $order), "order_by={$query}", Request::requestUri());
 }
 
 /**
@@ -61,7 +62,8 @@ function ticket_sort_url_for($column) {
  * @copyright Copyright (c) Jack P.
  * @package Traq
  */
-function ticket_columns() {
+function ticket_columns()
+{
     $columns = array(
         'ticket_id',
         'summary',
@@ -226,7 +228,8 @@ function ticket_filters_select_options($project = null)
  *
  * @return mixed
  */
-function ticketlist_header($column) {
+function ticketlist_header($column)
+{
     switch ($column) {
         case 'ticket_id':
             return l('id');
@@ -271,7 +274,8 @@ function ticketlist_header($column) {
  *
  * @return mixed
  */
-function ticketlist_data($column, $ticket) {
+function ticketlist_data($column, $ticket)
+{
     switch ($column) {
         // Ticket ID column
         case 'ticket_id':
@@ -355,7 +359,8 @@ function ticketlist_data($column, $ticket) {
  *
  * @return array
  */
-function ticket_filter_options_for($filter, $project_id = null) {
+function ticket_filter_options_for($filter, $project_id = null)
+{
     switch ($filter) {
         // Milestone options
         case 'milestone':
@@ -466,7 +471,8 @@ function ticket_sorting_select_options()
  *
  * @return boolean
  */
-function check_ticket_creation_delay($ticket) {
+function check_ticket_creation_delay($ticket)
+{
     if (isset($_SESSION['last_ticket_creation']) and $_SESSION['last_ticket_creation'] > (time() - settings('ticket_creation_delay'))) {
         $ticket->_add_error(
             'ticket_creation_delay',

@@ -23,7 +23,7 @@
 
 namespace traq\models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
 
 /**
  * Component model.

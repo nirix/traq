@@ -23,8 +23,8 @@
 
 namespace traq\controllers;
 
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 use \FishHook;
 use Traq\Controllers\AppController;
 use traq\helpers\API;

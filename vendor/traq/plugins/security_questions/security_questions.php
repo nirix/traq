@@ -25,13 +25,11 @@ namespace traq\plugins;
 
 use \FishHook;
 use \HTML;
-use avalon\Autoloader;
-use avalon\Database;
-use avalon\http\Router;
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\Database;
+use Avalon\Http\Router;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 use Traq\Libraries\Plugin;
-use traq\models\Setting;
 
 /**
  * Security Questions Plugin.

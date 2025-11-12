@@ -20,7 +20,7 @@
 
 namespace Installer\Helpers\Upgrade;
 
-use avalon\database\PDO;
+use Avalon\Database\PDO;
 use Installer\Helpers\Fixes;
 use Ramsey\Uuid\Uuid;
 use traq\models\Subscription;

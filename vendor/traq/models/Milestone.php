@@ -23,8 +23,8 @@
 
 namespace traq\models;
 
-use avalon\core\Kernel as Avalon;
-use avalon\database\Model;
+use Avalon\Core\Kernel as Avalon;
+use Avalon\Database\Model;
 use avalon\helpers\Time;
 
 /**

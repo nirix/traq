@@ -23,7 +23,7 @@
 
 namespace traq\controllers\admin;
 
-use avalon\output\View;
+use Avalon\Output\View;
 use traq\models\User;
 use traq\models\Ticket;
 

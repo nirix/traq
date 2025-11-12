@@ -24,9 +24,9 @@
 namespace traq\controllers;
 
 use \FishHook;
-use avalon\core\Load;
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\Core\Load;
+use Avalon\Http\Request;
+use Avalon\Output\View;
 use Traq\Controllers\AppController;
 use traq\helpers\Notification;
 use traq\models\User;

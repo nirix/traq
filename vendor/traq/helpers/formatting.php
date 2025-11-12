@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use \avalon\core\Kernel as Avalon;
+use \Avalon\Core\Kernel as Avalon;
 use \traq\models\Project;
 
 /**
@@ -55,7 +55,7 @@ function ticket_links($text)
 {
     return preg_replace_callback(
         "|(?:[\w\d\-_]+)?#([\d]+)|",
-        function($matches){
+        function ($matches) {
             $match = explode('#', $matches[0]);
 
             // Replace project#123
@@ -86,7 +86,7 @@ function wiki_links($text)
 {
     return preg_replace_callback(
         "|\[\[(?P<page>[\w\d\-_]+)(\|(?P<text>[\s\w\d\-_]+))?\]\]|",
-        function($matches){
+        function ($matches) {
             $project = Avalon::app()->project;
 
             if (!isset($matches['text'])) {

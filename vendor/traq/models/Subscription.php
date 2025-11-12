@@ -23,7 +23,7 @@
 
 namespace traq\models;
 
-use avalon\database\Model;
+use Avalon\Database\Model;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 use Ramsey\Uuid\Uuid;
 use traq\models\Project;

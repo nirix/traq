@@ -23,7 +23,7 @@
 
 namespace Traq;
 
-use \avalon\core\Load;
+use \Avalon\Core\Load;
 use \Time;
 
 Load::helper('array');

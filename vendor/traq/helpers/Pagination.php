@@ -23,7 +23,7 @@
 
 namespace traq\helpers;
 
-use avalon\http\Request;
+use Avalon\Http\Request;
 
 /**
  * Notification helper.

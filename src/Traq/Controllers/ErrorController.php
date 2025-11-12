@@ -23,7 +23,7 @@
 
 namespace Traq\Controllers;
 
-use avalon\http\Request;
+use Avalon\Http\Request;
 use Avalon\Http\Response;
 use Traq\Controllers\AppController;
 

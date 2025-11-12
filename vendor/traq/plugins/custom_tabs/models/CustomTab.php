@@ -31,7 +31,7 @@ namespace CustomTabs\models;
  * @package CustomTabs
  * @subpackage Models
  */
-class CustomTab extends \avalon\database\model
+class CustomTab extends \Avalon\Database\model
 {
     protected static $_name = 'custom_tabs';
     protected static $_properties = array(

@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use avalon\core\Load;
+use Avalon\Core\Load;
 
 Load::helper('array');
 
