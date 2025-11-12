@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -18,10 +18,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Traq\Controllers;
+namespace Traq\Controllers\ProjectSettings;
 
-use avalon\http\Request;
-use avalon\output\View;
+use Avalon\http\Request;
+use Avalon\output\View;
+use traq\controllers\ProjectSettings\AppController;
 
 /**
  * Project settings controller
@@ -31,7 +32,7 @@ use avalon\output\View;
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectSettingsController extends AppController
+class SettingsController extends AppController
 {
     /**
      * Project options / information page.
