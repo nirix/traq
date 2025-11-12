@@ -20,6 +20,8 @@ vendor/dflydev
 data/config/config.php
 data/config/database.php
 data/config/mailer.php
+vendor/traq/config/database.php
+vendor/traq/config/mailer.php
 
 # dev files
 .env
