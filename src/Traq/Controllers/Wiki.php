@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Router;
@@ -63,40 +63,41 @@ class Wiki extends AppController
     /**
      * Displays the requested wiki page.
      */
-    public function action_view()
+    public function view(string $slug)
     {
-        // Get slug
-        $slug = \Avalon\Http\Router::$params['slug'];
-
         // Get the page
         $page = $this->project->wiki_pages->where('slug', $slug)->exec();
 
         // Check if the page exists
-        if (!$page->row_count()) {
-            // it doesnt, show the new page form if the user has permission
+        if (!$page->rowCount()) {
+            // it doesn't, show the new page form if the user has permission
             // otherwise display the 404 page.
-            return current_user()->permission($this->project->id, 'create_wiki_page') ? $this->_new_page($slug) : $this->show404();
+            return $this->user->permission($this->project->id, 'create_wiki_page') ? $this->_newPage($slug) : $this->show404();
         }
 
-        View::set('page', $page->fetch());
+        $page = $page->fetch();
+        $this->title($page->title);
+
+        return $this->render('wiki/view', ['page' => $page]);
     }
 
     /**
      * Displays all the wiki pages for the project.
      */
-    public function action_pages()
+    public function pages()
     {
         // Fetch all the projects wiki pages
         $pages = $this->project->wiki_pages->exec()->fetch_all();
 
         $this->title(l('pages'));
-        View::set('pages', $pages);
+
+        return $this->render('wiki/pages', ['pages' => $pages]);
     }
 
     /**
      * Displays the new wiki page form.
      */
-    public function action_new()
+    public function create()
     {
         // Get slug
         $slug = isset(Router::$params['slug']) ? Router::$params['slug'] : '';
@@ -142,25 +143,22 @@ class Wiki extends AppController
                 ));
                 $timeline->save();
 
-                if ($this->isApi) {
-                    return API::response(1, array('page' => $page));
+                if ($this->isJson) {
+                    $this->json(['page' => $page]);
                 } else {
                     Request::redirectTo($page->href());
                 }
             }
         }
 
-        View::set('page', $page);
+        return $this->render('wiki/new', ['page' => $page]);
     }
 
     /**
      * Displays the edit wiki page form.
      */
-    public function action_edit()
+    public function edit(string $slug)
     {
-        // Get slug
-        $slug = \Avalon\Http\Router::$params['slug'];
-
         $this->title(l('edit'));
 
         // Fetch the page from the database
@@ -200,8 +198,8 @@ class Wiki extends AppController
                 ));
                 $timeline->save();
 
-                if ($this->isApi) {
-                    return API::response(1, array('page' => $page));
+                if ($this->isJson) {
+                    $this->json(['page' => $page]);
                 } else {
                     Request::redirectTo($page->href());
                 }
@@ -214,11 +212,8 @@ class Wiki extends AppController
     /**
      * Deletes the specified wiki page.
      */
-    public function action_delete()
+    public function delete(string $slug)
     {
-        // Get slug
-        $slug = \Avalon\Http\Router::$params['slug'];
-
         $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
 
         // Timeline events
@@ -237,8 +232,8 @@ class Wiki extends AppController
         $this->project->wiki_pages->where('slug', $slug)->exec()->fetch()->delete();
 
         // Redirect to main page
-        if ($this->isApi) {
-            return API::response(1);
+        if ($this->isJson) {
+            return $this->json(['success' => true]);
         } else {
             return Request::redirectTo($this->project->href('wiki'));
         }
@@ -249,10 +244,14 @@ class Wiki extends AppController
      *
      * @param string $slug
      */
-    public function action_revisions($slug)
+    public function revisions(string $slug)
     {
         $page = WikiPage::select()->where('project_id', $this->project->id)->where('slug', $slug)->exec()->fetch();
-        View::set(compact('page'));
+
+        $this->title($page->title);
+        $this->title(l('revisions'));
+
+        return $this->render('wiki/revisions', ['page' => $page]);
     }
 
     /**
@@ -261,14 +260,15 @@ class Wiki extends AppController
      * @param string  $slug
      * @param integer $revision
      */
-    public function action_revision($slug, $revision)
+    public function revision(string $slug, int $revision)
     {
         $page = WikiPage::select()->where('project_id', $this->project->id)->where('slug', $slug)->exec()->fetch();
         $page->revision = $page->revisions->where('revision', $revision)->exec()->fetch();
 
-        View::set(compact('page'));
+        $this->title($page->title);
+        $this->title(l('revision_x', $revision));
 
-        $this->render['view'] = 'wiki/view';
+        return $this->render('wiki/view', ['page' => $page]);
     }
 
     /**
@@ -278,10 +278,9 @@ class Wiki extends AppController
      *
      * @param string $slug The slug for the wiki page.
      */
-    private function _new_page($slug)
+    private function _newPage(string $slug)
     {
-        $this->render['view'] = 'wiki/new';
-        $this->action_new($slug);
+        return $this->create($slug);
     }
 
     /**

@@ -33,6 +33,7 @@ use Traq\Controllers\SubscriptionsController;
 use traq\controllers\Tickets;
 use Traq\Controllers\TimelineController;
 use traq\controllers\Usercp;
+use Traq\Controllers\Wiki;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
@@ -97,14 +98,14 @@ Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'i
 Router::register('api.tickets', '/api/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'action_api']);
 
 // Wiki routes
-Router::add('/' . PROJECT_SLUG . '/wiki', 'traq::controllers::Wiki.view', array('slug' => 'main'));
-Router::add('/' . PROJECT_SLUG . '/wiki/_pages', 'traq::controllers::Wiki.pages');
-Router::add('/' . PROJECT_SLUG . '/wiki/_new', 'traq::controllers::Wiki.new');
-Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_edit', 'traq::controllers::Wiki.edit');
-Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_delete', 'traq::controllers::Wiki.delete');
-Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions', 'traq::controllers::Wiki.revisions/$2');
-Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(\d+)', 'traq::controllers::Wiki.revision/$2,$3');
-Router::add('/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', 'traq::controllers::Wiki.view');
+Router::register('wiki.new', '/' . PROJECT_SLUG . '/wiki/_new', [Wiki::class, 'create']);
+Router::register('wiki.edit', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_edit', [Wiki::class, 'edit']);
+Router::register('wiki.main', '/' . PROJECT_SLUG . '/wiki', [Wiki::class, 'view'], ['slug' => 'main']);
+Router::register('wiki.delete', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_delete', [Wiki::class, 'delete']);
+Router::register('wiki.revisions', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions', [Wiki::class, 'revisions']);
+Router::register('wiki.revision', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)/_revisions/(?P<revision>\d+)', [Wiki::class, 'revision']);
+Router::register('wiki.pages', '/' . PROJECT_SLUG . '/wiki/_pages', [Wiki::class, 'pages']);
+Router::register('wiki.view', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', [Wiki::class, 'view']);
 
 // Project settings routes
 Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [SettingsController::class, 'index']);
