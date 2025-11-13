@@ -403,12 +403,20 @@ class AppController extends Controller
             $data[$k] = to_array($v);
         }
 
-        // Remove bad keys from data array, at all array levels
-        array_walk_recursive($data, function (&$item, $key) use ($badKeys) {
-            if (in_array($key, $badKeys)) {
-                $item = null;
+        // Recursively remove bad keys from data array at all levels
+        $removeBadKeys = function ($array) use (&$removeBadKeys, $badKeys) {
+            foreach ($array as $key => $value) {
+                if (in_array($key, $badKeys)) {
+                    unset($array[$key]);
+                } elseif (is_array($value)) {
+                    $array[$key] = $removeBadKeys($value);
+                }
             }
-        });
+
+            return $array;
+        };
+
+        $data = $removeBadKeys($data);
 
         return new JsonResponse($data, $statusCode);
     }

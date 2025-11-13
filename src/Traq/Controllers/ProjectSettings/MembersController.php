@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\ProjectRole;
 use Traq\Models\User;
 use Traq\Models\UserRole;
@@ -38,31 +37,39 @@ use Traq\Models\UserRole;
  * @package Traq
  * @subpackage Controllers
  */
-class Members extends AppController
+class MembersController extends AppController
 {
-    public function action_index()
+    public function index(): Response
     {
         $projectRoles = ProjectRole::select_options();
         $userRoles = UserRole::select()->where('project_id', $this->project->id)->exec()->fetch_all();
 
-        View::set('userRoles', $userRoles);
-        View::set('projectRoles', $projectRoles);
+        if ($this->isJson) {
+            return $this->json([
+                'members' => $userRoles,
+            ]);
+        }
+
+        return $this->render('project_settings/members/index.phtml', [
+            'userRoles' => $userRoles,
+            'projectRoles' => $projectRoles,
+        ]);
     }
 
-    public function action_new()
+    public function new()
     {
         // Get the user
         $user = User::find('username', Request::$post['username']);
 
         // Check the username...
-        $errors = array();
+        $errors = [];
 
         // User exists?
         if ($user === false) {
             $errors['username'] = l('errors.users.doesnt_exist');
         }
         // Username entered?
-        elseif (!isset(Request::$post['username']) or Request::$post['username'] == '') {
+        elseif (!isset(Request::$post['username']) || Request::$post['username'] == '') {
             $errors['username'] = l('errors.users.username_blank');
         }
         // Already a project member?
@@ -70,27 +77,25 @@ class Members extends AppController
             $errors['username'] = l('errors.users.already_a_project_member');
         }
 
-
         // Any errors?
         if (count($errors)) {
-            $this->action_index();
-            $this->render['view'] = 'project_settings/members/index';
-            View::set('errors', $errors);
+            $this->set('errors', $errors);
+            return $this->index();
         }
         // Create role
         else {
-            $user_role = new UserRole(array(
+            $userRole = new UserRole([
                 'project_id' => $this->project->id,
                 'user_id' => $user->id,
                 'project_role_id' => Request::$post['role']
-            ));
-            $user_role->save();
+            ]);
+            $userRole->save();
 
-            Request::redirectTo($this->project->href('settings/members'));
+            return $this->redirectTo($this->project->href('settings/members'));
         }
     }
 
-    public function action_save()
+    public function save()
     {
         if (Request::method() == 'POST') {
             foreach (Request::$post['role'] as $role_id => $value) {
@@ -98,24 +103,29 @@ class Members extends AppController
                 $role->project_role_id = $value;
                 $role->save();
             }
-            Request::redirectTo($this->project->href('settings/members'));
+
+            return $this->redirectTo($this->project->href('settings/members'));
         }
     }
 
-    public function action_delete($user_id)
+    public function delete(int $id): Response
     {
-        if ($user_role = UserRole::select('id')->where(array(array('project_id', $this->project->id), array('user_id', $user_id)))->exec()->fetch()) {
-            $user_role->delete();
+        if ($userRole = UserRole::select('id')->where(array(array('project_id', $this->project->id), array('user_id', $id)))->exec()->fetch()) {
+            $userRole->delete();
         }
 
         if ($this->isApi) {
-            if ($user_role) {
-                return API::response(1);
+            if ($userRole) {
+                return $this->json([
+                    'success' => true,
+                ]);
             } else {
-                return API::response(0);
+                return $this->json([
+                    'success' => false,
+                ]);
             }
         } else {
-            Request::redirectTo($this->project->href('settings/members'));
+            return $this->redirectTo($this->project->href('settings/members'));
         }
     }
 }
