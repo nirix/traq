@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Database;
 use Avalon\Http\Request;
@@ -35,20 +35,20 @@ use Avalon\Output\View;
  * @package Traq
  * @subpackage Controllers
  */
-class Settings extends AppController
+class SettingsController extends AppController
 {
     /**
      * Traq Settings page
      */
-    public function action_index()
+    public function index()
     {
         $this->title(l('settings'));
 
         // Check if the form has been submitted.
-        if (Request::method() == 'POST') {
+        if (Request::method() === 'POST') {
             $_settings = Request::$post['settings'];
 
-            $errors = array();
+            $errors = [];
 
             // Check title
             if (empty($_settings['title'])) {
@@ -56,7 +56,7 @@ class Settings extends AppController
             }
 
             // Check select fields
-            foreach (array('locale', 'theme', 'allow_registration') as $select) {
+            foreach (['locale', 'theme', 'allow_registration'] as $select) {
                 if (!isset($_settings[$select])) {
                     $errors[$select] = l("errors.settings.{$select}_blank");
                 }
@@ -65,13 +65,17 @@ class Settings extends AppController
             // Check for errors
             if (!count($errors)) {
                 foreach ($_settings as $_setting => $_value) {
-                    Database::connection()->update('settings')->set(array('value' => $_value))->where('setting', $_setting)->exec();
+                    Database::connection()->update('settings')->set(['value' => $_value])->where('setting', $_setting)->exec();
                 }
 
-                Request::redirect(Request::requestUri());
+                return $this->redirectTo(Request::requestUri());
             }
 
-            View::set('errors', $errors);
+            return $this->render('admin/settings/index.phtml', [
+                'errors' => $errors,
+            ]);
         }
+
+        return $this->render('admin/settings/index.phtml');
     }
 }

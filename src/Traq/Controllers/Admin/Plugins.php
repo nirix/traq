@@ -35,7 +35,7 @@ use traq\models\Plugin;
  * @package Traq
  * @subpackage Controllers
  */
-class Plugins extends \traq\controllers\admin\AppController
+class Plugins extends AppController
 {
     public function index(): Response
     {

@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
 use Traq\Controllers\AppController as ControllersAppController;
@@ -51,7 +51,7 @@ class AppController extends ControllersAppController
         // if not show the login page with this pages
         // URI so we can redirect them back to this page
         // after they login.
-        if (LOGGEDIN and !$this->user->group->is_admin) {
+        if (LOGGEDIN && $this->user && !$this->user->group->is_admin) {
             $this->show_no_permission();
         } elseif (!LOGGEDIN) {
             $this->show_login(Request::requestUri());

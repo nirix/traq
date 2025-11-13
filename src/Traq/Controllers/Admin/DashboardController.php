@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Output\View;
 use traq\models\User;
@@ -35,36 +35,36 @@ use traq\models\Ticket;
  * @package Traq
  * @subpackage Controllers
  */
-class Dashboard extends AppController
+class DashboardController extends AppController
 {
     /**
      * Dashboard index page.
      */
-    public function action_index()
+    public function index()
     {
         // Check for update
-        $this->check_for_update();
+        $this->checkForUpdate();
 
         // Get information
-        $info = array(
+        $info = [
             'users'       => User::select()->exec()->row_count(),
             'latest_user' => User::select()->order_by('id', 'DESC')->exec()->fetch(),
             'projects'    => User::select()->exec()->row_count(),
-        );
+        ];
 
         // Tickets
-        $info['tickets'] = array(
+        $info['tickets'] = [
             'open'   => Ticket::select()->where('is_closed', 0)->exec()->row_count(),
             'closed' => Ticket::select()->where('is_closed', 1)->exec()->row_count(),
-        );
+        ];
 
-        View::set($info);
+        return $this->render('admin/dashboard/index.phtml', $info);
     }
 
     /**
      * Check for update
      */
-    private function check_for_update()
+    private function checkForUpdate()
     {
         if ($update = @file_get_contents("http://traq.io/version_check.php?version=" . urlencode(TRAQ_VER) . "&code=" . TRAQ_VER_CODE)) {
             $update = json_decode($update, true);

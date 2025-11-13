@@ -22,7 +22,9 @@
  */
 
 use Avalon\Http\Router;
+use Traq\Controllers\Admin\DashboardController;
 use Traq\Controllers\Admin\Plugins;
+use Traq\Controllers\Admin\SettingsController as AdminSettingsController;
 use Traq\Controllers\Attachments;
 use Traq\Controllers\ErrorController;
 use Traq\Controllers\MiscController;
@@ -129,8 +131,8 @@ Router::register('ticket_subunsub', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id
 
 // ------------------------------------------------
 // AdminCP routes
-Router::add('/admin', 'traq::controllers::admin::Dashboard.index');
-Router::add('/admin/settings', 'traq::controllers::admin::Settings.index');
+Router::register('admin.dashboard', '/admin', [DashboardController::class, 'index']);
+Router::register('admin.settings', '/admin/settings', [AdminSettingsController::class, 'index']);
 
 // Projects
 Router::add('/admin/projects', 'traq::controllers::admin::Projects.index');
