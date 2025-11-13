@@ -35,6 +35,7 @@ use Traq\Controllers\SearchController;
 use Traq\Controllers\SubscriptionsController;
 use Traq\Controllers\TicketHistoryController;
 use traq\controllers\Tickets;
+use Traq\Controllers\TicketTasksController;
 use Traq\Controllers\TimelineController;
 use traq\controllers\Usercp;
 use Traq\Controllers\Wiki;
@@ -67,7 +68,7 @@ Router::register('search', '/api/search', [SearchController::class, 'search']);
 // Misc
 Router::register('misc.javascript', '/_js(?:.js)?', [MiscController::class, 'javascript']);
 Router::register('autocomplete.username', '/_ajax/autocomplete/username', [MiscController::class, 'autocompleteUsername']);
-Router::add('/_misc/ticket_tasks_bit', 'traq::controllers::TicketTasks.form_bit');
+Router::register('ticket.tasks.form.bit', '/_misc/ticket_tasks_bit', [TicketTasksController::class, 'formBit']);
 
 // Attachment routes
 Router::register('attachments.view', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', [Attachments::class, 'view']);
@@ -93,8 +94,8 @@ Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', 'traq:
 Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote|voters)', 'traq::controllers::Tickets.$3/$2');
 Router::register('ticket.history.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/edit', [TicketHistoryController::class, 'edit']);
 Router::register('ticket.history.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/delete', [TicketHistoryController::class, 'delete']);
-Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', 'traq::controllers::TicketTasks.manage/$2');
-Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/([0-9]+)', 'traq::controllers::TicketTasks.toggle/$2,$3');
+Router::register('ticket.tasks.toggle', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/(?P<task_id>[0-9]+)', [TicketTasksController::class, 'toggle']);
+Router::register('ticket.tasks.manage', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', [TicketTasksController::class, 'manage']);
 Router::add('/' . PROJECT_SLUG . '/tickets/mass-actions', 'traq::controllers::Tickets.mass_actions');
 Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'index']);
 Router::register('api.tickets', '/api/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'action_api']);

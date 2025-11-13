@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use Traq\Controllers\AppController;
+use Avalon\Http\Response;
 use traq\models\Ticket;
 
 /**
@@ -36,19 +35,25 @@ use traq\models\Ticket;
  * @package Traq
  * @subpackage Controllers
  */
-class TicketTasks extends AppController
+class TicketTasksController extends AppController
 {
     /**
      * Task manager.
      *
      * @param integer $ticket_id
      */
-    public function action_manage($ticket_id) {}
+    public function manage(int $ticket_id): Response
+    {
+        $this->render['layout'] = false;
+        return $this->render('ticket_tasks/manage.overlay.phtml', [
+            'ticket_id' => $ticket_id,
+        ]);
+    }
 
     /**
      * Ticket task form bit.
      */
-    public function action_form_bit()
+    public function formBit()
     {
         $this->render['layout'] = false;
 
@@ -57,7 +62,11 @@ class TicketTasks extends AppController
         $completed = isset(Request::$request['completed']) ? (Request::$request['completed'] == "true" ? true : false) : false;
         $task      = isset(Request::$request['task']) ? Request::$request['task'] : '';
 
-        return View::render('ticket_tasks/_form_bit', array('id' => $id, 'completed' => $completed, 'task' => $task));
+        return $this->render('ticket_tasks/_form_bit', [
+            'id' => $id,
+            'completed' => $completed,
+            'task' => $task,
+        ]);
     }
 
     /**
@@ -66,17 +75,21 @@ class TicketTasks extends AppController
      * @param integer $ticket_id
      * @param integer $task_id
      */
-    public function action_toggle($ticket_id, $task_id)
+    public function toggle(int $ticket_id, int $task_id): Response
     {
-        if (current_user()->permission($this->project->id, 'ticket_properties_complete_tasks')) {
+        if ($this->user->permission($this->project->id, 'ticket_properties_complete_tasks')) {
             // Get ticket, update task and save
             $ticket = Ticket::select()->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
             $ticket->toggle_task($task_id);
             $ticket->save();
 
-            return $this->apiResponse(['success' => true]);
+            return $this->json([
+                'success' => true,
+            ]);
         }
 
-        return $this->apiResponse(['success' => false]);
+        return $this->json([
+            'success' => false,
+        ]);
     }
 }
