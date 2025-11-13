@@ -34,7 +34,7 @@ use Avalon\Output\View;
  * @package SecurityQuestions
  * @subpackage Controllers
  */
-class Questions extends \traq\controllers\admin\AppController
+class Questions extends \Traq\Controllers\Admin\AppController
 {
     /**
      * Question management page.

@@ -11,7 +11,8 @@
         }
     },
     "require-dev": {
-        "filp/whoops": "^2.18"
+        "filp/whoops": "^2.18",
+        "phpstan/phpstan": "^2.1"
     },
     "license": "GPLv3",
     "authors": [

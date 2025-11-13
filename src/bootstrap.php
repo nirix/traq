@@ -33,14 +33,9 @@ use Avalon\Http\Request;
 use Avalon\Output\View;
 
 require SYSPATH . '/libs/fishhook.php';
-
-// Alias classes so we dont need to have "use ...." in all files.
-class_alias('Avalon\Http\Router', 'Router');
-class_alias('Avalon\Http\Request', 'Request');
-class_alias('Avalon\Output\View', 'View');
+require DOCROOT . '/src/aliases.php';
 
 Load::helper('time');
-class_alias('avalon\helpers\Time', 'Time');
 
 // Fetch the routes
 require_once DOCROOT . '/src/Traq/Config/routes.php';

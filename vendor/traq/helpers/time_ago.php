@@ -1,7 +1,7 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2012 Traq.io
+ * Copyright (C) 2009-2025 Traq.io
  *
  * This file is part of Traq.
  *
@@ -17,6 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
+
+use avalon\helpers\Time;
 
 function time_from_now_ago($original, $detailed = true, $include_from_now_ago = true)
 {
@@ -106,7 +108,7 @@ function time_difference_in_words($original, $detailed = true)
         $seconds = $chunks[$i][0];
         $name = $chunks[$i][1];
         $names = $chunks[$i][2];
-        if(0 != $count = floor($difference / $seconds)) break;
+        if (0 != $count = floor($difference / $seconds)) break;
     }
 
     // Format the time from

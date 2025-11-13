@@ -1,4 +1,8 @@
 <?php
+
+use Avalon\Output\View;
+use avalon\helpers\Time;
+use Avalon\Http\Request;
 use traq\helpers\Atom;
 
 // Entries
@@ -21,7 +25,7 @@ foreach (array_reverse($updates) as $update) {
     }
 
     $entries[] = array(
-        'title' => l('update_x', count($entries)+1),
+        'title' => l('update_x', count($entries) + 1),
         'id' => "tickets:{$ticket->ticket_id}:update:{$update->id}",
         'updated' => Time::date("c", $update->created_at),
         'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base($ticket->href()),

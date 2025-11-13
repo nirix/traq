@@ -102,6 +102,8 @@ class CustomTabs extends Plugin
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ");
+
+        return true;
     }
 
     /**
@@ -110,5 +112,7 @@ class CustomTabs extends Plugin
     public static function __uninstall()
     {
         Database::connection()->query("DROP TABLE IF EXISTS `" . Database::connection()->prefix . "custom_tabs`;");
+
+        return true;
     }
 }

@@ -113,6 +113,8 @@ class SecurityQuestions extends Plugin
     public static function __install()
     {
         Database::connection()->insert(array('setting' => 'security_questions', 'value' => '{}'))->into('settings')->exec();
+
+        return true;
     }
 
     /**
@@ -121,5 +123,7 @@ class SecurityQuestions extends Plugin
     public static function __uninstall()
     {
         Database::connection()->delete()->from('settings')->where('setting', 'security_questions')->exec();
+
+        return true;
     }
 }

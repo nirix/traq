@@ -39,20 +39,25 @@ jobs:
       # Cleanup crap
       - name: Remove dev files
         run: |
+          rm -rf .dev
+          rm -rf .git
           rm -rf .github
           rm -rf .vscode
-          rm -rf .git
-          rm -rf dev
           rm -rf node_modules
           rm -rf src/assets
           rm -rf vendor/avalon/framework/.git
           rm .gitignore
           rm ./.prettierrc.json
-          rm ./*.yml
-          rm ./*.yaml
-          rm ./*.js
+          rm ./docker-compose.yml
+          rm ./env.d.ts
+          rm ./eslint.config.js
+          rm ./package.json
+          rm ./phpstan.neon
+          rm ./pnpm-lock.yaml
+          rm ./postcss.config.js
+          rm ./tailwind.config.js
           rm ./tsconfig.json
-          rm ./*.ts
+          rm ./vite.config.ts
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.4

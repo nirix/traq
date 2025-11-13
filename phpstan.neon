@@ -1,0 +1,9 @@
+parameters:
+    level: 1
+    scanDirectories:
+        - vendor/traq
+        - vendor/avalon
+    bootstrapFiles:
+        - src/aliases.php
+    ignoreErrors:
+        - '#Constant LOGGEDIN not found#'

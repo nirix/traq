@@ -36,7 +36,7 @@ use CustomTabs\models\CustomTab;
  * @package CustomTabs
  * @subpackage Controllers
  */
-class CustomTabs extends \traq\controllers\admin\AppController
+class CustomTabs extends \Traq\Controllers\Admin\AppController
 {
     /**
      * Tab listing page.

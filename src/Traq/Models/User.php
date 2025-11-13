@@ -207,7 +207,7 @@ class User extends Model
      *
      * @return bool
      */
-    public function verify_password($password)
+    public function verify_password($password): bool
     {
         switch ($this->_data['password_ver']) {
             // Passwords from Traq 0.1 to 2.3
@@ -220,6 +220,8 @@ class User extends Model
                 return crypt($password, $this->_data['password']) == $this->_data['password'];
                 break;
         }
+
+        return false;
     }
 
     /**

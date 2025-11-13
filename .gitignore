@@ -15,6 +15,7 @@ vendor/symfony
 vendor/league
 vendor/nette
 vendor/dflydev
+vendor/phpstan
 
 # Ignore config files
 data/config/config.php

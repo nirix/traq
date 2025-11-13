@@ -19,7 +19,8 @@
  */
 
 use Avalon\Core\Kernel as Avalon;
-
+use avalon\helpers\Time;
+use Avalon\Http\Request;
 use Traq\Models\Type;
 use Traq\Models\Status;
 use Traq\Models\Component;

@@ -30,7 +30,7 @@ use Avalon\Http\Request;
  *
  * @return string
  */
-function ui_package($entry)
+function ui_package($entry): ?string
 {
   static $imported = [];
 
@@ -50,7 +50,7 @@ function ui_package($entry)
   }
 
   if (in_array($index, $imported)) {
-    return;
+    return null;
   }
 
   $imported[] = $index;
@@ -80,4 +80,6 @@ function ui_package($entry)
 
     return implode(PHP_EOL, $html);
   }
+
+  return null;
 }
