@@ -125,6 +125,18 @@ table {
   @apply text-red-900;
 }
 
+.alert-warning {
+  @apply bg-yellow-100;
+  @apply border-yellow-300;
+  @apply text-yellow-900;
+}
+
+.alert-info {
+  @apply bg-blue-100;
+  @apply border-blue-300;
+  @apply text-blue-900;
+}
+
 dl {
   display: flex;
   flex-wrap: wrap;
