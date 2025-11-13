@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers\ProjectSettings;
 
 use Traq\Controllers\AppController as ControllersAppController;
 
@@ -49,8 +49,9 @@ class AppController extends ControllersAppController
         // has the correct permission to access the area.
         if (
             !$this->project
-            or (!$this->user->permission($this->project->id, 'project_settings') and !$this->user->group->is_admin)
+            || (!$this->user->permission($this->project->id, 'project_settings') && !$this->user->group->is_admin)
         ) {
+            $this->render['layout'] = 'default.phtml';
             $this->show_no_permission();
         }
     }
