@@ -20,6 +20,7 @@
 
 use Avalon\Core\Kernel as Avalon;
 use Avalon\Http\Request;
+use Avalon\Output\View;
 use Traq\Models\Setting;
 use Traq\Models\Project;
 use Traq\Models\User;
@@ -312,4 +313,34 @@ function dd(...$params)
         echo '<hr>';
     }
     exit;
+}
+
+function view(string $file, array $vars = []): string
+{
+    return View::render($file, $vars);
+}
+
+function extendView(string $file): void
+{
+    View::extend($file);
+}
+
+function startSection(string $name, ?string $content = null): void
+{
+    View::startSection($name, $content);
+}
+
+function endSection(): void
+{
+    View::endSection();
+}
+
+function hasSection(string $name): bool
+{
+    return View::hasSection($name);
+}
+
+function getSection(string $name, string $fallback = ''): string
+{
+    return View::getSection($name, $fallback);
 }

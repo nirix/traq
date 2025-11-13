@@ -34,6 +34,14 @@ use traq\controllers\ProjectSettings\AppController;
  */
 class SettingsController extends AppController
 {
+
+    public function __construct()
+    {
+        $this->render['layout'] = false;
+
+        parent::__construct();
+    }
+
     /**
      * Project options / information page.
      */

@@ -1,13 +1,15 @@
+<?php extendView('layouts/default.phtml'); ?>
+
 <div class="content">
 	<h2 class="page-title"><?= l('project_settings') ?></h2>
 </div>
-<?= View::render('project_settings/_nav') ?>
+<?= view('project_settings/_nav') ?>
 <div class="content">
 	<form action="<?= Request::requestUri() ?>" method="post">
 		<?= show_errors($proj->errors) ?>
 		<div class="panel">
 			<div class="panel-content">
-				<?= View::render('project_settings/options/_form', array('proj' => $proj)) ?>
+				<?= view('project_settings/options/_form', array('proj' => $proj)) ?>
 			</div>
 			<div class="panel-footer">
 				<button type="submit" class="btn-primary">

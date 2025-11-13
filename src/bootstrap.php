@@ -28,7 +28,6 @@ define("APPPATH", DOCROOT . '/vendor/traq');
 define("DATADIR", DOCROOT . '/data');
 
 use Avalon\Database;
-use Avalon\Core\Load;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 
