@@ -21,63 +21,45 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Users<>Roles model.
+ * Attachment model.
  *
  * @package Traq
  * @subpackage Models
+ * @since 3.0
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class UserRole extends Model
+class Attachment extends Model
 {
-    protected static $_name = 'user_roles';
+    protected static $_name = 'attachments';
     protected static $_properties = array(
         'id',
+        'name',
+        'contents',
+        'type',
+        'size',
         'user_id',
-        'project_id',
-        'project_role_id'
+        'ticket_id',
+        'created_at'
     );
 
-    // Allow easy access to the project and role models
-    protected static $_belongs_to = array(
-        'project',
-        'user',
-
-        'role' => array('model' => 'ProjectRole', 'column' => 'project_role_id')
-    );
+    protected static $_belongs_to = array('user', 'ticket');
 
     /**
-     * Returns an array of the project members.
-     *
-     * @return array
+     * Returns the URL for the attachment.
      */
-    public static function project_members($project_id)
+    public function href($extra = '')
     {
-        $members = array();
-
-        // Loop over the relations and add the user to the array
-        foreach (static::select()->where('project_id', $project_id)->exec()->fetch_all() as $relation) {
-            $members[] = $relation->user;
-        }
-
-        return $members;
+        return "/attachments/{$this->id}/" . create_slug($this->name) . $extra;
     }
 
     public function is_valid()
     {
         return true;
-    }
-
-    public function __toArray($fields = null)
-    {
-        $data = parent::__toArray($fields);
-        $data['user'] = $this->user->__toArray();
-        $data['role'] = $this->role->__toArray();
-        return $data;
     }
 }

@@ -26,9 +26,9 @@ namespace traq\controllers\ProjectSettings;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 use traq\helpers\API;
-use traq\models\ProjectRole;
-use traq\models\User;
-use traq\models\UserRole;
+use Traq\Models\ProjectRole;
+use Traq\Models\User;
+use Traq\Models\UserRole;
 
 /**
  * Project members controller

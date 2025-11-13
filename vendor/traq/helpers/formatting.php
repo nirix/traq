@@ -19,7 +19,7 @@
  */
 
 use \Avalon\Core\Kernel as Avalon;
-use \traq\models\Project;
+use \Traq\Models\Project;
 
 /**
  * Formats the supplied text.

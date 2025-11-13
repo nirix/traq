@@ -50,7 +50,7 @@ class TicketHistoryController extends AppController
     public function edit(int $id)
     {
         // Get the ticket update
-        $history = \traq\models\TicketHistory::find($id);
+        $history = \Traq\Models\TicketHistory::find($id);
 
         if ($history->user_id !== $this->user->id && !$this->user->permission($this->project->id, "edit_ticket_history")) {
             // oh noes! display the no permission page.
@@ -84,7 +84,7 @@ class TicketHistoryController extends AppController
     public function delete(int $id)
     {
         // Get the ticket update
-        $history = \traq\models\TicketHistory::find($id);
+        $history = \Traq\Models\TicketHistory::find($id);
 
         // Delete the update
         $history->delete();

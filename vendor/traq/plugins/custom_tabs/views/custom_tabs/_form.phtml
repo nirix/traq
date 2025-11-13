@@ -8,11 +8,11 @@
 </div>
 <div class="group">
 	<label><?php echo l('groups'); ?></label>
-	<?php echo Form::multiselect("groups[]", traq\models\Group::select_options(), explode(',', $tab->groups)); ?>
+	<?php echo Form::multiselect("groups[]", Traq\Models\Group::select_options(), explode(',', $tab->groups)); ?>
 </div>
 <div class="group">
 	<label><?php echo l('project'); ?></label>
-	<?php echo Form::select("project_id", array_merge(array(array('label' => l('all'), 'value' => 0)), traq\models\Project::select_options()), array('value' => $tab->project_id)); ?>
+	<?php echo Form::select("project_id", array_merge(array(array('label' => l('all'), 'value' => 0)), Traq\Models\Project::select_options()), array('value' => $tab->project_id)); ?>
 </div>
 <div class="group">
 	<label><?php echo l('display_order'); ?></label>

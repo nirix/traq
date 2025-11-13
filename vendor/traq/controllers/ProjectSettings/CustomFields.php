@@ -26,7 +26,7 @@ namespace traq\controllers\ProjectSettings;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 use traq\helpers\API;
-use traq\models\CustomField;
+use Traq\Models\CustomField;
 
 /**
  * Custom fields controller

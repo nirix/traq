@@ -24,8 +24,8 @@
 namespace Traq\Controllers\Admin;
 
 use Avalon\Output\View;
-use traq\models\User;
-use traq\models\Ticket;
+use Traq\Models\User;
+use Traq\Models\Ticket;
 
 /**
  * AdminCP Dashboard

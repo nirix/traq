@@ -14,7 +14,7 @@
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_type')) { ?>
 							<div class="form-group">
 								<?= Form::label(l('type'), 'type'); ?>
-								<?= Form::select('type', traq\models\Type::select_options(), array('value' => $ticket->type_id)); ?>
+								<?= Form::select('type', Traq\Models\Type::select_options(), array('value' => $ticket->type_id)); ?>
 							</div>
 						<?php } ?>
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_assigned_to')) { ?>
@@ -49,7 +49,7 @@
 							<div class="form-group">
 								<?= Form::label(l('component'), 'component'); ?>
 								<div class="input-group">
-									<?= Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
+									<?= Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), Traq\Models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
 									<abbr title="<?= l('help.component'); ?>" class="input-group-hint">?</abbr>
 								</div>
 							</div>
@@ -58,7 +58,7 @@
 							<div class="form-group">
 								<?= Form::label(l('severity'), 'severity'); ?>
 								<div class="input-group">
-									<?= Form::select('severity', traq\models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
+									<?= Form::select('severity', Traq\Models\Severity::select_options(), array('value' => $ticket->severity_id)); ?>
 									<abbr title="<?= l('help.severity'); ?>" class="input-group-hint">?</abbr>
 								</div>
 							</div>
@@ -66,13 +66,13 @@
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_priority')) { ?>
 							<div class="form-group">
 								<?= Form::label(l('priority'), 'priority'); ?>
-								<?= Form::select('priority', traq\models\Priority::select_options(), array('value' => $ticket->priority_id)); ?>
+								<?= Form::select('priority', Traq\Models\Priority::select_options(), array('value' => $ticket->priority_id)); ?>
 							</div>
 						<?php } ?>
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_status')) { ?>
 							<div class="form-group">
 								<?= Form::label(l('status'), 'status'); ?>
-								<?= Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
+								<?= Form::select('status', Traq\Models\Status::select_options(), array('value' => $ticket->status_id)); ?>
 							</div>
 						<?php } ?>
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_summary')) { ?>

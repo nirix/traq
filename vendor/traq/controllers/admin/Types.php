@@ -27,7 +27,7 @@ use Avalon\Http\Request;
 use Avalon\Output\View;
 use Traq\Controllers\Admin\AppController;
 use traq\helpers\API;
-use traq\models\Type;
+use Traq\Models\Type;
 
 /**
  * Admin Types controller

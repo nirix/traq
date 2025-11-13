@@ -21,38 +21,63 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Wiki page revision database model.
+ * Users<>Roles model.
  *
  * @package Traq
  * @subpackage Models
- * @author Jack P. <jack@traq.io>
- * @copyright (c) Jack P. <jack@traq.io>
+ * @author Jack P.
+ * @copyright (c) Jack P.
  */
-class WikiRevision extends Model
+class UserRole extends Model
 {
-    protected static $_name = 'wiki_revisions';
+    protected static $_name = 'user_roles';
     protected static $_properties = array(
         'id',
-        'wiki_page_id',
-        'revision',
-        'content',
         'user_id',
-        'created_at',
-        'updated_at'
+        'project_id',
+        'project_role_id'
     );
 
+    // Allow easy access to the project and role models
     protected static $_belongs_to = array(
+        'project',
         'user',
-        'wiki_page' => array('model' => 'WikiPage')
+
+        'role' => array('model' => 'ProjectRole', 'column' => 'project_role_id')
     );
+
+    /**
+     * Returns an array of the project members.
+     *
+     * @return array
+     */
+    public static function project_members($project_id)
+    {
+        $members = array();
+
+        // Loop over the relations and add the user to the array
+        foreach (static::select()->where('project_id', $project_id)->exec()->fetch_all() as $relation) {
+            $members[] = $relation->user;
+        }
+
+        return $members;
+    }
 
     public function is_valid()
     {
         return true;
+    }
+
+    public function __toArray($fields = null)
+    {
+        $data = parent::__toArray($fields);
+        $data['user'] = $this->user->__toArray();
+        $data['role'] = $this->role->__toArray();
+        return $data;
     }
 }

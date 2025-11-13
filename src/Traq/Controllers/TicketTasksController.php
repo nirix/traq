@@ -25,7 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Response;
-use traq\models\Ticket;
+use Traq\Models\Ticket;
 
 /**
  * TicketTasks controller

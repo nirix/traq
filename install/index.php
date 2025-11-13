@@ -24,8 +24,8 @@ require './bootstrap.php';
 use Avalon\Database;
 use Avalon\Output\View;
 
-use traq\models\User;
-use traq\models\Setting;
+use Traq\Models\User;
+use Traq\Models\Setting;
 
 // Set page and title
 View::set('page', 'install');

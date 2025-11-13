@@ -21,52 +21,59 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Ticket history model.
+ * Users<>Roles model.
  *
  * @package Traq
  * @subpackage Models
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class TicketHistory extends Model
+class ProjectRole extends Model
 {
-    protected static $_name = 'ticket_history';
+    protected static $_name = 'project_roles';
     protected static $_properties = array(
         'id',
-        'user_id',
-        'ticket_id',
-        'changes',
-        'comment',
-        'created_at'
+        'name',
+        'assignable',
+        'project_id'
     );
 
-    // Relations
-    protected static $_belongs_to = array('ticket', 'user');
+    protected static $_belongs_to = array('project');
 
-    // Filters
-    protected static $_filters_after = array('construct' => array('read_changes'));
-
-    /**
-     * Converts the changes data from json to an array.
-     */
-    protected function read_changes()
+    // Validates the model data
+    public function is_valid()
     {
-        if (!$this->_is_new()) {
-            $this->_data['changes'] = json_decode($this->_data['changes'], true);
+        $errors = array();
+
+        // Make sure the name is not empty...
+        if (empty($this->_data['name'])) {
+            $errors['name'] = l('errors.name_blank');
         }
+
+        // Set errors to be accessible
+        if (count($errors) > 0) {
+            $this->errors = $errors;
+        }
+
+        return !count($errors);
     }
 
     /**
-     * Checks that the data is valid.
+     * Returns an array formatted for the Form::select() method.
+     *
+     * @return array
      */
-    public function is_valid()
+    public static function select_options()
     {
-        // Just return true.
-        return true;
+        $options = array();
+        foreach (static::fetch_all() as $role) {
+            $options[] = array('label' => $role->name, 'value' => $role->id);
+        }
+        return $options;
     }
 }

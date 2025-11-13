@@ -21,12 +21,12 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Attachment model.
+ * Component model.
  *
  * @package Traq
  * @subpackage Models
@@ -34,32 +34,48 @@ use Avalon\Database\Model;
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class Attachment extends Model
+class Component extends Model
 {
-    protected static $_name = 'attachments';
+    protected static $_name = 'components';
     protected static $_properties = array(
         'id',
         'name',
-        'contents',
-        'type',
-        'size',
-        'user_id',
-        'ticket_id',
-        'created_at'
+        'project_id'
     );
 
-    protected static $_belongs_to = array('user', 'ticket');
+    protected static $_escape = array(
+        'name'
+    );
 
     /**
-     * Returns the URL for the attachment.
+     * Checks if the model data is valid.
+     *
+     * @return bool
      */
-    public function href($extra = '')
-    {
-        return "/attachments/{$this->id}/" . create_slug($this->name) . $extra;
-    }
-
     public function is_valid()
     {
-        return true;
+        $errors = array();
+
+        // Check if the name is empty
+        if (empty($this->_data['name'])) {
+            $errors['name'] = l('errors.name_blank');
+        }
+
+        $this->errors = $errors;
+        return !count($errors) > 0;
+    }
+
+    /**
+     * Returns an array formatted for the Form::select() method.
+     *
+     * @return array
+     */
+    public static function select_options($project_id)
+    {
+        $options = array();
+        foreach (static::select()->where('project_id', $project_id)->order_by('name', 'ASC')->exec()->fetch_all() as $component) {
+            $options[] = array('label' => $component->name, 'value' => $component->id);
+        }
+        return $options;
     }
 }

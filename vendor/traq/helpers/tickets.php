@@ -20,12 +20,12 @@
 
 use Avalon\Core\Kernel as Avalon;
 
-use traq\models\Type;
-use traq\models\Status;
-use traq\models\Component;
-use traq\models\Priority;
-use traq\models\Severity;
-use traq\models\CustomField;
+use Traq\Models\Type;
+use Traq\Models\Status;
+use Traq\Models\Component;
+use Traq\Models\Priority;
+use Traq\Models\Severity;
+use Traq\Models\CustomField;
 
 /**
  * Returns the URL for sorting the provided ticket column.

@@ -36,8 +36,8 @@ use Avalon\Output\Body;
 use Avalon\Output\View;
 
 use Traq\Locale;
-use traq\models\User;
-use traq\models\Project;
+use Traq\Models\User;
+use Traq\Models\Project;
 use traq\helpers\API;
 
 /**

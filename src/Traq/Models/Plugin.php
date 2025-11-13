@@ -21,62 +21,33 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Severities model.
+ * Plugin model.
  *
  * @package Traq
  * @subpackage Models
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class Severity extends Model
+class Plugin extends Model
 {
-    protected static $_name = 'severities';
+    protected static $_name = 'plugins';
     protected static $_properties = array(
         'id',
-        'name'
+        'file',
+        'enabled'
     );
 
-    protected static $_escape = array(
-        'name'
-    );
-
-    /**
-     * Returns an array formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public static function select_options()
-    {
-        $options = array();
-
-        // Get all rows and make a Form::select() friendly array
-        foreach (static::fetch_all() as $severity) {
-            $options[] = array('label' => $severity->name, 'value' => $severity->id);
-        }
-
-        return $options;
-    }
-
-    /**
-     * Checks if the groups data is valid.
-     *
-     * @return bool
-     */
     public function is_valid()
     {
-        $errors = array();
-
-        // Make sure the name is set...
-        if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.name_blank');
+        // Make sure the file field isnt blank
+        if (empty($this->_data['file'])) {
+            return false;
         }
-
-        $this->errors = $errors;
-        return !count($errors) > 0;
+        return true;
     }
 }

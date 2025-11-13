@@ -10,7 +10,7 @@
 					<label for="type"><?= l('type') ?></label>
 					<?= Form::select(
 						'type',
-						traq\models\Type::select_options(),
+						Traq\Models\Type::select_options(),
 						[
 							'value' => $ticket->type_id,
 							'x-data' => '',
@@ -25,7 +25,7 @@
 				<?php if (current_user()->permission($project->id, 'ticket_properties_set_status')) : ?>
 					<div class="form-group-row">
 						<label for="status"><?= l('status') ?></label>
-						<?= Form::select('status', traq\models\Status::select_options(), array('value' => $ticket->status_id)); ?>
+						<?= Form::select('status', Traq\Models\Status::select_options(), array('value' => $ticket->status_id)); ?>
 					</div>
 				<?php endif; ?>
 				<div>
@@ -55,7 +55,7 @@
 						<div class="form-group">
 							<label for="component"><?= l('component') ?></label>
 							<div class="input-group">
-								<?= Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), traq\models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
+								<?= Form::select('component', array_merge(array(array('value' => 0, 'label' => l('none'))), Traq\Models\Component::select_options($project->id)), array('value' => $ticket->component_id)); ?>
 								<abbr title="<? l('help.component') ?>" class="input-group-hint">?</abbr>
 							</div>
 						</div>
@@ -64,7 +64,7 @@
 					<?php if (current_user()->permission($project->id, 'ticket_properties_set_priority')) : ?>
 						<div class="form-group">
 							<label for="priority"><?= l('priority') ?></label>
-							<?= Form::select('priority', traq\models\Priority::select_options(), array('value' => $ticket->priority_id)) ?>
+							<?= Form::select('priority', Traq\Models\Priority::select_options(), array('value' => $ticket->priority_id)) ?>
 						</div>
 					<?php endif ?>
 

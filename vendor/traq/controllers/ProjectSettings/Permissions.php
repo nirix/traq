@@ -26,9 +26,9 @@ namespace traq\controllers\ProjectSettings;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 
-use traq\models\Permission;
-use traq\models\Group;
-use traq\models\ProjectRole;
+use Traq\Models\Permission;
+use Traq\Models\Group;
+use Traq\Models\ProjectRole;
 
 /**
  * Project permissions controller

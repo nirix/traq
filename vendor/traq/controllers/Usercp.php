@@ -28,7 +28,7 @@ use Avalon\Output\View;
 use \FishHook;
 use Traq\Controllers\AppController;
 use traq\helpers\API;
-use traq\models\Subscription;
+use Traq\Models\Subscription;
 
 /**
  * UserCP controller

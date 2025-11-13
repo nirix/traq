@@ -25,7 +25,7 @@ namespace Traq\Queries;
 
 use Avalon\Database;
 use Traq\ViewModels\TicketView;
-use traq\models\CustomField;
+use Traq\Models\CustomField;
 
 /**
  * Ticket filter query.

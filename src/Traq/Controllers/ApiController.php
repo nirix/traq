@@ -25,9 +25,9 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Router;
 use Avalon\Output\Body;
-use traq\models\Type;
-use traq\models\Status;
-use traq\models\Priority;
+use Traq\Models\Type;
+use Traq\Models\Status;
+use Traq\Models\Priority;
 
 /**
  * API controller.

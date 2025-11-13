@@ -21,14 +21,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 use Ramsey\Uuid\Uuid;
-use traq\models\Project;
-use traq\models\Milestone;
-use traq\models\Ticket;
+use Traq\Models\Project;
+use Traq\Models\Milestone;
+use Traq\Models\Ticket;
 
 /**
  * Subscription model.

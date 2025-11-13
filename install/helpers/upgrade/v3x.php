@@ -23,7 +23,7 @@ namespace Installer\Helpers\Upgrade;
 use Avalon\Database\PDO;
 use Installer\Helpers\Fixes;
 use Ramsey\Uuid\Uuid;
-use traq\models\Subscription;
+use Traq\Models\Subscription;
 
 /**
  * Traq 3.x upgrades.

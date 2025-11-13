@@ -26,7 +26,7 @@ namespace traq\controllers\ProjectSettings;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 use traq\helpers\API;
-use traq\models\Milestone;
+use Traq\Models\Milestone;
 
 /**
  * Milestones controller

@@ -27,7 +27,7 @@ use Avalon\Http\Request;
 use Avalon\Output\View;
 use Traq\Controllers\Admin\AppController;
 use traq\helpers\API;
-use traq\models\Group;
+use Traq\Models\Group;
 
 /**
  * Admin Groups controller

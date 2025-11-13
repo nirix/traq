@@ -28,9 +28,9 @@ use Avalon\Http\Router;
 use Avalon\Output\View;
 use Traq\Controllers\AppController;
 use traq\helpers\API;
-use traq\models\WikiPage;
-use traq\models\WikiRevision;
-use traq\models\Timeline;
+use Traq\Models\WikiPage;
+use Traq\Models\WikiRevision;
+use Traq\Models\Timeline;
 
 /**
  * Wiki controller

@@ -31,7 +31,7 @@ use Avalon\Http\Request;
 use Avalon\Http\Response;
 use Avalon\Output\View;
 use PDO;
-use traq\models\Type;
+use Traq\Models\Type;
 
 /**
  * Misc controller

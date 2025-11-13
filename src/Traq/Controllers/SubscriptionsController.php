@@ -25,9 +25,9 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Response;
-use traq\models\Subscription;
-use traq\models\Milestone;
-use traq\models\Ticket;
+use Traq\Models\Subscription;
+use Traq\Models\Milestone;
+use Traq\Models\Ticket;
 
 /**
  * Subscription controller.

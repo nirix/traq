@@ -25,7 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Core\Load;
 use Avalon\Http\Response;
-use traq\models\User;
+use Traq\Models\User;
 
 class ProfileController extends AppController
 {

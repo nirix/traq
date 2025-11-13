@@ -26,7 +26,7 @@ namespace traq\controllers\ProjectSettings;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 use traq\helpers\API;
-use traq\models\Component;
+use Traq\Models\Component;
 
 /**
  * Components controller

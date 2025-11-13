@@ -56,7 +56,7 @@ class CustomTabs extends \traq\controllers\admin\AppController
             $tab->set(array(
                 'label'         => Request::get('label'),
                 'url'           => Request::get('url'),
-                'groups'        => implode(',', Request::get('groups', \traq\models\Group::all_group_ids())),
+                'groups'        => implode(',', Request::get('groups', \Traq\Models\Group::all_group_ids())),
                 'display_order' => Request::get('display_order', 0),
                 'project_id'    => Request::get('project_id', 0)
             ));

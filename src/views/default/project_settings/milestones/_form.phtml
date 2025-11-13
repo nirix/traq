@@ -19,7 +19,7 @@
 </div>
 <div class="form-group-row">
 	<?= Form::label(l('status'), 'status'); ?>
-	<?= Form::select('status', traq\models\Milestone::status_select_options(), array('value' => $milestone->_is_new() ? 1 : $milestone->status)); ?>
+	<?= Form::select('status', Traq\Models\Milestone::status_select_options(), array('value' => $milestone->_is_new() ? 1 : $milestone->status)); ?>
 </div>
 <div class="form-group-row items-start">
 	<label><?= l('description'); ?></label>

@@ -20,9 +20,9 @@
 
 use Avalon\Core\Kernel as Avalon;
 use Avalon\Http\Request;
-use traq\models\Setting;
-use traq\models\Project;
-use traq\models\User;
+use Traq\Models\Setting;
+use Traq\Models\Project;
+use Traq\Models\User;
 
 /**
  * Returns the value of the requested setting.

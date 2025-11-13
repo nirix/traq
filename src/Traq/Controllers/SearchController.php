@@ -24,9 +24,9 @@
 namespace Traq\Controllers;
 
 use Avalon\Http\Request;
-use traq\models\Milestone;
-use traq\models\Project;
-use traq\models\Ticket;
+use Traq\Models\Milestone;
+use Traq\Models\Project;
+use Traq\Models\Ticket;
 
 class SearchController extends AppController
 {

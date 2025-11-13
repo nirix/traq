@@ -26,10 +26,10 @@ namespace Traq\Controllers;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 use Avalon\Http\Router;
-use traq\models\Ticket;
-use traq\models\Milestone;
-use traq\models\Project;
-use traq\models\Type;
+use Traq\Models\Ticket;
+use Traq\Models\Milestone;
+use Traq\Models\Project;
+use Traq\Models\Type;
 
 /**
  * Project controller.

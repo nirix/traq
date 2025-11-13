@@ -16,5 +16,5 @@
 </div>
 <div class="form-group-row">
 	<label><?= l('group'); ?></label>
-	<?= Form::select('group_id', traq\models\Group::select_options(), array('value' => $user->group_id)); ?>
+	<?= Form::select('group_id', Traq\Models\Group::select_options(), array('value' => $user->group_id)); ?>
 </div>

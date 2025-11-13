@@ -25,8 +25,8 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use traq\helpers\Pagination;
-use traq\models\Timeline;
-use traq\models\User;
+use Traq\Models\Timeline;
+use Traq\Models\User;
 
 /**
  * @package Traq\Controllers

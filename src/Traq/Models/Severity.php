@@ -21,47 +21,29 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Users<>Roles model.
+ * Severities model.
  *
  * @package Traq
  * @subpackage Models
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class ProjectRole extends Model
+class Severity extends Model
 {
-    protected static $_name = 'project_roles';
+    protected static $_name = 'severities';
     protected static $_properties = array(
         'id',
-        'name',
-        'assignable',
-        'project_id'
+        'name'
     );
 
-    protected static $_belongs_to = array('project');
-
-    // Validates the model data
-    public function is_valid()
-    {
-        $errors = array();
-
-        // Make sure the name is not empty...
-        if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.name_blank');
-        }
-
-        // Set errors to be accessible
-        if (count($errors) > 0) {
-            $this->errors = $errors;
-        }
-
-        return !count($errors);
-    }
+    protected static $_escape = array(
+        'name'
+    );
 
     /**
      * Returns an array formatted for the Form::select() method.
@@ -71,9 +53,30 @@ class ProjectRole extends Model
     public static function select_options()
     {
         $options = array();
-        foreach (static::fetch_all() as $role) {
-            $options[] = array('label' => $role->name, 'value' => $role->id);
+
+        // Get all rows and make a Form::select() friendly array
+        foreach (static::fetch_all() as $severity) {
+            $options[] = array('label' => $severity->name, 'value' => $severity->id);
         }
+
         return $options;
+    }
+
+    /**
+     * Checks if the groups data is valid.
+     *
+     * @return bool
+     */
+    public function is_valid()
+    {
+        $errors = array();
+
+        // Make sure the name is set...
+        if (empty($this->_data['name'])) {
+            $errors['name'] = l('errors.name_blank');
+        }
+
+        $this->errors = $errors;
+        return !count($errors) > 0;
     }
 }

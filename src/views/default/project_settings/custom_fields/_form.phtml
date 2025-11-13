@@ -11,7 +11,7 @@
 </div>
 <div class="form-group-row">
 	<?= Form::label(l('type'), 'type'); ?>
-	<?= Form::select('type', traq\models\CustomField::types_select_options(), array('value' => $field->type, 'id' => 'field_type')); ?>
+	<?= Form::select('type', Traq\Models\CustomField::types_select_options(), array('value' => $field->type, 'id' => 'field_type')); ?>
 </div>
 <div class="form-group-row">
 	<?= Form::label(l('required'), 'required'); ?>
@@ -63,7 +63,7 @@
 		'ticket_type_ids[]',
 		array_merge(
 			array(array('label' => l('all'), 'value' => 0)),
-			\traq\models\Type::select_options()
+			\Traq\Models\Type::select_options()
 		),
 		$field->ticket_type_ids
 	); ?>

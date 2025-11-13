@@ -18,7 +18,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use traq\models\Subscription;
+use Traq\Models\Subscription;
 
 /**
  * Checks if the user is subscribed to the

@@ -32,8 +32,8 @@ use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use traq\models\User;
-use traq\models\Subscription;
+use Traq\Models\User;
+use Traq\Models\Subscription;
 
 /**
  * Notification helper.

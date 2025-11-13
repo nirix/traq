@@ -26,7 +26,7 @@ namespace Traq\Controllers;
 use Avalon\Http\Response;
 use Avalon\Http\Router;
 use Traq\Controllers\AppController;
-use traq\models\Attachment;
+use Traq\Models\Attachment;
 
 /**
  * Attachments controller

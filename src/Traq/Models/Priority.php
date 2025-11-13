@@ -21,31 +21,24 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Status model.
+ * Priorities model.
  *
  * @package Traq
  * @subpackage Models
- * @since 3.0
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class Status extends Model
+class Priority extends Model
 {
-    public const STATUS_CLOSED = 0;
-    public const STATUS_OPEN = 1;
-    public const STATUS_STARTED = 2;
-
-    protected static $_name = 'statuses';
+    protected static $_name = 'priorities';
     protected static $_properties = array(
         'id',
-        'name',
-        'status',
-        'changelog'
+        'name'
     );
 
     protected static $_escape = array(
@@ -59,58 +52,30 @@ class Status extends Model
      */
     public static function select_options()
     {
-        $options = [
-            l('open') => [],
-            l('started') => [],
-            l('closed') => [],
-        ];
+        $options = array();
 
-        foreach (static::fetch_all() as $status) {
-            $key = l($status->isOpen()
-                ? 'open'
-                : ($status->isStarted() ? 'started' : 'closed'));
-            $options[$key][] = ['label' => $status->name, 'value' => $status->id];
+        // Get all rows and make a Form::select() friendly arrray
+        foreach (static::fetch_all() as $priority) {
+            $options[] = array('label' => $priority->name, 'value' => $priority->id);
         }
-
         return $options;
     }
 
-    // Checks if the model data is valid
+    /**
+     * Checks if the groups data is valid.
+     *
+     * @return bool
+     */
     public function is_valid()
     {
         $errors = array();
 
-        // Make sure the name is set.
+        // Make sure the name is set...
         if (empty($this->_data['name'])) {
             $errors['name'] = l('errors.name_blank');
         }
 
         $this->errors = $errors;
         return !count($errors) > 0;
-    }
-
-    public function isOpen(): bool
-    {
-        return (int) $this->status === static::STATUS_OPEN;
-    }
-
-    public function isStarted(): bool
-    {
-        return (int) $this->status === static::STATUS_STARTED;
-    }
-
-    public function isClosed(): bool
-    {
-        return (int) $this->status === static::STATUS_CLOSED;
-    }
-
-    public function __toArray($fields = null)
-    {
-        return [
-            'id' => (int) $this->id,
-            'name' => $this->name,
-            'status' => (int) $this->status,
-            'changelog' => (bool) $this->changelog,
-        ];
     }
 }

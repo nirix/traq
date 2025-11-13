@@ -21,33 +21,52 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Plugin model.
+ * Ticket history model.
  *
  * @package Traq
  * @subpackage Models
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class Plugin extends Model
+class TicketHistory extends Model
 {
-    protected static $_name = 'plugins';
+    protected static $_name = 'ticket_history';
     protected static $_properties = array(
         'id',
-        'file',
-        'enabled'
+        'user_id',
+        'ticket_id',
+        'changes',
+        'comment',
+        'created_at'
     );
 
+    // Relations
+    protected static $_belongs_to = array('ticket', 'user');
+
+    // Filters
+    protected static $_filters_after = array('construct' => array('read_changes'));
+
+    /**
+     * Converts the changes data from json to an array.
+     */
+    protected function read_changes()
+    {
+        if (!$this->_is_new()) {
+            $this->_data['changes'] = json_decode($this->_data['changes'], true);
+        }
+    }
+
+    /**
+     * Checks that the data is valid.
+     */
     public function is_valid()
     {
-        // Make sure the file field isnt blank
-        if (empty($this->_data['file'])) {
-            return false;
-        }
+        // Just return true.
         return true;
     }
 }

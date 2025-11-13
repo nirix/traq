@@ -29,7 +29,7 @@
 <div class="flex p-5">
 	<div class="flex-grow mr-1">
 		<label><?= l('default_ticket_type') ?></label>
-		<?= Form::select('default_ticket_type_id', traq\models\Type::select_options(), array('value' => $proj->default_ticket_type_id)) ?>
+		<?= Form::select('default_ticket_type_id', Traq\Models\Type::select_options(), array('value' => $proj->default_ticket_type_id)) ?>
 	</div>
 	<div class="flex-grow ml-1 mr-1">
 		<label><?= l('default_ticket_sorting') ?></label>

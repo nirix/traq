@@ -25,7 +25,7 @@ namespace Traq\Controllers\Admin;
 
 use Avalon\Http\RedirectResponse;
 use Avalon\Http\Response;
-use traq\models\Plugin;
+use Traq\Models\Plugin;
 
 /**
  * Admin Plugins controller

@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 use Avalon\Core\Kernel as Avalon;
@@ -365,7 +365,7 @@ class Ticket extends Model
 
                 default:
                     $accessor = str_replace('_id', '', $field);
-                    $class = '\\traq\models\\' . ucfirst($accessor);
+                    $class = '\\Traq\Models\\' . ucfirst($accessor);
                     $to_values[$field] = $class::find($value);
 
                     if ($this->{$accessor}) {

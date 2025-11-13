@@ -21,51 +21,38 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Custom field value model.
+ * Wiki page revision database model.
  *
  * @package Traq
  * @subpackage Models
- * @author Jack P.
- * @copyright (c) Jack P.
+ * @author Jack P. <jack@traq.io>
+ * @copyright (c) Jack P. <jack@traq.io>
  */
-class CustomFieldValue extends Model
+class WikiRevision extends Model
 {
-    protected static $_name = 'custom_field_values';
+    protected static $_name = 'wiki_revisions';
     protected static $_properties = array(
         'id',
-        'custom_field_id',
-        'ticket_id',
-        'value'
+        'wiki_page_id',
+        'revision',
+        'content',
+        'user_id',
+        'created_at',
+        'updated_at'
     );
 
-    protected static $_filters_before = array(
-        'create' => array('_encode'),
-        'save'   => array('_encode')
-    );
-
-    protected static $_filters_after = array(
-        'construct' => array('_decode')
+    protected static $_belongs_to = array(
+        'user',
+        'wiki_page' => array('model' => 'WikiPage')
     );
 
     public function is_valid()
     {
         return true;
-    }
-
-    protected function _encode()
-    {
-        $this->value = json_encode($this->value);
-    }
-
-    protected function _decode()
-    {
-        if (!$this->_is_new()) {
-            $this->value = json_decode($this->value, true);
-        }
     }
 }

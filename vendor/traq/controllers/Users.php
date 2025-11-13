@@ -29,7 +29,7 @@ use Avalon\Http\Request;
 use Avalon\Output\View;
 use Traq\Controllers\AppController;
 use traq\helpers\Notification;
-use traq\models\User;
+use Traq\Models\User;
 
 /**
  * User controller

@@ -21,61 +21,51 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\models;
+namespace Traq\Models;
 
 use Avalon\Database\Model;
 
 /**
- * Component model.
+ * Custom field value model.
  *
  * @package Traq
  * @subpackage Models
- * @since 3.0
  * @author Jack P.
  * @copyright (c) Jack P.
  */
-class Component extends Model
+class CustomFieldValue extends Model
 {
-    protected static $_name = 'components';
+    protected static $_name = 'custom_field_values';
     protected static $_properties = array(
         'id',
-        'name',
-        'project_id'
+        'custom_field_id',
+        'ticket_id',
+        'value'
     );
 
-    protected static $_escape = array(
-        'name'
+    protected static $_filters_before = array(
+        'create' => array('_encode'),
+        'save'   => array('_encode')
     );
 
-    /**
-     * Checks if the model data is valid.
-     *
-     * @return bool
-     */
+    protected static $_filters_after = array(
+        'construct' => array('_decode')
+    );
+
     public function is_valid()
     {
-        $errors = array();
-
-        // Check if the name is empty
-        if (empty($this->_data['name'])) {
-            $errors['name'] = l('errors.name_blank');
-        }
-
-        $this->errors = $errors;
-        return !count($errors) > 0;
+        return true;
     }
 
-    /**
-     * Returns an array formatted for the Form::select() method.
-     *
-     * @return array
-     */
-    public static function select_options($project_id)
+    protected function _encode()
     {
-        $options = array();
-        foreach (static::select()->where('project_id', $project_id)->order_by('name', 'ASC')->exec()->fetch_all() as $component) {
-            $options[] = array('label' => $component->name, 'value' => $component->id);
+        $this->value = json_encode($this->value);
+    }
+
+    protected function _decode()
+    {
+        if (!$this->_is_new()) {
+            $this->value = json_decode($this->value, true);
         }
-        return $options;
     }
 }
