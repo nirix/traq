@@ -14,7 +14,7 @@ foreach (array_reverse($updates) as $update) {
     if (is_array($update->changes)) {
         $content[] = "<ul>";
         foreach ($update->changes as $change) {
-            $content[] = "    <li>" . View::get('tickets/_history_change_bit', array('change' => $change)) . "</li>";
+            $content[] = "    <li>" . View::render('tickets/_history_change_bit', array('change' => $change)) . "</li>";
         }
         $content[] = "</ul>";
     }

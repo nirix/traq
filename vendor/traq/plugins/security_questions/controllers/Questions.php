@@ -89,7 +89,7 @@ class Questions extends \Traq\Controllers\Admin\AppController
     public function action_new_question()
     {
         $this->render['layout'] = false;
-        return View::get('questions/_question', array(
+        return View::render('questions/_question', array(
             'id' => time(),
             'question' => array(
                 'question' => '',
