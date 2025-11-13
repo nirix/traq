@@ -31,6 +31,7 @@ use Traq\Controllers\MiscController;
 use Traq\Controllers\ProfileController;
 use Traq\Controllers\ProjectController;
 use Traq\Controllers\ProjectSettings\ComponentsController;
+use Traq\Controllers\ProjectSettings\MilestonesController;
 use Traq\Controllers\ProjectSettings\SettingsController;
 use Traq\Controllers\SearchController;
 use Traq\Controllers\SubscriptionsController;
@@ -113,13 +114,17 @@ Router::register('wiki.view', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\
 
 // Project settings routes
 Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [SettingsController::class, 'index']);
-Router::add('/' . PROJECT_SLUG . '/settings/(milestones|members)', 'traq::controllers::ProjectSettings::$2.index');
+Router::add('/' . PROJECT_SLUG . '/settings/(members)', 'traq::controllers::ProjectSettings::$2.index');
+Router::register('project.settings.milestones.index', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'index']);
+Router::register('project.settings.milestones.new', '/' . PROJECT_SLUG . '/settings/milestones/new', [MilestonesController::class, 'new']);
+Router::register('project.settings.milestones.edit', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)/edit', [MilestonesController::class, 'edit']);
+Router::register('project.settings.milestones.delete', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)/delete', [MilestonesController::class, 'delete']);
 Router::register('project.settings.components.index', '/' . PROJECT_SLUG . '/settings/components', [ComponentsController::class, 'index']);
 Router::register('project.settings.components.new', '/' . PROJECT_SLUG . '/settings/components/new', [ComponentsController::class, 'new']);
 Router::register('project.settings.components.edit', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)/edit', [ComponentsController::class, 'edit']);
 Router::register('project.settings.components.delete', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)/delete', [ComponentsController::class, 'delete']);
-Router::add('/' . PROJECT_SLUG . '/settings/(milestones|members)/new', 'traq::controllers::ProjectSettings::$2.new');
-Router::add('/' . PROJECT_SLUG . '/settings/(milestones|members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
+Router::add('/' . PROJECT_SLUG . '/settings/(members)/new', 'traq::controllers::ProjectSettings::$2.new');
+Router::add('/' . PROJECT_SLUG . '/settings/(members)/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::$2.$4/$3');
 Router::add('/' . PROJECT_SLUG . '/settings/custom_fields', 'traq::controllers::ProjectSettings::CustomFields.index');
 Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/new', 'traq::controllers::ProjectSettings::CustomFields.new');
 Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::CustomFields.$3/$2');

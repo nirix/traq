@@ -1,7 +1,9 @@
+<?php extendView('layouts/default.phtml'); ?>
+
 <div class="content">
-	<h2 class="page-title"><?php echo l('project_settings'); ?></h2>
+	<h2 class="page-title"><?= l('project_settings'); ?></h2>
 </div>
-<?php echo View::render('project_settings/_nav'); ?>
+<?= view('project_settings/_nav'); ?>
 <div class="content">
 	<?= HTML::link(l('new_milestone'), "{$project->slug}/settings/milestones/new", ['class' => 'btn-success', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-plus']) ?>
 </div>
@@ -9,32 +11,37 @@
 	<table class="list">
 		<thead>
 			<tr>
-				<th class="fixed_name"><?php echo l('name'); ?></th>
-				<th class="codename"><?php echo l('codename'); ?></th>
-				<th class="due"><?php echo l('due'); ?></th>
-				<th class="status"><?php echo l('status'); ?></th>
-				<th class="actions text-right"><?php echo l('actions'); ?></th>
+				<th class="fixed_name"><?= l('name'); ?></th>
+				<th class="codename"><?= l('codename'); ?></th>
+				<th class="due"><?= l('due'); ?></th>
+				<th class="status"><?= l('status'); ?></th>
+				<th class="actions text-right"><?= l('actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($milestones->exec()->fetch_all() as $milestone) { ?>
+			<?php foreach ($milestones->exec()->fetch_all() as $milestone) : ?>
 				<tr>
-					<td><?php echo HTML::link($milestone->name, "{$project->slug}/settings/milestones/{$milestone->id}/edit", array('data-overlay' => true)); ?></td>
-					<td><?php echo $milestone->codename; ?></td>
+					<td><?= HTML::link($milestone->name, $project->href("settings/milestones/{$milestone->id}/edit"), ['data-overlay' => true]); ?></td>
+					<td><?= $milestone->codename; ?></td>
 					<td><?php if ($milestone->due and $milestone->status == 1) {
 							echo time_from_now_ago($milestone->due);
 						} elseif ($milestone->due and $milestone->status == 2) {
 							echo l('completed');
 						} ?></td>
-					<td><?php echo $milestone->status == 0 ? l('cancelled') : ($milestone->status == 1 ? l('active') : l('completed')); ?></td>
+					<td><?= $milestone->status == 0 ? l('cancelled') : ($milestone->status == 1 ? l('active') : l('completed')); ?></td>
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
-							<?= HTML::link(l('delete'), "{$project->slug}/settings/milestones/{$milestone->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $milestone->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]); ?>
+							<a href="<?= Request::base($project->href("settings/milestones/{$milestone->id}/delete")) ?>" class="btn-danger btn-sm"
+								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true })"
+								@click.prevent="toggle()">
+								<i class="fas fa-fw fa-trash"></i>
+								<span class="sr-only"><?= l('delete'); ?></span>
+							</a>
 						</div>
 					</td>
 				</tr>
-			<?php } ?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 </div>

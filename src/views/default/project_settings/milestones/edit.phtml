@@ -1,16 +1,18 @@
+<?php extendView('layouts/default.phtml'); ?>
+
 <div class="content">
-	<h2 class="page-title"><?php echo l('project_settings'); ?></h2>
+	<h2 class="page-title"><?= l('project_settings'); ?></h2>
 </div>
-<?php echo View::render('project_settings/_nav'); ?>
+<?= view('project_settings/_nav'); ?>
 <div class="content">
-	<h3><?php echo l('edit_milestone'); ?></h3>
-	<form action="<?php echo Request::requestUri(); ?>" method="post">
-		<?php echo show_errors($milestone->errors); ?>
+	<h3><?= l('edit_milestone'); ?></h3>
+	<form action="<?= Request::requestUri(); ?>" method="post">
+		<?= show_errors($milestone->errors); ?>
 		<div class="tabular box">
-			<?php echo View::render('project_settings/milestones/_form'); ?>
+			<?= view('project_settings/milestones/_form.phtml', ['milestone' => $milestone]); ?>
 		</div>
 		<div class="actions">
-			<input type="submit" value="<?php echo l('save'); ?>" />
+			<input type="submit" value="<?= l('save'); ?>" />
 		</div>
 	</form>
 </div>

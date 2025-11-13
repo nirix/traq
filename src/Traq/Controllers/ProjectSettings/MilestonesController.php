@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Milestone;
 
 /**
@@ -36,26 +35,37 @@ use Traq\Models\Milestone;
  * @package Traq
  * @subpackage Controllers
  */
-class Milestones extends AppController
+class MilestonesController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
+
         $this->title(l('milestones'));
     }
 
     /**
      * Milestones listing page.
      */
-    public function action_index()
+    public function index(): Response
     {
-        View::set('milestones', $this->project->milestones->order_by('displayorder', 'DESC'));
+        $milestones = $this->project->milestones->order_by('displayorder', 'DESC');
+
+        if ($this->isJson) {
+            return $this->json([
+                'milestones' => $milestones,
+            ]);
+        }
+
+        return $this->render('project_settings/milestones/index.phtml', [
+            'milestones' => $milestones,
+        ]);
     }
 
     /**
      * New milestone page.
      */
-    public function action_new()
+    public function new(): Response
     {
         $this->title(l('new'));
 
@@ -80,14 +90,20 @@ class Milestones extends AppController
                 $milestone->save();
 
                 if ($this->isApi) {
-                    return API::response(1, array('milestone' => $milestone));
+                    return $this->json([
+                        'milestone' => $milestone,
+                    ]);
                 } else {
-                    Request::redirectTo("{$this->project->slug}/settings/milestones");
+                    return $this->redirectTo($this->project->href('settings/milestones'));
                 }
             }
         }
 
-        View::set(compact('milestone'));
+        $view = Request::get('overlay') === 'true' ? 'new.overlay.phtml' : 'new.phtml';
+
+        return $this->render('project_settings/milestones/' . $view, [
+            'milestone' => $milestone,
+        ]);
     }
 
     /**
@@ -95,7 +111,7 @@ class Milestones extends AppController
      *
      * @param integer $id Milestone ID
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         $this->title(l('edit'));
 
@@ -103,7 +119,7 @@ class Milestones extends AppController
         $milestone = Milestone::find($id);
 
         if ($milestone->project_id !== $this->project->id) {
-            return $this->show_no_permission();
+            return $this->renderNoPermission();
         }
 
         // Check if the form has been submitted
@@ -127,15 +143,20 @@ class Milestones extends AppController
                 $milestone->save();
 
                 if ($this->isApi) {
-                    return API::response(1, array('milestone' => $milestone));
+                    return $this->json([
+                        'milestone' => $milestone,
+                    ]);
                 } else {
-                    Request::redirectTo("{$this->project->slug}/settings/milestones");
+                    return $this->redirectTo($this->project->href('settings/milestones'));
                 }
             }
         }
 
-        //View::set('milestone', $milestone);
-        View::set(compact('milestone'));
+        $view = Request::get('overlay') === 'true' ? 'edit.overlay.phtml' : 'edit.phtml';
+
+        return $this->render('project_settings/milestones/' . $view, [
+            'milestone' => $milestone,
+        ]);
     }
 
     /**
@@ -143,7 +164,7 @@ class Milestones extends AppController
      *
      * @param integer $id Milestone ID
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         $this->title(l('delete'));
 
@@ -151,32 +172,25 @@ class Milestones extends AppController
         $milestone = Milestone::find($id);
 
         if ($milestone->project_id !== $this->project->id) {
-            return $this->show_no_permission();
-        }
-
-        // Fetch all but current milestone
-        $milestones = array();
-        $rows = Milestone::select()->where('id', $id, '!=')->where('status', '1')->exec()->fetch_all();
-        foreach ($rows as $row) {
-            $milestones[] = array('label' => $row->name, 'value' => $row->id);
+            return $this->renderNoPermission();
         }
 
         // Check if the form has been submitted
         if (Request::method() == 'POST') {
             // Move tickets
-            $this->db->update('tickets')->set(array('milestone_id' => Request::$post['milestone']))->where('milestone_id', $id)->exec();
+            $this->db->update('tickets')->set(array('milestone_id' => $id))->where('milestone_id', $id)->exec();
 
             // Delete milestone
             $milestone->delete();
 
             // Redirect
             if ($this->isApi) {
-                return API::response(1);
-            } else {
-                Request::redirectTo("{$this->project->slug}/settings/milestones");
+                return $this->json([
+                    'success' => true,
+                ]);
             }
         }
 
-        View::set(compact('milestone', 'milestones'));
+        return $this->redirectTo($this->project->href('settings/milestones'));
     }
 }
