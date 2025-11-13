@@ -35,8 +35,6 @@ use Avalon\Output\View;
 require SYSPATH . '/libs/fishhook.php';
 require DOCROOT . '/src/aliases.php';
 
-Load::helper('time');
-
 // Fetch the routes
 require_once DOCROOT . '/src/Traq/Config/routes.php';
 

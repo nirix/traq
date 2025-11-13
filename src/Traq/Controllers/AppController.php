@@ -119,8 +119,6 @@ class AppController extends Controller
 
         $this->loadHelpers();
 
-        class_alias("\\traq\\helpers\\API", "API");
-
         // Get the user info
         $this->getUser();
 

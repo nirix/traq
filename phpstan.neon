@@ -6,4 +6,7 @@ parameters:
     bootstrapFiles:
         - src/aliases.php
     ignoreErrors:
-        - '#Constant LOGGEDIN not found#'
+        - '#Constant (LOGGEDIN|DOCROOT|SYSPATH|APPPATH|DATADIR) not found#'
+        -
+            identifier: variable.undefined
+            path: src/views

@@ -1,4 +1,5 @@
 <?php
+require dirname(__DIR__) . '/vendor/avalon/framework/helpers/time.php';
 
 class_alias('Avalon\Http\Router', 'Router');
 class_alias('Avalon\Http\Request', 'Request');
