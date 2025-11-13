@@ -23,7 +23,6 @@
 import Alpine from 'alpinejs'
 import axios from 'axios'
 
-// @ts-ignore: single-line error better than entire file /shrug
 Alpine.data('popoverConfirm', ({ position, message, success, remote, post }) => ({
   open: false,
   loading: false,
@@ -68,6 +67,11 @@ Alpine.data('popoverConfirm', ({ position, message, success, remote, post }) => 
       }
 
       if (post) {
+
+        if (post === true) {
+          post = this.$el.getAttribute('href')
+        }
+
         const form = document.createElement('form')
         form.setAttribute('method', 'post')
         form.setAttribute('action', post)

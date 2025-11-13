@@ -2,7 +2,9 @@
 <form action="<?= Request::requestUri(); ?>" method="post" class="overlay_thin">
 	<?= show_errors($component->errors); ?>
 	<div class="content">
-		<?= View::render('project_settings/components/_form'); ?>
+		<?= view('project_settings/components/_form', [
+			'component' => $component,
+		]); ?>
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?= l('save'); ?>" />

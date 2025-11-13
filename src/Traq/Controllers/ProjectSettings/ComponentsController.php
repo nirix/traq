@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Component;
 
 /**
@@ -36,26 +35,35 @@ use Traq\Models\Component;
  * @package Traq
  * @subpackage Controllers
  */
-class Components extends AppController
+class ComponentsController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
+
         $this->title(l('components'));
     }
 
     /**
      * Components listing page.
      */
-    public function action_index()
+    public function index(): Response
     {
-        View::set('components', $this->project->components);
+        if ($this->isJson) {
+            return $this->json([
+                'components' => $this->project->components,
+            ]);
+        }
+
+        return $this->render('project_settings/components/index.phtml', [
+            'components' => $this->project->components,
+        ]);
     }
 
     /**
      * New component page.
      */
-    public function action_new()
+    public function new(): Response
     {
         $this->title(l('new'));
 
@@ -74,14 +82,20 @@ class Components extends AppController
                 // Save and redirect
                 $component->save();
                 if ($this->isApi) {
-                    return API::response(1, array('component' => $component));
+                    return $this->json([
+                        'component' => $component,
+                    ]);
                 } else {
-                    Request::redirectTo("{$this->project->slug}/settings/components");
+                    return $this->redirectTo($this->project->href('settings/components'));
                 }
             }
         }
 
-        View::set('component', $component);
+        $view = Request::get('overlay') === 'true' ? 'new.overlay.phtml' : 'new.phtml';
+
+        return $this->render('project_settings/components/' . $view, [
+            'component' => $component,
+        ]);
     }
 
     /**
@@ -89,7 +103,7 @@ class Components extends AppController
      *
      * @param integer $id Component ID
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         $this->title(l('edit'));
 
@@ -97,7 +111,7 @@ class Components extends AppController
         $component = Component::find($id);
 
         if ($component->project_id !== $this->project->id) {
-            return $this->show_no_permission();
+            return $this->renderNoPermission();
         }
 
         // Check if the form has been submitted
@@ -112,14 +126,20 @@ class Components extends AppController
                 // Save and redirect
                 $component->save();
                 if ($this->isApi) {
-                    return API::response(1, array('component' => $component));
+                    return $this->json([
+                        'component' => $component,
+                    ]);
                 } else {
-                    Request::redirectTo("{$this->project->slug}/settings/components");
+                    return $this->redirectTo($this->project->href('settings/components'));
                 }
             }
         }
 
-        View::set('component', $component);
+        $view = Request::get('overlay') === 'true' ? 'edit.overlay.phtml' : 'edit.phtml';
+
+        return $this->render('project_settings/components/' . $view, [
+            'component' => $component,
+        ]);
     }
 
     /**
@@ -127,22 +147,24 @@ class Components extends AppController
      *
      * @param integer $id Component ID
      */
-    public function action_delete($id)
+    public function delete($id): Response
     {
         // Fetch the component
         $component = Component::find($id);
 
         if ($component->project_id !== $this->project->id) {
-            return $this->show_no_permission();
+            return $this->renderNoPermission();
         }
 
         // Delete component
         $component->delete();
 
         if ($this->isApi) {
-            return API::response(1);
+            return $this->json([
+                'success' => true,
+            ]);
         } else {
-            Request::redirectTo($this->project->href("settings/components"));
+            return $this->redirectTo($this->project->href("settings/components"));
         }
     }
 }

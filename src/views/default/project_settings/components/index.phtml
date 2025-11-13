@@ -1,3 +1,5 @@
+<?php extendView('layouts/default.phtml'); ?>
+
 <div class="content">
 	<h2 class="page-title"><?php echo l('project_settings'); ?></h2>
 </div>
@@ -20,7 +22,12 @@
 					<td>
 						<div class="btn-group justify-end">
 							<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
-							<?php echo HTML::link(l('delete'), "{$project->slug}/settings/components/{$component->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $component->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]); ?>
+							<a href="<?= Request::base($project->href("settings/components/{$component->id}/delete")) ?>" class="btn-danger btn-sm"
+								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true })"
+								@click.prevent="toggle()">
+								<i class="fas fa-fw fa-trash"></i>
+								<span class="sr-only"><?= l('delete'); ?></span>
+							</a>
 						</div>
 					</td>
 				</tr>

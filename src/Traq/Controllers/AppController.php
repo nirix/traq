@@ -415,7 +415,7 @@ class AppController extends Controller
 
     protected function redirectTo(string $url): Response
     {
-        return new RedirectResponse($url);
+        return new RedirectResponse('/' . ltrim($url));
     }
 
     protected function db(): PDO

@@ -22,7 +22,6 @@ namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
 use Avalon\Output\View;
-use traq\controllers\ProjectSettings\AppController;
 
 /**
  * Project settings controller
