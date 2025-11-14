@@ -1,7 +1,7 @@
 <section id="register_form" class="content">
 	<div class="mx-auto w-3/4">
 		<h2 class="page-title"><?= l('register'); ?></h2>
-		<?php if (!$validation_required) : ?>
+		<?php if (!isset($validation_required) || !$validation_required) : ?>
 			<?php if (isset($user)) :
 				echo show_errors($user->errors);
 			endif; ?>

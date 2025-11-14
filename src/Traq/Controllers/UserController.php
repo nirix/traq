@@ -21,12 +21,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use \FishHook;
-use Avalon\Core\Load;
 use Avalon\Http\Request;
-use Avalon\Output\View;
+use Avalon\Http\Response;
 use Traq\Controllers\AppController;
 use traq\helpers\Notification;
 use Traq\Models\User;
@@ -39,17 +38,17 @@ use Traq\Models\User;
  * @package Traq
  * @subpackage Controllers
  */
-class Users extends AppController
+class UserController extends AppController
 {
     public $before = [
-        'login'    => ['already_logged_in'],
-        'register' => ['already_logged_in']
+        'login'    => ['alreadyLoggedIn'],
+        'register' => ['alreadyLoggedIn']
     ];
 
     /**
      * Handles the login page.
      */
-    public function action_login()
+    public function login(): Response
     {
         // Set the title
         $this->title(l('login'));
@@ -58,6 +57,8 @@ class Users extends AppController
         if (Request::method() == 'POST') {
             return $this->createSession();
         }
+
+        return $this->render('users/login.phtml');
     }
 
     private function createSession()
@@ -78,12 +79,12 @@ class Users extends AppController
                 );
             } else {
                 // Tell the user to activate
-                View::set('validation_required', true);
+                $this->set('validation_required', true);
             }
         }
 
         // No user found
-        View::set('error', true);
+        $this->set('error', true);
 
         return $this->render('users/login.phtml');
     }
@@ -91,17 +92,17 @@ class Users extends AppController
     /**
      * Handles the logout request.
      */
-    public function action_logout()
+    public function logout()
     {
         setcookie('_traq', sha1(time()), time() + 5, '/');
 
-        return Request::redirectTo();
+        return $this->redirectTo('/');
     }
 
     /**
      * Handles the register page and account creation.
      */
-    public function action_register()
+    public function register(): Response
     {
         if (!settings('allow_registration')) {
             return $this->show404();
@@ -117,10 +118,12 @@ class Users extends AppController
             return $this->createAccount();
         }
 
-        View::set(compact('user', 'validation_required'));
+        $this->set(compact('user', 'validation_required'));
+
+        return $this->render('users/register.phtml');
     }
 
-    private function createAccount()
+    private function createAccount(): Response
     {
         // Build the data array
         $data = array(
@@ -155,48 +158,58 @@ class Users extends AppController
                 );
 
                 $validation_required = true;
+
+                return $this->render('users/register.phtml');
             } else {
                 // Redirect to login page
-                Request::redirectTo('login');
+                return $this->redirectTo('login');
             }
         }
 
-        View::set(compact('user', 'validation_required'));
+        $this->set(compact('user', 'validation_required'));
+
+        return $this->render('users/register.phtml');
     }
 
     /**
      * Account validation.
      */
-    public function action_validate($key)
+    public function validate($key)
     {
         $user = User::select()->where('options', '%"validation_key":"' . $key . '"%', 'LIKE')->exec()->fetch();
-        $user->option('validation_key', null);
-        $user->save();
 
-        $this->render['view'] = 'users/login';
-        View::set('validated', true);
+        $validated = false;
+        if ($user) {
+            $user->option('validation_key', null);
+            $user->save();
+            $validated = true;
+        }
+
+        return $this->render('users/login.phtml', ['validated' => $validated]);
     }
 
     /**
      * Forgot/Reset password page.
      */
-    public function action_reset_password($key = null)
+    public function resetPassword(?string $key = null)
     {
         // Reset key provided?
         if ($key !== null) {
             // Find user
             if ($user = User::select()->where('options', '%"reset_password_key":"' . $key . '"%', 'LIKE')->exec()->fetch()) {
                 // Generate new password
-                $new_password = substr(random_hash(), 0, 10);
+                $newPassword = substr(random_hash(), 0, 32);
 
                 // Set new password, clear reset key and save
-                $user->set_password($new_password);
+                $user->set_password($newPassword);
                 $user->option('reset_password_key', null);
                 $user->save();
 
                 // Send data to the view
-                View::set('password_reset', true);
-                View::set('new_password', $new_password);
+                $this->set('password_reset', true);
+
+                // TODO: email this to the user instead
+                $this->set('new_password', $newPassword);
             }
         }
         // Find user and generate key
@@ -225,21 +238,25 @@ class Users extends AppController
                             $_SERVER['REMOTE_ADDR'] // IP of reset request
                         )
                     );
-                    View::set('reset_email_sent', true);
+                    $this->set('reset_email_sent', true);
                 } else {
-                    View::set('error', true);
+                    $this->set('error', true);
                 }
             }
         }
+
+        return $this->render('users/reset_password.phtml');
     }
 
     /**
      * Redirect to the front page if the user is logged in.
      */
-    public function already_logged_in()
+    public function alreadyLoggedIn(): Response|false
     {
         if (LOGGEDIN) {
-            Request::redirectTo('/');
+            return $this->redirectTo('/');
         }
+
+        return false;
     }
 }

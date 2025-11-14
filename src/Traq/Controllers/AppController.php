@@ -370,7 +370,7 @@ class AppController extends Controller
     /**
      * Set view variable.
      */
-    protected function set(string $name, $value)
+    protected function set(string|array $name, mixed $value = null): void
     {
         View::set($name, $value);
     }
@@ -423,7 +423,7 @@ class AppController extends Controller
 
     protected function redirectTo(string $url): Response
     {
-        return new RedirectResponse('/' . ltrim($url));
+        return new RedirectResponse(Request::base($url));
     }
 
     protected function db(): PDO

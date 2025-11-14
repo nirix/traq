@@ -8,15 +8,15 @@
 				</div>
 			<?php endif; ?>
 			<?php if (isset($validated) && $validated) : ?>
-				<div class="success">
+				<div class="alert alert-success">
 					<?= l('account_validated') ?>
 				</div>
 			<?php endif; ?>
 			<form action="<?= Request::base('login'); ?>" method="post">
 				<div class="panel">
 					<div class="panel-content">
-						<?php if (!empty($_SERVER['HTTP_REFERER']) or isset(Request::$post['redirect'])) : ?>
-							<input type="hidden" name="redirect" value="<?= (isset(Request::$post['redirect'])) ? Request::$post['redirect'] : $_SERVER['HTTP_REFERER']; ?>" />
+						<?php if (isset($redirect)) : ?>
+							<input type="hidden" name="redirect" value="<?= $redirect; ?>" />
 						<?php endif; ?>
 						<div class="form-group-group">
 							<label><?= l('username'); ?></label>
@@ -35,7 +35,7 @@
 			</form>
 			<?= HTML::link(l('forgot_password'), '/login/resetpassword'); ?>
 		<?php else : ?>
-			<div class="error">
+			<div class="alert alert-danger">
 				<?= l('errors.email_validation_required') ?>
 			</div>
 		<?php endif; ?>

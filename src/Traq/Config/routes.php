@@ -42,6 +42,7 @@ use Traq\Controllers\TicketHistoryController;
 use traq\controllers\Tickets;
 use Traq\Controllers\TicketTasksController;
 use Traq\Controllers\TimelineController;
+use Traq\Controllers\UserController;
 use traq\controllers\Usercp;
 use Traq\Controllers\Wiki;
 
@@ -50,9 +51,13 @@ const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 Router::register('root', 'root', [ProjectController::class, 'index']);
 
 Router::register('errors.404', '404', [ErrorController::class, 'error404']);
-Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
-Router::add('/login/resetpassword', 'traq::controllers::Users.reset_password');
-Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.reset_password/$1');
+// Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
+Router::register('users.login', '/login', [UserController::class, 'login']);
+Router::register('users.logout', '/logout', [UserController::class, 'logout']);
+Router::register('users.register', '/register', [UserController::class, 'register']);
+Router::register('users.validate', '/users/validate/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'validate']);
+Router::register('users.resetPassword', '/login/resetpassword', [UserController::class, 'resetPassword']);
+Router::register('users.resetPassword.key', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPassword']);
 Router::register('usercp', '/usercp', [Usercp::class, 'action_index']);
 Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
 Router::register('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
