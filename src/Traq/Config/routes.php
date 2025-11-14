@@ -31,6 +31,7 @@ use Traq\Controllers\MiscController;
 use Traq\Controllers\ProfileController;
 use Traq\Controllers\ProjectController;
 use Traq\Controllers\ProjectSettings\ComponentsController;
+use Traq\Controllers\ProjectSettings\CustomFieldsController;
 use Traq\Controllers\ProjectSettings\MembersController;
 use Traq\Controllers\ProjectSettings\MilestonesController;
 use Traq\Controllers\ProjectSettings\SettingsController;
@@ -127,9 +128,10 @@ Router::register('project.settings.members.index', '/' . PROJECT_SLUG . '/settin
 Router::register('project.settings.members.new', '/' . PROJECT_SLUG . '/settings/members/new', [MembersController::class, 'new']);
 Router::register('project.settings.members.delete', '/' . PROJECT_SLUG . '/settings/members/(?P<id>[0-9]+)/delete', [MembersController::class, 'delete']);
 Router::register('project.settings.members.save', '/' . PROJECT_SLUG . '/settings/members/save', [MembersController::class, 'save']);
-Router::add('/' . PROJECT_SLUG . '/settings/custom_fields', 'traq::controllers::ProjectSettings::CustomFields.index');
-Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/new', 'traq::controllers::ProjectSettings::CustomFields.new');
-Router::add('/' . PROJECT_SLUG . '/settings/custom_fields/([0-9]+)/(edit|delete)', 'traq::controllers::ProjectSettings::CustomFields.$3/$2');
+Router::register('project.settings.customFields.index', '/' . PROJECT_SLUG . '/settings/custom_fields', [CustomFieldsController::class, 'index']);
+Router::register('project.settings.customFields.new', '/' . PROJECT_SLUG . '/settings/custom_fields/new', [CustomFieldsController::class, 'new']);
+Router::register('project.settings.customFields.edit', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)/edit', [CustomFieldsController::class, 'edit']);
+Router::register('project.settings.customFields.delete', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)/delete', [CustomFieldsController::class, 'delete']);
 
 
 // Project permission routes

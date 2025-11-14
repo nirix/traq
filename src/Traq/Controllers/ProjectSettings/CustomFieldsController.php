@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\ProjectSettings;
+namespace Traq\Controllers\ProjectSettings;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\CustomField;
 
 /**
@@ -36,7 +35,7 @@ use Traq\Models\CustomField;
  * @package Traq
  * @subpackage Controllers
  */
-class CustomFields extends AppController
+class CustomFieldsController extends AppController
 {
     public function __construct()
     {
@@ -44,15 +43,25 @@ class CustomFields extends AppController
         $this->title(l('custom_fields'));
     }
 
-    public function action_index()
+    public function index(): Response
     {
-        View::set('custom_fields', CustomField::select()->where('project_id', $this->project->id)->exec()->fetch_all());
+        $customFields = CustomField::select()->where('project_id', $this->project->id)->exec()->fetch_all();
+
+        if ($this->isJson) {
+            return $this->json([
+                'customFields' => $customFields,
+            ]);
+        }
+
+        return $this->render('project_settings/custom_fields/index.phtml', [
+            'customFields' => $customFields,
+        ]);
     }
 
     /**
      * New field page.
      */
-    public function action_new()
+    public function new(): Response
     {
         // Create field
         $field = new CustomField(array(
@@ -61,8 +70,8 @@ class CustomFields extends AppController
         ));
 
         // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            $data = array();
+        if (Request::method() === 'POST') {
+            $data = [];
 
             // Loop over properties
             foreach (CustomField::properties() as $property) {
@@ -94,15 +103,22 @@ class CustomFields extends AppController
             // Save and redirect
             if ($field->save()) {
                 if ($this->isApi) {
-                    return API::response(1, array('field' => $field));
+                    return $this->json([
+                        'success' => true,
+                        'field' => $field,
+                    ]);
                 } else {
-                    Request::redirectTo($this->project->href('settings/custom_fields'));
+                    return $this->redirectTo($this->project->href('settings/custom_fields'));
                 }
             }
         }
 
+        $view = Request::get('overlay') === 'true' ? 'new.overlay.phtml' : 'new.phtml';
+
         // Send field object to view
-        View::set(compact('field'));
+        return $this->render("project_settings/custom_fields/{$view}", [
+            'field' => $field,
+        ]);
     }
 
     /**
@@ -110,19 +126,19 @@ class CustomFields extends AppController
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         // Get field
         $field = CustomField::find($id);
 
         // Verify project
-        if ($field->project_id != $this->project->id) {
-            return $this->show_no_permission();
+        if ($field->project_id !== $this->project->id) {
+            return $this->renderNoPermission();
         }
 
         // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            $data = array();
+        if (Request::method() === 'POST') {
+            $data = [];
 
             // Loop over properties
             foreach (CustomField::properties() as $property) {
@@ -154,37 +170,50 @@ class CustomFields extends AppController
             // Save and redirect
             if ($field->save()) {
                 if ($this->isApi) {
-                    return API::response(1, array('field' => $field));
+                    return $this->json([
+                        'field' => $field,
+                    ]);
                 } else {
-                    Request::redirectTo($this->project->href('settings/custom_fields'));
+                    return $this->redirectTo($this->project->href('settings/custom_fields'));
                 }
+            } else {
+                return $this->json([
+                    'success' => false,
+                    'errors' => $field->errors(),
+                ]);
             }
         }
 
+        $view = Request::get('overlay') === 'true' ? 'edit.overlay.phtml' : 'edit.phtml';
+
         // Send field object to view
-        View::set(compact('field'));
+        return $this->render("project_settings/custom_fields/{$view}", [
+            'field' => $field,
+        ]);
     }
 
     /**
      * Delete field.
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Find field
         $field = CustomField::find($id);
 
         // Verify project
-        if ($field->project_id != $this->project->id) {
-            return $this->show_no_permission();
+        if ($field->project_id !== $this->project->id) {
+            return $this->renderNoPermission();
         }
 
         // Delete and redirect
         $field->delete();
 
         if ($this->isApi) {
-            return API::response(1);
+            return $this->json([
+                'success' => true,
+            ]);
         } else {
-            Request::redirectTo($this->project->href('settings/custom_fields'));
+            return $this->redirectTo($this->project->href('settings/custom_fields'));
         }
     }
 }
