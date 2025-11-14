@@ -34,6 +34,7 @@ use Traq\Controllers\ProjectSettings\ComponentsController;
 use Traq\Controllers\ProjectSettings\CustomFieldsController;
 use Traq\Controllers\ProjectSettings\MembersController;
 use Traq\Controllers\ProjectSettings\MilestonesController;
+use Traq\Controllers\ProjectSettings\PermissionsController;
 use Traq\Controllers\ProjectSettings\SettingsController;
 use Traq\Controllers\SearchController;
 use Traq\Controllers\SubscriptionsController;
@@ -116,15 +117,15 @@ Router::register('wiki.view', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\
 
 // Project settings routes
 Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [SettingsController::class, 'index']);
-Router::register('project.settings.milestones.index', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'index']);
+Router::register('project.settings.milestones', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'index']);
 Router::register('project.settings.milestones.new', '/' . PROJECT_SLUG . '/settings/milestones/new', [MilestonesController::class, 'new']);
 Router::register('project.settings.milestones.edit', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)/edit', [MilestonesController::class, 'edit']);
 Router::register('project.settings.milestones.delete', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)/delete', [MilestonesController::class, 'delete']);
-Router::register('project.settings.components.index', '/' . PROJECT_SLUG . '/settings/components', [ComponentsController::class, 'index']);
+Router::register('project.settings.components', '/' . PROJECT_SLUG . '/settings/components', [ComponentsController::class, 'index']);
 Router::register('project.settings.components.new', '/' . PROJECT_SLUG . '/settings/components/new', [ComponentsController::class, 'new']);
 Router::register('project.settings.components.edit', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)/edit', [ComponentsController::class, 'edit']);
 Router::register('project.settings.components.delete', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)/delete', [ComponentsController::class, 'delete']);
-Router::register('project.settings.members.index', '/' . PROJECT_SLUG . '/settings/members', [MembersController::class, 'index']);
+Router::register('project.settings.members', '/' . PROJECT_SLUG . '/settings/members', [MembersController::class, 'index']);
 Router::register('project.settings.members.new', '/' . PROJECT_SLUG . '/settings/members/new', [MembersController::class, 'new']);
 Router::register('project.settings.members.delete', '/' . PROJECT_SLUG . '/settings/members/(?P<id>[0-9]+)/delete', [MembersController::class, 'delete']);
 Router::register('project.settings.members.save', '/' . PROJECT_SLUG . '/settings/members/save', [MembersController::class, 'save']);
@@ -132,10 +133,7 @@ Router::register('project.settings.customFields.index', '/' . PROJECT_SLUG . '/s
 Router::register('project.settings.customFields.new', '/' . PROJECT_SLUG . '/settings/custom_fields/new', [CustomFieldsController::class, 'new']);
 Router::register('project.settings.customFields.edit', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)/edit', [CustomFieldsController::class, 'edit']);
 Router::register('project.settings.customFields.delete', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)/delete', [CustomFieldsController::class, 'delete']);
-
-
-// Project permission routes
-Router::add('/' . PROJECT_SLUG . '/settings/permissions/(groups|roles)', 'traq::controllers::ProjectSettings::Permissions.index/$2');
+Router::register('project.settings.permissions', '/' . PROJECT_SLUG . '/settings/permissions/(?P<type>groups|roles)', [PermissionsController::class, 'index']);
 
 // Subscription routes
 Router::register('unsubscribe', '/unsubscribe/(?P<uuid>[\w\-]+)', [SubscriptionsController::class, 'unsubscribe']);
