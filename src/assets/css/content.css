@@ -119,6 +119,12 @@ table {
   @apply text-gray-900;
 }
 
+.alert-success {
+  @apply bg-green-100;
+  @apply border-green-300;
+  @apply text-green-900;
+}
+
 .alert-danger {
   @apply bg-red-100;
   @apply border-red-300;
