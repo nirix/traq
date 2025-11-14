@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2024 Jack P.
- * Copyright (C) 2012-2024 Traq.io
+ * Copyright (C) 2009-2025 Jack P.
+ * Copyright (C) 2012-2025 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -32,54 +32,54 @@ use Avalon\Http\Request;
  */
 function ui_package($entry): ?string
 {
-  static $imported = [];
+    static $imported = [];
 
-  $manifestPath = dirname(dirname(dirname(__DIR__))) . '/assets/ui/.vite/manifest.json';
+    $manifestPath = dirname(dirname(dirname(__DIR__))) . '/assets/ui/.vite/manifest.json';
 
-  try {
-    $manifest = json_decode(file_get_contents($manifestPath), true);
-  } catch (ErrorException $e) {
-    return "Unable to open file {$manifestPath}";
-  }
+    try {
+        $manifest = json_decode(file_get_contents($manifestPath), true);
+    } catch (ErrorException $e) {
+        return "Unable to open file {$manifestPath}";
+    }
 
-  // Direct match or no?
-  if (isset($manifest[$entry])) {
-    $index = $entry;
-  } else {
-    $index = "traq-ui/{$entry}.ts";
-  }
+    // Direct match or no?
+    if (isset($manifest[$entry])) {
+        $index = $entry;
+    } else {
+        $index = "traq-ui/{$entry}.ts";
+    }
 
-  if (in_array($index, $imported)) {
+    if (in_array($index, $imported)) {
+        return null;
+    }
+
+    $imported[] = $index;
+
+    if (isset($manifest[$index])) {
+        $info = $manifest[$index];
+        $file = $info['file'];
+
+        $html = [];
+
+        // CSS files
+        if (isset($info['css'])) {
+            foreach ($info['css'] as $cssFile) {
+                $html[] = '<link rel="stylesheet" href="' . Request::base("assets/ui/{$cssFile}") . '" media="screen" />';
+            }
+        }
+
+        // Modules/chunks
+        if (isset($info['imports'])) {
+            foreach ($info['imports'] as $importFile) {
+                $html[] = ui_package($importFile);
+            }
+        }
+
+        // Main file
+        $html[] = '<script src="' . Request::base("assets/ui/{$file}") . '" type="module"></script>';
+
+        return implode(PHP_EOL, $html);
+    }
+
     return null;
-  }
-
-  $imported[] = $index;
-
-  if (isset($manifest[$index])) {
-    $info = $manifest[$index];
-    $file = $info['file'];
-
-    $html = [];
-
-    // CSS files
-    if (isset($info['css'])) {
-      foreach ($info['css'] as $cssFile) {
-        $html[] = '<link rel="stylesheet" href="' . Request::base("assets/ui/{$cssFile}") . '" media="screen" />';
-      }
-    }
-
-    // Modules/chunks
-    if (isset($info['imports'])) {
-      foreach ($info['imports'] as $importFile) {
-        $html[] = ui_package($importFile);
-      }
-    }
-
-    // Main file
-    $html[] = '<script src="' . Request::base("assets/ui/{$file}") . '" type="module"></script>';
-
-    return implode(PHP_EOL, $html);
-  }
-
-  return null;
 }
