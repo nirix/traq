@@ -60,6 +60,15 @@ else {
     Database::init($db);
 }
 
+// Set up view paths
+View::$searchPaths[] = DATADIR . '/themes/' . settings('theme');
+View::$searchPaths[] = DOCROOT . '/src/views/' . settings('theme');
+View::$searchPaths[] = DOCROOT . '/src/views';
+
+// Load helpers
+require DOCROOT . '/src/Traq/Helpers/uri.php';
+require DOCROOT . '/src/Traq/Helpers/ui.php';
+
 // Load the plugins
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
 $pluginPaths = [

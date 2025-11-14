@@ -70,11 +70,6 @@ class AppController extends Controller
      */
     public bool $is_api = false;
 
-    protected array $helpers = [
-        'uri',
-        'ui',
-    ];
-
     public function __construct()
     {
         // Set DB connection
@@ -85,11 +80,6 @@ class AppController extends Controller
             header("Location: " . Request::base('install/upgrade.php'));
             exit;
         }
-
-        // Set the theme
-        View::$searchPaths[] = DATADIR . '/themes/' . settings('theme');
-        View::$searchPaths[] = dirname(__DIR__, 2) . '/views/' . settings('theme');
-        View::$searchPaths[] = dirname(__DIR__, 2) . '/views';
 
         // Call the controller class constructor
         parent::__construct();
@@ -433,8 +423,18 @@ class AppController extends Controller
 
     private function loadHelpers(): void
     {
-        foreach ($this->helpers as $helper) {
-            require dirname(__DIR__) . '/Helpers/' . $helper . '.php';
-        }
+        // Load helpers
+        Load::helper(
+            'errors',
+            'form',
+            'js',
+            'formats',
+            'time_ago',
+            'string',
+            'subscriptions',
+            'timeline',
+            'formatting',
+            'tickets',
+        );
     }
 }
