@@ -34,7 +34,7 @@
     @apply bg-gray-100;
     @apply px-4 py-2;
     @apply rounded-b;
-    @apply text-center;
+    @apply text-right;
   }
 }
 

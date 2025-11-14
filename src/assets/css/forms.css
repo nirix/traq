@@ -1,10 +1,4 @@
 select,
-input,
-textarea {
-  outline: none;
-}
-
-select,
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -14,7 +8,7 @@ textarea {
   @apply appearance-none;
   @apply box-border;
 
-  @apply border border-gray-400 focus:border-brand-600 rounded;
+  @apply border border-gray-400 focus:border-brand-600 rounded outline-none focus:outline-none;
   @apply focus:ring-4 focus:ring-brand-500/20;
   @apply text-sm text-gray-800;
   @apply py-2 px-3;
@@ -25,19 +19,6 @@ textarea {
 
   background-color: #fff;
 
-  /* line-height: 1.25; */
-}
-
-select,
-input[type="text"],
-input[type="password"],
-input[type="button"],
-input[type="reset"],
-button {
-  /* line-height: 1.25;
-  @apply box-border;
-  @apply appearance-none; */
-  /* @apply min-h-[32px]; */
 }
 
 select:not([multiple]) {
@@ -92,7 +73,6 @@ input[type="checkbox"] {
 
 .form-group,
 .form-group-row {
-
   &>select,
   &>input[type="text"],
   &>input[type="password"],
