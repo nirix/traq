@@ -28,6 +28,7 @@ use Traq\Controllers\Admin\Plugins;
 use Traq\Controllers\Admin\ProjectRolesController;
 use Traq\Controllers\Admin\ProjectsController;
 use Traq\Controllers\Admin\SettingsController as AdminSettingsController;
+use Traq\Controllers\Admin\TypesController;
 use Traq\Controllers\Admin\UsersController as AdminUsersController;
 use Traq\Controllers\Attachments;
 use Traq\Controllers\ErrorController;
@@ -189,9 +190,10 @@ Router::register('admin.project.roles.edit', '/admin/roles/(?P<id>[0-9]+)/edit',
 Router::register('admin.project.roles.delete', '/admin/roles/(?P<id>[0-9]+)/delete', [ProjectRolesController::class, 'delete']);
 
 // Ticket types
-Router::add('/admin/tickets/types', 'traq::controllers::admin::Types.index');
-Router::add('/admin/tickets/types/new', 'traq::controllers::admin::Types.new');
-Router::add('/admin/tickets/types/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Types.$2/$1');
+Router::register('admin.types', '/admin/tickets/types', [TypesController::class, 'index']);
+Router::register('admin.types.new', '/admin/tickets/types/new', [TypesController::class, 'new']);
+Router::register('admin.types.edit', '/admin/tickets/types/(?P<id>[0-9]+)/edit', [TypesController::class, 'edit']);
+Router::register('admin.types.delete', '/admin/tickets/types/(?P<id>[0-9]+)/delete', [TypesController::class, 'delete']);
 
 // Ticket statuses
 Router::add('/admin/tickets/statuses', 'traq::controllers::admin::Statuses.index');

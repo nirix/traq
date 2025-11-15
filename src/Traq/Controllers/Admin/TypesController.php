@@ -21,12 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Type;
 
 /**
@@ -37,24 +35,30 @@ use Traq\Models\Type;
  * @package Traq
  * @subpackage Controllers
  */
-class Types extends AppController
+class TypesController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
         $this->title(l('types'));
+        $this->render['layout'] = false;
     }
 
-    public function action_index()
+    public function index(): Response
     {
-        $types = Type::fetch_all();
-        View::set('types', $types);
+        $types = Type::fetchAll();
+
+        if ($this->isJson) {
+            return $this->json(['types' => $types]);
+        }
+
+        return $this->render('admin/types/index', ['types' => $types]);
     }
 
     /**
      * New type page.
      */
-    public function action_new()
+    public function new(): Response
     {
         // Create a new type object
         $type = new Type();
@@ -73,16 +77,22 @@ class Types extends AppController
             if ($type->is_valid()) {
                 // Save and redirect
                 $type->save();
-                if ($this->isApi) {
-                    return API::response(1, array('type' => $type));
+                if ($this->isJson) {
+                    return $this->json(['type' => $type]);
                 } else {
-                    Request::redirectTo('/admin/tickets/types');
+                    return $this->redirectTo('/admin/tickets/types');
                 }
             }
         }
 
         // Send the data to the view
-        View::set('type', $type);
+        if (Request::get('overlay') === 'true') {
+            $view = 'new.overlay.phtml';
+        } else {
+            $view = 'new.phtml';
+        }
+
+        return $this->render("admin/types/{$view}", ['type' => $type]);
     }
 
     /**
@@ -90,7 +100,7 @@ class Types extends AppController
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         // Find the type
         $type = Type::find($id);
@@ -106,7 +116,7 @@ class Types extends AppController
             ));
 
             // Set changelog value
-            if ($this->isApi) {
+            if ($this->isJson) {
                 $type->changelog = Request::get('changelog', $type->changelog);
             } else {
                 $type->changelog = isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0;
@@ -116,16 +126,22 @@ class Types extends AppController
             if ($type->is_valid()) {
                 // Save and redirect.
                 $type->save();
-                if ($this->isApi) {
-                    return API::response(1, array('type' => $type));
+                if ($this->isJson) {
+                    return $this->json(['type' => $type]);
                 } else {
-                    Request::redirectTo('/admin/tickets/types');
+                    return $this->redirectTo('/admin/tickets/types');
                 }
             }
         }
 
         // Send the data to the view.
-        View::set('type', $type);
+        if (Request::get('overlay') === 'true') {
+            $view = 'edit.overlay.phtml';
+        } else {
+            $view = 'edit.phtml';
+        }
+
+        return $this->render("admin/types/{$view}", ['type' => $type]);
     }
 
     /**
@@ -133,14 +149,14 @@ class Types extends AppController
      *
      * @param integer $id
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Find the type, delete and redirect.
         $type = Type::find($id)->delete();
-        if ($this->isApi) {
-            return API::response(1);
+        if ($this->isJson) {
+            return $this->json(['success' => true]);
         } else {
-            Request::redirectTo('/admin/tickets/types');
+            return $this->redirectTo('/admin/tickets/types');
         }
     }
 }
