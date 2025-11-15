@@ -35,7 +35,7 @@ use Traq\Controllers\ProjectSettings\CustomFieldsController;
 use Traq\Controllers\ProjectSettings\MembersController;
 use Traq\Controllers\ProjectSettings\MilestonesController;
 use Traq\Controllers\ProjectSettings\PermissionsController;
-use Traq\Controllers\ProjectSettings\SettingsController;
+use Traq\Controllers\ProjectSettings\SettingsController as ProjectSettingsController;
 use Traq\Controllers\SearchController;
 use Traq\Controllers\SubscriptionsController;
 use Traq\Controllers\TicketController;
@@ -123,7 +123,7 @@ Router::register('wiki.pages', '/' . PROJECT_SLUG . '/wiki/_pages', [Wiki::class
 Router::register('wiki.view', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\_/]+)', [Wiki::class, 'view']);
 
 // Project settings routes
-Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [SettingsController::class, 'index']);
+Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'index']);
 Router::register('project.settings.milestones', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'index']);
 Router::register('project.settings.milestones.new', '/' . PROJECT_SLUG . '/settings/milestones/new', [MilestonesController::class, 'new']);
 Router::register('project.settings.milestones.edit', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)/edit', [MilestonesController::class, 'edit']);
