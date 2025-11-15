@@ -95,7 +95,7 @@ class AppController extends Controller
         }
 
         // Set the project
-        $this->project = Request::get('project');
+        $this->project = Request::getAttribute('project');
         if ($this->project) {
             // Add project name to page title
             $this->title($this->project->name);
