@@ -1,3 +1,5 @@
+<?php extendView('layouts/admin.phtml'); ?>
+
 <div class="content">
 	<?= HTML::link(l('new_role'), '/admin/roles/new', ['class' => 'btn-success', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-plus']) ?>
 </div>
@@ -13,12 +15,17 @@
 			<?php foreach ($roles as $role) : ?>
 				<tr>
 					<td><?= HTML::link($role->name, "/admin/roles/{$role->id}/edit", array('data-overlay' => true)) ?></td>
-					<td><?php echo $role->assignable ? '&#10003;' : '&times;' ?></td>
+					<td><?= $role->assignable ? '&#10003;' : '&times;' ?></td>
 					<td><?= $role->project_id > 0 ? $role->project->name : l('all') ?></td>
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "/admin/roles/{$role->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
-							<?= HTML::link(l('delete'), "/admin/roles/{$role->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $role->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]) ?>
+							<a href="/admin/roles/<?= $role->id ?>/delete" class="btn-danger btn-sm"
+								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true })"
+								@click.prevent="toggle()">
+								<i class="fas fa-fw fa-trash"></i>
+								<span class="sr-only"><?= l('delete') ?></span>
+							</a>
 						</div>
 					</td>
 				</tr>

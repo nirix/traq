@@ -21,12 +21,11 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
+use Avalon\Http\Response;
 use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
 use Traq\Models\ProjectRole;
 
 /**
@@ -37,26 +36,33 @@ use Traq\Models\ProjectRole;
  * @package Traq
  * @subpackage Controllers
  */
-class ProjectRoles extends AppController
+class ProjectRolesController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
+        $this->render['layout'] = false;
         $this->title(l('roles'));
     }
 
     /**
      * Role listing page.
      */
-    public function action_index()
+    public function index(): Response
     {
-        View::set('roles', ProjectRole::fetch_all());
+        $roles = ProjectRole::fetchAll();
+
+        if ($this->isJson) {
+            return $this->json($roles);
+        }
+
+        return $this->render('admin/project_roles/index.phtml', ['roles' => $roles]);
     }
 
     /**
      * New role page.
      */
-    public function action_new()
+    public function new(): Response
     {
         // Create a new role object
         $role = new ProjectRole;
@@ -73,20 +79,26 @@ class ProjectRoles extends AppController
                 $role->save();
 
                 if ($this->isApi) {
-                    return API::response(1, array('role' => $role));
+                    return $this->json(['role' => $role]);
                 } else {
-                    Request::redirectTo('/admin/roles');
+                    return $this->redirectTo('/admin/roles');
                 }
             }
         }
 
-        View::set('role', $role);
+        if (Request::get('overlay') === 'true') {
+            $view = 'new.overlay.phtml';
+        } else {
+            $view = 'new.phtml';
+        }
+
+        return $this->render("admin/project_roles/{$view}", ['role' => $role]);
     }
 
     /**
      * Edit role page.
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         // Fetch the role
         $role = ProjectRole::find($id);
@@ -103,28 +115,34 @@ class ProjectRoles extends AppController
                 $role->save();
 
                 if ($this->isApi) {
-                    return API::response(1, array('role' => $role));
+                    return $this->json(['role' => $role]);
                 } else {
-                    Request::redirectTo('/admin/roles');
+                    return $this->redirectTo('/admin/roles');
                 }
             }
         }
 
-        View::set('role', $role);
+        if (Request::get('overlay') === 'true') {
+            $view = 'edit.overlay.phtml';
+        } else {
+            $view = 'edit.phtml';
+        }
+
+        return $this->render("admin/project_roles/{$view}", ['role' => $role]);
     }
 
     /**
      * Delete role page.
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Fetch and delete the role, then redirect
         $role = ProjectRole::find($id)->delete();
 
         if ($this->isApi) {
-            return API::response(1);
+            return $this->json(['success' => true]);
         } else {
-            Request::redirectTo('/admin/roles');
+            return $this->redirectTo('/admin/roles');
         }
     }
 }

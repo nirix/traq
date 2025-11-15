@@ -24,6 +24,7 @@
 use Avalon\Http\Router;
 use Traq\Controllers\Admin\DashboardController;
 use Traq\Controllers\Admin\Plugins;
+use Traq\Controllers\Admin\ProjectRolesController;
 use Traq\Controllers\Admin\ProjectsController;
 use Traq\Controllers\Admin\SettingsController as AdminSettingsController;
 use Traq\Controllers\Attachments;
@@ -178,9 +179,10 @@ Router::add('/admin/groups/new', 'traq::controllers::admin::Groups.new');
 Router::add('/admin/groups/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Groups.$2/$1');
 
 // Project roles
-Router::add('/admin/roles', 'traq::controllers::admin::ProjectRoles.index');
-Router::add('/admin/roles/new', 'traq::controllers::admin::ProjectRoles.new');
-Router::add('/admin/roles/([0-9]+)/(edit|delete)', 'traq::controllers::admin::ProjectRoles.$2/$1');
+Router::register('admin.project.roles', '/admin/roles', [ProjectRolesController::class, 'index']);
+Router::register('admin.project.roles.new', '/admin/roles/new', [ProjectRolesController::class, 'new']);
+Router::register('admin.project.roles.edit', '/admin/roles/(?P<id>[0-9]+)/edit', [ProjectRolesController::class, 'edit']);
+Router::register('admin.project.roles.delete', '/admin/roles/(?P<id>[0-9]+)/delete', [ProjectRolesController::class, 'delete']);
 
 // Ticket types
 Router::add('/admin/tickets/types', 'traq::controllers::admin::Types.index');

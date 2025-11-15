@@ -2,7 +2,7 @@
 <form action="<?= Request::requestUri(); ?>" method="post" class="overlay">
 	<?= show_errors($role->errors); ?>
 	<div class="content">
-		<?= View::render('admin/project_roles/_form'); ?>
+		<?= view('admin/project_roles/_form', ['role' => $role]); ?>
 	</div>
 	<div class="actions">
 		<input type="submit" value="<?= l('create'); ?>" />
