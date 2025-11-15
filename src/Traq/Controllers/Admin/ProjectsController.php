@@ -21,12 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Project;
 
 /**
@@ -37,7 +35,7 @@ use Traq\Models\Project;
  * @package Traq
  * @subpackage Controllers
  */
-class Projects extends AppController
+class ProjectsController extends AppController
 {
     public function __construct()
     {
@@ -45,17 +43,23 @@ class Projects extends AppController
         $this->title(l('projects'));
     }
 
-    public function action_index()
+    public function index()
     {
         // Fetch all projects and pass them to the view.
-        $projects = Project::fetch_all();
-        View::set('projects', $projects);
+        $projects = Project::fetchAll();
+        $this->set('projects', $projects);
+
+        if ($this->isJson) {
+            return $this->json($projects);
+        }
+
+        return $this->render('admin/projects/index.phtml');
     }
 
     /**
      * Create a new project page.
      */
-    public function action_new()
+    public function new(): Response
     {
         $this->title(l('new'));
 
@@ -82,14 +86,14 @@ class Projects extends AppController
                 // Is this an API request?
                 if ($this->isApi) {
                     // Return JSON formatted response
-                    return API::response(1, array('project' => $project));
+                    return $this->json(['project' => $project]);
                 } else {
                     Request::redirectTo('admin/projects');
                 }
             }
         }
 
-        View::set('proj', $project);
+        return $this->render('admin/projects/new.phtml', ['proj' => $project]);
     }
 
     /**
@@ -97,16 +101,16 @@ class Projects extends AppController
      *
      * @param integer $id Project ID.
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         $project = Project::find('id', $id);
         $project->delete();
 
         // Is this an API request?
         if ($this->isApi) {
-            return API::response(1);
+            return $this->json(['success' => true]);
         } else {
-            Request::redirectTo('admin/projects');
+            return $this->redirectTo('admin/projects');
         }
     }
 }

@@ -16,7 +16,13 @@
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "/{$project->slug}/settings", ['class' => 'btn-warning btn-sm', 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
-							<?= HTML::link(l('delete'), "/admin/projects/{$project->id}/delete", ['class' => 'btn-danger btn-sm', 'data-confirm' => l('confirm.delete_x', $project->name), 'icon' => 'fas fa-fw fa-trash', 'sr-only' => true]) ?>
+							<a href="/admin/projects/<?= $project->id ?>/delete" class="btn-danger btn-sm"
+								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true })"
+								@click.prevent="toggle()">
+								<i class="fas fa-fw fa-trash"></i>
+								<span class="sr-only"><?= l('delete') ?></span>
+							</a>
+
 						</div>
 					</td>
 				</tr>

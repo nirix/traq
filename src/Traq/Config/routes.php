@@ -24,6 +24,7 @@
 use Avalon\Http\Router;
 use Traq\Controllers\Admin\DashboardController;
 use Traq\Controllers\Admin\Plugins;
+use Traq\Controllers\Admin\ProjectsController;
 use Traq\Controllers\Admin\SettingsController as AdminSettingsController;
 use Traq\Controllers\Attachments;
 use Traq\Controllers\ErrorController;
@@ -154,9 +155,9 @@ Router::register('admin.dashboard', '/admin', [DashboardController::class, 'inde
 Router::register('admin.settings', '/admin/settings', [AdminSettingsController::class, 'index']);
 
 // Projects
-Router::add('/admin/projects', 'traq::controllers::admin::Projects.index');
-Router::add('/admin/projects/new', 'traq::controllers::admin::Projects.new');
-Router::add('/admin/projects/([0-9]+)/delete', 'traq::controllers::admin::Projects.delete/$1');
+Router::register('admin.projects', '/admin/projects', [ProjectsController::class, 'index']);
+Router::register('admin.projects.new', '/admin/projects/new', [ProjectsController::class, 'new']);
+Router::register('admin.projects.delete', '/admin/projects/(?P<id>[0-9]+)/delete', [ProjectsController::class, 'delete']);
 
 // Plugins
 Router::register('plugins', '/admin/plugins', [Plugins::class, 'index']);
