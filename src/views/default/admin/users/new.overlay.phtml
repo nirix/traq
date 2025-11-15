@@ -1,11 +1,11 @@
-<h3><?php echo l('new_user'); ?></h3>
-<form action="<?php echo Request::requestUri(); ?>" method="post" class="overlay">
+<h3><?= l('new_user'); ?></h3>
+<form action="<?= Request::uri(); ?>" method="post" class="overlay">
 	<?php echo show_errors($user->errors); ?>
 	<div class="content">
-		<?php echo View::render('admin/users/_form'); ?>
+		<?= view('admin/users/_form', ['user' => $user]); ?>
 	</div>
 	<div class="actions">
-		<input type="submit" value="<?php echo l('create'); ?>" />
-		<input type="button" value="<?php echo l('cancel'); ?>" onclick="close_overlay();" />
+		<input type="submit" value="<?= l('create'); ?>" />
+		<input type="button" value="<?= l('cancel'); ?>" onclick="close_overlay();" />
 	</div>
 </form>

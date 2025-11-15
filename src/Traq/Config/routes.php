@@ -27,6 +27,7 @@ use Traq\Controllers\Admin\Plugins;
 use Traq\Controllers\Admin\ProjectRolesController;
 use Traq\Controllers\Admin\ProjectsController;
 use Traq\Controllers\Admin\SettingsController as AdminSettingsController;
+use Traq\Controllers\Admin\UsersController as AdminUsersController;
 use Traq\Controllers\Attachments;
 use Traq\Controllers\ErrorController;
 use Traq\Controllers\MiscController;
@@ -168,10 +169,11 @@ Router::register('plugins.disable', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/d
 Router::register('plugins.uninstall', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/uninstall', [Plugins::class, 'uninstall']);
 
 // Users
-Router::add('/admin/users', 'traq::controllers::admin::Users.index');
-Router::add('/admin/users/new', 'traq::controllers::admin::Users.new');
-Router::add('/admin/users/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Users.$2/$1');
-Router::add('/admin/users/mass_actions', 'traq::controllers::admin::Users.mass_actions');
+Router::register('admin.users', '/admin/users', [AdminUsersController::class, 'index']);
+Router::register('admin.users.new', '/admin/users/new', [AdminUsersController::class, 'new']);
+Router::register('admin.users.edit', '/admin/users/(?P<id>[0-9]+)/edit', [AdminUsersController::class, 'edit']);
+Router::register('admin.users.delete', '/admin/users/(?P<id>[0-9]+)/delete', [AdminUsersController::class, 'delete']);
+Router::register('admin.users.mass_actions', '/admin/users/mass_actions', [AdminUsersController::class, 'massActions']);
 
 // User groups
 Router::add('/admin/groups', 'traq::controllers::admin::Groups.index');

@@ -21,12 +21,12 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
+use Avalon\Http\Response;
+use Symfony\Polyfill\Intl\Idn\Resources\unidata\Regex;
 use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
 use Traq\Models\User;
 use Traq\Models\Setting;
 
@@ -38,24 +38,30 @@ use Traq\Models\Setting;
  * @package Traq
  * @subpackage Controllers
  */
-class Users extends AppController
+class UsersController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
         $this->title(l('users'));
+        $this->render['layout'] = false;
     }
 
-    public function action_index()
+    public function index(): Response
     {
-        $users = User::fetch_all();
-        View::set('users', $users);
+        $users = User::fetchAll();
+
+        if ($this->isJson) {
+            return $this->json(['users' => $users]);
+        }
+
+        return $this->render('admin/users/index', ['users' => $users]);
     }
 
     /**
      * Create user page.
      */
-    public function action_new()
+    public function new(): Response
     {
         $this->title(l('new'));
 
@@ -80,16 +86,22 @@ class Users extends AppController
                 $user->save();
 
                 // Return JSON for API
-                if ($this->isApi) {
-                    return API::response(1, array('user' => $user));
+                if ($this->isJson) {
+                    return $this->json(['user' => $user]);
                 } else {
-                    Request::redirect(Request::base('/admin/users'));
+                    return $this->redirectTo('/admin/users');
                 }
             }
         }
 
         // Send the user object to the view.
-        View::set('user', $user);
+        if (Request::get('overlay') === 'true') {
+            $view = 'new.overlay.phtml';
+        } else {
+            $view = 'new.phtml';
+        }
+
+        return $this->render("admin/users/{$view}", ['user' => $user]);
     }
 
     /**
@@ -97,7 +109,7 @@ class Users extends AppController
      *
      * @param integer $id Users ID.
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         $this->title(l('edit'));
 
@@ -133,15 +145,21 @@ class Users extends AppController
 
                 // Return JSON for API
                 if ($this->isApi) {
-                    return API::response(1, array('user' => $user));
+                    return $this->json(['user' => $user]);
                 } else {
-                    Request::redirect(Request::base('/admin/users'));
+                    return $this->redirectTo('/admin/users');
                 }
             }
         }
 
         // Send the user object to the view.
-        View::set('user', $user);
+        if (Request::get('overlay') === 'true') {
+            $view = 'edit.overlay.phtml';
+        } else {
+            $view = 'edit.phtml';
+        }
+
+        return $this->render("admin/users/{$view}", ['user' => $user]);
     }
 
     /**
@@ -149,28 +167,28 @@ class Users extends AppController
      *
      * @param integer $id Users ID.
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Find and delete the user then
         // redirect to the user listing page.
         $user = User::find($id)->delete();
 
         // Return JSON for API, like always...
-        if ($this->isApi) {
-            return API::response(1);
+        if ($this->isJson) {
+            return $this->json(['success' => true]);
         } else {
-            Request::redirect(Request::base('/admin/users'));
+            return $this->redirectTo('/admin/users');
         }
     }
 
     /**
      * Mass Action processing.
      */
-    public function action_mass_actions()
+    public function massActions(): Response
     {
         // Make sure there are some users...
         if (!isset(Request::$post['users']) || empty(Request::$post['users'])) {
-            Request::redirect(Request::base('/admin/users'));
+            return $this->redirectTo('/admin/users');
             exit;
         }
 
@@ -211,6 +229,6 @@ class Users extends AppController
             }
         }
 
-        Request::redirect(Request::base('/admin/users'));
+        return $this->redirectTo('/admin/users');
     }
 }

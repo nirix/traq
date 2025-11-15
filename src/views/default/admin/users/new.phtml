@@ -1,14 +1,16 @@
+<?php extendView('layouts/admin.phtml'); ?>
+
 <div class="content">
-	<h3><?php echo l('new_user'); ?></h3>
-	<form action="<?php echo Request::RequestUri(); ?>" method="post">
-		<?php echo show_errors($user->errors); ?>
+	<h3><?= l('new_user'); ?></h3>
+	<form action="<?= Request::RequestUri(); ?>" method="post">
+		<?= show_errors($user->errors); ?>
 		<div class="panel">
 			<div class="panel-content">
-				<?php echo View::render('admin/users/_form'); ?>
+				<?= view('admin/users/_form', ['user' => $user]); ?>
 			</div>
 		</div>
 		<div class="actions">
-			<input type="submit" value="<?php echo l('create'); ?>" />
+			<input type="submit" value="<?= l('create'); ?>" />
 		</div>
 	</form>
 </div>

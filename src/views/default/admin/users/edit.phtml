@@ -1,12 +1,14 @@
+<?php extendView('layouts/admin.phtml'); ?>
+
 <div class="content">
-	<h3><?php echo l('edit_user'); ?></h3>
-	<form action="<?php echo Request::requestUri(); ?>" method="post">
-		<?php echo show_errors($user->errors); ?>
+	<h3><?= l('edit_user'); ?></h3>
+	<form action="<?= Request::getUri(); ?>" method="post">
+		<?= show_errors($user->errors); ?>
 		<div class="panel">
-			<?php echo View::render('admin/users/_form'); ?>
+			<?= view('admin/users/_form', ['user' => $user]); ?>
 		</div>
 		<div class="actions">
-			<input type="submit" value="<?php echo l('save'); ?>" />
+			<input type="submit" value="<?= l('save'); ?>" />
 		</div>
 	</form>
 </div>
