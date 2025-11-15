@@ -38,8 +38,8 @@ use Traq\Controllers\ProjectSettings\PermissionsController;
 use Traq\Controllers\ProjectSettings\SettingsController;
 use Traq\Controllers\SearchController;
 use Traq\Controllers\SubscriptionsController;
+use Traq\Controllers\TicketController;
 use Traq\Controllers\TicketHistoryController;
-use traq\controllers\Tickets;
 use Traq\Controllers\TicketTasksController;
 use Traq\Controllers\TimelineController;
 use Traq\Controllers\UserController;
@@ -87,7 +87,6 @@ Router::register('attachments.delete', '/attachments/(?P<attachment_id>[0-9]+)/(
 
 // ------------------------------------------------
 // Project routes
-// Router::add('/projects', 'traq::controllers::Projects.index');
 Router::register('projects', '/projects', [ProjectController::class, 'index']);
 Router::register('project', '/' . PROJECT_SLUG, [ProjectController::class, 'view']);
 Router::register('project.roadmap', '/' . PROJECT_SLUG . '/roadmap', [ProjectController::class, 'roadmap']);
@@ -98,18 +97,20 @@ Router::register('timeline', '/' . PROJECT_SLUG . '/timeline', [TimelineControll
 Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>[0-9]+)/delete', [TimelineController::class, 'deleteEvent']);
 
 // Ticket routes
-Router::register('tickets.new', '/' . PROJECT_SLUG . '/tickets/new', [Tickets::class, 'action_new']);
-Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', 'traq::controllers::Tickets.view/$2');
-Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', 'traq::controllers::Tickets.move/$2');
-Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', 'traq::controllers::Tickets.delete/$2');
-Router::add('/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(update|edit|vote|voters)', 'traq::controllers::Tickets.$3/$2');
+Router::register('tickets.new', '/' . PROJECT_SLUG . '/tickets/new', [TicketController::class, 'create']);
+Router::register('tickets.view', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', [TicketController::class, 'view']);
+Router::register('tickets.update', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/update', [TicketController::class, 'update']);
+Router::register('tickets.move', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', [TicketController::class, 'move']);
+Router::register('tickets.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', [TicketController::class, 'delete']);
+Router::register('tickets.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/edit', [TicketController::class, 'edit']);
+Router::register('tickets.vote', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/vote', [TicketController::class, 'vote']);
+Router::register('tickets.voters', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/voters', [TicketController::class, 'voters']);
 Router::register('ticket.history.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/edit', [TicketHistoryController::class, 'edit']);
 Router::register('ticket.history.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/delete', [TicketHistoryController::class, 'delete']);
 Router::register('ticket.tasks.toggle', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/(?P<task_id>[0-9]+)', [TicketTasksController::class, 'toggle']);
 Router::register('ticket.tasks.manage', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', [TicketTasksController::class, 'manage']);
-Router::add('/' . PROJECT_SLUG . '/tickets/mass-actions', 'traq::controllers::Tickets.mass_actions');
-Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'index']);
-Router::register('api.tickets', '/api/' . PROJECT_SLUG . '/tickets', [Tickets::class, 'action_api']);
+Router::register('tickets.massActions', '/' . PROJECT_SLUG . '/tickets/mass-actions', [TicketController::class, 'massActions']);
+Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [TicketController::class, 'index']);
 
 // Wiki routes
 Router::register('wiki.new', '/' . PROJECT_SLUG . '/wiki/_new', [Wiki::class, 'create']);

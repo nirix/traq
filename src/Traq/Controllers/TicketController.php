@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Router;
@@ -37,7 +37,8 @@ use Traq\Models\Subscription;
 use Traq\Models\CustomField;
 use Traq\Models\Timeline;
 use traq\helpers\Pagination;
-use Traq\Queries\TicketFilterQuery as TicketFilterQuery;
+use Traq\Middleware\AuthMiddleware;
+use Traq\Queries\TicketFilterQuery;
 
 /**
  * Ticket controller.
@@ -47,17 +48,8 @@ use Traq\Queries\TicketFilterQuery as TicketFilterQuery;
  * @package Traq
  * @subpackage Controllers
  */
-class Tickets extends AppController
+class TicketController extends AppController
 {
-    // Before filters
-    public $before = array(
-        'view' => array('_check_permission'),
-        'new' => array('_check_permission'),
-        'edit' => array('_check_permission'),
-        'update' => array('_check_permission'),
-        'delete' => array('_check_permission')
-    );
-
     protected $custom_fields = [];
 
     /**
@@ -78,7 +70,7 @@ class Tickets extends AppController
     public function index(): Response
     {
         if (Request::method() === 'POST') {
-            return $this->action_new();
+            return $this->create();
         }
 
         if ($this->isJson) {
@@ -149,11 +141,13 @@ class Tickets extends AppController
     }
 
     /**
+     *
      * Handles the view ticket page.
      *
      * @param integer $ticket_id
      */
-    public function action_view($ticket_id)
+    #[AuthMiddleware(['view_tickets'])]
+    public function view(int $ticket_id)
     {
         // Fetch the ticket from the database and send it to the view.
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
@@ -201,6 +195,8 @@ class Tickets extends AppController
         View::set('ticket', $ticket);
         View::set('attachments', $ticket->attachments->exec()->fetchAll());
         View::set('ticket_history', $ticket_history);
+
+        return $this->render('tickets/view.phtml');
     }
 
     /**
@@ -208,7 +204,7 @@ class Tickets extends AppController
      *
      * @param integer $ticket_id
      */
-    public function action_vote($ticket_id)
+    public function vote(int $ticket_id)
     {
         // Get the ticket
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
@@ -232,6 +228,9 @@ class Tickets extends AppController
         else {
             View::set('error', l('errors.already_voted'));
         }
+
+        $this->render['layout'] = false;
+        return $this->render('tickets/vote.js.php');
     }
 
     /**
@@ -239,7 +238,7 @@ class Tickets extends AppController
      *
      * @param integer $ticket_id
      */
-    public function action_voters($ticket_id)
+    public function voters($ticket_id)
     {
         // Get the ticket
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
@@ -255,12 +254,21 @@ class Tickets extends AppController
         }
 
         View::set('voters', $voters);
+
+        $this->render['layout'] = false;
+        if (Request::get('overlay') === 'true') {
+            return $this->render('tickets/voters.overlay.phtml');
+        }
+
+        return $this->render('tickets/voters.popover.phtml');
     }
 
     /**
+     *
      * Handles the new ticket page and ticket creation.
      */
-    public function action_new()
+    #[AuthMiddleware(['create_tickets'])]
+    public function create()
     {
         // Set the title
         $this->title(l('new_ticket'));
@@ -398,7 +406,7 @@ class Tickets extends AppController
                         'ticket' => $ticket->__toArray()
                     ]);
                 } else {
-                    Request::redirectTo($ticket->href());
+                    return $this->redirectTo($ticket->href());
                 }
             }
         }
@@ -415,9 +423,11 @@ class Tickets extends AppController
     }
 
     /**
+     *
      * Handles the updating of the ticket.
      */
-    public function action_update($ticket_id)
+    #[AuthMiddleware(['update_tickets'])]
+    public function update(int $ticket_id)
     {
         // Get the ticket
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
@@ -598,9 +608,11 @@ class Tickets extends AppController
     }
 
     /**
+     *
      * Handles the editing of the ticket description.
      */
-    public function action_edit($ticket_id)
+    #[AuthMiddleware(['edit_ticket_description'])]
+    public function edit(int $ticket_id)
     {
         // Get the ticket
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
@@ -621,6 +633,8 @@ class Tickets extends AppController
         }
 
         View::set('ticket', $ticket);
+
+        return $this->render('tickets/edit.phtml');
     }
 
     /**
@@ -628,7 +642,8 @@ class Tickets extends AppController
      *
      * @param integer $ticket_id
      */
-    public function action_move($ticket_id)
+    #[AuthMiddleware(['move_tickets'])]
+    public function move(int $ticket_id)
     {
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
         $next_step = 2;
@@ -686,12 +701,16 @@ class Tickets extends AppController
         }
 
         View::set(array('ticket' => $ticket, 'next_step' => $next_step));
+
+        return $this->render('tickets/move.phtml');
     }
 
     /**
+     *
      * Delete ticket.
      */
-    public function action_delete($ticket_id)
+    #[AuthMiddleware(['delete_tickets'])]
+    public function delete(int $ticket_id)
     {
         // Get ticket, delete it then redirect to ticket listing
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
@@ -700,9 +719,11 @@ class Tickets extends AppController
     }
 
     /**
+     *
      * Mass Actions.
      */
-    public function action_mass_actions()
+    #[AuthMiddleware(['update_tickets'])]
+    public function massActions()
     {
         // Check permission
         if (!$this->user->permission($this->project->id, 'perform_mass_actions')) {
@@ -798,50 +819,9 @@ class Tickets extends AppController
         setcookie('selected_tickets', '', time(), '/');
 
         if (Router::$extension === '.json') {
-            $this->apiResponse(['success' => true]);
+            return $this->json(['success' => true]);
         } else {
-            Request::redirectTo($this->project->href('tickets'));
-        }
-    }
-
-    /**
-     * Used to check the permission for the requested action.
-     */
-    public function _check_permission($method)
-    {
-        // Set the proper action depending on the method
-        switch ($method) {
-            // View ticket
-            case 'view':
-                $action = 'view_tickets';
-                break;
-
-            // Create ticket
-            case 'new':
-                $action = 'create_tickets';
-                break;
-
-            // Edit ticket description
-            case 'edit':
-                $action = 'edit_ticket_description';
-                break;
-
-            // Update ticket properties
-            case 'update':
-                $action = 'update_tickets';
-                break;
-
-            // Delete tickets
-            case 'delete':
-                $action = 'delete_tickets';
-                break;
-        }
-
-        // Check if the user has permission
-        if (!$this->user->permission($this->project->id, $action)) {
-            // oh noes! display the no permission page.
-            $this->show_no_permission();
-            return false;
+            return $this->redirectTo($this->project->href('tickets'));
         }
     }
 }
