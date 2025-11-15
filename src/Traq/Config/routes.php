@@ -43,7 +43,7 @@ use traq\controllers\Tickets;
 use Traq\Controllers\TicketTasksController;
 use Traq\Controllers\TimelineController;
 use Traq\Controllers\UserController;
-use traq\controllers\Usercp;
+use Traq\Controllers\UserCPController;
 use Traq\Controllers\Wiki;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
@@ -58,10 +58,11 @@ Router::register('users.register', '/register', [UserController::class, 'registe
 Router::register('users.validate', '/users/validate/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'validate']);
 Router::register('users.resetPassword', '/login/resetpassword', [UserController::class, 'resetPassword']);
 Router::register('users.resetPassword.key', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPassword']);
-Router::register('usercp', '/usercp', [Usercp::class, 'action_index']);
-Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
+Router::register('usercp', '/usercp', [UserCPController::class, 'index']);
+Router::register('usercp.password', '/usercp/password', [UserCPController::class, 'password']);
+Router::register('usercp.subscriptions', '/usercp/subscriptions', [UserCPController::class, 'subscriptions']);
+Router::register('usercp.create_api_key', '/usercp/create_api_key', [UserCPController::class, 'createApiKey']);
 Router::register('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
-Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
 
 // API
 Router::register('api.auth', '/api/auth', ['\Traq\Controllers\ApiController', 'auth']);

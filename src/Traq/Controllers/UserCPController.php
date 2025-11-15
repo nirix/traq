@@ -21,13 +21,14 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers;
+namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Output\View;
 use \FishHook;
 use Traq\Controllers\AppController;
 use traq\helpers\API;
+use Traq\Middleware\AuthMiddleware;
 use Traq\Models\Subscription;
 
 /**
@@ -38,24 +39,14 @@ use Traq\Models\Subscription;
  * @package Traq
  * @subpackage Controllers
  */
-class Usercp extends AppController
+#[AuthMiddleware()]
+class UserCPController extends AppController
 {
-    public function __construct()
-    {
-        parent::__construct();
-        View::set('user', $this->user);
-    }
-
     /**
      * The index page.
      */
-    public function action_index()
+    public function index()
     {
-        // Make sure the user is logged in
-        if (!LOGGEDIN) {
-            $this->show_no_permission();
-        }
-
         // Clone the logged in user object
         $user = clone $this->user;
 
@@ -92,13 +83,8 @@ class Usercp extends AppController
     /**
      * Password page.
      */
-    public function action_password()
+    public function password()
     {
-        // Make sure the user is logged in
-        if (!LOGGEDIN or $this->isApi) {
-            return $this->show_no_permission();
-        }
-
         // Clone the logged in user object
         $user = clone $this->user;
 
@@ -126,24 +112,30 @@ class Usercp extends AppController
         }
 
         View::set('user', $user);
+
+        return $this->render('usercp/password.phtml');
     }
 
     /**
      * Generate the users API key.
      */
-    public function action_create_api_key()
+    public function createApiKey()
     {
         $this->user->generate_api_key();
         $this->user->save();
-        Request::redirectTo('usercp');
+
+        return $this->redirectTo('usercp');
     }
 
     /**
      * Subscriptions page
      */
-    public function action_subscriptions()
+    public function subscriptions()
     {
         $subscriptions = Subscription::select()->where('user_id', $this->user->id)->exec()->fetch_all();
         View::set('subscriptions', $subscriptions);
+        View::set('user', $this->user);
+
+        return $this->render('usercp/subscriptions.phtml');
     }
 }
