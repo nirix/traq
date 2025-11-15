@@ -1,11 +1,11 @@
 <h3><?= l('new_priority'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post" class="overlay">
+<form action="<?= Request::uri(); ?>" method="post" class="overlay">
 	<?= show_errors($priority->errors); ?>
 	<div class="content">
-		<?= View::render('admin/priorities/_form'); ?>
+		<?= view('admin/priorities/_form', ['priority' => $priority]); ?>
 	</div>
 	<div class="actions">
-		<input type="submit" value="<?= l('create'); ?>" />
+		<input type="submit" value="<?= l('create'); ?>" class="btn-primary" />
 		<input type="button" value="<?= l('cancel'); ?>" onclick="close_overlay();" />
 	</div>
 </form>

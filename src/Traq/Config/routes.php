@@ -25,6 +25,7 @@ use Avalon\Http\Router;
 use Traq\Controllers\Admin\DashboardController;
 use Traq\Controllers\Admin\GroupsController;
 use Traq\Controllers\Admin\Plugins;
+use Traq\Controllers\Admin\PrioritiesController;
 use Traq\Controllers\Admin\ProjectRolesController;
 use Traq\Controllers\Admin\ProjectsController;
 use Traq\Controllers\Admin\SettingsController as AdminSettingsController;
@@ -210,6 +211,7 @@ Router::register('admin.severities.edit', '/admin/severities/(?P<id>[0-9]+)/edit
 Router::register('admin.severities.delete', '/admin/severities/(?P<id>[0-9]+)/delete', [SeveritiesController::class, 'delete']);
 
 // Priorities
-Router::add('/admin/priorities', 'traq::controllers::admin::Priorities.index');
-Router::add('/admin/priorities/new', 'traq::controllers::admin::Priorities.new');
-Router::add('/admin/priorities/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Priorities.$2/$1');
+Router::register('admin.priorities', '/admin/priorities', [PrioritiesController::class, 'index']);
+Router::register('admin.priorities.new', '/admin/priorities/new', [PrioritiesController::class, 'new']);
+Router::register('admin.priorities.edit', '/admin/priorities/(?P<id>[0-9]+)/edit', [PrioritiesController::class, 'edit']);
+Router::register('admin.priorities.delete', '/admin/priorities/(?P<id>[0-9]+)/delete', [PrioritiesController::class, 'delete']);

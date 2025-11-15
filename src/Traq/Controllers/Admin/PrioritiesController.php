@@ -21,12 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Priority;
 
 /**
@@ -37,26 +35,33 @@ use Traq\Models\Priority;
  * @package Traq
  * @subpackage Controllers
  */
-class Priorities extends AppController
+class PrioritiesController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
         $this->title(l('priorities'));
+        $this->render['layout'] = false;
     }
 
     /**
      * priority listing.
      */
-    public function action_index()
+    public function index(): Response
     {
-        View::set('priorities', priority::fetch_all());
+        $priorities = Priority::fetchAll();
+
+        if ($this->isJson) {
+            return $this->json(['priorities' => $priorities]);
+        }
+
+        return $this->render('admin/priorities/index', ['priorities' => $priorities]);
     }
 
     /**
      * New priority.
      */
-    public function action_new()
+    public function new(): Response
     {
         // Create the priority
         $priority = new Priority();
@@ -68,15 +73,21 @@ class Priorities extends AppController
 
             // Save and redirect
             if ($priority->save()) {
-                if ($this->isApi) {
-                    return API::response(1, array('priority' => $priority));
+                if ($this->isJson) {
+                    return $this->json(['priority' => $priority]);
                 } else {
-                    Request::redirectTo('/admin/priorities');
+                    return $this->redirectTo('/admin/priorities');
                 }
             }
         }
 
-        View::set('priority', $priority);
+        if (Request::get('overlay') === 'true') {
+            $view = 'new.overlay.phtml';
+        } else {
+            $view = 'new.phtml';
+        }
+
+        return $this->render("admin/priorities/{$view}", ['priority' => $priority]);
     }
 
     /**
@@ -84,7 +95,7 @@ class Priorities extends AppController
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         // Get the priority
         $priority = Priority::find($id);
@@ -96,15 +107,21 @@ class Priorities extends AppController
 
             // Save and redirect
             if ($priority->save()) {
-                if ($this->isApi) {
-                    return API::response(1, array('priority' => $priority));
+                if ($this->isJson) {
+                    return $this->json(['priority' => $priority]);
                 } else {
-                    Request::redirectTo('/admin/priorities');
+                    return $this->redirectTo('/admin/priorities');
                 }
             }
         }
 
-        View::set('priority', $priority);
+        if (Request::get('overlay') === 'true') {
+            $view = 'edit.overlay.phtml';
+        } else {
+            $view = 'edit.phtml';
+        }
+
+        return $this->render("admin/priorities/{$view}", ['priority' => $priority]);
     }
 
     /**
@@ -112,15 +129,15 @@ class Priorities extends AppController
      *
      * @param integer $id
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Find and delete priority
         $priority = Priority::find($id)->delete();
 
-        if ($this->isApi) {
-            return API::response(1);
+        if ($this->isJson) {
+            return $this->json(['success' => true]);
         } else {
-            Request::redirectTo('/admin/priorities');
+            return $this->redirectTo('/admin/priorities');
         }
     }
 }
