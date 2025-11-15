@@ -1,11 +1,11 @@
 <h3><?= l('new_status'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post" class="overlay">
+<form action="<?= Request::uri(); ?>" method="post" class="overlay">
 	<?= show_errors($status->errors); ?>
 	<div class="content">
-		<?= View::render('admin/statuses/_form'); ?>
+		<?= view('admin/statuses/_form', ['status' => $status]); ?>
 	</div>
 	<div class="actions">
-		<input type="submit" value="<?= l('create'); ?>" />
+		<input type="submit" value="<?= l('create'); ?>" class="btn-primary" />
 		<input type="button" value="<?= l('cancel'); ?>" onclick="close_overlay();" />
 	</div>
 </form>

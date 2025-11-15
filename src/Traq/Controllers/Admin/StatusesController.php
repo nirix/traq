@@ -21,12 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Status;
 
 /**
@@ -37,24 +35,30 @@ use Traq\Models\Status;
  * @package Traq
  * @subpackage Controllers
  */
-class Statuses extends AppController
+class StatusesController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
         $this->title(l('statuses'));
+        $this->render['layout'] = false;
     }
 
-    public function action_index()
+    public function index(): Response
     {
-        $statuses = Status::fetch_all();
-        View::set('statuses', $statuses);
+        $statuses = Status::fetchAll();
+
+        if ($this->isJson) {
+            return $this->json(['statuses' => $statuses]);
+        }
+
+        return $this->render('admin/statuses/index', ['statuses' => $statuses]);
     }
 
     /**
      * New status page.
      */
-    public function action_new()
+    public function new(): Response
     {
         $this->title(l('new'));
 
@@ -74,16 +78,22 @@ class Statuses extends AppController
             if ($status->is_valid()) {
                 // Save and redirect.
                 $status->save();
-                if ($this->isApi) {
-                    return API::response(1, array('status' => $status));
+                if ($this->isJson) {
+                    return $this->json(['status' => $status]);
                 } else {
-                    Request::redirectTo('/admin/tickets/statuses');
+                    return $this->redirectTo('/admin/tickets/statuses');
                 }
             }
         }
 
         // Send the data to the view.
-        View::set('status', $status);
+        if (Request::get('overlay') === 'true') {
+            $view = 'new.overlay.phtml';
+        } else {
+            $view = 'new.phtml';
+        }
+
+        return $this->render("admin/statuses/{$view}", ['status' => $status]);
     }
 
     /**
@@ -91,7 +101,7 @@ class Statuses extends AppController
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         $this->title(l('edit'));
 
@@ -117,16 +127,22 @@ class Statuses extends AppController
             if ($status->is_valid()) {
                 // Save and redirect.
                 $status->save();
-                if ($this->isApi) {
-                    return API::response(1, array('status' => $status));
+                if ($this->isJson) {
+                    return $this->json(['status' => $status]);
                 } else {
-                    Request::redirectTo('/admin/tickets/statuses');
+                    return $this->redirectTo('/admin/tickets/statuses');
                 }
             }
         }
 
         // Send the data to the view.
-        View::set('status', $status);
+        if (Request::get('overlay') === 'true') {
+            $view = 'edit.overlay.phtml';
+        } else {
+            $view = 'edit.phtml';
+        }
+
+        return $this->render("admin/statuses/{$view}", ['status' => $status]);
     }
 
     /**
@@ -134,14 +150,14 @@ class Statuses extends AppController
      *
      * @param integer $id
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Fetch the status, delete it and redirect.
         $status = Status::find($id)->delete();
-        if ($this->isApi) {
-            return API::response(1);
+        if ($this->isJson) {
+            return $this->json(['success' => true]);
         } else {
-            Request::redirectTo('/admin/tickets/statuses');
+            return $this->redirectTo('/admin/tickets/statuses');
         }
     }
 }
