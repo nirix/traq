@@ -39,6 +39,8 @@ class ErrorController extends AppController
 {
     public function error404(): Response
     {
+        $this->render['layout'] = false;
+
         $response = $this->render('error/404', [
             'request' => Request::requestUri(),
         ]);
