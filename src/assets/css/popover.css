@@ -1,6 +1,7 @@
 #popover {
   min-width: 200px;
   position: absolute;
+  z-index: 10;
 
   .popover_confirm {
     @apply p-2 text-center;
