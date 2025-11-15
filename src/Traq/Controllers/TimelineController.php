@@ -63,6 +63,7 @@ class TimelineController extends AppController
         $milestoneIds = [];
         $wikiIds = [];
         $userIds = [];
+        $projectIds = [];
 
         foreach ($events as $event) {
             $event = new Timeline($event, false);
@@ -79,6 +80,8 @@ class TimelineController extends AppController
                 $milestoneIds[] = $event->owner_id;
             } elseif (\in_array($event->action, Timeline::WIKI_EVENTS)) {
                 $wikiIds[] = $event->owner_id;
+            } elseif (\in_array($event->action, Timeline::TICKET_MOVED_EVENTS)) {
+                $projectIds[] = $event->data;
             }
 
             // Create the day container
@@ -113,6 +116,7 @@ class TimelineController extends AppController
         $milestones = \count($milestoneIds) ? $this->getMilestones($milestoneIds) : [];
         $wikiPages = \count($wikiIds) ? $this->getWikiPages($wikiIds) : [];
 
+        $projects = \count($projectIds) ? $this->getProjects($projectIds) : [];
         return $this->render('timeline/index', [
             'pagination' => $pagination,
             'groupedEvents' => $groupedEvents,
@@ -120,6 +124,7 @@ class TimelineController extends AppController
             'tickets' => $tickets,
             'milestones' => $milestones,
             'wikiPages' => $wikiPages,
+            'projects' => $projects,
         ]);
     }
 
@@ -222,5 +227,19 @@ class TimelineController extends AppController
         }
 
         return $pages;
+    }
+
+    private function getProjects(array $projectIds): array
+    {
+        $inIds = str_repeat('?, ', \count($projectIds) - 1) . '?';
+        $query = $this->db->prepare("SELECT `id`, `name` AS project_name, `slug` AS project_slug FROM `{$this->db->prefix}projects` WHERE `id` IN ($inIds)");
+        $query->exec($projectIds);
+
+        $projects = [];
+        foreach ($query->fetchAll() as $project) {
+            $projects[$project['id']] = $project;
+        }
+
+        return $projects;
     }
 }

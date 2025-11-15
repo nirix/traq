@@ -43,6 +43,14 @@
                                             ),
                                             currentProject()->href("wiki/{$wikiPages[$event->owner_id]['slug']}")
                                         ) ?>
+                                    <?php elseif ($event->isTicketMoved()) : ?>
+                                        <?= HTML::link(
+                                            l(
+                                                $event->getTranslationString(),
+                                                [...$tickets[$event->owner_id], ...$projects[$event->data]],
+                                            ),
+                                            currentProject()->href("tickets/{$tickets[$event->owner_id]['ticket_id']}")
+                                        ) ?>
                                     <?php endif; ?>
                                 </span>
                             </li>

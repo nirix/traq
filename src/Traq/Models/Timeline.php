@@ -57,6 +57,9 @@ class Timeline extends Model
         'ticket_closed',
         'ticket_reopened',
         'ticket_comment',
+    ];
+
+    public const TICKET_MOVED_EVENTS = [
         'ticket_moved_from',
         'ticket_moved_to',
     ];
@@ -170,5 +173,10 @@ class Timeline extends Model
     public function isWiki(): bool
     {
         return \in_array($this->action, static::WIKI_EVENTS);
+    }
+
+    public function isTicketMoved(): bool
+    {
+        return \in_array($this->action, static::TICKET_MOVED_EVENTS);
     }
 }
