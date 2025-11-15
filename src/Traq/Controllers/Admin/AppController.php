@@ -25,6 +25,7 @@ namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
 use Traq\Controllers\AppController as ControllersAppController;
+use Traq\Middleware\AuthMiddleware;
 
 /**
  * AdminCP controller
@@ -34,6 +35,7 @@ use Traq\Controllers\AppController as ControllersAppController;
  * @package Traq
  * @subpackage Controllers
  */
+#[AuthMiddleware(admin: true)]
 class AppController extends ControllersAppController
 {
     /**
@@ -46,15 +48,5 @@ class AppController extends ControllersAppController
         // Set the admin layout.
         $this->render['layout'] = 'admin';
         $this->title(l('admincp'));
-
-        // Check if the user is an admin before
-        // if not show the login page with this pages
-        // URI so we can redirect them back to this page
-        // after they login.
-        if (LOGGEDIN && $this->user && !$this->user->group->is_admin) {
-            $this->show_no_permission();
-        } elseif (!LOGGEDIN) {
-            $this->show_login(Request::requestUri());
-        }
     }
 }

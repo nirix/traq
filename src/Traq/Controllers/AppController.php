@@ -34,11 +34,10 @@ use Avalon\Http\Response;
 use Avalon\Http\Router;
 use Avalon\Output\Body;
 use Avalon\Output\View;
-
-use Traq\Locale;
+use Traq\Middleware\ProjectMiddleware;
+use Traq\Middleware\UserMiddleware;
 use Traq\Models\User;
 use Traq\Models\Project;
-use traq\helpers\API;
 
 /**
  * App controller
@@ -48,12 +47,14 @@ use traq\helpers\API;
  * @package Traq
  * @subpackage Controllers
  */
+#[UserMiddleware]
+#[ProjectMiddleware]
 class AppController extends Controller
 {
     public array $title = [];
     public array $feeds = [];
     public ?User $user = null;
-    public Project|false $project = false;
+    public ?Project $project = null;
     public array $projects = [];
     protected bool $isAtom = false;
     protected PDO $db;
@@ -84,6 +85,25 @@ class AppController extends Controller
         // Call the controller class constructor
         parent::__construct();
 
+        // Set is_api and JSON view extension
+        $this->user = Request::get('current_user');
+        if (Request::get('is_api')) {
+            $this->isApi = true;
+            $this->isJson = true;
+            Router::$extension = '.json';
+            $this->render['view'] = $this->render['view'] . ".json";
+        }
+
+        // Set the project
+        $this->project = Request::get('project');
+        if ($this->project) {
+            // Add project name to page title
+            $this->title($this->project->name);
+
+            // Send the project object to the view
+            View::set('project', $this->project);
+        }
+
         // Fix plugin view location
         if (strpos(Router::$controller, "\\traq\\plugins") !== false) {
             $this->render['view'] = str_replace("controllers/", '', $this->render['view']);
@@ -92,48 +112,10 @@ class AppController extends Controller
         // Set the title
         $this->title(settings('title'));
 
-        // Load helpers
-        Load::helper(
-            'html',
-            'errors',
-            'form',
-            'js',
-            'formats',
-            'time_ago',
-            'string',
-            'subscriptions',
-            'timeline',
-            'formatting',
-            'tickets',
-        );
-
         $this->loadHelpers();
-
-        // Get the user info
-        $this->getUser();
 
         // Set the theme, title and pass the app object to the view.
         View::set('traq', $this);
-
-        // Check if we're on a project page and get the project info
-        $projectSlug = isset(Router::$params['project_slug'])
-            ? Router::$params['project_slug']
-            : (isset(Router::$attributes['project_slug']) ? Router::$attributes['project_slug'] : false);
-
-        if (
-            $projectSlug &&
-            $this->project = is_project($projectSlug)
-        ) {
-            if ($this->user->permission($this->project->id, 'view')) {
-                // Add project name to page title
-                $this->title($this->project->name);
-
-                // Send the project object to the view
-                View::set('project', $this->project);
-            } else {
-                $this->show_no_permission();
-            }
-        }
 
         // Fetch all projects and make sure the user has permission
         // to access the project then pass them to the view.
@@ -183,6 +165,7 @@ class AppController extends Controller
         header("HTTP/1.0 401 Unauthorized");
         $this->render['view'] = 'error/no_permission';
         $this->render['action'] = false;
+        $this->render['layout'] = 'default';
     }
 
     public function renderNoPermission(): Response
@@ -197,75 +180,7 @@ class AppController extends Controller
     {
         $this->render['action'] = false;
         $this->render['view'] = 'users/login' . ($this->is_api ? '.api' : '');
-    }
-
-    private function getApiKey(): ?string
-    {
-        $authHeader = $_SERVER['HTTP_X_API_KEY'] ?? null;
-
-        if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
-            return trim(substr($authHeader, 7));
-        }
-
-        return $authHeader;
-    }
-
-    /**
-     * Does the checking for the session cookie and fetches the users info.
-     *
-     * @author Jack P.
-     * @since 3.0
-     * @access private
-     */
-    private function getUser(): void
-    {
-        global $locale;
-
-        // Check if the session cookie is set, if so, check if it matches a user
-        // and set set the user info.
-        if (isset($_COOKIE['_traq']) && $user = User::find('login_hash', $_COOKIE['_traq'])) {
-            $this->user = $user;
-        }
-        // Check if the API key is set
-        else {
-            $apiKey = $this->getApiKey();
-
-            if ($apiKey) {
-                $this->user = User::find('api_key', $apiKey);
-
-                // Set is_api and JSON view extension
-                $this->is_api = true;
-                $this->isApi = true;
-                $this->isJson = true;
-                Router::$extension = '.json';
-                $this->render['view'] = $this->render['view'] . ".json";
-            }
-        }
-
-        // If a user was found, load their language
-        if ($this->user) {
-            // Load user's locale
-            if ($this->user->locale != '') {
-                $user_locale = Locale::load($this->user->locale);
-                if ($user_locale) {
-                    $locale = $user_locale;
-                }
-            }
-
-            define("LOGGEDIN", true);
-        }
-        // Otherwise just set the user info to guest.
-        else {
-            $this->user = new User(array(
-                'id' => settings('anonymous_user_id'),
-                'username' => l('guest'),
-                'group_id' => 3
-            ));
-            define("LOGGEDIN", false);
-        }
-
-        // Set the current_user variable in the views.
-        View::set('current_user', $this->user);
+        $this->render['layout'] = 'default';
     }
 
     /**

@@ -190,17 +190,17 @@ function active_nav($uri)
  */
 function current_user()
 {
-    return Avalon::app()->user;
+    return currentUser();
 }
 
-function currentUser(): User|false
+function currentUser(): User|null
 {
-    return Avalon::app()->user;
+    return Request::get('current_user');
 }
 
-function currentProject(): Project|false
+function currentProject(): Project|null
 {
-    return Avalon::app()->project;
+    return Request::get('project');
 }
 
 /**

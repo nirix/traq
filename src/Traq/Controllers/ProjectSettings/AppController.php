@@ -24,6 +24,7 @@
 namespace Traq\Controllers\ProjectSettings;
 
 use Traq\Controllers\AppController as ControllersAppController;
+use Traq\Middleware\AuthMiddleware;
 
 /**
  * Project settings controller
@@ -33,6 +34,9 @@ use Traq\Controllers\AppController as ControllersAppController;
  * @package Traq
  * @subpackage Controllers
  */
+#[AuthMiddleware([
+    'project_settings'
+])]
 class AppController extends ControllersAppController
 {
     /**
@@ -46,15 +50,5 @@ class AppController extends ControllersAppController
 
         // Add 'Settings' to the page title
         $this->title(l('settings'));
-
-        // Make sure this is a project and the user
-        // has the correct permission to access the area.
-        if (
-            !$this->project
-            || (!$this->user->permission($this->project->id, 'project_settings') && !$this->user->group->is_admin)
-        ) {
-            $this->render['layout'] = 'default.phtml';
-            $this->show_no_permission();
-        }
     }
 }
