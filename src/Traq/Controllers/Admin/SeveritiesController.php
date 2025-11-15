@@ -21,12 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Severity;
 
 /**
@@ -37,26 +35,33 @@ use Traq\Models\Severity;
  * @package Traq
  * @subpackage Controllers
  */
-class Severities extends AppController
+class SeveritiesController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
         $this->title(l('severities'));
+        $this->render['layout'] = false;
     }
 
     /**
      * Severity listing.
      */
-    public function action_index()
+    public function index(): Response
     {
-        View::set('severities', Severity::fetch_all());
+        $severities = Severity::fetchAll();
+
+        if ($this->isJson) {
+            return $this->json(['severities' => $severities]);
+        }
+
+        return $this->render('admin/severities/index', ['severities' => $severities]);
     }
 
     /**
      * New severity.
      */
-    public function action_new()
+    public function new(): Response
     {
         // Create the severity
         $severity = new Severity();
@@ -69,14 +74,20 @@ class Severities extends AppController
             // Save and redirect
             if ($severity->save()) {
                 if ($this->isApi) {
-                    return API::response(1, array('severity' => $severity));
+                    return $this->json(['severity' => $severity]);
                 } else {
-                    Request::redirectTo('/admin/severities');
+                    return $this->redirectTo('/admin/severities');
                 }
             }
         }
 
-        View::set('severity', $severity);
+        if (Request::get('overlay') === 'true') {
+            $view = 'new.overlay.phtml';
+        } else {
+            $view = 'new.phtml';
+        }
+
+        return $this->render("admin/severities/{$view}", ['severity' => $severity]);
     }
 
     /**
@@ -84,7 +95,7 @@ class Severities extends AppController
      *
      * @param integer $id
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         // Get the severity
         $severity = Severity::find($id);
@@ -97,14 +108,20 @@ class Severities extends AppController
             // Save and redirect
             if ($severity->save()) {
                 if ($this->isApi) {
-                    return API::response(1, array('severity' => $severity));
+                    return $this->json(['severity' => $severity]);
                 } else {
-                    Request::redirectTo('/admin/severities');
+                    return $this->redirectTo('/admin/severities');
                 }
             }
         }
 
-        View::set('severity', $severity);
+        if (Request::get('overlay') === 'true') {
+            $view = 'edit.overlay.phtml';
+        } else {
+            $view = 'edit.phtml';
+        }
+
+        return $this->render("admin/severities/{$view}", ['severity' => $severity]);
     }
 
     /**
@@ -112,15 +129,15 @@ class Severities extends AppController
      *
      * @param integer $id
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Get the severity and delete
         $severity = Severity::find($id)->delete();
 
         if ($this->isApi) {
-            return API::response(1);
+            return $this->json(['success' => true]);
         } else {
-            Request::redirectTo('/admin/severities');
+            return $this->redirectTo('/admin/severities');
         }
     }
 }

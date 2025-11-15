@@ -28,6 +28,7 @@ use Traq\Controllers\Admin\Plugins;
 use Traq\Controllers\Admin\ProjectRolesController;
 use Traq\Controllers\Admin\ProjectsController;
 use Traq\Controllers\Admin\SettingsController as AdminSettingsController;
+use Traq\Controllers\Admin\SeveritiesController;
 use Traq\Controllers\Admin\StatusesController;
 use Traq\Controllers\Admin\TypesController;
 use Traq\Controllers\Admin\UsersController as AdminUsersController;
@@ -203,9 +204,10 @@ Router::register('admin.statuses.edit', '/admin/tickets/statuses/(?P<id>[0-9]+)/
 Router::register('admin.statuses.delete', '/admin/tickets/statuses/(?P<id>[0-9]+)/delete', [StatusesController::class, 'delete']);
 
 // Severities
-Router::add('/admin/severities', 'traq::controllers::admin::Severities.index');
-Router::add('/admin/severities/new', 'traq::controllers::admin::Severities.new');
-Router::add('/admin/severities/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Severities.$2/$1');
+Router::register('admin.severities', '/admin/severities', [SeveritiesController::class, 'index']);
+Router::register('admin.severities.new', '/admin/severities/new', [SeveritiesController::class, 'new']);
+Router::register('admin.severities.edit', '/admin/severities/(?P<id>[0-9]+)/edit', [SeveritiesController::class, 'edit']);
+Router::register('admin.severities.delete', '/admin/severities/(?P<id>[0-9]+)/delete', [SeveritiesController::class, 'delete']);
 
 // Priorities
 Router::add('/admin/priorities', 'traq::controllers::admin::Priorities.index');

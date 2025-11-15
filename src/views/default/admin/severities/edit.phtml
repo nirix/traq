@@ -1,14 +1,16 @@
+<?php extendView('layouts/admin.phtml'); ?>
+
 <div class="content">
 	<h3><?= l('edit_severity'); ?></h3>
-	<form action="<?= Request::requestUri(); ?>" method="post">
+	<form action="<?= Request::uri(); ?>" method="post">
 		<?= show_errors($severity->errors); ?>
 		<div class="panel">
 			<div class="panel-content">
-				<?= View::render('admin/severities/_form'); ?>
+				<?= view('admin/severities/_form', ['severity' => $severity]); ?>
 			</div>
 		</div>
 		<div class="actions">
-			<input type="submit" value="<?= l('save'); ?>" />
+			<input type="submit" value="<?= l('save'); ?>" class="btn-primary" />
 		</div>
 	</form>
 </div>
