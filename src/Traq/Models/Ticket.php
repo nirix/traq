@@ -298,7 +298,7 @@ class Ticket extends Model
                 case 'status_id':
                 case 'type_id':
                     $accessor = str_replace('_id', '', $field);
-                    $class = '\\traq\\models\\' . ucfirst($accessor);
+                    $class = '\\Traq\\Models\\' . ucfirst($accessor);
                     $to_values[$field] = $class::find($value);
 
                     $from = $this->{$accessor}->name;
