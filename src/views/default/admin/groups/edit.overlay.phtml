@@ -1,11 +1,11 @@
 <h3><?= l('edit_group'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post" class="overlay">
+<form action="<?= Request::uri(); ?>" method="post" class="overlay">
 	<?= show_errors($group->errors); ?>
 	<div class="content">
-		<?= View::render('admin/groups/_form'); ?>
+		<?= view('admin/groups/_form', ['group' => $group]); ?>
 	</div>
 	<div class="actions">
-		<input type="submit" value="<?= l('save'); ?>" />
+		<input type="submit" value="<?= l('save'); ?>" class="btn-primary" />
 		<input type="button" value="<?= l('cancel'); ?>" onclick="close_overlay();" />
 	</div>
 </form>

@@ -21,12 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\controllers\admin;
+namespace Traq\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
-use Traq\Controllers\Admin\AppController;
-use traq\helpers\API;
+use Avalon\Http\Response;
 use Traq\Models\Group;
 
 /**
@@ -37,24 +35,30 @@ use Traq\Models\Group;
  * @package Traq
  * @subpackage Controllers
  */
-class Groups extends AppController
+class GroupsController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
         $this->title(l('groups'));
+        $this->render['layout'] = false;
     }
 
-    public function action_index()
+    public function index(): Response
     {
-        $groups = Group::fetch_all();
-        View::set('groups', $groups);
+        $groups = Group::fetchAll();
+
+        if ($this->isJson) {
+            return $this->json(['groups' => $groups]);
+        }
+
+        return $this->render('admin/groups/index', ['groups' => $groups]);
     }
 
     /**
      * New group page.
      */
-    public function action_new()
+    public function new(): Response
     {
         $this->title(l('new'));
 
@@ -73,15 +77,21 @@ class Groups extends AppController
 
                 // Return API response
                 if ($this->isApi) {
-                    return API::response(1, array('group' => $group));
+                    return $this->json(['group' => $group]);
                 } else {
-                    Request::redirect(Request::base('/admin/groups'));
+                    return $this->redirectTo('/admin/groups');
                 }
             }
         }
 
         // Send the group object to the view.
-        View::set('group', $group);
+        if (Request::get('overlay') === 'true') {
+            $view = 'new.overlay.phtml';
+        } else {
+            $view = 'new.phtml';
+        }
+
+        return $this->render("admin/groups/{$view}", ['group' => $group]);
     }
 
     /**
@@ -89,7 +99,7 @@ class Groups extends AppController
      *
      * @param integer $id Group ID.
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         $this->title(l('edit'));
 
@@ -107,15 +117,21 @@ class Groups extends AppController
 
                 // Return API response
                 if ($this->isApi) {
-                    return API::response(1, array('group' => $group));
+                    return $this->json(['group' => $group]);
                 } else {
-                    Request::redirect(Request::base('/admin/groups'));
+                    return $this->redirectTo('/admin/groups');
                 }
             }
         }
 
         // Send the group object to the view.
-        View::set('group', $group);
+        if (Request::get('overlay') === 'true') {
+            $view = 'edit.overlay.phtml';
+        } else {
+            $view = 'edit.phtml';
+        }
+
+        return $this->render("admin/groups/{$view}", ['group' => $group]);
     }
 
     /**
@@ -123,7 +139,7 @@ class Groups extends AppController
      *
      * @param integer $id Group ID.
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         // Find the group, delete it and redirect
         $group = Group::find($id);
@@ -131,9 +147,9 @@ class Groups extends AppController
 
         // Return API response
         if ($this->isApi) {
-            return API::response(1);
+            return $this->json(['success' => true]);
         } else {
-            Request::redirect(Request::base('/admin/groups'));
+            return $this->redirectTo('/admin/groups');
         }
     }
 }

@@ -23,6 +23,7 @@
 
 use Avalon\Http\Router;
 use Traq\Controllers\Admin\DashboardController;
+use Traq\Controllers\Admin\GroupsController;
 use Traq\Controllers\Admin\Plugins;
 use Traq\Controllers\Admin\ProjectRolesController;
 use Traq\Controllers\Admin\ProjectsController;
@@ -176,9 +177,10 @@ Router::register('admin.users.delete', '/admin/users/(?P<id>[0-9]+)/delete', [Ad
 Router::register('admin.users.mass_actions', '/admin/users/mass_actions', [AdminUsersController::class, 'massActions']);
 
 // User groups
-Router::add('/admin/groups', 'traq::controllers::admin::Groups.index');
-Router::add('/admin/groups/new', 'traq::controllers::admin::Groups.new');
-Router::add('/admin/groups/([0-9]+)/(edit|delete)', 'traq::controllers::admin::Groups.$2/$1');
+Router::register('admin.groups', '/admin/groups', [GroupsController::class, 'index']);
+Router::register('admin.groups.new', '/admin/groups/new', [GroupsController::class, 'new']);
+Router::register('admin.groups.edit', '/admin/groups/(?P<id>[0-9]+)/edit', [GroupsController::class, 'edit']);
+Router::register('admin.groups.delete', '/admin/groups/(?P<id>[0-9]+)/delete', [GroupsController::class, 'delete']);
 
 // Project roles
 Router::register('admin.project.roles', '/admin/roles', [ProjectRolesController::class, 'index']);
