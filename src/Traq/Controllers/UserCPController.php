@@ -67,10 +67,10 @@ class UserCPController extends AppController
             // Save the user
             if ($user->save()) {
                 // Redirect if successful
-                if ($this->isApi) {
-                    return API::response(1, array('user' => $user));
+                if ($this->isJson) {
+                    return $this->json(['user' => $user]);
                 } else {
-                    Request::redirect(Request::requestUri());
+                    return $this->redirectTo(Request::requestUri());
                 }
             }
         }
