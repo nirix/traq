@@ -82,8 +82,8 @@ class UserMiddleware implements MiddlewareInterface
         else {
             $apiKey = $this->getApiKey();
 
-            if ($apiKey) {
-                $this->user = User::find('api_key', $apiKey);
+            if ($apiKey && $user = User::find('api_key', $apiKey)) {
+                $this->user = $user;
                 Request::set('is_api', true);
             }
         }
