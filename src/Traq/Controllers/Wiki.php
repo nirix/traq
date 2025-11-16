@@ -78,6 +78,10 @@ class Wiki extends AppController
         $page = $page->fetch();
         $this->title($page->title);
 
+        if ($this->isJson) {
+            return $this->json(['page' => $page]);
+        }
+
         return $this->render('wiki/view', ['page' => $page]);
     }
 
@@ -90,6 +94,10 @@ class Wiki extends AppController
         $pages = $this->project->wiki_pages->exec()->fetch_all();
 
         $this->title(l('pages'));
+
+        if ($this->isJson) {
+            return $this->json(['pages' => $pages]);
+        }
 
         return $this->render('wiki/pages', ['pages' => $pages]);
     }
@@ -251,6 +259,13 @@ class Wiki extends AppController
         $this->title($page->title);
         $this->title(l('revisions'));
 
+        if ($this->isJson) {
+            return $this->json([
+                'page' => $page,
+                'revisions' => $page->revisions->exec()->fetchAll()
+            ]);
+        }
+
         return $this->render('wiki/revisions', ['page' => $page]);
     }
 
@@ -267,6 +282,13 @@ class Wiki extends AppController
 
         $this->title($page->title);
         $this->title(l('revision_x', $revision));
+
+        if ($this->isJson) {
+            return $this->json([
+                'page' => $page,
+                'revision' => $page->revision
+            ]);
+        }
 
         return $this->render('wiki/view', ['page' => $page]);
     }
