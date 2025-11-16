@@ -21,11 +21,10 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\helpers;
+namespace Traq\Helpers;
 
 use Avalon\Core\Error;
 use Avalon\Http\Request;
-use HTML;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
@@ -131,7 +130,7 @@ class Notification
      * @param array  $options Notification options
      * @param object $sub     Subscription object
      */
-    private static function notify(User $user, array $options, Subscription $sub = null)
+    private static function notify(User $user, array $options, ?Subscription $sub = null)
     {
         // Subject and message translation indexes
         $subject = "notifications.{$options['type']}.subject";
@@ -198,7 +197,7 @@ class Notification
      * @param string $message Email message
      * @param object $sub     Subscription object
      */
-    public static function send(User $user, $subject, $message, Subscription $sub = null)
+    public static function send(User $user, $subject, $message, ?Subscription $sub = null)
     {
         $mailer = static::getMailer();
 

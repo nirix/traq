@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\helpers;
+namespace Traq\Helpers;
 
 use Avalon\Http\Request;
 

@@ -27,7 +27,7 @@ use \FishHook;
 use Avalon\Http\Request;
 use Avalon\Http\Response;
 use Traq\Controllers\AppController;
-use traq\helpers\Notification;
+use Traq\Helpers\Notification;
 use Traq\Models\User;
 
 /**

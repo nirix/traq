@@ -35,7 +35,7 @@ use Traq\Models\User;
 use Traq\Models\Subscription;
 use Traq\Models\CustomField;
 use Traq\Models\Timeline;
-use traq\helpers\Pagination;
+use Traq\Helpers\Pagination;
 use Traq\Middleware\AuthMiddleware;
 use Traq\Models\Attachment;
 use Traq\Queries\TicketFilterQuery;

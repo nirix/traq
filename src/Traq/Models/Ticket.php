@@ -27,8 +27,7 @@ use Avalon\Database\Model;
 use Avalon\Core\Kernel as Avalon;
 use Avalon\Http\Request;
 use avalon\helpers\Time;
-
-use traq\helpers\Notification;
+use Traq\Helpers\Notification;
 use Traq\ViewModels\RelatedTicketsView;
 
 /**
