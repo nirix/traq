@@ -38,6 +38,7 @@ use Traq\Models\CustomField;
 use Traq\Models\Timeline;
 use traq\helpers\Pagination;
 use Traq\Middleware\AuthMiddleware;
+use Traq\Models\Attachment;
 use Traq\Queries\TicketFilterQuery;
 
 /**
@@ -175,10 +176,26 @@ class TicketController extends AppController
 
         // Set title and send ticket to view
         $this->title($ticket->summary);
-        $this->set($this->getTicketData($ticket));
+
+        extract($this->getTicketData($ticket));
+
+        if ($this->isJson) {
+            return $this->json([
+                'ticket' => $ticket,
+                'attachments' => array_map(function (Attachment $attachment) {
+                    $attachment = $attachment->toArray();
+                    unset($attachment['contents']);
+
+                    return $attachment;
+                }, $attachments),
+                'ticketHistory' => $ticketHistory,
+            ]);
+        }
 
         return $this->render('tickets/view.phtml', [
             'ticket' => $ticket,
+            'attachments' => $attachments,
+            'ticketHistory' => $ticketHistory,
         ]);
     }
 
@@ -202,7 +219,7 @@ class TicketController extends AppController
 
         return [
             'attachments' => $attachments,
-            'ticket_history' => $ticketHistory,
+            'ticketHistory' => $ticketHistory,
         ];
     }
 
