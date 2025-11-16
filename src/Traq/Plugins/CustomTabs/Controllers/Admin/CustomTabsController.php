@@ -38,11 +38,6 @@ use CustomTabs\Models\CustomTab;
  */
 class CustomTabsController extends \Traq\Controllers\Admin\AppController
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->render['layout'] = false;
-    }
     /**
      * Tab listing page.
      * Nothing to do here as the tabs are already sent to the view.

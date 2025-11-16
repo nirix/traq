@@ -70,7 +70,6 @@ class TicketHistoryController extends AppController
 
         // View::set('history', $history);
 
-        $this->render['layout'] = false;
         return $this->render('ticket_history/edit.overlay.phtml', [
             'history' => $history
         ]);

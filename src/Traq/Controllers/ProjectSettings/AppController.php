@@ -44,8 +44,6 @@ class AppController extends ControllersAppController
      */
     public function __construct()
     {
-        $this->render['layout'] = false;
-
         parent::__construct();
 
         // Add 'Settings' to the page title

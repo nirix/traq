@@ -192,7 +192,6 @@ class TicketController extends AppController
         }
 
         if ($this->isAtom) {
-            $this->render['layout'] = false;
             return $this->render('tickets/view.atom.phtml', [
                 'ticket' => $ticket,
                 'ticketHistory' => $ticketHistory,
@@ -260,7 +259,6 @@ class TicketController extends AppController
             View::set('error', l('errors.already_voted'));
         }
 
-        $this->render['layout'] = false;
         return $this->render('tickets/vote.js.php');
     }
 
@@ -286,7 +284,6 @@ class TicketController extends AppController
 
         View::set('voters', $voters);
 
-        $this->render['layout'] = false;
         if (Request::get('overlay') === 'true') {
             return $this->render('tickets/voters.overlay.phtml');
         }

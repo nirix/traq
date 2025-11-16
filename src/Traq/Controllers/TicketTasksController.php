@@ -44,7 +44,6 @@ class TicketTasksController extends AppController
      */
     public function manage(int $ticket_id): Response
     {
-        $this->render['layout'] = false;
         return $this->render('ticket_tasks/manage.overlay.phtml', [
             'ticket_id' => $ticket_id,
         ]);
@@ -55,8 +54,6 @@ class TicketTasksController extends AppController
      */
     public function formBit()
     {
-        $this->render['layout'] = false;
-
         // Task data
         $id        = isset(Request::$request['id']) ? Request::$request['id'] : 0;
         $completed = isset(Request::$request['completed']) ? (Request::$request['completed'] == "true" ? true : false) : false;

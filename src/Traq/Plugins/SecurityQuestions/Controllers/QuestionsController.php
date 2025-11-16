@@ -36,12 +36,6 @@ use Avalon\Output\View;
  */
 class QuestionsController extends \Traq\Controllers\Admin\AppController
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->render['layout'] = false;
-    }
-
     /**
      * Question management page.
      */

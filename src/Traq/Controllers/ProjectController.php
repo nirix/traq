@@ -186,7 +186,6 @@ class ProjectController extends AppController
         View::set('milestones', $this->project->milestones->where('status', 2)->order_by('displayorder', 'DESC')->exec()->fetch_all());
 
         if (Router::$extension === '.atom') {
-            $this->render['layout'] = false;
             return $this->render('projects/changelog.atom.php');
         }
 

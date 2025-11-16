@@ -85,6 +85,8 @@ class AppController extends Controller
         // Call the controller class constructor
         parent::__construct();
 
+        $this->render['layout'] = false;
+
         // Set is_api and JSON view extension
         $this->user = Request::attribute('current_user');
         if (Request::attribute('is_api')) {
@@ -157,6 +159,8 @@ class AppController extends Controller
 
     /**
      * Used to display the no permission page.
+     *
+     * @deprecated 3.9.0
      */
     public function show_no_permission(): void
     {
@@ -173,6 +177,8 @@ class AppController extends Controller
 
     /**
      * Used to display the login page.
+     *
+     * @deprecated 3.9.0
      */
     public function show_login(): void
     {
