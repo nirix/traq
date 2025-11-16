@@ -81,9 +81,9 @@ class SearchController extends AppController
             $milestones->exec()->fetchAll()
         );
 
-        return [
+        return $this->json([
             'tickets' => $ticketData,
             'milestones' => $milestoneData,
-        ];
+        ]);
     }
 }
