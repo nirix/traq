@@ -474,6 +474,11 @@ class v3x extends Base
      */
     public static function v30900(PDO $db)
     {
+        // Update plugins
+        $db->query("UPDATE `plugins` SET `file` = 'SecurityQuestions' WHERE `file` = 'security_questions';");
+        $db->query("UPDATE `plugins` SET `file` = 'CustomTabs' WHERE `file` = 'CustomTabs';");
+        $db->query("UPDATE `plugins` SET `file` = 'Markdown' WHERE `file` = 'Markdown';");
+
         // Update column types, nullable and defaults
         $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `is_closed` `is_closed` TINYINT(1) NOT NULL DEFAULT '0'; ");
         $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NULL DEFAULT NULL;");
