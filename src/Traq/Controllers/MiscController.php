@@ -51,9 +51,6 @@ class MiscController extends Controller
         parent::__construct();
 
         View::$searchPaths[] = DOCROOT . '/src/views/_misc';
-
-        // Load helpers
-        Load::helper('formatting');
     }
 
     /**

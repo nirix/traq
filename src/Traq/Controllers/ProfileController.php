@@ -44,8 +44,6 @@ class ProfileController extends AppController
         $this->title(l('users'));
         $this->title(l('xs_profile', $user->name));
 
-        Load::helper('tickets');
-
         return $this->render('profile/view.phtml', [
             'profile' => $user
         ]);
