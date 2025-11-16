@@ -46,7 +46,7 @@ class AppController extends ControllersAppController
         parent::__construct();
 
         // Set the admin layout.
-        $this->render['layout'] = 'admin';
+        $this->render['layout'] = false;
         $this->title(l('admincp'));
     }
 }

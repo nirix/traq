@@ -44,7 +44,6 @@ class UsersController extends AppController
     {
         parent::__construct();
         $this->title(l('users'));
-        $this->render['layout'] = false;
     }
 
     public function index(): Response

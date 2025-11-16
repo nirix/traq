@@ -41,7 +41,6 @@ class GroupsController extends AppController
     {
         parent::__construct();
         $this->title(l('groups'));
-        $this->render['layout'] = false;
     }
 
     public function index(): Response

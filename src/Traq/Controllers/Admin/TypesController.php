@@ -41,7 +41,6 @@ class TypesController extends AppController
     {
         parent::__construct();
         $this->title(l('types'));
-        $this->render['layout'] = false;
     }
 
     public function index(): Response

@@ -41,7 +41,6 @@ class StatusesController extends AppController
     {
         parent::__construct();
         $this->title(l('statuses'));
-        $this->render['layout'] = false;
     }
 
     public function index(): Response

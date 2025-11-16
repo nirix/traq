@@ -41,7 +41,6 @@ class PrioritiesController extends AppController
     {
         parent::__construct();
         $this->title(l('priorities'));
-        $this->render['layout'] = false;
     }
 
     /**

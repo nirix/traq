@@ -41,7 +41,6 @@ class SeveritiesController extends AppController
     {
         parent::__construct();
         $this->title(l('severities'));
-        $this->render['layout'] = false;
     }
 
     /**

@@ -41,7 +41,6 @@ class ProjectRolesController extends AppController
     public function __construct()
     {
         parent::__construct();
-        $this->render['layout'] = false;
         $this->title(l('roles'));
     }
 
