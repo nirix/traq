@@ -3,7 +3,7 @@
 use Avalon\Output\View;
 use avalon\helpers\Time;
 use Avalon\Http\Request;
-use traq\helpers\Atom;
+use Traq\Helpers\Atom;
 
 // Entries
 $entries = array();

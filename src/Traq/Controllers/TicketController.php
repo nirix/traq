@@ -191,6 +191,14 @@ class TicketController extends AppController
             ]);
         }
 
+        if ($this->isAtom) {
+            $this->render['layout'] = false;
+            return $this->render('tickets/view.atom.phtml', [
+                'ticket' => $ticket,
+                'ticketHistory' => $ticketHistory,
+            ]);
+        }
+
         return $this->render('tickets/view.phtml', [
             'ticket' => $ticket,
             'attachments' => $attachments,
