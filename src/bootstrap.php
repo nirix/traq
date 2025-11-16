@@ -72,6 +72,7 @@ require DOCROOT . '/src/Traq/Helpers/formatting.php';
 require DOCROOT . '/src/Traq/Helpers/time_ago.php';
 require DOCROOT . '/src/Traq/Helpers/errors.php';
 require DOCROOT . '/src/Traq/Helpers/subscriptions.php';
+require DOCROOT . '/src/Traq/Helpers/tickets.php';
 
 // Load the plugins
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
