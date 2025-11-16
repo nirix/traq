@@ -195,12 +195,12 @@ function current_user()
 
 function currentUser(): User|null
 {
-    return Request::get('current_user');
+    return Request::attribute('current_user');
 }
 
 function currentProject(): Project|null
 {
-    return Request::get('project');
+    return Request::attribute('project');
 }
 
 /**

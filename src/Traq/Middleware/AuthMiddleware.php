@@ -40,8 +40,8 @@ class AuthMiddleware implements MiddlewareInterface
 
     public function __construct(protected array $permissions = [], protected bool $requireAll = true, protected bool $admin = false)
     {
-        $this->user = Request::get('current_user');
-        $this->project = Request::getAttribute('project');
+        $this->user = Request::attribute('current_user');
+        $this->project = Request::attribute('project');
     }
 
     public function run(callable $next): Response

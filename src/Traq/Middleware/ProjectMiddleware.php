@@ -42,7 +42,7 @@ class ProjectMiddleware implements MiddlewareInterface
         }
 
         if ($project = Project::find('slug', Router::$attributes['project_slug'])) {
-            if (!Request::get('current_user')->permission($project->id, 'view')) {
+            if (!Request::attribute('current_user')->permission($project->id, 'view')) {
                 return new Response(View::render('errors/no_permission.phtml'), Response::HTTP_FORBIDDEN);
             }
 

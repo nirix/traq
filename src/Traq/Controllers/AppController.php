@@ -86,8 +86,8 @@ class AppController extends Controller
         parent::__construct();
 
         // Set is_api and JSON view extension
-        $this->user = Request::get('current_user');
-        if (Request::get('is_api')) {
+        $this->user = Request::attribute('current_user');
+        if (Request::attribute('is_api')) {
             $this->isApi = true;
             $this->isJson = true;
             Router::$extension = '.json';
@@ -95,7 +95,7 @@ class AppController extends Controller
         }
 
         // Set the project
-        $this->project = Request::getAttribute('project');
+        $this->project = Request::attribute('project');
         if ($this->project) {
             // Add project name to page title
             $this->title($this->project->name);
