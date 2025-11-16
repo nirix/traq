@@ -70,9 +70,9 @@ class Markdown extends Plugin
     public static function format_text(&$text, $stripHtml): void
     {
         // If HTML is being converted to text, undo it.
-        if ($stripHtml) {
-            $text = htmlspecialchars_decode($text);
-        }
+        // if ($stripHtml) {
+        //     $text = htmlspecialchars_decode($text);
+        // }
 
         // Initialise parser
         if (!isset(static::$parser)) {
