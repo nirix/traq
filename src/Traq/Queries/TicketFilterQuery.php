@@ -48,6 +48,9 @@ class TicketFilterQuery
         'component' => 'c.name',
         'priority' => 'p.name',
         'severity' => 'sv.name',
+        'votes' => 't.votes',
+        'created_at' => 't.created_at',
+        'updated_at' => 't.updated_at',
     ];
 
     protected array $filters = [];
@@ -78,6 +81,8 @@ class TicketFilterQuery
 
         $customFieldSql =  $this->buildCustomFieldSql();
         $customFieldSelect = $customFieldSql['select'] ? ',' . $customFieldSql['select'] : '';
+
+        $sortField = static::$fieldMapping[$this->sortField] ?? 't.ticket_id';
 
         return "
             SELECT
@@ -121,7 +126,7 @@ class TicketFilterQuery
 
             {$filtersSql}
 
-            ORDER BY {$this->sortField} {$this->sortDirection}
+            ORDER BY {$sortField} {$this->sortDirection}
 
             {$limit}
         ";

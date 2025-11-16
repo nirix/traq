@@ -112,8 +112,6 @@ class AppController extends Controller
         // Set the title
         $this->title(settings('title'));
 
-        $this->loadHelpers();
-
         // Set the theme, title and pass the app object to the view.
         View::set('traq', $this);
 
@@ -181,27 +179,6 @@ class AppController extends Controller
         $this->render['action'] = false;
         $this->render['view'] = 'users/login' . ($this->is_api ? '.api' : '');
         $this->render['layout'] = 'default';
-    }
-
-    /**
-     * Display a bad API request.
-     *
-     * @param string $error Error message
-     *
-     * @deprecated 3.9.0
-     */
-    protected function bad_api_request(string $message): void
-    {
-        $this->render = array_merge(
-            $this->render,
-            array(
-                'action' => false,
-                'view'   => "api/bad_request.json",
-                'layout' => "plain"
-            )
-        );
-
-        View::set(compact('message'));
     }
 
     /**
@@ -334,22 +311,5 @@ class AppController extends Controller
     protected function db(): PDO
     {
         return $this->db;
-    }
-
-    private function loadHelpers(): void
-    {
-        // Load helpers
-        Load::helper(
-            'errors',
-            'form',
-            'js',
-            'formats',
-            'time_ago',
-            'string',
-            'subscriptions',
-            'timeline',
-            'formatting',
-            'tickets',
-        );
     }
 }

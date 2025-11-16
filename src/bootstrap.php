@@ -68,6 +68,10 @@ View::$searchPaths[] = DOCROOT . '/src/views';
 // Load helpers
 require DOCROOT . '/src/Traq/Helpers/uri.php';
 require DOCROOT . '/src/Traq/Helpers/ui.php';
+require DOCROOT . '/src/Traq/Helpers/formatting.php';
+require DOCROOT . '/src/Traq/Helpers/time_ago.php';
+require DOCROOT . '/src/Traq/Helpers/errors.php';
+require DOCROOT . '/src/Traq/Helpers/subscriptions.php';
 
 // Load the plugins
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();

@@ -28,7 +28,6 @@ use Avalon\Http\Router;
 use Avalon\Output\View;
 use Avalon\Http\Response;
 use Traq\Controllers\AppController;
-use traq\helpers\API;
 use Traq\Models\Project;
 use Traq\Models\Ticket;
 use Traq\Models\TicketRelationship;
@@ -87,8 +86,8 @@ class TicketController extends AppController
 
     public function ticketsJson(): Response
     {
-        $sortField = 't.ticket_id';
-        $sortDirection = 'DESC';
+        [$sortField, $sortDirection] = explode('.', $this->project->default_ticket_sorting);
+
         $allowedColumns = [
             'ticket_id' => 't.ticket_id',
             'summary' => 't.summary',
