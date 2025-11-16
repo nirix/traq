@@ -1,12 +1,16 @@
+<?php extendView('layouts/admin.phtml'); ?>
+
 <div class="admin new custom_tab content">
 	<h3><?php echo l('new_tab'); ?></h3>
-	<form action="<?php echo Request::requestUri(); ?>" method="post">
+	<form action="<?= Request::uri(); ?>" method="post">
 		<?php echo show_errors($tab->errors); ?>
 		<div class="tabular box">
-			<?php echo View::render('custom_tabs/_form'); ?>
+			<?= view('custom_tabs/_form', [
+				'tab' => $tab,
+			]); ?>
 		</div>
 		<div class="actions">
-			<input type="submit" value="<?php echo l('create'); ?>" />
+			<input type="submit" value="<?= l('create'); ?>" />
 		</div>
 	</form>
 </div>
