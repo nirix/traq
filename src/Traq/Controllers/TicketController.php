@@ -147,11 +147,12 @@ class TicketController extends AppController
      * @param integer $ticket_id
      */
     #[AuthMiddleware(['view_tickets'])]
-    public function view(int $ticket_id)
+    public function view(int $ticket_id): Response
     {
         // Fetch the ticket from the database and send it to the view.
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
+        // Does ticket exist?
         if (!$ticket) {
             return $this->show404();
         }
@@ -167,36 +168,42 @@ class TicketController extends AppController
             }
         }
 
-        // Ticket history
-        $ticket_history = $ticket->history;
-
-        switch (settings('ticket_history_sorting')) {
-            case 'oldest_first':
-                $ticket_history->order_by('created_at', 'ASC');
-                break;
-
-            case 'newest_first':
-                $ticket_history->order_by('created_at', 'DESC');
-                break;
-        }
-
-        $ticket_history = $ticket_history->exec()->fetch_all();
-
-        // Does ticket exist?
-        if (!$ticket) {
-            return $this->show404();
-        }
+        extract($this->getTicketData($ticket));
 
         // Atom feed
         $this->feeds[] = array(Request::requestUri() . ".atom", l('x_x_history_feed', $this->project->name, $ticket->summary));
 
         // Set title and send ticket to view
         $this->title($ticket->summary);
-        View::set('ticket', $ticket);
-        View::set('attachments', $ticket->attachments->exec()->fetchAll());
-        View::set('ticket_history', $ticket_history);
+        $this->set($this->getTicketData($ticket));
 
-        return $this->render('tickets/view.phtml');
+        return $this->render('tickets/view.phtml', [
+            'ticket' => $ticket,
+        ]);
+    }
+
+    private function getTicketData(Ticket $ticket): array
+    {
+        // Ticket history
+        $ticketHistory = $ticket->history;
+
+        switch (settings('ticket_history_sorting')) {
+            case 'oldest_first':
+                $ticketHistory->order_by('created_at', 'ASC');
+                break;
+
+            case 'newest_first':
+                $ticketHistory->order_by('created_at', 'DESC');
+                break;
+        }
+
+        $ticketHistory = $ticketHistory->exec()->fetchAll();
+        $attachments = $ticket->attachments->exec()->fetchAll();
+
+        return [
+            'attachments' => $attachments,
+            'ticket_history' => $ticketHistory,
+        ];
     }
 
     /**
@@ -496,7 +503,7 @@ class TicketController extends AppController
         }
 
         // Ticket tasks
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_tasks') and Request::get('tasks') != null) {
+        if ($this->user->permission($this->project->id, 'ticket_properties_change_tasks') && Request::get('tasks') != null) {
             $data['tasks'] = array();
             $tasks = json_decode(Request::get('tasks'), true);
 
@@ -556,7 +563,7 @@ class TicketController extends AppController
         }
 
         // Check if we're adding an attachment and that the user has permission to do so
-        if ($this->user->permission($this->project->id, 'add_attachments') and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
+        if ($this->user->permission($this->project->id, 'add_attachments') && isset($_FILES['attachment']) && isset($_FILES['attachment']['name'])) {
             $data['attachment'] = $_FILES['attachment']['name'];
         }
 
@@ -569,16 +576,16 @@ class TicketController extends AppController
 
         // Update the ticket
         if ($ticket->update_data($data)) {
-            if ($this->isApi) {
-                return API::response(1, array('ticket' => $ticket));
+            if ($this->isJson) {
+                return $this->json(['ticket' => $ticket]);
             } else {
-                return Request::redirectTo($ticket->href());
+                return $this->redirectTo($ticket->href());
             }
         }
 
-        $this->action_view($ticket->id);
-        View::set(compact('ticket'));
-        $this->render['view'] = 'tickets/view';
+        $this->set($this->getTicketData($ticket));
+
+        return $this->render('tickets/view.phtml', ['ticket' => $ticket]);
     }
 
     /**

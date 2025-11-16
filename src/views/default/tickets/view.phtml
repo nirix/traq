@@ -131,14 +131,14 @@
 				<h3><?= l('activity') ?></h3>
 
 				<?php foreach ($ticket_history as $update) : ?>
-					<?= View::render('tickets/_history_change', ['update' => $update]) ?>
+					<?= View::render('tickets/_history_change', ['ticket' => $ticket, 'update' => $update]) ?>
 				<?php endforeach; ?>
 
 				<?php if (!count($ticket_history)) : ?>
 					<div class="alert"><?= l('ticket_history.no_ticket_updates') ?></div>
 				<?php endif; ?>
 			</div>
-			<?= View::render('tickets/_update_ticket_form') ?>
+			<?= View::render('tickets/_update_ticket_form', ['ticket' => $ticket]) ?>
 		</div>
 
 		<div class="lg:col-span-1 relative">
