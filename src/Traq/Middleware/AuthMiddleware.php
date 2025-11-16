@@ -24,6 +24,7 @@
 namespace Traq\Middleware;
 
 use Attribute;
+use Avalon\Http\JsonResponse;
 use Avalon\Http\Middleware\MiddlewareInterface;
 use Avalon\Http\Request;
 use Avalon\Http\Response;
@@ -35,7 +36,7 @@ use Traq\Models\User;
 class AuthMiddleware implements MiddlewareInterface
 {
     protected User $user;
-    protected ?Project $project;
+    protected ?Project $project = null;
 
     public function __construct(protected array $permissions = [], protected bool $requireAll = true, protected bool $admin = false)
     {
@@ -46,20 +47,20 @@ class AuthMiddleware implements MiddlewareInterface
     public function run(callable $next): Response
     {
         if (!$this->user) {
-            return new Response(View::render('error/no_permission.phtml'), Response::HTTP_FORBIDDEN);
+            return $this->noPermissionResponse();
         }
 
         // You shall not pass!... if you're not an admin
         if ($this->admin && !$this->user->group->is_admin) {
-            return new Response(View::render('error/no_permission.phtml'), Response::HTTP_FORBIDDEN);
+            return $this->noPermissionResponse();
         }
 
         // Are all the permissions required? if yes, then make sure the user has all of them
         if ($this->requireAll && !$this->userCanAll()) {
-            return new Response(View::render('error/no_permission.phtml'), Response::HTTP_FORBIDDEN);
+            return $this->noPermissionResponse();
         } elseif (!$this->requireAll && !$this->userCanAny()) {
             // If not all, then make sure the user has at least one of the permissions
-            return new Response(View::render('error/no_permission.phtml'), Response::HTTP_FORBIDDEN);
+            return $this->noPermissionResponse();
         }
 
         return $next();
@@ -85,5 +86,17 @@ class AuthMiddleware implements MiddlewareInterface
         }
 
         return false;
+    }
+
+    private function noPermissionResponse(): Response
+    {
+        // If the request accepts application/json, return a JSON response
+        if (Request::header('Accept') === 'application/json') {
+            return new JsonResponse([
+                'error' => l('errors.no_permission.message'),
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        return new Response(View::render('error/no_permission.phtml'), Response::HTTP_FORBIDDEN);
     }
 }
