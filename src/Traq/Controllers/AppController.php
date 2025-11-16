@@ -182,23 +182,6 @@ class AppController extends Controller
     }
 
     /**
-     * API Response.
-     *
-     * @param array $data
-     * @deprecated 3.9.0
-     */
-    protected function apiResponse(array $data): void
-    {
-        Router::$extension = 'json';
-
-        $this->render['layout'] = false;
-        $this->render['view'] = false;
-
-        header('Content-Type: application/json; charset=UTF-8');
-        Body::append(to_json($data));
-    }
-
-    /**
      * @deprecated 3.9.0
      */
     public function __shutdown()
