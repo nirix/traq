@@ -51,7 +51,7 @@ class Plugins extends AppController
             // Make sure the plugin file exists
             if (
                 file_exists(DATADIR . "/plugins/{$plugin['file']}/{$plugin['file']}.php")
-                || file_exists(APPPATH . "/plugins/{$plugin['file']}/{$plugin['file']}.php")
+                || file_exists(DOCROOT . "/src/Traq/Plugins/{$plugin['file']}/{$plugin['file']}.php")
             ) {
                 $plugins[$plugin['enabled'] ? 'enabled' : 'disabled'][$plugin['file']] = array_merge($plugin, ['installed' => true]);
             }
@@ -60,7 +60,7 @@ class Plugins extends AppController
         // Scan the plugin directory
         $pluginPaths = [
             DATADIR . '/plugins/',
-            APPPATH . '/plugins/',
+            DOCROOT . '/src/Traq/Plugins/',
         ];
 
         // Scan both plugin paths
@@ -115,7 +115,7 @@ class Plugins extends AppController
         $file = htmlspecialchars($file);
         $this->loadPlugin($file);
 
-        $className = "\\traq\plugins\\" . get_plugin_name($file);
+        $className = "\\Traq\Plugins\\" . get_plugin_name($file);
         if (class_exists($className)) {
             $className::__enable();
 
@@ -136,7 +136,7 @@ class Plugins extends AppController
     {
         $file = htmlspecialchars($file);
 
-        $className = "\\traq\\plugins\\" . get_plugin_name($file);
+        $className = "\\Traq\\Plugins\\" . get_plugin_name($file);
         if (class_exists($className)) {
             $className::__disable();
         }
@@ -158,7 +158,7 @@ class Plugins extends AppController
         $file = htmlspecialchars($file);
         $this->loadPlugin($file);
 
-        $className = "\\traq\\plugins\\" . get_plugin_name($file);
+        $className = "\\Traq\\Plugins\\" . get_plugin_name($file);
         if (class_exists($className)) {
             $className::__install();
 
@@ -178,7 +178,7 @@ class Plugins extends AppController
     public function uninstall(string $file): RedirectResponse
     {
         $file = htmlspecialchars($file);
-        $className = "\\traq\\plugins\\" . get_plugin_name($file);
+        $className = "\\Traq\\Plugins\\" . get_plugin_name($file);
 
         $this->loadPlugin($file);
 
@@ -198,7 +198,7 @@ class Plugins extends AppController
             require_once DATADIR . "/plugins/{$file}/{$file}.php";
             return true;
         } else {
-            require_once APPPATH . "/plugins/{$file}/{$file}.php";
+            require_once DOCROOT . "/src/Traq/Plugins/{$file}/{$file}.php";
             return true;
         }
 

@@ -78,7 +78,7 @@ require DOCROOT . '/src/Traq/Helpers/tickets.php';
 $plugins = Database::connection()->select('file')->from('plugins')->where('enabled', '1')->exec()->fetch_all();
 $pluginPaths = [
     DATADIR . '/plugins',
-    APPPATH . '/plugins',
+    DOCROOT . '/src/Traq/Plugins',
 ];
 foreach ($pluginPaths as $pluginPath) {
     foreach ($plugins as $plugin) {

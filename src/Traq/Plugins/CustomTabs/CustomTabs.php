@@ -21,15 +21,15 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace traq\plugins;
+namespace Traq\Plugins;
 
 use \FishHook;
 use \HTML;
 use Avalon\Database;
 use Avalon\Http\Router;
 use Avalon\Output\View;
-
-use CustomTabs\models\CustomTab;
+use CustomTabs\Controllers\Admin\CustomTabsController;
+use CustomTabs\Models\CustomTab;
 use Traq\Libraries\Plugin;
 
 /**
@@ -45,25 +45,23 @@ class CustomTabs extends Plugin
 {
     protected static $info = array(
         'name'    => 'Custom Tabs',
-        'version' => '1.0',
+        'version' => '1.1',
         'author'  => 'Jack P.'
     );
-
-    private static $tabs = array();
 
     public static function init()
     {
         // Add routes
-        Router::add('/admin/custom_tabs', 'CustomTabs::controllers::admin::CustomTabs.index');
-        Router::add('/admin/custom_tabs/new', 'CustomTabs::controllers::admin::CustomTabs.new');
-        Router::add('/admin/custom_tabs/([0-9]+)/(edit|delete)', 'CustomTabs::controllers::admin::CustomTabs.$2/$1');
+        Router::register('custom_tabs.index', '/admin/custom-tabs', [CustomTabsController::class, 'index']);
+        Router::register('custom_tabs.new', '/admin/custom-tabs/new', [CustomTabsController::class, 'new']);
+        Router::register('custom_tabs.edit', '/admin/custom-tabs/(?P<id>\d+)/edit', [CustomTabsController::class, 'edit']);
+        Router::register('custom_tabs.delete', '/admin/custom-tabs/(?P<id>\d+)/delete', [CustomTabsController::class, 'delete']);
+
+        // Register the view path
+        View::$searchPaths[] = dirname(__FILE__) . '/views';
 
         // Hook into the admin navbar
         FishHook::add('template:layouts/admin/main_nav', array(get_called_class(), 'admin_nav'));
-
-        // Get tabs
-        static::$tabs = CustomTab::fetch_all();
-        View::set('custom_tabs', static::$tabs);
 
         // Hook into navbar
         FishHook::add('template:layouts/default/main_nav', array(get_called_class(), 'display_tabs'));
@@ -74,7 +72,9 @@ class CustomTabs extends Plugin
      */
     public static function display_tabs()
     {
-        echo View::render('custom_tabs/tabs');
+        echo View::render('custom_tabs/tabs.phtml', [
+            'custom_tabs' => CustomTab::fetchAll(),
+        ]);
     }
 
     /**
@@ -82,7 +82,7 @@ class CustomTabs extends Plugin
      */
     public static function admin_nav()
     {
-        echo '<li' . iif(active_nav('/admin/custom_tabs'), ' class="active"') . '>' . HTML::link(l('custom_tabs'), "/admin/custom_tabs") . '</li>';
+        echo '<li' . iif(active_nav('/admin/custom-tabs'), ' class="active"') . '>' . HTML::link(l('custom_tabs'), "/admin/custom-tabs") . '</li>';
     }
 
     /**

@@ -23,7 +23,7 @@
 import Alpine from 'alpinejs'
 import axios from 'axios'
 
-Alpine.data('popoverConfirm', ({ position, message, success, remote, post }) => ({
+Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, post }) => ({
   open: false,
   loading: false,
   el: null as unknown as HTMLDivElement,

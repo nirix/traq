@@ -21,12 +21,12 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace CustomTabs\controllers\admin;
+namespace CustomTabs\Controllers\Admin;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
+use Avalon\Http\Response;
 
-use CustomTabs\models\CustomTab;
+use CustomTabs\Models\CustomTab;
 
 /**
  * Custom tabs controller.
@@ -36,18 +36,28 @@ use CustomTabs\models\CustomTab;
  * @package CustomTabs
  * @subpackage Controllers
  */
-class CustomTabs extends \Traq\Controllers\Admin\AppController
+class CustomTabsController extends \Traq\Controllers\Admin\AppController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->render['layout'] = false;
+    }
     /**
      * Tab listing page.
      * Nothing to do here as the tabs are already sent to the view.
      */
-    public function action_index() {}
+    public function index(): Response
+    {
+        return $this->render('admin/custom_tabs/index.phtml', [
+            'custom_tabs' => CustomTab::fetchAll(),
+        ]);
+    }
 
     /**
      * New tab.
      */
-    public function action_new()
+    public function new(): Response
     {
         $tab = new CustomTab;
 
@@ -61,13 +71,17 @@ class CustomTabs extends \Traq\Controllers\Admin\AppController
                 'project_id'    => Request::get('project_id', 0)
             ));
 
-            // Save and reidrect
+            // Save and redirect
             if ($tab->save()) {
-                Request::redirectTo('/admin/custom_tabs');
+                return $this->redirectTo('/admin/custom-tabs');
             }
         }
 
-        View::set(compact('tab'));
+        if (Request::get('overlay') == 'true') {
+            return $this->render('admin/custom_tabs/new.overlay.phtml', compact('tab'));
+        }
+
+        return $this->render('admin/custom_tabs/new.phtml', compact('tab'));
     }
 
     /**
@@ -75,7 +89,7 @@ class CustomTabs extends \Traq\Controllers\Admin\AppController
      *
      * @param integer $id Tab ID
      */
-    public function action_edit($id)
+    public function edit(int $id): Response
     {
         $tab = CustomTab::find($id);
 
@@ -91,11 +105,15 @@ class CustomTabs extends \Traq\Controllers\Admin\AppController
 
             // Save and redirect
             if ($tab->save()) {
-                Request::redirectTo('/admin/custom_tabs');
+                return $this->redirectTo('/admin/custom-tabs');
             }
         }
 
-        View::set(compact('tab'));
+        if (Request::get('overlay') == 'true') {
+            return $this->render('admin/custom_tabs/edit.overlay.phtml', compact('tab'));
+        }
+
+        return $this->render('admin/custom_tabs/edit.phtml', compact('tab'));
     }
 
     /**
@@ -103,9 +121,9 @@ class CustomTabs extends \Traq\Controllers\Admin\AppController
      *
      * @param integer $id Tab ID
      */
-    public function action_delete($id)
+    public function delete(int $id): Response
     {
         CustomTab::find($id)->delete();
-        Request::redirectTo('/admin/custom_tabs');
+        return $this->redirectTo('/admin/custom-tabs');
     }
 }

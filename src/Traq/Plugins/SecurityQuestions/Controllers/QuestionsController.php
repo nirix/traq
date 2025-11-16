@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace SecurityQuestions\controllers;
+namespace SecurityQuestions\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Output\View;
@@ -34,12 +34,18 @@ use Avalon\Output\View;
  * @package SecurityQuestions
  * @subpackage Controllers
  */
-class Questions extends \Traq\Controllers\Admin\AppController
+class QuestionsController extends \Traq\Controllers\Admin\AppController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->render['layout'] = false;
+    }
+
     /**
      * Question management page.
      */
-    public function action_index()
+    public function index()
     {
         // Set page title
         $this->title(l('security_questions'));
@@ -74,11 +80,11 @@ class Questions extends \Traq\Controllers\Admin\AppController
             // Save and redirect
             if (!count($errors)) {
                 $this->db->update('settings')->set(array('value' => json_encode($updated_questions)))->where('setting', 'security_questions')->exec();
-                Request::redirect(Request::requestUri());
+                return $this->redirectTo('/admin/settings/security-questions');
             }
         }
 
-        View::set(compact('questions', 'errors'));
+        return $this->render('questions/index.phtml', compact('questions', 'errors'));
     }
 
     /**
@@ -86,10 +92,9 @@ class Questions extends \Traq\Controllers\Admin\AppController
      *
      * @return string
      */
-    public function action_new_question()
+    public function new()
     {
-        $this->render['layout'] = false;
-        return View::render('questions/_question', array(
+        return $this->render('questions/_question', array(
             'id' => time(),
             'question' => array(
                 'question' => '',

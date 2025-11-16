@@ -1,3 +1,5 @@
+<?php extendView('layouts/admin.phtml'); ?>
+
 <div class="traq_settings title content">
 	<h2 class="page-title"><?php echo l('Settings'); ?></h2>
 </div>
@@ -23,7 +25,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#add_question').click(function() {
-			$.get('<?php echo Request::base('/admin/settings/security_questions/new_question'); ?>', function(data) {
+			$.get('<?php echo Request::base('/admin/settings/security-questions/new'); ?>', function(data) {
 				$('#questions').append(data);
 			});
 		});

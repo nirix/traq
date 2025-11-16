@@ -29,6 +29,7 @@ use Avalon\Database;
 use Avalon\Http\Router;
 use Avalon\Http\Request;
 use Avalon\Output\View;
+use SecurityQuestions\Controllers\QuestionsController;
 use Traq\Libraries\Plugin;
 
 /**
@@ -43,15 +44,18 @@ class SecurityQuestions extends Plugin
 {
     protected static $info = array(
         'name'    => 'Security Questions',
-        'version' => '1.1',
+        'version' => '1.2',
         'author'  => 'Jack P.'
     );
 
     public static function init()
     {
         // Add routes
-        Router::add('/admin/settings/security_questions', 'SecurityQuestions::controllers::Questions.index');
-        Router::add('/admin/settings/security_questions/new_question', 'SecurityQuestions::controllers::Questions.new_question');
+        Router::register('security_questions.index', '/admin/settings/security-questions', [QuestionsController::class, 'index']);
+        Router::register('security_questions.new', '/admin/settings/security-questions/new', [QuestionsController::class, 'new']);
+
+        // Register the view path
+        View::$searchPaths[] = dirname(__FILE__) . '/views';
 
         // Hook into the settings navbar
         FishHook::add('template:admin/settings/_nav', array(get_called_class(), 'admin_nav'));
@@ -72,7 +76,7 @@ class SecurityQuestions extends Plugin
      */
     public static function admin_nav()
     {
-        echo '<li' . iif(active_nav('/admin/settings/security_questions'), ' class="active"') . '>' . HTML::link(l('security_questions'), "/admin/settings/security_questions") . '</li>';
+        echo '<li' . iif(active_nav('/admin/settings/security-questions'), ' class="active"') . '>' . HTML::link(l('security_questions'), "/admin/settings/security-questions") . '</li>';
     }
 
     /**

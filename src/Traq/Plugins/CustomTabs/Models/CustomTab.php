@@ -21,7 +21,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace CustomTabs\models;
+namespace CustomTabs\Models;
 
 /**
  * Custom tabs model.
