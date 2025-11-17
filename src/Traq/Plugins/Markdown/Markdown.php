@@ -95,9 +95,11 @@ class Markdown extends Plugin
 
                         if ($user) {
                             $mention->setUrl(Request::base('users/' . $user->id));
+
+                            return $mention;
                         }
 
-                        return $mention;
+                        return null;
                     },
                 ],
                 'ticket' => [
@@ -108,9 +110,11 @@ class Markdown extends Plugin
 
                         if ($project) {
                             $mention->setUrl(Request::base($project->href("tickets/{$mention->getIdentifier()}")));
+
+                            return $mention;
                         }
 
-                        return $mention;
+                        return null;
                     },
                 ],
             ],
