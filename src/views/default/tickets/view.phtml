@@ -96,35 +96,83 @@
 				<?php endif; ?>
 			</div>
 
-			<?php if (count($ticket->relatedTickets()) || count($ticket->relatedTickets(true))) : ?>
-				<div class="ticket-related-tickets" :class="{ 'open': open }" x-data="{ open: true }">
-					<h3 @click="open = !open">
-						<span><?= l('related_tickets') ?></span>
-						<i class="fas fa-fw fa-chevron-down" x-show="!open"></i>
-						<i class="fas fa-fw fa-chevron-up" x-show="open"></i>
-					</h3>
-
-					<div x-show="open" x-transition>
+			<?php if (count($ticket->relatedTickets()) || count($ticket->relatedTickets(true)) || currentUser()->permission($project->id, 'ticket_properties_change_related_tickets')) : ?>
+				<div class="ticket-related-tickets" :class="{ 'open': open }" x-data="relatedTickets({ ticketId: <?= $ticket->ticket_id ?>, canEdit: <?= currentUser()->permission($project->id, 'ticket_properties_change_related_tickets') ? 'true' : 'false' ?> })">
+					<h3>
+						<span @click="open = !open"><?= l('related_tickets') ?></span>
 						<div>
-							<ul>
-								<?php foreach ($ticket->relatedTickets() as $relatedTicket) : ?>
-									<li>
-										<a href="<?= Request::base($relatedTicket->href()) ?>">
-											<span class="badge priority-<?= $relatedTicket->priority_id ?>">#<?= $relatedTicket->ticket_id ?></span>
-											<?= htmlspecialchars($relatedTicket->summary) ?>
-										</a>
-									</li>
-								<?php endforeach; ?>
-								<?php foreach ($ticket->relatedTickets(true) as $relatedTicket) : ?>
-									<li>
-										<a href="<?= Request::base($relatedTicket->href()) ?>">
-											<span class="badge priority-<?= $relatedTicket->priority_id ?>">#<?= $relatedTicket->ticket_id ?></span>
-											<?= htmlspecialchars($relatedTicket->summary) ?>
-										</a>
-									</li>
-								<?php endforeach; ?>
-							</ul>
+							<button class="btn-primary btn-sm" @click.prevent="add()">
+								<span class="fas fa-fw fa-plus"></span>
+								<span class="sr-only"><?= l('add') ?></span>
+							</button>
+							<button class="btn-link btn-sm" @click.prevent="open = !open">
+								<i class="fas fa-fw fa-chevron-down" x-show="!open"></i>
+								<i class="fas fa-fw fa-chevron-up" x-show="open"></i>
+							</button>
 						</div>
+					</h3>
+					<div x-show="open" x-transition>
+						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_related_tickets')) : ?>
+							<div>
+								<ul class="editable">
+									<template x-for="relatedTicket in relatedTickets" :key="relatedTicket.id">
+										<li>
+											<select name="relation_type" class="relation-type" @change="updateRelationType(relatedTicket, $event.target.value)">
+												<template x-for="relationType in relationTypes" :key="relationType.id">
+													<option :value="relationType.id" x-text="relationType.name" :selected="relatedTicket.display_relation_type_id === relationType.id"></option>
+												</template>
+											</select>
+											<a :href="ticketHref(relatedTicket)" class="summary">
+												<span :class="`badge priority-${relationPriority(relatedTicket)}`" x-text="`#${relationTicketId(relatedTicket)}`"></span>
+												<span x-text="relationSummary(relatedTicket)"></span>
+											</a>
+											<button class="btn-danger btn-xs action" type="button" @click="remove(relatedTicket)">
+												<span class="fas fa-fw fa-trash"></span>
+												<span class="sr-only"><?= l('remove') ?></span>
+											</button>
+										</li>
+									</template>
+									<template x-for="newRelation in newRelations" :key="newRelation.id">
+										<li>
+											<select name="relation_type" class="relation-type" x-model="newRelation.relation_type_id">
+												<template x-for="relationType in relationTypes" :key="relationType.id">
+													<option :value="relationType.id" x-text="relationType.name"></option>
+												</template>
+											</select>
+											<input type="text" name="summary" class="summary" x-model="newRelation.summary" placeholder="<?= l('search') ?>" />
+											<button class="btn-danger btn-xs action" type="button" @click="removeNewRelation(newRelation)">
+												<span class="fas fa-fw fa-trash"></span>
+												<span class="sr-only"><?= l('remove') ?></span>
+											</button>
+										</li>
+									</template>
+								</ul>
+								<div x-show="changed || newRelations.length > 0">
+									<button class="btn-primary btn-sm" @click="save()">
+										<span class="fas fa-fw fa-save"></span>
+										<?= l('save') ?>
+									</button>
+									<button class="btn-warning btn-sm" @click="cancel()">
+										<span class="fas fa-fw fa-undo"></span>
+										<?= l('cancel') ?>
+									</button>
+								</div>
+							</div>
+						<?php else : ?>
+							<div>
+								<?php foreach ($ticket->relatedTickets() as $relatedTicket) : ?>
+									<ul>
+										<li>
+											<span class="relation-type"><?= $relatedTicket->relation_type_name ?></span>
+											<a href="<?= Request::base($relatedTicket->href()) ?>" class="col-span-10">
+												<span class="badge priority-<?= $relatedTicket->priority_id ?>">#<?= $relatedTicket->ticket_id ?></span>
+												<span><?= htmlspecialchars($relatedTicket->summary) ?></span>
+											</a>
+										</li>
+									</ul>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
 			<?php endif; ?>

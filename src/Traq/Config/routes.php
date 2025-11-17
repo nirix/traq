@@ -59,7 +59,6 @@ const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 Router::register('root', 'root', [ProjectController::class, 'index']);
 
 Router::register('errors.404', '404', [ErrorController::class, 'error404']);
-// Router::add('/(login|logout|register)', 'traq::controllers::Users.$1');
 Router::register('users.login', '/login', [UserController::class, 'login']);
 Router::register('users.logout', '/logout', [UserController::class, 'logout']);
 Router::register('users.register', '/register', [UserController::class, 'register']);
@@ -119,6 +118,7 @@ Router::register('ticket.tasks.toggle', '/' . PROJECT_SLUG . '/tickets/(?P<ticke
 Router::register('ticket.tasks.manage', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', [TicketTasksController::class, 'manage']);
 Router::register('tickets.massActions', '/' . PROJECT_SLUG . '/tickets/mass-actions', [TicketController::class, 'massActions']);
 Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [TicketController::class, 'index']);
+Router::register('tickets.related', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/related-tickets', [TicketController::class, 'relatedTickets']);
 
 // Wiki routes
 Router::register('wiki.new', '/' . PROJECT_SLUG . '/wiki/_new', [Wiki::class, 'create']);

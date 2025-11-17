@@ -44,18 +44,26 @@ class RelatedTicketsView
     protected ?int $related_priority_id;
     protected ?string $related_project_slug;
     protected bool $direct;
+    protected int $relation_type_id;
+    protected string $relation_type_name;
 
     public function __get(string $name): mixed
     {
+        if ($name === 'relation_type_id') {
+            return $this->relation_type_id;
+        }
+
+        if ($name === 'relation_type_name') {
+            return $this->relation_type_name;
+        }
+
         if ($name === 'direct') {
             return $this->direct;
         }
 
         if ($this->direct) {
             $name = 'related_' . $name;
-        }
-
-        // dd($field);
+        };
 
         return $this->{$name};
     }
@@ -67,5 +75,23 @@ class RelatedTicketsView
         }
 
         return "/{$this->related_project_slug}/tickets/{$this->ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'ticket_id' => $this->ticket_id,
+            'summary' => $this->summary,
+            'priority_id' => $this->priority_id,
+            'project_slug' => $this->project_slug,
+            'related_ticket_id' => $this->related_ticket_id,
+            'related_summary' => $this->related_summary,
+            'related_priority_id' => $this->related_priority_id,
+            'related_project_slug' => $this->related_project_slug,
+            'direct' => $this->direct,
+            'relation_type_id' => $this->relation_type_id,
+            'relation_type_name' => $this->relation_type_name,
+        ];
     }
 }

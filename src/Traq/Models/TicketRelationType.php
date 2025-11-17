@@ -34,23 +34,12 @@ use Avalon\Database\Model;
  * @copyright (c) Jack P.
  * @since 3.4.0
  */
-class TicketRelationship extends Model
+class TicketRelationType extends Model
 {
-    protected static $_name = 'ticket_relationships';
+    protected static $_name = 'ticket_relation_types';
     protected static $_properties = array(
         'id',
-        'ticket_id',
-        'related_ticket_id',
-        'relation_type'
+        'name',
+        'inverse_type_id',
     );
-
-    protected static $_belongs_to = array(
-        'ticket',
-        'related_ticket' => array('model' => 'Ticket', 'column' => 'related_ticket_id')
-    );
-
-    public function is_valid()
-    {
-        return true;
-    }
 }

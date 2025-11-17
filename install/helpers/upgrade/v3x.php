@@ -507,6 +507,28 @@ class v3x extends Base
         $db->query("UPDATE {$db->prefix}tickets SET component_id = NULL WHERE component_id = 0;");
         $db->query("UPDATE {$db->prefix}tickets SET assigned_to_id = NULL WHERE assigned_to_id = 0;");
 
+        // Ticket relation types
+        $db->query("ALTER TABLE `{$db->prefix}ticket_relationships` ADD `relation_type_id` INT NOT NULL DEFAULT '1' AFTER `related_ticket_id`; ");
+
+        $db->query("CREATE TABLE `{$db->prefix}ticket_relation_types` (
+            `id` tinyint(4) NOT NULL,
+            `name` varchar(100) NOT NULL,
+            `inverse_type_id` tinyint(4) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;");
+
+        $db->query("INSERT INTO `{$db->prefix}ticket_relation_types` (`id`, `name`, `inverse_type_id`) VALUES
+            (1, 'Relates to', 1),
+            (2, 'Blocks', 3),
+            (3, 'Is Blocked By', 2),
+            (4, 'Duplicates', 5),
+            (5, 'Is Duplicated By', 4),
+            (6, 'Contains', 7),
+            (7, 'Is Contained By', 6);");
+
+        $db->query("ALTER TABLE `{$db->prefix}ticket_relation_types`
+            ADD PRIMARY KEY (`id`),
+            ADD KEY `fk_relationship_type` (`inverse_type_id`);");
+
         // Set foreign key constraints on tickets table
         $db->query("ALTER TABLE `{$db->prefix}tickets`
             ADD CONSTRAINT `rl_component` FOREIGN KEY (`component_id`) REFERENCES `{$db->prefix}components` (`id`),

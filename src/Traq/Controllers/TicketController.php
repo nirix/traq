@@ -38,6 +38,7 @@ use Traq\Models\Timeline;
 use Traq\Helpers\Pagination;
 use Traq\Middleware\AuthMiddleware;
 use Traq\Models\Attachment;
+use Traq\Models\TicketRelationType;
 use Traq\Queries\TicketFilterQuery;
 
 /**
@@ -227,6 +228,41 @@ class TicketController extends AppController
             'attachments' => $attachments,
             'ticketHistory' => $ticketHistory,
         ];
+    }
+
+    public function relatedTickets(int $ticket_id): Response
+    {
+        if (Request::method() === 'POST') {
+            $this->updateRelatedTickets($ticket_id);
+        }
+
+        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+        if (!$ticket) {
+            return $this->show404();
+        }
+
+        return $this->json([
+            'related_tickets' => $ticket->relatedTickets(),
+            'relation_types' => TicketRelationType::select()->exec()->fetchAll(),
+        ]);
+    }
+
+    private function updateRelatedTickets(int $ticket_id)
+    {
+        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+        if (!$ticket) {
+            return $this->show404();
+        }
+
+        // set 500 response code
+        http_response_code(500);
+
+        $body = json_decode(Request::body(), true);
+
+        if (isset($body['related_tickets'])) {
+            $ticket->updateRelatedTickets($body['related_tickets']);
+        }
     }
 
     /**

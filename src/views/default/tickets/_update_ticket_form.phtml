@@ -97,12 +97,6 @@
 								<input type="file" id="attachment" name="attachment" />
 							</div>
 						<?php } ?>
-						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_related_tickets')) { ?>
-							<div class="form-group">
-								<?= Form::label(l('related_tickets'), 'related_tickets'); ?>
-								<?= Form::text('related_tickets', array('value' => implode(', ', $ticket->relatedTicketTids(false)))); ?>
-							</div>
-						<?php } ?>
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_time_proposed')) { ?>
 							<div class="form-group">
 								<?= Form::label(l('proposed_time'), 'time_proposed'); ?>

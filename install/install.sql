@@ -336,8 +336,24 @@ CREATE TABLE `ticket_history` (
 CREATE TABLE `ticket_relationships` (
   `id` bigint(20) NOT NULL,
   `ticket_id` bigint(20) NOT NULL,
-  `related_ticket_id` bigint(20) NOT NULL
+  `related_ticket_id` bigint(20) NOT NULL,
+  `relation_type_id` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+CREATE TABLE `ticket_relation_types` (
+  `id` tinyint(4) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `inverse_type_id` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+INSERT INTO `ticket_relation_types` (`id`, `name`, `inverse_type_id`) VALUES
+(1, 'Relates to', 1),
+(2, 'Blocks', 3),
+(3, 'Is Blocked By', 2),
+(4, 'Duplicates', 5),
+(5, 'Is Duplicated By', 4),
+(6, 'Contains', 7),
+(7, 'Is Contained By', 6);
 
 CREATE TABLE `timeline` (
   `id` bigint(20) NOT NULL,
@@ -543,6 +559,10 @@ ALTER TABLE `ticket_history`
 
 ALTER TABLE `ticket_relationships`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `ticket_relation_types`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_relationship_type` (`inverse_type_id`);
 
 ALTER TABLE `timeline`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;

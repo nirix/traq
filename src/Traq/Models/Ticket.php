@@ -676,22 +676,17 @@ class Ticket extends Model
     /**
      * Returns an array of tickets related to this ticket.
      *
-     * @param boolean $include_reverse Include tickets with relations to this ticket.
-     *
      * @return array
      */
-    public function relatedTickets(bool $reverse = false): array
+    public function relatedTickets(): array
     {
         static $tickets;
 
         if ($tickets) {
-            return $tickets[$reverse ? 'reverse' : 'direct'];
+            return $tickets;
         }
 
-        $tickets = [
-            'direct' => [],
-            'reverse' => []
-        ];
+        $tickets = [];
 
         $prefix = $this->db()->prefix;
         $query = "SELECT
@@ -704,6 +699,8 @@ class Ticket extends Model
             rt.summary AS related_summary,
             rt.priority_id AS related_priority_id,
             rp.slug AS related_project_slug,
+            r.relation_type_id,
+            trt.name AS relation_type_name,
             CASE
                 WHEN r.ticket_id = :ticketId
                 THEN true
@@ -714,7 +711,9 @@ class Ticket extends Model
         LEFT JOIN {$prefix}projects p ON p.id = t.project_id
         LEFT JOIN {$prefix}tickets rt ON rt.id = r.related_ticket_id
         LEFT JOIN {$prefix}projects rp ON rp.id = rt.project_id
-        WHERE r.ticket_id = :ticketId OR r.related_ticket_id = :ticketId";
+        LEFT JOIN {$prefix}ticket_relation_types trt ON r.relation_type_id = trt.id
+        WHERE r.ticket_id = :ticketId OR r.related_ticket_id = :ticketId
+        ORDER BY r.relation_type_id";
 
         $stmt = $this->db()->prepare($query);
         $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
@@ -723,15 +722,29 @@ class Ticket extends Model
 
         $relations = $stmt->fetchAll();
         foreach ($relations as $relation) {
-            if ($relation->direct == $this->id) {
-                $tickets['direct'][] = $relation;
-            } else {
-                $tickets['reverse'][] = $relation;
-            }
+            $tickets[] = $relation;
         }
 
-        // dd($tickets);
-        return $tickets[$reverse ? 'reverse' : 'direct'];
+        return $tickets;
+    }
+
+    public function updateRelatedTickets(array $relatedTickets)
+    {
+        foreach ($relatedTickets as $relatedTicket) {
+            $sql = "UPDATE {$this->db()->prefix}ticket_relationships AS tr
+                JOIN {$this->db()->prefix}tickets AS t ON tr.ticket_id = t.id
+                JOIN {$this->db()->prefix}tickets AS rt ON tr.ticket_id = rt.id
+                SET
+                    tr.relation_type_id = :relationTypeId
+                WHERE
+                    tr.id = :id
+                    AND (t.project_id = :projectId OR rt.project_id = :projectId)";
+            $stmt = $this->db()->prepare($sql);
+            $stmt->bindValue(':relationTypeId', $relatedTicket['relation_type_id'], \PDO::PARAM_INT);
+            $stmt->bindValue(':id', $relatedTicket['id'], \PDO::PARAM_INT);
+            $stmt->bindValue(':projectId', $this->project_id, \PDO::PARAM_INT);
+            $stmt->execute();
+        }
     }
 
     /**
@@ -745,8 +758,10 @@ class Ticket extends Model
     {
         $ticketIds = [];
 
-        foreach ($this->relatedTickets($reverse) as $ticket) {
-            $ticketIds[] = $ticket->ticket_id;
+        foreach ($this->relatedTickets($reverse) as $relationType => $relatedTickets) {
+            foreach ($relatedTickets as $ticket) {
+                $ticketIds[] = $ticket->ticket_id;
+            }
         }
 
         return $ticketIds;
