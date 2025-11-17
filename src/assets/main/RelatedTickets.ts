@@ -22,7 +22,7 @@
 
 import axios from 'axios'
 import Alpine from 'alpinejs'
-
+import type { TicketInterface } from './../interfaces'
 interface RelatedTicket {
   id: number
   ticket_id: number
@@ -63,6 +63,8 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
   changed: false,
   open: true,
   canEdit,
+  searchResults: [],
+  activeNewRelationId: null as number | null,
 
   init() {
     this.url = window.traq.base + window.traq.project_slug + "/tickets/" + this.ticketId + "/related-tickets"
@@ -169,5 +171,45 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
       relation_type_id: 1,
       summary: '',
     })
+  },
+
+  focusSummary(newRelation: NewRelation) {
+    this.activeNewRelationId = newRelation.id
+  },
+
+  blurSummary(target: HTMLElement) {
+    // Check if we clicked into the search results
+    if (target.closest('.related-tickets-search-results')) {
+      return
+    }
+
+    // this.focusedSummary = null
+    this.searchResults = []
+  },
+
+  searchTicket(newRelation: NewRelation, element: HTMLInputElement) {
+    console.log('search for ticket')
+
+    axios.get(window.traq.base + window.traq.project_slug + "/tickets.json?summary=" + newRelation.summary).then((resp) => {
+      this.searchResults = resp.data.tickets
+
+      // set x/y to position of focusedSummary, taking into account scroll position
+      this.$refs.searchResults.style.top = element.getBoundingClientRect().bottom + window.scrollY + 'px'
+      this.$refs.searchResults.style.left = element.getBoundingClientRect().left + window.scrollX + 'px'
+    })
+  },
+
+  selectTicket(searchResult: TicketInterface) {
+    const newRelation = this.newRelations.find((relation) => relation.id === this.activeNewRelationId)
+    if (!newRelation) {
+      return
+    }
+
+    newRelation.ticket_id = searchResult.ticket_id
+    newRelation.project_id = searchResult.project_id
+    newRelation.summary = searchResult.summary
+
+    this.searchResults = []
+    this.activeNewRelationId = null
   },
 }))

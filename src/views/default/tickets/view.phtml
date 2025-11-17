@@ -128,7 +128,7 @@
 											</a>
 											<button class="btn-danger btn-xs action" type="button" @click="remove(relatedTicket)">
 												<span class="fas fa-fw fa-trash"></span>
-												<span class="sr-only"><?= l('remove') ?></span>
+												<span class="sr-only"><?= l('delete') ?></span>
 											</button>
 										</li>
 									</template>
@@ -139,14 +139,27 @@
 													<option :value="relationType.id" x-text="relationType.name"></option>
 												</template>
 											</select>
-											<input type="text" name="summary" class="summary" x-model="newRelation.summary" placeholder="<?= l('search') ?>" />
+											<input type="text" name="summary" class="summary" x-model="newRelation.summary" placeholder="<?= l('search') ?>" autocomplete="off" @keyup.debounce.500ms="searchTicket(newRelation, $event.target)" @focus="focusSummary(newRelation)" @click.outsidea="blurSummary(newRelation, $event.target)" />
 											<button class="btn-danger btn-xs action" type="button" @click="removeNewRelation(newRelation)">
 												<span class="fas fa-fw fa-trash"></span>
-												<span class="sr-only"><?= l('remove') ?></span>
+												<span class="sr-only"><?= l('delete') ?></span>
 											</button>
 										</li>
 									</template>
 								</ul>
+
+								<template x-teleport="body">
+									<div x-show="searchResults.length > 0" x-ref="searchResults" class="related-tickets-search-results">
+										<ul>
+											<template x-for="searchResult in searchResults" :key="searchResult.id">
+												<li>
+													<a :href="ticketHref(searchResult)" @click.prevent="selectTicket(searchResult)" x-text="`#${searchResult.ticket_id} - ${searchResult.summary}`"></a>
+												</li>
+											</template>
+										</ul>
+									</div>
+								</template>
+
 								<div x-show="changed || newRelations.length > 0">
 									<button class="btn-primary btn-sm" @click="save()">
 										<span class="fas fa-fw fa-save"></span>

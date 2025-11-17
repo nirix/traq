@@ -244,9 +244,35 @@
   ul {
     @apply list-none p-0 m-0;
     @apply flex flex-col gap-1;
+
+    & > li {
+      @apply flex items-center gap-2;
+    }
   }
 
-  ul > li {
-    @apply flex gap-2;
+  ul.editable {
+    & > li {
+      @apply grid grid-cols-12 gap-2;
+      @apply items-center;
+
+      & .relation-type {
+        @apply col-span-2;
+      }
+
+      & .summary {
+        @apply col-span-9;
+      }
+
+      & .action {
+        @apply col-span-1;
+      }
+    }
   }
+}
+
+.related-tickets-search-results {
+  @apply absolute;
+  @apply bg-white;
+  @apply shadow-md rounded-md;
+  @apply p-4;
 }

@@ -74,23 +74,26 @@ export interface CustomFieldInterface {
 }
 
 export interface TicketInterface {
-  id?: number
   ticket_id: number
   summary: string
-  body: string
-  milestone: MilestoneInterface
-  status: StatusInterface
-  priority: PriorityInterface
-  project: ProjectInterface
-  severity: SeverityInterface
-  component: ComponentInterface
-  type: TypeInterface
-  assigned_to: UserInterface
-  user: UserInterface
+  user_id: number
+  assigned_to_id: number | null
   votes: number
-  custom_fields: Array<string>
-  created_at: string | DateTime
-  updated_at: string | DateTime
+  created_at: string
+  updated_at: string | null
+  is_closed: boolean
+  owner: string
+  assignee: string | null
+  type: string
+  milestone: string
+  milestone_slug: string
+  version: string | null
+  version_slug: string | null
+  component: string | null
+  status: string
+  priority: string
+  priority_id: number
+  severity: string
 }
 
 export interface ProjectInterface {
