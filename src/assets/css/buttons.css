@@ -143,6 +143,11 @@ input[type="reset"] {
       }
     }
   }
+
+  &.btn-link {
+    @apply bg-transparent border-transparent;
+    @apply active:ring-0 focus:ring-0;
+  }
 }
 
 .btn-pill-group {
