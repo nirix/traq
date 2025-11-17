@@ -476,8 +476,8 @@ class v3x extends Base
     {
         // Update plugins
         $db->query("UPDATE `{$db->prefix}plugins` SET `file` = 'SecurityQuestions' WHERE `file` = 'security_questions';");
-        $db->query("UPDATE `{$db->prefix}plugins` SET `file` = 'CustomTabs' WHERE `file` = 'CustomTabs';");
-        $db->query("UPDATE `{$db->prefix}plugins` SET `file` = 'Markdown' WHERE `file` = 'Markdown';");
+        $db->query("UPDATE `{$db->prefix}plugins` SET `file` = 'CustomTabs' WHERE `file` = 'custom_tabs';");
+        $db->query("UPDATE `{$db->prefix}plugins` SET `file` = 'Markdown' WHERE `file` = 'markdown';");
 
         // Update column types, nullable and defaults
         $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `is_closed` `is_closed` TINYINT(1) NOT NULL DEFAULT '0'; ");
@@ -488,9 +488,11 @@ class v3x extends Base
         $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `is_private` `is_private` TINYINT(1) NOT NULL DEFAULT '0';");
 
         // Fix orphans
+        $db->query("UPDATE {$db->prefix}tickets t SET t.version_id = NULL WHERE t.version_id NOT IN (SELECT m.id FROM {$db->prefix}milestones m WHERE m.project_id = t.project_id);");
         $db->query("UPDATE {$db->prefix}tickets SET type_id = (SELECT id FROM {$db->prefix}types ORDER BY id ASC LIMIT 1) WHERE type_id NOT IN (SELECT id FROM {$db->prefix}types)");
         $db->query("UPDATE {$db->prefix}tickets SET status_id = (SELECT id FROM {$db->prefix}statuses s WHERE s.status = 1 ORDER BY id ASC LIMIT 1) WHERE status_id NOT IN (SELECT id FROM {$db->prefix}statuses) AND is_closed = 0");
         $db->query("UPDATE {$db->prefix}tickets SET priority_id = (SELECT id FROM {$db->prefix}priorities ORDER BY id ASC LIMIT 1) WHERE priority_id NOT IN (SELECT id FROM {$db->prefix}priorities)");
+        $db->query("UPDATE {$db->prefix}tickets SET severity_id = (SELECT id FROM {$db->prefix}severities ORDER BY id ASC LIMIT 1) WHERE severity_id NOT IN (SELECT id FROM {$db->prefix}severities)");
 
         // Delete orphans
         $db->query("DELETE FROM {$db->prefix}tickets WHERE project_id NOT IN (SELECT id FROM {$db->prefix}projects);");
@@ -513,6 +515,7 @@ class v3x extends Base
             ADD CONSTRAINT `rl_project` FOREIGN KEY (`project_id`) REFERENCES `{$db->prefix}projects` (`id`),
             ADD CONSTRAINT `rl_type` FOREIGN KEY (`type_id`) REFERENCES `{$db->prefix}types` (`id`),
             ADD CONSTRAINT `rl_user` FOREIGN KEY (`user_id`) REFERENCES `{$db->prefix}users` (`id`),
-            ADD CONSTRAINT `rl_version` FOREIGN KEY (`version_id`) REFERENCES `{$db->prefix}milestones` (`id`);");
+            ADD CONSTRAINT `rl_version` FOREIGN KEY (`version_id`) REFERENCES `{$db->prefix}milestones` (`id`),
+            ADD CONSTRAINT `rl_severity` FOREIGN KEY (`severity_id`) REFERENCES `{$db->prefix}severities`(`id`);");
     }
 }
