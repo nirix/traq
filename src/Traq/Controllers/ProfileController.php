@@ -49,19 +49,9 @@ class ProfileController extends AppController
             return $this->user->permission($membership->project_id, 'view');
         });
 
-        $assignedTickets = [];
-        foreach ($user->assigned_tickets->exec()->fetch_all() as $ticket) {
-            if (!$this->user->permission($ticket->project_id, 'view')) {
-                continue;
-            }
-
-            $assignedTickets[$ticket->project_id][] = $ticket;
-        }
-
         return $this->render('profile/view.phtml', [
             'profile' => $user,
             'memberships' => $memberships,
-            'assignedTickets' => $assignedTickets
         ]);
     }
 }
