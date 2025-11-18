@@ -1,10 +1,16 @@
 .panel {
   /* @apply bg-gray-100 rounded; */
-@apply rounded-lg shadow-sm bg-gray-50;
-@apply border border-solid border-gray-300 rounded;
+  @apply rounded-lg shadow-sm bg-gray-50;
+  @apply border border-solid border-gray-300 rounded;
+  @apply mb-2;
 
+  &:last-child {
+    @apply mb-0;
+  }
 
   & .panel-title {
+    @apply flex justify-between items-center px-3 py-2 border-b cursor-pointer m-0;
+    @apply text-[1rem] font-medium;
   }
 
   & .panel-content {

@@ -119,6 +119,7 @@ class enUS extends Locale
             'add_filter'       => 'Add filter',
             'no_change'        => 'No change',
             'no_filters_set'   => 'No filters set.',
+            'no_tickets_assigned' => 'No tickets assigned',
 
             // Search
             'search.no_results' => 'No search results...',

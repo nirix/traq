@@ -44,8 +44,24 @@ class ProfileController extends AppController
         $this->title(l('users'));
         $this->title(l('xs_profile', $user->name));
 
+        $memberships = $user->projectMemberships();
+        $memberships = array_filter($memberships, function ($membership) {
+            return $this->user->permission($membership->project_id, 'view');
+        });
+
+        $assignedTickets = [];
+        foreach ($user->assigned_tickets->exec()->fetch_all() as $ticket) {
+            if (!$this->user->permission($ticket->project_id, 'view')) {
+                continue;
+            }
+
+            $assignedTickets[$ticket->project_id][] = $ticket;
+        }
+
         return $this->render('profile/view.phtml', [
-            'profile' => $user
+            'profile' => $user,
+            'memberships' => $memberships,
+            'assignedTickets' => $assignedTickets
         ]);
     }
 }
