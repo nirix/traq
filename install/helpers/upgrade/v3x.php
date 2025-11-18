@@ -568,5 +568,23 @@ class v3x extends Base
             ADD CONSTRAINT `rl_user` FOREIGN KEY (`user_id`) REFERENCES `{$db->prefix}users` (`id`),
             ADD CONSTRAINT `rl_version` FOREIGN KEY (`version_id`) REFERENCES `{$db->prefix}milestones` (`id`),
             ADD CONSTRAINT `rl_severity` FOREIGN KEY (`severity_id`) REFERENCES `{$db->prefix}severities`(`id`);");
+
+        // Update timeline events to store status name instead of ID
+        $timelineEvents = $db->query("SELECT
+                tl.id,
+                tl.action,
+                tl.data,
+                s.name AS status_name
+            FROM t_timeline AS tl
+            LEFT JOIN t_statuses AS s ON tl.data = s.id
+            WHERE tl.action IN ('ticket_created','ticket_started','ticket_updated','ticket_closed','ticket_reopened');");
+
+        foreach ($timelineEvents as $event) {
+            $db->prepare("UPDATE `{$db->prefix}timeline` SET `data` = :status_name WHERE `id` = :id")
+                ->execute([
+                    'status_name' => $event['status_name'],
+                    'id' => $event['id'],
+                ]);
+        }
     }
 }

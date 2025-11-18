@@ -25,7 +25,10 @@
                                         <?= HTML::link(
                                             l(
                                                 $event->getTranslationString(),
-                                                $tickets[$event->owner_id]
+                                                [
+                                                    ...$tickets[$event->owner_id],
+                                                    'status_name' => $event->data,
+                                                ]
                                             ),
                                             currentProject()->href("tickets/{$tickets[$event->owner_id]['ticket_id']}")
                                         ) ?>

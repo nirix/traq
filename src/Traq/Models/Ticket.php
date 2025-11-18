@@ -201,7 +201,7 @@ class Ticket extends Model
                     'project_id' => $this->project_id,
                     'owner_id'   => $this->id,
                     'action'     => 'ticket_created',
-                    'data'       => $this->status_id ?? 1,
+                    'data'       => $status ? $status->name : 'unknown',
                     'user_id'    => $this->user_id
                 ));
                 $timeline->save();
@@ -397,7 +397,7 @@ class Ticket extends Model
                     $timelineData = [
                         'project_id' => $this->project_id,
                         'owner_id' => $this->id,
-                        'data' => $to_values[$field]->id,
+                        'data' => $to_values[$field]->name,
                         'user_id' => $user->id
                     ];
 
