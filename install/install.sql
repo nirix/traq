@@ -337,8 +337,9 @@ CREATE TABLE `ticket_relationships` (
   `id` bigint(20) NOT NULL,
   `ticket_id` bigint(20) NOT NULL,
   `related_ticket_id` bigint(20) NOT NULL,
-  `relation_type_id` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+  `relation_type_id` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 CREATE TABLE `ticket_relation_types` (
   `id` tinyint(4) NOT NULL,

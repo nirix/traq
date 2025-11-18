@@ -1,14 +1,13 @@
 <title><?php echo implode(' - ', array_reverse(isset($traq) ? $traq->title : [settings('title')])); ?></title>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
 <script src="<?= Request::base('assets/js/sexytooltips.js') ?>" type="text/javascript"></script>
 <script src="<?= Request::base('assets/js/popover.js') ?>" type="text/javascript"></script>
 <script src="<?= Request::base('assets/js/ticket_tasks.js') ?>" type="text/javascript"></script>
-
 <script src="<?= Request::base('assets/js/traq.js') ?>" type="text/javascript"></script>
-
 <script src="<?= Request::base('_js') ?>" type="text/javascript"></script>
 <?= ui_package('src/assets/main.ts') ?>
 

@@ -678,11 +678,11 @@ class Ticket extends Model
      *
      * @return array
      */
-    public function relatedTickets(): array
+    public function relatedTickets(bool $refetch = false): array
     {
         static $tickets;
 
-        if ($tickets) {
+        if ($tickets && !$refetch) {
             return $tickets;
         }
 
@@ -690,30 +690,20 @@ class Ticket extends Model
 
         $prefix = $this->db()->prefix;
         $query = "SELECT
-            r.id,
-            t.ticket_id AS ticket_id,
-            t.summary AS summary,
-            t.priority_id AS priority_id,
-            p.slug AS project_slug,
-            rt.ticket_id AS related_ticket_id,
-            rt.summary AS related_summary,
-            rt.priority_id AS related_priority_id,
-            rp.slug AS related_project_slug,
-            r.relation_type_id,
-            trt.name AS relation_type_name,
-            CASE
-                WHEN r.ticket_id = :ticketId
-                THEN true
-                ELSE false
-            END as direct
-        FROM {$prefix}ticket_relationships r
-        LEFT JOIN {$prefix}tickets t ON t.id = r.ticket_id
-        LEFT JOIN {$prefix}projects p ON p.id = t.project_id
-        LEFT JOIN {$prefix}tickets rt ON rt.id = r.related_ticket_id
-        LEFT JOIN {$prefix}projects rp ON rp.id = rt.project_id
-        LEFT JOIN {$prefix}ticket_relation_types trt ON r.relation_type_id = trt.id
-        WHERE r.ticket_id = :ticketId OR r.related_ticket_id = :ticketId
-        ORDER BY r.relation_type_id";
+                tr.id,
+                types.id AS relation_type_id,
+                types.name AS relation_type_name,
+                rt.ticket_id AS ticket_id,
+                rt.summary AS summary,
+                rt.priority_id AS priority_id,
+                rt.project_id AS project_id,
+                rp.slug AS project_slug
+            FROM {$prefix}ticket_relationships AS tr
+            JOIN {$prefix}ticket_relation_types AS types ON tr.relation_type_id = types.id
+            JOIN {$prefix}tickets AS rt ON tr.related_ticket_id = rt.id
+            JOIN {$prefix}projects AS rp ON rt.project_id = rp.id
+            WHERE
+                tr.ticket_id = :ticketId";
 
         $stmt = $this->db()->prepare($query);
         $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
@@ -728,43 +718,56 @@ class Ticket extends Model
         return $tickets;
     }
 
-    public function updateRelatedTickets(array $relatedTickets)
+    public function addRelatedTicket(int $relatedTicketId, int $relationTypeId, int $inverseRelationTypeId)
     {
-        foreach ($relatedTickets as $relatedTicket) {
-            $sql = "UPDATE {$this->db()->prefix}ticket_relationships AS tr
-                JOIN {$this->db()->prefix}tickets AS t ON tr.ticket_id = t.id
-                JOIN {$this->db()->prefix}tickets AS rt ON tr.ticket_id = rt.id
-                SET
-                    tr.relation_type_id = :relationTypeId
-                WHERE
-                    tr.id = :id
-                    AND (t.project_id = :projectId OR rt.project_id = :projectId)";
-            $stmt = $this->db()->prepare($sql);
-            $stmt->bindValue(':relationTypeId', $relatedTicket['relation_type_id'], \PDO::PARAM_INT);
-            $stmt->bindValue(':id', $relatedTicket['id'], \PDO::PARAM_INT);
-            $stmt->bindValue(':projectId', $this->project_id, \PDO::PARAM_INT);
-            $stmt->execute();
-        }
+        $sql = "INSERT INTO {$this->db()->prefix}ticket_relationships (ticket_id, related_ticket_id, relation_type_id) VALUES (:ticketId, :relatedTicketId, :relationTypeId)";
+        $stmt = $this->db()->prepare($sql);
+        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
+        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
+        $stmt->bindValue(':relationTypeId', $relationTypeId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Add inverse relationship
+        $sql = "INSERT INTO {$this->db()->prefix}ticket_relationships (ticket_id, related_ticket_id, relation_type_id) VALUES (:relatedTicketId, :ticketId, :inverseRelationTypeId)";
+        $stmt = $this->db()->prepare($sql);
+        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
+        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
+        $stmt->bindValue(':inverseRelationTypeId', $inverseRelationTypeId, \PDO::PARAM_INT);
+        $stmt->execute();
     }
 
-    /**
-     * Returns an array containing the ticket IDs of related tickets.
-     *
-     * @param boolean $include_reverse Include tickets with relations to this ticket.
-     *
-     * @return array
-     */
-    public function relatedTicketTids($reverse = false): array
+    public function updateRelatedTicket(int $relatedTicketId, int $relationTypeId, int $inverseRelationTypeId)
     {
-        $ticketIds = [];
+        $sql = "UPDATE {$this->db()->prefix}ticket_relationships SET relation_type_id = :relationTypeId WHERE ticket_id = :ticketId AND related_ticket_id = :relatedTicketId";
+        $stmt = $this->db()->prepare($sql);
+        $stmt->bindValue(':relationTypeId', $relationTypeId, \PDO::PARAM_INT);
+        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
+        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
+        $stmt->execute();
 
-        foreach ($this->relatedTickets($reverse) as $relationType => $relatedTickets) {
-            foreach ($relatedTickets as $ticket) {
-                $ticketIds[] = $ticket->ticket_id;
-            }
-        }
+        // Update inverse relationship
+        $sql = "UPDATE {$this->db()->prefix}ticket_relationships SET relation_type_id = :inverseRelationTypeId WHERE ticket_id = :relatedTicketId AND related_ticket_id = :ticketId";
+        $stmt = $this->db()->prepare($sql);
+        $stmt->bindValue(':inverseRelationTypeId', $inverseRelationTypeId, \PDO::PARAM_INT);
+        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
+        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
 
-        return $ticketIds;
+    public function deleteRelatedTicket(int $relatedTicketId)
+    {
+        $sql = "DELETE FROM {$this->db()->prefix}ticket_relationships WHERE ticket_id = :ticketId AND related_ticket_id = :relatedTicketId";
+        $stmt = $this->db()->prepare($sql);
+        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
+        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Delete inverse relationship
+        $sql = "DELETE FROM {$this->db()->prefix}ticket_relationships WHERE ticket_id = :relatedTicketId AND related_ticket_id = :ticketId";
+        $stmt = $this->db()->prepare($sql);
+        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
+        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
+        $stmt->execute();
     }
 
     /**
@@ -841,5 +844,50 @@ class Ticket extends Model
         }
 
         return false;
+    }
+
+    public static function findByProjectIdAndTicketId(int $projectId, int $ticketId): self|false
+    {
+        $db = static::db();
+
+        $ticket = static::db()->prepare("SELECT * FROM {$db->prefix}tickets WHERE project_id = :projectId AND ticket_id = :ticketId")->execute([
+            'projectId' => $projectId,
+            'ticketId' => $ticketId
+        ])->fetch();
+
+        if ($ticket) {
+            return new static($ticket, false);
+        }
+
+        return false;
+    }
+
+    public static function getByTicketIdsForProject(int $projectId, array $ticketIds): array
+    {
+        if (count($ticketIds) === 0) {
+            return [];
+        }
+
+        $db = static::db();
+
+        // build inIds with named placeholders
+        $placeholders = [];
+        $ids = [];
+        foreach ($ticketIds as $index => $id) {
+            $placeholders[] = ":ticketId_{$index}";
+            $ids[":ticketId_{$index}"] = $id;
+        }
+        $inIds = implode(', ', $placeholders);
+
+        $query = "SELECT * FROM {$db->prefix}tickets WHERE project_id = :projectId AND ticket_id IN ($inIds)";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':projectId', $projectId, \PDO::PARAM_INT);
+
+        foreach ($ids as $param => $value) {
+            $stmt->bindValue($param, $value, \PDO::PARAM_INT);
+        }
+        $stmt->exec();
+
+        return $stmt->fetchAll();
     }
 }

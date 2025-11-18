@@ -32,6 +32,8 @@ import {
   faSearch,
   faChevronDown,
   faChevronUp,
+  faCheck,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
@@ -69,4 +71,6 @@ library.add(faRotateLeft)
 library.add(faSearch)
 library.add(faChevronDown)
 library.add(faChevronUp)
+library.add(faCheck)
+library.add(faTimes)
 dom.watch()

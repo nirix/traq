@@ -56,6 +56,8 @@ class TicketView
     protected int $priority_id;
     protected string $severity;
     protected int $severity_id;
+    protected int $project_id;
+    protected string $project_slug;
 
     public function getTicketId(): int
     {

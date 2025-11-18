@@ -252,20 +252,30 @@
 
   ul.editable {
     & > li {
-      @apply grid grid-cols-12 gap-2;
+      @apply flex flex-row gap-2;
       @apply items-center;
 
       & .relation-type {
-        @apply col-span-2;
+        @apply max-w-[200px] min-w-[200px];
       }
 
       & .summary {
-        @apply col-span-9;
+        @apply flex-grow;
       }
 
       & .action {
-        @apply col-span-1;
+        @apply w-[32px];
       }
+    }
+  }
+
+  ul > li.new-relationship {
+    @apply flex flex-row gap-2;
+    @apply items-center;
+
+    & .action {
+      @apply max-w-[180px] min-w-[180px];
+      @apply flex gap-2 justify-end
     }
   }
 }
@@ -275,4 +285,17 @@
   @apply bg-white;
   @apply shadow-md rounded-md;
   @apply p-4;
+  @apply min-w-[300px];
+
+  & ul {
+    @apply list-none p-0 m-0;
+    @apply flex flex-col gap-1;
+
+    & > li {
+      & a {
+        @apply block px-2 py-1;
+        @apply hover:text-black hover:bg-gray-100 rounded-md;
+      }
+    }
+  }
 }

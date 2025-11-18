@@ -35,46 +35,22 @@ namespace Traq\ViewModels;
 class RelatedTicketsView
 {
     protected int $id;
-    protected ?int $ticket_id;
-    protected ?string $summary;
-    protected ?string $project_slug;
-    protected ?int $priority_id;
-    protected ?int $related_ticket_id;
-    protected ?string $related_summary;
-    protected ?int $related_priority_id;
-    protected ?string $related_project_slug;
-    protected bool $direct;
+    protected int $ticket_id;
+    protected string $summary;
     protected int $relation_type_id;
     protected string $relation_type_name;
+    protected string $priority_id;
+    protected int $project_id;
+    protected string $project_slug;
 
     public function __get(string $name): mixed
     {
-        if ($name === 'relation_type_id') {
-            return $this->relation_type_id;
-        }
-
-        if ($name === 'relation_type_name') {
-            return $this->relation_type_name;
-        }
-
-        if ($name === 'direct') {
-            return $this->direct;
-        }
-
-        if ($this->direct) {
-            $name = 'related_' . $name;
-        };
-
         return $this->{$name};
     }
 
     public function href(string $uri = ''): string
     {
-        if ($this->direct) {
-            return "/{$this->project_slug}/tickets/{$this->related_ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
-        }
-
-        return "/{$this->related_project_slug}/tickets/{$this->ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
+        return "/{$this->project_slug}/tickets/{$this->ticket_id}" . ($uri !== null ? '/' . trim($uri, '/') : '');
     }
 
     public function toArray(): array
@@ -83,15 +59,11 @@ class RelatedTicketsView
             'id' => $this->id,
             'ticket_id' => $this->ticket_id,
             'summary' => $this->summary,
-            'priority_id' => $this->priority_id,
-            'project_slug' => $this->project_slug,
-            'related_ticket_id' => $this->related_ticket_id,
-            'related_summary' => $this->related_summary,
-            'related_priority_id' => $this->related_priority_id,
-            'related_project_slug' => $this->related_project_slug,
-            'direct' => $this->direct,
             'relation_type_id' => $this->relation_type_id,
             'relation_type_name' => $this->relation_type_name,
+            'priority_id' => $this->priority_id,
+            'project_id' => $this->project_id,
+            'project_slug' => $this->project_slug,
         ];
     }
 }

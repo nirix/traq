@@ -94,6 +94,8 @@ export interface TicketInterface {
   priority: string
   priority_id: number
   severity: string
+  project_id: number
+  project_slug: string
 }
 
 export interface ProjectInterface {

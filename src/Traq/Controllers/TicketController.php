@@ -232,7 +232,7 @@ class TicketController extends AppController
 
     public function relatedTickets(int $ticket_id): Response
     {
-        if (Request::method() === 'POST') {
+        if (Request::method() === 'POST' && $this->user->permission($this->project->id, 'ticket_properties_change_related_tickets')) {
             $this->updateRelatedTickets($ticket_id);
         }
 
@@ -243,7 +243,7 @@ class TicketController extends AppController
         }
 
         return $this->json([
-            'related_tickets' => $ticket->relatedTickets(),
+            'related_tickets' => $ticket->relatedTickets(true),
             'relation_types' => TicketRelationType::select()->exec()->fetchAll(),
         ]);
     }
@@ -255,13 +255,49 @@ class TicketController extends AppController
             return $this->show404();
         }
 
-        // set 500 response code
-        http_response_code(500);
+        $requestBody = json_decode(Request::body(), true);
+        $existingRelatedTickets = $ticket->relatedTickets();
 
-        $body = json_decode(Request::body(), true);
+        foreach ($requestBody['related_tickets'] as $index => $relatedTicket) {
+            $related = Ticket::findByProjectIdAndTicketId($this->project->id, $relatedTicket['ticket_id']);
 
-        if (isset($body['related_tickets'])) {
-            $ticket->updateRelatedTickets($body['related_tickets']);
+            if ($related && $this->user->permission($relatedTicket['project_id'], 'ticket_properties_change_related_tickets')) {
+                $requestBody['related_tickets'][$index]['actual_ticket_id'] = $related->id;
+            } else {
+                unset($requestBody['related_tickets'][$index]);
+            }
+        }
+
+        // Get relation types and index by id and inverse id
+        $relationTypes = [];
+        foreach (TicketRelationType::select()->exec()->fetchAll() as $relationType) {
+            $relationTypes[$relationType->id] = $relationType->inverse_type_id;
+        }
+
+        foreach ($requestBody['related_tickets'] as $index => $relatedTicket) {
+            // Get the existing related ticket
+            $existingRelatedTicket = array_filter($existingRelatedTickets, function ($existingRelatedTicket) use ($relatedTicket) {
+                return $existingRelatedTicket->ticket_id === (int) $relatedTicket['ticket_id'];
+            });
+
+            // If the existing related ticket is found, update it
+            if (count($existingRelatedTicket)) {
+                $existingRelatedTicket = end($existingRelatedTicket);
+                $ticket->updateRelatedTicket($relatedTicket['actual_ticket_id'], $relatedTicket['relation_type_id'], $relationTypes[$relatedTicket['relation_type_id']]);
+            } else {
+                $ticket->addRelatedTicket($relatedTicket['actual_ticket_id'], $relatedTicket['relation_type_id'], $relationTypes[$relatedTicket['relation_type_id']]);
+            }
+        }
+
+        foreach ($existingRelatedTickets as $existingRelatedTicket) {
+            $updatedRelatedTickets = array_filter($requestBody['related_tickets'], function ($relatedTicket) use ($existingRelatedTicket) {
+                return (int) $relatedTicket['ticket_id'] === $existingRelatedTicket->ticket_id;
+            });
+
+            if (count($updatedRelatedTickets) === 0) {
+                $related = Ticket::findByProjectIdAndTicketId($existingRelatedTicket->project_id, $existingRelatedTicket->ticket_id);
+                $ticket->deleteRelatedTicket($related->id);
+            }
         }
     }
 
@@ -579,44 +615,6 @@ class TicketController extends AppController
         // Time worked
         if ($this->user->permission($this->project->id, 'ticket_properties_change_time_proposed')) {
             $data['time_worked'] = Request::get('time_worked');
-        }
-
-        // Related tickets
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_related_tickets')) {
-            $related_tickets = $ticket->relatedTicketTids();
-            $posted_related_tickets = array();
-
-            foreach (explode(',', Request::get('related_tickets')) as $posted_related_ticket) {
-                $posted_related_tickets[] = trim($posted_related_ticket);
-            }
-
-            // New relations
-            foreach ($posted_related_tickets as $related_tid) {
-                // Make sure it's not already a relation
-                if (!in_array($related_tid, $related_tickets)) {
-                    // Fetch ticket info
-                    $related_ticket = Ticket::select('id')
-                        ->where('project_id', $this->project->id)
-                        ->where('ticket_id', $related_tid)
-                        ->exec()->fetch();
-
-                    // Make sure the ticket exists
-                    if ($related_ticket) {
-                        $relation = new TicketRelationship(array(
-                            'ticket_id' => $ticket->id,
-                            'related_ticket_id' => $related_ticket->id
-                        ));
-                        $relation->save();
-                    }
-                }
-            }
-
-            // Delete relations
-            foreach ($ticket->ticket_relationships->exec()->fetch_all() as $relation) {
-                if (!in_array($relation->related_ticket->ticket_id, $posted_related_tickets)) {
-                    $relation->delete();
-                }
-            }
         }
 
         // Check if we're adding an attachment and that the user has permission to do so

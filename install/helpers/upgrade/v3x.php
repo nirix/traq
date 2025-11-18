@@ -479,6 +479,21 @@ class v3x extends Base
         $db->query("UPDATE `{$db->prefix}plugins` SET `file` = 'CustomTabs' WHERE `file` = 'custom_tabs';");
         $db->query("UPDATE `{$db->prefix}plugins` SET `file` = 'Markdown' WHERE `file` = 'markdown';");
 
+        // Fetch plugins and delete duplicates
+        $plugins = $db->query("SELECT * FROM `{$db->prefix}plugins`")->fetchAll(\PDO::FETCH_ASSOC);
+        $pluginFiles = [];
+        foreach ($plugins as $plugin) {
+            if (!in_array($plugin['file'], $pluginFiles)) {
+                $pluginFiles[] = $plugin['file'];
+            } else {
+                $db->prepare("DELETE FROM `{$db->prefix}plugins` WHERE `file` = :file AND `id` = :id")
+                    ->execute([
+                        'file' => $plugin['file'],
+                        'id' => $plugin['id'],
+                    ]);
+            }
+        }
+
         // Update column types, nullable and defaults
         $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `is_closed` `is_closed` TINYINT(1) NOT NULL DEFAULT '0'; ");
         $db->query("ALTER TABLE `{$db->prefix}tickets` CHANGE `milestone_id` `milestone_id` BIGINT(20) NULL DEFAULT NULL;");
@@ -508,7 +523,21 @@ class v3x extends Base
         $db->query("UPDATE {$db->prefix}tickets SET assigned_to_id = NULL WHERE assigned_to_id = 0;");
 
         // Ticket relation types
-        $db->query("ALTER TABLE `{$db->prefix}ticket_relationships` ADD `relation_type_id` INT NOT NULL DEFAULT '1' AFTER `related_ticket_id`; ");
+        $db->query("ALTER TABLE `{$db->prefix}ticket_relationships` ADD `relation_type_id` INT NOT NULL DEFAULT '1' AFTER `related_ticket_id`;");
+        $db->query("ALTER TABLE `{$db->prefix}ticket_relationships` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `relation_type_id`;");
+
+        // Fetch ticket relationships and insert the inverse row (swapping ticket_id with related_ticket_id)
+        $relationships = $db->query("SELECT * FROM `{$db->prefix}ticket_relationships`")->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($relationships as $relationship) {
+            $db->prepare("
+                INSERT INTO `{$db->prefix}ticket_relationships` (`ticket_id`, `related_ticket_id`, `relation_type_id`)
+                VALUES (:related_ticket_id, :ticket_id, 1)
+            ")
+                ->execute([
+                    'related_ticket_id' => $relationship['related_ticket_id'],
+                    'ticket_id' => $relationship['ticket_id'],
+                ]);
+        }
 
         $db->query("CREATE TABLE `{$db->prefix}ticket_relation_types` (
             `id` tinyint(4) NOT NULL,

@@ -106,7 +106,9 @@ class TicketFilterQuery
                 p.name AS priority,
                 t.priority_id,
                 sv.name AS severity,
-                t.severity_id
+                t.severity_id,
+                t.project_id,
+                pr.slug AS project_slug
                 {$customFieldSelect}
 
             FROM {$prefix}tickets t
@@ -119,6 +121,7 @@ class TicketFilterQuery
             LEFT JOIN {$prefix}types tp ON t.type_id = tp.id
             LEFT JOIN {$prefix}priorities p ON t.priority_id = p.id
             LEFT JOIN {$prefix}severities sv ON t.severity_id = sv.id
+            LEFT JOIN {$prefix}projects pr ON t.project_id = pr.id
             {$customFieldSql['join']}
 
             WHERE

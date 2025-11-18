@@ -1,0 +1,80 @@
+<?php if (count($ticket->relatedTickets()) || count($ticket->relatedTickets(true)) || currentUser()->permission($project->id, 'ticket_properties_change_related_tickets')) : ?>
+    <div class="ticket-related-tickets" :class="{ 'open': open }" x-data="relatedTickets({ ticketId: <?= $ticket->ticket_id ?>, canEdit: <?= currentUser()->permission($project->id, 'ticket_properties_change_related_tickets') ? 'true' : 'false' ?> })">
+        <h3 @click="open = !open">
+            <span><?= l('related_tickets') ?></span>
+            <i class="fas fa-fw fa-chevron-down" x-show="!open"></i>
+            <i class="fas fa-fw fa-chevron-up" x-show="open"></i>
+        </h3>
+        <div x-show="open" x-transition>
+            <?php if (currentUser()->permission($project->id, 'ticket_properties_change_related_tickets')) : ?>
+                <div>
+                    <ul class="editable">
+                        <template x-for="(relatedTicket) in relatedTickets" :key="relatedTicket.ticket_id">
+                            <li>
+                                <select name="relation_type" class="relation-type" x-model.number="relatedTicket.relation_type_id">
+                                    <template x-for="relationType in relationTypes" :key="relationType.id">
+                                        <option :value="relationType.id" x-text="relationType.name" :selected="relatedTicket.relation_type_id === relationType.id"></option>
+                                    </template>
+                                </select>
+                                <a :href="ticketHref(relatedTicket)" class="summary">
+                                    <span :class="`badge priority-${relatedTicket.priority_id}`" x-text="`#${relatedTicket.ticket_id}`"></span>
+                                    <span x-text="relatedTicket.summary"></span>
+                                </a>
+                                <button class="btn-danger btn-xs btn-outline action" type="button" @click="remove(relatedTicket)">
+                                    <span class="fas fa-fw fa-trash"></span>
+                                    <span class="sr-only"><?= l('delete') ?></span>
+                                </button>
+                            </li>
+                        </template>
+                        <li class="new-relationship">
+                            <select name="relation_type" class="relation-type" x-model="newRelation.relation_type_id">
+                                <template x-for="relationType in relationTypes" :key="relationType.id">
+                                    <option :value="relationType.id" x-text="relationType.name"></option>
+                                </template>
+                            </select>
+                            <input type="text" name="summary" class="summary" x-model="newRelation.summary" placeholder="<?= l('search') ?>" autocomplete="off" @keyup.debounce.500ms="searchTicket($event.target)" @click.outside="blurSummary($event.target)" />
+                            <div x-show="changed" class="action" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-1">
+                                <button class="btn-primary" @click="save()">
+                                    <i class="fas fa-fw fa-check"></i>
+                                    <?= l('save') ?>
+                                </button>
+                                <button class="btn-secondary" @click="cancel()">
+                                    <i class="fas fa-fw fa-times"></i>
+                                    <?= l('cancel') ?>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <template x-teleport="body">
+                        <div x-show="searchResults.length > 0" x-ref="searchResults" class="related-tickets-search-results">
+                            <ul>
+                                <template x-for="searchResult in searchResults" :key="searchResult.ticket_id">
+                                    <li>
+                                        <a :href="ticketHref(searchResult)" @click.prevent="selectTicket(searchResult)" x-text="`#${searchResult.ticket_id} - ${searchResult.summary}`"></a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+
+
+                </div>
+            <?php else : ?>
+                <div>
+                    <ul>
+                        <?php foreach ($ticket->relatedTickets() as $relatedTicket) : ?>
+                            <li>
+                                <span class="relation-type"><?= $relatedTicket->relation_type_name ?></span>
+                                <a href="<?= Request::base($relatedTicket->href()) ?>" class="col-span-10">
+                                    <span class="badge priority-<?= $relatedTicket->priority_id ?>">#<?= $relatedTicket->ticket_id ?></span>
+                                    <span><?= htmlspecialchars($relatedTicket->summary) ?></span>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

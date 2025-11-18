@@ -39,6 +39,10 @@ input[type="reset"] {
   @apply cursor-pointer;
   @apply appearance-none;
 
+  &.btn-outline {
+    @apply bg-transparent border-gray-200 hover:border-gray-300 active:border-gray-400;
+  }
+
   &.btn-sm {
     @apply text-xs;
     @apply py-1 px-2;
@@ -141,6 +145,11 @@ input[type="reset"] {
       &:active {
         @apply bg-rose-400 border-rose-400;
       }
+    }
+
+    &.btn-outline {
+      @apply bg-transparent border-rose-600 hover:border-rose-700 active:border-rose-800;
+      @apply text-rose-600 hover:text-rose-700 active:text-rose-800;
     }
   }
 
