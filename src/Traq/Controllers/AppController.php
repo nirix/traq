@@ -89,6 +89,7 @@ class AppController extends Controller
 
         // Set is_api and JSON view extension
         $this->user = Request::attribute('current_user');
+
         if (Request::attribute('is_api')) {
             $this->isApi = true;
             $this->isJson = true;

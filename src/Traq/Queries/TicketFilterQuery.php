@@ -235,7 +235,11 @@ class TicketFilterQuery
         foreach ($this->filters as $field => $filter) {
             $condition = $filter['condition'];
             $values = $filter['values'];
-            $fieldName = $fieldMapping[$field];
+            $fieldName = isset($fieldMapping[$field]) ? $fieldMapping[$field] : null;
+
+            if ($fieldName === null) {
+                continue;
+            }
 
             // Build SQL for each filter type
             if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity', 'assigned_to'])) {

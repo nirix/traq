@@ -34,6 +34,8 @@ import {
   faChevronUp,
   faCheck,
   faTimes,
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
@@ -73,4 +75,6 @@ library.add(faChevronDown)
 library.add(faChevronUp)
 library.add(faCheck)
 library.add(faTimes)
+library.add(faChevronLeft)
+library.add(faChevronRight)
 dom.watch()

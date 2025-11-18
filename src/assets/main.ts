@@ -37,6 +37,7 @@ import "./main/EasyMDE"
 import "./main/NavbarSearch"
 import "./main/TicketList"
 import "./main/RelatedTickets"
+import "./main/ProfileTickets"
 import "./stores/auth"
 
 window.Alpine = Alpine

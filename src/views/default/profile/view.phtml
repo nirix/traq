@@ -52,15 +52,15 @@
 					<h3><?= l('assigned_tickets'); ?></h3>
 
 					<?php foreach ($memberships as $membership) : ?>
-						<div class="panel" x-data="{ open: true }">
+						<div class="panel" x-data="profileTickets({ userName: '<?= $profile->name; ?>', projectSlug: '<?= $membership->project->slug; ?>' })">
 							<div class="panel-title" @click="open = !open">
 								<h3><?= l($membership->project->name); ?></h3>
 								<i class="fa-solid fa-chevron-down" x-show="!open"></i>
 								<i class="fa-solid fa-chevron-up" x-show="open"></i>
 							</div>
 							<div x-show="open" x-transition>
-								<?php if (isset($assignedTickets[$membership->project_id]) && count($assignedTickets[$membership->project_id])) : ?>
-									<table>
+								<div>
+									<table x-show="tickets.length > 0">
 										<thead>
 											<th class="id"><?= l('id'); ?></th>
 											<th class="summary"><?= l('summary'); ?></th>
@@ -70,24 +70,40 @@
 											<th class="component"><?= l('component'); ?></th>
 										</thead>
 										<tbody>
-											<?php foreach ($assignedTickets[$membership->project_id] as $ticket) {
-											?>
+											<template x-for="ticket in tickets" :key="ticket.ticket_id">
 												<tr>
-													<td><?= $ticket->ticket_id; ?></td>
+													<td x-text="ticket.ticket_id"></td>
 													<td>
-														<a href="<?= Request::base($ticket->href()) ?>"><?= $ticket->summary; ?></a>
+														<a :href="window.traq.base + projectSlug + '/tickets/' + ticket.ticket_id" x-text="ticket.summary"></a>
 													</td>
-													<td><?= $ticket->status->name; ?></td>
-													<td><?= $ticket->type->name; ?></td>
-													<td><?= $ticket->milestone ? $ticket->milestone->name : '-'; ?></td>
-													<td><?= $ticket->component ? $ticket->component->name : '-'; ?></td>
+													<td x-text="ticket.status"></td>
+													<td x-text="ticket.type"></td>
+													<td x-text="ticket.milestone"></td>
+													<td x-text="ticket.component"></td>
 												</tr>
-											<?php } ?>
+											</template>
 										</tbody>
 									</table>
-								<?php else : ?>
-									<div class="panel-content"><?= l('no_tickets_assigned'); ?></div>
-								<?php endif; ?>
+									<div x-show="tickets.length === 0">
+										<div class="panel-content text-center"><?= l('no_tickets_assigned'); ?></div>
+									</div>
+								</div>
+
+								<div class="pagination px-2">
+									<button @click="page--" type="button" :disabled="page <= 1">
+										<i class="fa-solid fa-chevron-left"></i>
+										<span><?= l('previous'); ?></span>
+									</button>
+									<div>
+										<span x-text="page"></span>
+										<span>/</span>
+										<span x-text="totalPages"></span>
+									</div>
+									<button @click="page++" type="button" :disabled="page >= totalPages">
+										<span><?= l('next'); ?></span>
+										<i class="fa-solid fa-chevron-right"></i>
+									</button>
+								</div>
 							</div>
 						</div>
 					<?php endforeach; ?>
