@@ -471,25 +471,6 @@ class TicketController extends AppController
 
                 $ticket->save();
 
-                // Related tickets
-                if ($this->user->permission($this->project->id, 'ticket_properties_set_related_tickets')) {
-                    foreach (explode(',', Request::get('related_tickets', '')) as $ticket_id) {
-                        $related = Ticket::select('id')
-                            ->where('project_id', $this->project->id)
-                            ->where('ticket_id', trim($ticket_id))
-                            ->limit(1)->exec()->fetch();
-
-                        if ($related) {
-                            $relation = new TicketRelationship(array(
-                                'ticket_id'         => $ticket->id,
-                                'related_ticket_id' => $related->id
-                            ));
-
-                            $relation->save();
-                        }
-                    }
-                }
-
                 // Create subscription
                 if ($this->user->option('watch_created_tickets')) {
                     $sub = new Subscription(array(

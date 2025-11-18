@@ -88,12 +88,6 @@
 						</div>
 					<?php endif; ?>
 
-					<?php if ($current_user->permission($project->id, 'ticket_properties_set_related_tickets')) : ?>
-						<div class="form-group">
-							<label for="related_tickets"><?= l('related_tickets') ?></label>
-							<?= Form::text('related_tickets'); ?>
-						</div>
-					<?php endif; ?>
 					<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_proposed')) : ?>
 						<div class="form-group">
 							<label for="time_proposed"><?= l('time_proposed') ?></label>
