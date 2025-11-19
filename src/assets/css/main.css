@@ -24,6 +24,7 @@
 @import "./timeline.css";
 @import "./wiki.css";
 @import "./badges.css";
+@import "./dropdown.css";
 
 @import "tailwindcss/utilities";
 

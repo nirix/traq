@@ -59,15 +59,55 @@
 								<i class="fa-solid fa-chevron-up" x-show="open"></i>
 							</div>
 							<div x-show="open" x-transition>
+								<div class="filters">
+									<div x-data="{ open: false }">
+										<button @click="open = !open" class="dropdown-toggle" :class="{ open: open }">
+											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+												<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+											</svg>
+
+											<span><?= l('status'); ?></span>
+											<i class="fa-solid fa-chevron-down text-gray-400" x-show="!open"></i>
+											<i class="fa-solid fa-chevron-up text-gray-400" x-show="open"></i>
+										</button>
+										<div x-show="open" class="dropdown" @click.outside="open = false">
+											<template x-for="ticketStatus in statuses" :key="ticketStatus.id">
+												<label class="dropdown-item">
+													<input type="checkbox" x-model="status" :value="ticketStatus.name">
+													<span x-text="ticketStatus.name"></span>
+												</label>
+											</template>
+										</div>
+									</div>
+									<div x-data="{ open: false }">
+										<button @click="open = !open" class="dropdown-toggle" :class="{ open: open }">
+											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+												<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+											</svg>
+
+											<span><?= l('type'); ?></span>
+											<i class="fa-solid fa-chevron-down text-gray-400" x-show="!open"></i>
+											<i class="fa-solid fa-chevron-up text-gray-400" x-show="open"></i>
+										</button>
+										<div x-show="open" class="dropdown" @click.outside="open = false">
+											<template x-for="ticketType in types" :key="ticketType.id">
+												<label class="dropdown-item">
+													<input type="checkbox" x-model="type" :value="ticketType.name">
+													<span x-text="ticketType.name"></span>
+												</label>
+											</template>
+										</div>
+									</div>
+								</div>
 								<div>
 									<table x-show="tickets.length > 0">
 										<thead>
-											<th class="id"><?= l('id'); ?></th>
-											<th class="summary"><?= l('summary'); ?></th>
-											<th class="status"><?= l('status'); ?></th>
-											<th class="type"><?= l('type'); ?></th>
-											<th class="milestone"><?= l('milestone'); ?></th>
-											<th class="component"><?= l('component'); ?></th>
+											<th class="id" :class="{ sort: sortColumn === 'id', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" @click="sortBy('id')"><?= l('id'); ?></th>
+											<th class="summary" :class="{ sort: sortColumn === 'summary', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" @click="sortBy('summary')"><?= l('summary'); ?></th>
+											<th class="status" :class="{ sort: sortColumn === 'status', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" @click="sortBy('status')"><?= l('status'); ?></th>
+											<th class="type" :class="{ sort: sortColumn === 'type', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" @click="sortBy('type')"><?= l('type'); ?></th>
+											<th class="milestone" :class="{ sort: sortColumn === 'milestone', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" @click="sortBy('milestone')"><?= l('milestone'); ?></th>
+											<th class="component" :class="{ sort: sortColumn === 'component', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" @click="sortBy('component')"><?= l('component'); ?></th>
 										</thead>
 										<tbody>
 											<template x-for="ticket in tickets" :key="ticket.ticket_id">
