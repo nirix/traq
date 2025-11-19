@@ -255,7 +255,8 @@ Alpine.data('ticketList', () => ({
       // Handle allopen, allstarted and allclosed status filter values
       if (filterOption.field === 'status' && value === 'allopen') {
         // @ts-expect-error tsfu
-        values = this.filterData.statuses.Open.map((status: { label: string; value: string }) => status.value)
+        // merge Open and Started statuses
+        values = [...this.filterData.statuses.Open.map((status: { label: string; value: string }) => status.value), ...this.filterData.statuses.Started.map((status: { label: string; value: string }) => status.value)]
       } else if (filterOption.field === 'status' && value === 'allclosed') {
         // @ts-expect-error tsfu
         values = this.filterData.statuses.Closed.map((status: { label: string; value: string }) => status.value)
