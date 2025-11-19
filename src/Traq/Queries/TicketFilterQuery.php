@@ -43,6 +43,7 @@ class TicketFilterQuery
         'assigned_to' => 'au.name',
         'milestone' => 'm.slug',
         'status' => 's.name',
+        'status_type' => 's.status',
         'type' => 'tp.name',
         'version' => 'v.slug',
         'component' => 'c.name',
@@ -144,7 +145,11 @@ class TicketFilterQuery
         $stmt->bindValue(':projectId', $this->projectId, \PDO::PARAM_INT);
 
         foreach ($this->getValueParams() as $param => $value) {
-            $stmt->bindValue($param, $value, \PDO::PARAM_STR);
+            if (is_int($value)) {
+                $stmt->bindValue($param, (int) $value, \PDO::PARAM_INT);
+            } else {
+                $stmt->bindValue($param, $value, \PDO::PARAM_STR);
+            }
         }
 
         $stmt->execute();
@@ -166,7 +171,11 @@ class TicketFilterQuery
         }
 
         foreach ($this->getValueParams() as $param => $value) {
-            $stmt->bindValue($param, $value, \PDO::PARAM_STR);
+            if (is_int($value)) {
+                $stmt->bindValue($param, $value, \PDO::PARAM_INT);
+            } else {
+                $stmt->bindValue($param, $value, \PDO::PARAM_STR);
+            }
         }
 
         $stmt->execute();
@@ -212,9 +221,27 @@ class TicketFilterQuery
                 $value = substr($value, 1);
             }
 
+            $values = explode(',', $value);
+
+            if ($field === 'status' && (in_array('allclosed', $values) || in_array('allopen', $values) || in_array('allstarted', $values))) {
+                $field = 'status_type';
+                $originalValues = $values;
+                $values = [];
+
+                if (in_array('allclosed', $originalValues)) {
+                    $values[] = 0;
+                }
+                if (in_array('allopen', $originalValues)) {
+                    $values[] = 1;
+                }
+                if (in_array('allstarted', $originalValues)) {
+                    $values[] = 2;
+                }
+            }
+
             $filter = [
                 'condition' => $condition,
-                'values' => explode(',', $value),
+                'values' => $values,
             ];
 
             $this->filters[$field] = $filter;
@@ -242,7 +269,7 @@ class TicketFilterQuery
             }
 
             // Build SQL for each filter type
-            if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity', 'assigned_to'])) {
+            if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity', 'assigned_to', 'status_type'])) {
                 // Named placeholders for each value
                 $placeholders = [];
                 foreach ($values as $index => $value) {
