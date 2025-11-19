@@ -56,7 +56,7 @@ class Pagination
     public function __construct($page, $per_page, $rows)
     {
         // Set information
-        $this->page = $page;
+        $this->page = (int) $page;
         $this->per_page = $per_page;
         $this->total_pages = ceil($rows / $per_page);
         $this->rows = $rows;
