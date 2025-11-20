@@ -290,7 +290,6 @@ class enUS extends Locale
             'assigned_tickets'     => "Assigned tickets",
             'tickets_created'      => "Tickets created",
             'ticket_updates'       => "Ticket updates",
-            'information'          => "Information",
             'options'              => "Options",
             'watch_my_new_tickets' => "Watch my new tickets",
             'forgot_password'      => "Forgot Password",
