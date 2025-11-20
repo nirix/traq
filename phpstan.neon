@@ -1,8 +1,7 @@
 parameters:
     level: 1
     scanDirectories:
-        - vendor/traq
-        - vendor/avalon
+        - src/
     bootstrapFiles:
         - src/aliases.php
     ignoreErrors:
