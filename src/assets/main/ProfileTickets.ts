@@ -22,7 +22,7 @@
 
 import axios from 'axios'
 import Alpine from 'alpinejs'
-import type { StatusInterface, TicketInterface, TypeInterface } from '../interfaces'
+import type { ComponentInterface, MilestoneInterface, StatusInterface, TicketInterface, TypeInterface } from '../interfaces'
 
 Alpine.data('profileTickets', ({ userName, projectSlug }) => ({
     userName: userName,
@@ -34,10 +34,18 @@ Alpine.data('profileTickets', ({ userName, projectSlug }) => ({
     open: true,
     sortColumn: 'status',
     sortOrder: 'asc',
-    type: [] as string[],
-    status: [] as string[],
-    statuses: [] as StatusInterface[],
-    types: [] as TypeInterface[],
+    filters: {
+        milestone: [] as string[],
+        component: [] as string[],
+        type: [] as string[],
+        status: [] as string[],
+    },
+    filterData: {
+        milestones: [] as MilestoneInterface[],
+        components: [] as ComponentInterface[],
+        types: [] as TypeInterface[],
+        statuses: [] as StatusInterface[],
+    },
 
     init() {
         this.getTickets()
@@ -45,22 +53,23 @@ Alpine.data('profileTickets', ({ userName, projectSlug }) => ({
         Promise.all([
             axios.get(window.traq.base + 'api/types'),
             axios.get(window.traq.base + 'api/statuses'),
-        ]).then(([types, statuses]) => {
-            this.types = types.data
-            this.statuses = statuses.data
+            axios.get(window.traq.base + 'api/' + projectSlug + '/components'),
+            axios.get(window.traq.base + projectSlug + '/roadmap/all.json?sort=display_order.DESC'),
+        ]).then(([types, statuses, components, milestones]) => {
+            this.filterData.types = types.data
+            this.filterData.statuses = statuses.data
+            this.filterData.components = components.data
+            this.filterData.milestones = milestones.data
         })
 
         this.$watch('page', () => {
             this.getTickets()
         })
 
-        this.$watch('status', () => {
+        this.$watch('filters', () => {
             this.getTickets()
         })
 
-        this.$watch('type', () => {
-            this.getTickets()
-        })
     },
 
     getTickets() {
@@ -68,12 +77,20 @@ Alpine.data('profileTickets', ({ userName, projectSlug }) => ({
 
         let url = window.traq.base + this.projectSlug + '/tickets.json?assigned_to=' + this.userName + '&page=' + this.page + '&order_by=' + this.sortColumn + '.' + this.sortOrder
 
-        if (this.status.length > 0) {
-            url += '&status=' + this.status.join(',')
+        if (this.filters.status.length > 0) {
+            url += '&status=' + this.filters.status.join(',')
         }
 
-        if (this.type.length > 0) {
-            url += '&type=' + this.type.join(',')
+        if (this.filters.type.length > 0) {
+            url += '&type=' + this.filters.type.join(',')
+        }
+
+        if (this.filters.milestone.length > 0) {
+            url += '&milestone=' + this.filters.milestone.join(',')
+        }
+
+        if (this.filters.component.length > 0) {
+            url += '&component=' + this.filters.component.join(',')
         }
 
         return axios.get(url).then(response => {
