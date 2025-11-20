@@ -26,9 +26,9 @@ define("SYSPATH", DOCROOT . '/vendor/avalon/framework');
 require '../src/Traq/version.php';
 
 require dirname(__DIR__) . '/vendor/autoload.php';
+require DOCROOT . '/src/aliases.php';
 
 require 'nanite.php';
-require SYSPATH . '/libs/fishhook.php';
 require '../src/Traq/common.php';
 require 'common.php';
 

@@ -1,4 +1,5 @@
 <?php
+require dirname(__DIR__) . '/vendor/avalon/framework/libs/fishhook.php';
 require dirname(__DIR__) . '/vendor/avalon/framework/helpers/time.php';
 require dirname(__DIR__) . '/vendor/avalon/framework/helpers/html.php';
 require dirname(__DIR__) . '/vendor/avalon/framework/helpers/form.php';

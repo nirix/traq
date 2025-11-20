@@ -31,7 +31,6 @@ use Avalon\Database;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 
-require SYSPATH . '/libs/fishhook.php';
 require DOCROOT . '/src/aliases.php';
 
 // Fetch the routes
