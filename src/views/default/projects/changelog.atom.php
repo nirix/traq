@@ -1,5 +1,6 @@
 <?php
-use traq\helpers\Atom;
+
+use Traq\Helpers\Atom;
 
 $entries = array();
 $updated = 0;
