@@ -1,7 +1,10 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Traq.io
+ * Copyright (C) 2009-2025 Jack Polgar
+ * Copyright (C) 2012-2025 Traq.io
+ * https://github.com/nirix
+ * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -18,7 +21,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Avalon\Core\Kernel as Avalon;
 use Avalon\Http\Request;
 use Avalon\Output\View;
 use Traq\Models\Setting;
@@ -280,29 +282,21 @@ function random_hash()
 }
 
 /**
- * Calculates the percent of two numbers,
- * if both numbers are the same, 100(%) is returned.
+ * Calculates the percentage of two numbers.
  *
- * @param integer $min Lowest number
- * @param integer $max Highest number
+ * @param int $min Lowest number
+ * @param int $max Highest number
  *
- * @return integer
+ * @return float|int Returns 0 if max is 0, otherwise returns the percentage as a float
  */
-function get_percent(int $min, int $max): int
+function get_percent(int $min, int $max): float|int
 {
-    // Make sure we don't divide by zero
-    // and end the entire universe
-    if (((int) $min == 0 && (int) $max == 0) || (int) $max === 0) {
+    // Prevent division by zero
+    if ($max === 0) {
         return 0;
     }
 
-    // We're good, calcuate it like a boss,
-    // toss out the crap we dont want.
-    $calculate = ((int) $min / (int) $max * 100);
-    $split = explode('.', $calculate);
-
-    // Return it like a pro.
-    return (int) $split[0];
+    return ($min / $max) * 100;
 }
 
 function dd(...$params)
