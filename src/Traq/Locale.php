@@ -83,7 +83,7 @@ class Locale
 
             // Make sure the class isn't loaded already
             if (!class_exists($class)) {
-                require $file_path;
+                require $path;
             }
 
             $localization = new $class();
