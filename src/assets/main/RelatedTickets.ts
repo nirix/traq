@@ -112,7 +112,7 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
   },
 
   searchTicket(element: HTMLInputElement) {
-    axios.get(window.traq.base + window.traq.project_slug + "/tickets.json?summary=" + this.newRelation.summary).then((resp) => {
+    axios.get(window.traq.base + window.traq.project_slug + "/tickets.json?q=" + this.newRelation.summary).then((resp) => {
       // Filter out tickets already in relatedTickets
       this.searchResults = resp.data.tickets
         .filter((ticket: TicketInterface) => {
