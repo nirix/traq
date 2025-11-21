@@ -33,7 +33,7 @@ jobs:
               run: npm install -g pnpm
 
             - name: Install node dependencies
-              run: pnpm install --prod
+              run: pnpm install
 
             - name: Build assets
               run: pnpm run build
