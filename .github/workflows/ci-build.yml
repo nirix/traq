@@ -1,0 +1,47 @@
+name: CI Build
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+            - "feature/**"
+    pull_request:
+        branches:
+            - main
+            - develop
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            # Setup required tools
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v4.0.3
+              with:
+                  node-version: 20.x
+
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@2.31.1
+              with:
+                  php-version: "8.4"
+
+            # Node stuff
+            - name: Install pnpm
+              run: npm install -g pnpm
+
+            - name: Install node dependencies
+              run: pnpm install --prod
+
+            - name: Build assets
+              run: pnpm run build
+
+            - name: Install PHP dependencies
+              run: composer install --no-dev
+
+            - name: Verify build output
+              run: |
+                  echo "Build completed successfully!"
+                  ls -la assets/
