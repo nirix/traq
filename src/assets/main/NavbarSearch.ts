@@ -48,7 +48,7 @@ Alpine.data('navbarSearch', () => ({
   },
 
   ticketUrl(ticket: TicketInterface) {
-    return `${window.traq.base}${ticket.project.slug}/tickets/${ticket.ticket_id}`
+    return `${window.traq.base}${ticket.project?.slug}/tickets/${ticket.ticket_id}`
   },
 
   milestoneUrl(milestone: MilestoneInterface) {
