@@ -262,14 +262,25 @@ class TicketFilterQuery
         foreach ($this->filters as $field => $filter) {
             $condition = $filter['condition'];
             $values = $filter['values'];
-            $fieldName = isset($fieldMapping[$field]) ? $fieldMapping[$field] : null;
+
+            $fieldName = isset($fieldMapping[$field])
+                ? $fieldMapping[$field]
+                : ($field === 'q' ? 'q' : null);
 
             if ($fieldName === null) {
                 continue;
             }
 
             // Build SQL for each filter type
-            if (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity', 'assigned_to', 'status_type'])) {
+            if ($fieldName === 'q') {
+                $likeClauses = [];
+                foreach ($values as $index => $value) {
+                    $likeClauses[] = "t.summary {$condition} LIKE :{$field}_{$index}";
+                    $likeClauses[] = "t.ticket_id {$condition} LIKE :{$field}_{$index}";
+                }
+
+                $sqlParts[] = '(' . implode(' OR ', $likeClauses) . ')';
+            } elseif (in_array($field, ['milestone', 'status', 'type', 'version', 'component', 'priority', 'severity', 'assigned_to', 'status_type'])) {
                 // Named placeholders for each value
                 $placeholders = [];
                 foreach ($values as $index => $value) {
@@ -304,7 +315,7 @@ class TicketFilterQuery
 
         foreach ($this->filters as $field => $filter) {
             foreach ($filter['values'] as $index => $value) {
-                if (in_array($field, ['summary', 'description', ...$this->customFieldSlugs])) {
+                if (in_array($field, ['q', 'summary', 'description', ...$this->customFieldSlugs])) {
                     $value = '%' . str_replace('*', '%', $value) . '%';
                 }
 
