@@ -20,8 +20,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { DateTime } from 'luxon'
-
 export interface FilterInterface {
   field: string
   condition: boolean
@@ -96,6 +94,7 @@ export interface TicketInterface {
   severity: string
   project_id: number
   project_slug: string
+  project: ProjectInterface | null
 }
 
 export interface ProjectInterface {
