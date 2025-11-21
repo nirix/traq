@@ -20,5 +20,18 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#1f4866",
+    "activityBar.foreground": "#ffffff",
+    "activityBar.inactiveForeground": "#ffffff99",
+    "activityBar.activeBackground": "#2a6088",
+    "activityBar.activeForeground": "#ffffff",
+    "activityBar.border": "#1f4866",
+    "titleBar.activeBackground": "#1f4866",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveBackground": "#1f4866",
+    "titleBar.inactiveForeground": "#ffffff99",
+    "titleBar.border": "#1f4866",
   }
 }
