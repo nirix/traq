@@ -272,14 +272,14 @@
                     <td x-show="columns.summary">
                         <a :href="`${window.traq.base}${window.traq.project_slug}/tickets/${ticket.ticket_id}`" x-text="ticket.summary"></a>
                     </td>
-                    <td x-text="ticket.status" x-show="columns.status"></td>
-                    <td x-text="ticket.owner" x-show="columns.owner"></td>
-                    <td x-text="ticket.type" x-show="columns.type"></td>
-                    <td x-text="ticket.component" x-show="columns.component"></td>
-                    <td x-text="ticket.milestone" x-show="columns.milestone"></td>
-                    <td x-text="ticket.assignee" x-show="columns.assignee"></td>
-                    <td x-text="ticket.priority" x-show="columns.priority"></td>
-                    <td x-text="ticket.severity" x-show="columns.severity"></td>
+                    <td x-text="ticket.status.name" x-show="columns.status"></td>
+                    <td x-text="ticket.owner.name" x-show="columns.owner"></td>
+                    <td x-text="ticket.type.name" x-show="columns.type"></td>
+                    <td x-text="ticket.component.name" x-show="columns.component"></td>
+                    <td x-text="ticket.milestone.name" x-show="columns.milestone"></td>
+                    <td x-text="ticket.assignee.name" x-show="columns.assignee"></td>
+                    <td x-text="ticket.priority.name" x-show="columns.priority"></td>
+                    <td x-text="ticket.severity.name" x-show="columns.severity"></td>
                     <td x-text="ticket.created_at" x-show="columns.reported"></td>
                     <td x-text="ticket.updated_at" x-show="columns.updated"></td>
                     <td x-text="ticket.votes" x-show="columns.votes"></td>

@@ -150,10 +150,10 @@
 													<td>
 														<a :href="window.traq.base + projectSlug + '/tickets/' + ticket.ticket_id" x-text="ticket.summary"></a>
 													</td>
-													<td x-text="ticket.status"></td>
-													<td x-text="ticket.type"></td>
-													<td x-text="ticket.milestone"></td>
-													<td x-text="ticket.component"></td>
+													<td x-text="ticket.status.name"></td>
+													<td x-text="ticket.type.name"></td>
+													<td x-text="ticket.milestone.name"></td>
+													<td x-text="ticket.component.name"></td>
 												</tr>
 											</template>
 										</tbody>

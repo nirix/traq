@@ -156,6 +156,49 @@ class TicketView
 
     public function toArray(): array
     {
-        return get_object_vars($this);
+        $data = [
+            'ticket_id' => $this->ticket_id,
+            'summary' => $this->summary,
+            'user_id' => $this->user_id,
+            'assigned_to_id' => $this->assigned_to_id,
+            'votes' => $this->votes,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'is_closed' => $this->is_closed,
+            'owner' => [
+                'name' => $this->owner,
+            ],
+            'assignee' => $this->assignee ? [
+                'name' => $this->assignee,
+            ] : null,
+            'type' => [
+                'name' => $this->type,
+            ],
+            'milestone' => $this->milestone ? [
+                'name' => $this->milestone,
+                'slug' => $this->milestone_slug,
+            ] : null,
+            'version' => $this->version ? [
+                'name' => $this->version,
+                'slug' => $this->version_slug,
+            ] : null,
+            'component' => $this->component ? [
+                'name' => $this->component,
+            ] : null,
+            'status' => [
+                'name' => $this->status,
+            ],
+            'priority' => [
+                'name' => $this->priority,
+            ],
+            'severity' => [
+                'name' => $this->severity,
+            ],
+            'project' => [
+                'slug' => $this->project_slug,
+            ],
+        ];
+
+        return $data;
     }
 }
