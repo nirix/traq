@@ -29,6 +29,7 @@ window.EasyMDE = EasyMDE
 // Alpinejs for simpler UI tasks
 import Alpine from "alpinejs"
 
+import "./main/Dropdown"
 import "./main/PopoverConfirm"
 import "./main/TicketTasks"
 import "./main/TicketTemplates"

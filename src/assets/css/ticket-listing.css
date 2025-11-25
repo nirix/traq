@@ -317,3 +317,17 @@ table.ticket-listing {
     }
   }
 }
+
+.ticket-listing-filter-bar {
+  @apply flex flex-row items-center justify-between;
+  @apply p-2 mb-2;
+  @apply bg-gray-100;
+  @apply rounded;
+
+  & input.search-filter {
+    @apply w-full min-w-96;
+    @apply p-2;
+    @apply bg-white;
+    @apply border border-solid border-gray-400 rounded;
+  }
+}

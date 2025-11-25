@@ -62,6 +62,7 @@ Alpine.data('ticketList', () => ({
   sortOrder: 'asc',
 
   tickets: [],
+  search: '',
   filters: [] as FilterInterface[],
   filterData: {
     milestones: [] as Array<{ label: string; value: string }>,
@@ -84,14 +85,14 @@ Alpine.data('ticketList', () => ({
   },
 
   availableFilters: [
-    {
-      field: "summary",
-      type: "contains",
-    },
-    {
-      field: "description",
-      type: "contains",
-    },
+    // {
+    //   field: "summary",
+    //   type: "contains",
+    // },
+    // {
+    //   field: "description",
+    //   type: "contains",
+    // },
     {
       field: "type",
       type: "is",
@@ -232,6 +233,11 @@ Alpine.data('ticketList', () => ({
       this.updateUrl()
       this.fetchTickets()
     })
+
+    this.$watch('search', () => {
+      this.updateUrl()
+      this.fetchTickets()
+    })
   },
 
   convertQueryString() {
@@ -289,6 +295,10 @@ Alpine.data('ticketList', () => ({
       this.filters.map((filter: FilterInterface) => {
         params.set(filter.field, (filter.condition ? "" : "!") + filter.values.join(","))
       })
+    }
+
+    if (this.search.length > 0) {
+      params.set('q', this.search)
     }
 
     if (this.page > 1) {
