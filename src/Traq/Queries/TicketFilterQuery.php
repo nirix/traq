@@ -104,6 +104,7 @@ class TicketFilterQuery
                 v.slug AS version_slug,
                 c.name AS component,
                 s.name AS `status`,
+                t.status_id,
                 p.name AS priority,
                 t.priority_id,
                 sv.name AS severity,

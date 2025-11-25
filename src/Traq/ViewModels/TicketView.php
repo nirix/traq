@@ -52,6 +52,7 @@ class TicketView
     protected ?string $version_slug;
     protected ?string $component;
     protected string $status;
+    protected int $status_id;
     protected string $priority;
     protected int $priority_id;
     protected string $severity;
@@ -186,12 +187,15 @@ class TicketView
                 'name' => $this->component,
             ] : null,
             'status' => [
+                'id' => $this->status_id,
                 'name' => $this->status,
             ],
             'priority' => [
+                'id' => $this->priority_id,
                 'name' => $this->priority,
             ],
             'severity' => [
+                'id' => $this->severity_id,
                 'name' => $this->severity,
             ],
             'project' => [

@@ -143,7 +143,7 @@
                     <i class="fa-solid fa-chevron-down text-gray-400" x-show="!open"></i>
                     <i class="fa-solid fa-chevron-up text-gray-400" x-show="open"></i>
                 </button>
-                <div x-show="open" class="dropdown" @click.outside="open = false" x-ref="dropdownMenu">
+                <div x-show="open" class="dropdown" @click.outside="open = false" x-ref="dropdownMenu" x-transition>
                     <ul>
                         <li>
                             <label>
@@ -272,7 +272,7 @@
         </thead>
         <tbody>
             <template x-for="ticket in tickets" :key="ticket.ticket_id">
-                <tr :class="`priority-${ticket.priority_id}`">
+                <tr :class="`priority-${ticket.priority.id}`">
                     <template x-if="enableMassActions">
                         <td>
                             <input
