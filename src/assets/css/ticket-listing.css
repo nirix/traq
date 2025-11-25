@@ -6,6 +6,7 @@
   background-color: #fff;
   @apply border-gray-400;
   @apply rounded;
+  @apply mb-4;
 
   &.open {
     max-height: 600px;
@@ -117,62 +118,6 @@
     & select {
       margin: 0;
     }
-  }
-}
-
-.ticket-columns-container {
-  padding: 0;
-  overflow: scroll;
-  transition: max-height ease-out 0.4s;
-  max-height: 0px;
-  background-color: #fff;
-  @apply border-gray-400;
-  @apply rounded;
-
-  &.open {
-    max-height: 600px;
-  }
-
-  & legend {
-    cursor: pointer;
-    @apply text-gray-600;
-    @apply px-2 py-0;
-    @apply ml-3;
-    @apply underline;
-  }
-
-  & ul {
-    margin: 0;
-    list-style: none;
-    display: flex;
-
-    @apply p-2;
-
-    & li {
-      padding: 0;
-      margin: 0;
-    }
-  }
-}
-
-.ticket-columns-container li label {
-  @apply text-xs;
-  display: inline-block;
-  transition: all ease-in-out 0.1s;
-    cursor: pointer;
-
-  @apply mx-1 my-1;
-  @apply text-gray-500;
-  @apply bg-gray-100;
-  @apply border border-solid border-gray-400 rounded;
-  @apply py-2 px-3;
-
-  & input {
-    display: none;
-  }
-
-  &:has(input:checked) {
-    @apply border-emerald-300 bg-emerald-50 text-emerald-800;
   }
 }
 
@@ -320,9 +265,7 @@ table.ticket-listing {
 
 .ticket-listing-filter-bar {
   @apply flex flex-row items-center justify-between;
-  @apply p-2 mb-2;
-  @apply bg-gray-100;
-  @apply rounded;
+  @apply p-2 mb-4;
 
   & input.search-filter {
     @apply w-full min-w-96;
@@ -330,4 +273,9 @@ table.ticket-listing {
     @apply bg-white;
     @apply border border-solid border-gray-400 rounded;
   }
+}
+
+.ticket-listing-table-container {
+  @apply rounded-md overflow-hidden;
+  @apply mb-4;
 }
