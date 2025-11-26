@@ -1,12 +1,14 @@
 #project_list {
-    margin: 0;
     padding: 0;
     list-style: none;
 
+    @apply m-0 mt-4;
+    @apply grid gap-4 md:grid-cols-2;
+
     li {
+        display: block;
         h3 {
             margin: 0;
-            margin-top: 10px;
 
             em {
                 font-size: 14px;
@@ -14,6 +16,8 @@
         }
 
         nav {
+            @apply my-2;
+
             ul {
                 list-style: none;
                 padding: 0;
