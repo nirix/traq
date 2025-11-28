@@ -1,0 +1,26 @@
+<?php extendView('layouts/admin.phtml'); ?>
+
+<div class="traq_settings title content">
+	<h2 class="page-title"><?= l('recaptcha'); ?></h2>
+</div>
+<?= View::render('admin/settings/_nav'); ?>
+<div class="traq_settings content">
+	<form action="<?= Request::requestUri(); ?>" method="post">
+		<div class="panel">
+			<div class="panel-content">
+				<div class="form-group-row">
+					<label><?= l('site_key'); ?></label>
+					<input type="text" name="site_key" value="<?= $siteKey; ?>" autocomplete="off" />
+				</div>
+
+				<div class="form-group-row">
+					<label><?= l('secret_key'); ?></label>
+					<input type="text" name="secret_key" value="<?= $secretKey; ?>" autocomplete="off" />
+				</div>
+			</div>
+		</div>
+		<div class="actions">
+			<input type="submit" value="<?= l('save'); ?>" class="btn-primary" />
+		</div>
+	</form>
+</div>

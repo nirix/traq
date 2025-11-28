@@ -611,6 +611,13 @@ class enUS extends Locale
             'errors.url_empty'   => "URL cannot be empty",
 
             // ----------------------------------------------------------------------------------------------------
+            // ReCaptcha
+            'recaptcha' => "reCaptcha",
+            'site_key' => "Site Key",
+            'secret_key' => "Secret Key",
+            'errors.recaptcha.failed' => "The reCaptcha verification failed, please try again.",
+
+            // ----------------------------------------------------------------------------------------------------
             // Notifications
 
             // Ticket assigned
