@@ -40,7 +40,9 @@
 									<?= l('enhancement') ?>
 								</span>
 							<?php endif; ?>
-							<span class="text-slate-700 leading-relaxed"><?= $ticket->summary ?></span>
+							<a href="<?= Request::base($ticket->href()) ?>" class="text-slate-700 leading-relaxed">
+								<?= $ticket->summary ?>
+							</a>
 						</li>
 					<?php endforeach; ?>
 				</ul>
