@@ -3,25 +3,48 @@
 <div class="changelog content">
 	<h2 class="page-title"><?php echo l('changelog'); ?></h2>
 
-	<style>
-		<?php foreach ($types as $type) { ?>.type_<?php echo $type->id; ?>:before {
-			content: "<?= mb_convert_encoding($type->bullet, 'UTF-8') ?>";
-		}
+	<div class="relative border-l-2 border-slate-200 ml-4 space-y-16 mt-5">
+		<?php foreach ($milestones as $index => $milestone) : ?>
+			<div class="relative pl-10">
+				<?php if ($index == 0) : ?>
+					<div class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-sky-600 ring-4 ring-slate-50"></div>
+				<?php else : ?>
+					<div class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-slate-300 ring-4 ring-slate-50"></div>
+				<?php endif; ?>
 
-		<?php } ?>
-	</style>
-	<?php foreach ($milestones as $milestone) { ?>
-		<div id="changeset">
-			<h3><?php echo $milestone->name; ?></h3>
-			<ul>
-				<?php foreach ($milestone->tickets->exec()->fetch_all() as $ticket) {
-					if (!$types[$ticket->type_id]->changelog or !$ticket->status->changelog) {
-						continue;
-					}
-				?>
-					<li class="type_<?php echo $ticket->type_id; ?>"><?php echo HTML::link($ticket->summary, $ticket->href()); ?></li>
-				<?php } ?>
-			</ul>
-		</div>
-	<?php } ?>
+				<header class="flex items-baseline gap-3 mb-4">
+					<h2 class="text-2xl font-bold text-slate-800"><?= $milestone->name ?></h2>
+					<?php if ($index == 0) : ?>
+						<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-100 text-sky-700 border border-sky-200"><?= l('latest') ?></span>
+					<?php endif; ?>
+					<span class="text-sm text-slate-400"><?= (new DateTime($milestone->completed_on))->format('F d, Y') ?></span>
+				</header>
+
+				<ul class="space-y-3">
+					<?php foreach ($milestone->tickets->order_by('type_id', 'DESC')->exec()->fetch_all() as $ticket) : ?>
+						<?php if (!$types[$ticket->type_id]->changelog || !$ticket->status->changelog) : ?>
+							<?php continue; ?>
+						<?php endif; ?>
+
+						<li class="flex items-start gap-3">
+							<?php if ($types[$ticket->type_id]->bullet == '+') : ?>
+								<span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-emerald-100 text-emerald-700 border border-emerald-200 shrink-0">
+									<?= l('new') ?>
+								</span>
+							<?php elseif ($types[$ticket->type_id]->bullet == '-') : ?>
+								<span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-rose-100 text-rose-700 border border-rose-200 shrink-0">
+									<?= l('fix') ?>
+								</span>
+							<?php elseif ($types[$ticket->type_id]->bullet == '*') : ?>
+								<span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-blue-100 text-blue-700 border border-blue-200 shrink-0">
+									<?= l('enhancement') ?>
+								</span>
+							<?php endif; ?>
+							<span class="text-slate-700 leading-relaxed"><?= $ticket->summary ?></span>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		<?php endforeach; ?>
+	</div>
 </div>

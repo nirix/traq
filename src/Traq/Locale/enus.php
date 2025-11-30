@@ -120,6 +120,9 @@ class enUS extends Locale
             'no_change'        => 'No change',
             'no_filters_set'   => 'No filters set.',
             'no_tickets_assigned' => 'No tickets assigned',
+            'latest'           => 'Latest',
+            'fix'              => 'Fix',
+            'enhancement'      => 'Enhancement',
 
             // Search
             'search.no_results' => 'No search results...',
