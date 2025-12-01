@@ -13,29 +13,39 @@
 		</div>
 	</div>
 
-	<?php foreach ($milestones as $milestone) : ?>
+	<?php foreach ($milestoneData as $row): ?>
 		<div class="milestone">
-			<h3 class="milestone-name">
-				<a href="<?= Request::base($milestone->href()) ?>">
-					<span><?= $milestone->name ?></span>
-					<?php if ($milestone->codename) : ?>
-						<em>"<?= $milestone->codename ?>"</em>
-					<?php endif; ?>
-				</a>
-			</h3>
+			<div class="milestone-content">
+				<div class="flex-1">
+					<div class="milestone-header">
+						<div>
+							<a href="<?= Request::base($row['milestone']->href()) ?>">
+								<h2 class="milestone-name">
+									<?= $row['milestone']->name ?>
+									<?php if ($row['milestone']->codename): ?>
+										<em>"<?= $row['milestone']->codename ?>"</em>
+									<?php endif; ?>
+								</h2>
+							</a>
 
-			<div class="milestone-meta">
-				<?php if ($milestone->due > 0 and $milestone->status == 1) : ?>
-					<span class="due">
-						<em><?= l('due_x', time_from_now_ago($milestone->due)) ?></em>
-					</span>
-				<?php endif; ?>
-			</div>
+							<?php if ($row['milestone']->due > 0 and $row['milestone']->status == 1): ?>
+								<div class="milestone-due">
+									<em><?= l('due_x', time_from_now_ago($row['milestone']->due)) ?></em>
+								</div>
+							<?php endif; ?>
+						</div>
+						<?php if ($row['is_started'] == 1): ?>
+							<span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-1 rounded"><?= l('active_development') ?></span>
+						<?php elseif ($row['milestone']->status == 0): ?>
+							<span class="text-xs font-semibold uppercase tracking-wider text-slate-600 bg-slate-50 px-2 py-1 rounded"><?= l('cancelled') ?></span>
+						<?php endif; ?>
+					</div>
+					<?= View::render('milestones/_progress', ['row' => $row]) ?>
+				</div>
 
-			<?= View::render('milestones/_progress', ['milestone' => $milestone]) ?>
-
-			<div class="milestone-info">
-				<?= format_text($milestone->info) ?>
+				<div class="milestone-info">
+					<?= format_text($row['milestone']->info) ?>
+				</div>
 			</div>
 		</div>
 	<?php endforeach; ?>

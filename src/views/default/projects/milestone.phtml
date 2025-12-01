@@ -1,12 +1,12 @@
 <?php extendView('layouts/default.phtml'); ?>
 
 <div class="milestone content">
-	<h2 class="page-title"><?php echo $milestone->name; ?></h2>
-	<div>
-		<?php echo subscription_link_for($milestone); ?>
+	<h2 class="page-title"><?= $milestone->name; ?></h2>
+	<div class="mb-4">
+		<?= subscription_link_for($milestone); ?>
 	</div>
-	<?php echo View::render('milestones/_progress'); ?>
+	<?= View::render('milestones/_progress', ['row' => $milestoneData]); ?>
 	<div class="milestone_info">
-		<?php echo format_text($milestone->info); ?>
+		<?= format_text($milestone->info); ?>
 	</div>
 </div>

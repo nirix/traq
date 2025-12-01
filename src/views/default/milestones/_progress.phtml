@@ -1,37 +1,30 @@
-<?php
-
-use Traq\Models\Milestone;
-?>
-<div class="milestone-progress">
-	<?php if ($milestone->status == Milestone::COMPLETE) : ?>
-		<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allclosed") ?>" class="progress-closed" style="width: 100%;"></a>
-	<?php elseif ($milestone->ticketCount('total') === 0) : ?>
-		<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allopen") ?>" class="progress-open" style="width: 100%;"></a>
-	<?php else : ?>
-		<?php if ($milestone->ticketCount('closed') > 0) : ?>
-			<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allclosed") ?>" class="progress-closed" style="width: <?= $milestone->ticketCount('closed_percent') ?>%;"></a>
+<div class="mb-4">
+	<div class="flex justify-between text-xs font-medium text-slate-500 mb-1.5">
+		<span><?= l('x_complete', floor($row['closed_percent'])) ?></span>
+		<div class="flex gap-3">
+			<a href="<?= Request::base($row['milestone']->project->href('tickets') . "?milestone={$row['milestone']->slug}&status=allclosed") ?>" class="text-emerald-600">
+				<?= l('x_closed', $row['closed_count']) ?>
+			</a>
+			<a href="<?= Request::base($row['milestone']->project->href('tickets') . "?milestone={$row['milestone']->slug}&status=allstarted") ?>" class="text-sky-600">
+				<?= l('x_started', $row['started_count']) ?>
+			</a>
+			<a href="<?= Request::base($row['milestone']->project->href('tickets') . "?milestone={$row['milestone']->slug}&status=allopen") ?>" class="text-slate-600">
+				<?= l('x_open', $row['open_count']) ?>
+			</a>
+			<a href="<?= Request::base($row['milestone']->project->href('tickets') . "?milestone={$row['milestone']->slug}") ?>" class="text-slate-600">
+				<?= l('x_total', $row['total_tickets']) ?>
+			</a>
+		</div>
+	</div>
+	<div class="progress-bar">
+		<?php if ($row['closed_count'] > 0): ?>
+			<div class="h-full bg-emerald-500" style="width: <?= $row['closed_percent'] ?>%;"></div>
 		<?php endif; ?>
-
-		<?php if ($milestone->ticketCount('started') > 0) : ?>
-			<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allstarted") ?>" class="progress-started" style="width: <?= $milestone->ticketCount('started_percent') ?>%;"></a>
+		<?php if ($row['started_count'] > 0): ?>
+			<div class="h-full bg-sky-400" style="width: <?= $row['started_percent'] ?>%;"></div>
 		<?php endif; ?>
-
-		<?php if ($milestone->ticketCount('open') > 0) : ?>
-			<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allopen") ?>" class="progress-open" style="width: <?= $milestone->ticketCount('open_percent') ?>%;"></a>
+		<?php if ($row['open_count'] > 0): ?>
+			<div class="h-full bg-slate-100" style="width: <?= $row['open_percent'] ?>%;"></div>
 		<?php endif; ?>
-	<?php endif; ?>
+	</div>
 </div>
-<ul class="milestone-progress-info">
-	<li>
-		<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allclosed") ?>"><?= l('x_closed', $milestone->ticketCount('closed')) ?></a>
-	</li>
-	<li>
-		<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allopen") ?>"><?= l('x_open', $milestone->ticketCount('open')) ?></a>
-	</li>
-	<li>
-		<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}&status=allstarted") ?>"><?= l('x_started', $milestone->ticketCount('started')) ?></a>
-	</li>
-	<li>
-		<a href="<?= Request::base($project->href('tickets') . "?milestone={$milestone->slug}") ?>"><?= l('x_total', $milestone->ticketCount('total')) ?></a>
-	</li>
-</ul>

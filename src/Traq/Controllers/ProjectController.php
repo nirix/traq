@@ -85,60 +85,59 @@ class ProjectController extends AppController
      */
     public function roadmap(string $filter = 'active')
     {
-        // Get the projects milestones and send them to the view.
-        $milestones = Milestone::select()->where('project_id', $this->project->id);
+        $this->title(l('roadmap'));
 
-        $sortBy = explode('.', Request::get('sort', 'display_order.asc'));
+        $sortBy = explode('.', Request::get('sort', 'displayorder.asc'));
         $sort = strtolower($sortBy[0]);
-        $order = strtoupper($sortBy[1]) === 'ASC' ? 'ASC' : 'DESC';
+        $sortOrder = strtoupper($sortBy[1]) === 'ASC' ? 'ASC' : 'DESC';
 
         // Determine sort field
         switch ($sort) {
             case 'due':
-                $sortField = 'due';
+                $sortField = 'm.due';
                 break;
             case 'name':
-                $sortField = 'name';
+                $sortField = 'm.name';
                 break;
             case 'display_order':
             default:
-                $sortField = 'displayorder';
+                $sortField = 'm.displayorder';
                 break;
         }
 
         // Are we displaying all milestones?
         if ($filter == 'all') {
-            // We do NOTHING!
+            $status = null;
         }
         // Just the completed ones?
         elseif ($filter == 'completed') {
-            $milestones = $milestones->where('status', 2);
+            $status = 2;
         }
         // Just the cancelled ones?
         elseif ($filter == 'cancelled') {
-            $milestones = $milestones->where('status', 0);
+            $status = 0;
         }
         // Looks like just the active ones
         else {
-            $milestones = $milestones->where('status', 1);
+            $status = 1;
         }
 
-        // Get the milestones and send them to the view
-        $milestones = $milestones->order_by($sortField, $order)->exec()->fetch_all();
+        $milestoneData = Milestone::getDataForRoadmap($this->project->id, status: $status, sort: $sortField, order: $sortOrder);
 
         if (Router::$extension === '.json') {
             $data = [];
-            foreach ($milestones as $milestone) {
-                $data[] = $milestone->__toArray();
+            foreach ($milestoneData as $milestone) {
+                $data[] = $milestone['milestone']->__toArray();
             }
+
             return $this->json($data);
         }
 
         return $this->render('projects/roadmap.phtml', [
             'filter' => $filter,
             'sort' => $sort,
-            'order' => $order === 'ASC' ? 'ASC' : 'DESC',
-            'milestones' => $milestones,
+            'order' => $sortOrder === 'ASC' ? 'ASC' : 'DESC',
+            'milestoneData' => $milestoneData,
         ]);
     }
 
@@ -147,16 +146,17 @@ class ProjectController extends AppController
      */
     public function viewMilestone($milestone_slug)
     {
-        // Get the milestone
-        $milestone = Milestone::select()->where(array(
-            array('project_id', $this->project->id),
-            array('slug', $milestone_slug)
-        ))->exec()->fetch();
+        $milestoneData = Milestone::getDataForRoadmap($this->project->id, $milestone_slug);
 
         // Make sure milestone exists
-        if (!$milestone) {
+        if (!$milestoneData || !$milestoneData['milestone']) {
             return $this->show404();
         }
+
+        // Get the milestone
+        $milestone = $milestoneData['milestone'];
+
+        $this->title($milestone->name);
 
         if (Router::$extension === '.json') {
             return $this->json($milestone->__toArray());
@@ -165,7 +165,10 @@ class ProjectController extends AppController
         // And send it to the view
         View::set('milestone', $milestone);
 
-        return $this->render('projects/milestone.phtml');
+        return $this->render('projects/milestone.phtml', [
+            'milestone' => $milestoneData['milestone'],
+            'milestoneData' => $milestoneData,
+        ]);
     }
 
     /**

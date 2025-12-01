@@ -123,6 +123,8 @@ class enUS extends Locale
             'latest'           => 'Latest',
             'fix'              => 'Fix',
             'enhancement'      => 'Enhancement',
+            'x_complete'       => "{1}% complete",
+            'active_development' => "Active Development",
 
             // Search
             'search.no_results' => 'No search results...',

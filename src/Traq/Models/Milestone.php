@@ -93,70 +93,6 @@ class Milestone extends Model
     }
 
     /**
-     * Returns the number of tickets for the specified status.
-     *
-     * @param string $status The status of the ticket:
-     *     open, closed, total, open_percent, closed_percent
-     *
-     * @return integer
-     */
-    public function ticketCount(string $status = 'total')
-    {
-        // Holder for the counts array.
-        static $counts = [];
-
-        if (isset($counts[$this->id])) {
-            return $counts[$this->id][$status] ?? 0;
-        }
-
-        $prefix = static::db()->prefix;
-        $query = static::db()->prepare("
-            SELECT
-                COUNT(t.id) as `total`,
-                SUM(
-                    CASE s.status
-                        WHEN 1 THEN 1
-                        WHEN 2 THEN 1
-                        ELSE 0
-                    END
-                ) AS `open`,
-                SUM(
-                    CASE s.status
-                        WHEN 2 THEN 1
-                        ELSE 0
-                    END
-                ) AS `started`,
-                SUM(
-                    CASE s.status
-                        WHEN 0 THEN 1
-                        ELSE 0
-                    END
-                ) AS `closed`
-            FROM {$prefix}tickets t
-            LEFT JOIN {$prefix}statuses s ON t.status_id = s.id
-            WHERE milestone_id = :milestoneId
-        ");
-
-        $query->exec(['milestoneId' => $this->id]);
-        $results = $query->fetch();
-
-        if (count($results)) {
-            $counts[$this->id] = $results;
-            $counts[$this->id]['open_percent'] = get_percent(($counts[$this->id]['open'] ?? 0) - ($counts[$this->id]['started'] ?? 0), $counts[$this->id]['total']);
-            $counts[$this->id]['started_percent'] = get_percent($counts[$this->id]['started'] ?? 0, $counts[$this->id]['total']);
-            $counts[$this->id]['closed_percent'] = get_percent($counts[$this->id]['closed'] ?? 0, $counts[$this->id]['total']);
-        }
-
-        // Return the requested count index.
-        return $counts[$this->id][$status] ?? 0;
-    }
-
-    public function ticket_count(string $status = 'total'): int
-    {
-        return $this->ticketCount($status);
-    }
-
-    /**
      * Returns an array of milestone statuses
      * formatted for the Form::select() helper.
      */
@@ -230,6 +166,74 @@ class Milestone extends Model
         }
 
         return false;
+    }
+
+    private static function getMilestoneWithCountsQuery(int $projectId, ?string $milestoneSlug = null, ?int $status = 1, string $sort = 'displayorder', string $order = 'ASC'): string
+    {
+        $prefix = static::db()->prefix;
+
+        $statusSql = $status !== null ? "AND m.status = :status" : '';
+        $milestoneSql = $milestoneSlug !== null ? "AND m.slug = :milestoneSlug" : '';
+
+        $query = "SELECT
+            m.*,
+            COUNT(t.id) AS total_tickets,
+            SUM(CASE WHEN s.status = 1 THEN 1 ELSE 0 END) AS open_count,
+            SUM(CASE WHEN s.status = 0 THEN 1 ELSE 0 END) AS closed_count,
+            SUM(CASE WHEN s.status = 2 THEN 1 ELSE 0 END) AS started_count,
+            SUM(CASE WHEN s.status = 1 OR s.status = 2 THEN 1 ELSE 0 END) AS all_open_count
+        FROM {$prefix}milestones m
+        LEFT JOIN {$prefix}tickets t ON t.milestone_id = m.id
+        LEFT JOIN {$prefix}statuses s ON t.status_id = s.id
+        WHERE m.project_id = :projectId
+        {$statusSql}
+        {$milestoneSql}
+        GROUP BY m.id
+        ORDER BY {$sort} {$order}";
+
+        return $query;
+    }
+
+    public static function getDataForRoadmap(int $projectId, ?string $milestoneSlug = null, ?int $status = null, string $sort = 'displayorder', string $order = 'ASC'): array|false
+    {
+        $query = static::getMilestoneWithCountsQuery($projectId, $milestoneSlug, $status, $sort, $order);
+
+        $statement = static::db()->prepare($query);
+        $statement->bindParam(':projectId', $projectId, \PDO::PARAM_INT);
+
+        if ($status !== null) {
+            $statement->bindParam(':status', $status, \PDO::PARAM_INT);
+        }
+
+        if ($milestoneSlug !== null) {
+            $statement->bindParam(':milestoneSlug', $milestoneSlug, \PDO::PARAM_STR);
+        }
+
+        $statement->execute();
+
+        $data = [];
+        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row) {
+            $data[] = [
+                'milestone' => new static($row, false),
+                'total_tickets' => $row['total_tickets'],
+                'open_count' => $row['open_count'],
+                'closed_count' => $row['closed_count'],
+                'started_count' => $row['started_count'],
+                'all_open_count' => $row['all_open_count'],
+                'is_started' => $row['started_count'] > 0,
+                'open_percent' => get_percent(($row['open_count'] ?? 0) - ($row['started_count'] ?? 0), $row['total_tickets']),
+                'started_percent' => get_percent($row['started_count'] ?? 0, $row['total_tickets']),
+                'closed_percent' => get_percent($row['closed_count'] ?? 0, $row['total_tickets']),
+            ];
+        }
+
+        if ($milestoneSlug !== null) {
+            return $data[0] ?? false;
+        }
+
+        return $data;
     }
 
     /**
