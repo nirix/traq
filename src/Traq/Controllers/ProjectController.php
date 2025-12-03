@@ -46,6 +46,8 @@ class ProjectController extends AppController
      */
     public function index()
     {
+        $this->title(l('projects'));
+
         if ($this->isJson) {
             $projects = [];
             foreach (Project::fetchAll() as $project) {
@@ -176,6 +178,8 @@ class ProjectController extends AppController
      */
     public function changelog()
     {
+        $this->title(l('changelog'));
+
         // Atom feed
         $this->feeds[] = array(Request::requestUri() . ".atom", l('x_changelog_feed', $this->project->name));
 
