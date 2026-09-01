@@ -8,7 +8,7 @@
 				<div class="btn-group">
 					<?= subscription_icon_for($ticket) ?>
 					<?php if ($current_user->permission($ticket->project_id, 'delete_tickets')) : ?>
-						<button class="btn-danger btn-sm" x-data="popoverConfirm({ message: '<?= addslashes(l('confirm.delete_x', $ticket->summary)) ?>', post: '<?= Request::base($ticket->href('delete')) ?>' })" @click="toggle()" title="<?= l('delete') ?>">
+						<button class="btn-danger btn-sm" x-data="popoverConfirm({ message: <?= js_attr(l('confirm.delete_x', $ticket->summary)) ?>, post: <?= js_attr(Request::base($ticket->href('delete'))) ?> })" @click="toggle()" title="<?= l('delete') ?>">
 							<span class="fas fa-fw fa-trash"></span>
 							<span class="visually-hidden"><?= l('delete') ?></span>
 						</button>
@@ -87,17 +87,17 @@
 			</div>
 			<div class="ticket-property">
 				<strong><?= l('proposed_time') ?></strong>
-				<span class="value"><?= $ticket->time_proposed ?></span>
+				<span class="value"><?= e($ticket->time_proposed) ?></span>
 			</div>
 			<div class="ticket-property">
 				<strong><?= l('worked_time') ?></strong>
-				<span class="value"><?= $ticket->time_worked ?></span>
+				<span class="value"><?= e($ticket->time_worked) ?></span>
 			</div>
 			<?php foreach ($custom_fields as $field) : ?>
 				<?php if ($field_value = $ticket->custom_field_value($field->id)) : ?>
 					<div class="ticket-property">
-						<strong><?= $field->name ?></strong>
-						<span class="value"><?php echo implode(', ', (array)$field_value->value); ?></span>
+						<strong><?= e($field->name) ?></strong>
+						<span class="value"><?php echo e(implode(', ', (array)$field_value->value)); ?></span>
 					</div>
 				<?php endif; ?>
 			<?php endforeach; ?>
@@ -114,8 +114,8 @@
 					<?= format_text($ticket->body, true) ?>
 				</div>
 				<?php if ($current_user->permission($project->id, 'edit_ticket_description')) : ?>
-					<div x-show="editing" x-data="remoteMde({ url: '<?= Request::base($ticket->href('edit')) ?>' })">
-						<textarea name="body" x-ref="editor"><?= $ticket->body ?></textarea>
+					<div x-show="editing" x-data="remoteMde({ url: <?= js_attr(Request::base($ticket->href('edit'))) ?> })">
+							<textarea name="body" x-ref="editor"><?= e($ticket->body) ?></textarea>
 						<div class="ticket-edit-actions">
 							<button class="btn-success" :disabled="saving" @click="save()">
 								<span x-show="!saving">
@@ -141,7 +141,7 @@
 							<span class="far fa-fw fa-square" x-show="!isSaving(<?= $id ?>) && !complete"></span>
 							<span class="far fa-fw fa-square-check" x-show="!isSaving(<?= $id ?>) && complete"></span>
 							<span class="fas fa-fw fa-circle-notch fa-spin" x-show="isSaving(<?= $id ?>)"></span>
-							<?php echo ticket_links($task['task']) ?>
+							<?php echo ticket_links(e($task['task'])) ?>
 						</li>
 					<?php } ?>
 				</ul>
@@ -156,10 +156,10 @@
 					<ul>
 						<?php foreach ($attachments as $attachment) : ?>
 							<li id="attachment-<?= $attachment->id ?>">
-								<a href="<?= Request::base($attachment->href()) ?>"><span class="attachment-filename"><?= $attachment->name ?></span></a>,
+								<a href="<?= Request::base($attachment->href()) ?>"><span class="attachment-filename"><?= e($attachment->name) ?></span></a>,
 								<?= l('x_by_x', time_ago($attachment->created_at, false), HTML::link($attachment->user->name, $attachment->user->href())) ?>
 								<?php if ($current_user->permission($ticket->project_id, 'delete_attachments')) : ?>
-									<button class="btn-danger btn-xs" title="<?= l('delete') ?>" x-data="popoverConfirm({ position: 'center', message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($attachment->href('/delete')) ?>', success: () => { document.getElementById('attachment-<?= $attachment->id ?>').remove() } })" @click="toggle()">
+									<button class="btn-danger btn-xs" title="<?= l('delete') ?>" x-data="popoverConfirm({ position: 'center', message: <?= js_attr(l('confirm.delete')) ?>, remote: <?= js_attr(Request::base($attachment->href('/delete'))) ?>, success: () => { document.getElementById('attachment-<?= (int) $attachment->id ?>').remove() } })" @click="toggle()">
 										<span class="fas fa-fw fa-trash"></span>
 										<span class="visually-hidden"><?= l('delete') ?></span>
 									</button>

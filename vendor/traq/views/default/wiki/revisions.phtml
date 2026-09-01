@@ -17,7 +17,7 @@
 					</a>
 				<?php endif; ?>
 				<?php if (current_user()->permission($project->id, 'delete_wiki_page')) : ?>
-					<button class="btn-danger btn-sm" title="<?= l('delete_page') ?>" x-data="popoverConfirm({ message: '<?= addslashes(l('confirm.delete_x', $page->title)) ?>', post: '<?= Request::base($page->href('_delete')) ?>' })" @click.prevent="toggle()">
+					<button class="btn-danger btn-sm" title="<?= l('delete_page') ?>" x-data="popoverConfirm({ message: <?= js_attr(l('confirm.delete_x', $page->title)) ?>, post: <?= js_attr(Request::base($page->href('_delete'))) ?> })" @click.prevent="toggle()">
 						<span class="fas fa-fw fa-trash"></span>
 						<span class="visually-hidden"><?= l('delete_page') ?></span>
 					</button>

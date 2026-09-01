@@ -1,5 +1,5 @@
 <?php if (!$error) { ?>
 $('#votes').html('<?php echo $ticket->votes; ?>');
 <?php } else { ?>
-alert('<?php echo $error; ?>');
+alert(<?= js($error) ?>);
 <?php } ?>

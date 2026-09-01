@@ -1,7 +1,7 @@
 <div
 	x-data="{
-		sort: '<?= $sort ?>',
-		order: '<?= $order ?>',
+		sort: <?= js_attr($sort) ?>,
+		order: <?= js_attr($order) ?>,
 		updateUrl() {
 			const newSearch = `?sort=${this.sort}.${this.order}`;
 			window.location.search = newSearch;
