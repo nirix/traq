@@ -22,6 +22,37 @@ use \avalon\core\Kernel as Avalon;
 use \traq\models\Project;
 
 /**
+ * Escape a value for HTML text or quoted attributes.
+ * Idempotent: already-escaped model fields are not double-encoded.
+ */
+function e($text): string
+{
+    $text = htmlspecialchars_decode((string) $text, ENT_QUOTES);
+
+    return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
+ * Encode a value as a JSON literal safe to embed in HTML and JavaScript.
+ */
+function js($value): string
+{
+    if (is_string($value)) {
+        $value = htmlspecialchars_decode($value, ENT_QUOTES);
+    }
+
+    return json_encode($value, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+}
+
+/**
+ * Encode a value as JSON safe to embed inside an HTML attribute.
+ */
+function js_attr($value): string
+{
+    return htmlspecialchars(js($value), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
  * Formats the supplied text.
  *
  * @param string $text
@@ -54,9 +85,13 @@ function format_text($text, $strip_html = true)
 function ticket_links($text)
 {
     return preg_replace_callback(
-        "|(?:[\w\d\-_]+)?#([\d]+)|",
+        '/(<[^>]*>)|((?:[\w\d\-_]+)?#([\d]+))/',
         function($matches){
-            $match = explode('#', $matches[0]);
+            if (!empty($matches[1])) {
+                return $matches[1];
+            }
+
+            $match = explode('#', $matches[2]);
 
             // Replace project#123
             if (isset($match[1]) and $project = Project::find('slug', $match[0])) {

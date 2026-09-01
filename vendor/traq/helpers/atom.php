@@ -57,40 +57,45 @@ class Atom
 
         $feed[] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
         $feed[] = "<feed xmlns=\"http://www.w3.org/2005/Atom\">";
-        $feed[] = "  <title>{$this->title}</title>";
-        $feed[] = "  <link href=\"{$this->link}\" />";
-        $feed[] = "  <link href=\"{$this->feed_link}\" rel=\"self\" />";
-        $feed[] = "  <updated>{$this->updated}</updated>";
+        $feed[] = "  <title>" . static::xml($this->title) . "</title>";
+        $feed[] = "  <link href=\"" . static::xml($this->link) . "\" />";
+        $feed[] = "  <link href=\"" . static::xml($this->feed_link) . "\" rel=\"self\" />";
+        $feed[] = "  <updated>" . static::xml($this->updated) . "</updated>";
 
 
         foreach ($this->entries as $entry) {
             $feed[] = "  <entry>";
-            $feed[] = "    <title>{$entry['title']}</title>";
-            $feed[] = "    <id>{$entry['id']}</id>";
-            $feed[] = "    <updated>{$entry['updated']}</updated>";
+            $feed[] = "    <title>" . static::xml($entry['title']) . "</title>";
+            $feed[] = "    <id>" . static::xml($entry['id']) . "</id>";
+            $feed[] = "    <updated>" . static::xml($entry['updated']) . "</updated>";
 
             // Link
             if (isset($entry['link'])) {
-                $feed[] = "    <link href=\"{$entry['link']}\" />";
+                $feed[] = "    <link href=\"" . static::xml($entry['link']) . "\" />";
             }
 
             // Summary
             if (isset($entry['summary'])) {
-                $feed[] = "    <summary>{$entry['summary']}</summary>";
+                $feed[] = "    <summary>" . static::xml($entry['summary']) . "</summary>";
             }
 
             // Author
             if (isset($entry['author'])) {
                 $feed[] = "    <author>";
-                $feed[] = "      <name>{$entry['author']['name']}</name>";
+                $feed[] = "      <name>" . static::xml($entry['author']['name']) . "</name>";
                 $feed[] = "    </author>";
             }
 
             // Content
             if (isset($entry['content'])) {
-                $feed[] = "    <content" . (array_key_exists('type', $entry['content']) ? " type=\"{$entry['content']['type']}\"" : '') . ">";
-                $feed[] = "      {$entry['content']['data']}";
-                $feed[] = "    </author>";
+                $contentType = array_key_exists('type', $entry['content']) ? $entry['content']['type'] : '';
+                $content = $entry['content']['data'];
+                if (strcasecmp((string) $contentType, 'HTML') !== 0) {
+                    $content = static::xml($content);
+                }
+                $feed[] = "    <content" . ($contentType !== '' ? " type=\"" . static::xml($contentType) . "\"" : '') . ">";
+                $feed[] = "      {$content}";
+                $feed[] = "    </content>";
             }
 
             $feed[] = "  </entry>";
@@ -99,5 +104,10 @@ class Atom
         $feed[] = "</feed>";
 
         return implode(PHP_EOL, $feed);
+    }
+
+    private static function xml($value): string
+    {
+        return htmlspecialchars((string) $value, ENT_XML1 | ENT_QUOTES, 'UTF-8');
     }
 }
