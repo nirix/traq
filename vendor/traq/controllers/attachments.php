@@ -55,21 +55,28 @@ class Attachments extends AppController
         // Don't try to load a view
         $this->render['view'] = false;
 
-        header("Content-type: {$this->attachment->type}");
-        $content_type = explode('/', $this->attachment->type);
+        $filename = str_replace(["\"", "\r", "\n"], '', (string) $this->attachment->name);
+        $type = strtolower((string) $this->attachment->type);
+        $content_type = explode('/', $type);
+        $forceDownload = in_array($type, ['text/html', 'application/xhtml+xml', 'image/svg+xml'], true);
 
-        // Check what type of file we're dealing with.
-        if ($content_type[0] == 'text' or $content_type[0] == 'image') {
+        if ($forceDownload) {
+            header("Content-Type: application/octet-stream");
+            header("Content-Disposition: attachment; filename=\"{$filename}\"");
+        } elseif ($content_type[0] == 'text' or $content_type[0] == 'image') {
             // If the mime-type is text, we can just display it
             // as plain text. I hate having to download files.
             if ($content_type[0] == 'text') {
                 header("Content-type: text/plain");
+            } else {
+                header("Content-type: {$type}");
             }
-            header("Content-Disposition: filename=\"{$this->attachment->name}\"");
+            header("Content-Disposition: filename=\"{$filename}\"");
         }
         // Anything else should be downloaded
         else {
-            header("Content-Disposition: attachment; filename=\"{$this->attachment->name}\"");
+            header("Content-type: {$type}");
+            header("Content-Disposition: attachment; filename=\"{$filename}\"");
         }
 
         // Decode the contents and display it
