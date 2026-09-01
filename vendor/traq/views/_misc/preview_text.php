@@ -1,6 +1,6 @@
 <h3><?php echo l('preview'); ?></h3>
 <div class="content">
-	<?php echo $data?>
+	<?php echo format_text($data) ?>
 </div>
 <form>
 	<div class="actions">
