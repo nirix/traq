@@ -46,6 +46,20 @@ class Attachments extends AppController
     );
 
     /**
+     * Raster types that are safe to display inline. SVG, HTML, XML, and
+     * anything else is downloaded as octet-stream so the stored MIME type
+     * cannot be used for XSS or header injection.
+     */
+    private const INLINE_IMAGE_TYPES = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+        'image/bmp',
+        'image/avif',
+    ];
+
+    /**
      * View attachment page
      *
      * @param integer $attachment_id
@@ -55,33 +69,95 @@ class Attachments extends AppController
         // Don't try to load a view
         $this->render['view'] = false;
 
-        $filename = str_replace(["\"", "\r", "\n"], '', (string) $this->attachment->name);
-        $type = strtolower((string) $this->attachment->type);
-        $content_type = explode('/', $type);
-        $forceDownload = in_array($type, ['text/html', 'application/xhtml+xml', 'image/svg+xml'], true);
+        $filename = $this->downloadFilename((string) $this->attachment->name);
+        $contents = base64_decode((string) $this->attachment->contents);
+        $mediaType = $this->normalizedMediaType((string) $this->attachment->type);
+        $inlineType = $this->inlineContentType($mediaType, $contents);
 
-        if ($forceDownload) {
-            header("Content-Type: application/octet-stream");
-            header("Content-Disposition: attachment; filename=\"{$filename}\"");
-        } elseif ($content_type[0] == 'text' or $content_type[0] == 'image') {
-            // If the mime-type is text, we can just display it
-            // as plain text. I hate having to download files.
-            if ($content_type[0] == 'text') {
-                header("Content-type: text/plain");
-            } else {
-                header("Content-type: {$type}");
-            }
-            header("Content-Disposition: filename=\"{$filename}\"");
-        }
-        // Anything else should be downloaded
-        else {
-            header("Content-type: {$type}");
+        header('X-Content-Type-Options: nosniff');
+        header("Content-Security-Policy: default-src 'none'; sandbox");
+        header('X-Frame-Options: DENY');
+
+        if ($inlineType !== null) {
+            header("Content-Type: {$inlineType}");
+            header("Content-Disposition: inline; filename=\"{$filename}\"");
+        } else {
+            header('Content-Type: application/octet-stream');
             header("Content-Disposition: attachment; filename=\"{$filename}\"");
         }
 
-        // Decode the contents and display it
-        print(base64_decode($this->attachment->contents));
+        print($contents);
         exit;
+    }
+
+    /**
+     * Strip quotes and control characters so the name is safe in Content-Disposition.
+     */
+    private function downloadFilename(string $name): string
+    {
+        $name = str_replace(["\\", '"', "\r", "\n", "\0"], '', $name);
+        $name = preg_replace('/[\x00-\x1f\x7f]/', '', $name) ?? '';
+        $name = trim($name);
+
+        return $name !== '' ? $name : 'attachment';
+    }
+
+    /**
+     * Return type/subtype only. Parameters, whitespace, and invalid tokens are dropped.
+     */
+    private function normalizedMediaType(string $raw): string
+    {
+        $raw = strtolower(str_replace(["\r", "\n", "\0"], '', $raw));
+        $raw = trim(explode(';', $raw, 2)[0]);
+
+        if (!preg_match('/^[a-z0-9][a-z0-9.+-]*\/[a-z0-9][a-z0-9.+-]*$/', $raw)) {
+            return '';
+        }
+
+        return $raw;
+    }
+
+    /**
+     * Content-Type to send for an inline response, or null to force download.
+     */
+    private function inlineContentType(string $mediaType, string $contents): ?string
+    {
+        if ($mediaType !== '' && str_starts_with($mediaType, 'image/') && $this->looksLikeSvg($contents)) {
+            return null;
+        }
+
+        if (in_array($mediaType, self::INLINE_IMAGE_TYPES, true)) {
+            return $mediaType;
+        }
+
+        if (str_starts_with($mediaType, 'text/')) {
+            $dangerousText = [
+                'text/html',
+                'text/xml',
+                'text/xsl',
+                'text/javascript',
+                'text/ecmascript',
+            ];
+
+            if (in_array($mediaType, $dangerousText, true)) {
+                return null;
+            }
+
+            return 'text/plain';
+        }
+
+        return null;
+    }
+
+    private function looksLikeSvg(string $contents): bool
+    {
+        $start = ltrim(substr($contents, 0, 1024));
+
+        if (str_starts_with($start, "\xEF\xBB\xBF")) {
+            $start = ltrim(substr($start, 3));
+        }
+
+        return (bool) preg_match('/<(?:svg:)?svg\b/i', $start);
     }
 
     /**
