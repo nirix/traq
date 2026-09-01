@@ -35,7 +35,7 @@ Alpine.data('popoverConfirm', ({ position, message, success, remote, post }) => 
     this.el = el
 
     const messageEl = document.createElement('div')
-    messageEl.innerHTML = message ?? 'Are you sure?'
+    messageEl.textContent = message ?? 'Are you sure?'
     messageEl.classList.add('popover-confirm-content')
 
     const actionsEl = document.createElement('div')

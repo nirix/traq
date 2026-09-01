@@ -65,7 +65,7 @@ var popover_confirm = function (parent, message, callback) {
     })
   )
 
-  outerDiv.append(message)
+  outerDiv.append(jQuery("<div/>", { text: message }))
   outerDiv.append(innerDiv)
 
   jQuery("#popover").stop(true, true).hide().empty().append(outerDiv)

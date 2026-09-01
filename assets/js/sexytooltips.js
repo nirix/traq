@@ -33,7 +33,7 @@
 			e.attr('title', null);
 		}
 
-		tip.html(e.attr('data-tooltip'));
+		tip.text(e.attr('data-tooltip'));
 
 		if (position == 'right') {
 			tip.addClass('sexytooltip-right').css({
