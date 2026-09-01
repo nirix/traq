@@ -21,6 +21,13 @@
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "vue-demi"
+    ]
+  },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.14.1",
     "@types/alpinejs": "^3.13.11",
