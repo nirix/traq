@@ -64,6 +64,7 @@ class InstallError
         @ob_end_clean();
         View::set('title', $title);
         View::set('message', $message);
-        die(render('error'));
+        echo render('error');
+        exit;
     }
 }
