@@ -28,7 +28,7 @@ import App from "./App.vue"
 import TicketListing from "./ticket-listing/TicketListing.vue"
 
 const router = VueRouter.createRouter({
-  history: VueRouter.createWebHistory(),
+  history: VueRouter.createWebHistory(window.traq.base),
   routes: [{ name: "tickets", path: "/:project/tickets", component: TicketListing }],
 })
 

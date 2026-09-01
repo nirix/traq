@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed, ref, watch } from "vue"
+import { onMounted, computed, ref } from "vue"
 import axios from "axios"
 import { DateTime } from "luxon"
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons"
@@ -28,15 +28,6 @@ const tickets = ref<TicketInterface[]>([])
 const columns = ref<string[]>(["ticket_id", "summary", "status", "type", "owner", "component", "milestone"])
 const customFields = ref<CustomFieldInterface[]>([])
 const checkedTickets = ref<number[]>([])
-
-watch(
-  () => isLoading,
-  (loading) => {
-    if (loading) {
-      getTickets()
-    }
-  }
-)
 
 const getTicketsUrl = computed(() => {
   let ticketsUrl = window.traq.base + "api/" + window.traq.project_slug + "/tickets.json"
@@ -101,7 +92,9 @@ const formatDate = (date: DateTime): string => {
 
 const updateUrl = () => {
   // Update page URL to the same URL to fetch tickets without the .json extension.
-  router.push(getTicketsUrl.value.replace(".json", "").replace("/api", ""))
+  // Remove the base URL since Vue Router will add it automatically when pushing.
+  const path = getTicketsUrl.value.replace(".json", "").replace("/api", "").replace(window.traq.base, "/")
+  router.push(path)
 }
 
 const toggleTicket = (ticketId: number): void => {
@@ -147,6 +140,7 @@ onMounted(() => {
   Promise.all([axios.get(customFieldsUrl)]).then(([fieldsResp]) => {
     customFields.value = fieldsResp.data
     isLoading.value = false
+    getTickets()
   })
 })
 </script>

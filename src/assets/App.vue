@@ -13,7 +13,8 @@ watch(
   (project) => {
     auth.getUser(project)
     currentProject.getProject(project)
-  }
+  },
+  { immediate: true },
 )
 </script>
 
