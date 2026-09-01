@@ -23,7 +23,7 @@
 </div>
 <div class="px-4">
 	<label><?= l('description') ?></label>
-	<textarea name="info" x-data x-mde><?= $proj->info ?></textarea>
+	<textarea name="info" x-data x-mde><?= e($proj->info) ?></textarea>
 </div>
 
 <div class="flex p-5">

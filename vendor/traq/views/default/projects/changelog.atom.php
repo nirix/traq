@@ -23,7 +23,7 @@ foreach ($milestones as $milestone) {
 
         // Check if this is to be displayed on the changelog
         if ($ticket->type->changelog and $ticket->status->changelog) {
-            $data[] = "{$ticket->type->bullet} <a href=\"http://" . $_SERVER['HTTP_HOST'] . Request::base($ticket->href()) . "\">{$ticket->summary}</a>";
+            $data[] = e($ticket->type->bullet) . " <a href=\"" . e("http://" . $_SERVER['HTTP_HOST'] . Request::base($ticket->href())) . "\">" . e($ticket->summary) . "</a>";
         }
     }
 

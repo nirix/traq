@@ -1,6 +1,6 @@
 <?php
 if (isset($change['action'])) {
-	echo l("ticket_history.{$change['action']}", $change['from'], $change['to']);
+	echo l("ticket_history.{$change['action']}", e($change['from']), e($change['to']));
 } elseif (isset($change['property']) && $change['property'] === 'assigned_to') {
 	foreach (['to', 'from'] as $key) {
 		// Is the to/from values a user id?
@@ -13,13 +13,13 @@ if (isset($change['action'])) {
 	}
 ?>
 	<span class="change-property"><?= l($change['property']) ?></span>
-	<?php if ($change['from']) : ?><span class="change-from"><?= $change['from'] ?></span><?php endif; ?>
-	<?php if ($change['to']) : ?><span class="change-to"><?= $change['to'] ?></span><?php endif; ?>
+	<?php if ($change['from']) : ?><span class="change-from"><?= e($change['from']) ?></span><?php endif; ?>
+	<?php if ($change['to']) : ?><span class="change-to"><?= e($change['to']) ?></span><?php endif; ?>
 <?php
 } else {
 ?>
 	<span class="change-property"><?= l($change['property']) ?></span>
-	<span class="change-from"><?= is_array($change['from']) ? implode(', ', $change['from']) : $change['from'] ?></span>
-	<span class="change-to"><?= is_array($change['to']) ? implode(', ', $change['to']) : $change['to'] ?></span>
+	<span class="change-from"><?= e(is_array($change['from']) ? implode(', ', $change['from']) : $change['from']) ?></span>
+	<span class="change-to"><?= e(is_array($change['to']) ? implode(', ', $change['to']) : $change['to']) ?></span>
 <?php
 }

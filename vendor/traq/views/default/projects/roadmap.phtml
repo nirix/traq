@@ -17,7 +17,7 @@
 				<a href="<?= Request::base($milestone->href()) ?>">
 					<span><?= $milestone->name ?></span>
 					<?php if ($milestone->codename) : ?>
-						<em>"<?= $milestone->codename ?>"</em>
+						<em>"<?= e($milestone->codename) ?>"</em>
 					<?php endif; ?>
 				</a>
 			</h3>

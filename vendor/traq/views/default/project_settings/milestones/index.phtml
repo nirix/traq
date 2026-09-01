@@ -20,7 +20,7 @@
 			<?php foreach ($milestones->exec()->fetch_all() as $milestone) { ?>
 				<tr>
 					<td><?php echo HTML::link($milestone->name, "{$project->slug}/settings/milestones/{$milestone->id}/edit", array('data-overlay' => true)); ?></td>
-					<td><?php echo $milestone->codename; ?></td>
+					<td><?php echo e($milestone->codename); ?></td>
 					<td><?php if ($milestone->due and $milestone->status == 1) {
 							echo time_from_now_ago($milestone->due);
 						} elseif ($milestone->due and $milestone->status == 2) {

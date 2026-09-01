@@ -20,7 +20,7 @@
 				</div>
 				<div class="form-group-row">
 					<label for="summary"><?= l('summary') ?></label>
-					<input type="text" id="summary" name="summary" value="<?= $ticket->summary ?>">
+					<input type="text" id="summary" name="summary" value="<?= e($ticket->summary) ?>">
 				</div>
 				<?php if (current_user()->permission($project->id, 'ticket_properties_set_status')) : ?>
 					<div class="form-group-row">
@@ -29,7 +29,7 @@
 					</div>
 				<?php endif; ?>
 				<div>
-					<textarea name="description" x-data x-mde="{ height: '200px' }"><?= $ticket->body ?></textarea>
+					<textarea name="description" x-data x-mde="{ height: '200px' }"><?= e($ticket->body) ?></textarea>
 				</div>
 
 				<div class="form-group-grid">
