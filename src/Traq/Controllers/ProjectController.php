@@ -103,6 +103,7 @@ class ProjectController extends AppController
                 break;
             case 'display_order':
             default:
+                $sort = 'display_order';
                 $sortField = 'displayorder';
                 break;
         }
