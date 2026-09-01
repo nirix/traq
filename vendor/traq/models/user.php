@@ -243,6 +243,27 @@ class User extends Model
     }
 
     /**
+     * Find a user by a JSON option stored in `options`.
+     * Keys are hex/alphanumeric (validation and reset tokens); anything else is rejected
+     * so LIKE wildcards and quotes never reach the query.
+     */
+    public static function findByOption(string $option, string $value)
+    {
+        if (!preg_match('/^[a-z_]+$/', $option) || !preg_match('/^[a-zA-Z0-9]+$/', $value)) {
+            return false;
+        }
+
+        $fragment = '"' . $option . '":"' . $value . '"';
+        $user = static::select()->where('options', '%' . $fragment . '%', 'LIKE')->exec()->fetch();
+
+        if (!$user || $user->option($option) !== $value) {
+            return false;
+        }
+
+        return $user;
+    }
+
+    /**
      * Handles all the required stuff before creating
      * the user, such as hashing the password.
      */

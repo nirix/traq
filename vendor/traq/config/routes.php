@@ -42,7 +42,7 @@ Router::add('/login/resetpassword/([a-zA-Z0-9]+)', 'traq::controllers::Users.res
 Router::register('usercp', '/usercp', [Usercp::class, 'action_index']);
 Router::add('/usercp/(password|subscriptions|create_api_key)', 'traq::controllers::Usercp.$1');
 Router::register('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
-Router::add('/users/validate/(.*)', 'traq::controllers::Users.validate/$1');
+Router::add('/users/validate/([a-zA-Z0-9]+)', 'traq::controllers::Users.validate/$1');
 
 // API
 Router::add('/api/auth', 'traq::controllers::API.auth');

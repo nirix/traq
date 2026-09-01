@@ -149,7 +149,7 @@ class Users extends AppController
 
         // Email validation
         if (settings('email_validation')) {
-            $user->option('validation_key', sha1($user->username . $user->name . microtime() . rand(0, 1000)));
+            $user->option('validation_key', random_hash());
         }
 
         // Run plugin hooks
@@ -183,11 +183,16 @@ class Users extends AppController
      */
     public function action_validate($key)
     {
-        $user = User::select()->where('options', '%"validation_key":"' . $key . '"%', 'LIKE')->exec()->fetch();
+        $this->render['view'] = 'users/login';
+
+        $user = User::findByOption('validation_key', $key);
+        if (!$user) {
+            return;
+        }
+
         $user->option('validation_key', null);
         $user->save();
 
-        $this->render['view'] = 'users/login';
         View::set('validated', true);
     }
 
@@ -199,7 +204,7 @@ class Users extends AppController
         // Reset key provided?
         if ($key !== null) {
             // Find user
-            if ($user = User::select()->where('options', '%"reset_password_key":"' . $key . '"%', 'LIKE')->exec()->fetch()) {
+            if ($user = User::findByOption('reset_password_key', $key)) {
                 // Generate new password
                 $new_password = substr(random_hash(), 0, 10);
 
