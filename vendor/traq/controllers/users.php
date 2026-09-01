@@ -71,11 +71,25 @@ class Users extends AppController
             if ($user->is_activated()) {
                 setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
 
-                return Request::redirect(
-                    isset(Request::$post['redirect'])
-                        ? Request::$post['redirect']
-                        : Request::base()
-                );
+                $redirect = Request::$post['redirect'] ?? Request::base();
+                if (!is_string($redirect) || preg_match('/[\r\n]/', $redirect)) {
+                    $redirect = Request::base();
+                } elseif (preg_match('#\A/[^\\\\]*\z#', $redirect) && !str_starts_with($redirect, '//')) {
+                    // Same-origin relative path
+                } else {
+                    $parts = parse_url($redirect);
+                    $host = $_SERVER['HTTP_HOST'] ?? '';
+                    $scheme = strtolower($parts['scheme'] ?? '');
+                    if (
+                        empty($parts['host'])
+                        || strcasecmp((string) $parts['host'], $host) !== 0
+                        || !in_array($scheme, ['http', 'https'], true)
+                    ) {
+                        $redirect = Request::base();
+                    }
+                }
+
+                return Request::redirect($redirect);
             } else {
                 // Tell the user to activate
                 View::set('validation_required', true);
