@@ -20,7 +20,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-if (class_exists('\Whoops\Run')) {
+if (class_exists(\Whoops\Run::class)) {
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
     $whoops->register();

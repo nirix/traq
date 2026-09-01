@@ -34,7 +34,7 @@ jobs:
         run: pnpm run build
 
       - name: Install PHP dependencies
-        run: composer install
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
       # Cleanup crap
       - name: Remove dev files
@@ -46,6 +46,7 @@ jobs:
           rm -rf node_modules
           rm -rf src/assets
           rm -rf vendor/avalon/framework/.git
+          rm -rf vendor/filp
           rm ./.eslintrc.cjs
           rm .gitignore
           rm ./.prettierrc.json
