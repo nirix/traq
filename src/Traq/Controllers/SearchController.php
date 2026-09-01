@@ -3,8 +3,6 @@
  * Traq
  * Copyright (C) 2009-2022 Jack Polgar
  * Copyright (C) 2012-2022 Traq.io
- * https://github.com/nirix
- * http://traq.io
  *
  * This file is part of Traq.
  *
@@ -33,13 +31,25 @@ class SearchController extends AppController
 {
     public function search()
     {
+        $empty = [
+            'tickets' => [],
+            'milestones' => [],
+        ];
+
         $search = json_decode(Request::body(), true);
 
         if (!isset($search['query']) || $search['query'] === '') {
-            return [
-                'tickets' => [],
-                'milestones' => [],
-            ];
+            return $empty;
+        }
+
+        // AppController already built this with view-permission checks.
+        $viewable = [];
+        foreach ($this->projects as $project) {
+            $viewable[$project->slug] = $project;
+        }
+
+        if (!$viewable) {
+            return $empty;
         }
 
         $term = "%{$search['query']}%";
@@ -47,12 +57,19 @@ class SearchController extends AppController
         $tickets = Ticket::select()->where('summary', $term, 'LIKE')->limit(25);
         $milestones = Milestone::select()->where('name', $term, 'LIKE')->limit(25);
 
-        // Filter by current project
         $project = false;
-        if (isset($search['project'])) {
-            $project = Project::find('slug', $search['project']);
+        if (!empty($search['project']) && is_string($search['project'])) {
+            $project = $viewable[$search['project']] ?? false;
+            if (!$project) {
+                return $empty;
+            }
+
             $tickets->where('project_id', $project->id);
             $milestones->where('project_id', $project->id);
+        } else {
+            $ids = implode(',', array_map(static fn(Project $p) => (int) $p->id, $this->projects));
+            $tickets->custom_sql("AND `project_id` IN ({$ids})");
+            $milestones->custom_sql("AND `project_id` IN ({$ids})");
         }
 
         $ticketData = array_map(

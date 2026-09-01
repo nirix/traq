@@ -47,7 +47,7 @@ class ProjectController extends AppController
     {
         if (Router::$extension === '.json') {
             $projects = [];
-            foreach (\traq\models\Project::fetch_all() as $project) {
+            foreach ($this->projects as $project) {
                 $projects[] = $project->__toArray();
             }
             return $this->json($projects);
