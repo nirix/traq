@@ -101,7 +101,10 @@ const formatDate = (date: DateTime): string => {
 
 const updateUrl = () => {
   // Update page URL to the same URL to fetch tickets without the .json extension.
-  router.push(getTicketsUrl.value.replace(".json", "").replace("/api", ""))
+  // Vue Router paths are relative to the history base (window.traq.base).
+  const fullPath = getTicketsUrl.value.replace(".json", "").replace("/api", "")
+  const base = window.traq.base.replace(/\/$/, "")
+  router.push(base && fullPath.startsWith(base) ? fullPath.slice(base.length) : fullPath)
 }
 
 const toggleTicket = (ticketId: number): void => {

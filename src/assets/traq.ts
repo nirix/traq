@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -20,16 +20,16 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createApp } from "vue"
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { createPinia } from "pinia"
-import * as VueRouter from "vue-router"
-import App from "./App.vue"
-import TicketListing from "./ticket-listing/TicketListing.vue"
+import { createApp } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { createPinia } from 'pinia'
+import * as VueRouter from 'vue-router'
+import App from './App.vue'
+import TicketListing from './ticket-listing/TicketListing.vue'
 
 const router = VueRouter.createRouter({
-  history: VueRouter.createWebHistory(),
-  routes: [{ name: "tickets", path: "/:project/tickets", component: TicketListing }],
+  history: VueRouter.createWebHistory(window.traq.base),
+  routes: [{ name: 'tickets', path: '/:project/tickets', component: TicketListing }],
 })
 
 const pinia = createPinia()
@@ -37,6 +37,6 @@ const pinia = createPinia()
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
-app.component("fa-icon", FontAwesomeIcon)
+app.component('fa-icon', FontAwesomeIcon)
 
-app.mount("#vue-traq")
+app.mount('#vue-traq')
