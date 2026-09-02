@@ -23,6 +23,7 @@
 
 namespace Traq\Controllers;
 
+use Avalon\Http\JsonResponse;
 use Avalon\Http\Request;
 use Traq\Models\Milestone;
 use Traq\Models\Project;
@@ -32,27 +33,41 @@ class SearchController extends AppController
 {
     public function search()
     {
-        $search = json_decode(Request::body(), true);
+        $search = json_decode(Request::body(), true) ?? [];
+        $query = trim((string) ($search['query'] ?? ''));
 
-        if (!isset($search['query']) || $search['query'] === '') {
-            return [
-                'tickets' => [],
-                'milestones' => [],
-            ];
+        if ($query === '') {
+            return $this->emptyResults();
         }
 
-        $term = "%{$search['query']}%";
+        $visibleIds = $this->visibleProjectIds();
 
-        $tickets = Ticket::select()->where('summary', $term, 'LIKE')->limit(25);
-        $milestones = Milestone::select()->where('name', $term, 'LIKE')->limit(25);
-
-        // Filter by current project
-        $project = false;
-        if (isset($search['project'])) {
-            $project = Project::find('slug', $search['project']);
-            $tickets->where('project_id', $project->id);
-            $milestones->where('project_id', $project->id);
+        if ($visibleIds === []) {
+            return $this->emptyResults();
         }
+
+        $project = null;
+        $slug = $search['project'] ?? null;
+        if (is_string($slug) && $slug !== '') {
+            $project = $this->visibleProject($slug);
+            if ($project === null) {
+                return $this->emptyResults();
+            }
+            $visibleIds = [(int) $project->id];
+        }
+
+        $inProjects = implode(',', $visibleIds);
+        $term = "%{$query}%";
+
+        $tickets = Ticket::select()
+            ->where('summary', $term, 'LIKE')
+            ->custom_sql("AND `project_id` IN ({$inProjects})" . $this->privateTicketSql())
+            ->limit(25);
+
+        $milestones = Milestone::select()
+            ->where('name', $term, 'LIKE')
+            ->custom_sql("AND `project_id` IN ({$inProjects})")
+            ->limit(25);
 
         $ticketData = array_map(
             function (Ticket $ticket) use ($project) {
@@ -85,5 +100,59 @@ class SearchController extends AppController
             'tickets' => $ticketData,
             'milestones' => $milestoneData,
         ]);
+    }
+
+    private function emptyResults(): JsonResponse
+    {
+        return $this->json([
+            'tickets' => [],
+            'milestones' => [],
+        ]);
+    }
+
+    /**
+     * @return int[]
+     */
+    private function visibleProjectIds(): array
+    {
+        return array_values(array_unique(array_map(
+            static fn (Project $project) => (int) $project->id,
+            $this->projects
+        )));
+    }
+
+    private function visibleProject(string $slug): ?Project
+    {
+        foreach ($this->projects as $project) {
+            if ($project->slug === $slug) {
+                return $project;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Same rule as TicketController::view(): private tickets are visible to
+     * the reporter, project members, and admins.
+     */
+    private function privateTicketSql(): string
+    {
+        if ($this->user->group->is_admin) {
+            return '';
+        }
+
+        $userId = (int) $this->user->id;
+        $memberIds = array_values(array_unique(array_filter(array_map(
+            static fn ($membership) => (int) $membership->project_id,
+            $this->user->projectMemberships()
+        ))));
+
+        $sql = " AND (`is_private` = 0 OR `user_id` = {$userId}";
+        if ($memberIds !== []) {
+            $sql .= ' OR `project_id` IN (' . implode(',', $memberIds) . ')';
+        }
+
+        return $sql . ')';
     }
 }
