@@ -78,7 +78,7 @@
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_summary')) { ?>
 							<div class="form-group">
 								<?= Form::label(l('summary'), 'summary'); ?>
-								<?= Form::text('summary', array('value' => htmlspecialchars($ticket->summary))); ?>
+								<?= Form::text('summary', ['value' => $ticket->summary]); ?>
 							</div>
 						<?php } ?>
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_tasks')) { ?>
@@ -87,7 +87,7 @@
 								<button type="button" id="manage_ticket_tasks" data-url="<?= Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage")) ?>"><?php echo l('manage') ?></button>
 								<div id="ticket_tasks_data">
 									<input type="hidden" name="task_count" value="<?= count($ticket->tasks) ?>">
-									<input type="hidden" name="tasks" value="<?= htmlentities(json_encode($ticket->tasks)) ?>">
+									<input type="hidden" name="tasks" value="<?= js_attr($ticket->tasks) ?>">
 								</div>
 							</div>
 						<?php } ?>

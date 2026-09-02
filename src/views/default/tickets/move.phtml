@@ -12,7 +12,7 @@ extendView('layouts/default.phtml');
 		<div class="tabular box">
 			<div class="group">
 				<label><?php echo l('ticket') ?></label>
-				<?php echo htmlspecialchars($ticket->summary) ?>
+				<?= e($ticket->summary) ?>
 			</div>
 			<div class="group">
 				<label for="project_id"><?php echo l('new_project') ?></label>

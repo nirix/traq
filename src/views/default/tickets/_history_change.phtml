@@ -16,7 +16,7 @@
                 <?= l(
                     "ticket_history.x_{$action}_as_x_x_ago",
                     HTML::link($update->user->username, $update->user->href()),
-                    $update->changes[0]['to'],
+                    e($update->changes[0]['to']),
                     time_ago($update->created_at)
                 ) ?>
             </div>

@@ -23,7 +23,7 @@
 </div>
 <div class="form-group-row items-start">
 	<label><?= l('description'); ?></label>
-	<textarea name="info" x-data x-mde><?= $milestone->info ?></textarea>
+	<textarea name="info" x-data x-mde><?= e($milestone->info) ?></textarea>
 </div>
 <div class="form-group-row">
 	<label><?= l('display_order'); ?></label>

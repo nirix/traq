@@ -10,5 +10,5 @@
 </div>
 <div>
 	<label><?php echo l('page_content'); ?></label>
-	<textarea name="body" x-data x-mde="{}"><?= htmlspecialchars($page->revision->content) ?></textarea>
+	<textarea name="body" x-data x-mde="{}"><?= e($page->revision->content) ?></textarea>
 </div>

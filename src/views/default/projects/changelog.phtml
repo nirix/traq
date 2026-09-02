@@ -43,7 +43,7 @@
 								</span>
 							<?php endif; ?>
 							<a href="<?= Request::base($ticket->href()) ?>" class="text-slate-700 leading-relaxed">
-								<?= $ticket->summary ?>
+								<?= e($ticket->summary) ?>
 							</a>
 						</li>
 					<?php endforeach; ?>

@@ -52,7 +52,7 @@
 					<h3><?= l('assigned_tickets'); ?></h3>
 
 					<?php foreach ($memberships as $membership) : ?>
-						<div class="panel" x-data="profileTickets({ userName: '<?= $profile->name; ?>', projectSlug: '<?= $membership->project->slug; ?>' })">
+						<div class="panel" x-data="profileTickets(<?= js_attr(['userName' => htmlspecialchars_decode((string) $profile->name, ENT_QUOTES), 'projectSlug' => $membership->project->slug]) ?>)">
 							<div class="panel-title" @click="open = !open">
 								<h3><?= l($membership->project->name); ?></h3>
 								<i class="fa-solid fa-chevron-down" x-show="!open"></i>

@@ -267,6 +267,28 @@ function iif($condition, $true, $false = null)
 }
 
 /**
+ * Escape a value for HTML text or quoted-attribute context.
+ *
+ * Use this for any user-controlled string interpolated into a view.
+ * Do not use it on output that is already HTML (e.g. format_text()).
+ */
+function e(mixed $value): string
+{
+    return htmlspecialchars((string) ($value ?? ''), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
+}
+
+/**
+ * JSON-encode a value so it is safe inside an HTML attribute.
+ *
+ * Use for Alpine x-data payloads: x-data="fn(<?= js_attr($data) ?>)"
+ * json_encode alone is not enough — JSON strings contain raw quotes.
+ */
+function js_attr(mixed $value): string
+{
+    return e(json_encode($value, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE));
+}
+
+/**
  * Returns an array of the available permissions.
  *
  * @return array
