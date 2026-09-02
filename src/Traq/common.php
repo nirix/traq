@@ -350,6 +350,30 @@ function random_hash()
     return bin2hex(random_bytes(32));
 }
 
+function sessionCookieParams(int $expires): array
+{
+    $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
+
+    return [
+        'expires' => $expires,
+        'path' => '/',
+        'secure' => $https,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ];
+}
+
+function setSessionCookie(string $loginHash): void
+{
+    setcookie('_traq', $loginHash, sessionCookieParams(time() + (60 * 60 * 24 * 30)));
+}
+
+function clearSessionCookie(): void
+{
+    setcookie('_traq', '', sessionCookieParams(time() - 3600));
+}
+
 /**
  * Calculates the percentage of two numbers.
  *

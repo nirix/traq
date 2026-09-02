@@ -70,7 +70,9 @@ class UserController extends AppController
             // User found and verified, set the cookie and redirect them
             // to the index page if no "redirect" page was set.
             if ($user->is_activated()) {
-                setcookie('_traq', $user->login_hash, time() + (2 * 4 * 7 * 24 * 60 * 60 * 60), '/');
+                $user->rotateLoginHash();
+                $user->save();
+                setSessionCookie($user->login_hash);
 
                 return Request::redirect(
                     isset(Request::$post['redirect'])
@@ -94,7 +96,12 @@ class UserController extends AppController
      */
     public function logout()
     {
-        setcookie('_traq', sha1(time()), time() + 5, '/');
+        if (LOGGEDIN) {
+            $this->user->rotateLoginHash();
+            $this->user->save();
+        }
+
+        clearSessionCookie();
 
         return $this->redirectTo('/');
     }

@@ -105,7 +105,7 @@ class UserCPController extends AppController
 
                 // Save the user
                 if ($user->save()) {
-                    // Redirect if successful
+                    setSessionCookie($user->login_hash);
                     Request::redirect(Request::requestUri());
                 }
             }

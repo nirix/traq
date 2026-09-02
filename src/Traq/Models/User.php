@@ -225,7 +225,7 @@ class User extends Model
     }
 
     /**
-     * Sets the users password.
+     * Sets the users password and invalidates existing sessions.
      *
      * @param string $new_password
      */
@@ -234,6 +234,15 @@ class User extends Model
         $this->password = $new_password;
         $this->password_ver = 'crypt';
         $this->prepare_password();
+        $this->rotateLoginHash();
+    }
+
+    /**
+     * Replace the session token with a new CSPRNG value.
+     */
+    public function rotateLoginHash(): void
+    {
+        $this->login_hash = random_hash();
     }
 
     /**
@@ -253,7 +262,7 @@ class User extends Model
     protected function _before_create()
     {
         $this->prepare_password();
-        $this->_data['login_hash'] = sha1(time() . $this->_data['username'] . rand(0, 1000));
+        $this->rotateLoginHash();
 
         if (!isset($this->_data['name'])) {
             $this->_data['name'] = $this->_data['username'];
