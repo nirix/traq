@@ -64,42 +64,29 @@ class Locale
      */
     public static function load($locale)
     {
-        $paths = [
-            DOCROOT . "/src/Traq/Locale",
-            DATADIR . "/locale",
-        ];
+        $file_path = locale_file($locale);
+        if (!$file_path) {
+            return false;
+        }
 
-        $path = null;
-        foreach ($paths as $path) {
-            if (file_exists($path . "/{$locale}.php")) {
-                $path = $path . "/{$locale}.php";
-                break;
+        $class = "\\Traq\Locale\\{$locale}";
+
+        // Make sure the class isn't loaded already
+        if (!class_exists($class)) {
+            require $file_path;
+        }
+
+        $localization = new $class();
+
+        // Load plugin translation files
+        foreach (Load::$search_paths as $path) {
+            $locale_file = "{$path}/locale/{$locale}.php";
+            if (file_exists($locale_file)) {
+                $localization->add(include($locale_file));
             }
         }
 
-        // Check if the file exists..
-        if ($path) {
-            $class = "\\Traq\Locale\\{$locale}";
-
-            // Make sure the class isn't loaded already
-            if (!class_exists($class)) {
-                require $path;
-            }
-
-            $localization = new $class();
-
-            // Load plugin translation files
-            foreach (Load::$search_paths as $path) {
-                $locale_file = "{$path}/locale/{$locale}.php";
-                if (file_exists($locale_file)) {
-                    $localization->add(include($locale_file));
-                }
-            }
-
-            return $localization;
-        }
-
-        return false;
+        return $localization;
     }
 
     /**

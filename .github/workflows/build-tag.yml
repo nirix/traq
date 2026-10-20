@@ -26,7 +26,9 @@ jobs:
 
       # Node stuff
       - name: Install pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
       - name: Install node dependencies
         run: pnpm i
 
@@ -54,6 +56,7 @@ jobs:
           rm ./package.json
           rm ./phpstan.neon
           rm ./pnpm-lock.yaml
+          rm ./pnpm-workspace.yaml
           rm ./postcss.config.js
           rm ./tailwind.config.js
           rm ./tsconfig.json
