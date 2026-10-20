@@ -1,0 +1,5 @@
+# esbuild and @parcel/watcher ship native binaries via install scripts.
+# pnpm ignores those scripts unless they are listed here.
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: true
