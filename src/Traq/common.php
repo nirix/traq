@@ -86,6 +86,53 @@ function ldate()
 }
 
 /**
+ * Path to a locale file, or false.
+ * The code must be a single filename, then it is matched against files that
+ * actually exist. "../index" never becomes part of the path.
+ *
+ * @param mixed $locale
+ *
+ * @return string|false
+ */
+function locale_file($locale)
+{
+    if (!is_string($locale) || $locale === '' || basename($locale) !== $locale) {
+        return false;
+    }
+
+    $directories = [DOCROOT . '/src/Traq/Locale'];
+    if (defined('DATADIR')) {
+        $directories[] = DATADIR . '/locale';
+    }
+
+    foreach ($directories as $directory) {
+        if (!is_dir($directory)) {
+            continue;
+        }
+
+        foreach (scandir($directory) as $file) {
+            if (strcasecmp($file, $locale . '.php') === 0) {
+                return $directory . '/' . $file;
+            }
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Whether $locale names a file in a locale directory.
+ *
+ * @param mixed $locale
+ *
+ * @return bool
+ */
+function locale_exists($locale)
+{
+    return locale_file($locale) !== false;
+}
+
+/**
  * Returns a list of available localisations formatted
  * for the Form::select() helper.
  *

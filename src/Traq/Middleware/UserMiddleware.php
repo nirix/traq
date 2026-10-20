@@ -90,8 +90,8 @@ class UserMiddleware implements MiddlewareInterface
 
         // If a user was found, load their language
         if ($this->user) {
-            // Load user's locale
-            if ($this->user->locale != '') {
+            // Load the user's locale, or keep the default when that file is missing.
+            if (locale_exists($this->user->locale)) {
                 $user_locale = Locale::load($this->user->locale);
                 if ($user_locale) {
                     $locale = $user_locale;
