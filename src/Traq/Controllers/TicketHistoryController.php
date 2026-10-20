@@ -24,7 +24,9 @@
 namespace Traq\Controllers;
 
 use Avalon\Http\Request;
-use Avalon\Output\View;
+use Avalon\Http\Response;
+use Traq\Models\Ticket;
+use Traq\Models\TicketHistory;
 
 /**
  * Ticket History controller
@@ -36,24 +38,20 @@ use Avalon\Output\View;
  */
 class TicketHistoryController extends AppController
 {
-    // Before filters
-    public $before = [
-        // 'edit' => array('_check_permission'),
-        'delete' => ['_check_permission']
-    ];
-
     /**
-     * Edit ticket update
+     * Edit ticket update.
      *
-     * @param integer $id
+     * The history id is only valid for the ticket number in this project.
      */
-    public function edit(int $id)
+    public function edit(int $ticket_id, int $id): Response
     {
-        // Get the ticket update
-        $history = \Traq\Models\TicketHistory::find($id);
+        $history = $this->historyForTicket($ticket_id, $id);
+        if ($history instanceof Response) {
+            return $history;
+        }
 
-        if ($history->user_id !== $this->user->id && !$this->user->permission($this->project->id, "edit_ticket_history")) {
-            // oh noes! display the no permission page.
+        $isAuthor = (int) $history->user_id === (int) $this->user->id;
+        if (!$isAuthor && !$this->user->permission((int) $history->ticket->project_id, 'edit_ticket_history')) {
             return $this->renderNoPermission();
         }
 
@@ -68,39 +66,86 @@ class TicketHistoryController extends AppController
             }
         }
 
-        // View::set('history', $history);
-
         return $this->render('ticket_history/edit.overlay.phtml', [
             'history' => $history
         ]);
     }
 
     /**
-     * Delete ticket update
+     * Delete ticket update.
      *
-     * @param integer $id
+     * The history id is only valid for the ticket number in this project.
      */
-    public function delete(int $id)
+    public function delete(int $ticket_id, int $id): Response
     {
-        // Get the ticket update
-        $history = \Traq\Models\TicketHistory::find($id);
+        $history = $this->historyForTicket($ticket_id, $id);
+        if ($history instanceof Response) {
+            return $history;
+        }
 
-        // Delete the update
+        if (!$this->user->permission((int) $history->ticket->project_id, 'delete_ticket_history')) {
+            return $this->renderNoPermission();
+        }
+
         $history->delete();
 
         return $this->redirectTo($history->ticket->href());
     }
 
     /**
-     * Used to check the permission for the requested action.
+     * History ids are shared across the instance. Resolve the ticket number
+     * inside this project first, then load the history row only for that ticket.
      */
-    public function _check_permission($action)
+    private function historyForTicket(int $ticketNumber, int $historyId): TicketHistory|Response
     {
-        // Check if the user has permission
-        if (!$this->user->permission($this->project->id, "{$action}_ticket_history")) {
-            // oh noes! display the no permission page.
-            $this->show_no_permission();
-            return false;
+        if (!$this->project) {
+            return $this->show404();
         }
+
+        $ticket = Ticket::select()
+            ->where('ticket_id', $ticketNumber)
+            ->where('project_id', (int) $this->project->id)
+            ->exec()
+            ->fetch();
+
+        if (!$ticket || (int) $ticket->project_id !== (int) $this->project->id) {
+            return $this->show404();
+        }
+
+        if (!$this->canViewTicket($ticket)) {
+            return $this->renderNoPermission();
+        }
+
+        $history = TicketHistory::select()
+            ->where('id', $historyId)
+            ->where('ticket_id', (int) $ticket->id)
+            ->exec()
+            ->fetch();
+
+        if (!$history || (int) $history->ticket_id !== (int) $ticket->id) {
+            return $this->show404();
+        }
+
+        return $history;
+    }
+
+    /**
+     * Same visibility rule as the ticket page, including private tickets.
+     */
+    private function canViewTicket(Ticket $ticket): bool
+    {
+        if (!$ticket->is_private) {
+            return true;
+        }
+
+        if ((int) $this->user->id === (int) $ticket->user_id) {
+            return true;
+        }
+
+        if ($this->user->group->is_admin) {
+            return true;
+        }
+
+        return $this->project->is_member($this->user);
     }
 }
