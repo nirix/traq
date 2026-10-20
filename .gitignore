@@ -1,4 +1,8 @@
+# Ignore all vendor/ directory except for Traq
+!vendor/traq
+!vendor/bootstrap.php
 vendor/
+vendor/traq/config
 
 # Ignore config files
 data/config/config.php
