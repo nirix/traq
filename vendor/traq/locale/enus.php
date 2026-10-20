@@ -565,7 +565,8 @@ class enUS extends \traq\libraries\Locale
                     'doesnt_exist'             => "User doesn't exist",
                     'already_a_project_member' => "User is already a project member",
                     'password_same'            => "Your new password cannot be the same as your current password",
-                    'username_too_long'        => "Username cannot be longer than 25 characters"
+                    'username_too_long'        => "Username cannot be longer than 25 characters",
+                    'locale_invalid'           => "You must choose a valid language"
                 ),
 
                 // Traq Settings errors

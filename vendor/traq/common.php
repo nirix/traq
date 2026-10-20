@@ -80,6 +80,23 @@ function ldate()
 }
 
 /**
+ * Whether $locale names a file in the locale directory.
+ * basename() must match so a value like "../index" cannot leave that directory.
+ *
+ * @param mixed $locale
+ *
+ * @return bool
+ */
+function locale_exists($locale)
+{
+    if (!is_string($locale) || $locale === '' || basename($locale) !== $locale) {
+        return false;
+    }
+
+    return file_exists(APPPATH . '/locale/' . $locale . '.php');
+}
+
+/**
  * Returns a list of available localisations formatted
  * for the Form::select() helper.
  *

@@ -359,6 +359,11 @@ class User extends Model
             $this->errors['email'] = l('errors.users.email_in_use');
         }
 
+        // Profile and admin user saves both come through here.
+        if (!empty($this->_data['locale']) && !locale_exists($this->_data['locale'])) {
+            $this->errors['locale'] = l('errors.users.locale_invalid');
+        }
+
         // Check if we're valid or not...
         if (count($this->errors) > 0) {
             $this->errors = $this->errors;

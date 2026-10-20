@@ -61,6 +61,10 @@ class Locale
      */
     public static function load($locale)
     {
+        if (!locale_exists($locale)) {
+            return false;
+        }
+
         $file_path = APPPATH . "/locale/{$locale}.php";
 
         // Check if the file exists..
