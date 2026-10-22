@@ -20,10 +20,12 @@
 
 namespace traq\libraries;
 
-use \avalon\core\Load;
 use \Time;
 
-Load::helper('array');
+require_once SYSPATH . '/helpers/array.php';
+require_once SYSPATH . '/src/Core/Load.php';
+
+use avalon\core\Load;
 
 /**
  * Traq Localization System
@@ -59,13 +61,13 @@ class Locale
      *
      * @return object
      */
-    public static function load($locale)
+    public static function load($locale, $appPath = APPPATH)
     {
-        if (!locale_exists($locale)) {
+        if (!locale_exists($locale, $appPath)) {
             return false;
         }
 
-        $file_path = APPPATH . "/locale/{$locale}.php";
+        $file_path = $appPath . "/locale/{$locale}.php";
 
         // Check if the file exists..
         if (file_exists($file_path)) {

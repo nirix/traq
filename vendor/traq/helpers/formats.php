@@ -20,7 +20,7 @@
 
 use avalon\core\Load;
 
-Load::helper('array');
+require_once SYSPATH . '/helpers/array.php';
 
 /**
  * Returns the json encoded version of the passed data.
@@ -83,8 +83,7 @@ function mime_type_for($extension)
     );
 
     // Check if it's in the allowed mime types array
-    if (isset($mime_types[$extension]))
-    {
+    if (isset($mime_types[$extension])) {
         return $mime_types[$extension];
     }
 

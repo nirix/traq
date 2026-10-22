@@ -87,13 +87,16 @@ function ldate()
  *
  * @return bool
  */
-function locale_exists($locale)
+function locale_exists($locale, $appPath = APPPATH)
 {
+    $locale = strtolower($locale);
     if (!is_string($locale) || $locale === '' || basename($locale) !== $locale) {
         return false;
     }
 
-    return file_exists(APPPATH . '/locale/' . $locale . '.php');
+    $path = $appPath . '/locale/' . $locale . '.php';
+
+    return file_exists($path);
 }
 
 /**

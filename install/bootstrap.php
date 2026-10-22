@@ -32,10 +32,13 @@ use avalon\Autoloader;
 Autoloader::vendorLocation(dirname(__DIR__) . '/vendor');
 Autoloader::register();
 
+require '../vendor/traq/common.php';
+$locale = traq\libraries\Locale::load('enus', dirname(__DIR__) . '/vendor/traq');
+
 require 'nanite.php';
 require SYSPATH . '/libs/fishhook.php';
 require '../vendor/traq/models/user.php';
-require '../vendor/traq/common.php';
+
 require 'common.php';
 
 use Avalon\Output\View;
