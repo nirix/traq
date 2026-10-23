@@ -23,7 +23,7 @@
 								<h2 class="milestone-name">
 									<?= $row['milestone']->name ?>
 									<?php if ($row['milestone']->codename): ?>
-										<em>"<?= $row['milestone']->codename ?>"</em>
+										<em>"<?= e($row['milestone']->codename) ?>"</em>
 									<?php endif; ?>
 								</h2>
 							</a>

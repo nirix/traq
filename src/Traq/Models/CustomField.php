@@ -309,6 +309,11 @@ class CustomField extends Model
             $errors['slug'] = l('errors.slug_blank');
         }
 
+        // The slug is used in JavaScript and as a filter name, keep it to a plain identifier
+        if (!empty($this->_data['slug']) && !preg_match('/^[a-z][a-z0-9_]*$/i', (string) $this->_data['slug'])) {
+            $errors['slug'] = l('errors.slug_invalid');
+        }
+
         // Make sure the slug isnt in use
         $slug = static::select('id')->where('id', ($this->_is_new() ? 0 : $this->id), '!=')->where('slug', $this->_data['slug'])->where('project_id', $this->_data['project_id']);
         if ($slug->exec()->row_count()) {

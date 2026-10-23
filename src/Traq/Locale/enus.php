@@ -524,6 +524,7 @@ class enUS extends Locale
                 'invalid_username'             => "Invalid Username",
                 'name_blank'                   => "Name cannot be blank",
                 'slug_blank'                   => "Slug cannot be blank",
+                'slug_invalid'                 => "Slug can only contain letters, numbers and underscores, and must start with a letter",
                 'slug_in_use'                  => "That slug is already in use",
                 'page_title_blank'             => "Page Title cannot be blank",
                 'already_voted'                => "You have already voted.",

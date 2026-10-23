@@ -2,7 +2,7 @@
 	<div class="content">
 		<div class="pagination">
 			<?php if ($pagination->prev_page_url) : ?>
-				<a href="<?= $pagination->prev_page_url; ?>" class="previous">
+				<a href="<?= e($pagination->prev_page_url); ?>" class="previous">
 					<span class="fas fa-fw fa-angle-left"></span>
 					<span><?= l('previous'); ?></span>
 				</a>
@@ -16,7 +16,7 @@
 			<div class="pages"><?= l('x_of_x', ['page' => $pagination->page, 'total' => $pagination->total_pages]) ?></div>
 
 			<?php if ($pagination->next_page_url) : ?>
-				<a href="<?= $pagination->next_page_url; ?>" class="next">
+				<a href="<?= e($pagination->next_page_url); ?>" class="next">
 					<span><?= l('next'); ?></span>
 					<span class="fas fa-fw fa-angle-right"></span>
 				</a>
