@@ -54,6 +54,27 @@ class TicketFilterQuery
         'updated_at' => 't.updated_at',
     ];
 
+    /**
+     * Sortable columns, keyed by the name used in `order_by` and the
+     * project's default sorting. Custom fields are added at query time.
+     */
+    protected static array $sortMapping = [
+        'ticket_id' => 't.ticket_id',
+        'summary' => 't.summary',
+        'votes' => 't.votes',
+        'created_at' => 't.created_at',
+        'updated_at' => 't.updated_at',
+        'owner' => 'ru.name',
+        'user' => 'ru.name',
+        'assigned_to' => 'au.name',
+        'milestone' => 'm.name',
+        'component' => 'c.name',
+        'type' => 'tp.name',
+        'status' => 's.name',
+        'priority' => 'p.id',
+        'severity' => 'sv.id',
+    ];
+
     protected array $filters = [];
     protected array $customFields = [];
     protected array $customFieldSlugs = [];
@@ -72,7 +93,7 @@ class TicketFilterQuery
             $this->customFieldSlugs[] = $field->slug;
         }
 
-        $this->sortDirection = $sortDirection === 'DESC' ? 'DESC' : 'ASC';
+        $this->sortDirection = strtoupper($sortDirection) === 'DESC' ? 'DESC' : 'ASC';
     }
 
     public function query(bool $withLimit = false): string
@@ -86,7 +107,7 @@ class TicketFilterQuery
         $customFieldSql =  $this->buildCustomFieldSql();
         $customFieldSelect = $customFieldSql['select'] ? ',' . $customFieldSql['select'] : '';
 
-        $sortField = static::$fieldMapping[$this->sortField] ?? 't.ticket_id';
+        $sortField = $this->resolveSortField();
 
         return "
             SELECT
@@ -134,10 +155,28 @@ class TicketFilterQuery
 
             {$filtersSql}
 
-            ORDER BY {$sortField} {$this->sortDirection}
+            ORDER BY {$sortField} {$this->sortDirection}, t.ticket_id {$this->sortDirection}
 
             {$limit}
         ";
+    }
+
+    /**
+     * Resolves the requested sort key to a whitelisted SQL expression.
+     */
+    protected function resolveSortField(): string
+    {
+        if (isset(static::$sortMapping[$this->sortField])) {
+            return static::$sortMapping[$this->sortField];
+        }
+
+        foreach ($this->customFields as $index => $field) {
+            if ($field->slug === $this->sortField) {
+                return "cf_{$index}.value";
+            }
+        }
+
+        return 't.ticket_id';
     }
 
     public function getRowCount(): int

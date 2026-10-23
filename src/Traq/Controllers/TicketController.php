@@ -87,32 +87,11 @@ class TicketController extends AppController
 
     public function ticketsJson(): Response
     {
-        [$sortField, $sortDirection] = explode('.', $this->project->default_ticket_sorting);
-
-        $allowedColumns = [
-            'ticket_id' => 't.ticket_id',
-            'summary' => 't.summary',
-            'votes' => 't.votes',
-            'created_at' => 't.created_at',
-            'updated_at' => 't.updated_at',
-            'user' => 'user',
-            'assigned_to' => 'assigned_to',
-            'milestone' => 'milestone',
-            'component' => 'component',
-            'type' => 'type',
-            'status' => 'status',
-            'priority' => 'p.id',
-            'severity' => 'sv.id',
-        ];
-
-        foreach ($this->project->getCustomFields() as $index => $field) {
-            $allowedColumns[$field->slug] = "cf_{$index}.value";
-        }
+        // Sort keys are resolved to SQL (and whitelisted) by TicketFilterQuery.
+        [$sortField, $sortDirection] = array_pad(explode('.', (string) $this->project->default_ticket_sorting), 2, 'desc');
 
         if (Request::get('order_by')) {
-            $sortBits = explode('.', Request::get('order_by'));
-            $sortField = isset($allowedColumns[$sortBits[0]]) ? $allowedColumns[$sortBits[0]] : 't.ticket_id';
-            $sortDirection = strtoupper($sortBits[1]) === 'ASC' ? 'ASC' : 'DESC';
+            [$sortField, $sortDirection] = array_pad(explode('.', (string) Request::get('order_by')), 2, 'desc');
         }
 
         $ticketFilterQuery = new TicketFilterQuery(
