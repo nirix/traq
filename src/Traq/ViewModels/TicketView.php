@@ -199,6 +199,7 @@ class TicketView
                 'name' => $this->severity,
             ],
             'project' => [
+                'id' => $this->project_id,
                 'slug' => $this->project_slug,
             ],
         ];

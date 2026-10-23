@@ -81,7 +81,7 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
   },
 
   remove(relatedTicket: RelatedTicket) {
-    this.relatedTickets = this.relatedTickets.filter((relation) => relation.id !== relatedTicket.id)
+    this.relatedTickets = this.relatedTickets.filter((relation) => relation.ticket_id !== relatedTicket.ticket_id)
   },
 
   save() {
@@ -132,9 +132,9 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
       ticket_id: searchResult.ticket_id,
       summary: searchResult.summary,
       relation_type_id: parseInt(this.newRelation.relation_type_id as unknown as string),
-      priority_id: searchResult.priority_id,
-      project_id: searchResult.project_id,
-      project_slug: searchResult.project_slug,
+      priority_id: searchResult.priority.id,
+      project_id: searchResult.project.id,
+      project_slug: searchResult.project.slug,
     } as unknown as RelatedTicket
 
     this.relatedTickets.push({

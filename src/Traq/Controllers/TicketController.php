@@ -252,7 +252,8 @@ class TicketController extends AppController
         foreach ($requestBody['related_tickets'] as $index => $relatedTicket) {
             $related = Ticket::findByProjectIdAndTicketId($this->project->id, $relatedTicket['ticket_id']);
 
-            if ($related && $this->user->permission($relatedTicket['project_id'], 'ticket_properties_change_related_tickets')) {
+            // Use the project from the database, not the client supplied one.
+            if ($related && $this->user->permission($related->project_id, 'ticket_properties_change_related_tickets')) {
                 $requestBody['related_tickets'][$index]['actual_ticket_id'] = $related->id;
             } else {
                 unset($requestBody['related_tickets'][$index]);
