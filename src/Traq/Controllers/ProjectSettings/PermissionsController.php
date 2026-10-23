@@ -69,70 +69,7 @@ class PermissionsController extends AppController
 
         // Has the form been submitted?
         if (Request::method() == 'POST') {
-            $globalDefaults = Permission::defaults(0, 0, $type);
-
-            // Loop over group/role and get id and permissions
-            foreach (Request::$post['perm'] as $type_id => $permissions) {
-                // Loop over permissions for id and value
-                foreach ($permissions as $permission_id => $value) {
-                    // Fetch permission
-                    $perm = Permission::find($permission_id);
-
-                    // Are we dealing with a default?
-                    if ($type_id == 0) {
-                        // Does it exist?
-                        if ($perm->project_id > 0) {
-                            // We we need to delete it?
-                            if ($globalDefaults[$perm->action]->value == $value) {
-                                $perm->delete();
-                            }
-                            // or update it?
-                            elseif ($perm->value != $value) {
-                                $perm->set('value', $value);
-                                $perm->save();
-                            }
-                        }
-                        // It doesn't exist
-                        else {
-                            // Should we create it?
-                            if ($perm->value != $value) {
-                                // Create the permission
-                                $perm = new Permission(array(
-                                    'project_id' => $this->project->id,
-                                    'type'       => $type,
-                                    'type_id'    => $type_id,
-                                    'action'     => $perm->action,
-                                    'value'      => $value
-                                ));
-                                $perm->save();
-                            }
-                        }
-                    }
-                    // Use default
-                    elseif ($perm and $perm->type_id == $type_id and $value == -1 and $type_id > 0) {
-                        $perm->delete();
-                    }
-                    // Allow / Deny
-                    elseif ($value == 0 or $value == 1) {
-                        // Update
-                        if ($perm and $perm->type_id == $type_id) {
-                            $perm->value = $value;
-                            $perm->save();
-                        }
-                        // Create
-                        else {
-                            $perm = new Permission(array(
-                                'project_id' => $this->project->id,
-                                'type'       => $type,
-                                'type_id'    => $type_id,
-                                'action'     => $perm->action,
-                                'value'      => $value
-                            ));
-                            $perm->save();
-                        }
-                    }
-                }
-            }
+            $this->savePermissions($type, Request::$post['perm'] ?? []);
 
             return $this->redirectTo($this->project->href('settings/permissions/' . ($type === 'usergroup' ? 'groups' : 'roles')));
         }
@@ -141,6 +78,108 @@ class PermissionsController extends AppController
         $this->permissionsFor($type);
 
         return $this->render("project_settings/permissions/index.phtml");
+    }
+
+    /**
+     * Saves the submitted permissions.
+     *
+     * The posted permission IDs are only used to look up the action name, every row
+     * that is created, updated or deleted is scoped to this project, so a project
+     * manager can't touch other projects or the global defaults.
+     *
+     * @param string $type  `usergroup` or `role`
+     * @param mixed  $posted `perm[type_id][permission_id] => value`
+     */
+    private function savePermissions(string $type, mixed $posted): void
+    {
+        if (!is_array($posted)) {
+            return;
+        }
+
+        $validActions = [];
+        foreach (permission_actions() as $action) {
+            foreach ((array) $action as $act) {
+                $validActions[] = $act;
+            }
+        }
+
+        $globalDefaults = Permission::defaults(0, 0, $type);
+
+        foreach ($posted as $typeId => $permissions) {
+            if (!is_array($permissions) || !$this->isValidTypeId($type, (int) $typeId)) {
+                continue;
+            }
+
+            $typeId = (int) $typeId;
+
+            foreach ($permissions as $permissionId => $value) {
+                // Only used to find out which action this is for
+                $source = Permission::find((int) $permissionId);
+
+                if (!$source || !in_array($source->action, $validActions, true)) {
+                    continue;
+                }
+
+                $action = $source->action;
+
+                // 0 = defaults row (allow/deny), others can also reset to defaults (-1)
+                $value = (int) $value;
+                if (!in_array($value, $typeId === 0 ? [0, 1] : [-1, 0, 1], true)) {
+                    continue;
+                }
+
+                $existing = Permission::select()
+                    ->where('project_id', $this->project->id)
+                    ->where('type', $type)
+                    ->where('type_id', $typeId)
+                    ->where('action', $action)
+                    ->exec()
+                    ->fetch();
+
+                // Back to the defaults, or same as the global default
+                if ($value === -1 || ($typeId === 0 && isset($globalDefaults[$action]) && (int) $globalDefaults[$action]->value === $value)) {
+                    if ($existing) {
+                        $existing->delete();
+                    }
+                    continue;
+                }
+
+                if ($existing) {
+                    if ((int) $existing->value !== $value) {
+                        $existing->set('value', $value);
+                        $existing->save();
+                    }
+                } else {
+                    (new Permission([
+                        'project_id' => $this->project->id,
+                        'type'       => $type,
+                        'type_id'    => $typeId,
+                        'action'     => $action,
+                        'value'      => $value,
+                    ]))->save();
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks the group/role ID is valid for this project, 0 being the defaults.
+     */
+    private function isValidTypeId(string $type, int $typeId): bool
+    {
+        if ($typeId === 0) {
+            return true;
+        }
+
+        if ($type === 'usergroup') {
+            $group = Group::find($typeId);
+
+            return $group && !$group->is_admin;
+        }
+
+        $role = ProjectRole::find($typeId);
+
+        return $role && in_array((int) $role->project_id, [0, (int) $this->project->id], true);
     }
 
     /**
