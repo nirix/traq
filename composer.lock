@@ -4,23 +4,22 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "157cc3d79a93c77185f250a81f9cec14",
+    "content-hash": "5706b5564b5b2219b1ef8b972ca5cd8a",
     "packages": [
         {
             "name": "avalon/framework",
-            "version": "dev-master",
+            "version": "0.9.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nirix/avalon.git",
-                "reference": "8d0b4a4674ac64de0dc6c8b8f3e54d68ebd880e8"
+                "reference": "c8c66ec7b945e3d1203d8ab68dd920674119cd00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirix/avalon/zipball/8d0b4a4674ac64de0dc6c8b8f3e54d68ebd880e8",
-                "reference": "8d0b4a4674ac64de0dc6c8b8f3e54d68ebd880e8",
+                "url": "https://api.github.com/repos/nirix/avalon/zipball/c8c66ec7b945e3d1203d8ab68dd920674119cd00",
+                "reference": "c8c66ec7b945e3d1203d8ab68dd920674119cd00",
                 "shasum": ""
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -38,9 +37,9 @@
             ],
             "description": "The Avalon framework",
             "support": {
-                "source": "https://github.com/nirix/avalon/tree/master"
+                "source": "https://github.com/nirix/avalon/tree/0.9"
             },
-            "time": "2025-11-18T11:35:28+00:00"
+            "time": "2026-10-23T07:53:44+00:00"
         },
         {
             "name": "brick/math",
