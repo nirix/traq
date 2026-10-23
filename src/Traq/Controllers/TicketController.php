@@ -70,7 +70,7 @@ class TicketController extends AppController
 
     public function index(): Response
     {
-        if (Request::method() === 'POST') {
+        if (Request::method() === 'POST' && $this->user->permission($this->project->id, 'create_tickets')) {
             return $this->create();
         }
 
@@ -144,7 +144,7 @@ class TicketController extends AppController
                 && !$this->user->group->is_admin
                 && !$this->project->is_member($this->user)
             ) {
-                return $this->show_no_permission();
+                return $this->renderNoPermission();
             }
         }
 
@@ -749,7 +749,7 @@ class TicketController extends AppController
     {
         // Check permission
         if (!$this->user->permission($this->project->id, 'perform_mass_actions')) {
-            return $this->show_no_permission();
+            return $this->renderNoPermission();
         }
 
         // Decode tickets array
