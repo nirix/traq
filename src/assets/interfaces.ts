@@ -89,15 +89,18 @@ export interface TicketInterface {
   version_slug: string | null
   component: string | null
   status: string
-  priority: string
-  priority_id: number
+  priority: PriorityInterface
   severity: string
-  project_id: number
-  project_slug: string
-  project: ProjectInterface | null
+  project: ProjectInterface
+}
+
+export interface PriorityInterface {
+  id: number
+  name: string
 }
 
 export interface ProjectInterface {
+  id: number
   name: string
   slug: string
 }
