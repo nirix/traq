@@ -9,7 +9,7 @@ foreach ($milestones as $milestone) {
     $entry = array(
         'title' => $milestone->name,
         'id' => "changelog:{$project->slug}:milestone:{$milestone->slug}",
-        'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base($milestone->href()),
+        'link' => absolute_url($milestone->href()),
         'updated' => Time::date("c", $milestone->completed_on),
         'content' => array(
             'type' => "HTML"
@@ -24,7 +24,7 @@ foreach ($milestones as $milestone) {
 
         // Check if this is to be displayed on the changelog
         if ($ticket->type->changelog and $ticket->status->changelog) {
-            $data[] = "{$ticket->type->bullet} <a href=\"http://" . $_SERVER['HTTP_HOST'] . Request::base($ticket->href()) . "\">{$ticket->summary}</a>";
+            $data[] = "{$ticket->type->bullet} <a href=\"" . absolute_url($ticket->href()) . "\">{$ticket->summary}</a>";
         }
     }
 
@@ -35,8 +35,8 @@ foreach ($milestones as $milestone) {
 // Make feed
 $feed = new Atom(array(
     'title'     => l('x_changelog_feed', $project->name),
-    'link'      => "http://" . $_SERVER['HTTP_HOST'] . Request::base(),
-    'feed_link' => "http://" . $_SERVER['HTTP_HOST'] . Request::requestUri(),
+    'link'      => absolute_url(),
+    'feed_link' => origin() . Request::requestUri(),
     'updated'   => $updated == 0 ? Time::date("c") : Time::date("c", $updated),
     'entries'   => $entries,
 ));

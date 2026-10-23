@@ -267,6 +267,41 @@ function iif($condition, $true, $false = null)
 }
 
 /**
+ * Returns the scheme, host and port of this Traq installation, e.g. `https://example.com`.
+ *
+ * Define `TRAQ_BASE_URL` in `data/config/config.php` to pin it. Without it the origin is
+ * detected from the request, which is only as trustworthy as your web server's host
+ * handling (Apache `UseCanonicalName On`, or a matching `server_name` in nginx).
+ */
+function origin(): string
+{
+    if (defined('TRAQ_BASE_URL')) {
+        $url = parse_url(TRAQ_BASE_URL);
+
+        return ($url['scheme'] ?? 'http') . '://' . ($url['host'] ?? 'localhost') . (isset($url['port']) ? ':' . $url['port'] : '');
+    }
+
+    $port = (int) ($_SERVER['SERVER_PORT'] ?? 80);
+    $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $port === 443;
+    $host = Request::$host;
+
+    // SERVER_NAME can still be attacker supplied, only allow valid host names/addresses
+    if (!preg_match('/^[a-z0-9.\-]+$|^\[[0-9a-f:.]+\]$/i', $host)) {
+        $host = 'localhost';
+    }
+
+    return ($https ? 'https' : 'http') . '://' . $host . (in_array($port, [80, 443], true) || $port === 0 ? '' : ':' . $port);
+}
+
+/**
+ * Returns the absolute URL for the path, e.g. for emails and feeds.
+ */
+function absolute_url(string $path = ''): string
+{
+    return origin() . Request::base($path);
+}
+
+/**
  * Escape a value for HTML text or quoted-attribute context.
  *
  * Use this for any user-controlled string interpolated into a view.

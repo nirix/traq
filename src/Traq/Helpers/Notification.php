@@ -162,7 +162,7 @@ class Notification
                     format_text($options['ticket']->body),
                     $options['ticket']->project->name,
                     $options['ticket']->project->slug,
-                    "http://" . $_SERVER['HTTP_HOST'] . Request::base($options['ticket']->href())
+                    absolute_url($options['ticket']->href())
                 );
                 break;
 
@@ -203,16 +203,7 @@ class Notification
 
         // Add unsubscribe link if this is a subscription
         if ($sub) {
-            $port = in_array(Request::$port, [80, 443]) ? null : Request::$port;
-            $host = $port ? Request::$host . ':' . $port : Request::$host;
-
-            $unsubUrl = \sprintf(
-                '%s://%s%s/unsubscribe/%s',
-                Request::isSecure() || Request::$port === 443 ? 'https' : 'http',
-                $host,
-                trim(Request::base() ?? '', '/'),
-                $sub->uuid
-            );
+            $unsubUrl = absolute_url('unsubscribe/' . $sub->uuid);
 
             $message = \sprintf(
                 '%s<br><br><hr><a href="%s">%s</a>',

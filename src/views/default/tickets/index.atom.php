@@ -11,7 +11,7 @@ foreach ($tickets as $ticket) {
         'title' => $ticket->summary,
         'id' => "tickets:{$ticket->ticket_id}",
         'updated' => Time::date("c", $ticket->created_at),
-        'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base($ticket->href()),
+        'link' => absolute_url($ticket->href()),
         'author' => array(
             'name' => $ticket->user->name
         ),
@@ -25,8 +25,8 @@ foreach ($tickets as $ticket) {
 // Make feed
 $feed = new Atom(array(
     'title' => l('x_ticket_feed', $project->name),
-    'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base(),
-    'feed_link' => "http://" . $_SERVER['HTTP_HOST'] . Request::requestUri(),
+    'link' => absolute_url(),
+    'feed_link' => origin() . Request::requestUri(),
     'updated' => $entries[0]['updated'],
     'entries' => $entries,
 ));
