@@ -368,12 +368,12 @@ class CustomField extends Model
         if ($this->is_valid()) {
             // Defaults
             $defaults = array(
-                'values'          => "NULL",
+                'values'          => null,
                 'multiple'        => 0,
-                'default_value'   => "NULL",
-                'regex'           => "NULL",
-                'min_length'      => "NULL",
-                'max_length'      => "NULL",
+                'default_value'   => null,
+                'regex'           => null,
+                'min_length'      => null,
+                'max_length'      => null,
                 'is_required'     => 0,
                 'ticket_type_ids' => array()
             );
@@ -382,7 +382,9 @@ class CustomField extends Model
             $this->_data = array_merge($defaults, $this->_data);
 
             // Remove stupid crap
-            $this->_data['values'] = str_replace("\r", '', $this->_data['values']);
+            if (is_string($this->_data['values'])) {
+                $this->_data['values'] = str_replace("\r", '', $this->_data['values']);
+            }
 
             // JSON encode ticket type IDs
             $this->_data['ticket_type_ids'] = json_encode($this->_data['ticket_type_ids']);

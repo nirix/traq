@@ -79,7 +79,7 @@ class MilestonesController extends AppController
                 'slug'         => Request::get('slug'),
                 'codename'     => Request::get('codename'),
                 'info'         => Request::get('info'),
-                'due'          => Request::get('due') != '' ? Request::get('due') : 'NULL',
+                'due'          => Request::get('due') != '' ? Request::get('due') : null,
                 'project_id'   => $this->project->id,
                 'displayorder' => Request::get('displayorder') == '' ? 0 : Request::get('displayorder')
             ));
@@ -130,7 +130,7 @@ class MilestonesController extends AppController
                 'slug'         => Request::get('slug', $milestone->slug),
                 'codename'     => Request::get('codename', $milestone->codename),
                 'info'         => Request::get('info', $milestone->info),
-                'due'          => Request::get('due') != '' ? Request::get('due') : 'NULL',
+                'due'          => Request::get('due') != '' ? Request::get('due') : null,
                 'status'       => Request::get('status', $milestone->status),
                 'displayorder' => Request::get('displayorder', $milestone->displayorder) == ''
                     ? 0

@@ -57,11 +57,12 @@ class TicketFilterQuery
     protected array $filters = [];
     protected array $customFields = [];
     protected array $customFieldSlugs = [];
+    protected string $sortDirection = 'DESC';
 
     public function __construct(
         protected int $projectId,
         protected string $sortField = 'created_at',
-        protected string $sortDirection = 'DESC',
+        string $sortDirection = 'DESC',
         string $queryString = ''
     ) {
         $this->processQueryString($queryString);
@@ -70,6 +71,8 @@ class TicketFilterQuery
         foreach ($this->customFields as $index => $field) {
             $this->customFieldSlugs[] = $field->slug;
         }
+
+        $this->sortDirection = $sortDirection === 'DESC' ? 'DESC' : 'ASC';
     }
 
     public function query(bool $withLimit = false): string
