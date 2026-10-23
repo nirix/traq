@@ -75,17 +75,22 @@ class CustomFieldsController extends AppController
 
             // Loop over properties
             foreach (CustomField::properties() as $property) {
+                // The ID and project are never taken from the request
+                if (in_array($property, ['id', 'project_id'], true)) {
+                    continue;
+                }
+
                 // Check if it's set and not empty
                 if (isset(Request::$post[$property])) {
                     $data[$property] = Request::$post[$property];
                 }
             }
 
-            if ($data['min_length'] == '') {
+            if (($data['min_length'] ?? '') == '') {
                 $data['min_length'] = 0;
             }
 
-            if ($data['max_length'] == '') {
+            if (($data['max_length'] ?? '') == '') {
                 $data['max_length'] = 255;
             }
 
@@ -132,7 +137,7 @@ class CustomFieldsController extends AppController
         $field = CustomField::find($id);
 
         // Verify project
-        if ($field->project_id !== $this->project->id) {
+        if (!$field || (int) $field->project_id !== (int) $this->project->id) {
             return $this->renderNoPermission();
         }
 
@@ -142,17 +147,22 @@ class CustomFieldsController extends AppController
 
             // Loop over properties
             foreach (CustomField::properties() as $property) {
+                // The ID and project are never taken from the request
+                if (in_array($property, ['id', 'project_id'], true)) {
+                    continue;
+                }
+
                 // Check if it's set and not empty
                 if (isset(Request::$post[$property])) {
                     $data[$property] = Request::$post[$property];
                 }
             }
 
-            if ($data['min_length'] == '') {
+            if (($data['min_length'] ?? '') == '') {
                 $data['min_length'] = 0;
             }
 
-            if ($data['max_length'] == '') {
+            if (($data['max_length'] ?? '') == '') {
                 $data['max_length'] = 255;
             }
 
@@ -201,7 +211,7 @@ class CustomFieldsController extends AppController
         $field = CustomField::find($id);
 
         // Verify project
-        if ($field->project_id !== $this->project->id) {
+        if (!$field || (int) $field->project_id !== (int) $this->project->id) {
             return $this->renderNoPermission();
         }
 
