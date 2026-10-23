@@ -29,6 +29,9 @@ use Avalon\Output\View;
 use Avalon\Http\Response;
 use Traq\Controllers\AppController;
 use Traq\Models\Project;
+use Traq\Models\UserRole;
+use Traq\Models\Milestone;
+use Traq\Models\Component;
 use Traq\Models\Ticket;
 use Traq\Models\TicketRelationship;
 use Traq\Models\User;
@@ -677,26 +680,92 @@ class TicketController extends AppController
     public function move(int $ticket_id)
     {
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+
+        if (!$ticket) {
+            return $this->show404();
+        }
+
+        // Only projects the user can create tickets in are valid destinations
+        $projectOptions = [];
+        foreach ($this->projects as $project) {
+            if ($this->user->permission($project->id, 'create_tickets')) {
+                $projectOptions[] = ['label' => $project->name, 'value' => $project->id];
+            }
+        }
+        View::set('projectOptions', $projectOptions);
+
+        // Steps 2 and 3 (and API moves) change state, so they must be POSTs
+        $step = (int) Request::get('step', 1);
+        $isMove = $step === 3 || $this->isApi;
+        if (Request::method() !== 'POST') {
+            if ($this->isApi) {
+                return $this->json(['error' => 'POST required'], 400);
+            }
+
+            $step = 1;
+            $isMove = false;
+        }
+
         $next_step = 2;
 
-        // Step 2
-        if (Request::get('step') == 2) {
-            $next_step = 3;
-            $new_project = Project::find(Request::$post['project_id']);
+        if ($step === 2 || $isMove) {
+            $new_project = $this->moveDestination((int) Request::get('project_id'));
+
+            if (!$new_project) {
+                return $this->renderNoPermission();
+            }
+
             View::set('new_project', $new_project);
         }
+
+        // Step 2
+        if ($step === 2 && !$isMove) {
+            $next_step = 3;
+        }
         // Step 3
-        elseif (Request::get('step') == 3 || $this->isApi) {
+        elseif ($isMove) {
             $next_step = 2;
-            $new_project = Project::find(Request::get('project_id'));
+
+            // Nothing to do if it's already in that project
+            if ((int) $new_project->id === (int) $this->project->id) {
+                return $this->redirectTo($ticket->href());
+            }
+
+            $milestoneId = (int) Request::get('milestone_id', 0);
+            $versionId = (int) Request::get('version_id', 0);
+            $componentId = (int) Request::get('component_id', 0);
+            $assignedToId = (int) Request::get('assigned_to_id', 0);
+
+            // Milestone, version and component must belong to the new project
+            // and the assignee must be a member of it.
+            foreach ([$milestoneId, $versionId] as $id) {
+                $milestone = $id > 0 ? Milestone::find($id) : null;
+                if ($id > 0 && (!$milestone || (int) $milestone->project_id !== (int) $new_project->id)) {
+                    return $this->renderNoPermission();
+                }
+            }
+
+            if ($componentId > 0) {
+                $component = Component::find($componentId);
+                if (!$component || (int) $component->project_id !== (int) $new_project->id) {
+                    return $this->renderNoPermission();
+                }
+            }
+
+            if (
+                $assignedToId > 0
+                && !UserRole::select('id')->where('project_id', $new_project->id)->where('user_id', $assignedToId)->exec()->row_count()
+            ) {
+                return $this->renderNoPermission();
+            }
 
             // Update ticket data
             $data = array(
-                'project_id'     => Request::get('project_id'),
-                'milestone_id'   => Request::get('milestone_id'),
-                'version_id'     => Request::get('version_id', 0),
-                'component_id'   => Request::get('component_id', 0),
-                'assigned_to_id' => Request::get('assigned_to_id', 0)
+                'project_id'     => (int) $new_project->id,
+                'milestone_id'   => $milestoneId > 0 ? $milestoneId : null,
+                'version_id'     => $versionId,
+                'component_id'   => $componentId,
+                'assigned_to_id' => $assignedToId
             );
 
             // Set new ticket ID
@@ -727,13 +796,32 @@ class TicketController extends AppController
                 ));
                 $timeline->save();
 
-                Request::redirectTo($new_project->href("tickets/{$ticket->ticket_id}"));
+                if ($this->isApi) {
+                    return $this->json(['success' => true, 'project' => $new_project->slug, 'ticket_id' => (int) $ticket->ticket_id]);
+                }
+
+                return $this->redirectTo($new_project->href("tickets/{$ticket->ticket_id}"));
             }
         }
 
         View::set(array('ticket' => $ticket, 'next_step' => $next_step));
 
         return $this->render('tickets/move.phtml');
+    }
+
+    /**
+     * Returns the project to move a ticket to, if it exists and the user can see it
+     * and create tickets in it.
+     */
+    private function moveDestination(int $projectId): ?Project
+    {
+        foreach ($this->projects as $project) {
+            if ((int) $project->id === $projectId) {
+                return $this->user->permission($project->id, 'create_tickets') ? $project : null;
+            }
+        }
+
+        return null;
     }
 
     /**
