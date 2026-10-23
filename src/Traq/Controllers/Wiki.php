@@ -215,6 +215,8 @@ class Wiki extends AppController
         }
 
         View::set('page', $page);
+
+        return $this->render('wiki/edit', ['page' => $page]);
     }
 
     /**
