@@ -113,7 +113,7 @@
 							<?= Form::label(l('is_private'), 'is_private'); ?>
 							<?= Form::checkbox('is_private', 1, ['checked' => $ticket->is_private]); ?>
 						</div>
-						<?= View::render('tickets/_custom_fields_form'); ?>
+						<?= View::render('tickets/_custom_fields_form', ['ticket' => $ticket]); ?>
 					<?php } ?>
 				</div>
 

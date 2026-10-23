@@ -8,13 +8,13 @@
 		<div class="ticket-actions">
 			<div class="btn-group">
 				<?= subscription_icon_for($ticket) ?>
-				<?php if ($current_user->permission($ticket->project_id, 'delete_tickets')) : ?>
+				<?php if (currentUser()->permission($ticket->project_id, 'delete_tickets')) : ?>
 					<button class="btn-danger btn-sm" x-data="popoverConfirm(<?= js_attr(['message' => l('confirm.delete_x', $ticket->summary), 'post' => Request::base($ticket->href('delete'))]) ?>)" @click="toggle()" title="<?= l('delete') ?>">
 						<span class="fas fa-fw fa-trash"></span>
 						<span class="visually-hidden"><?= l('delete') ?></span>
 					</button>
 				<?php endif; ?>
-				<?php if ($current_user->permission($ticket->project_id, 'move_tickets')) : ?>
+				<?php if (currentUser()->permission($ticket->project_id, 'move_tickets')) : ?>
 					<a href="<?= Request::base($ticket->href('move')) ?>" class="btn-warning btn-sm" title="<?= l('move') ?>">
 						<span class="fas fa-fw fa-angles-right"></span>
 						<span class="visually-hidden"><?= l('move') ?></span>
@@ -29,7 +29,7 @@
 			<div class="ticket-description" x-data="{ editing: false }">
 				<div class="flex justify-between items-center mb-3">
 					<h3 class="text-lg font-semibold flex-grow"><?= l('description') ?></h3>
-					<?php if ($current_user->permission($project->id, 'edit_ticket_description')) : ?>
+					<?php if (currentUser()->permission($project->id, 'edit_ticket_description')) : ?>
 						<button @click="editing = !editing" class="btn-warning btn-sm ticket-edit-btn" x-show="!editing">
 							<span class="fas fa-fw fa-pencil"></span>
 						</button>
@@ -39,7 +39,7 @@
 					<div x-show="!editing" x-ref="ticketDescription">
 						<?= format_text($ticket->body, true) ?>
 					</div>
-					<?php if ($current_user->permission($project->id, 'edit_ticket_description')) : ?>
+					<?php if (currentUser()->permission($project->id, 'edit_ticket_description')) : ?>
 						<div x-show="editing" x-data="remoteMde({ url: '<?= Request::base($ticket->href('edit')) ?>' })">
 							<textarea name="body" x-ref="editor"><?= e($ticket->body) ?></textarea>
 							<div class="ticket-edit-actions">
@@ -59,7 +59,7 @@
 				<?php if (is_array($ticket->tasks) && count($ticket->tasks)) { ?>
 					<section class="ticket-tasks">
 						<h3><?= l('tasks') ?></h3>
-						<ul x-data="ticketTasks({ url: '<?= Request::base($ticket->href('tasks')) ?>', can: <?= $current_user->permission($project->id, 'ticket_properties_complete_tasks') ? 'true' : 'false' ?> })">
+						<ul x-data="ticketTasks({ url: '<?= Request::base($ticket->href('tasks')) ?>', can: <?= currentUser()->permission($project->id, 'ticket_properties_complete_tasks') ? 'true' : 'false' ?> })">
 							<?php foreach ($ticket->tasks as $id => $task) { ?>
 								<li class="ticket-task" id="task-<?= $id ?>" x-data="{ complete: <?= $task['completed'] ? 'true' : 'false' ?> }" @click="toggle(<?= $id ?>)">
 									<span class="far fa-fw fa-square" x-show="!isSaving(<?= $id ?>) && !complete"></span>
@@ -72,7 +72,7 @@
 					</section>
 				<?php } ?>
 
-				<?php if ($current_user->permission($ticket->project_id, 'view_attachments')) : ?>
+				<?php if (currentUser()->permission($ticket->project_id, 'view_attachments')) : ?>
 					<?php if ($attachments && is_array($attachments) && count($attachments)) : ?>
 						<section class="ticket-attachments">
 							<h3><?= l('attachments') ?></h3>
@@ -82,7 +82,7 @@
 									<li id="attachment-<?= $attachment->id ?>">
 										<a href="<?= Request::base($attachment->href()) ?>"><span class="attachment-filename"><?= e($attachment->name) ?></span></a>,
 										<?= l('x_by_x', time_ago($attachment->created_at, false), HTML::link($attachment->user->name, $attachment->user->href())) ?>
-										<?php if ($current_user->permission($ticket->project_id, 'delete_attachments')) : ?>
+										<?php if (currentUser()->permission($ticket->project_id, 'delete_attachments')) : ?>
 											<button class="btn-danger btn-xs" title="<?= l('delete') ?>" x-data="popoverConfirm({ position: 'center', message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($attachment->href('/delete')) ?>', success: () => { document.getElementById('attachment-<?= $attachment->id ?>').remove() } })" @click="toggle()">
 												<span class="fas fa-fw fa-trash"></span>
 												<span class="visually-hidden"><?= l('delete') ?></span>

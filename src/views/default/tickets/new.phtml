@@ -24,7 +24,7 @@
 					<label for="summary"><?= l('summary') ?></label>
 					<?= Form::text('summary', ['value' => $ticket->summary]) ?>
 				</div>
-				<?php if (current_user()->permission($project->id, 'ticket_properties_set_status')) : ?>
+				<?php if (currentUser()->permission($project->id, 'ticket_properties_set_status')) : ?>
 					<div class="form-group-row">
 						<label for="status"><?= l('status') ?></label>
 						<?= Form::select('status', Traq\Models\Status::select_options(), array('value' => $ticket->status_id)); ?>
@@ -43,7 +43,7 @@
 						</div>
 					</div>
 
-					<?php if (current_user()->permission($project->id, 'ticket_properties_set_version')) : ?>
+					<?php if (currentUser()->permission($project->id, 'ticket_properties_set_version')) : ?>
 						<div class="form-group">
 							<label for="version"><?= l('version') ?></label>
 							<div class="input-group">
@@ -53,7 +53,7 @@
 						</div>
 					<?php endif; ?>
 
-					<?php if (current_user()->permission($project->id, 'ticket_properties_set_component')) : ?>
+					<?php if (currentUser()->permission($project->id, 'ticket_properties_set_component')) : ?>
 						<div class="form-group">
 							<label for="component"><?= l('component') ?></label>
 							<div class="input-group">
@@ -63,21 +63,21 @@
 						</div>
 					<?php endif; ?>
 
-					<?php if (current_user()->permission($project->id, 'ticket_properties_set_priority')) : ?>
+					<?php if (currentUser()->permission($project->id, 'ticket_properties_set_priority')) : ?>
 						<div class="form-group">
 							<label for="priority"><?= l('priority') ?></label>
 							<?= Form::select('priority', Traq\Models\Priority::select_options(), array('value' => $ticket->priority_id)) ?>
 						</div>
 					<?php endif ?>
 
-					<?php if (current_user()->permission($project->id, 'ticket_properties_set_assigned_to')) : ?>
+					<?php if (currentUser()->permission($project->id, 'ticket_properties_set_assigned_to')) : ?>
 						<div class="form-group">
 							<label for="assigned_to"><?= l('assignee') ?></label>
 							<?= Form::select('assigned_to', array_merge(array(array('value' => 0, 'label' => l('none'))), $project->assignable_member_select_options()), array('value' => $ticket->assigned_to_id)) ?>
 						</div>
 					<?php endif; ?>
 
-					<?php if (current_user()->permission($project->id, 'ticket_properties_set_tasks')) : ?>
+					<?php if (currentUser()->permission($project->id, 'ticket_properties_set_tasks')) : ?>
 						<div class="form-group">
 							<label><?= l('tasks') ?></label>
 							<button type="button" id="manage_ticket_tasks" data-url="<?= Request::base($project->href('tickets/0/tasks/manage')) ?>"><?= l('manage') ?></button>
@@ -88,13 +88,13 @@
 						</div>
 					<?php endif; ?>
 
-					<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_proposed')) : ?>
+					<?php if (currentUser()->permission($project->id, 'ticket_properties_set_time_proposed')) : ?>
 						<div class="form-group">
 							<label for="time_proposed"><?= l('time_proposed') ?></label>
 							<?= Form::text('time_proposed'); ?>
 						</div>
 					<?php endif; ?>
-					<?php if ($current_user->permission($project->id, 'ticket_properties_set_time_worked')) : ?>
+					<?php if (currentUser()->permission($project->id, 'ticket_properties_set_time_worked')) : ?>
 						<div class="form-group">
 							<label for="time_worked"><?= l('time_worked') ?></label>
 							<?= Form::text('time_worked'); ?>
@@ -104,7 +104,7 @@
 						<?= Form::label(l('is_private'), 'is_private'); ?>
 						<?= Form::checkbox('is_private', 1); ?>
 					</div>
-					<?= View::render('tickets/_custom_fields_form'); ?>
+					<?= View::render('tickets/_custom_fields_form', ['ticket' => $ticket]); ?>
 				</div>
 			</div>
 			<div class="panel-footer">

@@ -1,5 +1,5 @@
 <?php
-$subbed = is_subscribed($current_user, $object);
+$subbed = is_subscribed(currentUser(), $object);
 $subunsub = $subbed ? 'unsubscribe' : 'subscribe';
 $icon = $icon ?? false;
 ?>
