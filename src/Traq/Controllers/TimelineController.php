@@ -24,6 +24,7 @@
 namespace Traq\Controllers;
 
 use Avalon\Http\Request;
+use Avalon\Http\Response;
 use Traq\Helpers\Pagination;
 use Traq\Models\Timeline;
 use Traq\Models\User;
@@ -136,10 +137,24 @@ class TimelineController extends AppController
     public function deleteEvent($eventId)
     {
         if (!$this->user->permission($this->project->id, 'delete_timeline_events')) {
-            return $this->show_no_permission();
+            return $this->json(['success' => false], Response::HTTP_FORBIDDEN);
         }
 
-        $event = Timeline::find($eventId);
+        // Deleting is a POST (the confirm popover posts), and the event must belong to this project
+        if (Request::method() !== 'POST') {
+            return $this->show404();
+        }
+
+        $event = Timeline::select()
+            ->where('id', (int) $eventId)
+            ->where('project_id', (int) $this->project->id)
+            ->exec()
+            ->fetch();
+
+        if (!$event) {
+            return $this->show404();
+        }
+
         $event->delete();
 
         if (!Request::isAjax()) {
