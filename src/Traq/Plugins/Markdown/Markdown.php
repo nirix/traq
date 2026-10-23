@@ -86,6 +86,8 @@ class Markdown extends Plugin
     private static function setupParser(): void
     {
         $config = [
+            'html_input' => 'escape',
+            'allow_unsafe_links' => false,
             'mentions' => [
                 'user' => [
                     'prefix' => '@',
