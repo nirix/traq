@@ -82,12 +82,17 @@ class MembersController extends AppController
             $this->set('errors', $errors);
             return $this->index();
         }
+        // Role must exist and belong to this project (or be global)
+        elseif (!$this->isValidRole((int) (Request::$post['role'] ?? 0))) {
+            $this->set('errors', ['role' => l('errors.users.doesnt_exist')]);
+            return $this->index();
+        }
         // Create role
         else {
             $userRole = new UserRole([
                 'project_id' => $this->project->id,
                 'user_id' => $user->id,
-                'project_role_id' => Request::$post['role']
+                'project_role_id' => (int) Request::$post['role']
             ]);
             $userRole->save();
 
@@ -98,14 +103,36 @@ class MembersController extends AppController
     public function save()
     {
         if (Request::method() == 'POST') {
-            foreach (Request::$post['role'] as $role_id => $value) {
-                $role = UserRole::find($role_id);
-                $role->project_role_id = $value;
-                $role->save();
+            $roles = Request::$post['role'] ?? [];
+
+            foreach (is_array($roles) ? $roles : [] as $userRoleId => $roleId) {
+                $userRole = UserRole::find((int) $userRoleId);
+
+                // Only members of this project, and only roles for this project
+                if (
+                    !$userRole
+                    || (int) $userRole->project_id !== (int) $this->project->id
+                    || !$this->isValidRole((int) $roleId)
+                ) {
+                    continue;
+                }
+
+                $userRole->project_role_id = (int) $roleId;
+                $userRole->save();
             }
 
             return $this->redirectTo($this->project->href('settings/members'));
         }
+    }
+
+    /**
+     * Checks the role exists and is either global or belongs to this project.
+     */
+    private function isValidRole(int $roleId): bool
+    {
+        $role = ProjectRole::find($roleId);
+
+        return $role && in_array((int) $role->project_id, [0, (int) $this->project->id], true);
     }
 
     public function delete(int $id): Response
