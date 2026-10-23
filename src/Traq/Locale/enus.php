@@ -310,7 +310,10 @@ class enUS extends Locale
 
             // Password reset
             'password_reset.success' => "Your password has been reset, your new password is '{1}', it is recommended that you change it immediately",
-            'password_reset.email_sent' => "We have sent an email to the the address for the account with instructions on how to reset your password.",
+            'password_reset.email_sent' => "If an account with that username exists, we have sent an email to its address with instructions on how to reset your password.",
+            'password_reset.choose' => "Choose a new password for your account.",
+            'password_reset.done' => "Your password has been changed, you can now log in with your new password.",
+            'password_reset.invalid_key' => "This password reset link is invalid or has expired, please request a new one.",
 
             // Wiki
             'home'         => "Home",

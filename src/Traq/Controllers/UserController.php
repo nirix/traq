@@ -160,7 +160,7 @@ class UserController extends AppController
                     $user,
                     'email_validation',
                     [
-                        'link' => "http://" . $_SERVER['HTTP_HOST'] . Request::base("users/validate/" . $user->option('validation_key'))
+                        'link' => absolute_url("users/validate/" . $user->option('validation_key'))
                     ]
                 );
 
@@ -197,60 +197,83 @@ class UserController extends AppController
 
     /**
      * Forgot/Reset password page.
+     *
+     * Without a key it asks for the username and emails a reset link. The link only shows
+     * a form, the password is only changed when that form is submitted (POST), so mail
+     * scanners and link previews can't consume the reset.
      */
     public function resetPassword(?string $key = null)
     {
-        // Reset key provided?
         if ($key !== null) {
-            // Find user
-            if ($user = User::select()->where('options', '%"reset_password_key":"' . $key . '"%', 'LIKE')->exec()->fetch()) {
-                // Generate new password
-                $newPassword = substr(random_hash(), 0, 32);
+            return $this->resetPasswordWithKey($key);
+        }
 
-                // Set new password, clear reset key and save
-                $user->set_password($newPassword);
-                $user->option('reset_password_key', null);
+        if (Request::method() == 'POST') {
+            $user = User::find('username', (string) Request::post('username', ''));
+
+            if ($user) {
+                // Only a hash of the key is stored, the key itself is only in the email
+                $key = random_hash();
+                $user->option('reset_password_key', hash('sha256', $key));
+                $user->option('reset_password_expires', time() + 3600);
                 $user->save();
 
-                // Send data to the view
+                Notification::send(
+                    $user,
+                    l('notifications.password_reset.subject'),
+                    l(
+                        'notifications.password_reset.message',
+                        settings('title'),
+                        $user->name,
+                        $user->username,
+                        absolute_url("login/resetpassword/{$key}"),
+                        $_SERVER['REMOTE_ADDR']
+                    )
+                );
+            }
+
+            // Same response whether or not the account exists
+            $this->set('reset_email_sent', true);
+        }
+
+        return $this->render('users/reset_password.phtml');
+    }
+
+    private function resetPasswordWithKey(string $key)
+    {
+        $user = User::select()
+            ->where('options', '%"reset_password_key":"' . hash('sha256', $key) . '"%', 'LIKE')
+            ->exec()
+            ->fetch();
+
+        if (!$user || (int) $user->option('reset_password_expires') < time()) {
+            $this->set('invalid_key', true);
+
+            return $this->render('users/reset_password.phtml');
+        }
+
+        if (Request::method() == 'POST') {
+            $password = Request::post('new_password', '');
+            $confirm = Request::post('confirm_password', '');
+
+            if (!is_string($password) || $password === '') {
+                $this->set('password_error', l('errors.users.new_password_blank'));
+            } elseif ($password !== $confirm) {
+                $this->set('password_error', l('errors.users.invalid_confirm_password'));
+            } else {
+                // Single use, also signs out any existing sessions
+                $user->set_password($password);
+                $user->option('reset_password_key', null);
+                $user->option('reset_password_expires', null);
+                $user->save();
+
                 $this->set('password_reset', true);
 
-                // TODO: email this to the user instead
-                $this->set('new_password', $newPassword);
+                return $this->render('users/reset_password.phtml');
             }
         }
-        // Find user and generate key
-        else {
-            // Check if the form has been submitted
-            if (Request::method() == 'POST') {
-                // Generate key
-                if ($user = User::find('username', Request::$post['username'])) {
-                    // Generate reset key
-                    $key = random_hash();
 
-                    // Set reset key option
-                    $user->option('reset_password_key', $key);
-                    $user->save();
-
-                    // Send email
-                    Notification::send(
-                        $user, // User object
-                        l('notifications.password_reset.subject'),     // Subject
-                        l(
-                            'notifications.password_reset.message',    // Message
-                            settings('title'), // Installation title
-                            $user->name,       // Users name
-                            $user->username,   // Users username
-                            "http://" . $_SERVER['HTTP_HOST'] . Request::base("/login/resetpassword/{$key}"), // Reset password URL
-                            $_SERVER['REMOTE_ADDR'] // IP of reset request
-                        )
-                    );
-                    $this->set('reset_email_sent', true);
-                } else {
-                    $this->set('error', true);
-                }
-            }
-        }
+        $this->set('reset_key', $key);
 
         return $this->render('users/reset_password.phtml');
     }
