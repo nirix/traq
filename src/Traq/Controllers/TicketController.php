@@ -70,8 +70,17 @@ class TicketController extends AppController
 
     public function index(): Response
     {
-        if (Request::method() === 'POST' && $this->user->permission($this->project->id, 'create_tickets')) {
+        // TODO: remove once the router supporting mapping request methods to different controllers.
+        if (Request::method() === 'POST') {
+            if (!$this->user->permission($this->project->id, 'create_tickets')) {
+                return $this->renderNoPermission();
+            }
+
             return $this->create();
+        }
+
+        if (!$this->user->permission($this->project->id, 'view_tickets')) {
+            return $this->renderNoPermission();
         }
 
         if ($this->isJson) {
