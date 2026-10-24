@@ -122,13 +122,14 @@ Router::register('tickets.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>
 Router::register('tickets.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/edit', [TicketController::class, 'edit'], methods: ['POST']);
 Router::register('tickets.vote', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/vote', [TicketController::class, 'vote'], methods: ['GET', 'POST']);
 Router::register('tickets.voters', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/voters', [TicketController::class, 'voters']);
-Router::register('ticket.history.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/edit', [TicketHistoryController::class, 'edit']);
-Router::register('ticket.history.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/delete', [TicketHistoryController::class, 'delete']);
-Router::register('ticket.tasks.toggle', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/(?P<task_id>[0-9]+)', [TicketTasksController::class, 'toggle']);
+Router::register('ticket.history.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/edit', [TicketHistoryController::class, 'edit'], methods: ['GET', 'POST']);
+Router::register('ticket.history.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)', [TicketHistoryController::class, 'delete'], methods: ['DELETE']);
+Router::register('ticket.tasks.toggle', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/(?P<task_id>[0-9]+)', [TicketTasksController::class, 'toggle'], methods: ['POST']);
 Router::register('ticket.tasks.manage', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', [TicketTasksController::class, 'manage']);
-Router::register('tickets.massActions', '/' . PROJECT_SLUG . '/tickets/mass-actions', [TicketController::class, 'massActions']);
+Router::register('tickets.massActions', '/' . PROJECT_SLUG . '/tickets/mass-actions', [TicketController::class, 'massActions'], methods: ['POST']);
 Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [TicketController::class, 'index']);
 Router::register('tickets.related', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/related-tickets', [TicketController::class, 'relatedTickets']);
+Router::register('tickets.related.update', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/related-tickets', [TicketController::class, 'updateRelatedTickets'], methods: ['POST']);
 
 // Wiki routes
 Router::register('wiki.new', '/' . PROJECT_SLUG . '/wiki/_new', [Wiki::class, 'create']);

@@ -221,12 +221,9 @@ class TicketController extends AppController
         ];
     }
 
+    #[AuthMiddleware(['ticket_properties_change_related_tickets'])]
     public function relatedTickets(int $ticket_id): Response
     {
-        if (Request::method() === 'POST' && $this->user->permission($this->project->id, 'ticket_properties_change_related_tickets')) {
-            $this->updateRelatedTickets($ticket_id);
-        }
-
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
         if (!$ticket) {
@@ -239,7 +236,8 @@ class TicketController extends AppController
         ]);
     }
 
-    private function updateRelatedTickets(int $ticket_id)
+    #[AuthMiddleware(['ticket_properties_change_related_tickets'])]
+    public function updateRelatedTickets(int $ticket_id): Response
     {
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
         if (!$ticket) {
@@ -291,6 +289,8 @@ class TicketController extends AppController
                 $ticket->deleteRelatedTicket($related->id);
             }
         }
+
+        return $this->relatedTickets($ticket_id);
     }
 
     /**

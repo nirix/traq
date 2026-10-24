@@ -25,6 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Response;
+use Traq\Middleware\AuthMiddleware;
 use Traq\Models\Ticket;
 use Traq\Models\TicketHistory;
 
@@ -76,6 +77,7 @@ class TicketHistoryController extends AppController
      *
      * The history id is only valid for the ticket number in this project.
      */
+    #[AuthMiddleware(['delete_ticket_history'])]
     public function delete(int $ticket_id, int $id): Response
     {
         $history = $this->historyForTicket($ticket_id, $id);
@@ -83,11 +85,13 @@ class TicketHistoryController extends AppController
             return $history;
         }
 
-        if (!$this->user->permission((int) $history->ticket->project_id, 'delete_ticket_history')) {
-            return $this->renderNoPermission();
-        }
-
         $history->delete();
+
+        if ($this->isJson) {
+            return $this->json([
+                'success' => true,
+            ]);
+        }
 
         return $this->redirectTo($history->ticket->href());
     }
