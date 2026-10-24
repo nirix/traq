@@ -158,8 +158,11 @@ Router::register('project.settings.milestones.performDelete', '/' . PROJECT_SLUG
 
 Router::register('project.settings.components', '/' . PROJECT_SLUG . '/settings/components', [ComponentsController::class, 'index']);
 Router::register('project.settings.components.new', '/' . PROJECT_SLUG . '/settings/components/new', [ComponentsController::class, 'new']);
+Router::register('project.settings.components.create', '/' . PROJECT_SLUG . '/settings/components', [ComponentsController::class, 'create'], methods: ['POST']);
 Router::register('project.settings.components.edit', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)/edit', [ComponentsController::class, 'edit']);
-Router::register('project.settings.components.delete', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)/delete', [ComponentsController::class, 'delete']);
+Router::register('project.settings.components.update', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)', [ComponentsController::class, 'update'], methods: ['PUT']);
+Router::register('project.settings.components.delete', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)', [ComponentsController::class, 'delete'], methods: ['DELETE']);
+
 Router::register('project.settings.members', '/' . PROJECT_SLUG . '/settings/members', [MembersController::class, 'index']);
 Router::register('project.settings.members.new', '/' . PROJECT_SLUG . '/settings/members/new', [MembersController::class, 'new']);
 Router::register('project.settings.members.delete', '/' . PROJECT_SLUG . '/settings/members/(?P<id>[0-9]+)/delete', [MembersController::class, 'delete']);

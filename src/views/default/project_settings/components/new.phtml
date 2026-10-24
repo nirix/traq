@@ -6,7 +6,7 @@
 <?= view('project_settings/_nav'); ?>
 <div class="content">
 	<h3><?php echo l('new_component'); ?></h3>
-	<form action="<?= Request::requestUri(); ?>" method="post">
+	<form action="<?= Request::base($project->href('settings/components')) ?>" method="post">
 		<?php echo show_errors($component->errors); ?>
 		<div class="tabular box">
 			<?= view('project_settings/components/_form', [

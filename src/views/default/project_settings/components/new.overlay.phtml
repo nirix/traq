@@ -1,5 +1,5 @@
 <h3><?= l('new_component'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post" class="overlay_thin">
+<form action="<?= Request::base($project->href('settings/components')) ?>" method="post" class="overlay_thin">
 	<?= show_errors($component->errors); ?>
 	<div class="content">
 		<?= view('project_settings/components/_form', [

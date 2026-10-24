@@ -69,31 +69,42 @@ class ComponentsController extends AppController
 
         $component = new Component();
 
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            // Set the information
-            $component->set(array(
-                'name'       => Request::get('name'),
-                'project_id' => $this->project->id
-            ));
-
-            // Check if the data is valid
-            if ($component->is_valid()) {
-                // Save and redirect
-                $component->save();
-                if ($this->isApi) {
-                    return $this->json([
-                        'component' => $component,
-                    ]);
-                } else {
-                    return $this->redirectTo($this->project->href('settings/components'));
-                }
-            }
-        }
-
         $view = Request::get('overlay') === 'true' ? 'new.overlay.phtml' : 'new.phtml';
 
         return $this->render('project_settings/components/' . $view, [
+            'component' => $component,
+        ]);
+    }
+
+    /**
+     * Create component.
+     */
+    public function create(): Response
+    {
+        $this->title(l('new'));
+
+        $component = new Component();
+
+        // Set the information
+        $component->set(array(
+            'name'       => Request::get('name'),
+            'project_id' => $this->project->id
+        ));
+
+        // Check if the data is valid
+        if ($component->is_valid()) {
+            // Save and redirect
+            $component->save();
+            if ($this->isApi) {
+                return $this->json([
+                    'component' => $component,
+                ]);
+            } else {
+                return $this->redirectTo($this->project->href('settings/components'));
+            }
+        }
+
+        return $this->render('project_settings/components/new.phtml', [
             'component' => $component,
         ]);
     }
@@ -114,30 +125,41 @@ class ComponentsController extends AppController
             return $this->renderNoPermission();
         }
 
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            // Update the information
-            $component->set(array(
-                'name' => Request::get('name'),
-            ));
-
-            // Check if the data is valid
-            if ($component->is_valid()) {
-                // Save and redirect
-                $component->save();
-                if ($this->isApi) {
-                    return $this->json([
-                        'component' => $component,
-                    ]);
-                } else {
-                    return $this->redirectTo($this->project->href('settings/components'));
-                }
-            }
-        }
-
         $view = Request::get('overlay') === 'true' ? 'edit.overlay.phtml' : 'edit.phtml';
 
         return $this->render('project_settings/components/' . $view, [
+            'component' => $component,
+        ]);
+    }
+
+    /**
+     * Update component.
+     */
+    public function update(int $id): Response
+    {
+        $this->title(l('edit'));
+
+        $component = Component::find($id);
+
+        // Update the information
+        $component->set(array(
+            'name' => Request::get('name'),
+        ));
+
+        // Check if the data is valid
+        if ($component->is_valid()) {
+            // Save and redirect
+            $component->save();
+            if ($this->isApi) {
+                return $this->json([
+                    'component' => $component,
+                ]);
+            } else {
+                return $this->redirectTo($this->project->href('settings/components'));
+            }
+        }
+
+        return $this->render('project_settings/components/edit.phtml', [
             'component' => $component,
         ]);
     }
