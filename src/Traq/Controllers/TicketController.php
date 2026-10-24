@@ -298,6 +298,7 @@ class TicketController extends AppController
      *
      * @param integer $ticket_id
      */
+    #[AuthMiddleware(['vote_on_tickets'])]
     public function vote(int $ticket_id)
     {
         // Get the ticket
@@ -305,25 +306,27 @@ class TicketController extends AppController
 
         // Don't let the owner vote on their own ticket
         if ($this->user->id == $ticket->user_id) {
-            return false;
+            return $this->renderNoPermission();
         }
 
-        // Does the user have permission to vote on tickets?
-        if (!$this->user->permission($this->project->id, 'vote_on_tickets')) {
-            View::set('error', l('errors.must_be_logged_in'));
-        }
         // Cast the vote
-        elseif ($ticket->add_vote($this->user->id)) {
+        if ($ticket->add_vote($this->user->id)) {
             $ticket->save();
-            View::set('ticket', $ticket);
-            View::set('error', false);
-        }
-        // They've already voted...
-        else {
-            View::set('error', l('errors.already_voted'));
+
+            if ($this->isJson) {
+                return $this->json([
+                    'votes' => $ticket->votes,
+                ]);
+            }
         }
 
-        return $this->render('tickets/vote.js.php');
+        if ($this->isJson) {
+            return $this->json([
+                'error' => l('errors.already_voted'),
+            ]);
+        }
+
+        return $this->redirectTo($ticket->href());
     }
 
     /**

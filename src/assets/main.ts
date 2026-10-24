@@ -20,26 +20,27 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import "./css/main.css"
-import "./main/FontAwesome"
-import EasyMDE from "easymde"
+import './css/main.css'
+import './main/FontAwesome'
+import EasyMDE from 'easymde'
 
 window.EasyMDE = EasyMDE
 
 // Alpinejs for simpler UI tasks
-import Alpine from "alpinejs"
+import Alpine from 'alpinejs'
 
-import "./main/Dropdown"
-import "./main/PopoverConfirm"
-import "./main/TicketTasks"
-import "./main/TicketTemplates"
-import "./main/RemoteMDE"
-import "./main/EasyMDE"
-import "./main/NavbarSearch"
-import "./main/TicketList"
-import "./main/RelatedTickets"
-import "./main/ProfileTickets"
-import "./stores/auth"
+import './main/Dropdown'
+import './main/PopoverConfirm'
+import './main/TicketTasks'
+import './main/TicketTemplates'
+import './main/RemoteMDE'
+import './main/EasyMDE'
+import './main/NavbarSearch'
+import './main/TicketList'
+import './main/RelatedTickets'
+import './main/ProfileTickets'
+import './main/Remote'
+import './stores/auth'
 
 window.Alpine = Alpine
 Alpine.start()
