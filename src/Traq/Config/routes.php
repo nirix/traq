@@ -98,7 +98,7 @@ Router::register('ticket.tasks.form.bit', '/_misc/ticket_tasks_bit', [TicketTask
 
 // Attachment routes
 Router::register('attachments.view', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', [Attachments::class, 'view']);
-Router::register('attachments.delete', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', [Attachments::class, 'delete'], methods: ['DELETE']);
+Router::register('attachments.delete', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)', [Attachments::class, 'delete'], methods: ['DELETE']);
 
 // ------------------------------------------------
 // Project routes
@@ -109,10 +109,11 @@ Router::register('project.roadmap.filtered', '/' . PROJECT_SLUG . '/roadmap/(?<f
 Router::register('project.changelog', '/' . PROJECT_SLUG . '/changelog', [ProjectController::class, 'changelog']);
 Router::register('project.milestone', '/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)', [ProjectController::class, 'viewMilestone']);
 Router::register('timeline', '/' . PROJECT_SLUG . '/timeline', [TimelineController::class, 'index']);
-Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>[0-9]+)/delete', [TimelineController::class, 'deleteEvent']);
+Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>[0-9]+)', [TimelineController::class, 'deleteEvent'], methods: ['DELETE']);
 
 // Ticket routes
-Router::register('tickets.new', '/' . PROJECT_SLUG . '/tickets/new', [TicketController::class, 'create']);
+Router::register('tickets.new', '/' . PROJECT_SLUG . '/tickets/new', [TicketController::class, 'newTicket']);
+Router::register('tickets.create', '/' . PROJECT_SLUG . '/tickets', [TicketController::class, 'create'], methods: ['POST']);
 Router::register('tickets.view', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', [TicketController::class, 'view']);
 Router::register('tickets.update', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/update', [TicketController::class, 'update'], methods: ['POST']);
 Router::register('tickets.move', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', [TicketController::class, 'move']);

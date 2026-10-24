@@ -356,11 +356,27 @@ class TicketController extends AppController
     }
 
     /**
-     *
-     * Handles the new ticket page and ticket creation.
+     * Handles the new ticket page.
      */
     #[AuthMiddleware(['create_tickets'])]
-    public function create()
+    public function newTicket(): Response
+    {
+        return $this->render('tickets/new.phtml', [
+            'customFields' => $this->custom_fields,
+            'ticket' => new Ticket(array(
+                'severity_id' => 4,
+                'priority_id' => 3,
+                'status_id'   => 1,
+                'type_id'     => $this->project->default_ticket_type_id
+            )),
+        ]);
+    }
+
+    /**
+     * Handles the creation of a new ticket.
+     */
+    #[AuthMiddleware(['create_tickets'])]
+    public function create(): Response
     {
         // Set the title
         $this->title(l('new_ticket'));

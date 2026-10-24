@@ -3,7 +3,7 @@
 <div class="new-ticket content">
 	<h2 class="page-title"><?= l('new_ticket') ?></h2>
 
-	<form action="<?= Request::requestUri() ?>" method="post">
+	<form action="<?= Request::base($project->href('tickets')) ?>" method="post">
 		<?= show_errors($ticket->errors) ?>
 
 		<div class="panel">

@@ -140,11 +140,6 @@ class TimelineController extends AppController
             return $this->json(['success' => false], Response::HTTP_FORBIDDEN);
         }
 
-        // Deleting is a POST (the confirm popover posts), and the event must belong to this project
-        if (Request::method() !== 'POST') {
-            return $this->show404();
-        }
-
         $event = Timeline::select()
             ->where('id', (int) $eventId)
             ->where('project_id', (int) $this->project->id)
@@ -157,13 +152,11 @@ class TimelineController extends AppController
 
         $event->delete();
 
-        if (!Request::isAjax()) {
+        if (!$this->isJson) {
             Request::redirectTo($this->project->href('timeline'));
         }
 
-        return [
-            'success' => true,
-        ];
+        return $this->json(['success' => true]);
     }
 
     /**
