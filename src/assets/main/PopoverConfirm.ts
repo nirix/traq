@@ -81,9 +81,18 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
         }
 
         const form = document.createElement('form')
-        form.setAttribute('method', method ?? 'post')
+        form.setAttribute('method', 'post')
         form.setAttribute('action', post)
         form.id = 'popover-confirm-post-form'
+
+        // set input value for _method
+        if (method) {
+          const methodInput = document.createElement('input')
+          methodInput.setAttribute('name', '_method')
+          methodInput.setAttribute('value', method)
+          form.append(methodInput)
+        }
+
         document.body.append(form)
         form.submit()
       }

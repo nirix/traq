@@ -115,11 +115,12 @@ Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>
 Router::register('tickets.new', '/' . PROJECT_SLUG . '/tickets/new', [TicketController::class, 'newTicket']);
 Router::register('tickets.create', '/' . PROJECT_SLUG . '/tickets', [TicketController::class, 'create'], methods: ['POST']);
 Router::register('tickets.view', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', [TicketController::class, 'view']);
-Router::register('tickets.update', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/update', [TicketController::class, 'update'], methods: ['POST']);
+Router::register('tickets.update', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', [TicketController::class, 'update'], methods: ['POST', 'PUT']);
 Router::register('tickets.move', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', [TicketController::class, 'move']);
-Router::register('tickets.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', [TicketController::class, 'delete']);
-Router::register('tickets.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/edit', [TicketController::class, 'edit']);
-Router::register('tickets.vote', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/vote', [TicketController::class, 'vote']);
+Router::register('tickets.move.post', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', [TicketController::class, 'move'], methods: ['POST']);
+Router::register('tickets.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', [TicketController::class, 'delete'], methods: ['DELETE']);
+Router::register('tickets.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/edit', [TicketController::class, 'edit'], methods: ['POST']);
+Router::register('tickets.vote', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/vote', [TicketController::class, 'vote'], methods: ['POST']);
 Router::register('tickets.voters', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/voters', [TicketController::class, 'voters']);
 Router::register('ticket.history.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/edit', [TicketHistoryController::class, 'edit']);
 Router::register('ticket.history.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/delete', [TicketHistoryController::class, 'delete']);

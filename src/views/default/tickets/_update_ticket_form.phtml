@@ -3,7 +3,8 @@
 		<h3><?= l('update_ticket') ?></h3>
 
 		<?= show_errors($ticket->errors) ?>
-		<form action="<?= Request::base($ticket->href('update')) ?>" method="post" id="update_tickets" enctype="multipart/form-data">
+		<form action="<?= Request::base($ticket->href()) ?>" method="post" id="update_tickets" enctype="multipart/form-data">
+			<input type="hidden" name="_method" value="PUT">
 			<div class="panel">
 				<?php if (currentUser()->permission($project->id, 'comment_on_tickets')) : ?>
 					<textarea name="comment" x-data x-mde="{ height: '100px' }"></textarea>

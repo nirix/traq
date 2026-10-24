@@ -9,7 +9,7 @@
 			<div class="btn-group">
 				<?= subscription_icon_for($ticket) ?>
 				<?php if (currentUser()->permission($ticket->project_id, 'delete_tickets')) : ?>
-					<button class="btn-danger btn-sm" x-data="popoverConfirm(<?= js_attr(['message' => l('confirm.delete_x', $ticket->summary), 'post' => Request::base($ticket->href('delete'))]) ?>)" @click="toggle()" title="<?= l('delete') ?>">
+					<button class="btn-danger btn-sm" x-data="popoverConfirm(<?= js_attr(['message' => l('confirm.delete_x', $ticket->summary), 'post' => Request::base($ticket->href()), 'method' => 'DELETE']) ?>)" @click="toggle()" title="<?= l('delete') ?>">
 						<span class="fas fa-fw fa-trash"></span>
 						<span class="visually-hidden"><?= l('delete') ?></span>
 					</button>
