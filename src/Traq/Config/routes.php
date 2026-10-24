@@ -146,10 +146,16 @@ Router::register('wiki.view', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\
 
 // Project settings routes
 Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'index']);
+Router::register('project.settings.save', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'save'], methods: ['POST']);
+
 Router::register('project.settings.milestones', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'index']);
 Router::register('project.settings.milestones.new', '/' . PROJECT_SLUG . '/settings/milestones/new', [MilestonesController::class, 'new']);
+Router::register('project.settings.milestones.create', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'create'], methods: ['POST']);
 Router::register('project.settings.milestones.edit', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)/edit', [MilestonesController::class, 'edit']);
+Router::register('project.settings.milestones.update', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)', [MilestonesController::class, 'update'], methods: ['PUT']);
 Router::register('project.settings.milestones.delete', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)/delete', [MilestonesController::class, 'delete']);
+Router::register('project.settings.milestones.performDelete', '/' . PROJECT_SLUG . '/settings/milestones/(?P<id>[0-9]+)', [MilestonesController::class, 'performDelete'], methods: ['DELETE']);
+
 Router::register('project.settings.components', '/' . PROJECT_SLUG . '/settings/components', [ComponentsController::class, 'index']);
 Router::register('project.settings.components.new', '/' . PROJECT_SLUG . '/settings/components/new', [ComponentsController::class, 'new']);
 Router::register('project.settings.components.edit', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)/edit', [ComponentsController::class, 'edit']);

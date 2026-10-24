@@ -1,5 +1,6 @@
 <h3><?= l('edit_milestone'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post">
+<form action="<?= Request::base($project->href('settings/milestones/' . $milestone->id)) ?>" method="post">
+	<input type="hidden" name="_method" value="put" />
 	<div class="content">
 		<?= view('project_settings/milestones/_form.phtml', ['milestone' => $milestone]); ?>
 	</div>

@@ -71,37 +71,48 @@ class MilestonesController extends AppController
 
         $milestone = new Milestone();
 
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            // Set the information
-            $milestone->set(array(
-                'name'         => Request::get('name'),
-                'slug'         => Request::get('slug'),
-                'codename'     => Request::get('codename'),
-                'info'         => Request::get('info'),
-                'due'          => Request::get('due') != '' ? Request::get('due') : null,
-                'project_id'   => $this->project->id,
-                'displayorder' => Request::get('displayorder') == '' ? 0 : Request::get('displayorder')
-            ));
-
-            // Check if the data is valid
-            if ($milestone->is_valid()) {
-                // Save and redirect
-                $milestone->save();
-
-                if ($this->isApi) {
-                    return $this->json([
-                        'milestone' => $milestone,
-                    ]);
-                } else {
-                    return $this->redirectTo($this->project->href('settings/milestones'));
-                }
-            }
-        }
-
         $view = Request::get('overlay') === 'true' ? 'new.overlay.phtml' : 'new.phtml';
 
         return $this->render('project_settings/milestones/' . $view, [
+            'milestone' => $milestone,
+        ]);
+    }
+
+    /**
+     * Create milestone.
+     */
+    public function create(): Response
+    {
+        $this->title(l('create'));
+
+        $milestone = new Milestone();
+
+        // Set the information
+        $milestone->set(array(
+            'name'         => Request::get('name'),
+            'slug'         => Request::get('slug'),
+            'codename'     => Request::get('codename'),
+            'info'         => Request::get('info'),
+            'due'          => Request::get('due') != '' ? Request::get('due') : null,
+            'project_id'   => $this->project->id,
+            'displayorder' => Request::get('displayorder') == '' ? 0 : Request::get('displayorder')
+        ));
+
+        // Check if the data is valid
+        if ($milestone->is_valid()) {
+            // Save and redirect
+            $milestone->save();
+
+            if ($this->isApi) {
+                return $this->json([
+                    'milestone' => $milestone,
+                ]);
+            } else {
+                return $this->redirectTo($this->project->href('settings/milestones'));
+            }
+        }
+
+        return $this->render('project_settings/milestones/new.phtml', [
             'milestone' => $milestone,
         ]);
     }
@@ -122,39 +133,50 @@ class MilestonesController extends AppController
             return $this->renderNoPermission();
         }
 
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            // Update the information
-            $milestone->set(array(
-                'name'         => Request::get('name', $milestone->name),
-                'slug'         => Request::get('slug', $milestone->slug),
-                'codename'     => Request::get('codename', $milestone->codename),
-                'info'         => Request::get('info', $milestone->info),
-                'due'          => Request::get('due') != '' ? Request::get('due') : null,
-                'status'       => Request::get('status', $milestone->status),
-                'displayorder' => Request::get('displayorder', $milestone->displayorder) == ''
-                    ? 0
-                    : Request::get('displayorder', $milestone->displayorder)
-            ));
-
-            // Make sure the data is valid
-            if ($milestone->is_valid()) {
-                // Save and redirect
-                $milestone->save();
-
-                if ($this->isApi) {
-                    return $this->json([
-                        'milestone' => $milestone,
-                    ]);
-                } else {
-                    return $this->redirectTo($this->project->href('settings/milestones'));
-                }
-            }
-        }
-
         $view = Request::get('overlay') === 'true' ? 'edit.overlay.phtml' : 'edit.phtml';
 
         return $this->render('project_settings/milestones/' . $view, [
+            'milestone' => $milestone,
+        ]);
+    }
+
+    /**
+     * Update milestone.
+     */
+    public function update(int $id): Response
+    {
+        $this->title(l('update'));
+
+        $milestone = Milestone::find($id);
+
+        // Update the information
+        $milestone->set(array(
+            'name'         => Request::get('name', $milestone->name),
+            'slug'         => Request::get('slug', $milestone->slug),
+            'codename'     => Request::get('codename', $milestone->codename),
+            'info'         => Request::get('info', $milestone->info),
+            'due'          => Request::get('due') != '' ? Request::get('due') : null,
+            'status'       => Request::get('status', $milestone->status),
+            'displayorder' => Request::get('displayorder', $milestone->displayorder) == ''
+                ? 0
+                : Request::get('displayorder', $milestone->displayorder)
+        ));
+
+        // Make sure the data is valid
+        if ($milestone->is_valid()) {
+            // Save and redirect
+            $milestone->save();
+
+            if ($this->isApi) {
+                return $this->json([
+                    'milestone' => $milestone,
+                ]);
+            } else {
+                return $this->redirectTo($this->project->href('settings/milestones'));
+            }
+        }
+
+        return $this->render('project_settings/milestones/edit.phtml', [
             'milestone' => $milestone,
         ]);
     }
@@ -175,20 +197,46 @@ class MilestonesController extends AppController
             return $this->renderNoPermission();
         }
 
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            // Move tickets
-            $this->db->update('tickets')->set(array('milestone_id' => $id))->where('milestone_id', $id)->exec();
-
-            // Delete milestone
-            $milestone->delete();
-
-            // Redirect
-            if ($this->isApi) {
-                return $this->json([
-                    'success' => true,
-                ]);
+        $milestones = $this->project->milestones->order_by('displayorder', 'DESC')->exec()->fetch_all();
+        $options = [];
+        foreach ($milestones as $milestone) {
+            // Skip the current milestone
+            if ($milestone->id === $id) {
+                continue;
             }
+
+            $options[] = [
+                'value' => $milestone->id,
+                'label' => $milestone->name,
+            ];
+        }
+
+        return $this->render('project_settings/milestones/delete.phtml', [
+            'milestone' => $milestone,
+            'milestoneOptions' => $options,
+        ]);
+    }
+
+    /**
+     * Perform delete milestone.
+     */
+    public function performDelete(int $id): Response
+    {
+        $this->title(l('delete'));
+
+        $milestone = Milestone::find($id);
+
+        // Move tickets
+        $this->db->update('tickets')->set(['milestone_id' => Request::get('milestone')])->where('milestone_id', $id)->exec();
+
+        // Delete milestone
+        $milestone->delete();
+
+        // Redirect
+        if ($this->isApi) {
+            return $this->json([
+                'success' => true,
+            ]);
         }
 
         return $this->redirectTo($this->project->href('settings/milestones'));

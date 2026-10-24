@@ -1,5 +1,5 @@
 <h3><?= l('new_milestone'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post">
+<form action="<?= Request::base($project->href('settings/milestones')) ?>" method="post">
 	<?php echo show_errors($milestone->errors); ?>
 	<div class="tabular box">
 		<?= view('project_settings/milestones/_form.phtml', ['milestone' => $milestone]); ?>
