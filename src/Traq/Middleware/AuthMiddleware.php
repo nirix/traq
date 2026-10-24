@@ -38,7 +38,7 @@ class AuthMiddleware implements MiddlewareInterface
     protected User $user;
     protected ?Project $project = null;
 
-    public function __construct(protected array $permissions = [], protected bool $requireAll = true, protected bool $admin = false)
+    public function __construct(protected array $permissions = [], protected bool $requireAll = true, protected bool $admin = false, protected bool $loggedIn = false)
     {
         $this->user = Request::attribute('current_user');
         $this->project = Request::attribute('project');
@@ -46,7 +46,8 @@ class AuthMiddleware implements MiddlewareInterface
 
     public function run(callable $next): Response
     {
-        if (!Request::attribute('loggedin')) {
+
+        if ($this->loggedIn && !Request::attribute('loggedin')) {
             return $this->noPermissionResponse();
         }
 

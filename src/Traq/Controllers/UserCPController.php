@@ -40,7 +40,7 @@ use Traq\Models\Subscription;
  * @package Traq
  * @subpackage Controllers
  */
-#[AuthMiddleware()]
+#[AuthMiddleware(loggedIn: true)]
 class UserCPController extends AppController
 {
     /**
