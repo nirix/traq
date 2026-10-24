@@ -83,7 +83,7 @@
 										<a href="<?= Request::base($attachment->href()) ?>"><span class="attachment-filename"><?= e($attachment->name) ?></span></a>,
 										<?= l('x_by_x', time_ago($attachment->created_at, false), HTML::link($attachment->user->name, $attachment->user->href())) ?>
 										<?php if (currentUser()->permission($ticket->project_id, 'delete_attachments')) : ?>
-											<button class="btn-danger btn-xs" title="<?= l('delete') ?>" x-data="popoverConfirm({ position: 'center', message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($attachment->href('/delete')) ?>', success: () => { document.getElementById('attachment-<?= $attachment->id ?>').remove() } })" @click="toggle()">
+											<button class="btn-danger btn-xs" title="<?= l('delete') ?>" x-data="popoverConfirm({ position: 'center', message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($attachment->href('/delete')) ?>', method: 'DELETE', success: () => { document.getElementById('attachment-<?= $attachment->id ?>').remove() } })" @click="toggle()">
 												<span class="fas fa-fw fa-trash"></span>
 												<span class="visually-hidden"><?= l('delete') ?></span>
 											</button>

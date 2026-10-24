@@ -99,6 +99,10 @@ class Attachments extends AppController
                 throw new \RuntimeException('Failed to delete attachment');
             }
 
+            if ($this->isJson) {
+                return $this->json(['success' => true]);
+            }
+
             return $this->redirectTo($ticketHref);
         } catch (\Exception $e) {
             return $this->createErrorResponse('Failed to delete attachment', 500);

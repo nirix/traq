@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -21,9 +21,8 @@
  */
 
 import Alpine from 'alpinejs'
-import axios from 'axios'
 
-Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, post }) => ({
+Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, post, method }) => ({
   open: false,
   loading: false,
   el: null as unknown as HTMLDivElement,
@@ -57,23 +56,32 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
       if (remote) {
         this.loading = true
 
-        axios.post(remote).then((resp) => {
-          this.open = false
-          this.loading = false
-          success(resp)
+        fetch(remote, {
+          method: method ?? 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }).then((resp) => {
+          if (resp.ok) {
+            this.open = false
+            this.loading = false
+            success(resp)
+          } else {
+            console.error(resp.statusText)
+          }
         })
 
         return
       }
 
       if (post) {
-
         if (post === true) {
           post = this.$el.getAttribute('href')
         }
 
         const form = document.createElement('form')
-        form.setAttribute('method', 'post')
+        form.setAttribute('method', method ?? 'post')
         form.setAttribute('action', post)
         form.id = 'popover-confirm-post-form'
         document.body.append(form)

@@ -154,7 +154,8 @@ input[type="reset"] {
   }
 
   &.btn-link {
-    @apply bg-transparent border-transparent;
+    @apply bg-transparent border-transparent p-0;
+    @apply text-sky-700 hover:text-sky-500;
     @apply active:ring-0 focus:ring-0;
   }
 }
@@ -190,8 +191,10 @@ input[type="reset"] {
   & > * {
     @apply rounded-none;
 
-    &:first-child {
+    &:first-child,
+    &:first-child > button {
       @apply rounded-l;
+      @apply rounded-r-none;
     }
 
     &:last-child {
