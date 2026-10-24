@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2022 Traq.io
- * Copyright (C) 2009-2022 Jack P.
+ * Copyright (C) 2009-2026 Traq.io
+ * Copyright (C) 2009-2026 Jack P.
  * https://github.com/nirix
  *
  * This file is part of Traq.
@@ -44,75 +44,7 @@ var traq = {
 // Language object
 var language = {}
 
-// Instead of that annoying popup confirm box
-// how about a nice simple popover box.
-// Credit to arturo182
-var popover_confirm = function (parent, message, callback) {
-  var outerDiv = jQuery('<div/>').addClass('popover_confirm')
-  var innerDiv = jQuery('<div/>')
-
-  innerDiv.append(
-    jQuery('<button/>', { text: language.yes }).click(function () {
-      jQuery('#popover').fadeOut('fast')
-      callback()
-      return false
-    }),
-  )
-  innerDiv.append(
-    jQuery('<button/>', { text: language.no }).click(function () {
-      jQuery('#popover').fadeOut('fast')
-      return false
-    }),
-  )
-
-  outerDiv.append(message)
-  outerDiv.append(innerDiv)
-
-  jQuery('#popover').stop(true, true).hide().empty().append(outerDiv)
-  jQuery('#popover').popover(parent)
-}
-
 jQuery(document).ready(function () {
-  // Add a confirm-on-click event to call elements
-  // with the data-confirm attribute.
-  jQuery(document).on('click', '[data-confirm]', function () {
-    var parent = jQuery(this)
-
-    popover_confirm(parent, parent.attr('data-confirm'), function () {
-      window.location.href = parent.attr('href')
-    })
-
-    return false
-  })
-
-  // Add a click event to all elements with
-  // the data-ajax attribute and send an ajax
-  // call to the href attrib value.
-  jQuery(document).on('click', '[data-ajax=1]', function () {
-    var e = jQuery(this)
-    $.ajax({
-      url: e.attr('href'),
-      dataType: 'script',
-    })
-    return false
-  })
-
-  // Add a click event to ajax-confirm elements
-  // that will confirm with the specified message
-  // then send an ajax request if accepted.
-  jQuery(document).on('click', '[data-ajax-confirm]', function () {
-    var e = jQuery(this)
-
-    popover_confirm(e, e.attr('data-ajax-confirm'), function () {
-      $.ajax({
-        url: e.attr('href'),
-        dataType: 'script',
-      })
-    })
-
-    return false
-  })
-
   // Add a click even to all elements with the
   // data-overlay attribute and load the elements
   // href value into the overlay container then show
@@ -158,19 +90,6 @@ jQuery(document).ready(function () {
     },
     '[title]:not(form abbr),[data-tooltip]:not(form abbr)',
   )
-
-  // Add a click event to all elements with
-  // a data-popover attribute.
-  jQuery(document).on('click', '[data-popover]', function () {
-    var parent = jQuery(this)
-    jQuery('#popover')
-      .stop(true, true)
-      .hide()
-      .load(jQuery(this).attr('data-popover') + '?popover=true', function () {
-        jQuery('#popover').popover(parent)
-      })
-    return false
-  })
 
   // Add a click event to all elements with
   // a data-popover-hover attribute.
