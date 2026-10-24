@@ -188,16 +188,20 @@ input[type="reset"] {
 .btn-group {
   @apply flex;
 
-  & > * {
+  & > *,
+  & > form > * {
     @apply rounded-none;
+  }
 
+  & > * {
     &:first-child,
     &:first-child > button {
       @apply rounded-l;
       @apply rounded-r-none;
     }
 
-    &:last-child {
+    &:last-child,
+    &:last-child > button {
       @apply rounded-r;
     }
   }
