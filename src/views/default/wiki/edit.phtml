@@ -5,7 +5,8 @@
 	<div id="head">
 		<h2 class="page-title"><?php echo l('edit_page'); ?></h2>
 	</div>
-	<form action="<?php echo Request::requestUri(); ?>" method="post">
+	<form action="<?= Request::base($project->href('wiki/' . $slug)) ?>" method="post">
+		<input type="hidden" name="_method" value="put" />
 		<?php echo show_errors($page->errors); ?>
 		<div class="tabular box">
 			<?php echo View::render('wiki/_form', array('page' => $page)); ?>
