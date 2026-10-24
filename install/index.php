@@ -203,31 +203,30 @@ post('/step/3', function () {
         ));
         $db_ver->save();
 
-        // Config file
-        $config = array();
-        $config[] = '<?php';
-        $config[] = '$db = array(';
-        foreach ($_SESSION['db'] as $key => $val) {
-            $config[] = '    \'' . $key . '\' => "' . $val . '",';
-        }
-        $config[] = ');';
-        $config = implode(PHP_EOL, $config);
+        // Create the config file
+        $dbConfig = array_map('strval', array_filter($_SESSION['db'], 'is_scalar'));
+        $config = "<?php\n\$db = " . var_export($dbConfig, true) . ";\n";
 
         // Write the config to file
         if (!file_exists('../data/config/database.php') && is_writable('../data/config')) {
-            $handle = fopen('../data/config/database.php', 'w+');
-            fwrite($handle, $config);
-            fclose($handle);
-            $config_created = true;
+            $configCreated = file_put_contents('../data/config/database.php', $config, LOCK_EX) !== false;
+            if ($configCreated) {
+                // Holds the database password, no need for it to be world readable
+                @chmod('../data/config/database.php', 0640);
+            }
+
+            if (!$configCreated) {
+                View::set('config_code', $config);
+            }
         }
         // Tell the user how to create the config file
         else {
             View::set('config_code', $config);
-            $config_created = false;
+            $configCreated = false;
         }
 
-        View::set('config_created', $config_created);
-        View::set('title', $config_created ? 'Complete' : 'Config File');
+        View::set('config_created', $configCreated);
+        View::set('title', $configCreated ? 'Complete' : 'Config File');
         render('done');
     }
 });
