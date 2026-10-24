@@ -1,5 +1,5 @@
 <h3><?= l('new_field'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base($project->href('settings/custom_fields')) ?>" method="post" class="overlay">
 	<?= show_errors($field->errors); ?>
 	<div class="content">
 		<?= view('project_settings/custom_fields/_form', ['field' => $field]); ?>

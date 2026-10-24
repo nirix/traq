@@ -69,59 +69,70 @@ class CustomFieldsController extends AppController
             'regex' => '^(.*)$'
         ));
 
-        // Check if the form has been submitted
-        if (Request::method() === 'POST') {
-            $data = [];
-
-            // Loop over properties
-            foreach (CustomField::properties() as $property) {
-                // The ID and project are never taken from the request
-                if (in_array($property, ['id', 'project_id'], true)) {
-                    continue;
-                }
-
-                // Check if it's set and not empty
-                if (isset(Request::$post[$property])) {
-                    $data[$property] = Request::$post[$property];
-                }
-            }
-
-            if (($data['min_length'] ?? '') == '') {
-                $data['min_length'] = 0;
-            }
-
-            if (($data['max_length'] ?? '') == '') {
-                $data['max_length'] = 255;
-            }
-
-            // Is required?
-            if (!isset(Request::$post['is_required'])) {
-                $data['is_required'] = 0;
-            }
-
-            // Project ID
-            $data['project_id'] = $this->project->id;
-
-            // Set field properties
-            $field->set($data);
-
-            // Save and redirect
-            if ($field->save()) {
-                if ($this->isApi) {
-                    return $this->json([
-                        'success' => true,
-                        'field' => $field,
-                    ]);
-                } else {
-                    return $this->redirectTo($this->project->href('settings/custom_fields'));
-                }
-            }
-        }
-
         $view = Request::get('overlay') === 'true' ? 'new.overlay.phtml' : 'new.phtml';
 
         // Send field object to view
         return $this->render("project_settings/custom_fields/{$view}", [
+            'field' => $field,
+        ]);
+    }
+
+    /**
+     * Create custom field.
+     */
+    public function create(): Response
+    {
+        $this->title(l('create'));
+
+        $field = new CustomField();
+
+        $data = [];
+
+        // Loop over properties
+        foreach (CustomField::properties() as $property) {
+            // The ID and project are never taken from the request
+            if (in_array($property, ['id', 'project_id'], true)) {
+                continue;
+            }
+
+            // Check if it's set and not empty
+            if (isset(Request::$post[$property])) {
+                $data[$property] = Request::$post[$property];
+            }
+        }
+
+        if (($data['min_length'] ?? '') == '') {
+            $data['min_length'] = 0;
+        }
+
+        if (($data['max_length'] ?? '') == '') {
+            $data['max_length'] = 255;
+        }
+
+        // Is required?
+        if (!isset(Request::$post['is_required'])) {
+            $data['is_required'] = 0;
+        }
+
+        // Project ID
+        $data['project_id'] = $this->project->id;
+
+        // Set field properties
+        $field->set($data);
+
+        // Save and redirect
+        if ($field->save()) {
+            if ($this->isApi) {
+                return $this->json([
+                    'success' => true,
+                    'field' => $field,
+                ]);
+            } else {
+                return $this->redirectTo($this->project->href('settings/custom_fields'));
+            }
+        }
+
+        return $this->render('project_settings/custom_fields/new.phtml', [
             'field' => $field,
         ]);
     }
@@ -141,63 +152,74 @@ class CustomFieldsController extends AppController
             return $this->renderNoPermission();
         }
 
-        // Check if the form has been submitted
-        if (Request::method() === 'POST') {
-            $data = [];
-
-            // Loop over properties
-            foreach (CustomField::properties() as $property) {
-                // The ID and project are never taken from the request
-                if (in_array($property, ['id', 'project_id'], true)) {
-                    continue;
-                }
-
-                // Check if it's set and not empty
-                if (isset(Request::$post[$property])) {
-                    $data[$property] = Request::$post[$property];
-                }
-            }
-
-            if (($data['min_length'] ?? '') == '') {
-                $data['min_length'] = 0;
-            }
-
-            if (($data['max_length'] ?? '') == '') {
-                $data['max_length'] = 255;
-            }
-
-            if ($this->isApi) {
-                $data['is_required'] = Request::get('is_required', $field->is_required);
-                $data['multiple'] = Request::get('multiple', $field->multiple);
-            } else {
-                $data['is_required'] = Request::get('is_required', 0);
-                $data['multiple'] = Request::get('multiple', 0);
-            }
-
-            // Set field properties
-            $field->set($data);
-
-            // Save and redirect
-            if ($field->save()) {
-                if ($this->isApi) {
-                    return $this->json([
-                        'field' => $field,
-                    ]);
-                } else {
-                    return $this->redirectTo($this->project->href('settings/custom_fields'));
-                }
-            } else {
-                return $this->json([
-                    'success' => false,
-                    'errors' => $field->errors(),
-                ]);
-            }
-        }
-
         $view = Request::get('overlay') === 'true' ? 'edit.overlay.phtml' : 'edit.phtml';
 
         // Send field object to view
         return $this->render("project_settings/custom_fields/{$view}", [
+            'field' => $field,
+        ]);
+    }
+
+    /**
+     * Update custom field.
+     */
+    public function update(int $id): Response
+    {
+        $this->title(l('update'));
+
+        $field = CustomField::find($id);
+
+        $data = [];
+
+        // Loop over properties
+        foreach (CustomField::properties() as $property) {
+            // The ID and project are never taken from the request
+            if (in_array($property, ['id', 'project_id'], true)) {
+                continue;
+            }
+
+            // Check if it's set and not empty
+            if (isset(Request::$post[$property])) {
+                $data[$property] = Request::$post[$property];
+            }
+        }
+
+        if (($data['min_length'] ?? '') == '') {
+            $data['min_length'] = 0;
+        }
+
+        if (($data['max_length'] ?? '') == '') {
+            $data['max_length'] = 255;
+        }
+
+        if ($this->isApi) {
+            $data['is_required'] = Request::get('is_required', $field->is_required);
+            $data['multiple'] = Request::get('multiple', $field->multiple);
+        } else {
+            $data['is_required'] = Request::get('is_required', 0);
+            $data['multiple'] = Request::get('multiple', 0);
+        }
+
+        // Set field properties
+        $field->set($data);
+
+        // Save and redirect
+        if ($field->save()) {
+            if ($this->isApi) {
+                return $this->json([
+                    'field' => $field,
+                ]);
+            } else {
+                return $this->redirectTo($this->project->href('settings/custom_fields'));
+            }
+        } else {
+            return $this->json([
+                'success' => false,
+                'errors' => $field->errors(),
+            ]);
+        }
+
+        return $this->render('project_settings/custom_fields/edit.phtml', [
             'field' => $field,
         ]);
     }

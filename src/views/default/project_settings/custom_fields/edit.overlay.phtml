@@ -1,5 +1,6 @@
 <h3><?= l('edit_field'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base($project->href('settings/custom_fields/' . $field->id)) ?>" method="post" class="overlay">
+	<input type="hidden" name="_method" value="put" />
 	<?= show_errors($field->errors); ?>
 	<div class="content">
 		<?= view('project_settings/custom_fields/_form', ['field' => $field]); ?>

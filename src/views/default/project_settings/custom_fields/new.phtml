@@ -6,7 +6,7 @@
 <?php view('project_settings/_nav'); ?>
 <div class="content">
 	<h3><?= l('new_field'); ?></h3>
-	<form action="<? Request::requestUri(); ?>" method="post">
+	<form action="<?= Request::base($project->href('settings/custom_fields')) ?>" method="post">
 		<?= show_errors($field->errors); ?>
 		<div class="tabular box">
 			<?= view('project_settings/custom_fields/_form', ['field' => $field]); ?>

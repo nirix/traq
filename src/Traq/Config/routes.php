@@ -147,6 +147,7 @@ Router::register('wiki.view', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\
 // Project settings routes
 Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'index']);
 Router::register('project.settings.save', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'save'], methods: ['POST']);
+Router::register('project.settings.permissions', '/' . PROJECT_SLUG . '/settings/permissions/(?P<type>groups|roles)', [PermissionsController::class, 'index']);
 
 Router::register('project.settings.milestones', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'index']);
 Router::register('project.settings.milestones.new', '/' . PROJECT_SLUG . '/settings/milestones/new', [MilestonesController::class, 'new']);
@@ -170,9 +171,10 @@ Router::register('project.settings.members.save', '/' . PROJECT_SLUG . '/setting
 
 Router::register('project.settings.customFields.index', '/' . PROJECT_SLUG . '/settings/custom_fields', [CustomFieldsController::class, 'index']);
 Router::register('project.settings.customFields.new', '/' . PROJECT_SLUG . '/settings/custom_fields/new', [CustomFieldsController::class, 'new']);
+Router::register('project.settings.customFields.create', '/' . PROJECT_SLUG . '/settings/custom_fields', [CustomFieldsController::class, 'create'], methods: ['POST']);
 Router::register('project.settings.customFields.edit', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)/edit', [CustomFieldsController::class, 'edit']);
-Router::register('project.settings.customFields.delete', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)/delete', [CustomFieldsController::class, 'delete']);
-Router::register('project.settings.permissions', '/' . PROJECT_SLUG . '/settings/permissions/(?P<type>groups|roles)', [PermissionsController::class, 'index']);
+Router::register('project.settings.customFields.update', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)', [CustomFieldsController::class, 'update'], methods: ['PUT']);
+Router::register('project.settings.customFields.delete', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)', [CustomFieldsController::class, 'delete'], methods: ['DELETE']);
 
 // Subscription routes
 Router::register('unsubscribe', '/unsubscribe/(?P<uuid>[\w\-]+)', [SubscriptionsController::class, 'unsubscribe']);
