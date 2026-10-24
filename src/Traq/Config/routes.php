@@ -147,7 +147,7 @@ Router::register('wiki.view', '/' . PROJECT_SLUG . '/wiki/(?P<slug>[a-zA-Z0-9\-\
 // Project settings routes
 Router::register('project.settings', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'index']);
 Router::register('project.settings.save', '/' . PROJECT_SLUG . '/settings', [ProjectSettingsController::class, 'save'], methods: ['POST']);
-Router::register('project.settings.permissions', '/' . PROJECT_SLUG . '/settings/permissions/(?P<type>groups|roles)', [PermissionsController::class, 'index']);
+Router::register('project.settings.permissions', '/' . PROJECT_SLUG . '/settings/permissions/(?P<type>groups|roles)', [PermissionsController::class, 'index'], methods: ['GET', 'POST']);
 
 Router::register('project.settings.milestones', '/' . PROJECT_SLUG . '/settings/milestones', [MilestonesController::class, 'index']);
 Router::register('project.settings.milestones.new', '/' . PROJECT_SLUG . '/settings/milestones/new', [MilestonesController::class, 'new']);
