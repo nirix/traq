@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -39,6 +39,12 @@ require_once DOCROOT . '/src/Traq/Config/routes.php';
 // Load common functions and version file
 require DOCROOT . '/src/Traq/common.php';
 require DOCROOT . '/src/Traq/version.php';
+
+// Security headers
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
 
 // Check for the database config file
 if (!file_exists(DATADIR . '/config/database.php')) {
