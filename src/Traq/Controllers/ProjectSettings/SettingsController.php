@@ -78,7 +78,7 @@ class SettingsController extends AppController
             if ($this->isApi) {
                 return $this->json(['project' => $project]);
             } else {
-                return Request::redirectTo($project->href('settings'));
+                return $this->redirectTo($project->href('settings'));
             }
         }
 
