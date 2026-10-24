@@ -8,7 +8,7 @@
 	<?php if (isset($errors)) : show_errors($errors);
 	endif; ?>
 
-	<form action="<?= Request::base($project->href("settings/members/new")) ?>" method="post" class="flex items-end">
+	<form action="<?= Request::base($project->href("settings/members")) ?>" method="post" class="flex items-end">
 		<div class="mr-2">
 			<?= Form::label(l('username'), 'username') ?>
 			<?= Form::text('username', array('data-autocomplete' => Request::base('/_ajax/autocomplete/username'))) ?>
@@ -23,7 +23,8 @@
 	</form>
 </div>
 <div>
-	<form action="<?= Request::base($project->href("settings/members/save")); ?>" method="post">
+	<form action="<?= Request::base($project->href("settings/members")); ?>" method="post">
+		<input type="hidden" name="_method" value="put" />
 		<table class="list">
 			<thead>
 				<tr>
@@ -38,8 +39,8 @@
 						<td><?= $rel->user->username ?></td>
 						<td><?= Form::select("role[{$rel->id}]", $projectRoles, ['value' => $rel->project_role_id]) ?></td>
 						<td class="text-right">
-							<a href="<?= Request::base($project->href("settings/members/{$rel->user_id}/delete")) ?>" class="btn-danger btn-sm"
-								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true })"
+							<a href="<?= Request::base($project->href("settings/members/{$rel->user_id}")) ?>" class="btn-danger btn-sm"
+								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true, method: 'delete' })"
 								@click.prevent="toggle()">
 								<i class="fas fa-fw fa-trash"></i>
 								<span class="sr-only"><?= l('delete'); ?></span>

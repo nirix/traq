@@ -56,7 +56,7 @@ class MembersController extends AppController
         ]);
     }
 
-    public function new()
+    public function add(): Response
     {
         // Get the user
         $user = User::find('username', Request::$post['username']);
@@ -102,27 +102,25 @@ class MembersController extends AppController
 
     public function save()
     {
-        if (Request::method() == 'POST') {
-            $roles = Request::$post['role'] ?? [];
+        $roles = Request::$post['role'] ?? [];
 
-            foreach (is_array($roles) ? $roles : [] as $userRoleId => $roleId) {
-                $userRole = UserRole::find((int) $userRoleId);
+        foreach (is_array($roles) ? $roles : [] as $userRoleId => $roleId) {
+            $userRole = UserRole::find((int) $userRoleId);
 
-                // Only members of this project, and only roles for this project
-                if (
-                    !$userRole
-                    || (int) $userRole->project_id !== (int) $this->project->id
-                    || !$this->isValidRole((int) $roleId)
-                ) {
-                    continue;
-                }
-
-                $userRole->project_role_id = (int) $roleId;
-                $userRole->save();
+            // Only members of this project, and only roles for this project
+            if (
+                !$userRole
+                || (int) $userRole->project_id !== (int) $this->project->id
+                || !$this->isValidRole((int) $roleId)
+            ) {
+                continue;
             }
 
-            return $this->redirectTo($this->project->href('settings/members'));
+            $userRole->project_role_id = (int) $roleId;
+            $userRole->save();
         }
+
+        return $this->redirectTo($this->project->href('settings/members'));
     }
 
     /**

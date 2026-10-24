@@ -164,9 +164,10 @@ Router::register('project.settings.components.update', '/' . PROJECT_SLUG . '/se
 Router::register('project.settings.components.delete', '/' . PROJECT_SLUG . '/settings/components/(?P<id>[0-9]+)', [ComponentsController::class, 'delete'], methods: ['DELETE']);
 
 Router::register('project.settings.members', '/' . PROJECT_SLUG . '/settings/members', [MembersController::class, 'index']);
-Router::register('project.settings.members.new', '/' . PROJECT_SLUG . '/settings/members/new', [MembersController::class, 'new']);
-Router::register('project.settings.members.delete', '/' . PROJECT_SLUG . '/settings/members/(?P<id>[0-9]+)/delete', [MembersController::class, 'delete']);
-Router::register('project.settings.members.save', '/' . PROJECT_SLUG . '/settings/members/save', [MembersController::class, 'save']);
+Router::register('project.settings.members.add', '/' . PROJECT_SLUG . '/settings/members', [MembersController::class, 'add'], methods: ['POST']);
+Router::register('project.settings.members.delete', '/' . PROJECT_SLUG . '/settings/members/(?P<id>[0-9]+)', [MembersController::class, 'delete'], methods: ['DELETE']);
+Router::register('project.settings.members.save', '/' . PROJECT_SLUG . '/settings/members', [MembersController::class, 'save'], methods: ['PUT']);
+
 Router::register('project.settings.customFields.index', '/' . PROJECT_SLUG . '/settings/custom_fields', [CustomFieldsController::class, 'index']);
 Router::register('project.settings.customFields.new', '/' . PROJECT_SLUG . '/settings/custom_fields/new', [CustomFieldsController::class, 'new']);
 Router::register('project.settings.customFields.edit', '/' . PROJECT_SLUG . '/settings/custom_fields/(?P<id>[0-9]+)/edit', [CustomFieldsController::class, 'edit']);
