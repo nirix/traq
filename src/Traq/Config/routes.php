@@ -56,18 +56,26 @@ use Traq\Controllers\Wiki;
 
 const PROJECT_SLUG = '(?P<project_slug>[a-zA-Z0-9\-\_]+)';
 
-Router::register('root', 'root', [ProjectController::class, 'index']);
+Router::register('root', '/', [ProjectController::class, 'index']);
+Router::register('404', '404', [ErrorController::class, 'error404']);
 
-Router::register('errors.404', '404', [ErrorController::class, 'error404']);
 Router::register('users.login', '/login', [UserController::class, 'login']);
+Router::register('users.login.post', '/login', [UserController::class, 'createSession'], methods: ['POST']);
 Router::register('users.logout', '/logout', [UserController::class, 'logout']);
 Router::register('users.register', '/register', [UserController::class, 'register']);
+Router::register('users.register.post', '/register', [UserController::class, 'createAccount'], methods: ['POST']);
 Router::register('users.validate', '/users/validate/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'validate']);
-Router::register('users.resetPassword', '/login/resetpassword', [UserController::class, 'resetPassword']);
-Router::register('users.resetPassword.key', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPassword']);
+Router::register('users.reset_password', '/login/resetpassword', [UserController::class, 'resetPassword']);
+Router::register('users.reset_password.post', '/login/resetpassword', [UserController::class, 'sendResetPasswordEmail'], methods: ['POST']);
+Router::register('users.reset_password.key', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPasswordWithKey']);
+Router::register('users.reset_password.save', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPasswordSave'], methods: ['POST']);
+
 Router::register('usercp', '/usercp', [UserCPController::class, 'index']);
+Router::register('usercp.post', '/usercp', [UserCPController::class, 'saveInfo'], methods: ['POST']);
 Router::register('usercp.password', '/usercp/password', [UserCPController::class, 'password']);
+Router::register('usercp.password.post', '/usercp/password', [UserCPController::class, 'savePassword'], methods: ['POST']);
 Router::register('usercp.subscriptions', '/usercp/subscriptions', [UserCPController::class, 'subscriptions']);
+Router::register('usercp.subscriptions.unsubscribe', '/usercp/subscriptions/(?P<id>[0-9]+)/unsubscribe', [UserCPController::class, 'unsubscribe'], methods: ['POST', 'DELETE']);
 Router::register('usercp.create_api_key', '/usercp/create_api_key', [UserCPController::class, 'createApiKey']);
 Router::register('profile', '/users/(?P<id>[0-9]+)', [ProfileController::class, 'view']);
 
@@ -81,7 +89,7 @@ Router::register('api.priorities', '/api/priorities', ['\Traq\Controllers\ApiCon
 Router::register('api.components', '/api/' . PROJECT_SLUG . '/components', ['\Traq\Controllers\ApiController', 'components']);
 Router::register('api.customFields', '/api/' . PROJECT_SLUG . '/custom-fields', ['\Traq\Controllers\ApiController', 'customFields']);
 Router::register('api.projectMembers', '/api/' . PROJECT_SLUG . '/members', ['\Traq\Controllers\ApiController', 'projectMembers']);
-Router::register('search', '/api/search', [SearchController::class, 'search']);
+Router::register('search', '/api/search', [SearchController::class, 'search'], methods: ['POST']);
 
 // Misc
 Router::register('misc.javascript', '/_js(?:.js)?', [MiscController::class, 'javascript']);
@@ -90,7 +98,7 @@ Router::register('ticket.tasks.form.bit', '/_misc/ticket_tasks_bit', [TicketTask
 
 // Attachment routes
 Router::register('attachments.view', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.]+)', [Attachments::class, 'view']);
-Router::register('attachments.delete', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', [Attachments::class, 'delete']);
+Router::register('attachments.delete', '/attachments/(?P<attachment_id>[0-9]+)/([a-zA-Z0-9\-_.\s]+)/delete', [Attachments::class, 'delete'], methods: ['DELETE']);
 
 // ------------------------------------------------
 // Project routes
@@ -106,7 +114,7 @@ Router::register('timeline.delete', '/' . PROJECT_SLUG . '/timeline/(?P<eventId>
 // Ticket routes
 Router::register('tickets.new', '/' . PROJECT_SLUG . '/tickets/new', [TicketController::class, 'create']);
 Router::register('tickets.view', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)', [TicketController::class, 'view']);
-Router::register('tickets.update', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/update', [TicketController::class, 'update']);
+Router::register('tickets.update', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/update', [TicketController::class, 'update'], methods: ['POST']);
 Router::register('tickets.move', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/move', [TicketController::class, 'move']);
 Router::register('tickets.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/delete', [TicketController::class, 'delete']);
 Router::register('tickets.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/edit', [TicketController::class, 'edit']);
@@ -152,9 +160,9 @@ Router::register('project.settings.permissions', '/' . PROJECT_SLUG . '/settings
 
 // Subscription routes
 Router::register('unsubscribe', '/unsubscribe/(?P<uuid>[\w\-]+)', [SubscriptionsController::class, 'unsubscribe']);
-Router::register('project_subunsub', '/' . PROJECT_SLUG . '/(?:un)?subscribe', [SubscriptionsController::class, 'toggleProject']);
-Router::register('milestone_subunsub', '/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)/(?:un)?subscribe', [SubscriptionsController::class, 'toggleMilestone']);
-Router::register('ticket_subunsub', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscribe', [SubscriptionsController::class, 'toggleTicket']);
+Router::register('project_subunsub', '/' . PROJECT_SLUG . '/(?:un)?subscribe', [SubscriptionsController::class, 'toggleProject'], methods: ['POST', 'DELETE']);
+Router::register('milestone_subunsub', '/' . PROJECT_SLUG . '/milestone/(?P<milestone_slug>[a-zA-Z0-9\-_.]+?)/(?:un)?subscribe', [SubscriptionsController::class, 'toggleMilestone'], methods: ['POST', 'DELETE']);
+Router::register('ticket_subunsub', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/(?:un)?subscribe', [SubscriptionsController::class, 'toggleTicket'], methods: ['POST', 'DELETE']);
 
 // ------------------------------------------------
 // AdminCP routes

@@ -24,6 +24,7 @@
 namespace Traq\Controllers;
 
 use Avalon\Http\Request;
+use Avalon\Http\Response;
 use Avalon\Output\View;
 use \FishHook;
 use Traq\Controllers\AppController;
@@ -45,37 +46,48 @@ class UserCPController extends AppController
     /**
      * The index page.
      */
-    public function index()
+    public function index(): Response
     {
         // Clone the logged in user object
         $user = clone $this->user;
 
         // Has the form been submitted?
         if (Request::method() == 'POST') {
-            $data = array(
-                'name'   => Request::get('name', $user->name),
-                'email'  => Request::get('email', $user->email),
-                'locale' => Request::get('locale', $user->locale)
-            );
-
-            FishHook::add('controller:users::usercp/save', array(&$data));
-
-            // Set the info
-            $user->set($data);
-            $user->option('watch_created_tickets', Request::get('watch_created_tickets'));
-
-            // Save the user
-            if ($user->save()) {
-                // Redirect if successful
-                if ($this->isJson) {
-                    return $this->json(['user' => $user]);
-                } else {
-                    return $this->redirectTo(Request::requestUri());
-                }
-            }
         }
 
         View::set('user', $user);
+
+        return $this->render('usercp/index.phtml');
+    }
+
+    /**
+     * Save the user info.
+     */
+    public function saveInfo(): Response
+    {
+        $user = clone $this->user;
+
+        $data = array(
+            'name'   => Request::get('name', $user->name),
+            'email'  => Request::get('email', $user->email),
+            'locale' => Request::get('locale', $user->locale)
+        );
+
+        FishHook::add('controller:users::usercp/save', array(&$data));
+
+        // Set the info
+        $user->set($data);
+        $user->option('watch_created_tickets', Request::get('watch_created_tickets'));
+
+        // Save the user
+        if ($user->save()) {
+            // Redirect if successful
+            if ($this->isJson) {
+                return $this->json(['user' => $user]);
+            } else {
+                return $this->redirectTo(Request::requestUri());
+            }
+        }
 
         return $this->render('usercp/index.phtml');
     }
@@ -88,30 +100,35 @@ class UserCPController extends AppController
         // Clone the logged in user object
         $user = clone $this->user;
 
-        if (Request::method() == 'POST') {
-            $data = [
-                'old_password'     => Request::post('password', ''),
-                'new_password'     => Request::post('new_password', ''),
-                'confirm_password' => Request::post('confirm_password', '')
-            ];
+        View::set('user', $user);
 
-            FishHook::add('controller:users::usercp/password/save', array(&$data));
+        return $this->render('usercp/password.phtml');
+    }
 
-            // Set the info
-            $user->set($data);
+    public function savePassword(): Response
+    {
+        $user = clone $this->user;
 
-            if ($user->is_valid()) {
-                $user->set_password($data['new_password']);
+        $data = [
+            'old_password'     => Request::post('password', ''),
+            'new_password'     => Request::post('new_password', ''),
+            'confirm_password' => Request::post('confirm_password', '')
+        ];
 
-                // Save the user
-                if ($user->save()) {
-                    setSessionCookie($user->login_hash);
-                    Request::redirect(Request::requestUri());
-                }
+        FishHook::add('controller:users::usercp/password/save', array(&$data));
+
+        // Set the info
+        $user->set($data);
+
+        if ($user->is_valid()) {
+            $user->set_password($data['new_password']);
+
+            // Save the user
+            if ($user->save()) {
+                setSessionCookie($user->login_hash);
+                return $this->redirectTo(Request::requestUri());
             }
         }
-
-        View::set('user', $user);
 
         return $this->render('usercp/password.phtml');
     }
@@ -137,5 +154,22 @@ class UserCPController extends AppController
         View::set('user', $this->user);
 
         return $this->render('usercp/subscriptions.phtml');
+    }
+
+    /**
+     * Remove one of the current user's subscriptions.
+     */
+    public function unsubscribe(string $id): Response
+    {
+        $subscription = Subscription::select()->where([
+            ['id', $id],
+            ['user_id', $this->user->id],
+        ])->exec()->fetch();
+
+        if ($subscription) {
+            $subscription->delete();
+        }
+
+        return $this->redirectTo('/usercp/subscriptions');
     }
 }

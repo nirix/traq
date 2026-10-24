@@ -1,13 +1,17 @@
 <?php
 $subbed = is_subscribed(currentUser(), $object);
 $subunsub = $subbed ? 'unsubscribe' : 'subscribe';
+$method = $subbed ? 'DELETE' : 'POST';
 $icon = $icon ?? false;
 ?>
-<a href="<?= Request::base($object->href($subunsub)) ?>" class="<?= $icon ? 'btn-info btn-sm' : '' ?>" <?= $icon ? 'title="' . l($subunsub) . '"' : '' ?>>
-    <?php if ($icon) : ?>
-        <span class="fas fa-fw fa-<?= $subbed ? 'eye-slash' : 'eye' ?>"></span>
-        <span class="visually-hidden"><?= l($subunsub) ?></span>
-    <?php else : ?>
-        <?= l($subunsub) ?>
-    <?php endif; ?>
-</a>
+<form action="<?= Request::base($object->href($subunsub)) ?>" method="post" class="inline">
+    <input type="hidden" name="_method" value="<?= $method ?>">
+    <button type="submit" class="<?= $icon ? 'btn-info btn-sm' : 'btn-link' ?>">
+        <?php if ($icon) : ?>
+            <span class="fas fa-fw fa-<?= $subbed ? 'eye-slash' : 'eye' ?>"></span>
+            <span class="visually-hidden"><?= l($subunsub) ?></span>
+        <?php else : ?>
+            <?= l($subunsub) ?>
+        <?php endif; ?>
+    </button>
+</form>

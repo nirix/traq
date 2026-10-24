@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack P.
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack P.
+ * Copyright (C) 2012-2026 Traq.io
  *
  * This file is part of Traq.
  *
@@ -345,7 +345,9 @@ class enUS extends Locale
                 'unsubscribe' => [
                     'title' => 'Unsubscribed',
                     'message' => "You've been unsubscribed, you will no longer receive notifications related to the {1} {2}"
-                ]
+                ],
+
+                'no_subscriptions' => "You are not subscribed to any tickets or projects."
             ],
 
             // Permissions

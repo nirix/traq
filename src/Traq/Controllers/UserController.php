@@ -53,15 +53,10 @@ class UserController extends AppController
         // Set the title
         $this->title(l('login'));
 
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            return $this->createSession();
-        }
-
         return $this->render('users/login.phtml');
     }
 
-    private function createSession()
+    public function createSession(): Response
     {
         $user = User::find('username', Request::$post['username']);
 
@@ -120,17 +115,12 @@ class UserController extends AppController
 
         $user = new User;
 
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            return $this->createAccount();
-        }
-
         $this->set(compact('user', 'validation_required'));
 
         return $this->render('users/register.phtml');
     }
 
-    private function createAccount(): Response
+    public function createAccount(): Response
     {
         // Build the data array
         $data = array(
@@ -209,32 +199,38 @@ class UserController extends AppController
         }
 
         if (Request::method() == 'POST') {
-            $user = User::find('username', (string) Request::post('username', ''));
-
-            if ($user) {
-                // Only a hash of the key is stored, the key itself is only in the email
-                $key = random_hash();
-                $user->option('reset_password_key', hash('sha256', $key));
-                $user->option('reset_password_expires', time() + 3600);
-                $user->save();
-
-                Notification::send(
-                    $user,
-                    l('notifications.password_reset.subject'),
-                    l(
-                        'notifications.password_reset.message',
-                        settings('title'),
-                        $user->name,
-                        $user->username,
-                        absolute_url("login/resetpassword/{$key}"),
-                        $_SERVER['REMOTE_ADDR']
-                    )
-                );
-            }
-
-            // Same response whether or not the account exists
-            $this->set('reset_email_sent', true);
         }
+
+        return $this->render('users/reset_password.phtml');
+    }
+
+    public function sendResetPasswordEmail(): Response
+    {
+        $user = User::find('username', (string) Request::post('username', ''));
+
+        if ($user) {
+            // Only a hash of the key is stored, the key itself is only in the email
+            $key = random_hash();
+            $user->option('reset_password_key', hash('sha256', $key));
+            $user->option('reset_password_expires', time() + 3600);
+            $user->save();
+
+            Notification::send(
+                $user,
+                l('notifications.password_reset.subject'),
+                l(
+                    'notifications.password_reset.message',
+                    settings('title'),
+                    $user->name,
+                    $user->username,
+                    absolute_url("login/resetpassword/{$key}"),
+                    $_SERVER['REMOTE_ADDR']
+                )
+            );
+        }
+
+        // Same response whether or not the account exists
+        $this->set('reset_email_sent', true);
 
         return $this->render('users/reset_password.phtml');
     }
@@ -252,29 +248,36 @@ class UserController extends AppController
             return $this->render('users/reset_password.phtml');
         }
 
-        if (Request::method() == 'POST') {
-            $password = Request::post('new_password', '');
-            $confirm = Request::post('confirm_password', '');
+        $this->set('reset_key', $key);
 
-            if (!is_string($password) || $password === '') {
-                $this->set('password_error', l('errors.users.new_password_blank'));
-            } elseif ($password !== $confirm) {
-                $this->set('password_error', l('errors.users.invalid_confirm_password'));
-            } else {
-                // Single use, also signs out any existing sessions
-                $user->set_password($password);
-                $user->option('reset_password_key', null);
-                $user->option('reset_password_expires', null);
-                $user->save();
+        return $this->render('users/reset_password.phtml');
+    }
 
-                $this->set('password_reset', true);
+    public function resetPasswordSave(string $key): Response
+    {
+        $user = User::select()
+            ->where('options', '%"reset_password_key":"' . hash('sha256', $key) . '"%', 'LIKE')
+            ->exec()
+            ->fetch();
 
-                return $this->render('users/reset_password.phtml');
-            }
+        $password = Request::post('new_password', '');
+        $confirm = Request::post('confirm_password', '');
+
+        if (!is_string($password) || $password === '') {
+            $this->set('password_error', l('errors.users.new_password_blank'));
+        } elseif ($password !== $confirm) {
+            $this->set('password_error', l('errors.users.invalid_confirm_password'));
+        } else {
+            // Single use, also signs out any existing sessions
+            $user->set_password($password);
+            $user->option('reset_password_key', null);
+            $user->option('reset_password_expires', null);
+            $user->save();
+
+            $this->set('password_reset', true);
         }
 
         $this->set('reset_key', $key);
-
         return $this->render('users/reset_password.phtml');
     }
 

@@ -21,8 +21,18 @@
 				<?php elseif ($sub->type == 'ticket') : ?>
 					<td><?= HTML::link($sub->object()->summary, $sub->object()->href()) ?></td>
 				<?php endif; ?>
-				<td><?= HTML::link(l('unsubscribe'), $sub->object()->href('unsubscribe')); ?></td>
+				<td>
+					<form action="<?= Request::base($sub->object()->href('unsubscribe')) ?>" method="post" class="inline">
+						<input type="hidden" name="_method" value="DELETE">
+						<button type="submit" class="btn-link"><?= l('unsubscribe') ?></button>
+					</form>
+				</td>
 			</tr>
 		<?php endforeach; ?>
+		<?php if (empty($subscriptions)) : ?>
+			<tr>
+				<td colspan="3" class="text-center"><?= l('subscriptions.no_subscriptions') ?></td>
+			</tr>
+		<?php endif; ?>
 	</tbody>
 </table>
