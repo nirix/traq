@@ -76,7 +76,7 @@ post('/step/2', function () {
         render('database_config');
     }
     // Make sure there's no Traq installed here
-    else if (false && is_installed(array_merge(array('driver' => 'pdo'), $_POST))) {
+    else if (is_installed(array_merge(array('driver' => 'pdo'), $_POST))) {
         InstallError::halt('Error', 'Traq is already installed.');
     }
     // Confirm details
