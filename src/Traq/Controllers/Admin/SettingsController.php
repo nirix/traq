@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -25,7 +25,7 @@ namespace Traq\Controllers\Admin;
 
 use Avalon\Database;
 use Avalon\Http\Request;
-use Avalon\Output\View;
+use Avalon\Http\Response;
 
 /**
  * Admin Settings controller
@@ -40,42 +40,44 @@ class SettingsController extends AppController
     /**
      * Traq Settings page
      */
-    public function index()
+    public function index(): Response
     {
         $this->title(l('settings'));
 
-        // Check if the form has been submitted.
-        if (Request::method() === 'POST') {
-            $_settings = Request::$post['settings'];
+        return $this->render('admin/settings/index.phtml');
+    }
 
-            $errors = [];
+    public function save(): Response
+    {
+        $this->title(l('settings'));
 
-            // Check title
-            if (empty($_settings['title'])) {
-                $errors['title'] = l('errors.settings.title_blank');
-            }
+        $_settings = Request::$post['settings'];
 
-            // Check select fields
-            foreach (['locale', 'theme', 'allow_registration'] as $select) {
-                if (!isset($_settings[$select])) {
-                    $errors[$select] = l("errors.settings.{$select}_blank");
-                }
-            }
+        $errors = [];
 
-            // Check for errors
-            if (!count($errors)) {
-                foreach ($_settings as $_setting => $_value) {
-                    Database::connection()->update('settings')->set(['value' => $_value])->where('setting', $_setting)->exec();
-                }
-
-                return $this->redirectTo(Request::requestUri());
-            }
-
-            return $this->render('admin/settings/index.phtml', [
-                'errors' => $errors,
-            ]);
+        // Check title
+        if (empty($_settings['title'])) {
+            $errors['title'] = l('errors.settings.title_blank');
         }
 
-        return $this->render('admin/settings/index.phtml');
+        // Check select fields
+        foreach (['locale', 'theme', 'allow_registration'] as $select) {
+            if (!isset($_settings[$select])) {
+                $errors[$select] = l("errors.settings.{$select}_blank");
+            }
+        }
+
+        // Check for errors
+        if (!count($errors)) {
+            foreach ($_settings as $_setting => $_value) {
+                Database::connection()->update('settings')->set(['value' => $_value])->where('setting', $_setting)->exec();
+            }
+
+            return $this->redirectTo(Request::requestUri());
+        }
+
+        return $this->render('admin/settings/index.phtml', [
+            'errors' => $errors,
+        ]);
     }
 }

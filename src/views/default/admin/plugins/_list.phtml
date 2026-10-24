@@ -14,27 +14,39 @@
 				<td>
 					<div class=" btn-group justify-end">
 						<?php if ($plugin['installed'] && $plugin['enabled']) : ?>
-							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/disable") ?>" class="btn-warning" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('disable') ?>">
-								<i class="fas fa-fw fa-plug-circle-minus"></i>
-								<span class="visually-hidden"><?= l('disable') ?></span>
-							</a>
+							<form action="<?= Request::base("/admin/plugins/{$plugin['file']}/disable") ?>" method="post" class="inline">
+								<input type="hidden" name="_method" value="delete" />
+								<button type="submit" class="btn-warning" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('disable') ?>">
+									<i class="fas fa-fw fa-plug-circle-minus"></i>
+									<span class="visually-hidden"><?= l('disable') ?></span>
+								</button>
+							</form>
 						<?php elseif ($plugin['installed'] && !$plugin['enabled']) : ?>
-							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/enable") ?>" class="btn-success" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('enable') ?>">
-								<i class="fas fa-fw fa-plug-circle-plus"></i>
-								<span class="visually-hidden"><?= l('enable') ?></span>
-							</a>
+							<form action="<?= Request::base("/admin/plugins/{$plugin['file']}/enable") ?>" method="post" class="inline">
+								<input type="hidden" name="_method" value="post" />
+								<button type="submit" class="btn-success" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('enable') ?>">
+									<i class="fas fa-fw fa-plug-circle-plus"></i>
+									<span class="visually-hidden"><?= l('enable') ?></span>
+								</button>
+							</form>
 						<?php endif; ?>
 
 						<?php if ($plugin['installed']) : ?>
-							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/uninstall") ?>" class="btn-danger" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('uninstall') ?>">
-								<i class="fas fa-fw fa-plug-circle-xmark"></i>
-								<span class="visually-hidden"><?= l('uninstall') ?></span>
-							</a>
+							<form action="<?= Request::base("/admin/plugins/{$plugin['file']}/uninstall") ?>" method="post" class="inline">
+								<input type="hidden" name="_method" value="delete" />
+								<button type="submit" class="btn-danger" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('uninstall') ?>">
+									<i class="fas fa-fw fa-plug-circle-xmark"></i>
+									<span class="visually-hidden"><?= l('uninstall') ?></span>
+								</button>
+							</form>
 						<?php else : ?>
-							<a href="<?= Request::base("/admin/plugins/{$plugin['file']}/install") ?>" class="btn-success" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('install') ?>">
-								<i class="fas fa-fw fa-plug-circle-xmark"></i>
-								<span class="visually-hidden"><?= l('install') ?></span>
-							</a>
+							<form action="<?= Request::base("/admin/plugins/{$plugin['file']}/install") ?>" method="post" class="inline">
+								<input type="hidden" name="_method" value="post" />
+								<button type="submit" class="btn-success" icon="fas fa-fw fa-plug-circle-plus" title="<?= l('install') ?>">
+									<i class="fas fa-fw fa-plug-circle-xmark"></i>
+									<span class="visually-hidden"><?= l('install') ?></span>
+								</button>
+							</form>
 						<?php endif; ?>
 					</div>
 				</td>

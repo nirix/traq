@@ -65,31 +65,41 @@ class ProjectsController extends AppController
 
         $project = new Project;
 
-        if (Request::method() == 'POST') {
-            $project->set(array(
-                'name'         => Request::get('name'),
-                'slug'         => Request::get('slug'),
-                'codename'     => Request::get('codename'),
-                'info'         => Request::get('info'),
-                'enable_wiki'  => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0),
-                'default_ticket_type_id' => Request::get('default_ticket_type_id'),
-                'default_ticket_sorting' => Request::get('default_ticket_sorting'),
-                'displayorder' => Request::get('displayorder', 0)
-            ));
+        return $this->render('admin/projects/new.phtml', ['proj' => $project]);
+    }
 
-            if (!is_numeric($project->displayorder)) {
-                $project->displayorder = 0;
-            }
+    /**
+     * Create a new project.
+     */
+    public function create(): Response
+    {
+        $this->title(l('new'));
 
-            // Save project
-            if ($project->save()) {
-                // Is this an API request?
-                if ($this->isApi) {
-                    // Return JSON formatted response
-                    return $this->json(['project' => $project]);
-                } else {
-                    Request::redirectTo('admin/projects');
-                }
+        $project = new Project;
+
+        $project->set(array(
+            'name'         => Request::get('name'),
+            'slug'         => Request::get('slug'),
+            'codename'     => Request::get('codename'),
+            'info'         => Request::get('info'),
+            'enable_wiki'  => (isset(Request::$post['enable_wiki']) ? Request::$post['enable_wiki'] : 0),
+            'default_ticket_type_id' => Request::get('default_ticket_type_id'),
+            'default_ticket_sorting' => Request::get('default_ticket_sorting'),
+            'displayorder' => Request::get('displayorder', 0)
+        ));
+
+        if (!is_numeric($project->displayorder)) {
+            $project->displayorder = 0;
+        }
+
+        // Save project
+        if ($project->save()) {
+            // Is this an API request?
+            if ($this->isApi) {
+                // Return JSON formatted response
+                return $this->json(['project' => $project]);
+            } else {
+                return $this->redirectTo('admin/projects');
             }
         }
 

@@ -186,18 +186,20 @@ Router::register('ticket_subunsub', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id
 // AdminCP routes
 Router::register('admin.dashboard', '/admin', [DashboardController::class, 'index']);
 Router::register('admin.settings', '/admin/settings', [AdminSettingsController::class, 'index']);
+Router::register('admin.settings.save', '/admin/settings', [AdminSettingsController::class, 'save'], methods: ['POST', 'PUT']);
 
 // Projects
 Router::register('admin.projects', '/admin/projects', [ProjectsController::class, 'index']);
 Router::register('admin.projects.new', '/admin/projects/new', [ProjectsController::class, 'new']);
-Router::register('admin.projects.delete', '/admin/projects/(?P<id>[0-9]+)/delete', [ProjectsController::class, 'delete']);
+Router::register('admin.projects.create', '/admin/projects', [ProjectsController::class, 'create'], methods: ['POST']);
+Router::register('admin.projects.delete', '/admin/projects/(?P<id>[0-9]+)', [ProjectsController::class, 'delete'], methods: ['DELETE']);
 
 // Plugins
 Router::register('plugins', '/admin/plugins', [Plugins::class, 'index']);
-Router::register('plugins.install', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/install', [Plugins::class, 'install']);
-Router::register('plugins.enable', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/enable', [Plugins::class, 'enable']);
-Router::register('plugins.disable', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/disable', [Plugins::class, 'disable']);
-Router::register('plugins.uninstall', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/uninstall', [Plugins::class, 'uninstall']);
+Router::register('plugins.install', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/install', [Plugins::class, 'install'], methods: ['POST']);
+Router::register('plugins.enable', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/enable', [Plugins::class, 'enable'], methods: ['POST']);
+Router::register('plugins.disable', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/disable', [Plugins::class, 'disable'], methods: ['DELETE']);
+Router::register('plugins.uninstall', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)/uninstall', [Plugins::class, 'uninstall'], methods: ['DELETE']);
 
 // Users
 Router::register('admin.users', '/admin/users', [AdminUsersController::class, 'index']);
