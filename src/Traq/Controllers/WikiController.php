@@ -40,7 +40,7 @@ use Traq\Models\Timeline;
  * @package Traq
  * @subpackage Controllers
  */
-class Wiki extends AppController
+class WikiController extends AppController
 {
     // Before filters
     public $before = array(
