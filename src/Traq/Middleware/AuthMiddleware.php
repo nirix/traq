@@ -46,7 +46,7 @@ class AuthMiddleware implements MiddlewareInterface
 
     public function run(callable $next): Response
     {
-        if (!$this->user) {
+        if (!Request::attribute('loggedin')) {
             return $this->noPermissionResponse();
         }
 

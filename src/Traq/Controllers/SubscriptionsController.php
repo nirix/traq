@@ -25,6 +25,7 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Response;
+use Traq\Middleware\AuthMiddleware;
 use Traq\Models\Subscription;
 use Traq\Models\Milestone;
 use Traq\Models\Ticket;
@@ -60,6 +61,7 @@ class SubscriptionsController extends AppController
     /**
      * Toggle project subscription.
      */
+    #[AuthMiddleware()]
     public function toggleProject(string $project_slug): Response
     {
         // Delete subscription
@@ -88,6 +90,7 @@ class SubscriptionsController extends AppController
     /**
      * Toggle milestone subscription
      */
+    #[AuthMiddleware()]
     public function toggleMilestone(string $milestone_slug): Response
     {
         // Get milestone
@@ -122,6 +125,7 @@ class SubscriptionsController extends AppController
     /**
      * Toggle ticket subscription
      */
+    #[AuthMiddleware()]
     public function toggleTicket(string $ticket_id): Response
     {
         // Get ticket
