@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -20,94 +20,104 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import axios from 'axios'
 import Alpine from 'alpinejs'
 import type { ComponentInterface, MilestoneInterface, StatusInterface, TicketInterface, TypeInterface } from '../interfaces'
 
 Alpine.data('profileTickets', ({ userName, projectSlug }) => ({
-    userName: userName,
-    projectSlug: projectSlug,
-    tickets: [] as TicketInterface[],
-    isLoading: false,
-    page: 1,
-    totalPages: 1,
-    open: true,
-    sortColumn: 'status',
-    sortOrder: 'asc',
-    filters: {
-        milestone: [] as string[],
-        component: [] as string[],
-        type: [] as string[],
-        status: [] as string[],
-    },
-    filterData: {
-        milestones: [] as MilestoneInterface[],
-        components: [] as ComponentInterface[],
-        types: [] as TypeInterface[],
-        statuses: [] as StatusInterface[],
-    },
+  userName: userName,
+  projectSlug: projectSlug,
+  tickets: [] as TicketInterface[],
+  isLoading: false,
+  page: 1,
+  totalPages: 1,
+  open: true,
+  sortColumn: 'status',
+  sortOrder: 'asc',
+  filters: {
+    milestone: [] as string[],
+    component: [] as string[],
+    type: [] as string[],
+    status: [] as string[],
+  },
+  filterData: {
+    milestones: [] as MilestoneInterface[],
+    components: [] as ComponentInterface[],
+    types: [] as TypeInterface[],
+    statuses: [] as StatusInterface[],
+  },
 
-    init() {
-        this.getTickets()
+  init() {
+    this.getTickets()
 
-        Promise.all([
-            axios.get(window.traq.base + 'api/types'),
-            axios.get(window.traq.base + 'api/statuses'),
-            axios.get(window.traq.base + 'api/' + projectSlug + '/components'),
-            axios.get(window.traq.base + projectSlug + '/roadmap/all.json?sort=display_order.DESC'),
-        ]).then(([types, statuses, components, milestones]) => {
-            this.filterData.types = types.data
-            this.filterData.statuses = statuses.data
-            this.filterData.components = components.data
-            this.filterData.milestones = milestones.data
-        })
+    Promise.all([
+      fetch(window.traq.base + 'api/types').then((response) => response.json()),
+      fetch(window.traq.base + 'api/statuses').then((response) => response.json()),
+      fetch(window.traq.base + 'api/' + projectSlug + '/components').then((response) => response.json()),
+      fetch(window.traq.base + projectSlug + '/roadmap/all.json?sort=display_order.DESC').then((response) => response.json()),
+    ]).then(([types, statuses, components, milestones]) => {
+      this.filterData.types = types
+      this.filterData.statuses = statuses
+      this.filterData.components = components
+      this.filterData.milestones = milestones
+    })
 
-        this.$watch('page', () => {
-            this.getTickets()
-        })
+    this.$watch('page', () => {
+      this.getTickets()
+    })
 
-        this.$watch('filters', () => {
-            this.getTickets()
-        })
+    this.$watch('filters', () => {
+      this.getTickets()
+    })
+  },
 
-    },
+  getTickets() {
+    this.isLoading = true
 
-    getTickets() {
-        this.isLoading = true
+    let url =
+      window.traq.base +
+      this.projectSlug +
+      '/tickets.json?assigned_to=' +
+      this.userName +
+      '&page=' +
+      this.page +
+      '&order_by=' +
+      this.sortColumn +
+      '.' +
+      this.sortOrder
 
-        let url = window.traq.base + this.projectSlug + '/tickets.json?assigned_to=' + this.userName + '&page=' + this.page + '&order_by=' + this.sortColumn + '.' + this.sortOrder
+    if (this.filters.status.length > 0) {
+      url += '&status=' + this.filters.status.join(',')
+    }
 
-        if (this.filters.status.length > 0) {
-            url += '&status=' + this.filters.status.join(',')
-        }
+    if (this.filters.type.length > 0) {
+      url += '&type=' + this.filters.type.join(',')
+    }
 
-        if (this.filters.type.length > 0) {
-            url += '&type=' + this.filters.type.join(',')
-        }
+    if (this.filters.milestone.length > 0) {
+      url += '&milestone=' + this.filters.milestone.join(',')
+    }
 
-        if (this.filters.milestone.length > 0) {
-            url += '&milestone=' + this.filters.milestone.join(',')
-        }
+    if (this.filters.component.length > 0) {
+      url += '&component=' + this.filters.component.join(',')
+    }
 
-        if (this.filters.component.length > 0) {
-            url += '&component=' + this.filters.component.join(',')
-        }
+    return fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        this.tickets = data.tickets
+        this.totalPages = data.total_pages
+        this.page = data.page
+        this.isLoading = false
+      })
+  },
 
-        return axios.get(url).then(response => {
-            this.tickets = response.data.tickets
-            this.totalPages = response.data.total_pages
-            this.page = response.data.page
-            this.isLoading = false
-        })
-    },
+  sortBy(column: string) {
+    if (this.sortColumn === column) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+    }
 
-    sortBy(column: string) {
-        if (this.sortColumn === column) {
-            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
-        }
+    this.sortColumn = column
 
-        this.sortColumn = column
-
-        this.getTickets()
-    },
+    this.getTickets()
+  },
 }))
