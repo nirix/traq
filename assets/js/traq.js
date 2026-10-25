@@ -65,31 +65,11 @@ jQuery(document).ready(function () {
     })
   })
 
-  // Loopover all the inputs with an autocomplete attribute
-  // and set them up with the source as the attribute value.
-  jQuery('input[data-autocomplete]').each(function () {
-    jQuery(this).autocomplete({ source: jQuery(this).attr('data-autocomplete') })
-  })
-
   // Move ticket form refresh
   jQuery('form#move_ticket #project_id').change(function () {
     jQuery('form#move_ticket input:hidden[name=step]').val(2)
     jQuery('form#move_ticket').submit()
   })
-
-  // Datepicker
-  jQuery(document).on(
-    {
-      mouseenter: function () {
-        jQuery(this).datepicker({
-          dateFormat: jQuery(this).attr('data-date-format'),
-          changeMonth: true,
-          changeYear: true,
-        })
-      },
-    },
-    'input.datepicker',
-  )
 })
 
 /*!
