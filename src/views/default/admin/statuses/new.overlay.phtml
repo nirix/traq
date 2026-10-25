@@ -1,5 +1,5 @@
 <h3><?= l('new_status'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/tickets/statuses'); ?>" method="post" class="overlay">
 	<?= show_errors($status->errors); ?>
 	<div class="content">
 		<?= view('admin/statuses/_form', ['status' => $status]); ?>

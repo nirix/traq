@@ -2,7 +2,7 @@
 
 <div class="content">
 	<h3><?= l('new_status'); ?></h3>
-	<form action="<?= Request::uri(); ?>" method="post">
+	<form action="<?= Request::base('admin/tickets/statuses'); ?>" method="post">
 		<?= show_errors($status->errors); ?>
 		<div class="panel">
 			<div class="panel-content">

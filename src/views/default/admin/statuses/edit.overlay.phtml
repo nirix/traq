@@ -1,5 +1,6 @@
 <h3><?= l('edit_status'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/tickets/statuses/' . $status->id); ?>" method="post" class="overlay">
+	<input type="hidden" name="_method" value="PUT">
 	<?= show_errors($status->errors); ?>
 	<div class="content">
 		<?= view('admin/statuses/_form', ['status' => $status]); ?>

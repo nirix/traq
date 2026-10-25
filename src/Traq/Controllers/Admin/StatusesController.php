@@ -96,6 +96,37 @@ class StatusesController extends AppController
     }
 
     /**
+     * Create status
+     */
+    public function create(): Response
+    {
+        $this->title(l('new'));
+
+        // Create a new status object.
+        $status = new Status;
+
+        // Set the information.
+        $status->set(array(
+            'name'      => Request::get('name'),
+            'status'    => Request::get('status'),
+            'changelog' => Request::get('changelog', 0)
+        ));
+
+        // Check if the data is valid.
+        if ($status->is_valid()) {
+            // Save and redirect.
+            $status->save();
+            if ($this->isJson) {
+                return $this->json(['status' => $status]);
+            } else {
+                return $this->redirectTo('/admin/tickets/statuses');
+            }
+        }
+
+        return $this->render("admin/statuses/new.phtml", ['status' => $status]);
+    }
+
+    /**
      * Edit status page.
      *
      * @param integer $id
@@ -142,6 +173,45 @@ class StatusesController extends AppController
         }
 
         return $this->render("admin/statuses/{$view}", ['status' => $status]);
+    }
+
+    /**
+     * Update status
+     *
+     * @param integer $id
+     */
+    public function update(int $id): Response
+    {
+        $this->title(l('edit'));
+
+        // Fetch the status
+        $status = Status::find($id);
+
+        // Set the information.
+        $status->set(array(
+            'name'   => Request::get('name', $status->name),
+            'status' => Request::get('status', $status->status)
+        ));
+
+        // Set changelog value
+        if ($this->isApi) {
+            $status->changelog = Request::get('changelog', $status->changelog);
+        } else {
+            $status->changelog = isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0;
+        }
+
+        // Check if the data is valid.
+        if ($status->is_valid()) {
+            // Save and redirect.
+            $status->save();
+            if ($this->isJson) {
+                return $this->json(['status' => $status]);
+            } else {
+                return $this->redirectTo('/admin/tickets/statuses');
+            }
+        }
+
+        return $this->render("admin/statuses/edit.phtml", ['status' => $status]);
     }
 
     /**

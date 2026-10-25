@@ -2,7 +2,8 @@
 
 <div class="content">
 	<h3><?= l('edit_status'); ?></h3>
-	<form action="<?= Request::uri(); ?>" method="post">
+	<form action="<?= Request::base('admin/tickets/statuses/' . $status->id); ?>" method="post">
+		<input type="hidden" name="_method" value="PUT">
 		<?= show_errors($status->errors); ?>
 		<div class="panel">
 			<div class="panel-content">
