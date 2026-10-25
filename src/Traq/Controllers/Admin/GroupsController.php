@@ -64,25 +64,6 @@ class GroupsController extends AppController
         // Create a new group object.
         $group = new Group;
 
-        // Check if the form has been submitted.
-        if (Request::method() == 'POST') {
-            // Set the groups name.
-            $group->set('name', Request::$post['name']);
-            $group->set('is_admin', 0);
-
-            // Make sure the data is valid.
-            if ($group->is_valid()) {
-                $group->save();
-
-                // Return API response
-                if ($this->isApi) {
-                    return $this->json(['group' => $group]);
-                } else {
-                    return $this->redirectTo('/admin/groups');
-                }
-            }
-        }
-
         // Send the group object to the view.
         if (Request::get('overlay') === 'true') {
             $view = 'new.overlay.phtml';
@@ -91,6 +72,35 @@ class GroupsController extends AppController
         }
 
         return $this->render("admin/groups/{$view}", ['group' => $group]);
+    }
+
+    /**
+     * Create group
+     */
+    public function create(): Response
+    {
+        $this->title(l('create'));
+
+        // Create a new group object.
+        $group = new Group;
+
+        // Set the groups name.
+        $group->set('name', Request::$post['name']);
+        $group->set('is_admin', 0);
+
+        // Make sure the data is valid.
+        if ($group->is_valid()) {
+            $group->save();
+
+            // Return API response
+            if ($this->isApi) {
+                return $this->json(['group' => $group]);
+            } else {
+                return $this->redirectTo('/admin/groups');
+            }
+        }
+
+        return $this->render('admin/groups/new.phtml', ['group' => $group]);
     }
 
     /**
@@ -107,20 +117,6 @@ class GroupsController extends AppController
 
         // Check if the form has been submitted.
         if (Request::method() == 'POST') {
-            // Set the groups name
-            $group->set('name', Request::$post['name']);
-
-            // Make sure the data is valid.
-            if ($group->is_valid()) {
-                $group->save();
-
-                // Return API response
-                if ($this->isApi) {
-                    return $this->json(['group' => $group]);
-                } else {
-                    return $this->redirectTo('/admin/groups');
-                }
-            }
         }
 
         // Send the group object to the view.
@@ -131,6 +127,34 @@ class GroupsController extends AppController
         }
 
         return $this->render("admin/groups/{$view}", ['group' => $group]);
+    }
+
+    /**
+     * Update group
+     */
+    public function update(int $id): Response
+    {
+        $this->title(l('update'));
+
+        // Find the group.
+        $group = Group::find($id);
+
+        // Set the groups name
+        $group->set('name', Request::$post['name']);
+
+        // Make sure the data is valid.
+        if ($group->is_valid()) {
+            $group->save();
+
+            // Return API response
+            if ($this->isApi) {
+                return $this->json(['group' => $group]);
+            } else {
+                return $this->redirectTo('/admin/groups');
+            }
+        }
+
+        return $this->render('admin/groups/edit.phtml', ['group' => $group]);
     }
 
     /**

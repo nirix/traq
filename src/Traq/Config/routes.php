@@ -213,8 +213,10 @@ Router::register('admin.users.mass_actions', '/admin/users/mass_actions', [Admin
 // User groups
 Router::register('admin.groups', '/admin/groups', [GroupsController::class, 'index']);
 Router::register('admin.groups.new', '/admin/groups/new', [GroupsController::class, 'new']);
+Router::register('admin.groups.create', '/admin/groups', [GroupsController::class, 'create'], methods: ['POST']);
 Router::register('admin.groups.edit', '/admin/groups/(?P<id>[0-9]+)/edit', [GroupsController::class, 'edit']);
-Router::register('admin.groups.delete', '/admin/groups/(?P<id>[0-9]+)/delete', [GroupsController::class, 'delete']);
+Router::register('admin.groups.update', '/admin/groups/(?P<id>[0-9]+)', [GroupsController::class, 'update'], methods: ['PUT']);
+Router::register('admin.groups.delete', '/admin/groups/(?P<id>[0-9]+)', [GroupsController::class, 'delete'], methods: ['DELETE']);
 
 // Project roles
 Router::register('admin.project.roles', '/admin/roles', [ProjectRolesController::class, 'index']);

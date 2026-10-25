@@ -1,5 +1,6 @@
 <h3><?= l('edit_group'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/groups/' . $group->id); ?>" method="post" class="overlay">
+	<input type="hidden" name="_method" value="PUT">
 	<?= show_errors($group->errors); ?>
 	<div class="content">
 		<?= view('admin/groups/_form', ['group' => $group]); ?>
