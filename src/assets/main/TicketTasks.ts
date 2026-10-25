@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -20,7 +20,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import axios from 'axios'
 import Alpine from 'alpinejs'
 
 type TicketTasksType = {
@@ -37,27 +36,32 @@ interface ITicketTasksStore {
   isSaving: (id: number) => boolean
 }
 
-Alpine.data('ticketTasks', ({ url, can }: TicketTasksType) => ({
-  saving: {},
+Alpine.data(
+  'ticketTasks',
+  ({ url, can }: TicketTasksType) =>
+    ({
+      saving: {},
 
-  toggle(id: number) {
-    if (!can) {
-      return
-    }
+      toggle(id: number) {
+        if (!can) {
+          return
+        }
 
-    this.saving[id] = true
+        this.saving[id] = true
 
-    axios
-      .post(url + '/' + id)
-      .then(() => {
-        this.$data.complete = !this.$data.complete
-      })
-      .finally(() => {
-        this.saving[id] = false
-      })
-  },
+        fetch(url + '/' + id, {
+          method: 'POST',
+        })
+          .then(() => {
+            this.$data.complete = !this.$data.complete
+          })
+          .finally(() => {
+            this.saving[id] = false
+          })
+      },
 
-  isSaving(id: number) {
-    return this.saving[id] ?? false
-  },
-} as ITicketTasksStore))
+      isSaving(id: number) {
+        return this.saving[id] ?? false
+      },
+    } as ITicketTasksStore),
+)

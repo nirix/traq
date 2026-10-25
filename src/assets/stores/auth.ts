@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -20,8 +20,7 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import axios from "axios"
-import Alpine from "alpinejs"
+import Alpine from 'alpinejs'
 
 export interface User {
   id: number
@@ -58,8 +57,10 @@ Alpine.store('auth', {
       authUrl = `${authUrl}/${project}`
     }
 
-    axios.get(authUrl).then((resp) => {
-      this.user = resp.data
+    fetch(authUrl).then((resp) => {
+      resp.json().then((data) => {
+        this.user = data
+      })
     })
   },
 

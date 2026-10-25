@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2022 Jack Polgar
- * Copyright (C) 2012-2022 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -20,7 +20,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import axios from 'axios'
 import Alpine from 'alpinejs'
 import type { TicketInterface, MilestoneInterface } from '../interfaces'
 
@@ -41,9 +40,14 @@ Alpine.data('navbarSearch', () => ({
       project: window.traq.project_slug,
     }
 
-    axios.post(`${window.traq.base}api/search`, data).then((resp) => {
-      this.results = resp.data ?? {}
-      this.hasResults = this.results.milestones?.length > 0 || this.results.tickets?.length > 0
+    fetch(`${window.traq.base}api/search`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }).then((resp) => {
+      resp.json().then((data) => {
+        this.results = data ?? {}
+        this.hasResults = this.results.milestones?.length > 0 || this.results.tickets?.length > 0
+      })
     })
   },
 

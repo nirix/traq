@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -21,7 +21,6 @@
  */
 
 import Alpine from 'alpinejs'
-import axios from 'axios'
 import type EasyMDE from 'easymde'
 
 type TicketTemplatesType = {
@@ -43,8 +42,10 @@ Alpine.directive('ticket-template', (el, { expression }, { evaluate }) => {
         return
       }
 
-      axios.get(window.traq.base + 'api/types/' + (el as HTMLInputElement).value).then((resp) => {
-        mde.value(resp.data.template)
+      fetch(window.traq.base + 'api/types/' + (el as HTMLInputElement).value).then((resp) => {
+        resp.json().then((data) => {
+          mde.value(data.template)
+        })
       })
     })
   } catch {
