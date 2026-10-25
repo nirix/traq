@@ -71,26 +71,6 @@ jQuery(document).ready(function () {
     return false
   })
 
-  // Add a hover event to all abbreviation elements inside
-  // a form for sexy tooltips.
-  jQuery(document).on(
-    {
-      mouseenter: function () {
-        jQuery(this).sexyTooltip()
-      },
-    },
-    'form abbr',
-  )
-
-  jQuery(document).on(
-    {
-      mouseenter: function () {
-        jQuery(this).sexyTooltip('top')
-      },
-    },
-    '[title]:not(form abbr),[data-tooltip]:not(form abbr)',
-  )
-
   // Add a click event to all elements with
   // a data-popover-hover attribute.
   jQuery(document).on('mouseenter', '[data-popover-hover]', function () {
