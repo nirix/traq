@@ -1,5 +1,5 @@
 <h3><?= l('new_severity'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/severities'); ?>" method="post" class="overlay">
 	<?= show_errors($severity->errors); ?>
 	<div class="content">
 		<?= view('admin/severities/_form', ['severity' => $severity]); ?>

@@ -90,6 +90,29 @@ class SeveritiesController extends AppController
     }
 
     /**
+     * Create severity.
+     */
+    public function create(): Response
+    {
+        // Create the severity
+        $severity = new Severity();
+
+        // Set the name
+        $severity->set('name', Request::get('name'));
+
+        // Save and redirect
+        if ($severity->save()) {
+            if ($this->isApi) {
+                return $this->json(['severity' => $severity]);
+            } else {
+                return $this->redirectTo('/admin/severities');
+            }
+        }
+
+        return $this->render("admin/severities/new.phtml", ['severity' => $severity]);
+    }
+
+    /**
      * Edit severity.
      *
      * @param integer $id
@@ -121,6 +144,31 @@ class SeveritiesController extends AppController
         }
 
         return $this->render("admin/severities/{$view}", ['severity' => $severity]);
+    }
+
+    /**
+     * Update severity.
+     *
+     * @param integer $id
+     */
+    public function update(int $id): Response
+    {
+        // Get the severity
+        $severity = Severity::find($id);
+
+        // Set the name
+        $severity->set('name', Request::get('name', $severity->name));
+
+        // Save and redirect
+        if ($severity->save()) {
+            if ($this->isApi) {
+                return $this->json(['severity' => $severity]);
+            } else {
+                return $this->redirectTo('/admin/severities');
+            }
+        }
+
+        return $this->render("admin/severities/edit.phtml", ['severity' => $severity]);
     }
 
     /**

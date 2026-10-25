@@ -245,8 +245,10 @@ Router::register('admin.statuses.delete', '/admin/tickets/statuses/(?P<id>[0-9]+
 // Severities
 Router::register('admin.severities', '/admin/severities', [SeveritiesController::class, 'index']);
 Router::register('admin.severities.new', '/admin/severities/new', [SeveritiesController::class, 'new']);
+Router::register('admin.severities.create', '/admin/severities', [SeveritiesController::class, 'create'], methods: ['POST']);
 Router::register('admin.severities.edit', '/admin/severities/(?P<id>[0-9]+)/edit', [SeveritiesController::class, 'edit']);
-Router::register('admin.severities.delete', '/admin/severities/(?P<id>[0-9]+)/delete', [SeveritiesController::class, 'delete']);
+Router::register('admin.severities.update', '/admin/severities/(?P<id>[0-9]+)', [SeveritiesController::class, 'update'], methods: ['PUT']);
+Router::register('admin.severities.delete', '/admin/severities/(?P<id>[0-9]+)', [SeveritiesController::class, 'delete'], methods: ['DELETE']);
 
 // Priorities
 Router::register('admin.priorities', '/admin/priorities', [PrioritiesController::class, 'index']);
