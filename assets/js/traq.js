@@ -50,32 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 jQuery(document).ready(function () {
-  // Add a click even to all elements with the
-  // data-overlay attribute and load the elements
-  // href value into the overlay container then show
-  // the overlay.
-  jQuery(document).on('click', '[data-overlay]', function () {
-    var path
-
-    if (jQuery(this).attr('data-overlay') == '1') {
-      path = jQuery(this).attr('href').split('?')
-    } else {
-      path = jQuery(this).attr('data-overlay').split('?')
-    }
-
-    var uri = path[0] + '?overlay=true'
-
-    if (path.length > 1) {
-      var uri = uri + '&' + path[1]
-    }
-
-    jQuery('#overlay').load(uri, function () {
-      window.Alpine.start()
-      jQuery('#overlay').overlay()
-    })
-    return false
-  })
-
   // Add a click event to all elements with
   // a data-popover-hover attribute.
   jQuery(document).on('mouseenter', '[data-popover-hover]', function () {
@@ -146,15 +120,3 @@ jQuery(document).ready(function () {
     })
   }
 })(jQuery)
-
-// Function to close overlay
-function close_overlay(func) {
-  if (func == undefined) {
-    func = function () {}
-  }
-
-  jQuery('#overlay_blackout').fadeOut()
-  jQuery('#overlay').fadeOut(function () {
-    func()
-  })
-}
