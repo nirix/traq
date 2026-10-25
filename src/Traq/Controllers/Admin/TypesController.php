@@ -95,6 +95,36 @@ class TypesController extends AppController
     }
 
     /**
+     * Create type
+     */
+    public function create(): Response
+    {
+        // Create a new type object
+        $type = new Type();
+
+        // Set the information
+        $type->set(array(
+            'name'      => Request::get('name'),
+            'bullet'    => Request::get('bullet'),
+            'changelog' => Request::get('changelog', 0),
+            'template'  => Request::get('template'),
+        ));
+
+        // Check if the data is valid
+        if ($type->is_valid()) {
+            // Save and redirect
+            $type->save();
+            if ($this->isJson) {
+                return $this->json(['type' => $type]);
+            } else {
+                return $this->redirectTo('/admin/tickets/types');
+            }
+        }
+
+        return $this->render("admin/types/new.phtml", ['type' => $type]);
+    }
+
+    /**
      * Edit type.
      *
      * @param integer $id
@@ -141,6 +171,43 @@ class TypesController extends AppController
         }
 
         return $this->render("admin/types/{$view}", ['type' => $type]);
+    }
+
+    /**
+     * Update type
+     */
+    public function update(int $id): Response
+    {
+        // Find the type
+        $type = Type::find($id);
+
+        // Update the information
+        $type->set(array(
+            'name'      => Request::get('name'),
+            $type->name,
+            'bullet'    => Request::get('bullet', $type->bullet),
+            'template'  => Request::get('template', $type->template),
+        ));
+
+        // Set changelog value
+        if ($this->isJson) {
+            $type->changelog = Request::get('changelog', $type->changelog);
+        } else {
+            $type->changelog = isset(Request::$post['changelog']) ? Request::$post['changelog'] : 0;
+        }
+
+        // Check if the data is valid
+        if ($type->is_valid()) {
+            // Save and redirect.
+            $type->save();
+            if ($this->isJson) {
+                return $this->json(['type' => $type]);
+            } else {
+                return $this->redirectTo('/admin/tickets/types');
+            }
+        }
+
+        return $this->render("admin/types/edit.phtml", ['type' => $type]);
     }
 
     /**

@@ -229,8 +229,10 @@ Router::register('admin.project.roles.delete', '/admin/roles/(?P<id>[0-9]+)', [P
 // Ticket types
 Router::register('admin.types', '/admin/tickets/types', [TypesController::class, 'index']);
 Router::register('admin.types.new', '/admin/tickets/types/new', [TypesController::class, 'new']);
+Router::register('admin.types.create', '/admin/tickets/types', [TypesController::class, 'create'], methods: ['POST']);
 Router::register('admin.types.edit', '/admin/tickets/types/(?P<id>[0-9]+)/edit', [TypesController::class, 'edit']);
-Router::register('admin.types.delete', '/admin/tickets/types/(?P<id>[0-9]+)/delete', [TypesController::class, 'delete']);
+Router::register('admin.types.update', '/admin/tickets/types/(?P<id>[0-9]+)', [TypesController::class, 'update'], methods: ['PUT']);
+Router::register('admin.types.delete', '/admin/tickets/types/(?P<id>[0-9]+)', [TypesController::class, 'delete'], methods: ['DELETE']);
 
 // Ticket statuses
 Router::register('admin.statuses', '/admin/tickets/statuses', [StatusesController::class, 'index']);

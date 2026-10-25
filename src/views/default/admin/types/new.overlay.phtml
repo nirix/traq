@@ -1,5 +1,5 @@
 <h3><?= l('new_type'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/tickets/types'); ?>" method="post" class="overlay">
 	<?= show_errors($type->errors); ?>
 	<div class="content">
 		<?= view('admin/types/_form', ['type' => $type]); ?>

@@ -2,7 +2,7 @@
 
 <div class="content">
 	<h3><?= l('new_type'); ?></h3>
-	<form action="<?= Request::uri(); ?>" method="post">
+	<form action="<?= Request::base('admin/tickets/types'); ?>" method="post">
 		<?= show_errors($type->errors); ?>
 		<div class="panel">
 			<div class="panel-content">
