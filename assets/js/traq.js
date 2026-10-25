@@ -22,20 +22,15 @@
 // The main Traq object
 var traq = {
   base: '/',
-  show_hide_custom_fields: function () {
-    var type_id = jQuery('#type option:selected').val()
+  toggleCustomFieldsVisibility: function () {
+    const typeId = document.querySelector('#type').value
+    const customFields = document.querySelectorAll('.custom-field')
 
-    // Toggle visibility for custom fields that aren't relveant
-    // for the selected type.
-    jQuery('.properties .custom_field').each(function () {
-      var field = jQuery(this)
+    customFields.forEach((field) => {
+      field.style.display = 'none'
 
-      // Hide the field
-      field.hide()
-
-      // Check if it is for 0 (all) or the selected type ID and show it.
-      if (field.hasClass('field-for-type-0') || field.hasClass('field-for-type-' + type_id)) {
-        field.show()
+      if (field.classList.contains('field-for-type-0') || field.classList.contains('field-for-type-' + typeId)) {
+        field.style.display = 'flex'
       }
     })
   },
@@ -43,6 +38,16 @@ var traq = {
 
 // Language object
 var language = {}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // If we're on a ticket page, toggle the custom fields visibility
+  if (window.location.pathname.match(/\/tickets\/(\d+|new)$/)) {
+    traq.toggleCustomFieldsVisibility()
+    document.querySelector('#type').addEventListener('change', () => {
+      traq.toggleCustomFieldsVisibility()
+    })
+  }
+})
 
 jQuery(document).ready(function () {
   // Add a click even to all elements with the
