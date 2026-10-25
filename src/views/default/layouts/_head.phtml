@@ -7,14 +7,8 @@
 <script src="<?= Request::base('assets/js/popover.js') ?>" type="text/javascript"></script>
 <script src="<?= Request::base('assets/js/ticket_tasks.js') ?>" type="text/javascript"></script>
 <script src="<?= Request::base('assets/js/traq.js') ?>" type="text/javascript"></script>
-<script src="<?= Request::base('_js') ?>" type="text/javascript"></script>
+<script src="<?= Request::base('_js' . (isset($project) ? '?projectSlug=' . $project->slug : '')) ?>" type="text/javascript"></script>
 <?= ui_package('src/assets/main.ts') ?>
-
-<?php if (isset($project)) : ?>
-	<script>
-		window.traq.project_slug = <?php echo json_encode($project->slug); ?>
-	</script>
-<?php endif; ?>
 
 <?php FishHook::run('template:layouts/global/head'); ?>
 <?php if (isset($app->feeds)) : ?>

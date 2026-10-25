@@ -58,7 +58,11 @@ class MiscController extends Controller
      */
     public function javascript(): Response
     {
-        return new Response(View::render('javascript'), headers: [
+        $view = View::render('javascript', [
+            'projectSlug' => Request::get('projectSlug', null),
+        ]);
+
+        return new Response($view, headers: [
             'Content-Type' => 'text/javascript',
         ]);
     }
