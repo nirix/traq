@@ -25,8 +25,8 @@
 						<td>
 							<div class="btn-group justify-end">
 								<?= HTML::link(l('edit'), "/admin/users/{$user->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
-								<a href="/admin/users/<?= $user->id ?>/delete" class="btn-danger btn-sm"
-									x-data="popoverConfirm(<?= js_attr(['position' => 'center', 'message' => l('confirm.delete_x', $user->username)]) ?>)"
+								<a href="/admin/users/<?= $user->id ?>" class="btn-danger btn-sm"
+									x-data="popoverConfirm(<?= js_attr(['position' => 'center', 'message' => l('confirm.delete_x', $user->username), 'post' => true, 'method' => 'DELETE']) ?>)"
 									@click.prevent="toggle()">
 									<i class="fas fa-fw fa-trash"></i>
 									<span class="sr-only"><?= l('delete') ?></span>

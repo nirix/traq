@@ -69,28 +69,6 @@ class UsersController extends AppController
 
         // Check if the form has been submitted
         if (Request::method() == 'POST') {
-            // Set the users information
-            $user->set(array(
-                'username' => Request::get('username'),
-                'name'     => Request::get('name'),
-                'password' => Request::get('password'),
-                'email'    => Request::get('email'),
-                'group_id' => Request::get('group_id', 2)
-            ));
-
-            // Check if the data is valid
-            if ($user->is_valid()) {
-                // Save the users data and redirect
-                // to the user listing page.
-                $user->save();
-
-                // Return JSON for API
-                if ($this->isJson) {
-                    return $this->json(['user' => $user]);
-                } else {
-                    return $this->redirectTo('/admin/users');
-                }
-            }
         }
 
         // Send the user object to the view.
@@ -101,6 +79,42 @@ class UsersController extends AppController
         }
 
         return $this->render("admin/users/{$view}", ['user' => $user]);
+    }
+
+    /**
+     * Create user
+     */
+    public function create(): Response
+    {
+        $this->title(l('new'));
+
+        // Create a new user object
+        $user = new User(['group_id' => 2]);
+
+        // Set the users information
+        $user->set([
+            'username' => Request::get('username'),
+            'name'     => Request::get('name'),
+            'password' => Request::get('password'),
+            'email'    => Request::get('email'),
+            'group_id' => Request::get('group_id', 2)
+        ]);
+
+        // Check if the data is valid
+        if ($user->is_valid()) {
+            // Save the users data and redirect
+            // to the user listing page.
+            $user->save();
+
+            // Return JSON for API
+            if ($this->isJson) {
+                return $this->json(['user' => $user]);
+            } else {
+                return $this->redirectTo('/admin/users');
+            }
+        }
+
+        return $this->render('admin/users/NEW', ['user' => $user]);
     }
 
     /**
@@ -117,37 +131,6 @@ class UsersController extends AppController
 
         // Check if the form has been submitted.
         if (Request::method() == 'POST') {
-            // Update the users information.
-            $user->set(array(
-                'username' => Request::get('username', $user->username),
-                'name'     => Request::get('name', $user->name),
-                'email'    => Request::get('email', $user->email),
-                'group_id' => Request::get('group_id', $user->group_id)
-            ));
-
-            // Check if we're changing their password.
-            if (!empty(Request::$post['password'])) {
-                // Update their password.
-                $user->set('password', Request::$post['password']);
-            }
-
-            // Check if the users data is valid.
-            if ($user->is_valid()) {
-                // Again check if we're changin their password.
-                if (!empty(Request::$post['password'])) {
-                    $user->set_password(Request::$post['password']);
-                }
-
-                // Save and redirect to user listing.
-                $user->save();
-
-                // Return JSON for API
-                if ($this->isApi) {
-                    return $this->json(['user' => $user]);
-                } else {
-                    return $this->redirectTo('/admin/users');
-                }
-            }
         }
 
         // Send the user object to the view.
@@ -160,6 +143,52 @@ class UsersController extends AppController
         return $this->render("admin/users/{$view}", ['user' => $user]);
     }
 
+    /**
+     * Update user
+     *
+     * @param integer $id Users ID.
+     */
+    public function update(int $id): Response
+    {
+        $this->title(l('EDIT'));
+
+        // Find the user and update their information
+        $user = User::find($id);
+
+        // Update the users information.
+        $user->set(array(
+            'username' => Request::get('username', $user->username),
+            'name'     => Request::get('name', $user->name),
+            'email'    => Request::get('email', $user->email),
+            'group_id' => Request::get('group_id', $user->group_id)
+        ));
+
+        // Check if we're changing their password.
+        if (!empty(Request::$post['password'])) {
+            // Update their password.
+            $user->set('password', Request::$post['password']);
+        }
+
+        // Check if the users data is valid.
+        if ($user->is_valid()) {
+            // Again check if we're changin their password.
+            if (!empty(Request::$post['password'])) {
+                $user->set_password(Request::$post['password']);
+            }
+
+            // Save and redirect to user listing.
+            $user->save();
+
+            // Return JSON for API
+            if ($this->isApi) {
+                return $this->json(['user' => $user]);
+            } else {
+                return $this->redirectTo('/admin/users');
+            }
+        }
+
+        return $this->render('admin/users/edit.phtml', ['user' => $user]);
+    }
     /**
      * Delete user
      *

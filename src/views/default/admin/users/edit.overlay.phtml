@@ -1,5 +1,6 @@
 <h3><?= l('edit_user'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/users/' . $user->id); ?>" method="post" class="overlay">
+	<input type="hidden" name="_method" value="PUT">
 	<?php echo show_errors($user->errors); ?>
 	<div class="content">
 		<div class="panel-content">

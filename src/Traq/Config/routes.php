@@ -204,9 +204,11 @@ Router::register('plugins.uninstall', '/admin/plugins/(?P<file>[a-zA-Z0-9\-\_]+)
 // Users
 Router::register('admin.users', '/admin/users', [AdminUsersController::class, 'index']);
 Router::register('admin.users.new', '/admin/users/new', [AdminUsersController::class, 'new']);
+Router::register('admin.users.create', '/admin/users', [AdminUsersController::class, 'create'], methods: ['POST']);
 Router::register('admin.users.edit', '/admin/users/(?P<id>[0-9]+)/edit', [AdminUsersController::class, 'edit']);
-Router::register('admin.users.delete', '/admin/users/(?P<id>[0-9]+)/delete', [AdminUsersController::class, 'delete']);
-Router::register('admin.users.mass_actions', '/admin/users/mass_actions', [AdminUsersController::class, 'massActions']);
+Router::register('admin.users.update', '/admin/users/(?P<id>[0-9]+)', [AdminUsersController::class, 'update'], methods: ['PUT']);
+Router::register('admin.users.delete', '/admin/users/(?P<id>[0-9]+)', [AdminUsersController::class, 'delete'], methods: ['DELETE']);
+Router::register('admin.users.mass_actions', '/admin/users/mass_actions', [AdminUsersController::class, 'massActions'], methods: ['POST']);
 
 // User groups
 Router::register('admin.groups', '/admin/groups', [GroupsController::class, 'index']);

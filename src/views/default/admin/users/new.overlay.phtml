@@ -1,5 +1,5 @@
 <h3><?= l('new_user'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/users'); ?>" method="post" class="overlay">
 	<?php echo show_errors($user->errors); ?>
 	<div class="content">
 		<?= view('admin/users/_form', ['user' => $user]); ?>
