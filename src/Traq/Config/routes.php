@@ -253,5 +253,7 @@ Router::register('admin.severities.delete', '/admin/severities/(?P<id>[0-9]+)', 
 // Priorities
 Router::register('admin.priorities', '/admin/priorities', [PrioritiesController::class, 'index']);
 Router::register('admin.priorities.new', '/admin/priorities/new', [PrioritiesController::class, 'new']);
+Router::register('admin.priorities.create', '/admin/priorities', [PrioritiesController::class, 'create'], methods: ['POST']);
 Router::register('admin.priorities.edit', '/admin/priorities/(?P<id>[0-9]+)/edit', [PrioritiesController::class, 'edit']);
-Router::register('admin.priorities.delete', '/admin/priorities/(?P<id>[0-9]+)/delete', [PrioritiesController::class, 'delete']);
+Router::register('admin.priorities.update', '/admin/priorities/(?P<id>[0-9]+)', [PrioritiesController::class, 'update'], methods: ['PUT']);
+Router::register('admin.priorities.delete', '/admin/priorities/(?P<id>[0-9]+)', [PrioritiesController::class, 'delete'], methods: ['DELETE']);

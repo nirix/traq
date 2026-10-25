@@ -1,5 +1,6 @@
 <h3><?= l('edit_priority'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay">
+<form action="<?= Request::base('admin/priorities/' . $priority->id); ?>" method="post" class="overlay">
+	<input type="hidden" name="_method" value="PUT">
 	<?= show_errors($priority->errors); ?>
 	<div class="content">
 		<?= view('admin/priorities/_form', ['priority' => $priority]); ?>

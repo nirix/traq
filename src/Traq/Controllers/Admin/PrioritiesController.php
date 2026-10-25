@@ -90,6 +90,29 @@ class PrioritiesController extends AppController
     }
 
     /**
+     * Create priority
+     */
+    public function create(): Response
+    {
+        // Create the priority
+        $priority = new Priority();
+
+        // Set the name
+        $priority->set('name', Request::get('name'));
+
+        // Save and redirect
+        if ($priority->save()) {
+            if ($this->isJson) {
+                return $this->json(['priority' => $priority]);
+            } else {
+                return $this->redirectTo('/admin/priorities');
+            }
+        }
+
+        return $this->render("admin/priorities/new.phtml", ['priority' => $priority]);
+    }
+
+    /**
      * Edit priority.
      *
      * @param integer $id
@@ -121,6 +144,31 @@ class PrioritiesController extends AppController
         }
 
         return $this->render("admin/priorities/{$view}", ['priority' => $priority]);
+    }
+
+    /**
+     * Update priority
+     *
+     * @param integer $id
+     */
+    public function update(int $id): Response
+    {
+        // Get the priority
+        $priority = Priority::find($id);
+
+        // Set the name
+        $priority->set('name', Request::get('name', $priority->name));
+
+        // Save and redirect
+        if ($priority->save()) {
+            if ($this->isJson) {
+                return $this->json(['priority' => $priority]);
+            } else {
+                return $this->redirectTo('/admin/priorities');
+            }
+        }
+
+        return $this->render("admin/priorities/edit.phtml", ['priority' => $priority]);
     }
 
     /**
