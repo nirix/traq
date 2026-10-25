@@ -259,17 +259,20 @@ Alpine.data('ticketList', () => ({
 
       // Handle allopen, allstarted and allclosed status filter values
       if (filterOption.field === 'status' && value === 'allopen') {
-        // @ts-expect-error tsfu
         // merge Open and Started statuses
         values = [
-          ...this.filterData.statuses.Open.map((status: { label: string; value: string }) => status.value),
-          ...this.filterData.statuses.Started.map((status: { label: string; value: string }) => status.value),
+          ...(this.filterData.statuses as { Open: Array<{ label: string; value: string }> }).Open.map(
+            (status: { label: string; value: string }) => status.value,
+          ),
+          ...(this.filterData.statuses as { Started: Array<{ label: string; value: string }> }).Started.map(
+            (status: { label: string; value: string }) => status.value,
+          ),
         ]
       } else if (filterOption.field === 'status' && value === 'allclosed') {
-        // @ts-expect-error tsfu
+        // @ts-expect-error stfu
         values = this.filterData.statuses.Closed.map((status: { label: string; value: string }) => status.value)
       } else if (filterOption.field === 'status' && value === 'allstarted') {
-        // @ts-expect-error tsfu
+        // @ts-expect-error stfu
         values = this.filterData.statuses.Started.map((status: { label: string; value: string }) => status.value)
       } else {
         values = value.split(',')
