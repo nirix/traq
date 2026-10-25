@@ -221,8 +221,10 @@ Router::register('admin.groups.delete', '/admin/groups/(?P<id>[0-9]+)', [GroupsC
 // Project roles
 Router::register('admin.project.roles', '/admin/roles', [ProjectRolesController::class, 'index']);
 Router::register('admin.project.roles.new', '/admin/roles/new', [ProjectRolesController::class, 'new']);
+Router::register('admin.project.roles.create', '/admin/roles', [ProjectRolesController::class, 'create'], methods: ['POST']);
 Router::register('admin.project.roles.edit', '/admin/roles/(?P<id>[0-9]+)/edit', [ProjectRolesController::class, 'edit']);
-Router::register('admin.project.roles.delete', '/admin/roles/(?P<id>[0-9]+)/delete', [ProjectRolesController::class, 'delete']);
+Router::register('admin.project.roles.update', '/admin/roles/(?P<id>[0-9]+)', [ProjectRolesController::class, 'update'], methods: ['PUT']);
+Router::register('admin.project.roles.delete', '/admin/roles/(?P<id>[0-9]+)', [ProjectRolesController::class, 'delete'], methods: ['DELETE']);
 
 // Ticket types
 Router::register('admin.types', '/admin/tickets/types', [TypesController::class, 'index']);

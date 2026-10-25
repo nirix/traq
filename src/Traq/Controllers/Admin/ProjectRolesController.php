@@ -95,6 +95,34 @@ class ProjectRolesController extends AppController
     }
 
     /**
+     * Create project role
+     */
+    public function create(): Response
+    {
+        // Create a new role object
+        $role = new ProjectRole;
+
+        // Check if the form has been submitted
+        // Set the role name
+        $role->name       = Request::get('name');
+        $role->assignable = Request::get('assignable');
+        $role->project_id = Request::get('project');
+
+        // Validate the data
+        if ($role->is_valid()) {
+            $role->save();
+
+            if ($this->isApi) {
+                return $this->json(['role' => $role]);
+            } else {
+                return $this->redirectTo('/admin/roles');
+            }
+        }
+
+        return $this->render("admin/project_roles/new.phtml", ['role' => $role]);
+    }
+
+    /**
      * Edit role page.
      */
     public function edit(int $id): Response
@@ -128,6 +156,34 @@ class ProjectRolesController extends AppController
         }
 
         return $this->render("admin/project_roles/{$view}", ['role' => $role]);
+    }
+
+    /**
+     * Update project role
+     */
+    public function update(int $id): Response
+    {
+        // Fetch the role
+        $role = ProjectRole::find($id);
+
+        // Check if the form has been submitted
+        // Update the role name
+        $role->name       = Request::get('name', $role->name);
+        $role->assignable = Request::get('assignable', 0);
+        $role->project_id = Request::get('project', $role->project_id);
+
+        // Validate the data
+        if ($role->is_valid()) {
+            $role->save();
+
+            if ($this->isApi) {
+                return $this->json(['role' => $role]);
+            } else {
+                return $this->redirectTo('/admin/roles');
+            }
+        }
+
+        return $this->render("admin/project_roles/edit.phtml", ['role' => $role]);
     }
 
     /**

@@ -1,7 +1,8 @@
 <?php extendView('layouts/admin.phtml'); ?>
 
 <h3><?= l('edit_role'); ?></h3>
-<form action="<?= Request::requestUri(); ?>" method="post">
+<form action="<?= Request::base('admin/roles/' . $role->id); ?>" method="post">
+	<input type="hidden" name="_method" value="PUT">
 	<?= show_errors($role->errors); ?>
 	<div class="panel">
 		<div class="panel-content">

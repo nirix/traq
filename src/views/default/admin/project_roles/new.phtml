@@ -2,7 +2,7 @@
 
 <div class="content">
 	<h3><?= l('new_role'); ?></h3>
-	<form action="<?= Request::requestUri(); ?>" method="post">
+	<form action="<?= Request::base('admin/roles'); ?>" method="post">
 		<?= show_errors($role->errors); ?>
 		<div class="panel">
 			<div class="panel-content">
