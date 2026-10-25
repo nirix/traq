@@ -1,7 +1,7 @@
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -20,7 +20,6 @@
  * along with Traq. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import axios from 'axios'
 import Alpine from 'alpinejs'
 import type { TicketInterface } from './../interfaces'
 interface RelatedTicket {
@@ -44,7 +43,7 @@ interface NewRelation {
   relation_type_id: number
 }
 
-Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdit: boolean }) => ({
+Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number; canEdit: boolean }) => ({
   url: '',
   ticketId,
   relatedTickets: [] as RelatedTicket[],
@@ -62,13 +61,15 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
   activeNewRelationId: null as number | null,
 
   init() {
-    this.url = window.traq.base + window.traq.project_slug + "/tickets/" + this.ticketId + "/related-tickets"
+    this.url = window.traq.base + window.traq.project_slug + '/tickets/' + this.ticketId + '/related-tickets'
 
-    axios.get(this.url).then((resp) => {
-      this.relationTypes = resp.data.relation_types
-      this.relatedTickets = resp.data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
-      this.originalRelations = resp.data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
-    })
+    fetch(this.url)
+      .then((response) => response.json())
+      .then((data) => {
+        this.relationTypes = data.relation_types
+        this.relatedTickets = data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
+        this.originalRelations = data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
+      })
 
     // compare originalRelations with relatedTickets and if they are different, update the relatedTickets
     this.$watch('relatedTickets', (relatedTickets) => {
@@ -77,7 +78,7 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
   },
 
   ticketHref(relatedTicket: RelatedTicket) {
-    return window.traq.base + relatedTicket.project_slug + "/tickets/" + relatedTicket.ticket_id
+    return window.traq.base + relatedTicket.project_slug + '/tickets/' + relatedTicket.ticket_id
   },
 
   remove(relatedTicket: RelatedTicket) {
@@ -85,13 +86,18 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
   },
 
   save() {
-    axios.post(this.url, {
-      related_tickets: this.relatedTickets,
-    }).then((resp) => {
-      this.relatedTickets = resp.data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
-      this.originalRelations = resp.data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
-      this.changed = false
+    fetch(this.url, {
+      method: 'POST',
+      body: JSON.stringify({
+        related_tickets: this.relatedTickets,
+      }),
     })
+      .then((response) => response.json())
+      .then((data) => {
+        this.relatedTickets = data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
+        this.originalRelations = data.related_tickets.map((relatedTicket: RelatedTicket) => ({ ...relatedTicket }))
+        this.changed = false
+      })
   },
 
   cancel() {
@@ -112,18 +118,22 @@ Alpine.data('relatedTickets', ({ ticketId, canEdit }: { ticketId: number, canEdi
   },
 
   searchTicket(element: HTMLInputElement) {
-    axios.get(window.traq.base + window.traq.project_slug + "/tickets.json?q=" + this.newRelation.summary).then((resp) => {
-      // Filter out tickets already in relatedTickets
-      this.searchResults = resp.data.tickets
-        .filter((ticket: TicketInterface) => {
-          return !this.relatedTickets.some((relatedTicket: RelatedTicket) => relatedTicket.ticket_id === ticket.ticket_id || relatedTicket.ticket_id === ticket.ticket_id)
-        })
-        .filter((ticket: TicketInterface) => ticket.ticket_id !== this.ticketId)
+    fetch(window.traq.base + window.traq.project_slug + '/tickets.json?q=' + this.newRelation.summary)
+      .then((response) => response.json())
+      .then((data) => {
+        // Filter out tickets already in relatedTickets
+        this.searchResults = data.tickets
+          .filter((ticket: TicketInterface) => {
+            return !this.relatedTickets.some(
+              (relatedTicket: RelatedTicket) => relatedTicket.ticket_id === ticket.ticket_id || relatedTicket.ticket_id === ticket.ticket_id,
+            )
+          })
+          .filter((ticket: TicketInterface) => ticket.ticket_id !== this.ticketId)
 
-      // set x/y to position of focusedSummary, taking into account scroll position
-      this.$refs.searchResults.style.top = element.getBoundingClientRect().bottom + window.scrollY + 'px'
-      this.$refs.searchResults.style.left = element.getBoundingClientRect().left + window.scrollX + 'px'
-    })
+        // set x/y to position of focusedSummary, taking into account scroll position
+        this.$refs.searchResults.style.top = element.getBoundingClientRect().bottom + window.scrollY + 'px'
+        this.$refs.searchResults.style.left = element.getBoundingClientRect().left + window.scrollX + 'px'
+      })
   },
 
   selectTicket(searchResult: TicketInterface) {
