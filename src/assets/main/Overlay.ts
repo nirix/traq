@@ -28,20 +28,29 @@ declare global {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Get all elements with [data-overlay]
-  const overlayElements = document.querySelectorAll('[data-overlay]')
-  overlayElements.forEach((element) => {
-    element.addEventListener('click', (e) => {
-      // Stop it
-      e.preventDefault()
-      e.stopPropagation()
+// [data-overlay] on the initial page and on HTML added or changed later.
+// Capture so this runs before the link navigates and before ancestor handlers.
+document.addEventListener(
+  'click',
+  (event) => {
+    const target = event.target
 
-      // Make it so
-      openOverlay(element)
-    })
-  })
-})
+    if (!(target instanceof Element)) {
+      return
+    }
+
+    const element = target.closest('[data-overlay]')
+    if (!element) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    openOverlay(element)
+  },
+  true,
+)
 
 function openOverlay(element: Element) {
   // Create the modal container
