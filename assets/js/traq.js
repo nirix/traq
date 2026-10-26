@@ -47,14 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
       traq.toggleCustomFieldsVisibility()
     })
   }
-})
 
-jQuery(document).ready(function () {
-  // Move ticket form refresh
-  jQuery('form#move_ticket #project_id').change(function () {
-    jQuery('form#move_ticket input:hidden[name=step]').val(2)
-    jQuery('form#move_ticket').submit()
-  })
+  // If we're on the move ticket page, listen for the project change
+  if (window.location.pathname.match(/\/tickets\/\d+\/move$/)) {
+    document.querySelector('form#move_ticket #project_id').addEventListener('change', () => {
+      document.querySelector('form#move_ticket').submit()
+    })
+  }
 })
 
 /*!
