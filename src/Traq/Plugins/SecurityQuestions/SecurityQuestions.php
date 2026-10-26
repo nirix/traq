@@ -51,7 +51,7 @@ class SecurityQuestions extends Plugin
     public static function init()
     {
         // Add routes
-        Router::register('security_questions.index', '/admin/settings/security-questions', [QuestionsController::class, 'index']);
+        Router::register('security_questions.index', '/admin/settings/security-questions', [QuestionsController::class, 'index'], methods: ['GET', 'POST']);
         Router::register('security_questions.new', '/admin/settings/security-questions/new', [QuestionsController::class, 'new']);
 
         // Register the view path
