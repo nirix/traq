@@ -65,6 +65,10 @@
   @apply border border-solid border-gold-600 rounded;
   @apply p-4;
 
+  pre {
+    text-wrap: auto;
+    white-space: pre-wrap;
+  }
 }
 
 .ticket-edit-actions {
