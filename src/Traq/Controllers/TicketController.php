@@ -339,13 +339,17 @@ class TicketController extends AppController
         // Get the ticket
         $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
 
-        $voters = array();
+        $voters = [];
 
         // Have there been any votes?
         if (isset($ticket->extra['voted']) and is_array($ticket->extra['voted'])) {
             // Populate the voters array
             foreach ($ticket->extra['voted'] as $voter) {
-                $voters[] = User::find($voter);
+                $user = User::find($voter);
+
+                if ($user) {
+                    $voters[] = $user;
+                }
             }
         }
 

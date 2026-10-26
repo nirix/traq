@@ -213,7 +213,9 @@
 								<?php if ($ticket->votes === 0) : ?>
 									<span id="votes"><?= $ticket->votes ?></span>
 								<?php else: ?>
-									<span id="votes" data-popover-hover="<?= Request::base($ticket->href('/voters')) ?>"><?= $ticket->votes ?></span>
+									<span x-data="popoverHover('<?= Request::base($ticket->href('/voters')) ?>')">
+										<span id="votes"><?= $ticket->votes ?></span>
+									</span>
 								<?php endif; ?>
 								<?php if (LOGGEDIN && currentUser()->permission($project->id, 'vote_on_tickets') && !in_array(currentUser()->id, $ticket->extra['voted']) && currentUser()->id != $ticket->user_id) : ?>
 									<a href="<?= Request::base($ticket->href('/vote')) ?>" class="btn-primary btn-sm" x-data="remote({ onSuccess: (resp, el) => { document.getElementById('votes').textContent = resp.votes; el.remove() } })">

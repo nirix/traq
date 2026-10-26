@@ -31,6 +31,7 @@ import Alpine from 'alpinejs'
 
 import './main/Dropdown'
 import './main/PopoverConfirm'
+import './main/PopoverHover'
 import './main/SexyTooltips'
 import './main/TicketTasks'
 import './main/TicketTemplates'

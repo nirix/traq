@@ -1,5 +1,5 @@
 <h3><?= l('people_who_have_voted_on_this_ticket', e(count($voters))) ?></h3>
-<ol id="voters_list">
+<ol class="voters-list">
 	<?php foreach ($voters as $key => $voter): ?>
 		<li><?= HTML::link(e($voter->username), $voter->href()) . iif($key != count($voters) - 1, ', ') ?></li>
 	<?php endforeach; ?>

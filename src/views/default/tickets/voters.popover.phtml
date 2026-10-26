@@ -8,7 +8,7 @@
 	</div>
 	<?php if (count($voters) > 5): ?>
 		<div class="popover-footer">
-			<?= HTML::link(l('see_all'), Request::url() . '?all', ['data-overlay' => true]) ?>
+			<?= HTML::link(l('see_all'), Request::uri(), ['data-overlay' => true]) ?>
 		</div>
 	<?php endif; ?>
 <?php else: ?>

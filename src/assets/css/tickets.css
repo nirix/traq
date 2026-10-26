@@ -303,3 +303,7 @@
     }
   }
 }
+
+.voters-list {
+  @apply m-5;
+}

@@ -1,4 +1,5 @@
-#popover {
+#popover,
+.popover {
   min-width: 200px;
   position: absolute;
   z-index: 10;
@@ -28,6 +29,10 @@
     & > ol {
       @apply m-0;
     }
+  }
+
+  .popover-footer {
+    @apply p-2 bg-white text-gray-900 shadow-md rounded mt-1;
   }
 }
 
@@ -63,4 +68,12 @@
       }
     }
   }
+}
+
+.popover-hover-container {
+  @apply relative inline-block;
+}
+
+.popover-hover {
+  @apply left-1/2 top-full w-56 -ml-28 pt-1;
 }

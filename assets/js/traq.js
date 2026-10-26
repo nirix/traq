@@ -50,21 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 jQuery(document).ready(function () {
-  // Add a click event to all elements with
-  // a data-popover-hover attribute.
-  jQuery(document).on('mouseenter', '[data-popover-hover]', function () {
-    var parent = jQuery(this)
-    jQuery('#popover')
-      .stop(true, true)
-      .hide()
-      .load(jQuery(this).attr('data-popover-hover') + '?popover=true', function () {
-        jQuery('#popover').popover(parent, 'hover')
-      })
-    parent.off('click').click(function () {
-      return false
-    })
-  })
-
   // Move ticket form refresh
   jQuery('form#move_ticket #project_id').change(function () {
     jQuery('form#move_ticket input:hidden[name=step]').val(2)
