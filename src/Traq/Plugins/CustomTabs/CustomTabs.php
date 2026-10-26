@@ -54,8 +54,10 @@ class CustomTabs extends Plugin
         // Add routes
         Router::register('custom_tabs.index', '/admin/custom-tabs', [CustomTabsController::class, 'index']);
         Router::register('custom_tabs.new', '/admin/custom-tabs/new', [CustomTabsController::class, 'new']);
+        Router::register('custom_tabs.create', '/admin/custom-tabs', [CustomTabsController::class, 'create'], methods: ['POST']);
         Router::register('custom_tabs.edit', '/admin/custom-tabs/(?P<id>\d+)/edit', [CustomTabsController::class, 'edit']);
-        Router::register('custom_tabs.delete', '/admin/custom-tabs/(?P<id>\d+)/delete', [CustomTabsController::class, 'delete']);
+        Router::register('custom_tabs.update', '/admin/custom-tabs/(?P<id>\d+)', [CustomTabsController::class, 'update'], methods: ['PUT']);
+        Router::register('custom_tabs.delete', '/admin/custom-tabs/(?P<id>\d+)', [CustomTabsController::class, 'delete'], methods: ['DELETE']);
 
         // Register the view path
         View::$searchPaths[] = dirname(__FILE__) . '/views';

@@ -2,7 +2,7 @@
 
 <div class="admin new custom_tab content">
 	<h3><?php echo l('new_tab'); ?></h3>
-	<form action="<?= Request::uri(); ?>" method="post">
+	<form action="<?= Request::base('/admin/custom-tabs'); ?>" method="post">
 		<?php echo show_errors($tab->errors); ?>
 		<div class="tabular box">
 			<?= view('custom_tabs/_form', [

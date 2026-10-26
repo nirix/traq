@@ -2,7 +2,8 @@
 
 <div class="admin new custom_tab content">
 	<h3><?= l('edit_tab'); ?></h3>
-	<form action="<?= Request::uri(); ?>" method="post">
+	<form action="<?= Request::base("/admin/custom-tabs/{$tab->id}"); ?>" method="post">
+		<input type="hidden" name="_method" value="PUT">
 		<?= show_errors($tab->errors); ?>
 		<div class="tabular box">
 			<?= view('custom_tabs/_form', [

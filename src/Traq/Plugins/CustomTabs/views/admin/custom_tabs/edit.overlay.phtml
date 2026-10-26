@@ -1,5 +1,6 @@
 <h3><?= l('edit_tab'); ?></h3>
-<form action="<?= Request::uri(); ?>" method="post" class="overlay_thin">
+<form action="<?= Request::base("/admin/custom-tabs/{$tab->id}"); ?>" method="post" class="overlay_thin">
+	<input type="hidden" name="_method" value="PUT">
 	<?= show_errors($tab->errors); ?>
 	<div class="tabular box">
 		<?= view('custom_tabs/_form', [

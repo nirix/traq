@@ -56,24 +56,31 @@ class CustomTabsController extends \Traq\Controllers\Admin\AppController
     {
         $tab = new CustomTab;
 
-        // Check if the form has been submitted.
-        if (Request::method() == 'POST') {
-            $tab->set(array(
-                'label'         => Request::get('label'),
-                'url'           => Request::get('url'),
-                'groups'        => implode(',', Request::get('groups', \Traq\Models\Group::all_group_ids())),
-                'display_order' => Request::get('display_order', 0),
-                'project_id'    => Request::get('project_id', 0)
-            ));
-
-            // Save and redirect
-            if ($tab->save()) {
-                return $this->redirectTo('/admin/custom-tabs');
-            }
-        }
-
         if (Request::get('overlay') == 'true') {
             return $this->render('admin/custom_tabs/new.overlay.phtml', compact('tab'));
+        }
+
+        return $this->render('admin/custom_tabs/new.phtml', compact('tab'));
+    }
+
+    /**
+     * Create tab.
+     */
+    public function create(): Response
+    {
+        $tab = new CustomTab;
+
+        $tab->set(array(
+            'label'         => Request::get('label'),
+            'url'           => Request::get('url'),
+            'groups'        => implode(',', Request::get('groups', \Traq\Models\Group::all_group_ids())),
+            'display_order' => Request::get('display_order', 0),
+            'project_id'    => Request::get('project_id', 0)
+        ));
+
+        // Save and redirect
+        if ($tab->save()) {
+            return $this->redirectTo('/admin/custom-tabs');
         }
 
         return $this->render('admin/custom_tabs/new.phtml', compact('tab'));
@@ -88,24 +95,31 @@ class CustomTabsController extends \Traq\Controllers\Admin\AppController
     {
         $tab = CustomTab::find($id);
 
-        // Check if the form has been submitted.
-        if (Request::method() == 'POST') {
-            $tab->set(array(
-                'label'         => Request::get('label', $tab->label),
-                'url'           => Request::get('url', $tab->url),
-                'groups'        => implode(',', Request::get('groups', explode(',', $tab->groups))),
-                'display_order' => Request::get('display_order', $tab->display_order),
-                'project_id'    => Request::get('project_id', $tab->project_id)
-            ));
-
-            // Save and redirect
-            if ($tab->save()) {
-                return $this->redirectTo('/admin/custom-tabs');
-            }
-        }
-
         if (Request::get('overlay') == 'true') {
             return $this->render('admin/custom_tabs/edit.overlay.phtml', compact('tab'));
+        }
+
+        return $this->render('admin/custom_tabs/edit.phtml', compact('tab'));
+    }
+
+    /**
+     * Update tab.
+     */
+    public function update(int $id): Response
+    {
+        $tab = CustomTab::find($id);
+
+        $tab->set(array(
+            'label'         => Request::get('label', $tab->label),
+            'url'           => Request::get('url', $tab->url),
+            'groups'        => implode(',', Request::get('groups', explode(',', $tab->groups))),
+            'display_order' => Request::get('display_order', $tab->display_order),
+            'project_id'    => Request::get('project_id', $tab->project_id)
+        ));
+
+        // Save and redirect
+        if ($tab->save()) {
+            return $this->redirectTo('/admin/custom-tabs');
         }
 
         return $this->render('admin/custom_tabs/edit.phtml', compact('tab'));

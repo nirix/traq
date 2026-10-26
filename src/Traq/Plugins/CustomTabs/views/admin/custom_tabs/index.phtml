@@ -16,8 +16,8 @@
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "/admin/custom-tabs/{$tab->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
-							<a href="/admin/custom-tabs/<?= $tab->id ?>/delete" class="btn-danger btn-sm"
-								x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', post: true })"
+							<a href="/admin/custom-tabs/<?= $tab->id ?>" class="btn-danger btn-sm"
+								x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', post: true, method: 'DELETE' })"
 								@click.prevent="toggle()">
 								<i class="fas fa-fw fa-trash"></i>
 								<span class="sr-only"><?= l('delete'); ?></span>
