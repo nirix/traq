@@ -50,7 +50,7 @@ class ReCaptcha extends Plugin
     public static function init()
     {
         // Add routes
-        Router::register('security_questions.index', '/admin/settings/recaptcha', [ReCaptchaController::class, 'index']);
+        Router::register('security_questions.index', '/admin/settings/recaptcha', [ReCaptchaController::class, 'index'], methods: ['GET', 'POST']);
 
         // Register the view path
         View::$searchPaths[] = dirname(__FILE__) . '/views';
