@@ -7,7 +7,6 @@
 
 @import "tailwindcss/components";
 @import "./changelog.css";
-@import "./jquery.css";
 @import "./modal.css";
 @import "./pagination.css";
 @import "./panel.css";
