@@ -1,103 +1,73 @@
-<div class="form-group-row">
-	<?= Form::label(l('name'), 'name'); ?>
-	<?= Form::text('name', array('value' => $field->name)); ?>
-</div>
-<div class="form-group-row">
-	<?= Form::label(l('slug'), 'slug'); ?>
-	<div class="input-group">
-		<?= Form::text('slug', array('value' => $field->slug)); ?>
-		<abbr class="input-group-hint" title="<?= l('help.slug'); ?>">?</abbr>
+<div x-data="{ type: <?= js_attr($field->type) ?> }">
+	<div class="form-group-row">
+		<?= Form::label(l('name'), 'name'); ?>
+		<?= Form::text('name', array('value' => $field->name)); ?>
 	</div>
-</div>
-<div class="form-group-row">
-	<?= Form::label(l('type'), 'type'); ?>
-	<?= Form::select('type', Traq\Models\CustomField::types_select_options(), array('value' => $field->type, 'id' => 'field_type')); ?>
-</div>
-<div class="form-group-row">
-	<?= Form::label(l('required'), 'required'); ?>
-	<?= Form::checkbox('is_required', 1, array('checked' => $field->is_required)); ?>
-</div>
-
-<div id="fields">
-	<div class="form-group-row text_field_property integer_field_property">
-		<?= Form::label(l('min_length'), 'min_length'); ?>
+	<div class="form-group-row">
+		<?= Form::label(l('slug'), 'slug'); ?>
 		<div class="input-group">
-			<?= Form::text('min_length', array('value' => $field->min_length)); ?>
-			<abbr class="input-group-hint" title="<?= l('help.custom_fields.min_length'); ?>">?</abbr>
+			<?= Form::text('slug', array('value' => $field->slug)); ?>
+			<abbr class="input-group-hint" title="<?= l('help.slug'); ?>">?</abbr>
 		</div>
 	</div>
-	<div class="form-group-row text_field_property integer_field_property">
-		<?= Form::label(l('max_length'), 'max_length'); ?>
-		<div class="input-group">
-			<?= Form::text('max_length', array('value' => $field->max_length)); ?>
-			<abbr class="input-group-hint" title="<?= l('help.custom_fields.max_length'); ?>">?</abbr>
+	<div class="form-group-row">
+		<?= Form::label(l('type'), 'type'); ?>
+		<?= Form::select('type', Traq\Models\CustomField::types_select_options(), array('value' => $field->type, 'id' => 'field_type', 'x-model' => 'type')); ?>
+	</div>
+	<div class="form-group-row">
+		<?= Form::label(l('required'), 'required'); ?>
+		<?= Form::checkbox('is_required', 1, array('checked' => $field->is_required)); ?>
+	</div>
+
+	<div id="fields">
+		<div class="form-group-row text_field_property integer_field_property" x-show="type === 'text' || type === 'integer'">
+			<?= Form::label(l('min_length'), 'min_length'); ?>
+			<div class="input-group">
+				<?= Form::text('min_length', array('value' => $field->min_length)); ?>
+				<abbr class="input-group-hint" title="<?= l('help.custom_fields.min_length'); ?>">?</abbr>
+			</div>
+		</div>
+		<div class="form-group-row text_field_property integer_field_property" x-show="type === 'text' || type === 'integer'">
+			<?= Form::label(l('max_length'), 'max_length'); ?>
+			<div class="input-group">
+				<?= Form::text('max_length', array('value' => $field->max_length)); ?>
+				<abbr class="input-group-hint" title="<?= l('help.custom_fields.max_length'); ?>">?</abbr>
+			</div>
+		</div>
+		<div class="form-group-row text_field_property integer_field_property" x-show="type === 'text' || type === 'integer'">
+			<?= Form::label(l('regex'), 'regex'); ?>
+			<div class="input-group">
+				<?= Form::text('regex', array('value' => $field->regex)); ?>
+				<abbr class="input-group-hint" title="<?= l('help.custom_fields.regex'); ?>">?</abbr>
+			</div>
+		</div>
+		<div class="form-group-row text_field_property integer_field_property" x-show="type === 'text' || type === 'integer'">
+			<?= Form::label(l('default_value'), 'default_value'); ?>
+			<?= Form::text('default_value', array('value' => $field->default_value)); ?>
+		</div>
+		<div class="form-group-row items-start select_field_property" x-show="type === 'select'">
+			<?= Form::label(l('values'), 'values'); ?>
+			<div class="property">
+				<?= Form::textarea('values', array('value' => $field->values)); ?>
+				<div class="info"><?= l('help.custom_fields.values'); ?></div>
+			</div>
+		</div>
+		<div class="form-group-row select_field_property" x-show="type === 'select'">
+			<?= Form::label(l('multiple'), 'multiple'); ?>
+			<?= Form::checkbox('multiple', 1, array('checked' => $field->multiple)); ?> <abbr title="<?= l('help.custom_fields.multiple'); ?>">?</abbr>
 		</div>
 	</div>
-	<div class="form-group-row text_field_property integer_field_property">
-		<?= Form::label(l('regex'), 'regex'); ?>
-		<div class="input-group">
-			<?= Form::text('regex', array('value' => $field->regex)); ?>
-			<abbr class="input-group-hint" title="<?= l('help.custom_fields.regex'); ?>">?</abbr>
-		</div>
+
+	<div class="form-group-row items-start">
+		<?= Form::label(l('ticket_types'), 'ticket_type_ids[]'); ?>
+		<?= Form::multiselect(
+			'ticket_type_ids[]',
+			array_merge(
+				array(array('label' => l('all'), 'value' => 0)),
+				\Traq\Models\Type::select_options()
+			),
+			$field->ticket_type_ids
+		); ?>
 	</div>
-	<div class="form-group-row text_field_property integer_field_property">
-		<?= Form::label(l('default_value'), 'default_value'); ?>
-		<?= Form::text('default_value', array('value' => $field->default_value)); ?>
-	</div>
-	<div class="form-group-row items-start select_field_property">
-		<?= Form::label(l('values'), 'values'); ?>
-		<div class="property">
-			<?= Form::textarea('values', array('value' => $field->values)); ?>
-			<div class="info"><?= l('help.custom_fields.values'); ?></div>
-		</div>
-	</div>
-	<div class="form-group-row select_field_property">
-		<?= Form::label(l('multiple'), 'multiple'); ?>
-		<?= Form::checkbox('multiple', 1, array('checked' => $field->multiple)); ?> <abbr title="<?= l('help.custom_fields.multiple'); ?>">?</abbr>
-	</div>
+
 </div>
-
-<div class="form-group-row items-start">
-	<?= Form::label(l('ticket_types'), 'ticket_type_ids[]'); ?>
-	<?= Form::multiselect(
-		'ticket_type_ids[]',
-		array_merge(
-			array(array('label' => l('all'), 'value' => 0)),
-			\Traq\Models\Type::select_options()
-		),
-		$field->ticket_type_ids
-	); ?>
-</div>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		// Show only text field properties
-		show_properties_for($('#field_type').val());
-
-		function show_properties_for(type) {
-			// Text field
-			if (type == 'text') {
-				$('.integer_field_property').hide();
-				$('.select_field_property').hide();
-				$('.text_field_property').show();
-			}
-			// Integer field
-			else if (type == 'integer') {
-				$('.text_field_property').hide();
-				$('.select_field_property').hide();
-				$('.integer_field_property').show();
-			}
-			// Select field
-			else if (type == 'select') {
-				$('.text_field_property').hide();
-				$('.integer_field_property').hide();
-				$('.select_field_property').show();
-			}
-		}
-
-		$("#field_type").change(function() {
-			var e = $(this);
-			show_properties_for(e.val());
-		});
-	});
-</script>
