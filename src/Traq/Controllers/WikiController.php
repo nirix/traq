@@ -58,7 +58,6 @@ class WikiController extends AppController
     /**
      * Displays the requested wiki page.
      */
-    #[AuthMiddleware(['view_wiki_pages'])]
     public function view(string $slug): Response
     {
         // Get the page
@@ -84,7 +83,6 @@ class WikiController extends AppController
     /**
      * Displays all the wiki pages for the project.
      */
-    #[AuthMiddleware(['view_wiki_pages'])]
     public function pages(): Response
     {
         // Fetch all the projects wiki pages
@@ -159,7 +157,7 @@ class WikiController extends AppController
             $timeline->save();
 
             if ($this->isJson) {
-                $this->json(['page' => $page]);
+                return $this->json(['page' => $page]);
             } else {
                 return $this->redirectTo($page->href());
             }
@@ -178,10 +176,6 @@ class WikiController extends AppController
 
         // Fetch the page from the database
         $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
-
-        // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-        }
 
         View::set('page', $page);
 
@@ -232,7 +226,7 @@ class WikiController extends AppController
             $timeline->save();
 
             if ($this->isJson) {
-                $this->json(['page' => $page]);
+                return $this->json(['page' => $page]);
             } else {
                 return $this->redirectTo($page->href());
             }
@@ -244,7 +238,8 @@ class WikiController extends AppController
     /**
      * Deletes the specified wiki page.
      */
-    public function delete(string $slug)
+    #[AuthMiddleware(['delete_wiki_page'])]
+    public function delete(string $slug): Response
     {
         $page = $this->project->wiki_pages->where('slug', $slug)->exec()->fetch();
 
