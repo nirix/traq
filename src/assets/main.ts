@@ -42,7 +42,7 @@ import './main/TicketList'
 import './main/RelatedTickets'
 import './main/ProfileTickets'
 import './main/Remote'
-import './main/Overlay'
+import './main/RemoteOverlay'
 import './stores/auth'
 
 window.Alpine = Alpine
