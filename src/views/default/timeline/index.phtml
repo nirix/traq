@@ -62,7 +62,7 @@
                         <?php endforeach; ?>
                     </ul>
                     <div class="timeline-user-set-author">
-                        <?= l('timeline.by_x', HTML::link($users[$event->user_id]->username, $users[$event->user_id]->href())) ?>
+                        <?= l('timeline.by_x', HTML::link(e($users[$event->user_id]->username), $users[$event->user_id]->href())) ?>
                     </div>
                 </div>
             <?php endforeach; ?>

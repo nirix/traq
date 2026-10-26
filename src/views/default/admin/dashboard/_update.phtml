@@ -1,5 +1,5 @@
-<?php if (isset($update) && $update['code'] > TRAQ_VER_CODE) { ?>
+<?php if (isset($update) && $update['code'] > TRAQ_VER_CODE): ?>
 	<div class="alert alert-warning">
-		<?php echo l('traq_update_available', $update['name'], $update['version'], $update['download'], $update['announcement']); ?>
+		<?= l('traq_update_available', e($update['name']), e($update['version']), e($update['download']), e($update['announcement'])) ?>
 	</div>
-<?php } ?>
+<?php endif; ?>

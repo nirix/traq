@@ -36,7 +36,7 @@
 			<tbody>
 				<?php foreach ($userRoles as $rel) : ?>
 					<tr>
-						<td><?= $rel->user->username ?></td>
+						<td><?= e($rel->user->username) ?></td>
 						<td><?= Form::select("role[{$rel->id}]", $projectRoles, ['value' => $rel->project_role_id]) ?></td>
 						<td class="text-right">
 							<a href="<?= Request::base($project->href("settings/members/{$rel->user_id}")) ?>" class="btn-danger btn-sm"

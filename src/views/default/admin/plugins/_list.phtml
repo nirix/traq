@@ -8,9 +8,9 @@
 	<tbody>
 		<?php foreach ($plugins as $plugin) : ?>
 			<tr>
-				<td><?= $plugin['name'] ?></td>
-				<td><?= $plugin['author'] ? $plugin['author'] : '' ?></td>
-				<td><?= $plugin['version'] ?></td>
+				<td><?= e($plugin['name']) ?></td>
+				<td><?= $plugin['author'] ? e($plugin['author']) : '' ?></td>
+				<td><?= e($plugin['version']) ?></td>
 				<td>
 					<div class=" btn-group justify-end">
 						<?php if ($plugin['installed'] && $plugin['enabled']) : ?>

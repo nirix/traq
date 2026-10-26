@@ -13,8 +13,8 @@ if (isset($change['action'])) {
 	}
 ?>
 	<span class="change-property"><?= l($change['property']) ?></span>
-	<?php if ($change['from']) : ?><span class="change-from"><?= $change['from'] ?></span><?php endif; ?>
-	<?php if ($change['to']) : ?><span class="change-to"><?= $change['to'] ?></span><?php endif; ?>
+	<?php if ($change['from']) : ?><span class="change-from"><?= e($change['from']) ?></span><?php endif; ?>
+	<?php if ($change['to']) : ?><span class="change-to"><?= e($change['to']) ?></span><?php endif; ?>
 <?php
 } else {
 ?>

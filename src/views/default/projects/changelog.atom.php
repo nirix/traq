@@ -16,6 +16,7 @@ foreach ($milestones as $milestone) {
         )
     );
 
+    $data = [];
     foreach ($milestone->tickets->exec()->fetch_all() as $ticket) {
         // Set updated time for feed
         if (Time::to_unix($ticket->created_at) > $updated) {
@@ -24,7 +25,7 @@ foreach ($milestones as $milestone) {
 
         // Check if this is to be displayed on the changelog
         if ($ticket->type->changelog and $ticket->status->changelog) {
-            $data[] = "{$ticket->type->bullet} <a href=\"" . absolute_url($ticket->href()) . "\">{$ticket->summary}</a>";
+            $data[] = "{$ticket->type->bullet} <a href=\"" . absolute_url($ticket->href()) . "\">" . e($ticket->summary) . "</a>";
         }
     }
 

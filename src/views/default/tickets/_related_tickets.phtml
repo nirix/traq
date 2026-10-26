@@ -65,7 +65,7 @@
                     <ul>
                         <?php foreach ($ticket->relatedTickets() as $relatedTicket) : ?>
                             <li>
-                                <span class="relation-type"><?= $relatedTicket->relation_type_name ?></span>
+                                <span class="relation-type"><?= e($relatedTicket->relation_type_name) ?></span>
                                 <a href="<?= Request::base($relatedTicket->href()) ?>" class="col-span-10">
                                     <span class="badge priority-<?= $relatedTicket->priority_id ?>">#<?= $relatedTicket->ticket_id ?></span>
                                     <span><?= e($relatedTicket->summary) ?></span>

@@ -3,17 +3,17 @@
 <div class="admin content">
 	<h2><?= l('dashboard') ?></h2>
 
-	<?php if (defined('DB_HAS_PREFIX') && DB_HAS_PREFIX) { ?>
+	<?php if (defined('DB_HAS_PREFIX') && DB_HAS_PREFIX) : ?>
 		<div class="alert alert-danger">
 			This Traq installation has a database table prefix. This feature was deprecated in Traq 3.9 and will be removed in Traq 3.11.
 		</div>
-	<?php } ?>
+	<?php endif; ?>
 
 	<div id="update">
 		<?php if (settings('check_for_update')) { ?>
-			<?php echo View::render('admin/dashboard/_update'); ?>
+			<?= View::render('admin/dashboard/_update'); ?>
 		<?php } else { ?>
-			<strong><?php echo HTML::link(l('check_for_update'), '/admin/check_for_update'); ?></strong>
+			<strong><?= HTML::link(l('check_for_update'), '/admin/check_for_update'); ?></strong>
 		<?php } ?>
 	</div>
 
@@ -22,14 +22,14 @@
 			<h3><?= l('tickets') ?></h3>
 			<div class="box">
 				<dl>
-					<dt><?php echo l('open'); ?></dt>
-					<dd><?php echo $tickets['open']; ?></dd>
+					<dt><?= l('open'); ?></dt>
+					<dd><?= $tickets['open']; ?></dd>
 
-					<dt><?php echo l('closed'); ?></dt>
-					<dd><?php echo $tickets['closed']; ?></dd>
+					<dt><?= l('closed'); ?></dt>
+					<dd><?= $tickets['closed']; ?></dd>
 
-					<dt><?php echo l('total'); ?></dt>
-					<dd><?php echo $tickets['open'] + $tickets['closed']; ?></dd>
+					<dt><?= l('total'); ?></dt>
+					<dd><?= $tickets['open'] + $tickets['closed']; ?></dd>
 				</dl>
 			</div>
 		</div>
@@ -38,11 +38,11 @@
 			<h3><?= l('users') ?></h3>
 			<div class="box">
 				<dl>
-					<dt><?php echo l('total'); ?></dt>
-					<dd><?php echo $users; ?></dd>
+					<dt><?= l('total'); ?></dt>
+					<dd><?= $users; ?></dd>
 
-					<dt><?php echo l('newest'); ?></dt>
-					<dd><?php echo HTML::link($latest_user->username, $latest_user->href()); ?></dd>
+					<dt><?= l('newest'); ?></dt>
+					<dd><?= HTML::link(e($latest_user->username), $latest_user->href()); ?></dd>
 				</dl>
 			</div>
 		</div>

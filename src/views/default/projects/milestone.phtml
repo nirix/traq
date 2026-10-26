@@ -1,7 +1,7 @@
 <?php extendView('layouts/default.phtml'); ?>
 
 <div class="milestone content">
-	<h2 class="page-title"><?= $milestone->name; ?></h2>
+	<h2 class="page-title"><?= e($milestone->name) ?></h2>
 	<div class="mb-4">
 		<?= subscription_link_for($milestone); ?>
 	</div>

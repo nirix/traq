@@ -13,7 +13,7 @@
 		<tbody>
 			<?php foreach ($statuses as $status) : ?>
 				<tr>
-					<td><?= HTML::link($status->name, "/admin/tickets/statuses/{$status->id}/edit", array('data-overlay' => true)) ?></td>
+					<td><?= HTML::link(e($status->name), "/admin/tickets/statuses/{$status->id}/edit", array('data-overlay' => true)) ?></td>
 					<td><?= l($status->isOpen() ? 'open' : ($status->isStarted() ? 'started' : 'closed')) ?></td>
 					<td>
 						<div class="btn-group justify-end">

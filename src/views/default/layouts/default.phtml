@@ -15,7 +15,7 @@
 		<header id="header">
 			<div class="container">
 				<div>
-					<h1><?= (isset($project)) ? HTML::link($project->name, $project->slug) : HTML::link(settings('title'), null) ?></h1>
+					<h1><?= (isset($project)) ? HTML::link(e($project->name), $project->slug) : HTML::link(e(settings('title')), null) ?></h1>
 				</div>
 
 				<?= View::render('layouts/_nav') ?>
@@ -23,7 +23,7 @@
 		</header>
 		<div id="page">
 			<div class="container">
-				<?php if (current_user()->password_ver == 'sha1') : ?>
+				<?php if (currentUser()->password_ver == 'sha1') : ?>
 					<div id="password-change-prompt">
 						<div class="error" style="text-align: center;">
 							<h3><?= l('password_change_prompt') ?></h3>
@@ -35,7 +35,7 @@
 				<?= $content ?>
 			</div>
 		</div>
-		<footer id="footer" data-stats="<?= round((microtime(true) - START_TIME), 2); ?>s, <?php echo round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3) ?>mb">
+		<footer id="footer" data-stats="<?= round((microtime(true) - START_TIME), 2); ?>s, <?= round((memory_get_peak_usage() - START_MEM) / pow(1024, 2), 3) ?>mb">
 			<div class="container">
 				<?= l('copyright', TRAQ_VER, date("Y")) ?>
 			</div>

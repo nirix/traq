@@ -19,7 +19,7 @@
 		<tbody>
 			<?php foreach ($customFields as $field) { ?>
 				<tr>
-					<td><?= HTML::link($field->name, "{$project->slug}/settings/custom_fields/{$field->id}/edit", ['data-overlay' => true]) ?></td>
+					<td><?= HTML::link(e($field->name), "{$project->slug}/settings/custom_fields/{$field->id}/edit", ['data-overlay' => true]) ?></td>
 					<td><?= l($field->type) ?></td>
 					<td>
 						<div class="btn-group justify-end">

@@ -1,27 +1,27 @@
 <?php extendView('layouts/default.phtml'); ?>
 
 <div class="content">
-	<h2 class="page-title"><?php echo l('project_settings'); ?></h2>
+	<h2 class="page-title"><?= l('project_settings') ?></h2>
 </div>
-<?php echo View::render('project_settings/_nav'); ?>
+<?= View::render('project_settings/_nav'); ?>
 <div class="content">
-	<?php echo HTML::link(l('new_component'), "{$project->slug}/settings/components/new", ['class' => 'btn-success', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-plus']); ?>
+	<?= HTML::link(l('new_component'), "{$project->slug}/settings/components/new", ['class' => 'btn-success', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-plus']) ?>
 </div>
 <div>
 	<table class="list">
 		<thead>
 			<tr>
-				<th class="component_name"><?php echo l('name'); ?></th>
-				<th class="actions text-right"><?php echo l('actions'); ?></th>
+				<th class="component_name"><?= l('name'); ?></th>
+				<th class="actions text-right"><?= l('actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($components->exec()->fetch_all() as $component) { ?>
+			<?php foreach ($components->exec()->fetch_all() as $component): ?>
 				<tr>
-					<td><?php echo HTML::link($component->name, "{$project->slug}/settings/components/{$component->id}/edit", array('data-overlay' => true)); ?></td>
+					<td><?= HTML::link(e($component->name), "{$project->slug}/settings/components/{$component->id}/edit", ['data-overlay' => true]) ?></td>
 					<td>
 						<div class="btn-group justify-end">
-							<?php echo HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
+							<?= HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
 							<a href="<?= Request::base($project->href("settings/components/{$component->id}")) ?>" class="btn-danger btn-sm"
 								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true, method: 'delete' })"
 								@click.prevent="toggle()">
@@ -31,7 +31,7 @@
 						</div>
 					</td>
 				</tr>
-			<?php } ?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 </div>

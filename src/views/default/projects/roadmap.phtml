@@ -21,7 +21,7 @@
 						<div>
 							<a href="<?= Request::base($row['milestone']->href()) ?>">
 								<h2 class="milestone-name">
-									<?= $row['milestone']->name ?>
+									<?= e($row['milestone']->name) ?>
 									<?php if ($row['milestone']->codename): ?>
 										<em>"<?= e($row['milestone']->codename) ?>"</em>
 									<?php endif; ?>

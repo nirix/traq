@@ -30,25 +30,18 @@ use Avalon\Http\Router;
  * @package Traq
  * @subpackage Helpers
  */
+function mkSlug(string $string)
+{
+    // Convert to lowercase, remove spaces, and replace with hyphens and strip special characters
+    return trim(strtolower(preg_replace('/[^a-z0-9-]/', '', str_replace(' ', '-', $string))));
+}
+
+/**
+ * @deprecated 3.9.0 Use mkSlug instead.
+ */
 function create_slug($uri)
 {
-    // Lowercase
-    $uri = strtolower($uri);
-
-    // Remove unwanted crap
-    $uri = preg_replace('/[^a-z0-9_\s\-.]/', '', $uri);
-
-    // Clean dashes and whitespace
-    $uri = preg_replace("/[\s\-]+/", "-", $uri);
-
-    // Convert whitespace and underscores to dashes
-    $uri = preg_replace('/[\s_]/', '', $uri);
-
-    // Trim the crap
-    $uri = trim($uri, '-');
-
-    // We're done here.
-    return $uri;
+    return mkSlug((string) $uri);
 }
 
 function route(string $name, array $params = []): string

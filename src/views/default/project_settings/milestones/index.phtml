@@ -21,7 +21,7 @@
 		<tbody>
 			<?php foreach ($milestones->exec()->fetch_all() as $milestone) : ?>
 				<tr>
-					<td><?= HTML::link($milestone->name, $project->href("settings/milestones/{$milestone->id}/edit"), ['data-overlay' => true]); ?></td>
+					<td><?= HTML::link(e($milestone->name), $project->href("settings/milestones/{$milestone->id}/edit"), ['data-overlay' => true]) ?></td>
 					<td><?= e($milestone->codename); ?></td>
 					<td><?php if ($milestone->due and $milestone->status == 1) {
 							echo time_from_now_ago($milestone->due);

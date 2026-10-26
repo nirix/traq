@@ -97,13 +97,16 @@ class ProjectController extends AppController
         switch ($sort) {
             case 'due':
                 $sortField = 'm.due';
+                $sort = 'due';
                 break;
             case 'name':
                 $sortField = 'm.name';
+                $sort = 'name';
                 break;
             case 'display_order':
             default:
                 $sortField = 'm.displayorder';
+                $sort = 'display_order';
                 break;
         }
 

@@ -1,35 +1,35 @@
-<?= extendView('layouts/default.phtml'); ?>
+<?php extendView('layouts/default.phtml'); ?>
 
 <div class="content">
-	<h2 class="page-title"><?php echo l('project_settings'); ?></h2>
+	<h2 class="page-title"><?= l('project_settings'); ?></h2>
 </div>
-<?php echo View::render('project_settings/_nav'); ?>
-<form action="<?php echo Request::requestUri(); ?>" method="post">
+<?= View::render('project_settings/_nav'); ?>
+<form action="<?= Request::requestUri(); ?>" method="post">
 	<table class="permissions list">
 		<thead>
 			<tr>
-				<th><?php echo l('action'); ?></th>
-				<?php foreach ($groups as $group) { ?>
-					<th><?php echo $group->name; ?></th>
-				<?php } ?>
+				<th><?= l('action'); ?></th>
+				<?php foreach ($groups as $group) : ?>
+					<th><?= e($group->name); ?></th>
+				<?php endforeach; ?>
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($actions as $key => $action) { ?>
-				<?php if (is_array($action)) { ?>
+			<?php foreach ($actions as $key => $action) : ?>
+				<?php if (is_array($action)) : ?>
 					<tr class="permission_section">
-						<td colspan="<?php echo count($groups) + 1; ?>"><strong><?php echo l($key); ?></strong></td>
+						<td colspan="<?= count($groups) + 1; ?>"><strong><?= l($key); ?></strong></td>
 					</tr>
-			<?php foreach ($action as $act) {
-						echo View::render('project_settings/permissions/_permission_row', array('key' => $key, 'action' => $act));
-					}
-				} else {
-					echo View::render('project_settings/permissions/_permission_row', array('action' => $action));
-				}
-			} ?>
+			<?php foreach ($action as $act) :
+						echo View::render('project_settings/permissions/_permission_row', ['key' => $key, 'action' => $act]);
+					endforeach;
+				else:
+					echo View::render('project_settings/permissions/_permission_row', ['action' => $action]);
+				endif;
+			endforeach; ?>
 		</tbody>
 	</table>
 	<div class="actions">
-		<?php echo Form::submit(l('save')); ?>
+		<?= Form::submit(l('save')); ?>
 	</div>
 </form>

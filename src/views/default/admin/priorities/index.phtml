@@ -12,7 +12,7 @@
 		<tbody>
 			<?php foreach ($priorities as $priority) : ?>
 				<tr>
-					<td><?= HTML::link($priority->name, "/admin/priorities/{$priority->id}/edit", array('data-overlay' => true)) ?></td>
+					<td><?= HTML::link(e($priority->name), "/admin/priorities/{$priority->id}/edit", array('data-overlay' => true)) ?></td>
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "/admin/priorities/{$priority->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>

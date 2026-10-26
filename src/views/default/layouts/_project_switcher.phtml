@@ -4,7 +4,7 @@
 		<ul class="project-switcher" x-show="open" x-transition>
 			<?php foreach ($projects as $p) : ?>
 				<li>
-					<a href="<?= Request::base($p->slug) ?>"><?= $p->name ?></a>
+					<a href="<?= Request::base($p->slug) ?>"><?= e($p->name) ?></a>
 				</li>
 			<?php endforeach; ?>
 		</ul>

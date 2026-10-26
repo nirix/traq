@@ -15,7 +15,7 @@
             <div class="update-info">
                 <?= l(
                     "ticket_history.x_{$action}_as_x_x_ago",
-                    HTML::link($update->user->username, $update->user->href()),
+                    HTML::link(e($update->user->username), $update->user->href()),
                     e($update->changes[0]['to']),
                     time_ago($update->created_at)
                 ) ?>
@@ -47,7 +47,7 @@
     <div class="update" id="ticket-update-<?= $update->id ?>">
         <div class="update-meta">
             <h4>
-                <?= l('x_by_x', time_ago($update->created_at), HTML::link(strshorten($update->user->name, 20), $update->user->href())) ?>
+                <?= l('x_by_x', time_ago($update->created_at), HTML::link(strshorten(e($update->user->name), 20), $update->user->href())) ?>
             </h4>
             <div class="btn-group">
                 <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history') || $update->user->id === currentUser()->id) : ?>

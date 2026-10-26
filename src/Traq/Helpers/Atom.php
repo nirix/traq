@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -60,40 +60,40 @@ class Atom
 
         $feed[] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
         $feed[] = "<feed xmlns=\"http://www.w3.org/2005/Atom\">";
-        $feed[] = "  <title>{$this->title}</title>";
-        $feed[] = "  <link href=\"{$this->link}\" />";
-        $feed[] = "  <link href=\"{$this->feed_link}\" rel=\"self\" />";
-        $feed[] = "  <updated>{$this->updated}</updated>";
+        $feed[] = "  <title>" . e($this->title) . "</title>";
+        $feed[] = "  <link href=\"" . e($this->link) . "\" />";
+        $feed[] = "  <link href=\"" . e($this->feed_link) . "\" rel=\"self\" />";
+        $feed[] = "  <updated>" . e($this->updated) . "</updated>";
 
 
         foreach ($this->entries as $entry) {
             $feed[] = "  <entry>";
-            $feed[] = "    <title>{$entry['title']}</title>";
-            $feed[] = "    <id>{$entry['id']}</id>";
-            $feed[] = "    <updated>{$entry['updated']}</updated>";
+            $feed[] = "    <title>" . htmlspecialchars($entry['title'], ENT_XML1) . "</title>";
+            $feed[] = "    <id>" . e($entry['id']) . "</id>";
+            $feed[] = "    <updated>" . e($entry['updated']) . "</updated>";
 
             // Link
             if (isset($entry['link'])) {
-                $feed[] = "    <link href=\"{$entry['link']}\" />";
+                $feed[] = "    <link href=\"" . e($entry['link']) . "\" />";
             }
 
             // Summary
             if (isset($entry['summary'])) {
-                $feed[] = "    <summary>{$entry['summary']}</summary>";
+                $feed[] = "    <summary>" . htmlspecialchars($entry['summary'], ENT_XML1) . "</summary>";
             }
 
             // Author
             if (isset($entry['author'])) {
                 $feed[] = "    <author>";
-                $feed[] = "      <name>{$entry['author']['name']}</name>";
+                $feed[] = "      <name>" . htmlspecialchars($entry['author']['name'], ENT_XML1) . "</name>";
                 $feed[] = "    </author>";
             }
 
             // Content
             if (isset($entry['content'])) {
-                $feed[] = "    <content" . (array_key_exists('type', $entry['content']) ? " type=\"{$entry['content']['type']}\"" : '') . ">";
-                $feed[] = "      {$entry['content']['data']}";
-                $feed[] = "    </author>";
+                $feed[] = "    <content" . (array_key_exists('type', $entry['content']) ? " type=\"" . htmlspecialchars($entry['content']['type'], ENT_XML1) . "\"" : '') . ">";
+                $feed[] = "      " . htmlspecialchars($entry['content']['data'], ENT_XML1);
+                $feed[] = "    </content>";
             }
 
             $feed[] = "  </entry>";

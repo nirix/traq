@@ -1,9 +1,9 @@
 <?php extendView('layouts/default.phtml'); ?>
 
-<?php echo View::render('wiki/_nav'); ?>
+<?= View::render('wiki/_nav'); ?>
 <div class="wiki content">
 	<div id="head">
-		<h2 class="page-title"><?php echo $page->title; ?></h2>
+		<h2 class="page-title"><?= e($page->title); ?></h2>
 		<div id="wiki_actions">
 			<div class="btn-group">
 				<?php if (currentUser()->permission($project->id, 'create_wiki_page')) : ?>
@@ -31,5 +31,5 @@
 			</div>
 		</div>
 	</div>
-	<?php echo format_text($page->revision->content); ?>
+	<?= format_text($page->revision->content); ?>
 </div>

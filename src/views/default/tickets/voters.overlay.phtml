@@ -1,9 +1,9 @@
-<h3><?php echo l('people_who_have_voted_on_this_ticket', count($voters)); ?></h3>
+<h3><?= l('people_who_have_voted_on_this_ticket', e(count($voters))) ?></h3>
 <ol id="voters_list">
-<?php foreach ($voters as $key => $voter) { ?>
-	<li><?php echo HTML::link($voter->username, $voter->href()) . iif($key != count($voters)-1, ', '); ?></li>
-<?php } ?>
+	<?php foreach ($voters as $key => $voter): ?>
+		<li><?= HTML::link(e($voter->username), $voter->href()) . iif($key != count($voters) - 1, ', ') ?></li>
+	<?php endforeach; ?>
 </ol>
 <div class="overlay-actions">
-	<input type="button" value="<?php echo l('close'); ?>" onclick="close_overlay();" />
+	<input type="button" value="<?= l('close'); ?>" onclick="close_overlay();" />
 </div>

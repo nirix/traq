@@ -11,7 +11,7 @@
 
 <?php FishHook::run('template:layouts/global/head'); ?>
 <?php if (isset($app->feeds)) : ?>
-	<?php foreach ($app->feeds as $feed) { ?>
-		<link type="application/atom+xml" rel="alternate" href="<?php echo $feed[0]; ?>">
-	<?php } ?>
+	<?php foreach ($app->feeds as $feed): ?>
+		<link type="application/atom+xml" rel="alternate" href="<?= e($feed[0]) ?>">
+	<?php endforeach; ?>
 <?php endif; ?>

@@ -13,8 +13,8 @@
 		<tbody>
 			<?php foreach ($projects as $project) : ?>
 				<tr>
-					<td><?= HTML::link($project->name, "/{$project->slug}/settings") ?></td>
-					<td><?= $project->codename ?></td>
+					<td><?= HTML::link(e($project->name), "/{$project->slug}/settings") ?></td>
+					<td><?= e($project->codename) ?></td>
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "/{$project->slug}/settings", ['class' => 'btn-warning btn-sm', 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>

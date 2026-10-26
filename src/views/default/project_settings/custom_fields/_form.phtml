@@ -6,7 +6,7 @@
 	<?= Form::label(l('slug'), 'slug'); ?>
 	<div class="input-group">
 		<?= Form::text('slug', array('value' => $field->slug)); ?>
-		<abbr class="input-group-hint" title="<?php echo l('help.slug'); ?>">?</abbr>
+		<abbr class="input-group-hint" title="<?= l('help.slug'); ?>">?</abbr>
 	</div>
 </div>
 <div class="form-group-row">
@@ -23,21 +23,21 @@
 		<?= Form::label(l('min_length'), 'min_length'); ?>
 		<div class="input-group">
 			<?= Form::text('min_length', array('value' => $field->min_length)); ?>
-			<abbr class="input-group-hint" title="<?php echo l('help.custom_fields.min_length'); ?>">?</abbr>
+			<abbr class="input-group-hint" title="<?= l('help.custom_fields.min_length'); ?>">?</abbr>
 		</div>
 	</div>
 	<div class="form-group-row text_field_property integer_field_property">
 		<?= Form::label(l('max_length'), 'max_length'); ?>
 		<div class="input-group">
 			<?= Form::text('max_length', array('value' => $field->max_length)); ?>
-			<abbr class="input-group-hint" title="<?php echo l('help.custom_fields.max_length'); ?>">?</abbr>
+			<abbr class="input-group-hint" title="<?= l('help.custom_fields.max_length'); ?>">?</abbr>
 		</div>
 	</div>
 	<div class="form-group-row text_field_property integer_field_property">
 		<?= Form::label(l('regex'), 'regex'); ?>
 		<div class="input-group">
 			<?= Form::text('regex', array('value' => $field->regex)); ?>
-			<abbr class="input-group-hint" title="<?php echo l('help.custom_fields.regex'); ?>">?</abbr>
+			<abbr class="input-group-hint" title="<?= l('help.custom_fields.regex'); ?>">?</abbr>
 		</div>
 	</div>
 	<div class="form-group-row text_field_property integer_field_property">
@@ -53,13 +53,13 @@
 	</div>
 	<div class="form-group-row select_field_property">
 		<?= Form::label(l('multiple'), 'multiple'); ?>
-		<?= Form::checkbox('multiple', 1, array('checked' => $field->multiple)); ?> <abbr title="<?php echo l('help.custom_fields.multiple'); ?>">?</abbr>
+		<?= Form::checkbox('multiple', 1, array('checked' => $field->multiple)); ?> <abbr title="<?= l('help.custom_fields.multiple'); ?>">?</abbr>
 	</div>
 </div>
 
 <div class="form-group-row items-start">
 	<?= Form::label(l('ticket_types'), 'ticket_type_ids[]'); ?>
-	<?php echo Form::multiselect(
+	<?= Form::multiselect(
 		'ticket_type_ids[]',
 		array_merge(
 			array(array('label' => l('all'), 'value' => 0)),

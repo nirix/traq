@@ -81,7 +81,7 @@
 								<?php foreach ($attachments as $attachment) : ?>
 									<li id="attachment-<?= $attachment->id ?>">
 										<a href="<?= Request::base($attachment->href()) ?>"><span class="attachment-filename"><?= e($attachment->name) ?></span></a>,
-										<?= l('x_by_x', time_ago($attachment->created_at, false), HTML::link($attachment->user->name, $attachment->user->href())) ?>
+										<?= l('x_by_x', time_ago($attachment->created_at, false), HTML::link(e($attachment->user->name), $attachment->user->href())) ?>
 										<?php if (currentUser()->permission($ticket->project_id, 'delete_attachments')) : ?>
 											<button class="btn-danger btn-xs" title="<?= l('delete') ?>" x-data="popoverConfirm({ position: 'center', message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($attachment->href()) ?>', method: 'DELETE', success: () => { document.getElementById('attachment-<?= $attachment->id ?>').remove() } })" @click="toggle()">
 												<span class="fas fa-fw fa-trash"></span>
@@ -124,19 +124,19 @@
 						<div>
 							<label for="status"><?= l('status') ?></label>
 							<div>
-								<?= $ticket->status->name ?>
+								<?= e($ticket->status->name) ?>
 							</div>
 						</div>
 						<div>
 							<label for="assignee"><?= l('assignee') ?></label>
 							<div>
-								<?= $ticket->assigned_to ? $ticket->assigned_to->name : '-'; ?>
+								<?= $ticket->assigned_to ? e($ticket->assigned_to->name) : '-'; ?>
 							</div>
 						</div>
 						<div>
 							<label for="priority"><?= l('priority') ?></label>
 							<div>
-								<?= $ticket->priority->name ?>
+								<?= e($ticket->priority->name) ?>
 							</div>
 						</div>
 					</div>
@@ -152,31 +152,31 @@
 						<div>
 							<label for="type"><?= l('type') ?></label>
 							<div>
-								<?= $ticket->type->name ?>
+								<?= e($ticket->type->name) ?>
 							</div>
 						</div>
 						<div>
 							<label for="milestone"><?= l('milestone') ?></label>
 							<div>
-								<?= $ticket->milestone ? $ticket->milestone->name : '-' ?>
+								<?= $ticket->milestone ? e($ticket->milestone->name) : '-' ?>
 							</div>
 						</div>
 						<div>
 							<label for="component"><?= l('component') ?></label>
 							<div>
-								<?= $ticket->component ? $ticket->component->name : '-'; ?>
+								<?= $ticket->component ? e($ticket->component->name) : '-'; ?>
 							</div>
 						</div>
 						<div>
 							<label for="version"><?= l('version') ?></label>
 							<div>
-								<?= $ticket->version ? $ticket->version->name : '-'; ?>
+								<?= $ticket->version ? e($ticket->version->name) : '-'; ?>
 							</div>
 						</div>
 						<div>
 							<label for="severity"><?= l('severity') ?></label>
 							<div>
-								<?= $ticket->severity->name ?>
+								<?= e($ticket->severity->name) ?>
 							</div>
 						</div>
 					</div>
@@ -192,7 +192,7 @@
 						<div>
 							<label for="owner"><?= l('owner') ?></label>
 							<div>
-								<?= $ticket->user->name ?>
+								<?= e($ticket->user->name) ?>
 							</div>
 						</div>
 						<div>
@@ -226,13 +226,13 @@
 						<div>
 							<label for="time_proposed"><?= l('time_proposed') ?></label>
 							<div>
-								<?= strlen($ticket->time_proposed) > 0 ? $ticket->time_proposed : '-' ?>
+								<?= strlen($ticket->time_proposed) > 0 ? e($ticket->time_proposed) : '-' ?>
 							</div>
 						</div>
 						<div>
 							<label for="time_worked"><?= l('time_worked') ?></label>
 							<div>
-								<?= strlen($ticket->time_worked) > 0 ? $ticket->time_worked : '-' ?>
+								<?= strlen($ticket->time_worked) > 0 ? e($ticket->time_worked) : '-' ?>
 							</div>
 						</div>
 					</div>

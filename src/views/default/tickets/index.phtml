@@ -1,7 +1,7 @@
 <?php extendView('layouts/default.phtml'); ?>
 
 <div class="content">
-    <h2 class="page-title"><?php echo l('tickets'); ?></h2>
+    <h2 class="page-title"><?= l('tickets'); ?></h2>
 
     <div x-data="ticketList" <?= currentUser()->permission($project->id, 'perform_mass_actions') ? 'data-mass-actions' : '' ?>>
         <fieldset class="panel ticket-filters-container" :class=" { 'open' : showFilters }">
@@ -227,7 +227,7 @@
                                 <li>
                                     <label>
                                         <input type="checkbox" x-model="columns.<?= $field->slug ?>">
-                                        <?= $field->name ?>
+                                        <?= e($field->name) ?>
                                     </label>
                                 </li>
                             <?php endforeach; ?>
@@ -266,7 +266,7 @@
 
                         <?php foreach ($customFields as $field): ?>
                             <th @click="sort('<?= $field->slug ?>')" :class="{ sort: sortColumn === '<?= $field->slug ?>', asc: sortOrder === 'asc', desc: sortOrder === 'desc' }" x-show="columns.<?= $field->slug ?>">
-                                <?= $field->name ?>
+                                <?= e($field->name) ?>
                             </th>
                         <?php endforeach; ?>
                     </tr>

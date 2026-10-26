@@ -96,7 +96,7 @@ class WikiPage extends Model
      */
     protected function _set_slug()
     {
-        $this->slug = str_replace(' ', '_', $this->slug);
+        $this->slug = mkSlug($this->title);
     }
 
     /**

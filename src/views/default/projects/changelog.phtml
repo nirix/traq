@@ -1,7 +1,7 @@
 <?php extendView('layouts/default.phtml'); ?>
 
 <div class="changelog content">
-	<h2 class="page-title"><?php echo l('changelog'); ?></h2>
+	<h2 class="page-title"><?= l('changelog'); ?></h2>
 
 	<div class="relative border-l-2 border-slate-200 ml-4 space-y-16 mt-5">
 		<?php foreach ($milestones as $index => $milestone): ?>
@@ -14,7 +14,7 @@
 
 				<header class="flex items-baseline gap-3 mb-4">
 					<h2 class="text-2xl font-bold text-slate-800">
-						<a href="<?= Request::base($milestone->href()) ?>" class="text-slate-800"><?= $milestone->name ?></a>
+						<a href="<?= Request::base($milestone->href()) ?>" class="text-slate-800"><?= e($milestone->name) ?></a>
 					</h2>
 					<?php if ($index == 0): ?>
 						<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-100 text-sky-700 border border-sky-200"><?= l('latest') ?></span>
