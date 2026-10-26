@@ -83,13 +83,14 @@
 							</div>
 						<?php } ?>
 						<?php if (currentUser()->permission($project->id, 'ticket_properties_change_tasks')) { ?>
-							<div class="form-group">
+							<div class="form-group" x-data="{ isOpen: false, tasks: <?= js_attr($ticket->tasks) ?> }">
 								<?= Form::label(l('tasks')) ?>
-								<button type="button" id="manage_ticket_tasks" data-url="<?= Request::base($project->href("tickets/{$ticket->ticket_id}/tasks/manage")) ?>"><?php echo l('manage') ?></button>
+								<button type="button" id="manage_ticket_tasks" @click.prevent="isOpen = true"><?php echo l('manage') ?></button>
 								<div id="ticket_tasks_data">
-									<input type="hidden" name="task_count" value="<?= count($ticket->tasks) ?>">
-									<input type="hidden" name="tasks" value="<?= js_attr($ticket->tasks) ?>">
+									<input type="hidden" name="task_count" x-model="tasks.length">
+									<input type="hidden" name="tasks" x-model="JSON.stringify(tasks)">
 								</div>
+								<?= View::render('ticket_tasks/_manage_tasks.phtml') ?>
 							</div>
 						<?php } ?>
 						<?php if (currentUser()->permission($project->id, 'add_attachments')) { ?>

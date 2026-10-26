@@ -1,0 +1,29 @@
+<template x-teleport="body">
+    <div :class="isOpen ? 'modal-container open' : 'modal-container'" x-cloak x-show="isOpen" x-transition.opacity>
+        <div class="modal" @click.outside="isOpen = false">
+            <h2 class="modal-title"><?= l('manage_tasks') ?></h2>
+            <div class="modal-content">
+                <div class="ticket-tasks-manager">
+                    <template x-for="(task, index) in tasks" :key="index">
+                        <div class="input-group mb-2">
+                            <div class="input-group-checkbox">
+                                <input type="checkbox" name="task[]" value="1" x-model="tasks[index].completed">
+                            </div>
+                            <input type="text" name="task[]" x-model="tasks[index].task">
+                            <button type="button" class="btn-danger" @click.prevent="tasks.splice(index, 1)">
+                                <span class="fas fa-fw fa-trash"></span>
+                                <span class="visually-hidden"><?= l('delete') ?></span>
+                            </button>
+                        </div>
+                    </template>
+                    <div class="task-new">
+                        <button type="button" @click.prevent="tasks.push({completed: false, task: ''})"><?= l('add_task') ?></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" @click.prevent="isOpen = false" class="btn-primary"><?= l('done') ?></button>
+            </div>
+        </div>
+    </div>
+</template>

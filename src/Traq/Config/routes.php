@@ -126,7 +126,6 @@ Router::register('tickets.voters', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>
 Router::register('ticket.history.edit', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)/edit', [TicketHistoryController::class, 'edit'], methods: ['GET', 'POST']);
 Router::register('ticket.history.delete', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/history/(?P<id>[0-9]+)', [TicketHistoryController::class, 'delete'], methods: ['DELETE']);
 Router::register('ticket.tasks.toggle', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/(?P<task_id>[0-9]+)', [TicketTasksController::class, 'toggle'], methods: ['POST']);
-Router::register('ticket.tasks.manage', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/tasks/manage', [TicketTasksController::class, 'manage']);
 Router::register('tickets.massActions', '/' . PROJECT_SLUG . '/tickets/mass-actions', [TicketController::class, 'massActions'], methods: ['POST']);
 Router::register('tickets', '/' . PROJECT_SLUG . '/tickets', [TicketController::class, 'index']);
 Router::register('tickets.related', '/' . PROJECT_SLUG . '/tickets/(?P<ticket_id>[0-9]+)/related-tickets', [TicketController::class, 'relatedTickets']);

@@ -55,32 +55,3 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 })
-
-/*!
- * jQuery Overlay
- * Copyright (c) 2011-2012 Jack Polgar
- * All Rights Reserved
- * Released under the BSD 3-clause license.
- */
-;(function ($) {
-  $.fn.overlay = function () {
-    var element = jQuery(this)
-    element.fadeIn()
-    element.css({ left: jQuery(window).width() / 2 - element.width() / 2, top: '18%' })
-    jQuery('#overlay_blackout').css({
-      display: 'none',
-      opacity: 0.7,
-      position: 'fixed',
-      width: jQuery(document).width() + 100,
-      height: jQuery(document).height() + 100,
-      top: -100 + 'px',
-      left: -100 + 'px',
-    })
-    jQuery('#overlay_blackout').fadeIn('', function () {
-      jQuery('#overlay_blackout').bind('click', function () {
-        jQuery('#overlay_blackout').fadeOut()
-        element.fadeOut()
-      })
-    })
-  }
-})(jQuery)
