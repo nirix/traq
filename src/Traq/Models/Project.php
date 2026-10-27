@@ -66,7 +66,6 @@ class Project extends Model
         'wiki_pages'   => array('model' => 'WikiPage'),
         'roles'        => array('model' => 'ProjectRole'),
         'user_roles'   => array('model' => 'UserRole'),
-        'repositories' => array('model' => 'Repository'),
         'custom_fields' => array('model' => 'CustomField')
     );
 
