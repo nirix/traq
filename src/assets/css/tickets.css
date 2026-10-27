@@ -11,6 +11,16 @@
     flex-grow: 1;
     @apply text-2xl;
   }
+
+  & > .ticket-actions {
+    @apply flex items-center gap-1.5;
+
+    & > form,
+    & > a,
+    & > button {
+      @apply inline-flex items-center gap-1.5;
+    }
+  }
 }
 
 .ticket-info-section {

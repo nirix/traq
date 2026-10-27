@@ -20,7 +20,7 @@
                                     <span :class="`badge priority-${relatedTicket.priority_id}`" x-text="`#${relatedTicket.ticket_id}`"></span>
                                     <span x-text="relatedTicket.summary"></span>
                                 </a>
-                                <button class="btn-danger btn-xs btn-outline action" type="button" @click="remove(relatedTicket)">
+                                <button class="btn-danger btn-ghost btn-xs action" type="button" @click="remove(relatedTicket)">
                                     <span class="fas fa-fw fa-trash"></span>
                                     <span class="sr-only"><?= l('delete') ?></span>
                                 </button>

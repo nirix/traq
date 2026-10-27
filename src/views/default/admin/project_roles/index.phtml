@@ -19,8 +19,8 @@
 					<td><?= $role->project_id > 0 ? e($role->project->name) : l('all') ?></td>
 					<td>
 						<div class="btn-group justify-end">
-							<?= HTML::link(l('edit'), "/admin/roles/{$role->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
-							<a href="/admin/roles/<?= $role->id ?>" class="btn-danger btn-sm"
+							<?= HTML::link(l('edit'), "/admin/roles/{$role->id}/edit", ['class' => 'btn-warning btn-soft btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
+							<a href="/admin/roles/<?= $role->id ?>" class="btn-danger btn-soft btn-sm"
 								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true, method: 'DELETE' })"
 								@click.prevent="toggle()">
 								<i class="fas fa-fw fa-trash"></i>

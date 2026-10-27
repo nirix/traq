@@ -21,8 +21,8 @@
 					<td><?= HTML::link(e($component->name), "{$project->slug}/settings/components/{$component->id}/edit", ['data-overlay' => true]) ?></td>
 					<td>
 						<div class="btn-group justify-end">
-							<?= HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
-							<a href="<?= Request::base($project->href("settings/components/{$component->id}")) ?>" class="btn-danger btn-sm"
+							<?= HTML::link(l('edit'), "{$project->slug}/settings/components/{$component->id}/edit", ['class' => 'btn-warning btn-soft btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]) ?>
+							<a href="<?= Request::base($project->href("settings/components/{$component->id}")) ?>" class="btn-danger btn-soft btn-sm"
 								x-data="popoverConfirm({ position: 'center' , message: '<?= l('confirm.delete') ?>', post: true, method: 'delete' })"
 								@click.prevent="toggle()">
 								<i class="fas fa-fw fa-trash"></i>

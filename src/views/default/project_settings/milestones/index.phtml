@@ -31,8 +31,8 @@
 					<td><?= $milestone->status == 0 ? l('cancelled') : ($milestone->status == 1 ? l('active') : l('completed')); ?></td>
 					<td>
 						<div class="btn-group justify-end">
-							<?= HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
-							<a href="<?= Request::base($project->href("settings/milestones/{$milestone->id}/delete")) ?>" class="btn-danger btn-sm">
+							<?= HTML::link(l('edit'), "{$project->slug}/settings/milestones/{$milestone->id}/edit", ['class' => 'btn-warning btn-soft btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
+							<a href="<?= Request::base($project->href("settings/milestones/{$milestone->id}/delete")) ?>" class="btn-danger btn-soft btn-sm">
 								<i class="fas fa-fw fa-trash"></i>
 								<span class="sr-only"><?= l('delete'); ?></span>
 							</a>

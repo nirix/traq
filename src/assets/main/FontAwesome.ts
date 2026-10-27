@@ -43,6 +43,7 @@ import {
   faBook,
   faRightLeft,
   faCircle,
+  faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
@@ -91,4 +92,5 @@ library.add(faFlag)
 library.add(faBook)
 library.add(faRightLeft)
 library.add(faCircle)
+library.add(faClockRotateLeft)
 dom.watch()

@@ -5,29 +5,30 @@
 	<div id="head">
 		<h2 class="page-title"><?= e($page->title); ?></h2>
 		<div id="wiki_actions">
-			<div class="btn-group">
+			<div class="wiki-actions">
 				<?php if (currentUser()->permission($project->id, 'create_wiki_page')) : ?>
 					<a href="<?= Request::base($project->href('wiki/_new')) ?>" class="btn-success btn-sm" title="<?= l('new_page') ?>">
 						<span class="fas fa-fw fa-plus"></span>
-						<spa class="visually-hidden"><?= l('new_page') ?></span>
+						<span><?= l('new_page') ?></span>
 					</a>
+					<span class="wiki-actions-divider" aria-hidden="true"></span>
 				<?php endif; ?>
 				<?php if (currentUser()->permission($project->id, 'edit_wiki_page')) : ?>
-					<a href="<?= Request::base($page->href('_edit')) ?>" class="btn-warning btn-sm" title="<?= l('edit_page') ?>">
+					<a href="<?= Request::base($page->href('_edit')) ?>" class="btn-warning btn-soft btn-sm" title="<?= l('edit_page') ?>">
 						<span class="fas fa-fw fa-pencil"></span>
 						<span class="visually-hidden"><?= l('edit_page') ?></span>
 					</a>
 				<?php endif; ?>
+				<a href="<?= Request::base($page->href('_revisions')) ?>" class="btn-secondary btn-soft btn-sm" title="<?= l('revisions') ?>">
+					<span class="fas fa-fw fa-clock-rotate-left"></span>
+					<span class="visually-hidden"><?= l('revisions') ?></span>
+				</a>
 				<?php if (currentUser()->permission($project->id, 'delete_wiki_page')) : ?>
-					<button class="btn-danger btn-sm" title="<?= l('delete_page') ?>" x-data="popoverConfirm(<?= js_attr(['message' => l('confirm.delete_x', htmlspecialchars_decode((string) $page->title, ENT_QUOTES)), 'post' => Request::base($page->href()), 'method' => 'delete']) ?>,)" @click.prevent="toggle()">
+					<button class="btn-danger btn-soft btn-sm" title="<?= l('delete_page') ?>" x-data="popoverConfirm(<?= js_attr(['message' => l('confirm.delete_x', htmlspecialchars_decode((string) $page->title, ENT_QUOTES)), 'post' => Request::base($page->href()), 'method' => 'delete']) ?>,)" @click.prevent="toggle()">
 						<span class="fas fa-fw fa-trash"></span>
 						<span class="visually-hidden"><?= l('delete_page') ?></span>
 					</button>
 				<?php endif; ?>
-				<a href="<?= Request::base($page->href('_revisions')) ?>" class="btn-secondary btn-sm" title="<?= l('revisions') ?>">
-					<span class="fas fa-fw fa-clone"></span>
-					<span class="visually-hidden"><?= l('revisions') ?></span>
-				</a>
 			</div>
 		</div>
 	</div>

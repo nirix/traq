@@ -13,26 +13,26 @@
 }
 
 .badge.priority-1 {
-    @apply bg-red-500;
-    @apply border-red-500;
+    @apply bg-red-100 text-red-800;
+    @apply border-red-200;
 }
 
 .badge.priority-2 {
-    @apply bg-yellow-500;
-    @apply border-yellow-500;
+    @apply bg-yellow-100 text-yellow-800;
+    @apply border-yellow-200;
 }
 
 .badge.priority-3 {
-    @apply bg-sky-500;
-    @apply border-sky-500;
+    @apply bg-sky-100 text-sky-800;
+    @apply border-sky-200;
 }
 
 .badge.priority-4 {
-    @apply bg-violet-500;
-    @apply border-violet-500;
+    @apply bg-violet-100 text-violet-800;
+    @apply border-violet-200;
 }
 
 .badge.priority-5 {
-    @apply bg-gray-500;
-    @apply border-gray-500;
+    @apply bg-gray-100 text-gray-700;
+    @apply border-gray-200;
 }

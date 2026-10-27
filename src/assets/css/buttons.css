@@ -50,7 +50,7 @@ input[type="reset"] {
 
   &.btn-xs {
     @apply text-xs;
-    @apply p-1;
+    @apply p-1.5;
   }
 
   &:disabled,
@@ -144,9 +144,9 @@ input[type="reset"] {
 
   &.btn-danger {
     @apply text-white;
-    @apply bg-rose-600 hover:bg-rose-700 active:bg-rose-800;
-    @apply border-rose-600 hover:border-rose-700 active:border-rose-800;
-    @apply ring-rose-600/30;
+    @apply bg-red-600 hover:bg-red-700 active:bg-red-800;
+    @apply border-red-600 hover:border-red-700 active:border-red-800;
+    @apply ring-red-600/30;
 
     &:disabled,
     &.disabled {
@@ -158,9 +158,63 @@ input[type="reset"] {
     }
 
     &.btn-outline {
-      @apply bg-transparent border-rose-600 hover:border-rose-700 active:border-rose-800;
-      @apply text-rose-600 hover:text-rose-700 active:text-rose-800;
+      @apply bg-transparent border-red-600 hover:border-red-700 active:border-red-800;
+      @apply text-red-600 hover:text-red-700 active:text-red-800;
     }
+  }
+
+  /*
+   * Quiet actions, colour shows on hover. Combine with a colour class.
+   * btn-soft has a light fill (for plain white surfaces), btn-ghost is
+   * transparent at rest (for tinted surfaces like card headers).
+   */
+  &.btn-soft,
+  &.btn-ghost {
+    @apply text-gray-600;
+    @apply bg-gray-100 border-gray-100;
+    @apply ring-gray-400/30;
+
+    &:hover,
+    &:active {
+      @apply text-gray-800;
+      @apply bg-gray-200 border-gray-200;
+    }
+
+    &.btn-danger {
+      @apply text-red-600;
+
+      &:hover {
+        @apply text-red-700 bg-red-100 border-red-100;
+      }
+
+      &:active {
+        @apply text-red-800 bg-red-200 border-red-200;
+      }
+    }
+
+    &.btn-warning {
+      &:hover {
+        @apply text-amber-800 bg-amber-100 border-amber-100;
+      }
+
+      &:active {
+        @apply text-amber-900 bg-amber-200 border-amber-200;
+      }
+    }
+
+    &.btn-info {
+      &:hover {
+        @apply text-cyan-800 bg-cyan-100 border-cyan-100;
+      }
+
+      &:active {
+        @apply text-cyan-900 bg-cyan-200 border-cyan-200;
+      }
+    }
+  }
+
+  &.btn-ghost {
+    @apply bg-transparent border-transparent;
   }
 
   &.btn-link {
