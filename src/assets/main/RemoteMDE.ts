@@ -66,8 +66,11 @@ Alpine.data(
         formData.append('body', this.mde?.value() ?? '')
 
         fetch(url, {
-          method: 'POS',
-          body: formData,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ body: this.mde?.value() ?? '' }),
         })
           .then(async () => {
             this.original = this.mde?.value() ?? ''
