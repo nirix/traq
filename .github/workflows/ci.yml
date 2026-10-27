@@ -1,4 +1,4 @@
-name: CI Build
+name: CI
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
       - main
       - develop
       - "feature/**"
+      - "feat/**"
+      - "fix/**"
   pull_request:
     branches:
       - main
@@ -18,7 +20,11 @@ concurrency:
 
 jobs:
   test:
-    uses: ./.github/workflows/tests.yml
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/phpunit
 
   # Lint and build are independent, so they run in parallel.
   lint:

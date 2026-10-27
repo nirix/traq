@@ -1,4 +1,4 @@
-name: Build Tag
+name: Release
 
 on:
   push:
@@ -7,7 +7,11 @@ on:
 
 jobs:
   test:
-    uses: ./.github/workflows/tests.yml
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/phpunit
 
   build:
     needs: test
