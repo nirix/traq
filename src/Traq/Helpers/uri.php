@@ -33,7 +33,8 @@ use Avalon\Http\Router;
 function mkSlug(string $string)
 {
     // Convert to lowercase, remove spaces, and replace with hyphens and strip special characters
-    return trim(strtolower(preg_replace('/[^a-z0-9-]/', '', str_replace(' ', '-', $string))));
+    // Allow: -, _, .
+    return trim(strtolower(preg_replace('/[^a-z0-9-_.]/', '', str_replace(' ', '-', $string))));
 }
 
 /**
