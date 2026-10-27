@@ -44,21 +44,32 @@
   z-index: 2000;
 }
 
-#modal-container, .modal-container {
+#modal-container,
+.modal-container {
   background: rgba(0, 0, 0, 0.7);
   z-index: 2000;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2rem 1rem;
 
-  @apply transition-opacity duration-300 opacity-0;
+  @apply transition-opacity duration-300 opacity-0 pointer-events-none;
 
   &.open {
-    @apply opacity-100;
+    @apply opacity-100 pointer-events-auto;
   }
+
+  > #modal,
+  > .modal {
+    position: relative; /* undo position: fixed so flexbox can lay it out */
+    margin: auto; /* centered when it fits, scrolls from the top when it doesn't */
+    flex-shrink: 0;
+  }
+}
+
+body:has(.modal-container.open),
+body:has(#modal-container.open) {
+  overflow: hidden;
 }
