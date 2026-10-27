@@ -250,7 +250,7 @@ Alpine.data('ticketList', () => ({
       }
 
       let condition = true
-      let values: string[] = []
+      let values: string[]
 
       if (value.startsWith('!')) {
         condition = false
