@@ -1,11 +1,13 @@
 parameters:
     level: 1
+    paths:
+        - src
+    excludePaths:
+        - src/views
+        - src/Traq/Plugins/*/views/*
     scanDirectories:
         - src/
     bootstrapFiles:
         - src/aliases.php
     ignoreErrors:
         - '#Constant (LOGGEDIN|DOCROOT|SYSPATH|APPPATH|DATADIR) not found#'
-        -
-            identifier: variable.undefined
-            path: src/views
