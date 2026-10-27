@@ -148,17 +148,6 @@ class TicketController extends AppController
             return $this->show404();
         }
 
-        // If the ticket is private, only allow admins, projects members and the creator to view the ticket.
-        if ($ticket->is_private) {
-            if (
-                $this->user->id !== $ticket->user_id
-                && !$this->user->group->is_admin
-                && !$this->project->is_member($this->user)
-            ) {
-                return $this->renderNoPermission();
-            }
-        }
-
         extract($this->getTicketData($ticket));
 
         // Atom feed
@@ -396,113 +385,111 @@ class TicketController extends AppController
         ));
 
         // Check if the form has been submitted
-        if (Request::method() == 'POST') {
-            // Set the ticket data
-            $data = array(
-                'summary'      => Request::get('summary'),
-                'body'         => Request::get('description'),
-                'user_id'      => $this->user->id,
-                'project_id'   => $this->project->id,
-                'milestone_id' => null,
-                'version_id'   => null,
-                'component_id' => null,
-                'type_id'      => Request::get('type', 1),
-                'severity_id'  => 4,
-                'tasks'        => [],
-                'is_private'   => Request::get('is_private') ? 1 : 0
-            );
+        // Set the ticket data
+        $data = array(
+            'summary'      => Request::get('summary'),
+            'body'         => Request::get('description'),
+            'user_id'      => $this->user->id,
+            'project_id'   => $this->project->id,
+            'milestone_id' => null,
+            'version_id'   => null,
+            'component_id' => null,
+            'type_id'      => Request::get('type', 1),
+            'severity_id'  => 4,
+            'tasks'        => [],
+            'is_private'   => 0
+        );
 
-            // Milestone
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_milestone')) {
-                $data['milestone_id'] = (int) Request::get('milestone') === 0 ? null : (int) Request::get('milestone');
-            }
+        // Milestone
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_milestone')) {
+            $data['milestone_id'] = (int) Request::get('milestone') === 0 ? null : (int) Request::get('milestone');
+        }
 
-            // Version
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_version')) {
-                $data['version_id'] = (int) Request::get('version') === 0 ? null : (int) Request::get('version');
-            }
+        // Version
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_version')) {
+            $data['version_id'] = (int) Request::get('version') === 0 ? null : (int) Request::get('version');
+        }
 
-            // Component
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_component')) {
-                $data['component_id'] = (int) Request::get('component') === 0 ? null : (int) Request::get('component');
-            }
+        // Component
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_component')) {
+            $data['component_id'] = (int) Request::get('component') === 0 ? null : (int) Request::get('component');
+        }
 
-            // Severity
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_severity')) {
-                $data['severity_id'] = (int) Request::get('severity', 4);
-            }
+        // Severity
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_severity')) {
+            $data['severity_id'] = (int) Request::get('severity', 4);
+        }
 
-            // Priority
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_priority')) {
-                $data['priority_id'] = (int) Request::get('priority', 3);
-            }
+        // Priority
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_priority')) {
+            $data['priority_id'] = (int) Request::get('priority', 3);
+        }
 
-            // Status
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_status')) {
-                $data['status_id'] = (int) Request::get('status', 1);
-            }
+        // Status
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_status')) {
+            $data['status_id'] = (int) Request::get('status', 1);
+        }
 
-            // Assigned to
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
-                $data['assigned_to_id'] = (int) Request::get('assigned_to') === 0 ? null : (int) Request::get('assigned_to');
-            }
+        // Assigned to
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
+            $data['assigned_to_id'] = (int) Request::get('assigned_to') === 0 ? null : (int) Request::get('assigned_to');
+        }
 
-            // Ticket tasks
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_tasks') && Request::get('tasks') != null) {
-                $tasks = json_decode(Request::get('tasks'), true);
+        // Ticket tasks
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_tasks') && Request::get('tasks') != null) {
+            $tasks = json_decode(Request::get('tasks'), true);
 
-                foreach ($tasks as $id => $task) {
-                    if (is_array($task) && !empty($task['task'])) {
-                        $data['tasks'][] = $task;
-                    }
+            foreach ($tasks as $id => $task) {
+                if (is_array($task) && !empty($task['task'])) {
+                    $data['tasks'][] = $task;
                 }
             }
+        }
 
-            // Time proposed
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_time_worked')) {
-                $data['time_proposed'] = Request::get('time_proposed');
+        // Time proposed
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_time_worked')) {
+            $data['time_proposed'] = Request::get('time_proposed');
+        }
+
+        // Time worked
+        if ($this->user->permission($this->project->id, 'ticket_properties_set_time_proposed')) {
+            $data['time_worked'] = Request::get('time_worked');
+        }
+
+        // Set the ticket data
+        $ticket->set($data);
+
+        // Custom fields, FUN!
+        if (isset(Request::$post['custom_fields'])) {
+            $this->process_custom_fields($ticket, Request::$post['custom_fields']);
+        }
+
+        // Check if the ticket data is valid...
+        // if it is, save the ticket to the DB and
+        // redirect to the ticket page.
+        if (($this->user->group->is_admin || check_ticket_creation_delay($ticket)) && $ticket->is_valid()) {
+            // Set last ticket creation time
+            $_SESSION['last_ticket_creation'] = time();
+
+            $ticket->save();
+
+            // Create subscription
+            if ($this->user->option('watch_created_tickets')) {
+                $sub = new Subscription(array(
+                    'type'       => 'ticket',
+                    'user_id'    => $this->user->id,
+                    'project_id' => $this->project->id,
+                    'object_id'  => $ticket->id
+                ));
+                $sub->save();
             }
 
-            // Time worked
-            if ($this->user->permission($this->project->id, 'ticket_properties_set_time_proposed')) {
-                $data['time_worked'] = Request::get('time_worked');
-            }
-
-            // Set the ticket data
-            $ticket->set($data);
-
-            // Custom fields, FUN!
-            if (isset(Request::$post['custom_fields'])) {
-                $this->process_custom_fields($ticket, Request::$post['custom_fields']);
-            }
-
-            // Check if the ticket data is valid...
-            // if it is, save the ticket to the DB and
-            // redirect to the ticket page.
-            if (($this->user->group->is_admin || check_ticket_creation_delay($ticket)) && $ticket->is_valid()) {
-                // Set last ticket creation time
-                $_SESSION['last_ticket_creation'] = time();
-
-                $ticket->save();
-
-                // Create subscription
-                if ($this->user->option('watch_created_tickets')) {
-                    $sub = new Subscription(array(
-                        'type'       => 'ticket',
-                        'user_id'    => $this->user->id,
-                        'project_id' => $this->project->id,
-                        'object_id'  => $ticket->id
-                    ));
-                    $sub->save();
-                }
-
-                if ($this->isApi) {
-                    return $this->json([
-                        'ticket' => $ticket->__toArray()
-                    ]);
-                } else {
-                    return $this->redirectTo($ticket->href());
-                }
+            if ($this->isApi) {
+                return $this->json([
+                    'ticket' => $ticket->__toArray()
+                ]);
+            } else {
+                return $this->redirectTo($ticket->href());
             }
         }
 
@@ -616,8 +603,6 @@ class TicketController extends AppController
         if ($this->user->permission($this->project->id, 'add_attachments') && isset($_FILES['attachment']) && isset($_FILES['attachment']['name'])) {
             $data['attachment'] = $_FILES['attachment']['name'];
         }
-
-        $data['is_private'] = Request::get('is_private', 0);
 
         // Custom fields, FUN!
         if (isset(Request::$post['custom_fields'])) {

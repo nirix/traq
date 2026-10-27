@@ -101,10 +101,6 @@
 							<?= Form::text('time_worked'); ?>
 						</div>
 					<?php endif; ?>
-					<div class="form-group">
-						<?= Form::label(l('is_private'), 'is_private'); ?>
-						<?= Form::checkbox('is_private', 1); ?>
-					</div>
 					<?= View::render('tickets/_custom_fields_form', ['ticket' => $ticket]); ?>
 				</div>
 			</div>

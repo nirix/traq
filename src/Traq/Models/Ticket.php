@@ -357,11 +357,6 @@ class Ticket extends Model
                     $to = $value;
                     break;
 
-                case 'is_private':
-                    $from = $this->is_private ? l('yes') : l('no');
-                    $to = $value ? l('yes') : l('no');
-                    break;
-
                 default:
                     $accessor = str_replace('_id', '', $field);
                     $class = '\\Traq\Models\\' . ucfirst($accessor);
@@ -466,7 +461,7 @@ class Ticket extends Model
         $changes = array_merge($changes, $this->_changes);
 
         // Any changes, or perhaps a comment?
-        if (count($changes) > 0 or !empty(Request::$post['comment'])) {
+        if (count($changes) > 0 || !empty(Request::$post['comment'])) {
             $this->_save_queue[] = new TicketHistory(array(
                 'user_id' => $user->id,
                 'ticket_id' => $this->id,

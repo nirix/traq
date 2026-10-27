@@ -61,7 +61,7 @@ class SearchController extends AppController
 
         $tickets = Ticket::select()
             ->where('summary', $term, 'LIKE')
-            ->custom_sql("AND `project_id` IN ({$inProjects})" . $this->privateTicketSql())
+            ->custom_sql("AND `project_id` IN ({$inProjects})")
             ->limit(25);
 
         $milestones = Milestone::select()
@@ -116,7 +116,7 @@ class SearchController extends AppController
     private function visibleProjectIds(): array
     {
         return array_values(array_unique(array_map(
-            static fn (Project $project) => (int) $project->id,
+            static fn(Project $project) => (int) $project->id,
             $this->projects
         )));
     }
@@ -130,29 +130,5 @@ class SearchController extends AppController
         }
 
         return null;
-    }
-
-    /**
-     * Same rule as TicketController::view(): private tickets are visible to
-     * the reporter, project members, and admins.
-     */
-    private function privateTicketSql(): string
-    {
-        if ($this->user->group->is_admin) {
-            return '';
-        }
-
-        $userId = (int) $this->user->id;
-        $memberIds = array_values(array_unique(array_filter(array_map(
-            static fn ($membership) => (int) $membership->project_id,
-            $this->user->projectMemberships()
-        ))));
-
-        $sql = " AND (`is_private` = 0 OR `user_id` = {$userId}";
-        if ($memberIds !== []) {
-            $sql .= ' OR `project_id` IN (' . implode(',', $memberIds) . ')';
-        }
-
-        return $sql . ')';
     }
 }

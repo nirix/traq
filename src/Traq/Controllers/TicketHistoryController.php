@@ -138,10 +138,6 @@ class TicketHistoryController extends AppController
      */
     private function canViewTicket(Ticket $ticket): bool
     {
-        if (!$ticket->is_private) {
-            return true;
-        }
-
         if ((int) $this->user->id === (int) $ticket->user_id) {
             return true;
         }
