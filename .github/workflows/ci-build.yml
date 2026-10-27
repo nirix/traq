@@ -17,6 +17,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test:
+    uses: ./.github/workflows/tests.yml
+
   # Lint and build are independent, so they run in parallel.
   lint:
     runs-on: ubuntu-latest

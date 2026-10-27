@@ -6,27 +6,31 @@ on:
       - v*.**
 
 jobs:
+  test:
+    uses: ./.github/workflows/tests.yml
+
   build:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: write # This is required to allow the action to create a GitHub Release
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Setup required tools
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v7
         with:
           node-version: 20.x
 
       - name: Setup PHP Action
-        uses: shivammathur/setup-php@2.31.1
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: "8.4"
 
       # Node stuff
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 12
       - name: Install node dependencies
@@ -48,7 +52,9 @@ jobs:
           rm -rf node_modules
           rm -rf src/assets
           rm -rf vendor/avalon/framework/.git
+          rm -rf tests
           rm .gitignore
+          rm ./phpunit.xml
           rm ./.prettierrc.json
           rm ./docker-compose.yml
           rm ./env.d.ts
@@ -63,7 +69,7 @@ jobs:
           rm ./vite.config.ts
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v4.3.4
+        uses: actions/upload-artifact@v7
         with:
           name: traq-${{ github.ref_name }}
           path: ./
@@ -76,7 +82,7 @@ jobs:
 
       # Create the GitHub Release
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           # This line automatically sets the prerelease flag
           # if the tag name contains '-alpha' or '-beta'

@@ -34,7 +34,7 @@ function mkSlug(string $string)
 {
     // Convert to lowercase, remove spaces, and replace with hyphens and strip special characters
     // Allow: -, _, .
-    return trim(strtolower(preg_replace('/[^a-z0-9-_.]/', '', str_replace(' ', '-', $string))));
+    return trim(preg_replace('/[^a-z0-9-_.]/', '', str_replace(' ', '-', strtolower($string))));
 }
 
 /**
