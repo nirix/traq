@@ -53,17 +53,10 @@ post('/step/1', function () {
 post('/step/2', function () {
     // Check for form errors
     $errors = array();
-    $fields = array('type');
-
-    switch ($_POST['type']) {
-        case 'mysql':
-        case 'postgresql':
-            $fields = array_merge($fields, array('host', 'username', 'database'));
-            break;
-    }
+    $fields = array('host', 'username', 'password', 'database');
 
     foreach ($fields as $field) {
-        if ($_POST[$field] == '') {
+        if (!isset($_POST[$field]) || $_POST[$field] == '') {
             $errors[$field] = true;
         }
     }
@@ -76,28 +69,23 @@ post('/step/2', function () {
         render('database_config');
     }
     // Make sure there's no Traq installed here
-    else if (is_installed(array_merge(array('driver' => 'pdo'), $_POST))) {
+    else if (is_installed(array_merge(array('driver' => 'pdo', 'type' => 'mysql'), $_POST))) {
         InstallError::halt('Error', 'Traq is already installed.');
     }
     // Confirm details
     else {
         // Store DB info in the session
-        switch ($_POST['type']) {
-            case 'mysql':
-            case 'postgresql':
-                $_SESSION['db'] = array(
-                    'driver'   => 'pdo',
-                    'type'     => $_POST['type'],
-                    'host'     => $_POST['host'],
-                    'username' => $_POST['username'],
-                    'password' => $_POST['password'],
-                    'database' => $_POST['database']
-                );
-                break;
-        }
+        $_SESSION['db'] = array(
+            'driver'   => 'pdo',
+            'type'     => 'mysql',
+            'host'     => $_POST['host'],
+            'username' => $_POST['username'],
+            'password' => $_POST['password'],
+            'database' => $_POST['database']
+        );
 
         // Remote database info from _POST
-        unset($_POST['type'], $_POST['host'], $_POST['username'], $_POST['password'], $_POST['database']);
+        unset($_POST['host'], $_POST['username'], $_POST['password'], $_POST['database']);
 
         View::set('title', 'Step 2 - Admin Account');
         View::set('errors', []);
