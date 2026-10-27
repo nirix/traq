@@ -549,12 +549,12 @@ class TicketController extends AppController
 
         // Version
         if ($this->user->permission($this->project->id, 'ticket_properties_change_version')) {
-            $data['version_id'] = Request::get('version', $ticket->version_id);
+            $data['version_id'] = (int) Request::get('version') === 0 ? null : (int) Request::get('version');
         }
 
         // Component
         if ($this->user->permission($this->project->id, 'ticket_properties_change_component')) {
-            $data['component_id'] = Request::get('component', $ticket->component_id);
+            $data['component_id'] = (int) Request::get('component', $ticket->component_id) === 0 ? null : (int) Request::get('component');
         }
 
         // Severity
