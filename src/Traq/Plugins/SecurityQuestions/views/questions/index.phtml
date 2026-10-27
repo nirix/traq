@@ -6,28 +6,34 @@
 <?php echo View::render('admin/settings/_nav'); ?>
 <div class="traq_settings content">
 	<?php if (count($errors)) : ?>
-		<div class="error">
+		<div class="alert-danger">
 			<?php echo l('errors.security_questions.fill_in_fields_marked_red'); ?>
 		</div>
 	<?php endif; ?>
-	<form action="<?php echo Request::requestUri(); ?>" method="post">
+	<form action="<?php echo Request::requestUri(); ?>" method="post" x-data="{ questions: <?= js_attr($questions) ?>, errors: <?= js_attr($errors) ?> }">
 		<div id="questions">
-			<?php foreach ($questions as $id => $question) {
-				echo View::render('questions/_question', compact('id', 'question'));
-			} ?>
+			<template x-for="(question, id) in questions" :key="id">
+				<div class="tabular box" :id="'question_' + id" style="margin-bottom: 10px;">
+					<div class="group">
+						<label :for="'question_' + id + '_question'"><?php echo l('question'); ?></label>
+						<textarea :name="'questions[' + id + '][question]'" :id="'question_' + id + '_question'" x-model="question.question" :class="{ 'error': errors[id].question }"></textarea>
+					</div>
+					<div class="group">
+						<label :for="'question_' + id + '_answer'"><?php echo l('answers'); ?></label>
+						<div class="input-group">
+							<input type="text" :name="'questions[' + id + '][answers]'" :id="'question_' + id + '_answer'" x-model="question.answers" :class="{ 'error': errors[id].answers }" />
+							<abbr title="<?php echo l('help.security_questions.answers'); ?>" class="input-group-hint">?</abbr>
+						</div>
+					</div>
+					<div class="group mt-2 text-right">
+						<button type="button" @click="questions.splice(id, 1)" class="btn-danger"><?= l('delete') ?></button>
+					</div>
+				</div>
+			</template>
 		</div>
 		<div class="actions">
-			<input type="button" value="<?php echo l('add_question'); ?>" id="add_question" />
-			<input type="submit" value="<?php echo l('save'); ?>" class="btn-primary" />
+			<button type="button" @click="questions.push({ question: '', answers: '' })"><?= l('add_question') ?></button>
+			<button type="submit" class="btn-primary"><?= l('save') ?></button>
 		</div>
 	</form>
 </div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#add_question').click(function() {
-			$.get('<?php echo Request::base('/admin/settings/security-questions/new'); ?>', function(data) {
-				$('#questions').append(data);
-			});
-		});
-	});
-</script>

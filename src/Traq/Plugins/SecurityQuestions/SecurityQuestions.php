@@ -52,7 +52,6 @@ class SecurityQuestions extends Plugin
     {
         // Add routes
         Router::register('security_questions.index', '/admin/settings/security-questions', [QuestionsController::class, 'index'], methods: ['GET', 'POST']);
-        Router::register('security_questions.new', '/admin/settings/security-questions/new', [QuestionsController::class, 'new']);
 
         // Register the view path
         View::$searchPaths[] = dirname(__FILE__) . '/views';

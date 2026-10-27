@@ -19,6 +19,11 @@ textarea {
 
   background-color: #fff;
 
+  &.error {
+    @apply border-red-400 focus:border-red-600;
+    @apply focus:ring-red-500/20;
+
+  }
 }
 
 select:not([multiple]) {

@@ -79,20 +79,4 @@ class QuestionsController extends \Traq\Controllers\Admin\AppController
 
         return $this->render('questions/index.phtml', compact('questions', 'errors'));
     }
-
-    /**
-     * Used to create a blank question box.
-     *
-     * @return string
-     */
-    public function new()
-    {
-        return $this->render('questions/_question', array(
-            'id' => time(),
-            'question' => array(
-                'question' => '',
-                'answers'   => ''
-            )
-        ));
-    }
 }
