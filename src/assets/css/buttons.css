@@ -60,6 +60,7 @@ input[type="reset"] {
     &,
     &:hover,
     &:active {
+      @apply text-gray-400;
       @apply bg-gray-100 border-gray-100;
     }
   }
@@ -82,6 +83,15 @@ input[type="reset"] {
 
   &.btn-secondary {
     @apply text-black;
+
+    &:disabled,
+    &.disabled {
+      &,
+      &:hover,
+      &:active {
+        @apply text-gray-400;
+      }
+    }
   }
 
   &.btn-info {

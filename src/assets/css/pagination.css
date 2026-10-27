@@ -10,30 +10,13 @@
     display: flex;
     align-items: center;
     line-height: 1.25;
-
-    @apply bg-gray-100 border-gray-100;
-    @apply text-sm;
-    @apply py-2 px-3;
-    @apply border border-solid rounded;
-    @apply transition-all;
   }
 
-  & .previous {
-    & > span {
-      @apply ml-1;
-    }
+  & .previous > span {
+    @apply ml-1;
   }
 
-  & .next {
-    & > span {
-      @apply mr-1;
-    }
-  }
-
-  & div.previous,
-  & div.next {
-    cursor: not-allowed;
-
-    @apply text-gray-500;
+  & .next > span {
+    @apply mr-1;
   }
 }
