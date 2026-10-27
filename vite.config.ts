@@ -22,12 +22,7 @@ export default defineConfig({
         manualChunks: {
           // vendor: ["alpinejs", "luxon", "marked"],
           easymde: ['easymde'],
-          fontawesome: [
-            '@fortawesome/fontawesome-svg-core',
-            '@fortawesome/free-regular-svg-icons',
-            '@fortawesome/free-solid-svg-icons',
-            '@fortawesome/vue-fontawesome',
-          ],
+          fontawesome: ['@fortawesome/fontawesome-svg-core', '@fortawesome/free-regular-svg-icons', '@fortawesome/free-solid-svg-icons'],
         },
       },
     },
