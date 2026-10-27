@@ -13,8 +13,31 @@ jobs:
 
       - uses: ./.github/actions/phpunit
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # pnpm must be installed before setup-node for `cache: pnpm`
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.x
+          cache: pnpm
+
+      - name: Install node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm eslint src/assets
+
   build:
-    needs: test
+    needs: [test, lint]
     runs-on: ubuntu-latest
     permissions:
       contents: write # This is required to allow the action to create a GitHub Release
