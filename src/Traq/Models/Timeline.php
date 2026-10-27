@@ -152,14 +152,6 @@ class Timeline extends Model
         return new DateTime($this->created_at);
     }
 
-    public function getTranslationString(): string
-    {
-        return \sprintf(
-            'timeline.%s',
-            \str_replace('.', '_', $this->action)
-        );
-    }
-
     public function isTicket(): bool
     {
         return \in_array($this->action, static::TICKET_EVENTS);

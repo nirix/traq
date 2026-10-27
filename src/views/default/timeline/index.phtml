@@ -1,72 +1,79 @@
-<?php extendView('layouts/default.phtml'); ?>
+<?php extendView('layouts/default.phtml');
+
+$eventIcons = [
+    'ticket_created' => ['fa-plus', 'created'],
+    'ticket_started' => ['fa-play', 'started'],
+    'ticket_closed' => ['fa-check', 'closed'],
+    'ticket_reopened' => ['fa-rotate-left', 'reopened'],
+    'ticket_updated' => ['fa-pen', 'updated'],
+    'ticket_comment' => ['fa-comment', 'comment'],
+    'ticket_moved_from' => ['fa-right-left', 'moved'],
+    'ticket_moved_to' => ['fa-right-left', 'moved'],
+    'milestone_completed' => ['fa-flag', 'closed'],
+    'milestone_cancelled' => ['fa-flag', 'created'],
+    'wiki_page_created' => ['fa-book', 'created'],
+    'wiki_page_edited' => ['fa-book', 'updated'],
+];
+
+$canDelete = currentUser()->permission($project->id, 'delete_timeline_events');
+?>
 
 <div class="content">
     <h2 class="page-title"><?= l('timeline') ?></h2>
 
     <?php foreach ($groupedEvents as $group) : ?>
-        <div class="timeline-day">
+        <section class="timeline-day">
             <h3><?= $group['date']->format(settings('timeline_day_format')) ?></h3>
 
-            <?php foreach ($group['events'] as $userEvents) : ?>
-                <div class="timeline-user-set">
-                    <ul class="timeline-user-set-events">
-                        <?php foreach ($userEvents['events'] as $event) : ?>
-                            <li id="timeline-event-<?= $event->id ?>">
-                                <?php if (currentUser()->permission($project->id, 'delete_timeline_events')) { ?>
-                                    <button class="btn-danger btn-xs" x-data="popoverConfirm({ position: 'center', success: () => { const el = document.getElementById('timeline-event-<?= $event->id ?>').remove() }, remote: '<?= Request::base($project->href("timeline/{$event->id}")) ?>', method: 'DELETE' })" @click="toggle()">
-                                        <span class="fas fa-fw fa-trash"></span>
-                                        <span class="visually-hidden"><?= l('delete') ?></span>
-                                    </button>
-                                <?php } ?>
-                                <span class="event-time"><?= $event->getCreatedAt()->format('h:ia') ?></span>
-                                <span>-</span>
-                                <span class="event-action">
-                                    <?php if ($event->isTicket()) : ?>
-                                        <?= HTML::link(
-                                            e(l(
-                                                $event->getTranslationString(),
-                                                [
-                                                    ...$tickets[$event->owner_id],
-                                                    'status_name' => $event->data,
-                                                ]
-                                            )),
-                                            currentProject()->href("tickets/{$tickets[$event->owner_id]['ticket_id']}")
-                                        ) ?>
-                                    <?php elseif ($event->isMilestone()) : ?>
-                                        <?= HTML::link(
-                                            e(l(
-                                                $event->getTranslationString(),
-                                                $milestones[$event->owner_id]
-                                            )),
-                                            currentProject()->href("milestone/{$milestones[$event->owner_id]['slug']}")
-                                        ) ?>
-                                    <?php elseif ($event->isWiki()) : ?>
-                                        <?= HTML::link(
-                                            e(l(
-                                                $event->getTranslationString(),
-                                                $wikiPages[$event->owner_id]
-                                            )),
-                                            currentProject()->href("wiki/{$wikiPages[$event->owner_id]['slug']}")
-                                        ) ?>
-                                    <?php elseif ($event->isTicketMoved()) : ?>
-                                        <?= HTML::link(
-                                            e(l(
-                                                $event->getTranslationString(),
-                                                [...$tickets[$event->owner_id], ...$projects[$event->data]],
-                                            )),
-                                            currentProject()->href("tickets/{$tickets[$event->owner_id]['ticket_id']}")
-                                        ) ?>
+            <ol class="timeline-events">
+                <?php foreach ($group['events'] as $userEvents) : ?>
+                    <?php $user = $users[$userEvents['user']]; ?>
+                    <?php foreach ($userEvents['events'] as $event) : ?>
+                        <?php [$icon, $kind] = $eventIcons[$event->action] ?? ['fa-circle', 'created']; ?>
+                        <li id="timeline-event-<?= $event->id ?>" class="timeline-event">
+                            <span class="timeline-event-icon timeline-event-icon-<?= $kind ?>" aria-hidden="true">
+                                <span class="fas fa-fw <?= $icon ?>"></span>
+                            </span>
+                            <time class="timeline-event-time" datetime="<?= $event->getCreatedAt()->format('c') ?>">
+                                <?= $event->getCreatedAt()->format(settings('timeline_time_format')) ?>
+                            </time>
+                            <div class="timeline-event-body">
+                                <?= HTML::link(e($user->username), $user->href(), ['class' => 'timeline-event-user']) ?>
+
+                                <?php if ($event->isTicket()) : ?>
+                                    <?php $ticket = $tickets[$event->owner_id]; ?>
+                                    <span><?= e(l("timeline.verb.{$event->action}")) ?></span>
+                                    <?= HTML::link(e($ticket['ticket_summary']), currentProject()->href("tickets/{$ticket['ticket_id']}"), ['class' => 'timeline-event-title']) ?>
+                                    <span class="timeline-event-id">#<?= $ticket['ticket_id'] ?></span>
+                                    <?php if (\in_array($event->action, ['ticket_closed', 'ticket_reopened']) && $event->data) : ?>
+                                        <span class="timeline-event-status timeline-event-status-<?= $event->action ?>"><?= e($event->data) ?></span>
                                     <?php endif; ?>
-                                </span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <div class="timeline-user-set-author">
-                        <?= l('timeline.by_x', HTML::link(e($users[$event->user_id]->username), $users[$event->user_id]->href())) ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+                                <?php elseif ($event->isTicketMoved()) : ?>
+                                    <?php $ticket = $tickets[$event->owner_id]; ?>
+                                    <span><?= e(l("timeline.verb.{$event->action}", $projects[$event->data])) ?></span>
+                                    <?= HTML::link(e($ticket['ticket_summary']), currentProject()->href("tickets/{$ticket['ticket_id']}"), ['class' => 'timeline-event-title']) ?>
+                                    <span class="timeline-event-id">#<?= $ticket['ticket_id'] ?></span>
+                                <?php elseif ($event->isMilestone()) : ?>
+                                    <?php $milestone = $milestones[$event->owner_id]; ?>
+                                    <span><?= e(l("timeline.verb.{$event->action}")) ?></span>
+                                    <?= HTML::link(e($milestone['name']), currentProject()->href("milestone/{$milestone['slug']}"), ['class' => 'timeline-event-title']) ?>
+                                <?php elseif ($event->isWiki()) : ?>
+                                    <?php $page = $wikiPages[$event->owner_id]; ?>
+                                    <span><?= e(l("timeline.verb.{$event->action}")) ?></span>
+                                    <?= HTML::link(e($page['title']), currentProject()->href("wiki/{$page['slug']}"), ['class' => 'timeline-event-title']) ?>
+                                <?php endif; ?>
+                            </div>
+                            <?php if ($canDelete) : ?>
+                                <button class="timeline-event-delete" x-data="popoverConfirm({ position: 'center', success: () => { document.getElementById('timeline-event-<?= $event->id ?>').remove() }, remote: '<?= Request::base($project->href("timeline/{$event->id}")) ?>', method: 'DELETE' })" @click="toggle()">
+                                    <span class="fas fa-fw fa-trash"></span>
+                                    <span class="visually-hidden"><?= l('delete') ?></span>
+                                </button>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </ol>
+        </section>
     <?php endforeach; ?>
     <?= View::render('layouts/_pagination', [
         'pagination' => $pagination

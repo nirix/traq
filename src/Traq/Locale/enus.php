@@ -446,28 +446,20 @@ class enUS extends Locale
 
             // Timeline
             'timeline'                     => "Timeline",
-            'timeline.ticket_created'      => "Created ticket {ticket_summary} (#{ticket_id})",
-            'timeline.ticket_started'      => "Started ticket {ticket_summary} (#{ticket_id})",
-            'timeline.ticket_closed'       => "Closed ticket {ticket_summary} (#{ticket_id}) as {status_name}",
-            'timeline.ticket_reopened'     => "Reopened ticket {ticket_summary} (#{ticket_id}) as {status_name}",
-            'timeline.ticket_updated'      => "Updated ticket {ticket_summary} (#{ticket_id})",
-            'timeline.ticket_comment'      => "Commented on ticket {ticket_summary} (#{ticket_id})",
-            'timeline.milestone_completed' => "Milestone {name} completed",
-            'timeline.milestone_cancelled' => "Milestone {name} cancelled",
-            'timeline.ticket_moved_from'   => "Moved ticket {ticket_summary} from {project_name}",
-            'timeline.ticket_moved_to'     => "Moved ticket {ticket_summary} to {project_name}",
-            'timeline.wiki_page_created'   => "Created {title} wiki page",
-            'timeline.wiki_page_edited'    => "Edited {title} wiki page",
-            'timeline.by_x'                => "by {1}",
 
-            // Timeline filters
-            'timeline.filters.new_tickets'           => "New tickets",
-            'timeline.filters.tickets_opened_closed' => "Tickets open/closed",
-            'timeline.filters.ticket_updates'        => "Ticket updates",
-            'timeline.filters.ticket_comments'       => "Ticket comments",
-            'timeline.filters.ticket_moves'          => "Ticket migrations",
-            'timeline.filters.milestones'            => "Milestones",
-            'timeline.filters.wiki_pages'            => "Wiki pages",
+            // Timeline event verbs
+            'timeline.verb.ticket_created'      => "created",
+            'timeline.verb.ticket_started'      => "started",
+            'timeline.verb.ticket_closed'       => "closed",
+            'timeline.verb.ticket_reopened'     => "reopened",
+            'timeline.verb.ticket_updated'      => "updated",
+            'timeline.verb.ticket_comment'      => "commented on",
+            'timeline.verb.ticket_moved_from'   => "moved from {project_name}:",
+            'timeline.verb.ticket_moved_to'     => "moved to {project_name}:",
+            'timeline.verb.milestone_completed' => "completed milestone",
+            'timeline.verb.milestone_cancelled' => "cancelled milestone",
+            'timeline.verb.wiki_page_created'   => "created wiki page",
+            'timeline.verb.wiki_page_edited'    => "edited wiki page",
 
             // Help
             'help.slug'                     => "A lower case alpha-numerical string with the exception of dashes, underscores and periods to be used in the URL.",
@@ -491,7 +483,6 @@ class enUS extends Locale
             'confirm.remove_x' => "Are you sure you want to remove '{1}' ?",
 
             // Feeds
-            'x_timeline_feed'  => "{1} Timeline Feed",
             'x_ticket_feed'    => "{1} Ticket Feed",
             'x_x_history_feed' => "{1} / '{2}' History Feed",
             'x_changelog_feed' => "{1} Changelog Feed",

@@ -1,35 +1,111 @@
 .timeline-day {
-  @apply mb-4 pb-4;
-  @apply border-b border-solid border-gray-200;
+  @apply mb-2;
 
   & h3 {
-    @apply text-lg;
-  }
-
-  &:last-child {
-    @apply border-b-0;
+    @apply sticky top-0 z-10;
+    @apply m-0 py-3;
+    @apply text-lg font-semibold;
+    @apply bg-white;
   }
 }
 
-.timeline-user-set {
-  @apply mb-4 pl-2;
-  @apply text-gray-600;
+.timeline-events {
+  @apply relative;
+  @apply list-none m-0 p-0;
+  @apply flex flex-col gap-0.5;
 
-  .timeline-user-set-events {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
+  /* Rail */
+  &::before {
+    content: "";
+    @apply absolute w-0.5 bg-gray-200;
+    left: 21px;
+    top: 14px;
+    bottom: 14px;
+  }
+}
 
-    & .event-time {
-      @apply font-mono;
-    }
+.timeline-event {
+  @apply relative;
+  @apply flex items-center gap-3;
+  @apply p-2 rounded-lg;
+  @apply transition-colors;
+
+  &:hover {
+    @apply bg-gray-50;
   }
 
-  .timeline-user-set-author {
-    @apply ml-5;
+  &:hover .timeline-event-delete,
+  & .timeline-event-delete:focus-visible {
+    @apply opacity-100;
+  }
+}
+
+.timeline-event-icon {
+  @apply relative z-[1] flex-none;
+  @apply flex items-center justify-center;
+  @apply w-7 h-7 rounded-full text-xs;
+  @apply bg-gray-100 text-gray-600;
+  box-shadow: 0 0 0 4px #fff;
+
+  &.timeline-event-icon-started,
+  &.timeline-event-icon-updated,
+  &.timeline-event-icon-moved {
+    @apply bg-blue-100 text-blue-700;
   }
 
-  &:last-child {
-    margin-bottom: 0;
+  &.timeline-event-icon-closed {
+    @apply bg-green-100 text-green-700;
+  }
+
+  &.timeline-event-icon-comment {
+    @apply bg-amber-100 text-amber-700;
+  }
+}
+
+.timeline-event-time {
+  @apply flex-none w-16;
+  @apply text-sm text-gray-500 tabular-nums;
+}
+
+.timeline-event-body {
+  @apply flex-1 min-w-0;
+  @apply flex flex-wrap items-center gap-x-2 gap-y-1;
+  @apply leading-snug text-gray-600;
+}
+
+.timeline-event-user {
+  @apply font-medium text-gray-700 no-underline;
+}
+
+.timeline-event-title {
+  @apply font-semibold;
+}
+
+.timeline-event-id {
+  @apply px-1.5 rounded-md text-xs tabular-nums;
+  @apply bg-gray-100 text-gray-600;
+}
+
+.timeline-event-status {
+  @apply px-2 py-0.5 rounded-full text-xs font-semibold;
+  @apply bg-green-100 text-green-800;
+
+  &.timeline-event-status-ticket_reopened {
+    @apply bg-blue-100 text-blue-800;
+  }
+}
+
+.timeline-event-delete {
+  @apply flex-none flex items-center justify-center;
+  @apply w-8 h-8 rounded-md;
+  @apply text-gray-400 bg-transparent border-0 cursor-pointer;
+  @apply opacity-0 transition;
+
+  &:hover {
+    @apply text-red-700 bg-red-100;
+  }
+
+  @media (hover: none) {
+    @apply opacity-100;
   }
 }
