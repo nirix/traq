@@ -27,6 +27,7 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
   loading: false,
   el: null as unknown as HTMLDivElement,
   acceptBtn: null as unknown as HTMLButtonElement,
+  cancelBtn: null as unknown as HTMLButtonElement,
   resizeEvent: null as unknown as () => void,
 
   init() {
@@ -42,15 +43,15 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
     const actionsEl = document.createElement('div')
     actionsEl.classList.add('popover-confirm-actions')
 
-    const cancelBtn = document.createElement('button')
-    cancelBtn.classList.add('btn')
-    cancelBtn.textContent = window.language.no
-    cancelBtn.addEventListener('click', () => {
+    this.cancelBtn = document.createElement('button')
+    this.cancelBtn.classList.add('btn-secondary', 'btn-sm')
+    this.cancelBtn.textContent = window.language.no
+    this.cancelBtn.addEventListener('click', () => {
       this.open = false
     })
 
     this.acceptBtn = document.createElement('button')
-    this.acceptBtn.classList.add('btn-danger')
+    this.acceptBtn.classList.add('btn-danger', 'btn-sm')
     this.acceptBtn.textContent = window.language.yes
     this.acceptBtn.addEventListener('click', () => {
       if (remote) {
@@ -104,7 +105,7 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
       }
     })
 
-    actionsEl.append(cancelBtn)
+    actionsEl.append(this.cancelBtn)
     actionsEl.append(this.acceptBtn)
 
     el.append(messageEl)
@@ -137,6 +138,9 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
 
     this.position()
 
+    // Focus the safe option so Enter doesn't confirm the action.
+    this.cancelBtn.focus({ preventScroll: true })
+
     this.resizeEvent = () => {
       this.position()
     }
@@ -146,7 +150,7 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
   position() {
     const rootRect = this.$root.getBoundingClientRect()
     const rect = this.el.getBoundingClientRect()
-    const top = rootRect.y + rootRect.height + 5 + window.scrollY
+    const top = rootRect.y + rootRect.height + 8 + window.scrollY
 
     let right
     if (position === 'center') {
@@ -155,8 +159,11 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
       right = rootRect.right - rect.width
     }
 
+    const maxLeft = document.documentElement.clientWidth - rect.width - 8
+    const left = Math.max(8, Math.min(right, maxLeft))
+
     this.el.style.top = `${top}px`
-    this.el.style.left = `${right}px`
+    this.el.style.left = `${left}px`
   },
 
   close() {
