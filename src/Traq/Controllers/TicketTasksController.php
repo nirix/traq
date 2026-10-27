@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,7 +23,6 @@
 
 namespace Traq\Controllers;
 
-use Avalon\Http\Request;
 use Avalon\Http\Response;
 use Traq\Models\Ticket;
 
@@ -37,35 +36,6 @@ use Traq\Models\Ticket;
  */
 class TicketTasksController extends AppController
 {
-    /**
-     * Task manager.
-     *
-     * @param integer $ticket_id
-     */
-    public function manage(int $ticket_id): Response
-    {
-        return $this->render('ticket_tasks/manage.overlay.phtml', [
-            'ticket_id' => $ticket_id,
-        ]);
-    }
-
-    /**
-     * Ticket task form bit.
-     */
-    public function formBit()
-    {
-        // Task data
-        $id        = isset(Request::$request['id']) ? Request::$request['id'] : 0;
-        $completed = isset(Request::$request['completed']) ? (Request::$request['completed'] == "true" ? true : false) : false;
-        $task      = isset(Request::$request['task']) ? Request::$request['task'] : '';
-
-        return $this->render('ticket_tasks/_form_bit', [
-            'id' => $id,
-            'completed' => $completed,
-            'task' => $task,
-        ]);
-    }
-
     /**
      * Toggles the state of a task.
      *

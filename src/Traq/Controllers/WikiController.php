@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -25,10 +25,8 @@ namespace Traq\Controllers;
 
 use Avalon\Http\Request;
 use Avalon\Http\Response;
-use Avalon\Http\Router;
 use Avalon\Output\View;
 use Traq\Controllers\AppController;
-use traq\helpers\API;
 use Traq\Middleware\AuthMiddleware;
 use Traq\Models\WikiPage;
 use Traq\Models\WikiRevision;

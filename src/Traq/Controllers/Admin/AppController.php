@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -23,7 +23,6 @@
 
 namespace Traq\Controllers\Admin;
 
-use Avalon\Http\Request;
 use Traq\Controllers\AppController as ControllersAppController;
 use Traq\Middleware\AuthMiddleware;
 

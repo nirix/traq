@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -24,7 +24,6 @@
 namespace Traq\Controllers;
 
 use Avalon\Core\Controller;
-use Avalon\Core\Load;
 use Avalon\Database;
 use Avalon\Database\PDO;
 use Avalon\Http\JsonResponse;
@@ -32,7 +31,6 @@ use Avalon\Http\RedirectResponse;
 use Avalon\Http\Request;
 use Avalon\Http\Response;
 use Avalon\Http\Router;
-use Avalon\Output\Body;
 use Avalon\Output\View;
 use Traq\Middleware\ProjectMiddleware;
 use Traq\Middleware\UserMiddleware;

@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -44,14 +44,6 @@ class Attachments extends AppController
     // Maximum file size to serve (50MB default, prevents memory exhaustion)
     private const MAX_SERVE_SIZE = 52428800;
 
-    // Before filters for permission checking
-    public $before = [
-        'view' => ['_check_permission'],
-        'delete' => ['_check_permission']
-    ];
-
-    private ?Attachment $attachment = null;
-
     /**
      * Serve an attachment file
      *
@@ -59,24 +51,35 @@ class Attachments extends AppController
      */
     public function view(): Response
     {
+        $attachment = $this->getAttachment();
+
+        if (!$attachment) {
+            return $this->show404();
+        }
+
+        // Check permissions
+        if (!$this->user->permission('view_attachments', $attachment->project_id)) {
+            return $this->renderNoPermission();
+        }
+
         // Validate attachment data integrity
-        if (!$this->validateAttachment($this->attachment)) {
+        if (!$this->validateAttachment($attachment)) {
             return $this->createErrorResponse('Invalid or corrupted attachment', 422);
         }
 
         // Security: Prevent memory exhaustion attacks
-        if ($this->attachment->size > self::MAX_SERVE_SIZE) {
+        if ($attachment->size > self::MAX_SERVE_SIZE) {
             return $this->createErrorResponse('File too large to serve', 413);
         }
 
         try {
-            $decodedContent = base64_decode($this->attachment->contents, true);
+            $decodedContent = base64_decode($attachment->contents, true);
 
             if ($decodedContent === false) {
                 throw new \RuntimeException('Failed to decode attachment content');
             }
 
-            $headers = $this->buildSecureHeaders($this->attachment);
+            $headers = $this->buildSecureHeaders($attachment);
 
             return new Response($decodedContent, 200, $headers);
         } catch (\Exception $e) {
@@ -93,9 +96,20 @@ class Attachments extends AppController
     public function delete(): Response
     {
         try {
-            $ticketHref = $this->attachment->ticket->href();
+            $attachment = $this->getAttachment();
 
-            if (!$this->attachment->delete()) {
+            if (!$attachment) {
+                return $this->show404();
+            }
+
+            // Check permissions
+            if (!$this->user->permission('delete_attachments', $attachment->project_id)) {
+                return $this->renderNoPermission();
+            }
+
+            $ticketHref = $attachment->ticket->href();
+
+            if (!$attachment->delete()) {
                 throw new \RuntimeException('Failed to delete attachment');
             }
 
@@ -110,44 +124,19 @@ class Attachments extends AppController
     }
 
     /**
-     * Permission check middleware
+     * Get the attachment
      *
-     * Validates attachment exists and user has required permissions
-     *
-     * @param string $action Action name (view|delete)
-     * @return bool
+     * @return Attachment|null
      */
-    public function _check_permission(string $action): bool
+    private function getAttachment(): Attachment|null
     {
+        parent::__construct();
+
         $attachmentId = $this->extractAttachmentId();
 
-        if ($attachmentId === null) {
-            $this->show404();
-            return false;
-        }
-
-        $this->attachment = Attachment::find($attachmentId);
-
-        if (!$this->attachment) {
-            $this->show404();
-            return false;
-        }
-
-        // Validate attachment has required relationships
-        if (!$this->attachment->ticket || !$this->attachment->ticket->project_id) {
-            $this->show404();
-            return false;
-        }
-
-        // Check user permissions
-        $permissionKey = "{$action}_attachments";
-        if (!$this->user->permission($this->attachment->ticket->project_id, $permissionKey)) {
-            $this->show_no_permission();
-            return false;
-        }
-
-        return true;
+        return Attachment::find($attachmentId);
     }
+
 
     /**
      * Build secure HTTP headers for attachment response

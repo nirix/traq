@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -40,16 +40,15 @@ use Traq\Models\User;
  */
 class UserController extends AppController
 {
-    public $before = [
-        'login'    => ['alreadyLoggedIn'],
-        'register' => ['alreadyLoggedIn']
-    ];
-
     /**
      * Handles the login page.
      */
     public function login(): Response
     {
+        if (Request::attribute('loggedin')) {
+            return $this->redirectTo('/');
+        }
+
         // Set the title
         $this->title(l('login'));
 
@@ -58,6 +57,10 @@ class UserController extends AppController
 
     public function createSession(): Response
     {
+        if (Request::attribute('loggedin')) {
+            return $this->redirectTo('/');
+        }
+
         $user = User::find('username', Request::$post['username']);
 
         // Try to find the user in the database and verify their password
@@ -110,6 +113,10 @@ class UserController extends AppController
             return $this->show404();
         }
 
+        if (Request::attribute('loggedin')) {
+            return $this->redirectTo('/');
+        }
+
         $validation_required = false;
         $this->title(l('register'));
 
@@ -120,8 +127,15 @@ class UserController extends AppController
         return $this->render('users/register.phtml');
     }
 
+    /**
+     * Handles the account creation.
+     */
     public function createAccount(): Response
     {
+        if (Request::attribute('loggedin')) {
+            return $this->redirectTo('/');
+        }
+
         // Build the data array
         $data = array(
             'username' => Request::$post['username'],
@@ -279,17 +293,5 @@ class UserController extends AppController
 
         $this->set('reset_key', $key);
         return $this->render('users/reset_password.phtml');
-    }
-
-    /**
-     * Redirect to the front page if the user is logged in.
-     */
-    public function alreadyLoggedIn(): Response|false
-    {
-        if (LOGGEDIN) {
-            return $this->redirectTo('/');
-        }
-
-        return false;
     }
 }
