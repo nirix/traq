@@ -68,8 +68,3 @@
     flex-shrink: 0;
   }
 }
-
-body:has(.modal-container.open),
-body:has(#modal-container.open) {
-  overflow: hidden;
-}

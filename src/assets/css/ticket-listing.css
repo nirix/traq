@@ -199,6 +199,10 @@ table.ticket-listing {
     &:hover:nth-child(even) td {
       @apply bg-white;
     }
+
+    &:last-child {
+      @apply border-b-0;
+    }
   }
 }
 

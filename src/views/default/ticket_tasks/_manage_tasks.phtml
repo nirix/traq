@@ -1,5 +1,5 @@
 <template x-teleport="body">
-    <div :class="isOpen ? 'modal-container open' : 'modal-container'" x-cloak x-show="isOpen" x-transition.opacity>
+    <div class="modal-container open" x-cloak x-show="isOpen" x-transition.opacity>
         <div class="modal" @click.outside="isOpen = false">
             <h2 class="modal-title"><?= l('manage_tasks') ?></h2>
             <div class="modal-content">
