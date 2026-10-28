@@ -1,5 +1,5 @@
 // FontAwesome
-import { library, dom } from "@fortawesome/fontawesome-svg-core"
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import {
   faPencil,
   faTrash,
@@ -44,9 +44,9 @@ import {
   faRightLeft,
   faCircle,
   faClockRotateLeft,
-} from "@fortawesome/free-solid-svg-icons"
+} from '@fortawesome/free-solid-svg-icons'
 
-import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons"
+import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons'
 
 library.add(faPencil)
 library.add(faTrash)
@@ -93,4 +93,13 @@ library.add(faBook)
 library.add(faRightLeft)
 library.add(faCircle)
 library.add(faClockRotateLeft)
+
+// EasyMDE's checklist button still uses old Font Awesome name `check-square-o`.
+const [checkSquareWidth, checkSquareHeight, , checkSquareUnicode, checkSquarePath] = faSquareCheck.icon
+library.add({
+  prefix: 'fas',
+  iconName: 'check-square-o' as typeof faSquareCheck.iconName,
+  icon: [checkSquareWidth, checkSquareHeight, [], checkSquareUnicode, checkSquarePath],
+})
+
 dom.watch()
