@@ -43,8 +43,6 @@ class ApiController extends AppController
         Router::$extension = 'json';
         parent::__construct();
 
-        $this->render['view'] = false;
-
         header('Content-Type: application/json; charset=UTF-8');
     }
 
