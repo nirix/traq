@@ -38,7 +38,7 @@ $canDelete = currentUser()->permission($project->id, 'delete_timeline_events');
                                 <?= $event->getCreatedAt()->format(settings('timeline_time_format')) ?>
                             </time>
                             <div class="timeline-event-body">
-                                <?= HTML::link(e($user->username), $user->href(), ['class' => 'timeline-event-user']) ?>
+                                <?= HTML::link(e($user->name), $user->href(), ['class' => 'timeline-event-user']) ?>
 
                                 <?php if ($event->isTicket()) : ?>
                                     <?php $ticket = $tickets[$event->owner_id]; ?>
