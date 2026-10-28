@@ -22,7 +22,7 @@
  */
 
 // Version
-define("TRAQ_VER", "3.9.0-alpha.4"); // Pretty obvious...
+define("TRAQ_VER", "3.9.0-beta.1"); // Pretty obvious...
 
 // Version code
 // 1.2.3   -> 10203
