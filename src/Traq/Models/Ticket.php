@@ -1,8 +1,8 @@
 <?php
 /*!
  * Traq
- * Copyright (C) 2009-2025 Jack Polgar
- * Copyright (C) 2012-2025 Traq.io
+ * Copyright (C) 2009-2026 Jack Polgar
+ * Copyright (C) 2012-2026 Traq.io
  * https://github.com/nirix
  * http://traq.io
  *
@@ -24,10 +24,6 @@
 namespace Traq\Models;
 
 use Avalon\Database\Model;
-use Avalon\Core\Kernel as Avalon;
-use Avalon\Http\Request;
-use avalon\helpers\Time;
-use Traq\Helpers\Notification;
 use Traq\ViewModels\RelatedTicketsView;
 
 /**
@@ -99,10 +95,7 @@ class Ticket extends Model
         'save' => array('process_data_write')
     );
 
-    protected $_changes            = array();
-    protected $_save_queue         = array();
     protected $_relatedTickets    = array();
-    protected $_custom_field_queue = array();
 
     protected $_custom_fields = [];
 
@@ -158,96 +151,18 @@ class Ticket extends Model
     }
 
     /**
-     * Custom save method for the ticket
-     * so we can do what we need with the timeline and such.
+     * Saves the ticket, keeping the open/closed state in sync with its status.
      *
      * @return bool
      */
     public function save()
     {
-        // Is this a new ticket?
-        if ($this->_is_new()) {
-            // Get the next ticket id and update
-            // the value for the next ticket.
-            $this->ticket_id = $this->project->next_tid;
-            $this->project->set('next_tid', $this->project->next_tid + 1);
+        if ($this->_is_new() || in_array('status_id', $this->_changed_properties)) {
+            $status = Status::find($this->_data['status_id']);
+            $this->_data['is_closed'] = $status && $status->isClosed() ? 1 : 0;
         }
 
-        // Update ticket open/closed state if ticket status has changed.
-        $status = Status::find($this->_data['status_id']);
-        $this->_data['is_closed'] = $status && $status->isClosed() ? 1 : 0;
-
-        if (parent::save()) {
-            $this->project->save();
-
-            // Loop over the save queue and save
-            // each object
-            foreach ($this->_save_queue as $model) {
-                $model->save();
-            }
-            $this->_save_queue = array();
-
-            // Save custom fields
-            foreach ($this->_custom_field_queue as $model) {
-                $model->ticket_id = $this->id;
-                $model->save();
-            }
-            $this->_custom_field_queue = array();
-
-            // New ticket?
-            if ($this->_is_new()) {
-                // Timeline entry
-                $timeline = new Timeline(array(
-                    'project_id' => $this->project_id,
-                    'owner_id'   => $this->id,
-                    'action'     => 'ticket_created',
-                    'data'       => $status ? $status->name : 'unknown',
-                    'user_id'    => $this->user_id
-                ));
-                $timeline->save();
-
-                $ticketHistory = new TicketHistory(array(
-                    'user_id' => $this->user_id,
-                    'ticket_id' => $this->id,
-                    'changes' => json_encode([
-                        [
-                            'property' => 'status',
-                            'action' => 'create',
-                            'from' => null,
-                            'to' => Status::find($this->status_id ?? 1)->name,
-                        ]
-                    ]),
-                    'comment' => ''
-                ));
-                $ticketHistory->save();
-
-                // Create timeline event is ticket
-                // is created with a closed status.
-                if ($this->_data['is_closed']) {
-                    $timeline = new Timeline(array(
-                        'project_id' => $this->project_id,
-                        'owner_id'   => $this->id,
-                        'action'     => 'ticket_closed',
-                        'data'       => $this->status_id,
-                        'user_id'    => $this->user_id,
-                        'created_at' => Time::date("Y-m-d H:i:s", time() - date("Z") + 1)
-                    ));
-                    $timeline->save();
-                }
-
-                // Created notification
-                Notification::send_for_ticket('created', $this);
-
-                // Assigned to notification
-                if (isset($this->_data['assigned_to_id']) && $this->_data['assigned_to_id'] != 0) {
-                    Notification::send_to($this->_data['assigned_to_id'], 'ticket_assigned', array('ticket' => $this, 'project' => $this->project));
-                }
-            }
-
-            return true;
-        } else {
-            return false;
-        }
+        return parent::save();
     }
 
     /**
@@ -258,266 +173,6 @@ class Ticket extends Model
     public function quick_save()
     {
         return parent::save();
-    }
-
-    /**
-     * Used to update the ticket properties.
-     *
-     * @param array $data
-     *
-     * @return bool
-     */
-    public function update_data($data)
-    {
-        $user = Avalon::app()->user;
-
-        $to_values = $changes = array();
-        $this->_is_closing = $this->_is_reopening = false;
-
-        // Loop over the data
-        foreach ($data as $field => $value) {
-            // Check if the value is different
-            if (isset($this->_data[$field]) && $this->_data[$field] == $value) {
-                continue;
-            }
-
-            // If this field is an attachment, check permissions
-            if ($field == 'attachment' && !$user->permission($this->project_id, 'add_attachments')) {
-                continue;
-            }
-
-            // Get the to and from values for different fields
-            $from = $to = null;
-            switch ($field) {
-                case 'assigned_to_id':
-                    $from = !$this->assigned_to_id ? null : $this->assigned_to->id;
-                    $to = !$value ? null : User::find($value)->id;
-                    break;
-
-                case 'status_id':
-                case 'type_id':
-                    $accessor = str_replace('_id', '', $field);
-                    $class = '\\Traq\\Models\\' . ucfirst($accessor);
-                    $to_values[$field] = $class::find($value);
-
-                    $from = $this->{$accessor}->name;
-                    $to = $to_values[$field]->name;
-                    break;
-
-                case 'summary':
-                    $from = $this->summary;
-                    $to = $value;
-                    break;
-
-                case 'attachment':
-                    $to = $value;
-                    break;
-
-                case 'milestone_id':
-                    $to_values[$field] = Milestone::find($value);
-
-                    if ($this->milestone) {
-                        $from = $this->milestone->name;
-                    }
-
-                    if ($to_values[$field]) {
-                        $to = $to_values[$field]->name;
-                    }
-                    break;
-
-                case 'version_id':
-                    $to_values[$field] = Milestone::find($value);
-
-                    if ($this->version) {
-                        $from = $this->version->name;
-                    }
-
-                    if ($to_values[$field]) {
-                        $to = $to_values[$field]->name;
-                    }
-                    break;
-
-                case 'tasks':
-                    // Only use the task label.
-                    $from = array();
-                    foreach ($this->tasks as $task) {
-                        $from[] = $task['task'];
-                    }
-
-                    $to    = array();
-                    $values = (!is_array($value) ? json_decode($value, true) : $value);
-                    foreach ($values as $task) {
-                        $to[] = $task['task'];
-                    }
-                    break;
-
-                case 'time_proposed':
-                case 'time_worked':
-                    $from = $this->{$field};
-                    $to = $value;
-                    break;
-
-                default:
-                    $accessor = str_replace('_id', '', $field);
-                    $class = '\\Traq\Models\\' . ucfirst($accessor);
-                    $to_values[$field] = $class::find($value);
-
-                    if ($this->{$accessor}) {
-                        $from = $this->{$accessor}->name;
-                    }
-
-                    if ($to_values[$field]) {
-                        $to = $to_values[$field]->name;
-                    }
-                    break;
-            }
-
-            // One last value check...
-            if ($from == $to) {
-                continue;
-            }
-
-            // Change data
-            $change = array(
-                'property' => str_replace('_id', '', $field),
-                'from' => $from,
-                'to' => $to
-            );
-
-            // Has the status changed?
-            if ($field == 'status_id' && $this->status_id != $value) {
-                if ($this->status->status != $to_values[$field]->status) {
-                    $this->is_closed = $to_values[$field]->isClosed() ? 1 : 0;
-
-                    $timelineData = [
-                        'project_id' => $this->project_id,
-                        'owner_id' => $this->id,
-                        'data' => $to_values[$field]->name,
-                        'user_id' => $user->id
-                    ];
-
-                    // Status action
-                    if ($this->status->isClosed()) {
-                        // From closed
-                        $change['action'] = 'reopen';
-                        $timelineData['action'] = 'ticket_reopened';
-                    } elseif ($this->status->isOpen()) {
-                        // From open
-                        if ($to_values[$field]->isStarted()) {
-                            $change['action'] = 'start';
-                            $timelineData['action'] = 'ticket_started';
-                        } elseif ($to_values[$field]->isClosed()) {
-                            $change['action'] = 'close';
-                            $timelineData['action'] = 'ticket_closed';
-                        }
-                    } elseif ($this->status->isStarted()) {
-                        // From started
-                        if ($to_values[$field]->isOpen()) {
-                            $change['action'] = false;
-                            $timelineData['action'] = 'ticket_updated';
-                        } elseif ($to_values[$field]->isClosed()) {
-                            $change['action'] = 'close';
-                            $timelineData['action'] = 'ticket_closed';
-                        }
-                    }
-
-                    $this->_save_queue[] = new Timeline($timelineData);
-
-                    $this->_is_closing = $change['action'] == 'close' ? true : false;
-                    $this->_is_reopening = $change['action'] == 'reopen' ? true : false;
-                }
-            }
-            // Attaching a file?
-            elseif ($field == 'attachment' and isset($_FILES['attachment']) and isset($_FILES['attachment']['name'])) {
-                $tmpName = $_FILES['attachment']['tmp_name'];
-
-                if (!strlen($tmpName)) {
-                    $this->_add_error('attachment', l('errors.attachments.unable_to_upload_file'));
-                } else {
-                    $this->_save_queue[] = new Attachment(array(
-                        'name' => $_FILES['attachment']['name'],
-                        'contents' => base64_encode(file_get_contents($_FILES['attachment']['tmp_name'])),
-                        'type' => $_FILES['attachment']['type'],
-                        'size' => $_FILES['attachment']['size'],
-                        'user_id' => $user->id,
-                        'ticket_id' => $this->id
-                    ));
-                }
-
-                $change['action'] = 'add_attachment';
-            }
-
-            // Set value
-            if (in_array($field, static::$_properties)) {
-                $this->set($field, $value);
-            }
-
-            if (isset($change['action']) && !$change['action']) {
-                unset($change['action']);
-            }
-            $changes[] = $change;
-        }
-
-        $changes = array_merge($changes, $this->_changes);
-
-        // Any changes, or perhaps a comment?
-        if (count($changes) > 0 || !empty(Request::$post['comment'])) {
-            $this->_save_queue[] = new TicketHistory(array(
-                'user_id' => $user->id,
-                'ticket_id' => $this->id,
-                'changes' => count($changes) > 0 ? json_encode($changes) : '',
-                'comment' => isset(Request::$post['comment']) ? Request::$post['comment'] : ''
-            ));
-
-            if (!$this->_is_closing and !$this->_is_reopening) {
-                // There are changes, but the ticket isn't being moved and the status hasn't changed.
-                if (count($changes) && (!isset($data['project_id']) && !isset($data['status_id']))) {
-                    $this->_save_queue[] = new Timeline(array(
-                        'project_id' => $this->project_id,
-                        'owner_id'   => $this->id,
-                        'action'     => 'ticket_updated',
-                        'data'       => $this->id,
-                        'user_id'    => $user->id
-                    ));
-                }
-                // No changes but definitely a comment
-                elseif (!count($changes) and !empty(Request::$post['comment']) and !isset($data['project_id'])) {
-                    $this->_save_queue[] = new Timeline(array(
-                        'project_id' => $this->project_id,
-                        'owner_id' => $this->id,
-                        'action' => 'ticket_comment',
-                        'user_id' => $user->id
-                    ));
-                }
-            }
-        }
-
-        // Save
-        if ($this->save()) {
-            // Closed notification
-            if (isset($this->_is_closing) and $this->_is_closing) {
-                Notification::send_for_ticket('closed', $this);
-            }
-            // Reopened notification
-            elseif (isset($this->_is_reopening) and $this->_is_reopening) {
-                Notification::send_for_ticket('reopened', $this);
-            }
-            // Updated notification
-            else {
-                Notification::send_for_ticket('updated', $this);
-            }
-
-            // Assigned to notification
-            if (in_array('assigned_to_id', $this->_changed_properties) && $this->_data['assigned_to_id'] != 0) {
-                Notification::send_to($this->_data['assigned_to_id'], 'ticket_assigned', array('ticket' => $this, 'project' => $this->project));
-            }
-
-            return true;
-        }
-        // Error saving
-        else {
-            return false;
-        }
     }
 
     /**
@@ -592,38 +247,6 @@ class Ticket extends Model
         }
 
         return $data;
-    }
-
-    /**
-     * Sets the value of the custom field.
-     *
-     * @param integer $field_id
-     * @param string  $field_name
-     * @param mixed   $value
-     */
-    public function set_custom_field($field_id, $field_name, $value)
-    {
-        $field = $this->custom_field_value($field_id);
-
-        // Check if value is different
-        if ($field and $field->value != $value) {
-
-            // Add change
-            $this->_changes[$field_id] = array(
-                'property'     => $field_name,
-                'custom_field' => true,
-                'from'         => $field->value,
-                'to'           => $value
-            );
-
-            $field->value = $value;
-            $this->_save_queue[] = $field;
-        } elseif (!$field) {
-            $this->_custom_field_queue[] = new CustomFieldValue(array(
-                'custom_field_id' => $field_id,
-                'value' => $value
-            ));
-        }
     }
 
     /**
@@ -711,58 +334,6 @@ class Ticket extends Model
         }
 
         return $tickets;
-    }
-
-    public function addRelatedTicket(int $relatedTicketId, int $relationTypeId, int $inverseRelationTypeId)
-    {
-        $sql = "INSERT INTO {$this->db()->prefix}ticket_relationships (ticket_id, related_ticket_id, relation_type_id) VALUES (:ticketId, :relatedTicketId, :relationTypeId)";
-        $stmt = $this->db()->prepare($sql);
-        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
-        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
-        $stmt->bindValue(':relationTypeId', $relationTypeId, \PDO::PARAM_INT);
-        $stmt->execute();
-
-        // Add inverse relationship
-        $sql = "INSERT INTO {$this->db()->prefix}ticket_relationships (ticket_id, related_ticket_id, relation_type_id) VALUES (:relatedTicketId, :ticketId, :inverseRelationTypeId)";
-        $stmt = $this->db()->prepare($sql);
-        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
-        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
-        $stmt->bindValue(':inverseRelationTypeId', $inverseRelationTypeId, \PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    public function updateRelatedTicket(int $relatedTicketId, int $relationTypeId, int $inverseRelationTypeId)
-    {
-        $sql = "UPDATE {$this->db()->prefix}ticket_relationships SET relation_type_id = :relationTypeId WHERE ticket_id = :ticketId AND related_ticket_id = :relatedTicketId";
-        $stmt = $this->db()->prepare($sql);
-        $stmt->bindValue(':relationTypeId', $relationTypeId, \PDO::PARAM_INT);
-        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
-        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
-        $stmt->execute();
-
-        // Update inverse relationship
-        $sql = "UPDATE {$this->db()->prefix}ticket_relationships SET relation_type_id = :inverseRelationTypeId WHERE ticket_id = :relatedTicketId AND related_ticket_id = :ticketId";
-        $stmt = $this->db()->prepare($sql);
-        $stmt->bindValue(':inverseRelationTypeId', $inverseRelationTypeId, \PDO::PARAM_INT);
-        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
-        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    public function deleteRelatedTicket(int $relatedTicketId)
-    {
-        $sql = "DELETE FROM {$this->db()->prefix}ticket_relationships WHERE ticket_id = :ticketId AND related_ticket_id = :relatedTicketId";
-        $stmt = $this->db()->prepare($sql);
-        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
-        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
-        $stmt->execute();
-
-        // Delete inverse relationship
-        $sql = "DELETE FROM {$this->db()->prefix}ticket_relationships WHERE ticket_id = :relatedTicketId AND related_ticket_id = :ticketId";
-        $stmt = $this->db()->prepare($sql);
-        $stmt->bindValue(':ticketId', $this->id, \PDO::PARAM_INT);
-        $stmt->bindValue(':relatedTicketId', $relatedTicketId, \PDO::PARAM_INT);
-        $stmt->execute();
     }
 
     /**

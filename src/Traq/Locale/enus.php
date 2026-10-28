@@ -522,6 +522,7 @@ class enUS extends Locale
                 'page_title_blank'             => "Page Title cannot be blank",
                 'already_voted'                => "You have already voted.",
                 'must_be_logged_in'            => "You must be logged in to do that.",
+                'invalid_value'                => "Invalid value",
                 'type_blank'                   => "You must choose a type",
                 'regex_blank'                  => "You need to enter a regex value",
                 'values_blank'                 => "You need to enter some values",

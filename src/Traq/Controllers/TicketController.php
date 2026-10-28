@@ -38,6 +38,9 @@ use Traq\Models\Subscription;
 use Traq\Models\CustomField;
 use Traq\Models\Timeline;
 use Traq\Helpers\Pagination;
+use Traq\Helpers\RelatedTickets;
+use Traq\Helpers\TicketInput;
+use Traq\Helpers\TicketManager;
 use Traq\Middleware\AuthMiddleware;
 use Traq\Models\Attachment;
 use Traq\Models\TicketRelationType;
@@ -261,9 +264,9 @@ class TicketController extends AppController
             // If the existing related ticket is found, update it
             if (count($existingRelatedTicket)) {
                 $existingRelatedTicket = end($existingRelatedTicket);
-                $ticket->updateRelatedTicket($relatedTicket['actual_ticket_id'], $relatedTicket['relation_type_id'], $relationTypes[$relatedTicket['relation_type_id']]);
+                RelatedTickets::update($ticket, $relatedTicket['actual_ticket_id'], $relatedTicket['relation_type_id'], $relationTypes[$relatedTicket['relation_type_id']]);
             } else {
-                $ticket->addRelatedTicket($relatedTicket['actual_ticket_id'], $relatedTicket['relation_type_id'], $relationTypes[$relatedTicket['relation_type_id']]);
+                RelatedTickets::add($ticket, $relatedTicket['actual_ticket_id'], $relatedTicket['relation_type_id'], $relationTypes[$relatedTicket['relation_type_id']]);
             }
         }
 
@@ -274,7 +277,7 @@ class TicketController extends AppController
 
             if (count($updatedRelatedTickets) === 0) {
                 $related = Ticket::findByProjectIdAndTicketId($existingRelatedTicket->project_id, $existingRelatedTicket->ticket_id);
-                $ticket->deleteRelatedTicket($related->id);
+                RelatedTickets::delete($ticket, $related->id);
             }
         }
 
@@ -384,94 +387,18 @@ class TicketController extends AppController
             'type_id'     => $this->project->default_ticket_type_id
         ));
 
-        // Check if the form has been submitted
-        // Set the ticket data
-        $data = array(
-            'summary'      => Request::get('summary'),
-            'body'         => Request::get('description'),
-            'user_id'      => $this->user->id,
-            'project_id'   => $this->project->id,
-            'milestone_id' => null,
-            'version_id'   => null,
-            'component_id' => null,
-            'type_id'      => Request::get('type', 1),
-            'severity_id'  => 4,
-            'tasks'        => [],
-            'is_private'   => 0
-        );
+        $input = new TicketInput($this->user, $this->project);
+        $ticket->set($input->newTicket());
 
-        // Milestone
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_milestone')) {
-            $data['milestone_id'] = (int) Request::get('milestone') === 0 ? null : (int) Request::get('milestone');
-        }
-
-        // Version
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_version')) {
-            $data['version_id'] = (int) Request::get('version') === 0 ? null : (int) Request::get('version');
-        }
-
-        // Component
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_component')) {
-            $data['component_id'] = (int) Request::get('component') === 0 ? null : (int) Request::get('component');
-        }
-
-        // Severity
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_severity')) {
-            $data['severity_id'] = (int) Request::get('severity', 4);
-        }
-
-        // Priority
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_priority')) {
-            $data['priority_id'] = (int) Request::get('priority', 3);
-        }
-
-        // Status
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_status')) {
-            $data['status_id'] = (int) Request::get('status', 1);
-        }
-
-        // Assigned to
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_assigned_to')) {
-            $data['assigned_to_id'] = (int) Request::get('assigned_to') === 0 ? null : (int) Request::get('assigned_to');
-        }
-
-        // Ticket tasks
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_tasks') && Request::get('tasks') != null) {
-            $tasks = json_decode(Request::get('tasks'), true);
-
-            foreach ($tasks as $id => $task) {
-                if (is_array($task) && !empty($task['task'])) {
-                    $data['tasks'][] = $task;
-                }
-            }
-        }
-
-        // Time proposed
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_time_worked')) {
-            $data['time_proposed'] = Request::get('time_proposed');
-        }
-
-        // Time worked
-        if ($this->user->permission($this->project->id, 'ticket_properties_set_time_proposed')) {
-            $data['time_worked'] = Request::get('time_worked');
-        }
-
-        // Set the ticket data
-        $ticket->set($data);
-
-        // Custom fields, FUN!
-        if (isset(Request::$post['custom_fields'])) {
-            $this->process_custom_fields($ticket, Request::$post['custom_fields']);
-        }
+        $manager = new TicketManager($ticket, $this->user);
+        $manager->setCustomFields($this->custom_fields, $input->customFields());
 
         // Check if the ticket data is valid...
         // if it is, save the ticket to the DB and
         // redirect to the ticket page.
-        if (($this->user->group->is_admin || check_ticket_creation_delay($ticket)) && $ticket->is_valid()) {
+        if (($this->user->group->is_admin || check_ticket_creation_delay($ticket)) && $ticket->is_valid() && $manager->create()) {
             // Set last ticket creation time
             $_SESSION['last_ticket_creation'] = time();
-
-            $ticket->save();
 
             // Create subscription
             if ($this->user->option('watch_created_tickets')) {
@@ -505,148 +432,37 @@ class TicketController extends AppController
     }
 
     /**
-     *
      * Handles the updating of the ticket.
      */
     #[AuthMiddleware(['update_tickets'])]
     public function update(int $ticket_id)
     {
-        // Get the ticket
-        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+        $ticket = Ticket::findByProjectIdAndTicketId($this->project->id, $ticket_id);
 
-        // Set the title
+        if (!$ticket) {
+            return $this->show404();
+        }
+
         $this->title($ticket->summary);
         $this->title(l('update_ticket'));
 
-        // Collect the new data
-        $data = array(
-            'summary'      => $ticket->summary,
-            'milestone_id' => $ticket->milestone_id,
-            'version_id'   => $ticket->version_id,
-            'component_id' => $ticket->component_id,
-            'type_id'      => $ticket->type_id,
-            'severity_id'  => $ticket->severity_id,
-            'priority_id'  => $ticket->priority_id,
-            'status_id'    => $ticket->status_id,
-            'tasks'        => $ticket->tasks,
-            'is_private'   => $ticket->is_private
-        );
+        $manager = new TicketManager($ticket, $this->user);
 
-        // Summary
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_summary')) {
-            $data['summary'] = Request::get('summary', $ticket->summary);
-        }
-
-        // Type
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_type')) {
-            $data['type_id'] = Request::get('type', $ticket->type->id);
-        }
-
-        // Milestone
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_milestone')) {
-            $data['milestone_id'] = Request::get('milestone', $ticket->milestone_id);
-        }
-
-        // Version
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_version')) {
-            $data['version_id'] = (int) Request::get('version') === 0 ? null : (int) Request::get('version');
-        }
-
-        // Component
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_component')) {
-            $data['component_id'] = (int) Request::get('component', $ticket->component_id) === 0 ? null : (int) Request::get('component');
-        }
-
-        // Severity
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_severity')) {
-            $data['severity_id'] = Request::get('severity', $ticket->severity_id);
-        }
-
-        // Priority
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_priority')) {
-            $data['priority_id'] = Request::get('priority', $ticket->priority_id);
-        }
-
-        // Status
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_status')) {
-            $data['status_id'] = Request::get('status', $ticket->status_id);
-        }
-
-        // Assigned to
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_assigned_to')) {
-            $data['assigned_to_id'] = Request::get('assigned_to', $ticket->assigned_to_id);
-        }
-
-        // Ticket tasks
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_tasks') && Request::get('tasks') != null) {
-            $data['tasks'] = array();
-            $tasks = json_decode(Request::get('tasks'), true);
-
-            foreach ($tasks as $id => $task) {
-                if (is_array($task) and !empty($task['task'])) {
-                    $data['tasks'][] = $task;
-                }
-            }
-        }
-
-        // Time proposed
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_time_worked')) {
-            $data['time_proposed'] = Request::get('time_proposed');
-        }
-
-        // Time worked
-        if ($this->user->permission($this->project->id, 'ticket_properties_change_time_proposed')) {
-            $data['time_worked'] = Request::get('time_worked');
-        }
-
-        // Check if we're adding an attachment and that the user has permission to do so
-        if ($this->user->permission($this->project->id, 'add_attachments') && isset($_FILES['attachment']) && isset($_FILES['attachment']['name'])) {
-            $data['attachment'] = $_FILES['attachment']['name'];
-        }
-
-        // Custom fields, FUN!
-        if (isset(Request::$post['custom_fields'])) {
-            $this->process_custom_fields($ticket, Request::$post['custom_fields']);
-        }
-
-        // Update the ticket
-        if ($ticket->update_data($data)) {
+        if ($manager->updateFromRequest(new TicketInput($this->user, $this->project), $this->custom_fields)) {
             if ($this->isJson) {
                 return $this->json(['ticket' => $ticket]);
-            } else {
-                return $this->redirectTo($ticket->href());
             }
+
+            return $this->redirectTo($ticket->href());
+        }
+
+        if ($this->isJson) {
+            return $this->json(['errors' => $ticket->errors], 422);
         }
 
         $this->set($this->getTicketData($ticket));
 
         return $this->render('tickets/view.phtml', ['ticket' => $ticket]);
-    }
-
-    /**
-     * Processes the custom fields
-     *
-     * @param object $ticket
-     * @param array  $custom_fields
-     */
-    private function process_custom_fields(&$ticket, $fields)
-    {
-        foreach ($this->custom_fields as $field) {
-            if (in_array($ticket->type_id, $field->ticket_type_ids) or $field->ticket_type_ids[0] == 0) {
-                if (isset($fields[$field->id])) {
-                    if ($field->validate($fields[$field->id])) {
-                        $ticket->set_custom_field($field->id, $field->name, $fields[$field->id]);
-                    } else {
-                        $ticket->_add_error($field->id, l("errors.custom_fields.x_is_not_valid", $field->name, $field->type));
-                    }
-                }
-
-                // Check if field is required
-                if ($field->is_required and empty($fields[$field->id])) {
-                    $ticket->_add_error($field->id, l('errors.custom_fields.x_required', $field->name));
-                }
-            }
-        }
     }
 
     /**
@@ -656,10 +472,12 @@ class TicketController extends AppController
     #[AuthMiddleware(['edit_ticket_description'])]
     public function edit(int $ticket_id)
     {
-        // Get the ticket
-        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+        $ticket = Ticket::findByProjectIdAndTicketId($this->project->id, $ticket_id);
 
-        // Set the title
+        if (!$ticket) {
+            return $this->show404();
+        }
+
         $this->title($ticket->summary);
         $this->title(l('edit_ticket'));
 
@@ -687,7 +505,7 @@ class TicketController extends AppController
     #[AuthMiddleware(['move_tickets'])]
     public function move(int $ticket_id)
     {
-        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+        $ticket = Ticket::findByProjectIdAndTicketId($this->project->id, $ticket_id);
 
         if (!$ticket) {
             return $this->show404();
@@ -781,7 +599,7 @@ class TicketController extends AppController
             $new_project->next_tid++;
 
             // Update ticket
-            if ($ticket->update_data($data)) {
+            if ((new TicketManager($ticket, $this->user))->update($data)) {
                 $new_project->save();
 
                 // Insert timeline event for old project
@@ -839,8 +657,12 @@ class TicketController extends AppController
     #[AuthMiddleware(['delete_tickets'])]
     public function delete(int $ticket_id)
     {
-        // Get ticket, delete it then redirect to ticket listing
-        $ticket = Ticket::select()->where("ticket_id", $ticket_id)->where("project_id", $this->project->id)->exec()->fetch();
+        $ticket = Ticket::findByProjectIdAndTicketId($this->project->id, $ticket_id);
+
+        if (!$ticket) {
+            return $this->show404();
+        }
+
         $ticket->delete();
         Request::redirectTo($this->project->href('tickets'));
     }
@@ -863,82 +685,22 @@ class TicketController extends AppController
             : json_decode(Request::get('tickets'), true);
 
         // Make sure there are some tickets
-        if (!is_array($tickets) and !count($tickets)) {
+        if (!is_array($tickets) || !count($tickets)) {
             Request::redirectTo($this->project->href('tickets'));
         }
 
         // Loop over tickets and process actions
-        foreach ($tickets as $ticket_id) {
-            $ticket = Ticket::select('*')->where('project_id', $this->project->id)->where('ticket_id', $ticket_id)->exec()->fetch();
-            $data = [];
+        $input = new TicketInput($this->user, $this->project);
+        $comment = $input->comment();
+        $properties = $input->bulkChanges();
 
-            // Type
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_type')
-                && Request::get('type', -1) != -1
-            ) {
-                $data['type_id'] = Request::get('type');
-            }
+        if (count($properties) || $comment) {
+            foreach ($tickets as $ticket_id) {
+                $ticket = Ticket::findByProjectIdAndTicketId($this->project->id, (int) $ticket_id);
 
-            // Milestone
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_milestone')
-                && Request::get('milestone', -1) != -1
-            ) {
-                $data['milestone_id'] = Request::get('milestone');
-            }
-
-            // Version
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_version')
-                && Request::get('version', -1) != -1
-            ) {
-                $data['version_id'] = Request::get('version');
-            }
-
-            // Component
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_component')
-                && Request::get('component', -1) != -1
-            ) {
-                $data['component_id'] = Request::get('component');
-            }
-
-            // Severity
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_severity')
-                && Request::get('severity', -1) != -1
-            ) {
-                $data['severity_id'] = Request::get('severity');
-            }
-
-            // Priority
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_priority')
-                && Request::get('priority', -1) != -1
-            ) {
-                $data['priority_id'] = Request::get('priority');
-            }
-
-            // Status
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_status')
-                && Request::get('status', -1) != -1
-            ) {
-                $data['status_id'] = Request::get('status');
-            }
-
-            // Assigned to
-            if (
-                $this->user->permission($this->project->id, 'ticket_properties_change_assigned_to')
-                && Request::get('assigned_to', -1) != -1
-            ) {
-                $data['assigned_to_id'] = Request::get('assigned_to');
-            }
-
-            if (count($data) or Request::get('comment')) {
-                $ticket->update_data($data);
-                $ticket->save();
+                if ($ticket) {
+                    (new TicketManager($ticket, $this->user))->update($properties, $comment);
+                }
             }
         }
 
