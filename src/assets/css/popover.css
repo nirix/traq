@@ -49,6 +49,19 @@
   @apply absolute;
   @apply rounded-lg;
 
+  /* Arrow pointing at the trigger, --popover-arrow-left is set from JS */
+  &::before {
+    content: "";
+    left: var(--popover-arrow-left, 50%);
+    top: -6px;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%) rotate(45deg);
+
+    @apply absolute bg-white;
+    @apply border-t border-l border-solid border-gray-200;
+  }
+
   & > .popover-confirm-content {
     @apply px-3 pt-3 pb-2;
     @apply text-sm leading-snug text-left text-gray-700;

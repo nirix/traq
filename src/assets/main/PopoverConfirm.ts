@@ -150,7 +150,7 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
   position() {
     const rootRect = this.$root.getBoundingClientRect()
     const rect = this.el.getBoundingClientRect()
-    const top = rootRect.y + rootRect.height + 8 + window.scrollY
+    const top = rootRect.y + rootRect.height + 10 + window.scrollY
 
     let right
     if (position === 'center') {
@@ -162,8 +162,13 @@ Alpine.data('popoverConfirm', ({ position = 'center', message, success, remote, 
     const maxLeft = document.documentElement.clientWidth - rect.width - 8
     const left = Math.max(8, Math.min(right, maxLeft))
 
+    // Point the arrow at the middle of the trigger, kept clear of the rounded corners.
+    const triggerCenter = rootRect.left + rootRect.width / 2
+    const arrowLeft = Math.max(16, Math.min(triggerCenter - left, rect.width - 16))
+
     this.el.style.top = `${top}px`
     this.el.style.left = `${left}px`
+    this.el.style.setProperty('--popover-arrow-left', `${arrowLeft}px`)
   },
 
   close() {
