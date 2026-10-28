@@ -89,12 +89,16 @@ function is_installed(array $config)
 {
     global $conn;
 
-    // Connect to the database
-    $conn = Database::factory($config, 'main');
+    try {
+        // Connect to the database
+        $conn = Database::factory($config, 'main');
 
-    // Check if the settings table exists...
-    if ($conn->select('value')->from('settings')->exec()) {
-        return true;
+        // Check if the settings table exists...
+        if ($conn->select('value')->from('settings')->exec()) {
+            return true;
+        }
+    } catch (Exception $e) {
+        return false;
     }
 
     return false;
