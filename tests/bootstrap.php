@@ -13,3 +13,4 @@ require_once DOCROOT . '/src/Traq/version.php';
 require_once DOCROOT . '/src/Traq/Helpers/uri.php';
 require_once DOCROOT . '/src/Traq/common.php';
 require_once DOCROOT . '/src/Traq/Locale.php';
+require_once SYSPATH . '/libs/fishhook.php';
