@@ -1,0 +1,77 @@
+<?php
+$eventIcons = [
+    'ticket_created' => ['fa-plus', 'created'],
+    'ticket_started' => ['fa-play', 'started'],
+    'ticket_closed' => ['fa-check', 'closed'],
+    'ticket_reopened' => ['fa-rotate-left', 'reopened'],
+    'ticket_updated' => ['fa-pen', 'updated'],
+    'ticket_comment' => ['fa-comment', 'comment'],
+    'ticket_moved_from' => ['fa-right-left', 'moved'],
+    'ticket_moved_to' => ['fa-right-left', 'moved'],
+    'milestone_completed' => ['fa-flag', 'closed'],
+    'milestone_cancelled' => ['fa-flag', 'created'],
+    'wiki_page_created' => ['fa-book', 'created'],
+    'wiki_page_edited' => ['fa-book', 'updated'],
+];
+
+$user = $users[$event->user_id] ?? null;
+$ticket = $tickets[$event->owner_id] ?? null;
+$milestone = $milestones[$event->owner_id] ?? null;
+$page = $wikiPages[$event->owner_id] ?? null;
+
+// Skip events whose user or subject has since been deleted
+$hasSubject = match (true) {
+    $event->isTicket(), $event->isTicketMoved() => $ticket !== null,
+    $event->isMilestone() => $milestone !== null,
+    $event->isWiki() => $page !== null,
+    default => true,
+};
+
+if (!$user || !$hasSubject) {
+    return;
+}
+
+[$icon, $kind] = $eventIcons[$event->action] ?? ['fa-circle', 'created'];
+?>
+<li id="timeline-event-<?= $event->id ?>" class="timeline-event">
+    <span class="timeline-event-icon timeline-event-icon-<?= $kind ?>" aria-hidden="true">
+        <span class="fas fa-fw <?= $icon ?>"></span>
+    </span>
+    <?php if ($relativeTime ?? false) : ?>
+        <time class="timeline-event-time timeline-event-time-relative" datetime="<?= $event->getCreatedAt()->format('c') ?>">
+            <?= time_ago($event->created_at, false) ?>
+        </time>
+    <?php else : ?>
+        <time class="timeline-event-time" datetime="<?= $event->getCreatedAt()->format('c') ?>">
+            <?= $event->getCreatedAt()->format(settings('timeline_time_format')) ?>
+        </time>
+    <?php endif; ?>
+    <div class="timeline-event-body">
+        <?= HTML::link(e($user->name), $user->href(), ['class' => 'timeline-event-user']) ?>
+
+        <?php if ($event->isTicket()) : ?>
+            <span><?= e(l("timeline.verb.{$event->action}")) ?></span>
+            <?= HTML::link(e($ticket['ticket_summary']), currentProject()->href("tickets/{$ticket['ticket_id']}"), ['class' => 'timeline-event-title']) ?>
+            <span class="timeline-event-id">#<?= $ticket['ticket_id'] ?></span>
+            <?php if (\in_array($event->action, ['ticket_closed', 'ticket_reopened']) && $event->data) : ?>
+                <span class="timeline-event-status timeline-event-status-<?= $event->action ?>"><?= e($event->data) ?></span>
+            <?php endif; ?>
+        <?php elseif ($event->isTicketMoved()) : ?>
+            <span><?= e(l("timeline.verb.{$event->action}", $projects[$event->data])) ?></span>
+            <?= HTML::link(e($ticket['ticket_summary']), currentProject()->href("tickets/{$ticket['ticket_id']}"), ['class' => 'timeline-event-title']) ?>
+            <span class="timeline-event-id">#<?= $ticket['ticket_id'] ?></span>
+        <?php elseif ($event->isMilestone()) : ?>
+            <span><?= e(l("timeline.verb.{$event->action}")) ?></span>
+            <?= HTML::link(e($milestone['name']), currentProject()->href("milestone/{$milestone['slug']}"), ['class' => 'timeline-event-title']) ?>
+        <?php elseif ($event->isWiki()) : ?>
+            <span><?= e(l("timeline.verb.{$event->action}")) ?></span>
+            <?= HTML::link(e($page['title']), currentProject()->href("wiki/{$page['slug']}"), ['class' => 'timeline-event-title']) ?>
+        <?php endif; ?>
+    </div>
+    <?php if ($canDelete ?? false) : ?>
+        <button class="timeline-event-delete" x-data="popoverConfirm({ position: 'center', success: () => { document.getElementById('timeline-event-<?= $event->id ?>').remove() }, remote: '<?= Request::base(currentProject()->href("timeline/{$event->id}")) ?>', method: 'DELETE' })" @click="toggle()">
+            <span class="fas fa-fw fa-trash"></span>
+            <span class="visually-hidden"><?= l('delete') ?></span>
+        </button>
+    <?php endif; ?>
+</li>

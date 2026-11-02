@@ -30,6 +30,7 @@ use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\Project;
 use Traq\Models\Status;
+use Traq\Models\Timeline;
 use Traq\Models\Type;
 
 /**
@@ -75,12 +76,27 @@ class ProjectController extends AppController
         }
 
         // Get open and closed ticket counts.
-        View::set('ticket_count', array(
-            'open' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 0)->exec()->row_count(),
-            'closed' => Ticket::select()->where('project_id', $this->project->id)->where('is_closed', 1)->exec()->row_count()
-        ));
+        $ticketCount = ['open' => 0, 'closed' => 0];
+        $query = $this->db->prepare("SELECT `is_closed`, COUNT(*) AS `total` FROM `{$this->db->prefix}tickets` WHERE `project_id` = ? GROUP BY `is_closed`");
+        $query->exec([$this->project->id]);
+        foreach ($query->fetchAll() as $row) {
+            $ticketCount[$row['is_closed'] ? 'closed' : 'open'] = (int) $row['total'];
+        }
 
-        return $this->render('projects/view.phtml');
+        $milestones = Milestone::getDataForRoadmap($this->project->id, status: Milestone::ACTIVE, sort: 'm.displayorder');
+
+        $releases = Milestone::getDataForRoadmap($this->project->id, status: Milestone::COMPLETE, sort: 'm.displayorder', order: 'DESC');
+
+        $events = Timeline::select()->where('project_id', $this->project->id)->order_by('created_at', 'DESC')->limit(8)->exec()->fetch_all();
+
+        return $this->render('projects/view.phtml', [
+            'ticketCount' => $ticketCount,
+            'currentMilestone' => $milestones[0] ?? null,
+            'upcomingMilestones' => \array_slice($milestones, 1, 2),
+            'latestRelease' => $releases[0]['milestone'] ?? null,
+            'events' => $events,
+            'related' => Timeline::getRelatedData($events),
+        ]);
     }
 
     /**

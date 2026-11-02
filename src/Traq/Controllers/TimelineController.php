@@ -27,7 +27,6 @@ use Avalon\Http\Request;
 use Avalon\Http\Response;
 use Traq\Helpers\Pagination;
 use Traq\Models\Timeline;
-use Traq\Models\User;
 
 /**
  * @package Traq\Controllers
@@ -60,30 +59,13 @@ class TimelineController extends AppController
         $lastDate = null;
         $lastUserId = null;
 
-        $ticketIds = [];
-        $milestoneIds = [];
-        $wikiIds = [];
-        $userIds = [];
-        $projectIds = [];
+        $timelineEvents = [];
 
         foreach ($events as $event) {
             $event = new Timeline($event, false);
+            $timelineEvents[] = $event;
             $createdOn = $event->getCreatedAt()->format('Y_m_d');
             $userId = $event->user_id;
-
-            if (!\in_array($event->user_id, $userIds)) {
-                $userIds[] = $event->user_id;
-            }
-
-            if (\in_array($event->action, Timeline::TICKET_EVENTS) && !\in_array($event->owner_id, $ticketIds)) {
-                $ticketIds[] = $event->owner_id;
-            } elseif (\in_array($event->action, Timeline::MILESTONE_EVENTS)) {
-                $milestoneIds[] = $event->owner_id;
-            } elseif (\in_array($event->action, Timeline::WIKI_EVENTS)) {
-                $wikiIds[] = $event->owner_id;
-            } elseif (\in_array($event->action, Timeline::TICKET_MOVED_EVENTS)) {
-                $projectIds[] = $event->data;
-            }
 
             // Create the day container
             if (!isset($groupedEvents[$createdOn])) {
@@ -112,20 +94,10 @@ class TimelineController extends AppController
             $lastUserId = $userId;
         }
 
-        $tickets = \count($ticketIds) ? $this->getTickets($ticketIds) : [];
-        $users = \count($userIds) ? $this->getUsers($userIds) : [];
-        $milestones = \count($milestoneIds) ? $this->getMilestones($milestoneIds) : [];
-        $wikiPages = \count($wikiIds) ? $this->getWikiPages($wikiIds) : [];
-
-        $projects = \count($projectIds) ? $this->getProjects($projectIds) : [];
         return $this->render('timeline/index', [
             'pagination' => $pagination,
             'groupedEvents' => $groupedEvents,
-            'users' => $users,
-            'tickets' => $tickets,
-            'milestones' => $milestones,
-            'wikiPages' => $wikiPages,
-            'projects' => $projects,
+            ...Timeline::getRelatedData($timelineEvents),
         ]);
     }
 
@@ -157,97 +129,5 @@ class TimelineController extends AppController
         }
 
         return $this->json(['success' => true]);
-    }
-
-    /**
-     * Get the ticket info required for timeline events, not actual ticket models.
-     */
-    private function getTickets(array $ticketIds): array
-    {
-        $inIds = str_repeat('?, ', \count($ticketIds) - 1) . '?';
-        $query = $this->db->prepare(
-            "
-            SELECT
-                t.`id`,
-                t.`ticket_id`,
-                t.`summary` AS ticket_summary,
-                s.`name` AS status_name
-            FROM `{$this->db->prefix}tickets` t
-            LEFT JOIN `{$this->db->prefix}statuses` s ON t.status_id = s.id
-            WHERE t.`id` IN ($inIds)"
-        );
-        $query->exec($ticketIds);
-
-        $tickets = [];
-        foreach ($query->fetchAll() as $ticket) {
-            $tickets[$ticket['id']] = $ticket;
-        }
-
-        return $tickets;
-    }
-
-    /**
-     * Get user info for timeline events.
-     */
-    private function getUsers(array $userIds): array
-    {
-        $inIds = str_repeat('?, ', \count($userIds) - 1) . '?';
-        $query = $this->db->prepare("SELECT `id`, `username`, `name` FROM `{$this->db->prefix}users` WHERE `id` IN ($inIds)");
-        $query->exec($userIds);
-
-        $users = [];
-        foreach ($query->fetchAll() as $user) {
-            $users[$user['id']] = new User($user, false);
-        }
-
-        return $users;
-    }
-
-    /**
-     * Get milestone info for timeline events.
-     */
-    private function getMilestones(array $milestoneIds): array
-    {
-        $inIds = str_repeat('?, ', \count($milestoneIds) - 1) . '?';
-        $query = $this->db->prepare("SELECT `id`, `name`, `slug` FROM `{$this->db->prefix}milestones` WHERE `id` IN ($inIds)");
-        $query->exec($milestoneIds);
-
-        $milestones = [];
-        foreach ($query->fetchAll() as $milestone) {
-            $milestones[$milestone['id']] = $milestone;
-        }
-
-        return $milestones;
-    }
-
-    /**
-     * Get wiki page info for timeline events.
-     */
-    private function getWikiPages(array $wikiIds): array
-    {
-        $inIds = str_repeat('?, ', \count($wikiIds) - 1) . '?';
-        $query = $this->db->prepare("SELECT `id`, `title`, `slug` FROM `{$this->db->prefix}wiki` WHERE `id` IN ($inIds)");
-        $query->exec($wikiIds);
-
-        $pages = [];
-        foreach ($query->fetchAll() as $page) {
-            $pages[$page['id']] = $page;
-        }
-
-        return $pages;
-    }
-
-    private function getProjects(array $projectIds): array
-    {
-        $inIds = str_repeat('?, ', \count($projectIds) - 1) . '?';
-        $query = $this->db->prepare("SELECT `id`, `name` AS project_name, `slug` AS project_slug FROM `{$this->db->prefix}projects` WHERE `id` IN ($inIds)");
-        $query->exec($projectIds);
-
-        $projects = [];
-        foreach ($query->fetchAll() as $project) {
-            $projects[$project['id']] = $project;
-        }
-
-        return $projects;
     }
 }

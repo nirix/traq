@@ -67,6 +67,10 @@
   @apply text-sm text-gray-500 tabular-nums;
 }
 
+.timeline-event-time-relative {
+  @apply order-last w-auto whitespace-nowrap;
+}
+
 .timeline-event-body {
   @apply flex-1 min-w-0;
   @apply flex flex-wrap items-center gap-x-2 gap-y-1;

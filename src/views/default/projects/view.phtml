@@ -1,11 +1,110 @@
-<?php extendView('layouts/default.phtml'); ?>
+<?php extendView('layouts/default.phtml');
+
+$canViewTickets = currentUser()->permission($project->id, 'view_tickets');
+$canCreateTickets = currentUser()->permission($project->id, 'create_tickets');
+?>
 
 <div class="content">
-	<h2 class="page-title"><?= e($project->name); ?></h2>
-	<div>
-		<?= subscription_link_for($project); ?>
+	<div class="project-header">
+		<div>
+			<h2 class="page-title"><?= e($project->name); ?></h2>
+			<div>
+				<?= subscription_link_for($project); ?>
+			</div>
+			<div class="project_info">
+				<?= format_text($project->info); ?>
+			</div>
+		</div>
 	</div>
-	<div class="project_info">
-		<?= format_text($project->info); ?>
-	</div>
+
+	<?php if (!$currentMilestone && !$latestRelease && !count($events) && !array_sum($ticketCount)) : ?>
+		<div class="alert"><?= l('project_no_activity') ?></div>
+	<?php else : ?>
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+			<div class="lg:col-span-2 flex flex-col gap-6">
+				<?php if ($currentMilestone) : ?>
+					<section class="project-card">
+						<header>
+							<h3><?= l('current_milestone') ?></h3>
+							<a href="<?= Request::base($project->href('roadmap')) ?>"><?= l('view_roadmap') ?></a>
+						</header>
+						<?= View::render('milestones/_header', ['row' => $currentMilestone, 'link' => true]) ?>
+						<?= View::render('milestones/_progress', ['row' => $currentMilestone]) ?>
+					</section>
+				<?php endif; ?>
+
+				<?php if (count($events)) : ?>
+					<section class="project-card">
+						<header>
+							<h3><?= l('recent_activity') ?></h3>
+							<a href="<?= Request::base($project->href('timeline')) ?>"><?= l('view_timeline') ?></a>
+						</header>
+						<ol class="timeline-events">
+							<?php foreach ($events as $event) : ?>
+								<?= View::render('timeline/_event', ['event' => $event, 'relativeTime' => true] + $related) ?>
+							<?php endforeach; ?>
+						</ol>
+					</section>
+				<?php endif; ?>
+			</div>
+
+			<div class="flex flex-col gap-6">
+				<?php if ($canViewTickets) : ?>
+					<section class="project-card">
+						<header>
+							<h3><?= l('tickets') ?></h3>
+						</header>
+						<div class="project-stats">
+							<a href="<?= Request::base($project->href('tickets') . '?status=allopen') ?>">
+								<strong><?= $ticketCount['open'] ?></strong>
+								<?= l('open') ?>
+							</a>
+							<a href="<?= Request::base($project->href('tickets') . '?status=allclosed') ?>">
+								<strong><?= $ticketCount['closed'] ?></strong>
+								<?= l('closed') ?>
+							</a>
+						</div>
+					</section>
+				<?php endif; ?>
+
+				<?php if ($latestRelease) : ?>
+					<section class="project-card">
+						<header>
+							<h3><?= l('latest_release') ?></h3>
+						</header>
+						<ul class="project-milestones">
+							<li>
+								<a href="<?= Request::base($latestRelease->href()) ?>"><?= e($latestRelease->name) ?></a>
+								<?php if ($latestRelease->completed_on) : ?>
+									<em><?= (new DateTime($latestRelease->completed_on))->format('F d, Y') ?></em>
+								<?php endif; ?>
+							</li>
+							<li>
+								<a href="<?= Request::base($project->href('changelog')) ?>"><?= l('changelog') ?></a>
+								<a href="<?= Request::base($project->href('changelog') . '.atom') ?>"><?= l('atom_feed') ?></a>
+							</li>
+						</ul>
+					</section>
+				<?php endif; ?>
+
+				<?php if (count($upcomingMilestones)) : ?>
+					<section class="project-card">
+						<header>
+							<h3><?= l('upcoming_milestones') ?></h3>
+						</header>
+						<ul class="project-milestones">
+							<?php foreach ($upcomingMilestones as $row) : ?>
+								<li>
+									<a href="<?= Request::base($row['milestone']->href()) ?>"><?= e($row['milestone']->name) ?></a>
+									<?php if ($row['milestone']->due > 0) : ?>
+										<em><?= l('due_x', time_from_now_ago($row['milestone']->due, false)) ?></em>
+									<?php endif; ?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</section>
+				<?php endif; ?>
+			</div>
+		</div>
+	<?php endif; ?>
 </div>

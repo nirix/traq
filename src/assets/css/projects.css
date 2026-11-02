@@ -36,5 +36,55 @@
 }
 
 .project_info {
-    margin-top: 10px;
+    @apply mt-2 max-w-prose;
+}
+
+.project-header {
+    @apply flex flex-wrap items-start justify-between gap-4 mb-6;
+}
+
+.project-actions {
+    @apply flex flex-wrap items-center gap-2 mt-2;
+}
+
+.project-card {
+    @apply border border-solid border-gray-300 rounded;
+    @apply bg-white shadow-sm p-5;
+
+    & > header {
+        @apply flex items-baseline justify-between gap-3 mb-3;
+
+        & > h3 {
+            @apply m-0 text-base font-semibold;
+        }
+
+        & > a {
+            @apply text-sm;
+        }
+    }
+}
+
+.project-stats {
+    @apply grid grid-cols-2 gap-3;
+
+    & > a {
+        @apply p-3 rounded bg-gray-50 no-underline;
+        @apply text-sm text-slate-500;
+
+        & > strong {
+            @apply block text-2xl font-bold text-slate-800 tabular-nums;
+        }
+    }
+}
+
+.project-milestones {
+    @apply m-0 p-0 list-none space-y-2;
+
+    & > li {
+        @apply flex flex-wrap items-baseline justify-between gap-x-3;
+    }
+
+    & em {
+        @apply text-sm text-slate-500;
+    }
 }
