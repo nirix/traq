@@ -29,6 +29,7 @@ use Avalon\Http\Router;
 use Traq\Models\Ticket;
 use Traq\Models\Milestone;
 use Traq\Models\Project;
+use Traq\Models\Status;
 use Traq\Models\Type;
 
 /**
@@ -170,9 +171,38 @@ class ProjectController extends AppController
         // And send it to the view
         View::set('milestone', $milestone);
 
+        // Fetch ticket statuses
+        $statuses = [];
+        foreach (Status::fetch_all() as $status) {
+            $statuses[$status->id] = $status;
+        }
+
+        // Fetch ticket types
+        $types = [];
+        foreach (Type::fetch_all() as $type) {
+            $types[$type->id] = $type;
+        }
+
+        // Split tickets into open and closed, with started tickets first
+        $openTickets = [];
+        $closedTickets = [];
+        foreach ($milestone->tickets->order_by('ticket_id', 'ASC')->exec()->fetch_all() as $ticket) {
+            if (($statuses[$ticket->status_id]->status ?? null) === Status::STATUS_CLOSED) {
+                $closedTickets[] = $ticket;
+            } else {
+                $openTickets[] = $ticket;
+            }
+        }
+
+        usort($openTickets, fn ($a, $b) => ($statuses[$b->status_id]->status ?? 0) <=> ($statuses[$a->status_id]->status ?? 0));
+
         return $this->render('projects/milestone.phtml', [
             'milestone' => $milestoneData['milestone'],
             'milestoneData' => $milestoneData,
+            'openTickets' => $openTickets,
+            'closedTickets' => $closedTickets,
+            'types' => $types,
+            'statuses' => $statuses,
         ]);
     }
 

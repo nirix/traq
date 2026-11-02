@@ -1,0 +1,20 @@
+<?php if (count($tickets)): ?>
+	<section class="milestone-tickets">
+		<h3><?= $title ?> <span class="milestone-ticket-id"><?= count($tickets) ?></span></h3>
+		<ul>
+			<?php foreach ($tickets as $ticket): ?>
+				<?php $status = $statuses[$ticket->status_id] ?? null; ?>
+				<li>
+					<?= View::render('tickets/_type_badge', ['type' => $types[$ticket->type_id] ?? null]) ?>
+					<div>
+						<a href="<?= Request::base($ticket->href()) ?>"><?= e($ticket->summary) ?></a>
+						<span class="milestone-ticket-id">#<?= $ticket->ticket_id ?></span>
+						<?php if ($status): ?>
+							<span class="milestone-ticket-status milestone-ticket-status-<?= $status->status ?>"><?= e($status->name) ?></span>
+						<?php endif; ?>
+					</div>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</section>
+<?php endif; ?>

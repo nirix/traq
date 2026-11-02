@@ -1,12 +1,27 @@
 <?php extendView('layouts/default.phtml'); ?>
 
 <div class="milestone content">
-	<h2 class="page-title"><?= e($milestone->name) ?></h2>
+	<?= View::render('milestones/_header', ['row' => $milestoneData]) ?>
 	<div class="mb-4">
 		<?= subscription_link_for($milestone); ?>
 	</div>
 	<?= View::render('milestones/_progress', ['row' => $milestoneData]); ?>
-	<div class="milestone_info">
-		<?= format_text($milestone->info); ?>
+
+	<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
+		<?php if ($milestone->info): ?>
+			<section class="milestone-info lg:order-last">
+				<h3><?= l('description') ?></h3>
+				<?= format_text($milestone->info); ?>
+			</section>
+		<?php endif; ?>
+
+		<div class="<?= $milestone->info ? 'lg:col-span-2' : 'lg:col-span-3' ?> flex flex-col gap-8">
+			<?= View::render('milestones/_tickets', ['title' => l('open'), 'tickets' => $openTickets, 'types' => $types, 'statuses' => $statuses]) ?>
+			<?= View::render('milestones/_tickets', ['title' => l('closed'), 'tickets' => $closedTickets, 'types' => $types, 'statuses' => $statuses]) ?>
+
+			<?php if (!count($openTickets) && !count($closedTickets)): ?>
+				<div class="alert"><?= l('milestone_no_tickets') ?></div>
+			<?php endif; ?>
+		</div>
 	</div>
 </div>

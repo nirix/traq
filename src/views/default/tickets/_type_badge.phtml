@@ -1,0 +1,13 @@
+<?php if ($type?->bullet == '+'): ?>
+	<span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-emerald-100 text-emerald-700 border border-emerald-200 shrink-0">
+		<?= l('new') ?>
+	</span>
+<?php elseif ($type?->bullet == '-'): ?>
+	<span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-rose-100 text-rose-700 border border-rose-200 shrink-0">
+		<?= l('fix') ?>
+	</span>
+<?php elseif ($type?->bullet == '*'): ?>
+	<span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-blue-100 text-blue-700 border border-blue-200 shrink-0">
+		<?= l('enhancement') ?>
+	</span>
+<?php endif; ?>

@@ -1,3 +1,15 @@
+.roadmap-header {
+  @apply flex flex-wrap items-center gap-x-4 gap-y-2 mb-4;
+}
+
+.roadmap-controls {
+  @apply flex flex-wrap items-center gap-x-4 gap-y-2;
+
+  & .btn-pill-group {
+    @apply mb-0;
+  }
+}
+
 .roadmap > .milestone {
   @apply border border-solid border-gray-300 rounded;
   @apply bg-white shadow-sm p-6 relative overflow-hidden;
@@ -7,28 +19,91 @@
     @apply mb-0;
   }
 
-  & .milestone-header {
-    @apply flex items-baseline justify-between mb-4;
-  }
-
   & .milestone-content {
     @apply flex flex-col lg:flex-row gap-6;
   }
 
-  & .milestone-name {
-    @apply text-xl font-bold text-slate-800 mb-0;
-
-    & em {
-      @apply text-slate-500;
-    }
-  }
-
-  & .milestone-due {
-    @apply text-sm text-slate-500;
-  }
-
   & .milestone-info {
     @apply flex-1 lg:border-l lg:border-slate-100 lg:pl-6;
+  }
+}
+
+.milestone-header {
+  @apply flex items-baseline justify-between gap-3 mb-4;
+}
+
+.milestone-name {
+  @apply text-xl font-bold text-slate-800 mb-0;
+
+  & em {
+    @apply text-slate-500;
+  }
+}
+
+.milestone.content {
+  & .milestone-header {
+    @apply mt-2;
+  }
+
+  & .milestone-name {
+    @apply text-2xl;
+  }
+
+  & .milestone-info > h3 {
+    @apply mb-3 text-lg font-semibold;
+  }
+}
+
+.milestone-due {
+  @apply text-sm text-slate-500;
+}
+
+.milestone-badge {
+  @apply text-xs font-semibold uppercase tracking-wider px-2 py-1 rounded;
+}
+
+.milestone-badge-active {
+  @apply text-emerald-600 bg-emerald-50;
+}
+
+.milestone-badge-cancelled {
+  @apply text-slate-600 bg-slate-50;
+}
+
+.milestone-tickets {
+  & > h3 {
+    @apply flex items-center gap-2 mb-3;
+    @apply text-lg font-semibold;
+  }
+
+  & > ul {
+    @apply m-0 p-0 list-none space-y-3;
+  }
+
+  & li {
+    @apply flex items-start gap-3;
+
+    & > div {
+      @apply flex-1 min-w-0 flex flex-wrap items-center gap-x-2 gap-y-1;
+    }
+  }
+}
+
+.milestone-ticket-id {
+  @apply px-1.5 rounded-md text-xs font-normal tabular-nums;
+  @apply bg-gray-100 text-gray-600;
+}
+
+.milestone-ticket-status {
+  @apply px-2 py-0.5 rounded-full text-xs font-semibold;
+  @apply bg-gray-100 text-gray-700;
+
+  &.milestone-ticket-status-0 {
+    @apply bg-green-100 text-green-800;
+  }
+
+  &.milestone-ticket-status-2 {
+    @apply bg-blue-100 text-blue-800;
   }
 }
 

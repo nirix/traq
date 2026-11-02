@@ -1,0 +1,32 @@
+<div class="milestone-header">
+	<div>
+		<?php if ($link ?? false): ?>
+			<a href="<?= Request::base($row['milestone']->href()) ?>">
+				<h2 class="milestone-name">
+					<?= e($row['milestone']->name) ?>
+					<?php if ($row['milestone']->codename): ?>
+						<em>"<?= e($row['milestone']->codename) ?>"</em>
+					<?php endif; ?>
+				</h2>
+			</a>
+		<?php else: ?>
+			<h2 class="milestone-name">
+				<?= e($row['milestone']->name) ?>
+				<?php if ($row['milestone']->codename): ?>
+					<em>"<?= e($row['milestone']->codename) ?>"</em>
+				<?php endif; ?>
+			</h2>
+		<?php endif; ?>
+
+		<?php if ($row['milestone']->due > 0 and $row['milestone']->status == 1): ?>
+			<div class="milestone-due">
+				<em><?= l('due_x', time_from_now_ago($row['milestone']->due)) ?></em>
+			</div>
+		<?php endif; ?>
+	</div>
+	<?php if ($row['milestone']->status == 0): ?>
+		<span class="milestone-badge milestone-badge-cancelled"><?= l('cancelled') ?></span>
+	<?php elseif ($row['milestone']->status == 1 && $row['is_started']): ?>
+		<span class="milestone-badge milestone-badge-active"><?= l('active_development') ?></span>
+	<?php endif; ?>
+</div>

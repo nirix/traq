@@ -16,12 +16,13 @@
 			</a>
 		</div>
 	</div>
+	<?php $cancelled = $row['milestone']->status == 0; ?>
 	<div class="progress-bar">
 		<?php if ($row['closed_count'] > 0): ?>
-			<div class="h-full bg-emerald-500" style="width: <?= $row['closed_percent'] ?>%;"></div>
+			<div class="h-full <?= $cancelled ? 'bg-slate-300' : 'bg-emerald-500' ?>" style="width: <?= $row['closed_percent'] ?>%;"></div>
 		<?php endif; ?>
 		<?php if ($row['started_count'] > 0): ?>
-			<div class="h-full bg-sky-400" style="width: <?= $row['started_percent'] ?>%;"></div>
+			<div class="h-full <?= $cancelled ? 'bg-slate-200' : 'bg-sky-400' ?>" style="width: <?= $row['started_percent'] ?>%;"></div>
 		<?php endif; ?>
 		<?php if ($row['open_count'] > 0): ?>
 			<div class="h-full bg-slate-100" style="width: <?= $row['open_percent'] ?>%;"></div>
