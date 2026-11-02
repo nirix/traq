@@ -1,80 +1,75 @@
-<?php if (
-    is_array($update->changes) &&
-    count($update->changes) === 1 &&
-    isset($update->changes[0]['action']) &&
-    in_array($update->changes[0]['action'], ['create', 'close', 'reopen', 'start'])
-) :
-    $action = $update->changes[0]['action'];
-    $icon = $action === 'create' ? 'plus' : ($action === 'reopen' ? 'rotate-left' : 'minus');
+<?php
+$eventIcons = [
+    'create' => ['fa-plus', 'created', 'created_this_ticket_as'],
+    'start' => ['fa-play', 'started', 'started_this_ticket_as'],
+    'close' => ['fa-check', 'closed', 'closed_this_ticket_as'],
+    'reopen' => ['fa-rotate-left', 'reopened', 'reopened_this_ticket_as'],
+    'update' => ['fa-pen', 'updated', 'updated_this_ticket'],
+    'comment' => ['fa-comment', 'comment', 'commented'],
+];
+
+$changes = is_array($update->changes) ? $update->changes : [];
+
+// Status actions are shown in the event line, everything else is listed below it
+$action = null;
+$status = null;
+foreach ($changes as $index => $change) {
+    if (isset($change['action']) && in_array($change['action'], ['create', 'close', 'reopen', 'start'])) {
+        $action = $change['action'];
+        $status = $change['to'];
+        unset($changes[$index]);
+        break;
+    }
+}
+
+$action ??= count($changes) ? 'update' : 'comment';
+[$icon, $kind, $verb] = $eventIcons[$action];
 ?>
-    <div class="update-mini" id="ticket-update-<?= $update->id ?>">
-        <div class="update-change">
-            <div class="update-icon">
-                <span class="fas fa-fw fa-<?= $icon ?>"></span>
-            </div>
-            <div class="update-info">
-                <?= l(
-                    "ticket_history.x_{$action}_as_x_x_ago",
-                    HTML::link(e($update->user->username), $update->user->href()),
-                    e($update->changes[0]['to']),
-                    time_ago($update->created_at)
-                ) ?>
-            </div>
-            <div class="update-actions">
-                <div class="flex items-center gap-1">
-                    <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history') || $update->user->id === currentUser()->id) : ?>
-                        <a href="<?= Request::base($ticket->href("/history/{$update->id}/edit")) ?>" title="<?= l('edit') ?>" data-overlay="1" class="btn-warning btn-ghost btn-xs">
-                            <span class="fas fa-fw fa-pencil"></span>
-                            <span class="visually-hidden"><?= l('edit') ?></span>
-                        </a>
-                    <?php endif; ?>
-                    <?php if (currentUser()->permission($ticket->project_id, 'delete_ticket_history')) : ?>
-                        <button title="<?= l('delete') ?>" x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($ticket->href("/history/{$update->id}")) ?>', method: 'DELETE', success: () => { document.getElementById('ticket-update-<?= $update->id ?>').remove() } })" @click="toggle" class="btn-danger btn-ghost btn-xs">
-                            <span class="fas fa-fw fa-trash"></span>
-                            <span class="visually-hidden"><?= l('edit') ?></span>
-                        </button>
-                    <?php endif; ?>
+<li id="ticket-update-<?= $update->id ?>">
+    <div class="timeline-event">
+        <span class="timeline-event-icon timeline-event-icon-<?= $kind ?>" aria-hidden="true">
+            <span class="fas fa-fw <?= $icon ?>"></span>
+        </span>
+        <div class="timeline-event-body">
+            <?= HTML::link(e($update->user->name), $update->user->href(), ['class' => 'timeline-event-user']) ?>
+            <span><?= l("ticket_history.{$verb}") ?></span>
+            <?php if ($status) : ?>
+                <span class="timeline-event-status timeline-event-status-ticket_<?= $kind ?>"><?= e($status) ?></span>
+            <?php endif; ?>
+        </div>
+        <span class="timeline-event-time timeline-event-time-relative">
+            <?= time_ago($update->created_at, false) ?>
+        </span>
+        <div class="ticket-activity-actions">
+            <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history') || $update->user->id === currentUser()->id) : ?>
+                <a href="<?= Request::base($ticket->href("/history/{$update->id}/edit")) ?>" title="<?= l('edit') ?>" data-overlay="1" class="btn-warning btn-ghost btn-xs">
+                    <span class="fas fa-fw fa-pencil"></span>
+                    <span class="visually-hidden"><?= l('edit') ?></span>
+                </a>
+            <?php endif; ?>
+            <?php if (currentUser()->permission($ticket->project_id, 'delete_ticket_history')) : ?>
+                <button title="<?= l('delete') ?>" x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($ticket->href("/history/{$update->id}")) ?>', method: 'DELETE', success: () => { document.getElementById('ticket-update-<?= $update->id ?>').remove() } })" @click="toggle" class="btn-danger btn-ghost btn-xs">
+                    <span class="fas fa-fw fa-trash"></span>
+                    <span class="visually-hidden"><?= l('delete') ?></span>
+                </button>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <?php if (count($changes) || $update->comment != '') : ?>
+        <div class="ticket-activity-details">
+            <?php if (count($changes)) : ?>
+                <ul class="ticket-activity-changes">
+                    <?php foreach ($changes as $change) : ?>
+                        <li><?= View::render('tickets/_history_change_bit', ['change' => $change]) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+            <?php if ($update->comment != '') : ?>
+                <div class="ticket-activity-comment">
+                    <?= format_text($update->comment) ?>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
-        <?php if ($update->comment != '') : ?>
-            <div class="update-comment">
-                <?= format_text($update->comment) ?>
-            </div>
-        <?php endif; ?>
-    </div>
-<?php else : ?>
-    <div class="update" id="ticket-update-<?= $update->id ?>">
-        <div class="update-meta">
-            <h4>
-                <?= l('x_by_x', time_ago($update->created_at), HTML::link(strshorten(e($update->user->name), 20), $update->user->href())) ?>
-            </h4>
-            <div class="flex items-center gap-1">
-                <?php if (currentUser()->permission($ticket->project_id, 'edit_ticket_history') || $update->user->id === currentUser()->id) : ?>
-                    <a href="<?= Request::base($ticket->href("/history/{$update->id}/edit")) ?>" title="<?= l('edit') ?>" data-overlay="1" class="btn-warning btn-ghost btn-xs">
-                        <span class="fas fa-fw fa-pencil"></span>
-                        <span class="visually-hidden"><?= l('edit') ?></span>
-                    </a>
-                <?php endif; ?>
-                <?php if (currentUser()->permission($ticket->project_id, 'delete_ticket_history')) : ?>
-                    <button title="<?= l('delete') ?>" x-data="popoverConfirm({ message: '<?= l('confirm.delete') ?>', remote: '<?= Request::base($ticket->href("/history/{$update->id}")) ?>', method: 'DELETE', success: () => { document.getElementById('ticket-update-<?= $update->id ?>').remove() } })" @click="toggle" class="btn-danger btn-ghost btn-xs">
-                        <span class="fas fa-fw fa-trash"></span>
-                        <span class="visually-hidden"><?= l('delete') ?></span>
-                    </button>
-                <?php endif; ?>
-            </div>
-        </div>
-        <?php if (is_array($update->changes)) : ?>
-            <ul class="changes">
-                <?php foreach ($update->changes as $change) : ?>
-                    <li><?= View::render('tickets/_history_change_bit', array('change' => $change)) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-        <?php if ($update->comment != '') : ?>
-            <div class="comment">
-                <?= format_text($update->comment) ?>
-            </div>
-        <?php endif; ?>
-    </div>
-<?php endif; ?>
+    <?php endif; ?>
+</li>

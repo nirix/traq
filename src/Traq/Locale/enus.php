@@ -510,10 +510,12 @@ class enUS extends Locale
                 'reopen'         => "Reopened ticket as {2}",
                 'add_attachment' => "Attached {2}",
 
-                'x_create_as_x_x_ago' => "{1} created as {2} {3}",
-                'x_start_as_x_x_ago' => "{1} started as {2} {3}",
-                'x_close_as_x_x_ago' => "{1} closed as {2} {3}",
-                'x_reopen_as_x_x_ago' => "{1} reopened as {2} {3}",
+                'created_this_ticket_as'  => "created this ticket as",
+                'started_this_ticket_as'  => "started this ticket as",
+                'closed_this_ticket_as'   => "closed this ticket as",
+                'reopened_this_ticket_as' => "reopened this ticket as",
+                'updated_this_ticket'     => "updated this ticket",
+                'commented'               => "commented",
             ),
 
             // Warnings

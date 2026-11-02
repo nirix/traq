@@ -1,5 +1,5 @@
 .view-ticket {
-  @apply pt-5;
+  @apply pt-5 px-[10px] pb-[10px];
 }
 
 .ticket-header {
@@ -127,66 +127,92 @@
     @apply text-lg;
   }
 
-  & > .update-mini {
-    @apply flex flex-col;
-    @apply mb-4;
-    @apply text-gray-700;
-
-    & > .update-change {
-      @apply flex items-center;
-
-      & > .update-icon {
-        @apply bg-gray-100 rounded-full;
-        @apply p-2 mr-3;
-        @apply w-9 h-9;
-        @apply flex items-center justify-center;
-      }
-
-      & > .update-info {
-        @apply flex-grow;
-      }
-    }
-
-    & > .update-comment {
-      @apply bg-white;
-      @apply border border-solid border-gray-300 rounded;
-      @apply p-2 ml-11;
-    }
+  & .timeline-event {
+    @apply items-start;
   }
 
-  & > .update {
-    @apply bg-white shadow-sm;
-    @apply border border-solid border-gray-300 rounded;
-    @apply mb-4;
+  /* Icon, text and actions all share a 24px line so they centre together */
+  & .timeline-event-icon {
+    @apply -my-0.5;
+  }
 
-    & > .update-meta {
-      display: flex;
-      align-items: center;
-      @apply rounded-t;
-      @apply bg-gray-50;
-      @apply p-2;
+  & .timeline-event-body {
+    @apply leading-6;
+  }
 
-      & > h4 {
-        flex-grow: 1;
-        margin: 0;
-      }
-    }
+  /* Fixed width so the actions before it line up regardless of the time's length */
+  & .timeline-event-time {
+    @apply min-w-[7rem] text-right leading-6;
+  }
+}
 
-    & > .changes,
-    & > .comment {
-      @apply m-2;
-    }
+.ticket-activity-actions {
+  /* Fixed edit/delete slots so buttons line up whichever ones a row has */
+  @apply flex-none grid grid-cols-[repeat(2,1.75rem)] gap-1 -my-0.5;
+  @apply opacity-0 transition;
 
-    & .change-from {
-      @apply bg-red-50;
-      @apply line-through;
-      @apply rounded;
-    }
+  & > a,
+  & > button {
+    @apply flex items-center justify-center w-7 h-7 p-0;
+  }
 
-    & .change-to {
-      @apply bg-green-50;
-      @apply rounded;
-    }
+  & > a {
+    @apply col-start-1;
+  }
+
+  & > button {
+    @apply col-start-2;
+  }
+
+  .timeline-event:hover &,
+  &:focus-within {
+    @apply opacity-100;
+  }
+
+  @media (hover: none) {
+    @apply opacity-100;
+  }
+}
+
+.ticket-activity-details {
+  @apply flex flex-col gap-2;
+  @apply ml-12 mr-2 mb-3;
+}
+
+.ticket-activity-changes {
+  @apply m-0 p-0 list-none;
+  @apply flex flex-col gap-1;
+  @apply text-sm text-gray-600;
+
+  & > li {
+    @apply flex flex-wrap items-center gap-1.5;
+  }
+
+  & .change-property {
+    @apply font-medium text-gray-700;
+  }
+
+  & .change-from {
+    @apply px-1.5 rounded bg-red-50 text-red-800 line-through;
+  }
+
+  & .change-to {
+    @apply px-1.5 rounded bg-green-50 text-green-800;
+  }
+
+  & .change-from:empty,
+  & .change-to:empty {
+    @apply hidden;
+  }
+}
+
+.ticket-activity-comment {
+  @apply bg-white shadow-sm;
+  @apply border border-solid border-gray-300 rounded;
+  @apply px-4 py-3;
+
+  & > :last-child {
+    @apply mb-0;
   }
 }
 
