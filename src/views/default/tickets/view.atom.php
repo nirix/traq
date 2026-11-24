@@ -33,7 +33,7 @@ foreach (array_reverse($updates) as $update) {
             'name' => $update->user->name
         ),
         'content' => array(
-            'type' => "XHTML",
+            'type' => "html",
             'data' => implode(PHP_EOL, $content)
         ),
     );

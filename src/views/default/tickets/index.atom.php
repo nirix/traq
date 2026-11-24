@@ -15,9 +15,10 @@ foreach ($tickets as $ticket) {
         'author' => array(
             'name' => $ticket->user->name
         ),
+        // Feed readers render this as HTML, so it has to be the escaped and formatted body
         'content' => array(
-            'type' => "XHTML",
-            'data' => $ticket->body
+            'type' => "html",
+            'data' => format_text($ticket->body)
         ),
     );
 }
