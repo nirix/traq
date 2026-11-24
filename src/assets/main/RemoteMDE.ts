@@ -21,6 +21,7 @@
  */
 
 import Alpine from 'alpinejs'
+import { sanitiseHtml } from './sanitiseHtml'
 
 interface IRemoteMDEStore {
   saving: boolean
@@ -58,6 +59,7 @@ Alpine.data(
           minHeight: height ?? '150px',
           status: false,
           uploadImage: false,
+          renderingConfig: { sanitizerFunction: sanitiseHtml },
         })
       },
 

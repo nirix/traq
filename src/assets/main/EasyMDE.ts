@@ -22,6 +22,7 @@
 
 import Alpine from 'alpinejs'
 import EasyMDE from 'easymde'
+import { sanitiseHtml } from './sanitiseHtml'
 
 type EasyMDEType = {
   height?: string
@@ -44,6 +45,7 @@ Alpine.directive('mde', (el, { expression }, { evaluate }) => {
       minHeight: options.height ?? '150px',
       status: false,
       uploadImage: false,
+      renderingConfig: { sanitizerFunction: sanitiseHtml },
     })
 
     if (options.onChange && mde) {
