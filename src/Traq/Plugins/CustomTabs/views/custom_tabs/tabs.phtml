@@ -5,7 +5,7 @@ foreach ($custom_tabs as $tab) :
 	}
 	if ($tab->project_id == 0 or (isset($project) and $tab->project_id == $project->id)) :
 ?>
-		<li><a href="<?= $tab->url; ?>"><?= $tab->label; ?></a></li>
+		<li><a href="<?= e(safe_url($tab->url)) ?>"><?= e($tab->label) ?></a></li>
 <?php
 	endif;
 endforeach;

@@ -12,7 +12,7 @@
 		<tbody>
 			<?php foreach ($custom_tabs as $tab) : ?>
 				<tr>
-					<td><?= HTML::link($tab->label, "/admin/custom-tabs/{$tab->id}/edit", array('data-overlay' => true)); ?></td>
+					<td><?= HTML::link(e($tab->label), "/admin/custom-tabs/{$tab->id}/edit", array('data-overlay' => true)); ?></td>
 					<td>
 						<div class="btn-group justify-end">
 							<?= HTML::link(l('edit'), "/admin/custom-tabs/{$tab->id}/edit", ['class' => 'btn-warning btn-sm', 'data-overlay' => true, 'icon' => 'fas fa-fw fa-pencil', 'sr-only' => true]); ?>
