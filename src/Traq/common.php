@@ -313,6 +313,26 @@ function e(mixed $value): string
 }
 
 /**
+ * Returns the URL if it is safe to use as a link target, otherwise `#`.
+ *
+ * Relative URLs, http, https and mailto are allowed. `e()` stops a value breaking out
+ * of an attribute but does nothing about `javascript:` and friends.
+ */
+function safe_url(mixed $url): string
+{
+    $url = trim((string) ($url ?? ''));
+
+    // Browsers ignore whitespace and control characters inside the scheme
+    $check = preg_replace('/[\x00-\x20\x7F]+/', '', $url);
+
+    if (preg_match('/^[a-z][a-z0-9+.\-]*:/i', $check) && !preg_match('/^(https?|mailto):/i', $check)) {
+        return '#';
+    }
+
+    return $url;
+}
+
+/**
  * JSON-encode a value so it is safe inside an HTML attribute.
  *
  * Use for Alpine x-data payloads: x-data="fn(<?= js_attr($data) ?>)"
