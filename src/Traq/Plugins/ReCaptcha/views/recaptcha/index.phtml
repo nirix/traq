@@ -5,17 +5,17 @@
 </div>
 <?= View::render('admin/settings/_nav'); ?>
 <div class="traq_settings content">
-	<form action="<?= Request::requestUri(); ?>" method="post">
+	<form action="<?= e(Request::requestUri()) ?>" method="post">
 		<div class="panel">
 			<div class="panel-content">
 				<div class="form-group-row">
 					<label><?= l('site_key'); ?></label>
-					<input type="text" name="site_key" value="<?= $siteKey; ?>" autocomplete="off" />
+					<input type="text" name="site_key" value="<?= e($siteKey) ?>" autocomplete="off" />
 				</div>
 
 				<div class="form-group-row">
 					<label><?= l('secret_key'); ?></label>
-					<input type="text" name="secret_key" value="<?= $secretKey; ?>" autocomplete="off" />
+					<input type="text" name="secret_key" value="<?= e($secretKey) ?>" autocomplete="off" />
 				</div>
 			</div>
 		</div>
