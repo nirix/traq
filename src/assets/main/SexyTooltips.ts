@@ -117,7 +117,7 @@ function showTooltip(target: HTMLElement, position: TooltipPosition) {
     return
   }
 
-  tip.innerHTML = text
+  tip.textContent = text
 
   const targetSize = contentSize(target)
   const tipHeight = measureTooltipHeight(tip)

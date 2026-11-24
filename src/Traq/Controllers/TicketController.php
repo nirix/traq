@@ -488,7 +488,15 @@ class TicketController extends AppController
 
             // Save and redirect
             if ($ticket->save()) {
+                if ($this->isJson) {
+                    return $this->json(['body' => $ticket->body, 'html' => format_text($ticket->body, true)]);
+                }
+
                 Request::redirect(Request::base($ticket->href()));
+            }
+
+            if ($this->isJson) {
+                return $this->json(['errors' => $ticket->errors], 422);
             }
         }
 

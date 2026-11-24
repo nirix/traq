@@ -21,11 +21,11 @@
  */
 
 import Alpine from 'alpinejs'
-import { marked } from 'marked'
 
 interface IRemoteMDEStore {
   saving: boolean
   original: string
+  originalHtml: string
   init: () => void
   save: () => void
   cancel: () => void
@@ -45,10 +45,12 @@ Alpine.data(
     ({
       saving: false,
       original: '',
+      originalHtml: '',
       mde: null as EasyMDE | null,
 
       init() {
         this.original = this.$refs.editor.value
+        this.originalHtml = this.$refs.ticketDescription.innerHTML
 
         this.mde = new window.EasyMDE({
           element: this.$refs.editor,
@@ -62,19 +64,25 @@ Alpine.data(
       save() {
         this.saving = true
 
-        const formData = new FormData()
-        formData.append('body', this.mde?.value() ?? '')
-
         fetch(url, {
           method: 'POST',
           headers: {
+            Accept: 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ body: this.mde?.value() ?? '' }),
         })
-          .then(async () => {
-            this.original = this.mde?.value() ?? ''
-            this.$refs.ticketDescription.innerHTML = await marked.parse(this.mde?.value()?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? '')
+          .then(async (resp) => {
+            if (!resp.ok) {
+              console.error(resp.statusText)
+              return
+            }
+
+            // The server renders and sanitises the markdown; never render it client-side.
+            const data: { body: string; html: string } = await resp.json()
+            this.original = data.body
+            this.originalHtml = data.html
+            this.$refs.ticketDescription.innerHTML = data.html
             this.$data.editing = false
           })
           .finally(() => {
@@ -83,8 +91,7 @@ Alpine.data(
       },
 
       cancel() {
-        const formattedDescription = marked.parse(this.original.replaceAll('<', '&lt;').replaceAll('>', '&gt;'))
-        this.$refs.ticketDescription.innerHTML = formattedDescription.toString()
+        this.$refs.ticketDescription.innerHTML = this.originalHtml
         this.$data.editing = false
       },
     } as IRemoteMDEStore),
