@@ -320,8 +320,10 @@ class CustomField extends Model
             $errors['slug'] = l('errors.slug_in_use');
         }
 
-        // Make sure the type is set
+        // Make sure the type is set and is one we know about
         if (empty($this->_data['type'])) {
+            $errors['type'] = l('errors.type_blank');
+        } elseif (!in_array($this->_data['type'], static::types(), true)) {
             $errors['type'] = l('errors.type_blank');
         }
 
@@ -356,8 +358,9 @@ class CustomField extends Model
     {
         $classes = array();
 
-        foreach ($this->_data['ticket_type_ids'] as $type_id) {
-            $classes[] = "field-for-type-{$type_id}";
+        // These come from a form post, only ever output whole numbers
+        foreach ((array) $this->_data['ticket_type_ids'] as $type_id) {
+            $classes[] = 'field-for-type-' . (int) $type_id;
         }
 
         return implode(" ", $classes);
@@ -391,8 +394,10 @@ class CustomField extends Model
                 $this->_data['values'] = str_replace("\r", '', $this->_data['values']);
             }
 
-            // JSON encode ticket type IDs
-            $this->_data['ticket_type_ids'] = json_encode($this->_data['ticket_type_ids']);
+            // Ticket type IDs are whole numbers, drop anything else before storing them
+            $this->_data['ticket_type_ids'] = json_encode(
+                array_values(array_map('intval', array_filter((array) $this->_data['ticket_type_ids'], 'is_scalar')))
+            );
 
             return parent::save();
         }
