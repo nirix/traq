@@ -192,6 +192,16 @@ input[type="reset"] {
       }
     }
 
+    &.btn-success {
+      &:hover {
+        @apply text-emerald-800 bg-emerald-100 border-emerald-100;
+      }
+
+      &:active {
+        @apply text-emerald-900 bg-emerald-200 border-emerald-200;
+      }
+    }
+
     &.btn-warning {
       &:hover {
         @apply text-amber-800 bg-amber-100 border-amber-100;
