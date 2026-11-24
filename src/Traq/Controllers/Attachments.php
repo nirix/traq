@@ -41,6 +41,9 @@ class Attachments extends AppController
     // Content type categories that can be displayed inline
     private const INLINE_CONTENT_TYPES = ['text', 'image'];
 
+    // Types in those categories that can still run script, these are always downloaded
+    private const DOWNLOAD_ONLY_CONTENT_TYPES = ['image/svg+xml'];
+
     // Maximum file size to serve (50MB default, prevents memory exhaustion)
     private const MAX_SERVE_SIZE = 52428800;
 
@@ -158,7 +161,10 @@ class Attachments extends AppController
         ];
 
         // Determine content disposition based on content type
-        if (in_array($primaryType, self::INLINE_CONTENT_TYPES, true)) {
+        if (
+            in_array($primaryType, self::INLINE_CONTENT_TYPES, true)
+            && !in_array(strtolower($contentType), self::DOWNLOAD_ONLY_CONTENT_TYPES, true)
+        ) {
             // Override text files to plain text for security
             if ($primaryType === 'text') {
                 $headers['Content-Type'] = 'text/plain; charset=utf-8';
