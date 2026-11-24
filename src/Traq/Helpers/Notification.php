@@ -153,16 +153,16 @@ class Notification
                     $options['ticket']->project->name,
                 );
 
-                // Message
+                // Message, the body is HTML so everything but the formatted ticket body is escaped
                 $message_vars = array(
-                    settings('title'),
-                    $user->username,
-                    $options['ticket']->ticket_id,
-                    $options['ticket']->summary,
+                    e(settings('title')),
+                    e($user->username),
+                    e($options['ticket']->ticket_id),
+                    e($options['ticket']->summary),
                     format_text($options['ticket']->body),
-                    $options['ticket']->project->name,
-                    $options['ticket']->project->slug,
-                    absolute_url($options['ticket']->href())
+                    e($options['ticket']->project->name),
+                    e($options['ticket']->project->slug),
+                    e(absolute_url($options['ticket']->href()))
                 );
                 break;
 
@@ -175,9 +175,9 @@ class Notification
 
                 // Message
                 $message_vars = array(
-                    'name'     => $user->name,
-                    'username' => $user->username,
-                    'link'     => $options['link']
+                    'name'     => e($user->name),
+                    'username' => e($user->username),
+                    'link'     => e($options['link'])
                 );
                 break;
         }
@@ -208,7 +208,7 @@ class Notification
             $message = \sprintf(
                 '%s<br><br><hr><a href="%s">%s</a>',
                 $message,
-                $unsubUrl,
+                e($unsubUrl),
                 l('unsubscribe')
             );
         }

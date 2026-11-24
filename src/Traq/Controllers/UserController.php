@@ -212,9 +212,6 @@ class UserController extends AppController
             return $this->resetPasswordWithKey($key);
         }
 
-        if (Request::method() == 'POST') {
-        }
-
         return $this->render('users/reset_password.phtml');
     }
 
@@ -234,11 +231,11 @@ class UserController extends AppController
                 l('notifications.password_reset.subject'),
                 l(
                     'notifications.password_reset.message',
-                    settings('title'),
-                    $user->name,
-                    $user->username,
-                    absolute_url("login/resetpassword/{$key}"),
-                    $_SERVER['REMOTE_ADDR']
+                    e(settings('title')),
+                    e($user->name),
+                    e($user->username),
+                    e(absolute_url("login/resetpassword/{$key}")),
+                    e($_SERVER['REMOTE_ADDR'])
                 )
             );
         }
@@ -251,12 +248,7 @@ class UserController extends AppController
 
     private function resetPasswordWithKey(string $key)
     {
-        $user = User::select()
-            ->where('options', '%"reset_password_key":"' . hash('sha256', $key) . '"%', 'LIKE')
-            ->exec()
-            ->fetch();
-
-        if (!$user || (int) $user->option('reset_password_expires') < time()) {
+        if (!$this->findUserByResetKey($key)) {
             $this->set('invalid_key', true);
 
             return $this->render('users/reset_password.phtml');
@@ -269,10 +261,13 @@ class UserController extends AppController
 
     public function resetPasswordSave(string $key): Response
     {
-        $user = User::select()
-            ->where('options', '%"reset_password_key":"' . hash('sha256', $key) . '"%', 'LIKE')
-            ->exec()
-            ->fetch();
+        $user = $this->findUserByResetKey($key);
+
+        if (!$user) {
+            $this->set('invalid_key', true);
+
+            return $this->render('users/reset_password.phtml');
+        }
 
         $password = Request::post('new_password', '');
         $confirm = Request::post('confirm_password', '');
@@ -293,5 +288,37 @@ class UserController extends AppController
 
         $this->set('reset_key', $key);
         return $this->render('users/reset_password.phtml');
+    }
+
+    /**
+     * Finds the user a reset key belongs to, as long as the key hasn't been used or expired.
+     * Expired keys are cleared so they can't be tried again.
+     */
+    private function findUserByResetKey(string $key): ?User
+    {
+        if ($key === '') {
+            return null;
+        }
+
+        $hash = hash('sha256', $key);
+
+        $user = User::select()
+            ->where('options', '%"reset_password_key":"' . $hash . '"%', 'LIKE')
+            ->exec()
+            ->fetch();
+
+        if (!$user || !is_string($user->option('reset_password_key')) || !hash_equals($user->option('reset_password_key'), $hash)) {
+            return null;
+        }
+
+        if ((int) $user->option('reset_password_expires') < time()) {
+            $user->option('reset_password_key', null);
+            $user->option('reset_password_expires', null);
+            $user->save();
+
+            return null;
+        }
+
+        return $user;
     }
 }

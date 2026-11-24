@@ -68,7 +68,7 @@ Router::register('users.register.post', '/register', [UserController::class, 'cr
 Router::register('users.validate', '/users/validate/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'validate']);
 Router::register('users.reset_password', '/login/resetpassword', [UserController::class, 'resetPassword']);
 Router::register('users.reset_password.post', '/login/resetpassword', [UserController::class, 'sendResetPasswordEmail'], methods: ['POST']);
-Router::register('users.reset_password.key', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPasswordWithKey']);
+Router::register('users.reset_password.key', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPassword']);
 Router::register('users.reset_password.save', '/login/resetpassword/(?P<key>[a-zA-Z0-9]+)', [UserController::class, 'resetPasswordSave'], methods: ['POST']);
 
 Router::register('usercp', '/usercp', [UserCPController::class, 'index']);
