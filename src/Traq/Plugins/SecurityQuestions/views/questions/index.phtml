@@ -10,7 +10,7 @@
 			<?php echo l('errors.security_questions.fill_in_fields_marked_red'); ?>
 		</div>
 	<?php endif; ?>
-	<form action="<?php echo Request::requestUri(); ?>" method="post" x-data="{ questions: <?= js_attr($questions) ?>, errors: <?= js_attr($errors) ?> }">
+	<form action="<?= e(Request::requestUri()) ?>" method="post" x-data="{ questions: <?= js_attr($questions) ?>, errors: <?= js_attr($errors) ?> }">
 		<div id="questions">
 			<template x-for="(question, id) in questions" :key="id">
 				<div class="tabular box" :id="'question_' + id" style="margin-bottom: 10px;">
