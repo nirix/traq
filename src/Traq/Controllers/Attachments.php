@@ -61,7 +61,7 @@ class Attachments extends AppController
         }
 
         // Check permissions
-        if (!$this->user->permission('view_attachments', $attachment->project_id)) {
+        if (!$this->user->permission($attachment->project_id, 'view_attachments')) {
             return $this->renderNoPermission();
         }
 
@@ -106,7 +106,7 @@ class Attachments extends AppController
             }
 
             // Check permissions
-            if (!$this->user->permission('delete_attachments', $attachment->project_id)) {
+            if (!$this->user->permission($attachment->project_id, 'delete_attachments')) {
                 return $this->renderNoPermission();
             }
 

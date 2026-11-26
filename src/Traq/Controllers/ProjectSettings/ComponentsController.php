@@ -141,6 +141,10 @@ class ComponentsController extends AppController
 
         $component = Component::find($id);
 
+        if ($component->project_id !== $this->project->id) {
+            return $this->renderNoPermission();
+        }
+
         // Update the information
         $component->set(array(
             'name' => Request::get('name'),

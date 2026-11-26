@@ -169,6 +169,11 @@ class CustomFieldsController extends AppController
 
         $field = CustomField::find($id);
 
+        // Verify project
+        if (!$field || (int) $field->project_id !== (int) $this->project->id) {
+            return $this->renderNoPermission();
+        }
+
         $data = [];
 
         // Loop over properties

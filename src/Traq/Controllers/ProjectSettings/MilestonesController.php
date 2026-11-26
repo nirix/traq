@@ -149,6 +149,10 @@ class MilestonesController extends AppController
 
         $milestone = Milestone::find($id);
 
+        if ($milestone->project_id !== $this->project->id) {
+            return $this->renderNoPermission();
+        }
+
         // Update the information
         $milestone->set(array(
             'name'         => Request::get('name', $milestone->name),
@@ -226,8 +230,19 @@ class MilestonesController extends AppController
 
         $milestone = Milestone::find($id);
 
-        // Move tickets
-        $this->db->update('tickets')->set(['milestone_id' => Request::get('milestone')])->where('milestone_id', $id)->exec();
+        if ($milestone->project_id !== $this->project->id) {
+            return $this->renderNoPermission();
+        }
+
+        // Move tickets, making sure the destination milestone belongs to this project
+        $destination = (int) Request::get('milestone');
+        if ($destination !== 0) {
+            $destinationMilestone = Milestone::find($destination);
+            if (!$destinationMilestone || $destinationMilestone->project_id !== $this->project->id) {
+                return $this->renderNoPermission();
+            }
+        }
+        $this->db->update('tickets')->set(['milestone_id' => $destination])->where('milestone_id', $id)->exec();
 
         // Delete milestone
         $milestone->delete();
