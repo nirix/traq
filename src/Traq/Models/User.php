@@ -209,16 +209,16 @@ class User extends Model
      */
     public function verify_password($password): bool
     {
+        $hash = (string) $this->_data['password'];
+
         switch ($this->_data['password_ver']) {
             // Passwords from Traq 0.1 to 2.3
             case 'sha1':
-                return sha1($password) == $this->_data['password'];
-                break;
+                return hash_equals($hash, sha1($password));
 
             // Passwords from Traq 3+
             case 'crypt':
-                return crypt($password, $this->_data['password']) == $this->_data['password'];
-                break;
+                return password_verify($password, $hash);
         }
 
         return false;
@@ -285,7 +285,7 @@ class User extends Model
      */
     public function prepare_password()
     {
-        $this->_data['password'] = crypt($this->_data['password'], '$2a$10$' . sha1(microtime() . $this->_data['username'] . $this->_data['email']) . '$');
+        $this->_data['password'] = password_hash($this->_data['password'], PASSWORD_DEFAULT);
     }
 
     /**
